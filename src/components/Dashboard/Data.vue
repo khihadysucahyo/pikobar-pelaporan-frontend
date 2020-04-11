@@ -223,7 +223,7 @@ export default {
     const dataFinal = await this.$store.dispatch('reports/countReportCaseFinal', params)
 
     if (dataFinal) this.loading = false
-    console.log(dataFinal)
+
     this.patien = data.data
     this.final = dataFinal.data
     this.total = this.patien.ODP + this.patien.PDP + this.patien.POSITIF
