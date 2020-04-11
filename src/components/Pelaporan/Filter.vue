@@ -18,7 +18,7 @@
         </v-row>
         <v-row class="filter-row">
           <v-col cols="12" sm="6">
-            <v-label class="title">Tahapan:</v-label>
+            <v-label class="title">Kriteria:</v-label>
             <v-select
               v-model="listQuery.status"
               :items="stagesList"
