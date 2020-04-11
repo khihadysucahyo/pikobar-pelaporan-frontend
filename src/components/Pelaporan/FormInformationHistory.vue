@@ -51,9 +51,22 @@
                 :error-messages="errors"
                 row
               >
-                <v-radio label="Negatif" value="0" @click.prevent="uncheck('0')" />
-                <v-radio label="Sembuh" value="1" @click.prevent="uncheck('1')" />
-                <v-radio label="Meninggal" value="2" @click.prevent="uncheck('2')" />
+                <v-radio
+                  v-if="formPasien.status !== 'POSITIF'"
+                  label="Negatif"
+                  value="0"
+                  @click.prevent="uncheck('0')"
+                />
+                <v-radio
+                  label="Sembuh"
+                  value="1"
+                  @click.prevent="uncheck('1')"
+                />
+                <v-radio
+                  label="Meninggal"
+                  value="2"
+                  @click.prevent="uncheck('2')"
+                />
               </v-radio-group>
             </ValidationProvider>
             <ValidationProvider
