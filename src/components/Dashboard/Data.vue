@@ -41,7 +41,7 @@
             color="#fcdfe0"
             style="border-color:#ffb4b5; border-radius: .5rem"
           >
-            <v-card-title class="body-1 font-weight-bold text--secondary">TERKONFIRMASI</v-card-title>
+            <v-card-title class="body-1 font-weight-bold text--secondary">Positif Covid-19</v-card-title>
 
             <v-spacer />
 
@@ -62,11 +62,11 @@
               color="#fcdfe0"
               style="border-color:#ffb4b5; border-radius: .5rem"
             >
-              <v-card-title class="body-1 font-weight-bold text--secondary">POSITIF</v-card-title>
+              <v-card-title class="body-1 font-weight-bold text--secondary">Positif Aktif</v-card-title>
 
               <v-spacer />
 
-              <v-card-subtitle class="display-2 font-weight-bold text--primary pt-0 mb-4"> {{ patien.POSITIF }} <span class="display-1 font-weight-medium text--secondary pl-4">orang</span></v-card-subtitle>
+              <v-card-subtitle class="display-2 font-weight-bold text--primary pt-0 mb-4"> {{ final.POSITIF }} <span class="display-1 font-weight-medium text--secondary pl-4">orang</span></v-card-subtitle>
 
             </v-card>
           </v-skeleton-loader>
@@ -84,7 +84,7 @@
               color="#d3eee3"
               style="border-color:#91dcbd; border-radius: .5rem"
             >
-              <v-card-title class="body-1 font-weight-bold text--secondary">SEMBUH</v-card-title>
+              <v-card-title class="body-1 font-weight-bold text--secondary">Sembuh</v-card-title>
 
               <v-spacer />
 
@@ -106,7 +106,7 @@
               color="#fbeadf"
               style="border-color:#fed1b1; border-radius: .5rem"
             >
-              <v-card-title class="body-1 font-weight-bold text--secondary">MENINGGAL</v-card-title>
+              <v-card-title class="body-1 font-weight-bold text--secondary">Meninggal</v-card-title>
 
               <v-spacer />
 
@@ -223,11 +223,11 @@ export default {
     const dataFinal = await this.$store.dispatch('reports/countReportCaseFinal', params)
 
     if (dataFinal) this.loading = false
-
+    console.log(dataFinal)
     this.patien = data.data
     this.final = dataFinal.data
     this.total = this.patien.ODP + this.patien.PDP + this.patien.POSITIF
-    this.totalConfirmation = this.patien.POSITIF + this.final.SEMBUH + this.final.MENINGGAL
+    this.totalConfirmation = this.final.POSITIF + this.final.SEMBUH + this.final.MENINGGAL
   }
 }
 </script>
