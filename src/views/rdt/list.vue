@@ -36,6 +36,7 @@
           <v-data-table
             :headers="headers"
             :items="rdtList"
+            :mobile-breakpoint="NaN"
             :no-data-text="'Tidak ada data'"
             :items-per-page="listQuery.limit"
             :loading="loadingTable"
