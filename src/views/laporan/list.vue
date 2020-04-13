@@ -235,15 +235,18 @@ export default {
       },
       listQuery: {
         address_district_code: '',
-        // status: '',
-        // final_result: '',
+        address_subdistrict_code: '',
+        address_village_code: '',
+        status: '',
+        final_result: '',
         page: 1,
         limit: 30,
         search: ''
       },
       countingReports: null,
       dialog: false,
-      dataDelete: null
+      dataDelete: null,
+      districtName: null
     }
   },
   computed: {
