@@ -13,10 +13,10 @@
             :editable="editable"
           >
             <template v-if="n == 1">
-              Detail Profil Kasus
+              {{ $t('label.detail_profile_history') }}
             </template>
             <template v-else-if="n == 2">
-              Riwayat Kasus
+              {{ $t('label.case_history') }}
             </template>
           </v-stepper-step>
 

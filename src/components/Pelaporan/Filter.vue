@@ -95,6 +95,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import FileSaver from 'file-saver'
+import { formatDatetime } from '@/utils/parseDatetime'
 
 export default {
   name: 'CaseFilter',
@@ -138,6 +139,7 @@ export default {
   },
   computed: {
     ...mapGetters('user', [
+      'fullname',
       'roles'
     ])
   },
@@ -159,7 +161,9 @@ export default {
       this.loadingBar = true
       const response = await this.$store.dispatch('reports/exportExcel', this.listQuery)
       if (response) this.loadingBar = false
-      FileSaver.saveAs(response, 'kasus.xlsx')
+      const dateNow = Date.now()
+      const dinkesName = this.fullname.split(' ').join('-')
+      FileSaver.saveAs(response, `Data-Kasus-${dinkesName}-${formatDatetime(dateNow, 'YYYY-MM-DD')}.xlsx`)
     }
   }
 }

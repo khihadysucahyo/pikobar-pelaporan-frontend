@@ -15,37 +15,55 @@
               v-slot="{ errors }"
               rules="required"
             >
-              <label class="required">Kriteria</label>
+              <label class="required">{{ $t('label.criteria') }}</label>
               <v-radio-group
                 v-model="formPasien.status"
                 :error-messages="errors"
                 row
               >
-                <v-radio label="OTG" value="OTG" />
-                <v-radio label="ODP" value="ODP" />
-                <v-radio label="PDP" value="PDP" />
-                <v-radio label="POSITIF" value="POSITIF" />
+                <v-radio
+                  :label="$t('label.OTG')"
+                  value="OTG"
+                />
+                <v-radio
+                  :label="$t('label.ODP')"
+                  value="ODP"
+                />
+                <v-radio
+                  :label="$t('label.PDP')"
+                  value="PDP"
+                />
+                <v-radio
+                  :label="$t('label.POSITIF')"
+                  value="POSITIF"
+                />
               </v-radio-group>
             </ValidationProvider>
             <ValidationProvider
               v-slot="{ errors }"
               rules="required"
             >
-              <label class="required">Tahapan</label>
+              <label class="required">{{ $t('label.stages') }}</label>
               <v-radio-group
                 v-model="formPasien.stage"
                 :error-messages="errors"
                 row
               >
-                <v-radio label="Proses" value="0" />
-                <v-radio label="Selesai" value="1" />
+                <v-radio
+                  :label="$t('label.process')"
+                  value="0"
+                />
+                <v-radio
+                  :label="$t('label.done')"
+                  value="1"
+                />
               </v-radio-group>
             </ValidationProvider>
             <ValidationProvider
               v-if="formPasien.status !== 'OTG' && formPasien.status !== 'ODP'"
               v-slot="{ errors }"
             >
-              <label>Hasil</label>
+              <label>{{ $t('label.results') }}</label>
               <v-radio-group
                 v-model="formPasien.final_result"
                 :error-messages="errors"
@@ -53,17 +71,17 @@
               >
                 <v-radio
                   v-if="formPasien.status !== 'POSITIF'"
-                  label="Negatif"
+                  :label="$t('label.negatif')"
                   value="0"
                   @click.prevent="uncheck('0')"
                 />
                 <v-radio
-                  label="Sembuh"
+                  :label="$t('label.recovery')"
                   value="1"
                   @click.prevent="uncheck('1')"
                 />
                 <v-radio
-                  label="Meninggal"
+                  :label="$t('label.dead')"
                   value="2"
                   @click.prevent="uncheck('2')"
                 />
@@ -73,15 +91,21 @@
               v-slot="{ errors }"
               rules="required"
             >
-              <label class="required">Lokasi Saat Ini</label>
+              <label class="required">{{ $t('label.current_location') }}</label>
               <v-radio-group
                 v-model="formPasien.current_location_type"
                 :error-messages="errors"
                 row
                 @change="handleChangeLocationNow"
               >
-                <v-radio label="Rumah" value="RUMAH" />
-                <v-radio label="Rumah Sakit" value="RS" />
+                <v-radio
+                  :label="$t('label.home')"
+                  value="RUMAH"
+                />
+                <v-radio
+                  :label="$t('label.hospital')"
+                  value="RS"
+                />
               </v-radio-group>
             </ValidationProvider>
             <div v-if="formPasien.current_location_type === 'RUMAH'">
@@ -102,7 +126,7 @@
               v-if="formPasien.current_location_type === 'RUMAH'"
               v-slot="{ errors }"
             >
-              <v-label>Alamat Lengkap lokasi saat ini</v-label>
+              <v-label>{{ $t('label.address_complete_this_time') }}</v-label>
               <v-text-field
                 v-model="formPasien.current_location_address"
                 :error-messages="errors"
@@ -119,7 +143,7 @@
                 :items="hospitalList"
                 :error-messages="errors"
                 :return-object="true"
-                label="Lokasi Rumah Sakit"
+                :label="$t('label.location_hospital')"
                 menu-props="auto"
                 item-text="name"
                 item-value="name"
@@ -132,7 +156,7 @@
             <ValidationProvider
               v-slot="{ errors }"
             >
-              <v-label>Sumber Pelaporan</v-label>
+              <v-label>{{ $t('label.reporting_sources') }}</v-label>
               <v-text-field
                 v-model="formPasien.report_source"
                 :error-messages="errors"
@@ -140,7 +164,7 @@
               />
             </ValidationProvider>
             <ValidationProvider>
-              <v-label>Catatan Tambahan</v-label>
+              <v-label>{{ $t('label.postscript') }}</v-label>
               <v-textarea
                 v-model="formPasien.other_notes"
                 solo
@@ -153,7 +177,7 @@
             sm="12"
           >
             <ValidationProvider>
-              <v-label>Riwayat</v-label>
+              <v-label>{{ $t('label.history') }}</v-label>
               <v-checkbox
                 v-model="formPasien.is_went_abroad"
                 label="Dari Luar Negeri"
@@ -167,14 +191,14 @@
               <v-text-field
                 v-model="formPasien.visited_country"
                 :error-messages="errors"
-                placeholder="Negara Yang Dikunjungi"
+                :placeholder="$t('label.country_visited')"
                 solo-inverted
               />
             </ValidationProvider>
             <ValidationProvider>
               <v-checkbox
                 v-model="formPasien.is_went_other_city"
-                label="Perjalanan ke luar kota"
+                :label="$t('label.trip_outside_the_city')"
               />
             </ValidationProvider>
             <ValidationProvider
@@ -185,31 +209,31 @@
               <v-text-field
                 v-model="formPasien.visited_city"
                 :error-messages="errors"
-                placeholder="Kota Yang Dikunjungi"
+                :placeholder="$t('label.city_visited')"
                 solo-inverted
               />
             </ValidationProvider>
             <ValidationProvider>
               <v-checkbox
                 v-model="formPasien.is_contact_with_positive"
-                label="Kontak Dengan Pasien Positif"
+                :label="$t('label.contact_with_positive_patients')"
               />
             </ValidationProvider>
             <ValidationProvider>
               <v-text-field
                 v-model="formPasien.history_notes"
-                placeholder="Masukkan Riwayat Lainnya Jika Ada"
+                :placeholder="$t('label.enter_other_history_applicable')"
                 solo-inverted
               />
             </ValidationProvider>
-            <label>Tanggal Gejala</label>
+            <label>{{ $t('label.date_symptoms') }}</label>
             <select-datetime
               :datetime="formPasien.first_symptom_date"
               :date-time.sync="formPasien.first_symptom_date"
               :formate-date="formatDate"
             />
             <ValidationProvider v-slot="{ errors }">
-              <label>Gejala</label>
+              <label>{{ $t('label.symptoms') }}</label>
               <div v-for="(item, index) in optionGejala" :key="index">
                 <label class="material-checkbox-custom">
                   <input
@@ -229,7 +253,7 @@
             <ValidationProvider>
               <v-text-field
                 v-model="formPasien.diagnosis_other"
-                placeholder="Sebutkan gelaja lainnya (jika ada)"
+                :placeholder="$t('label.mention_other_symptoms')"
                 solo-inverted
               />
             </ValidationProvider>
@@ -244,7 +268,7 @@
                 outlined
                 @click="backStep()"
               >
-                Kembali
+                {{ $t('label.back') }}
               </v-btn>
             </v-col>
             <v-col>
@@ -255,7 +279,7 @@
                 style="float: right;"
                 @click="handleSave"
               >
-                Simpan
+                {{ $t('label.save') }}
               </v-btn>
             </v-col>
           </v-row>
