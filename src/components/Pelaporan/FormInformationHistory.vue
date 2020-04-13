@@ -91,7 +91,9 @@
                 :sub-district-code="formPasien.current_location_subdistrict_code"
                 :code-sub-district.sync="formPasien.current_location_subdistrict_code"
                 :village-code="formPasien.current_location_village_code"
+                :village-name="formPasien.current_location_village_name"
                 :code-village.sync="formPasien.current_location_village_code"
+                :name-village.sync="formPasien.current_location_village_name"
                 :disabled-address="false"
                 :required-address="true"
               />
