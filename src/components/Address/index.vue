@@ -129,6 +129,10 @@ export default {
       }
     }
   },
+  mounted() {
+    console.log(this.districtCode)
+    console.log(this.districtName)
+  },
   methods: {
     async onSelectDistrict(value) {
       this.districtCity = value

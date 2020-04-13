@@ -30,7 +30,7 @@
           <v-col cols="12" sm="9">
             <address-region
               :district-code="listQuery.address_district_code"
-              :district-name="districtName"
+              :district-name="district_name_user"
               :disabled-district="disabledDistrict"
               :code-district.sync="listQuery.address_district_code"
               :sub-district-code="listQuery.address_subdistrict_code"
@@ -183,25 +183,15 @@ export default {
           value: 2
         }
       ],
-      disabledDistrict: false,
-      districtName: null
+      disabledDistrict: true
     }
   },
   computed: {
     ...mapGetters('user', [
       'roles',
-      'district_user'
+      'district_user',
+      'district_name_user'
     ])
-  },
-  async beforeMount() {
-    if (this.roles[0] === 'dinkeskota') {
-      this.disabledDistrict = true
-      const data = await this.$store.dispatch('region/getDetailDistrict', this.district_user)
-      this.districtName = data.data[0].kota_nama
-      console.log(this.districtName)
-    } else {
-      this.disabledDistrict = false
-    }
   },
   methods: {
     onSelectDistrict(value) {

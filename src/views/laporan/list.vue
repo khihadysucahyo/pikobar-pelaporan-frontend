@@ -246,7 +246,7 @@ export default {
       countingReports: null,
       dialog: false,
       dataDelete: null,
-      districtName: null
+      nameDistrict: null
     }
   },
   computed: {
