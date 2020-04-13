@@ -38,7 +38,7 @@
               :village-code="listQuery.address_village_code"
               :code-village.sync="listQuery.address_village_code"
               :disabled-address="false"
-              :required-address="true"
+              :required-address="false"
               :is-label="true"
             />
           </v-col>
@@ -183,7 +183,7 @@ export default {
           value: 2
         }
       ],
-      disabledDistrict: true
+      disabledDistrict: false
     }
   },
   computed: {
@@ -192,6 +192,9 @@ export default {
       'district_user',
       'district_name_user'
     ])
+  },
+  mounted() {
+    this.roles[0] === 'dinkeskota' ? this.disabledDistrict = true : this.disabledDistrict = false
   },
   methods: {
     onSelectDistrict(value) {

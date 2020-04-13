@@ -104,7 +104,7 @@ export default {
   },
   watch: {
     'districtCode': function(value) {
-      if (value.length > 0) {
+      if (value) {
         this.districtCity = {
           kota_kode: value,
           kota_nama: this.districtName
@@ -128,10 +128,6 @@ export default {
         desa_nama: this.villageName
       }
     }
-  },
-  mounted() {
-    console.log(this.districtCode)
-    console.log(this.districtName)
   },
   methods: {
     async onSelectDistrict(value) {
