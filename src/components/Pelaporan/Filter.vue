@@ -162,7 +162,7 @@ export default {
       const response = await this.$store.dispatch('reports/exportExcel', this.listQuery)
       if (response) this.loadingBar = false
       const dateNow = Date.now()
-      FileSaver.saveAs(response, `Data Kasus ${this.fullname}-${formatDatetime(dateNow, 'YYYY-MM-DD HH:mm')}.xlsx`)
+      FileSaver.saveAs(response, `Data Kasus ${this.fullname}-${formatDatetime(dateNow, 'DD/MM/YYYY HH:mm')} WIB.xlsx`)
     }
   }
 }
