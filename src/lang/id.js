@@ -46,7 +46,8 @@ export default {
     light_mode: 'Light Mode',
     dark_mode: 'Dark Mode',
     summary: 'Ringkasan',
-    delete_dialog: 'Apakah Anda yakin akan menghapus data'
+    delete_dialog: 'Apakah Anda yakin akan menghapus data',
+    no_data_autocomplete_case: 'Masukan berdasarkan nama peserta/NIK/No telepon'
   },
   success: {
     login_success: 'Login Berhasil',
