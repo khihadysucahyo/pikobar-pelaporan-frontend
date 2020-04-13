@@ -25,7 +25,7 @@
             style="height: 40px;min-width: 120px;"
             @click="dialogDelete = false"
           >
-            Batal
+            {{ $t('label.canceled') }}
           </v-btn>
           <v-btn
             color="red"
@@ -33,7 +33,7 @@
             style="height: 40px;min-width: 120px;"
             @click="deleteData"
           >
-            Hapus
+            {{ $t('label.deleted') }}
           </v-btn>
         </v-card-actions>
       </v-card>
