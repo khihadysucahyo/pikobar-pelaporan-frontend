@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h4 class="font-weight-bold" style="color:#43A047">Hasil Pengetesan</h4>
+    <h4 class="font-weight-bold" style="color:#43A047">{{ $t('label.test_results') }}</h4>
     <v-divider />
     <ValidationObserver ref="observer">
       <v-form
@@ -17,7 +17,7 @@
               v-slot="{ errors }"
               rules="required"
             >
-              <label class="required">Hasil Test</label>
+              <label class="required">{{ $t('label.test_result') }}</label>
               <v-radio-group
                 v-model="formResult.final_result"
                 :error-messages="errors"
@@ -32,7 +32,7 @@
               v-slot="{ errors }"
               rules="required"
             >
-              <label class="required">Tempat Pengetesan</label>
+              <label class="required">{{ $t('label.place_testing') }}</label>
               <v-radio-group
                 v-model="formResult.test_location_type"
                 :error-messages="errors"
@@ -94,7 +94,9 @@
                 :required-address="true"
               />
             </div>
-            <label v-if="formResult.test_location_type === 'LAINNYA'">Alamat Lengkap Tempat Pengetesan</label>
+            <label v-if="formResult.test_location_type === 'LAINNYA'">
+              {{ $t('label.complete_address_place_testing') }}
+            </label>
             <v-textarea
               v-if="formResult.test_location_type === 'LAINNYA'"
               v-model="formResult.test_address_detail"
@@ -106,7 +108,7 @@
               v-slot="{ errors }"
               rules="required"
             >
-              <label class="required">Jenis Alat Pengetesan</label>
+              <label class="required">{{ $t('label.type_test_tool') }}</label>
               <v-radio-group
                 v-model="formResult.tool_tester"
                 :error-messages="errors"
@@ -121,7 +123,7 @@
               v-slot="{ errors }"
               rules="required"
             >
-              <label class="required">Metode yang digunakan</label>
+              <label class="required">{{ $t('label.method_used') }}</label>
               <v-radio-group
                 v-model="formResult.test_method"
                 :error-messages="errors"
@@ -131,7 +133,7 @@
                 <v-radio label="Flebotomy" value="FLEBOTOMY" />
               </v-radio-group>
             </ValidationProvider>
-            <label class="required">Tanggal Pengetesan</label>
+            <label class="required">{{ $t('label.testing_date') }}</label>
             <input-date-picker
               :label="'Tanggal Pengetesan'"
               :format-date="'YYYY/MM/DD'"
@@ -139,7 +141,7 @@
               :value-date.sync="formResult.test_date"
               @changeDate="formResult.test_date = $event"
             />
-            <label>Keterangan Tambahan</label>
+            <label>{{ $t('label.additional_information') }}</label>
             <v-textarea
               v-model="formResult.test_note"
               solo

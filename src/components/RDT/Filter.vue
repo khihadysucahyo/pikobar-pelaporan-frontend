@@ -18,7 +18,7 @@
         </v-row>
         <v-row class="filter-row">
           <v-col cols="12" sm="3">
-            <v-label class="title">Hasil Test:</v-label>
+            <v-label class="title">{{ $t('label.test_result') }}:</v-label>
             <v-select
               v-model="listQuery.final_result"
               :items="resultCheckList"
@@ -28,7 +28,7 @@
             />
           </v-col>
           <v-col cols="12" sm="3">
-            <v-label class="title">Mekanisme:</v-label>
+            <v-label class="title">{{ $t('label.mechanism') }}:</v-label>
             <v-select
               v-model="listQuery.mechanism"
               :items="mechanismOptions"
@@ -36,7 +36,7 @@
             />
           </v-col>
           <v-col cols="12" sm="3">
-            <v-label class="title">Metode Yang Digunakan:</v-label>
+            <v-label class="title">{{ $t('label.method_used') }}:</v-label>
             <v-select
               v-model="listQuery.test_method"
               :items="methodsOptions"
@@ -46,7 +46,7 @@
             />
           </v-col>
           <v-col v-if="roles[0] === 'dinkesprov'" cols="12" sm="3">
-            <v-label class="title">Tempat Test:</v-label>
+            <v-label class="title">{{ $t('label.test_place') }}:</v-label>
             <select-area-district-city
               :district-city="districtCity"
               :city-district.sync="districtCity"
@@ -56,7 +56,7 @@
         </v-row>
         <v-row class="filter-row">
           <v-col cols="12" sm="3">
-            <v-label class="title">Kategori Sasaran:</v-label>
+            <v-label class="title">{{ $t('label.goal_category') }}:</v-label>
             <v-select
               v-model="listQuery.category"
               :items="categoryList"
@@ -66,10 +66,10 @@
             />
           </v-col>
           <v-col cols="12" sm="3">
-            <v-label class="title">Tanggal Pemeriksaan:</v-label>
+            <v-label class="title">{{ $t('label.inspection_date') }}:</v-label>
             <input-date-picker
               :format-date="formatDate"
-              :label="'Tanggal Awal'"
+              :label="$t('label.start_date')"
               :date-value="listQuery.start_date"
               :value-date.sync="listQuery.start_date"
               @changeDate="listQuery.start_date = $event"
@@ -79,7 +79,7 @@
             <br>
             <input-date-picker
               :format-date="formatDate"
-              :label="'Tanggal Akhir'"
+              :label="$t('label.end_date')"
               :date-value="listQuery.end_date"
               :value-date.sync="listQuery.end_date"
               @changeDate="listQuery.end_date = $event"
@@ -93,14 +93,14 @@
                 style="height: 46px;min-width: 100px;margin-right: 4px;"
                 @click="onReset"
               >
-                Reset
+                {{ $t('label.reset') }}
               </v-btn>
               <v-btn
                 color="success"
                 style="height: 46px;min-width: 100px;"
                 @click="onSearch"
               >
-                Cari
+                {{ $t('label.search') }}
               </v-btn>
             </div>
           </v-col>

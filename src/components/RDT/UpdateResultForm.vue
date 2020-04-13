@@ -15,7 +15,7 @@
                 lazy-validation
               >
                 <ValidationProvider>
-                  <v-label>Hasil Test</v-label>
+                  <v-label>{{ $t('label.test_result') }}</v-label>
                   <v-radio-group
                     v-model="formRapid.final_result"
                     row
@@ -39,7 +39,7 @@
                 style="float: right;"
                 @click="handleSave"
               >
-                Simpan
+                {{ $t('label.save') }}
               </v-btn>
               <v-btn
                 :loading="loading"
@@ -49,7 +49,7 @@
                 style="float: right;margin-right: 12px;"
                 @click="handleBack"
               >
-                Kembali
+                {{ $t('label.back') }}
               </v-btn>
             </v-col>
           </v-row>
