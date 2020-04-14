@@ -101,14 +101,14 @@
           <!--            <v-icon left>mdi-download</v-icon>-->
           <!--            Import-->
           <!--          </v-btn>-->
-          <v-btn
-            class="btn-coba margin-left"
-            color="#b3e2cd"
-            @click="onExport"
-          >
-            <v-icon left>mdi-upload</v-icon>
-            Export
-          </v-btn>
+          <!--          <v-btn-->
+          <!--            class="btn-coba margin-left"-->
+          <!--            color="#b3e2cd"-->
+          <!--            @click="onExport"-->
+          <!--          >-->
+          <!--            <v-icon left>mdi-upload</v-icon>-->
+          <!--            Export-->
+          <!--          </v-btn>-->
         </v-col>
       </v-row>
       <hr class="table-divider">
@@ -259,10 +259,10 @@ export default {
       },
       listQuery: {
         address_district_code: '',
-        address_subdistrict_code: '',
-        address_village_code: '',
-        status: '',
-        final_result: '',
+        // address_subdistrict_code: '',
+        // address_village_code: '',
+        // status: '',
+        // final_result: '',
         page: 1,
         limit: 30,
         search: ''
@@ -299,6 +299,7 @@ export default {
   },
   async mounted() {
     if (this.roles[0] === 'dinkeskota') this.listQuery.address_district_code = this.district_user
+    this.queryReportCase.address_district_code = this.district_user
     await this.$store.dispatch('reports/listReportCase', this.listQuery)
     const response = await this.$store.dispatch('reports/countReportCase', this.queryReportCase)
     if (response) this.loading = false

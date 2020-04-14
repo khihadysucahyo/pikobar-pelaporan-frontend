@@ -80,7 +80,7 @@
               <v-spacer />
 
               <v-card-subtitle class="display-2 font-weight-bold text--primary pt-0 mb-4">
-                {{ final.POSITIF }}
+                {{ patien.POSITIF }}
                 <span class="display-1 font-weight-medium text--secondary pl-4">
                   {{ $t('label.people') }}
                 </span>
