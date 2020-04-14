@@ -20,15 +20,17 @@ export default {
   // get user info
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
-      requestServer('/api/users/info', 'GET').then((response) => {
+      requestServer('/api/users/info', 'GET').then(async(response) => {
         const { role, fullname, code_district_city } = response.data
         const data = {
           roles: [role]
         }
+        const district = await requestServer(`/api/areas/district-city?kota_kode=${code_district_city}`, 'GET')
         const { roles } = data
         commit('SET_ROLES', roles)
         commit('SET_DISTRICT', code_district_city)
         commit('SET_FULLNAME', fullname)
+        if (district.data[0]) commit('SET_DISTRICT_NAME', district.data[0].kota_nama)
         resolve(roles)
       }).catch((error) => {
         reject(error)
