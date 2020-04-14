@@ -22,7 +22,7 @@
           style="float: right;"
           @click="backList"
         >
-          Kembali ke list
+          {{ $t('label.back_to_list') }}
         </v-btn>
       </v-col>
     </v-row>
@@ -36,7 +36,9 @@
           sm="12"
           class="row-detail-label"
         >
-          <label style="font-weight: bold;font-size: 20px;line-height: 20px;">ID Kasus</label>
+          <label style="font-weight: bold;font-size: 20px;line-height: 20px;">
+            {{ $t('label.case_id') }}
+          </label>
         </v-col>
         <v-col auto />
       </v-row>
@@ -47,7 +49,7 @@
           sm="12"
           class="row-detail-label"
         >
-          <label>ID Kasus</label>
+          <label>{{ $t('label.case_id') }}</label>
         </v-col>
         <v-col auto>
           <v-text-field
@@ -65,7 +67,7 @@
           sm="12"
           class="row-detail-label"
         >
-          <label>ID Kasus Terkait</label>
+          <label>{{ $t('label.related_case_id') }}</label>
         </v-col>
         <v-col auto>
           <v-text-field
@@ -83,7 +85,7 @@
           sm="12"
           class="row-detail-label"
         >
-          <label>ID Kasus Pusat</label>
+          <label>{{ $t('label.center_case_id') }}</label>
         </v-col>
         <v-col auto>
           <v-text-field
@@ -101,7 +103,9 @@
           sm="12"
           class="row-detail-label"
         >
-          <label style="font-weight: bold;font-size: 20px;line-height: 20px;">Identitas</label>
+          <label style="font-weight: bold;font-size: 20px;line-height: 20px;">
+            {{ $t('label.identity') }}
+          </label>
         </v-col>
         <v-col auto />
       </v-row>
@@ -112,7 +116,7 @@
           sm="12"
           class="row-detail-label"
         >
-          <label>NIK</label>
+          <label>{{ $t('label.nik') }}</label>
         </v-col>
         <v-col auto>
           <v-text-field
@@ -130,7 +134,7 @@
           sm="12"
           class="row-detail-label"
         >
-          <label>Nama Kasus</label>
+          <label>{{ $t('label.name_case') }}</label>
         </v-col>
         <v-col auto>
           <v-text-field
@@ -148,7 +152,7 @@
           sm="12"
           class="row-detail-label"
         >
-          <label>Tanggal Lahir</label>
+          <label>{{ $t('label.birth_date') }}</label>
         </v-col>
         <v-col auto>
           <v-text-field
@@ -166,7 +170,7 @@
           sm="12"
           class="row-detail-label"
         >
-          <label>Jenis Kelamin</label>
+          <label>{{ $t('label.gender') }}</label>
         </v-col>
         <v-col auto>
           <v-text-field
@@ -184,7 +188,7 @@
           sm="12"
           class="row-detail-label"
         >
-          <label>Alamat</label>
+          <label>{{ $t('label.address') }}</label>
         </v-col>
         <v-col auto>
           <v-textarea
@@ -202,7 +206,7 @@
           sm="12"
           class="row-detail-label"
         >
-          <label>Nomor Telepon</label>
+          <label>{{ $t('label.phone_number') }}</label>
         </v-col>
         <v-col auto>
           <v-text-field
@@ -222,7 +226,7 @@
         >
           <v-row>
             <v-col>
-              <label>Kewarganegaraan</label>
+              <label>{{ $t('label.citizenship') }}</label>
             </v-col>
             <v-col auto>
               <v-text-field
@@ -242,7 +246,7 @@
         >
           <v-row v-if="detailData.nationality === 'WNA'">
             <v-col>
-              <label>Negara</label>
+              <label>{{ $t('label.country') }}</label>
             </v-col>
             <v-col auto>
               <v-text-field
@@ -262,7 +266,9 @@
           sm="12"
           class="row-detail-label"
         >
-          <label style="font-weight: bold;font-size: 20px;line-height: 20px;">Pekerjaan</label>
+          <label style="font-weight: bold;font-size: 20px;line-height: 20px;">
+            {{ $t('label.profession') }}
+          </label>
         </v-col>
         <v-col auto />
       </v-row>
@@ -273,7 +279,7 @@
           sm="12"
           class="row-detail-label"
         >
-          <label>Pekerjaan</label>
+          <label>{{ $t('label.profession') }}</label>
         </v-col>
         <v-col auto>
           <v-text-field
@@ -291,7 +297,7 @@
           sm="12"
           class="row-detail-label"
         >
-          <label>Alamat Kantor</label>
+          <label>{{ $t('label.office_address') }}</label>
         </v-col>
         <v-col auto>
           <v-textarea
@@ -313,52 +319,11 @@
           multiple
         >
           <v-expansion-panel>
-            <v-expansion-panel-header>List Riwayat Kasus</v-expansion-panel-header>
+            <v-expansion-panel-header>{{ $t('label.case_history_list') }}</v-expansion-panel-header>
             <v-expansion-panel-content>
-              <v-simple-table fixed-header height="500px">
-                <template v-slot:default>
-                  <thead>
-                    <tr>
-                      <th class="text-left">#</th>
-                      <th class="text-left">STATUS</th>
-                      <th class="text-left">TAHAPAN</th>
-                      <th class="text-left">HASIL</th>
-                      <th class="text-left">LOKASI SAAT INI</th>
-                      <th class="text-left">TANGGAL DIUPDATE</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr v-for="(item, index) in listHistoryCase" :key="item.index">
-                      <td>{{ getTableRowNumbering(index) }}</td>
-                      <td><status :status="item.status" /></td>
-                      <td>
-                        <div v-if="item.stage === '0'">
-                          Proses
-                        </div>
-                        <div v-else>
-                          Selesai
-                        </div>
-                      </td>
-                      <td>
-                        <div v-if=" item.final_result =='0'">
-                          Negatif
-                        </div>
-                        <div v-else-if=" item.final_result =='1'">
-                          Sembuh
-                        </div>
-                        <div v-else-if=" item.final_result =='2'">
-                          Meninggal
-                        </div>
-                        <div v-else>
-                          -
-                        </div>
-                      </td>
-                      <td>{{ item.current_location_address }}</td>
-                      <td>{{ formatDatetime(item.last_changed, "DD MMMM YYYY") }}</td>
-                    </tr>
-                  </tbody>
-                </template>
-              </v-simple-table>
+              <case-history-list
+                :list-history-case="listHistoryCase"
+              />
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
@@ -422,9 +387,6 @@ export default {
   methods: {
     formatDatetime,
     completeAddress,
-    getTableRowNumbering(index) {
-      return (index + 1)
-    },
     backList() {
       this.$router.push('/laporan/list')
     }

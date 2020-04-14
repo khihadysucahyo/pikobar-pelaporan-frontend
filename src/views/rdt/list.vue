@@ -5,7 +5,7 @@
         <v-row justify="space-between">
           <v-col cols="auto">
             <v-card-text class="header-survey-text">
-              <div>Jumlah Hasil Test Masif COVID-19 : {{ totalReport }}</div>
+              <div>{{ $t('label.total_COVID19_massive_test_results') }} : {{ totalReport }}</div>
               <div>{{ fullname }}</div>
             </v-card-text>
           </v-col>
@@ -19,7 +19,7 @@
         <v-col>
           <v-card-text>
             <div style="font-size: 1.5rem;">
-              Data Hasil Test
+              {{ $t('label.results_test_data') }}
             </div>
           </v-card-text>
         </v-col>
@@ -79,21 +79,21 @@
                           outlined
                           v-on="on"
                         >
-                          Pilih aksi<v-icon style="color: #009D57;font-size: 2rem;" right>mdi-menu-down</v-icon>
+                          {{ $t('label.choose_action') }}
+                          <v-icon style="color: #009D57;font-size: 2rem;" right>
+                            mdi-menu-down
+                          </v-icon>
                         </v-btn>
                       </template>
                       <v-card>
                         <v-list-item v-if="roles[0] === 'dinkeskota' || 'dinkesprov'" @click="handleDetail(item._id)">
-                          Lihat Detail
+                          {{ $t('label.view_detail') }}
                         </v-list-item>
-                        <!-- <v-list-item v-if="item.final_result && item.final_result.length > 0" @click="handleEditRDT(item._id)">
-                          Update Profil Peserta
-                        </v-list-item> -->
                         <v-list-item v-if="roles[0] === 'dinkeskota' && item.final_result && item.final_result.length > 0 " @click="handleUpdateResults(item._id)">
-                          Update Hasil
+                          {{ $t('label.update_results') }}
                         </v-list-item>
                         <v-list-item v-if="roles[0] === 'dinkeskota'" @click="handleDeleteRDT(item._id)">
-                          Hapus Peserta
+                          {{ $t('label.delete_participant') }}
                         </v-list-item>
                       </v-card>
                     </v-menu>

@@ -10,8 +10,8 @@
           <v-row justify="space-between">
             <v-col cols="auto">
               <v-card-text class="header-survey-text">
-                <div>Total data Kasus : {{ totalReport }}</div>
-                <div v-if="roles[0] === 'dinkeskota' || roles[0] === 'faskes'">Tambahkan data Kasus baru dengan menekan tombol Tambah Kasus</div>
+                <div>{{ $t('label.total_case_data') }} : {{ totalReport }}</div>
+                <div>{{ fullname }}</div>
               </v-card-text>
             </v-col>
           </v-row>
@@ -30,8 +30,8 @@
           >
             <v-list-item two-line style="background: #D2EAFF">
               <v-list-item-content>
-                <v-list-item-title style="color: #2F80ED;">Orang Dalam Pemantauan</v-list-item-title>
-                <v-list-item-title class="headline mb-1" style="color: #2F80ED;padding-top: 2rem;">{{ totalODP }} Orang</v-list-item-title>
+                <v-list-item-title style="color: #2F80ED;">{{ $t('label.insiders_monitoring') }}</v-list-item-title>
+                <v-list-item-title class="headline mb-1" style="color: #2F80ED;padding-top: 2rem;">{{ totalODP }} {{ $t('label.people') }}</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
           </v-card>
@@ -48,8 +48,10 @@
           >
             <v-list-item two-line style="background: #FEF9EC">
               <v-list-item-content>
-                <v-list-item-title style="color: #F2994A;">Pasien Dalam Pengawasan</v-list-item-title>
-                <v-list-item-title class="headline mb-1" style="color: #F2994A;padding-top: 2rem;">{{ totalPDP }} Orang</v-list-item-title>
+                <v-list-item-title style="color: #F2994A;">
+                  {{ $t('label.patients_under_supervision') }}
+                </v-list-item-title>
+                <v-list-item-title class="headline mb-1" style="color: #F2994A;padding-top: 2rem;">{{ totalPDP }} {{ $t('label.people') }}</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
           </v-card>
@@ -66,8 +68,10 @@
           >
             <v-list-item two-line style="background: #FDEDED">
               <v-list-item-content>
-                <v-list-item-title style="color: #EB5757;">POSITIF</v-list-item-title>
-                <v-list-item-title class="headline mb-1" style="color: #EB5757;padding-top: 2rem;">{{ totalPositif }} Orang</v-list-item-title>
+                <v-list-item-title style="color: #EB5757;">
+                  {{ $t('label.POSITIF') }}
+                </v-list-item-title>
+                <v-list-item-title class="headline mb-1" style="color: #EB5757;padding-top: 2rem;">{{ totalPositif }} {{ $t('label.people') }}</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
           </v-card>
@@ -81,7 +85,7 @@
         <v-col>
           <v-card-text>
             <div style="font-size: 1.5rem;">
-              Data Kasus
+              {{ $t('label.case_data') }}
             </div>
           </v-card-text>
         </v-col>
@@ -112,30 +116,30 @@
                 <td>{{ item.age }} Th</td>
                 <td>
                   <div v-if="item.gender =='P'">
-                    Perempuan
+                    {{ $t('label.female') }}
                   </div>
                   <div v-else>
-                    Laki-Laki
+                    {{ $t('label.male') }}
                   </div>
                 </td>
                 <td><status :status="item.status" /> </td>
                 <td>
                   <div v-if=" item.last_history.stage =='0'">
-                    Proses
+                    {{ $t('label.process') }}
                   </div>
                   <div v-else>
-                    Selesai
+                    {{ $t('label.done') }}
                   </div>
                 </td>
                 <td>
                   <div v-if=" item.last_history.final_result =='0'">
-                    Negatif
+                    {{ $t('label.negatif') }}
                   </div>
                   <div v-else-if=" item.last_history.final_result =='1'">
-                    Sembuh
+                    {{ $t('label.recovery') }}
                   </div>
                   <div v-else-if=" item.last_history.final_result =='2'">
-                    Meninggal
+                    {{ $t('label.dead') }}
                   </div>
                   <div v-else>
                     -
@@ -160,22 +164,25 @@
                           outlined
                           v-on="on"
                         >
-                          Pilih aksi<v-icon style="color: #009D57;font-size: 2rem;" right>mdi-menu-down</v-icon>
+                          {{ $t('label.choose_action') }}
+                          <v-icon style="color: #009D57;font-size: 2rem;" right>
+                            mdi-menu-down
+                          </v-icon>
                         </v-btn>
                       </template>
                       <v-card>
                         <v-list-item @click="handleDetail(item._id)">
-                          Lihat Detail
+                          {{ $t('label.view_detail') }}
                         </v-list-item>
                         <div v-if="roles[0] === 'dinkeskota'">
                           <v-list-item @click="handleEditCase(item._id)">
-                            Update Profil
+                            {{ $t('label.profile_update') }}
                           </v-list-item>
                           <v-list-item @click="handleEditHistoryCase(item._id)">
-                            Update Riwayat
+                            {{ $t('label.update_history') }}
                           </v-list-item>
                           <v-list-item @click="handleDeleteCase(item)">
-                            Hapus Kasus
+                            {{ $t('label.deleted_case') }}
                           </v-list-item>
                         </div>
                       </v-card>
@@ -258,6 +265,7 @@ export default {
     ]),
     ...mapGetters('user', [
       'roles',
+      'fullname',
       'district_user'
     ])
   },
