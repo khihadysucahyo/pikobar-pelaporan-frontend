@@ -17,15 +17,7 @@
           </v-col>
         </v-row>
         <v-row class="filter-row">
-          <v-col cols="12" sm="6">
-            <v-label class="title">Kriteria:</v-label>
-            <v-select
-              v-model="listQuery.status"
-              :items="stagesList"
-              solo
-            />
-          </v-col>
-          <v-col cols="12" sm="6">
+          <v-col cols="12" sm="3">
             <v-label class="title">Hasil:</v-label>
             <v-select
               v-model="listQuery.final_result"
@@ -35,10 +27,61 @@
               item-value="value"
             />
           </v-col>
+          <v-col cols="12" sm="9">
+            <address-region
+              :district-code="district_user"
+              :district-name="district_name_user"
+              :disabled-district="disabledDistrict"
+              :code-district.sync="listQuery.address_district_code"
+              :sub-district-code="listQuery.address_subdistrict_code"
+              :code-sub-district.sync="listQuery.address_subdistrict_code"
+              :village-code="listQuery.address_village_code"
+              :code-village.sync="listQuery.address_village_code"
+              :disabled-address="false"
+              :required-address="false"
+              :is-label="true"
+            />
+          </v-col>
+          <!-- <v-col cols="12" sm="3">
+            <v-label class="title">Kabupaten/Kota:</v-label>
+            <v-select
+              v-model="listQuery.kabkota"
+              :items="resultList"
+              solo
+              item-text="label"
+              item-value="value"
+            />
+          </v-col>
+          <v-col cols="12" sm="3">
+            <v-label class="title">Kelurahan:</v-label>
+            <v-select
+              v-model="listQuery.status"
+              :items="stagesList"
+              solo
+            />
+          </v-col>
+          <v-col cols="12" sm="3">
+            <v-label class="title">Kecamatan:</v-label>
+            <v-select
+              v-model="listQuery.final_result"
+              :items="resultList"
+              solo
+              item-text="label"
+              item-value="value"
+            />
+          </v-col> -->
         </v-row>
         <v-row class="filter-row">
           <v-col cols="12" sm="3">
-            <v-label class="title">Tanggal:</v-label>
+            <v-label class="title">Kriteria:</v-label>
+            <v-select
+              v-model="listQuery.status"
+              :items="stagesList"
+              solo
+            />
+          </v-col>
+          <v-col cols="12" sm="3">
+            <v-label class="title">Tanggal Penginputan:</v-label>
             <input-date-picker
               :format-date="formatDate"
               :label="'Tanggal Awal'"
@@ -57,7 +100,7 @@
               @changeDate="listQuery.end_date = $event"
             />
           </v-col>
-          <v-col cols="12" sm="6">
+          <v-col cols="12" sm="3">
             <br>
             <div>
               <v-btn
@@ -74,6 +117,12 @@
               >
                 Cari
               </v-btn>
+            </div>
+          </v-col>
+        </v-row>
+        <v-row class="filter-row">
+          <v-col cols="12" sm="3">
+            <div>
               <v-btn
                 color="success"
                 style="height: 46px;min-width: 100px;"
@@ -134,14 +183,19 @@ export default {
           label: 'Meninggal',
           value: 2
         }
-      ]
+      ],
+      disabledDistrict: false
     }
   },
   computed: {
     ...mapGetters('user', [
-      'fullname',
-      'roles'
+      'roles',
+      'district_user',
+      'district_name_user'
     ])
+  },
+  mounted() {
+    this.roles[0] === 'dinkeskota' ? this.disabledDistrict = true : this.disabledDistrict = false
   },
   methods: {
     onSelectDistrict(value) {
@@ -170,6 +224,6 @@ export default {
 </script>
 <style scoped>
   .filter-row {
-    margin-bottom: -40px;
+    margin-bottom: -20px;
   }
 </style>

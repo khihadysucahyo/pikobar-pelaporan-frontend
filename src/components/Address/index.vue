@@ -2,6 +2,7 @@
   <div class="type-questions-ddress">
     <v-row>
       <v-col cols="12" md="4" sm="4">
+        <v-label v-if="isLabel" class="title">Kabupaten/Kota:</v-label>
         <select-area-district-city
           :disabled-select="disabledAddress"
           :disabled-district="disabledDistrict"
@@ -12,6 +13,7 @@
         />
       </v-col>
       <v-col cols="12" md="4" sm="4">
+        <v-label v-if="isLabel" class="title">Kecamatan:</v-label>
         <select-area-sub-district
           :disabled-select="disabledAddress"
           :required="requiredAddress"
@@ -23,6 +25,7 @@
         />
       </v-col>
       <v-col cols="12" md="4" sm="4">
+        <v-label v-if="isLabel" class="title">Kelurahan:</v-label>
         <select-area-village
           :disabled-select="disabledAddress"
           :required="requiredAddress"
@@ -77,6 +80,10 @@ export default {
     villageName: {
       type: String,
       default: null
+    },
+    isLabel: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -97,7 +104,7 @@ export default {
   },
   watch: {
     'districtCode': function(value) {
-      if (value.length > 0) {
+      if (value) {
         this.districtCity = {
           kota_kode: value,
           kota_nama: this.districtName

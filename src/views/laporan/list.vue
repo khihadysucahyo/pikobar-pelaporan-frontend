@@ -242,15 +242,18 @@ export default {
       },
       listQuery: {
         address_district_code: '',
-        // status: '',
-        // final_result: '',
+        address_subdistrict_code: '',
+        address_village_code: '',
+        status: '',
+        final_result: '',
         page: 1,
         limit: 30,
         search: ''
       },
       countingReports: null,
       dialog: false,
-      dataDelete: null
+      dataDelete: null,
+      nameDistrict: null
     }
   },
   computed: {
@@ -276,8 +279,7 @@ export default {
     }
   },
   async mounted() {
-    this.listQuery.address_district_code = this.district_user
-    this.queryReportCase.address_district_code = this.district_user
+    if (this.roles[0] !== 'dinkeskota') this.listQuery.address_district_code = this.district_user
     await this.$store.dispatch('reports/listReportCase', this.listQuery)
     const response = await this.$store.dispatch('reports/countReportCase', this.queryReportCase)
     if (response) this.loading = false
