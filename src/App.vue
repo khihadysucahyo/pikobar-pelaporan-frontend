@@ -10,7 +10,7 @@
       <!-- Loader -->
       <div class="spinwrap">
         <div class="spinner">
-          <loading-lottie
+          <loading-logo
             :loading="true"
           />
         </div>

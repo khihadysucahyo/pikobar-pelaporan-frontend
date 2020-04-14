@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: 'LoadingLottie',
+  name: 'LoadingLogo',
   props: {
     loading: {
       type: Boolean,
