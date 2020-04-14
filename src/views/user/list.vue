@@ -30,6 +30,7 @@
                 :required="false"
                 :district-city="districtCity"
                 :city-district.sync="districtCity"
+                :on-select-district="onSelectDistrict"
               />
             </v-col>
             <v-col cols="12" sm="4">
@@ -92,7 +93,7 @@
                       </template>
                       <v-card>
                         <div>
-                          <v-list-item>
+                          <v-list-item @click="handleDetail(item._id)">
                             {{ $t('label.view_detail') }}
                           </v-list-item>
                         </div>
@@ -143,9 +144,12 @@ export default {
       listQuery: {
         page: 1,
         limit: 30,
-        search: ''
+        search: '',
+        address_district_code: ''
       },
-      districtCity: {}
+      districtCity: {
+        kota_kode: ''
+      }
     }
   },
   watch: {
@@ -164,7 +168,13 @@ export default {
       return ((this.listQuery.page - 1) * this.listQuery.limit) + (index + 1)
     },
     async handleSearch() {
-      console.log(this.listQuery)
+      // to do : get data from api
+    },
+    async onSelectDistrict(value) {
+      this.listQuery.address_district_code = value.kota_kode
+    },
+    async handleDetail(id) {
+      // to do : get data from api
     }
   }
 }
