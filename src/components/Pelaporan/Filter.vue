@@ -168,7 +168,7 @@ export default {
     ])
   },
   mounted() {
-    this.roles[0] === 'dinkeskota' ? this.disabledDistrict = true : this.disabledDistrict = false
+    this.disabledDistrict = this.roles[0] === 'dinkeskota'
   },
   methods: {
     onSelectDistrict(value) {
