@@ -8,6 +8,7 @@ const state = {
   token: getToken(),
   roles: [],
   district_user: '',
+  user_district_name: '',
   fullname: ''
 }
 

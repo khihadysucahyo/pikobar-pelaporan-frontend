@@ -8,6 +8,9 @@ export default {
   SET_DISTRICT: (state, district) => {
     state.district_user = district
   },
+  SET_DISTRICT_NAME: (state, districtName) => {
+    state.user_district_name = districtName
+  },
   SET_FULLNAME: (state, fullname) => {
     state.fullname = fullname
   }

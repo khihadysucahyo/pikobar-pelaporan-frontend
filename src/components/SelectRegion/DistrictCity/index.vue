@@ -73,7 +73,9 @@ export default {
   },
   watch: {
     'districtCity': function(value) {
-      if (value && value.kota_kode) {
+      if (this.disabledDistrict) {
+        this.nameDistrict = value.kota_nama
+      } else if (value && value.kota_kode) {
         this.nameDistrict = value
       } else {
         this.nameDistrict = ''
