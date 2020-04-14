@@ -18,7 +18,7 @@
         </v-row>
         <v-row class="filter-row">
           <v-col cols="12" sm="3">
-            <v-label class="title">Hasil:</v-label>
+            <v-label class="title">{{ $t('label.results') }}:</v-label>
             <v-select
               v-model="listQuery.final_result"
               :items="resultList"
@@ -29,14 +29,16 @@
           </v-col>
           <v-col cols="12" sm="9" class="reduce-padding-top">
             <address-region
-              :district-code="district_user"
-              :district-name="district_name_user"
               :disabled-district="disabledDistrict"
+              :district-code="listQuery.address_district_code"
+              :district-name="district_name_user"
               :code-district.sync="listQuery.address_district_code"
               :sub-district-code="listQuery.address_subdistrict_code"
               :code-sub-district.sync="listQuery.address_subdistrict_code"
               :village-code="listQuery.address_village_code"
               :code-village.sync="listQuery.address_village_code"
+              :village-name="nameVillage"
+              :name-village.sync="nameVillage"
               :disabled-address="false"
               :required-address="false"
               :is-label="true"
@@ -45,7 +47,7 @@
         </v-row>
         <v-row class="filter-row">
           <v-col cols="12" sm="3">
-            <v-label class="title">Kriteria:</v-label>
+            <v-label class="title">{{ $t('label.criteria') }}:</v-label>
             <v-select
               v-model="listQuery.status"
               :items="stagesList"
@@ -53,7 +55,7 @@
             />
           </v-col>
           <v-col cols="12" sm="3">
-            <v-label class="title">Tanggal Penginputan:</v-label>
+            <v-label class="title">{{ $t('label.input_date') }}:</v-label>
             <input-date-picker
               :format-date="formatDate"
               :label="'Tanggal Awal'"
@@ -80,14 +82,14 @@
                 style="height: 46px;min-width: 100px;margin-right: 4px;"
                 @click="onReset"
               >
-                Reset
+                {{ $t('label.reset') }}
               </v-btn>
               <v-btn
                 color="success"
                 style="height: 46px;min-width: 100px;margin-right: 4px;"
                 @click="onSearch"
               >
-                Cari
+                {{ $t('label.look_for_it') }}
               </v-btn>
             </div>
           </v-col>
@@ -133,10 +135,10 @@ export default {
   data() {
     return {
       formatDate: 'YYYY-MM-DD',
+      disabledDistrict: true,
       loadingBar: false,
-      districtCity: {
-        kota_kode: ''
-      },
+      codeDistrict: '',
+      nameVillage: '',
       stagesList: [
         'ODP',
         'PDP',
@@ -155,8 +157,7 @@ export default {
           label: 'Meninggal',
           value: 2
         }
-      ],
-      disabledDistrict: false
+      ]
     }
   },
   computed: {
@@ -167,8 +168,8 @@ export default {
       'fullname'
     ])
   },
-  mounted() {
-    this.disabledDistrict = this.roles[0] === 'dinkeskota'
+  async beforeMount() {
+    this.disabledDistrict = await this.roles[0] === 'dinkeskota'
   },
   methods: {
     onSelectDistrict(value) {
@@ -182,8 +183,10 @@ export default {
       this.listQuery.address_village_code = ''
       this.listQuery.start_date = ''
       this.listQuery.end_date = ''
+      this.nameVillage = ''
       if (this.roles[0] !== 'dinkeskota') {
         this.listQuery.address_district_code = ''
+        this.codeDistrict = ''
       }
       this.$store.dispatch('reports/listReportCase', this.listQuery)
     },
