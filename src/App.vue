@@ -3,7 +3,7 @@
     id="inspire"
   >
     <toast-notification />
-    <loading-lottie
+    <loading-logo
       :loading="$store.state.animationLottie.isLoading"
     />
     <template v-if="pageLoading">
