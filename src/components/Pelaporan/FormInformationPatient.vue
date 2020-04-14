@@ -242,7 +242,8 @@ export default {
   computed: {
     ...mapGetters('user', [
       'fullname',
-      'district_user'
+      'district_user',
+      'district_name_user'
     ]),
     ...mapGetters('region', [
       'listDistrictCity'
@@ -258,10 +259,7 @@ export default {
   },
   async beforeMount() {
     await this.$store.dispatch('occupation/getListOccuption')
-    const responseDetails = await this.$store.dispatch('region/getDetailDistrict', this.district_user)
-    if (responseDetails.data[0]) {
-      this.formPasien.address_district_name = responseDetails.data[0].kota_nama
-    }
+    this.formPasien.address_district_name = this.district_name_user
   },
   methods: {
     getAge,

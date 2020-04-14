@@ -302,8 +302,7 @@ export default {
     }
   },
   async mounted() {
-    this.listQuery.address_district_code = this.district_user
-    this.queryReportCase.address_district_code = this.district_user
+    if (this.roles[0] === 'dinkeskota') this.listQuery.address_district_code = this.district_user
     await this.$store.dispatch('reports/listReportCase', this.listQuery)
     const response = await this.$store.dispatch('reports/countReportCase', this.queryReportCase)
     if (response) this.loading = false
