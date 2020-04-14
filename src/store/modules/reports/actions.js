@@ -1,11 +1,17 @@
 import requestServer from '@/api'
+import request from '@/utils/request'
 
 export default {
   async listReportCase({ commit }, params) {
     try {
       const response = await requestServer('/api/cases', 'GET', params)
-      commit('SET_TOTAL_LIST_PASIEN', response.data._meta.totalPages)
-      commit('SET_LIST_PASIEN', response.data.cases)
+      if (response.data === null) {
+        commit('SET_TOTAL_LIST_PASIEN', 1)
+        commit('SET_LIST_PASIEN', [])
+      } else {
+        commit('SET_TOTAL_LIST_PASIEN', response.data._meta.totalPages)
+        commit('SET_LIST_PASIEN', response.data.cases)
+      }
       return response
     } catch (error) {
       return error.response
@@ -80,6 +86,19 @@ export default {
   async createHistoryCase({ commit }, data) {
     try {
       const response = await requestServer('/api/history_cases', 'POST', data)
+      return response
+    } catch (error) {
+      return error.response
+    }
+  },
+  async exportExcel({ commit }, params) {
+    try {
+      const response = await request({
+        url: `/api/cases-export`,
+        method: 'GET',
+        params: params,
+        responseType: 'blob'
+      })
       return response
     } catch (error) {
       return error.response

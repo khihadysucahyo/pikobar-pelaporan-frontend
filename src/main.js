@@ -24,7 +24,7 @@ import '@/styles' // include all css files
 import './permission' // permission control
 import '@/utils/vee-validate' // include all validate form
 import i18n from './lang' // Internationalization
-import './registerServiceWorker'
+// import './registerServiceWorker'
 
 Vue.use(FlagIcon)
 Vue.use(Vue2Dragula)

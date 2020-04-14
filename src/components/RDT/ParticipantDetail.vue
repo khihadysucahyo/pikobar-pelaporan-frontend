@@ -22,7 +22,7 @@
           style="float: right;"
           @click="backList"
         >
-          Kembali ke list
+          {{ $t('label.back_to_list') }}
         </v-btn>
       </v-col>
     </v-row>
@@ -42,7 +42,9 @@
               sm="12"
               class="row-detail-label"
             >
-              <label style="font-weight: bold;font-size: 20px;line-height: 20px;">Mekanisme Test</label>
+              <label style="font-weight: bold;font-size: 20px;line-height: 20px;">
+                {{ $t('label.test_mechanism') }}
+              </label>
             </v-col>
             <v-col auto />
           </v-row>
@@ -53,7 +55,7 @@
               sm="12"
               class="row-detail-label"
             >
-              <label>Kategori</label>
+              <label>{{ $t('label.category') }}</label>
             </v-col>
             <v-col auto>
               <v-text-field
@@ -71,7 +73,7 @@
               sm="12"
               class="row-detail-label"
             >
-              <label>Mekanisme</label>
+              <label>{{ $t('label.mechanism') }}</label>
             </v-col>
             <v-col auto>
               <v-text-field
@@ -89,7 +91,7 @@
               sm="12"
               class="row-detail-label"
             >
-              <label>Sasaran</label>
+              <label>{{ $t('label.goals') }}</label>
             </v-col>
             <v-col auto>
               <v-text-field
@@ -107,7 +109,9 @@
               sm="12"
               class="row-detail-label"
             >
-              <label style="font-weight: bold;font-size: 20px;line-height: 20px;">Hasil Test</label>
+              <label style="font-weight: bold;font-size: 20px;line-height: 20px;">
+                {{ $t('label.test_result') }}
+              </label>
             </v-col>
             <v-col auto />
           </v-row>
@@ -118,7 +122,7 @@
               sm="12"
               class="row-detail-label"
             >
-              <label>Tanggal Pelaksanaan</label>
+              <label>{{ $t('label.implementation_date') }}</label>
             </v-col>
             <v-col auto>
               <v-text-field
@@ -136,7 +140,7 @@
               sm="12"
               class="row-detail-label"
             >
-              <label>Tempat Test</label>
+              <label>{{ $t('label.test_place') }}</label>
             </v-col>
             <v-col auto>
               <v-text-field
@@ -154,7 +158,7 @@
               sm="12"
               class="row-detail-label"
             >
-              <label>Nama Tempat Test</label>
+              <label>{{ $t('label.name_test_place') }}</label>
             </v-col>
             <v-col auto>
               <v-text-field
@@ -172,7 +176,7 @@
               sm="12"
               class="row-detail-label"
             >
-              <label>Alamat</label>
+              <label>{{ $t('label.address') }}</label>
             </v-col>
             <v-col auto>
               <v-textarea
@@ -190,7 +194,7 @@
               sm="12"
               class="row-detail-label"
             >
-              <label>Hasil</label>
+              <label>{{ $t('label.results') }}</label>
             </v-col>
             <v-col auto>
               <status :status="detailData.final_result" />
@@ -203,7 +207,7 @@
               sm="12"
               class="row-detail-label"
             >
-              <label>Jenis Alat Test</label>
+              <label>{{ $t('label.type_test_tool') }}</label>
             </v-col>
             <v-col auto>
               <v-text-field
@@ -221,7 +225,7 @@
               sm="12"
               class="row-detail-label"
             >
-              <label>Metode yang Digunakan</label>
+              <label>{{ $t('label.method_used') }}</label>
             </v-col>
             <v-col auto>
               <v-text-field
@@ -239,7 +243,7 @@
               sm="12"
               class="row-detail-label"
             >
-              <label>Keterangan</label>
+              <label>{{ $t('label.information') }}</label>
             </v-col>
             <v-col auto>
               <v-textarea
@@ -259,7 +263,9 @@
               sm="12"
               class="row-detail-label"
             >
-              <label style="font-weight: bold;font-size: 20px;line-height: 20px;">Identitas</label>
+              <label style="font-weight: bold;font-size: 20px;line-height: 20px;">
+                {{ $t('label.identity') }}
+              </label>
             </v-col>
             <v-col auto />
           </v-row>
@@ -270,7 +276,7 @@
               sm="12"
               class="row-detail-label"
             >
-              <label>ID Peserta</label>
+              <label>{{ $t('label.participant_id') }}</label>
             </v-col>
             <v-col auto>
               <v-text-field
@@ -288,7 +294,7 @@
               sm="12"
               class="row-detail-label"
             >
-              <label>NIK</label>
+              <label>{{ $t('label.nik') }}</label>
             </v-col>
             <v-col auto>
               <v-text-field
@@ -306,7 +312,7 @@
               sm="12"
               class="row-detail-label"
             >
-              <label>Nama Peserta</label>
+              <label>{{ $t('label.participant_name') }}</label>
             </v-col>
             <v-col auto>
               <v-text-field
@@ -324,7 +330,7 @@
               sm="12"
               class="row-detail-label"
             >
-              <label>Tanggal Lahir</label>
+              <label>{{ $t('label.birth_date') }}</label>
             </v-col>
             <v-col auto>
               <v-text-field
@@ -342,7 +348,7 @@
               sm="12"
               class="row-detail-label"
             >
-              <label>Usia</label>
+              <label>{{ $t('label.age') }}</label>
             </v-col>
             <v-col auto>
               <v-text-field
@@ -360,7 +366,7 @@
               sm="12"
               class="row-detail-label"
             >
-              <label>Jenis Kelamin</label>
+              <label>{{ $t('label.gender') }}</label>
             </v-col>
             <v-col auto>
               <v-text-field
@@ -378,7 +384,7 @@
               sm="12"
               class="row-detail-label"
             >
-              <label>Nomor Telepon</label>
+              <label>{{ $t('label.phone_number') }}</label>
             </v-col>
             <v-col auto>
               <v-text-field
@@ -396,7 +402,7 @@
               sm="12"
               class="row-detail-label"
             >
-              <label>Alamat</label>
+              <label>{{ $t('label.address') }}</label>
             </v-col>
             <v-col auto>
               <v-textarea
@@ -414,7 +420,7 @@
               sm="12"
               class="row-detail-label"
             >
-              <label>Kewarganegaraan</label>
+              <label>{{ $t('label.citizenship') }}</label>
             </v-col>
             <v-col auto>
               <v-text-field
@@ -435,7 +441,7 @@
               sm="12"
               class="row-detail-label"
             >
-              <label>Negara</label>
+              <label>{{ $t('label.country') }}</label>
             </v-col>
             <v-col auto>
               <v-text-field
@@ -449,6 +455,9 @@
         </v-col>
       </v-row>
     </v-card>
+    <loading-bar
+      :loading="loadingBar"
+    />
   </div>
 </template>
 
@@ -470,6 +479,7 @@ export default {
   },
   data() {
     return {
+      loadingBar: false,
       panelListRiwayat: [0],
       birthDate: '',
       testDate: '',
@@ -481,7 +491,9 @@ export default {
     }
   },
   async mounted() {
+    this.loadingBar = true
     const response = await this.$store.dispatch('rdt/detailParticipant', this.idData)
+    if (response) this.loadingBar = false
     this.detailData = await response.data
     this.detailCase = await response.data.id_case ? response.data.id_case.toUpperCase() : ''
     if (this.detailData) {

@@ -9,7 +9,9 @@
           multiple
         >
           <v-expansion-panel>
-            <v-expansion-panel-header>Update Riwayat Kasus</v-expansion-panel-header>
+            <v-expansion-panel-header>
+              {{ $t('label.update_case_history') }}
+            </v-expansion-panel-header>
             <v-expansion-panel-content>
               <ValidationObserver ref="observer">
                 <v-form
@@ -26,59 +28,97 @@
                         v-slot="{ errors }"
                         rules="required"
                       >
-                        <label class="required">Hasil Pemeriksaan Awal</label>
+                        <label class="required">{{ $t('label.criteria') }}</label>
                         <v-radio-group
                           v-model="formRiwayatPasien.status"
                           :error-messages="errors"
                           row
                         >
-                          <v-radio label="ODP" value="ODP" />
-                          <v-radio label="PDP" value="PDP" />
-                          <v-radio label="POSITIF" value="POSITIF" />
+                          <v-radio
+                            :label="$t('label.OTG')"
+                            value="OTG"
+                          />
+                          <v-radio
+                            :label="$t('label.ODP')"
+                            value="ODP"
+                          />
+                          <v-radio
+                            :label="$t('label.PDP')"
+                            value="PDP"
+                          />
+                          <v-radio
+                            :label="$t('label.POSITIF')"
+                            value="POSITIF"
+                          />
                         </v-radio-group>
                       </ValidationProvider>
                       <ValidationProvider
                         v-slot="{ errors }"
                         rules="required"
                       >
-                        <label class="required">Proses Pemeriksaan</label>
+                        <label class="required">{{ $t('label.stages') }}</label>
                         <v-radio-group
                           v-model="formRiwayatPasien.stage"
                           :error-messages="errors"
                           row
                         >
-                          <v-radio label="Proses" value="0" />
-                          <v-radio label="Selesai" value="1" />
+                          <v-radio
+                            :label="$t('label.process')"
+                            value="0"
+                          />
+                          <v-radio
+                            :label="$t('label.done')"
+                            value="1"
+                          />
                         </v-radio-group>
                       </ValidationProvider>
                       <ValidationProvider
-                        v-if="formRiwayatPasien.status !== 'ODP'"
+                        v-if="formRiwayatPasien.status !== 'OTG' && formRiwayatPasien.status !== 'ODP'"
                         v-slot="{ errors }"
                       >
-                        <label>Hasil Pemeriksaan Akhir</label>
+                        <label>{{ $t('label.results') }}</label>
                         <v-radio-group
                           v-model="formRiwayatPasien.final_result"
                           :error-messages="errors"
                           row
                         >
-                          <v-radio label="Negatif" value="0" @click.prevent="uncheck('0')" />
-                          <v-radio label="Sembuh" value="1" @click.prevent="uncheck('1')" />
-                          <v-radio label="Meninggal" value="2" @click.prevent="uncheck('2')" />
+                          <v-radio
+                            v-if="formRiwayatPasien.status !== 'POSITIF'"
+                            :label="$t('label.negatif')"
+                            value="0"
+                            @click.prevent="uncheck('0')"
+                          />
+                          <v-radio
+                            :label="$t('label.recovery')"
+                            value="1"
+                            @click.prevent="uncheck('1')"
+                          />
+                          <v-radio
+                            :label="$t('label.dead')"
+                            value="2"
+                            @click.prevent="uncheck('2')"
+                          />
                         </v-radio-group>
                       </ValidationProvider>
                       <ValidationProvider
                         v-slot="{ errors }"
                         rules="required"
                       >
-                        <label class="required">Lokasi Saat Ini</label>
+                        <label class="required">{{ $t('label.current_location') }}</label>
                         <v-radio-group
                           v-model="formRiwayatPasien.current_location_type"
                           :error-messages="errors"
                           row
                           @change="handleChangeLocationNow"
                         >
-                          <v-radio label="Rumah" value="RUMAH" />
-                          <v-radio label="Rumah Sakit" value="RS" />
+                          <v-radio
+                            :label="$t('label.home')"
+                            value="RUMAH"
+                          />
+                          <v-radio
+                            :label="$t('label.hospital')"
+                            value="RS"
+                          />
                         </v-radio-group>
                       </ValidationProvider>
                       <div v-if="formRiwayatPasien.current_location_type === 'RUMAH'">
@@ -97,7 +137,7 @@
                         v-if="formRiwayatPasien.current_location_type === 'RUMAH'"
                         v-slot="{ errors }"
                       >
-                        <v-label>Alamat Lengkap lokasi saat ini</v-label>
+                        <v-label>{{ $t('label.address_complete_this_time') }}</v-label>
                         <v-text-field
                           v-model="formRiwayatPasien.current_location_address"
                           :error-messages="errors"
@@ -114,7 +154,7 @@
                           :items="hospitalList"
                           :error-messages="errors"
                           :return-object="true"
-                          label="Lokasi Rumah Sakit"
+                          :label="$t('label.location_hospital')"
                           menu-props="auto"
                           item-text="name"
                           item-value="name"
@@ -127,7 +167,7 @@
                       <ValidationProvider
                         v-slot="{ errors }"
                       >
-                        <v-label>Sumber Pelaporan</v-label>
+                        <v-label>{{ $t('label.reporting_sources') }}</v-label>
                         <v-text-field
                           v-model="formRiwayatPasien.report_source"
                           :error-messages="errors"
@@ -135,7 +175,7 @@
                         />
                       </ValidationProvider>
                       <ValidationProvider>
-                        <v-label>Catatan Tambahan</v-label>
+                        <v-label>{{ $t('label.postscript') }}</v-label>
                         <v-textarea
                           v-model="formRiwayatPasien.other_notes"
                           solo
@@ -148,10 +188,10 @@
                       sm="12"
                     >
                       <ValidationProvider>
-                        <v-label>Riwayat</v-label>
+                        <v-label>{{ $t('label.history') }}</v-label>
                         <v-checkbox
                           v-model="formRiwayatPasien.is_went_abroad"
-                          label="Dari Luar Negeri"
+                          :label="$t('label.from_abroad')"
                         />
                       </ValidationProvider>
                       <ValidationProvider
@@ -162,14 +202,14 @@
                         <v-text-field
                           v-model="formRiwayatPasien.visited_country"
                           :error-messages="errors"
-                          placeholder="Negara Yang Dikunjungi"
+                          :placeholder="$t('label.country_visited')"
                           solo-inverted
                         />
                       </ValidationProvider>
                       <ValidationProvider>
                         <v-checkbox
                           v-model="formRiwayatPasien.is_went_other_city"
-                          label="Perjalanan ke luar kota"
+                          :label="$t('label.trip_outside_the_city')"
                         />
                       </ValidationProvider>
                       <ValidationProvider
@@ -180,31 +220,31 @@
                         <v-text-field
                           v-model="formRiwayatPasien.visited_city"
                           :error-messages="errors"
-                          placeholder="Kota Yang Dikunjungi"
+                          :placeholder="$t('label.city_visited')"
                           solo-inverted
                         />
                       </ValidationProvider>
                       <ValidationProvider>
                         <v-checkbox
                           v-model="formRiwayatPasien.is_contact_with_positive"
-                          label="Kontak Dengan Pasien Positif"
+                          :label="$t('label.contact_with_positive_patients')"
                         />
                       </ValidationProvider>
                       <ValidationProvider>
                         <v-text-field
                           v-model="formRiwayatPasien.history_notes"
-                          placeholder="Masukkan Riwayat Lainnya Jika Ada"
+                          :placeholder="$t('label.enter_other_history_applicable')"
                           solo-inverted
                         />
                       </ValidationProvider>
-                      <label>Tanggal Gejala</label>
+                      <label>{{ $t('label.date_symptoms') }}</label>
                       <select-datetime
                         :datetime="formRiwayatPasien.first_symptom_date"
                         :date-time.sync="formRiwayatPasien.first_symptom_date"
                         :formate-date="formatDate"
                       />
                       <ValidationProvider v-slot="{ errors }">
-                        <label>Gejala</label>
+                        <label>{{ $t('label.symptoms') }}</label>
                         <div v-for="(item, index) in optionGejala" :key="index">
                           <label class="material-checkbox-custom">
                             <input
@@ -224,7 +264,7 @@
                       <ValidationProvider>
                         <v-text-field
                           v-model="formRiwayatPasien.diagnosis_other"
-                          placeholder="Sebutkan gelaja lainnya (jika ada)"
+                          :placeholder="$t('label.mention_other_symptoms')"
                           solo-inverted
                         />
                       </ValidationProvider>
@@ -234,12 +274,13 @@
                     <v-row class="survey-bottom-form">
                       <v-col>
                         <v-btn
+                          :loading="loading"
                           color="success"
                           bottom
                           style="float: right;"
                           @click="handleSaveHistory"
                         >
-                          Update Riwayat
+                          {{ $t('label.update_history') }}
                         </v-btn>
                       </v-col>
                     </v-row>
@@ -256,52 +297,11 @@
           multiple
         >
           <v-expansion-panel>
-            <v-expansion-panel-header>List Riwayat Kasus</v-expansion-panel-header>
+            <v-expansion-panel-header>{{ $t('label.case_history_list') }}</v-expansion-panel-header>
             <v-expansion-panel-content>
-              <v-simple-table fixed-header height="500px">
-                <template v-slot:default>
-                  <thead>
-                    <tr>
-                      <th class="text-left">#</th>
-                      <th class="text-left">STATUS</th>
-                      <th class="text-left">TAHAPAN</th>
-                      <th class="text-left">HASIL</th>
-                      <th class="text-left">LOKASI SAAT INI</th>
-                      <th class="text-left">TANGGAL DIUPDATE</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr v-for="(item, index) in listHistoryCase" :key="item.index">
-                      <td>{{ getTableRowNumbering(index) }}</td>
-                      <td><status :status="item.status" /></td>
-                      <td>
-                        <div v-if="item.stage === '0'">
-                          Proses
-                        </div>
-                        <div v-else>
-                          Selesai
-                        </div>
-                      </td>
-                      <td>
-                        <div v-if=" item.final_result =='0'">
-                          Negatif
-                        </div>
-                        <div v-else-if=" item.final_result =='1'">
-                          Sembuh
-                        </div>
-                        <div v-else-if=" item.final_result =='2'">
-                          Meninggal
-                        </div>
-                        <div v-else>
-                          -
-                        </div>
-                      </td>
-                      <td>{{ item.current_location_address }}</td>
-                      <td>{{ formatDatetime(item.last_changed, "DD MMMM YYYY") }}</td>
-                    </tr>
-                  </tbody>
-                </template>
-              </v-simple-table>
+              <case-history-list
+                :list-history-case="listHistoryCase"
+              />
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
@@ -313,7 +313,6 @@
 <script>
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import { optionGejala } from '@/utils/constantVariable'
-import { formatDatetime } from '@/utils/parseDatetime'
 import { mapGetters } from 'vuex'
 export default {
   name: 'EditHistoryCaseForm',
@@ -329,6 +328,7 @@ export default {
   },
   data() {
     return {
+      loading: false,
       formatDate: 'YYYY/MM/DD',
       panelRiwayat: [0],
       panelListRiwayat: [0],
@@ -350,19 +350,17 @@ export default {
     this.listHistoryCase = response.data
   },
   methods: {
-    formatDatetime,
     async handleSaveHistory() {
       const valid = await this.$refs.observer.validate()
       if (!valid) {
         return
       }
+      this.loading = true
       await this.$store.dispatch('reports/createHistoryCase', this.formRiwayatPasien)
       await this.$store.dispatch('toast/successToast', 'Data Riwayat Kasus Berhasil Di Perbaharui')
       await this.$store.dispatch('reports/resetRiwayatFormPasien')
+      this.loading = false
       await this.$router.push('/laporan/list')
-    },
-    getTableRowNumbering(index) {
-      return (index + 1)
     },
     onSelectHospital(value) {
       this.formRiwayatPasien.current_hospital_id = value._id

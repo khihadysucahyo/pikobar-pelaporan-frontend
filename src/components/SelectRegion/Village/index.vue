@@ -29,10 +29,6 @@ export default {
     ValidationProvider
   },
   props: {
-    disabledSelect: {
-      type: Boolean,
-      default: false
-    },
     village: {
       type: Object,
       default: null
@@ -79,9 +75,7 @@ export default {
     if (this.village.desa_kode) {
       this.nameVillage = this.village
     }
-    if (this.disabledSelect) {
-      this.disable = true
-    } else if (this.codeSubDistrict) {
+    if (this.codeSubDistrict) {
       const response = await this.$store.dispatch('region/getListVillage', this.codeSubDistrict)
       this.listVillage = response.data
       this.disable = false

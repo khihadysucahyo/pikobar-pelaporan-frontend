@@ -34,9 +34,9 @@ export default {
       return e
     }
   },
-  async getListHospital({ commit }) {
+  async getListHospital({ commit }, params) {
     try {
-      const response = await requestServer('/api/areas/hospital', 'GET')
+      const response = await requestServer('/api/areas/hospital', 'GET', params)
       commit('SET_HOSPITAL_CITY', response.data)
       return response
     } catch (e) {

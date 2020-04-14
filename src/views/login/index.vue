@@ -64,6 +64,7 @@
 </template>
 
 <script>
+import i18n from '@/lang'
 export default {
   name: 'Login',
   components: { },
@@ -77,11 +78,11 @@ export default {
         password: ''
       },
       usernameRules: [
-        v => !!v || this.$t('errors.username_must_be_filled')
+        v => !!v || i18n.t('errors.username_must_be_filled')
       ],
       passwordRules: [
-        v => !!v || this.$t('errors.password_must_be_filled'),
-        v => (v && v.length >= 5) || this.$t('errors.password_must_be_more_than_characters')
+        v => !!v || i18n.t('errors.password_must_be_filled'),
+        v => (v && v.length >= 5) || i18n.t('errors.password_must_be_more_than_characters')
       ]
     }
   },

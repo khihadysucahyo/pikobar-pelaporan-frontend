@@ -4,7 +4,7 @@
       v-slot="{ errors }"
     >
       <v-autocomplete
-        no-data-text="Masukan berdasarkan nama peserta/NIK/No telepon"
+        :no-data-text="$t('label.no_data_autocomplete_case')"
         :search-input.sync="search"
         :disabled="disabledCase"
         :error-messages="errors"

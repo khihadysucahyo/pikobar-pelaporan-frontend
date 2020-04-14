@@ -48,11 +48,15 @@ export default {
     openDatepicker: false
   }),
   computed: {
-    setDate() {
-      if (this.dateValue !== undefined) {
+    setDate: {
+      // getter
+      get: function() {
         return this.formatDateFunc(this.dateValue)
+      },
+      // setter
+      set: function(newValue) {
+        return this.formatDateFunc(newValue)
       }
-      return this.formatDateFunc(this.date)
     }
   },
   methods: {

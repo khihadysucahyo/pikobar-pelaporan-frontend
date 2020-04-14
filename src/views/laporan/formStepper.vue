@@ -1,22 +1,22 @@
 <template>
   <div>
     <v-stepper
-      v-model="e1"
+      v-model="step"
       :alt-labels="altLabels"
     >
       <v-stepper-header>
         <template v-for="n in steps">
           <v-stepper-step
             :key="`${n}-step`"
-            :complete="e1 > n"
+            :complete="step > n"
             :step="n"
             :editable="editable"
           >
             <template v-if="n == 1">
-              Detail Profil Kasus
+              {{ $t('label.detail_profile_history') }}
             </template>
             <template v-else-if="n == 2">
-              Riwayat Kasus
+              {{ $t('label.case_history') }}
             </template>
           </v-stepper-step>
 
@@ -33,13 +33,13 @@
           :key="`${n}-content`"
           :step="n"
         >
-          <template v-if="e1 == 1">
+          <template v-if="step == 1">
             <form-information-patient
               :form-pasien="formPasien"
               :steps="n"
             />
           </template>
-          <template v-else-if="e1 == 2">
+          <template v-else-if="step == 2">
             <form-information-history
               :form-pasien="formPasien"
               :steps="n"
@@ -58,7 +58,7 @@ import { mapGetters } from 'vuex'
 export default {
   data() {
     return {
-      e1: 1,
+      step: 1,
       steps: 2,
       altLabels: false,
       editable: false
@@ -76,10 +76,10 @@ export default {
     // on steps change
     this.formPasien.address_district_code = this.district_user
     EventBus.$on('nextSurveySteps', (value) => {
-      this.e1 = value + 1
+      this.step = value + 1
     })
     EventBus.$on('backSurveySteps', (value) => {
-      this.e1 = value - 1
+      this.step = value - 1
     })
   },
   methods: {

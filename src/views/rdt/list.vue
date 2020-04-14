@@ -5,7 +5,7 @@
         <v-row justify="space-between">
           <v-col cols="auto">
             <v-card-text class="header-survey-text">
-              <div>Jumlah Hasil Test Masif COVID-19 : {{ totalReport }}</div>
+              <div>{{ $t('label.total_COVID19_massive_test_results') }} : {{ totalReport }}</div>
               <div>{{ fullname }}</div>
             </v-card-text>
           </v-col>
@@ -19,17 +19,16 @@
         <v-col>
           <v-card-text>
             <div style="font-size: 1.5rem;">
-              Data Hasil Test
+              {{ $t('label.results_test_data') }}
             </div>
           </v-card-text>
         </v-col>
         <v-col />
       </v-row>
-      <filter-hasil-test
+      <filter-test-result
         :list-query="listQuery"
         :query-list.sync="listQuery"
         :on-search="handleSearch"
-        :on-reset="handleResetFilter"
       />
       <hr>
       <v-row>
@@ -37,7 +36,10 @@
           <v-data-table
             :headers="headers"
             :items="rdtList"
+            :mobile-breakpoint="NaN"
             :no-data-text="'Tidak ada data'"
+            :items-per-page="listQuery.limit"
+            :loading="loadingTable"
             hide-default-footer
           >
             <template v-slot:item="{ item, index }">
@@ -59,7 +61,7 @@
                 <td>{{ item.address_district_name }} </td>
                 <td>{{ item.test_date ? formatDatetime(item.test_date, 'DD MMMM YYYY') : '-' }}</td>
                 <td>{{ item.final_result }} </td>
-                <td v-if="roles[0] === 'dinkeskota' || 'dinkesprov'">
+                <td>
                   <v-card-actions>
                     <v-menu
                       :close-on-content-click="false"
@@ -77,21 +79,21 @@
                           outlined
                           v-on="on"
                         >
-                          Pilih aksi<v-icon style="color: #009D57;font-size: 2rem;" right>mdi-menu-down</v-icon>
+                          {{ $t('label.choose_action') }}
+                          <v-icon style="color: #009D57;font-size: 2rem;" right>
+                            mdi-menu-down
+                          </v-icon>
                         </v-btn>
                       </template>
                       <v-card>
-                        <v-list-item @click="handleDetail(item._id)">
-                          Lihat Detail
+                        <v-list-item v-if="roles[0] === 'dinkeskota' || 'dinkesprov'" @click="handleDetail(item._id)">
+                          {{ $t('label.view_detail') }}
                         </v-list-item>
-                        <!-- <v-list-item v-if="item.final_result && item.final_result.length > 0" @click="handleEditRDT(item._id)">
-                          Update Profil Peserta
-                        </v-list-item> -->
-                        <v-list-item v-if="item.final_result && item.final_result.length > 0 " @click="handleUpdateResults(item._id)">
-                          Update Hasil
+                        <v-list-item v-if="roles[0] === 'dinkeskota' && item.final_result && item.final_result.length > 0 " @click="handleUpdateResults(item._id)">
+                          {{ $t('label.update_results') }}
                         </v-list-item>
-                        <v-list-item @click="handleDeleteRDT(item._id)">
-                          Hapus Peserta
+                        <v-list-item v-if="roles[0] === 'dinkeskota'" @click="handleDeleteRDT(item._id)">
+                          {{ $t('label.delete_participant') }}
                         </v-list-item>
                       </v-card>
                     </v-menu>
@@ -141,6 +143,7 @@ export default {
         { text: 'HASIL TES', value: 'final_result' },
         { text: 'Aksi', value: 'actions', sortable: false }
       ],
+      loadingTable: false,
       totalODP: 0,
       totalPDP: 0,
       totalPositif: 0,
@@ -157,7 +160,6 @@ export default {
         limit: 30,
         search: ''
       },
-      countingReports: null,
       dialog: false,
       dataDelete: null
     }
@@ -176,9 +178,11 @@ export default {
   watch: {
     'listQuery.search': {
       handler: function(value) {
-        if (value !== null && value.length === 0 || value.length >= 3) {
+        if ((value !== undefined) && (value.length === 0 || value.length >= 3)) {
+          this.loadingTable = true
           this.listQuery.page = 1
           this.handleSearch()
+          this.loadingTable = false
         }
       },
       immediate: true
@@ -188,7 +192,7 @@ export default {
     this.listQuery.address_district_code = this.district_user
     await this.$store.dispatch('rdt/resetListRDT')
     const response = await this.$store.dispatch('rdt/getListRDT', this.listQuery)
-    this.totalReport = response.data._meta.itemCount ? response.data._meta.itemCount : '0'
+    if (response.data) this.totalReport = response.data._meta.itemCount
   },
   methods: {
     formatDatetime,
@@ -204,16 +208,6 @@ export default {
     },
     async handleUpdateResults(id) {
       await this.$router.push(`/rdt/update-result/${id}`)
-    },
-    async handleResetFilter() {
-      this.listQuery.category = ''
-      this.listQuery.start_date = ''
-      this.listQuery.end_date = ''
-      this.listQuery.final_result = ''
-      this.listQuery.mechanism = ''
-      this.listQuery.test_method = ''
-      this.listQuery.search = ''
-      await this.$store.dispatch('rdt/getListRDT', this.listQuery)
     },
     async handleSearch() {
       await this.$store.dispatch('rdt/getListRDT', this.listQuery)

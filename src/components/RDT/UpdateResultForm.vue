@@ -15,7 +15,7 @@
                 lazy-validation
               >
                 <ValidationProvider>
-                  <v-label>Hasil Test</v-label>
+                  <v-label>{{ $t('label.test_result') }}</v-label>
                   <v-radio-group
                     v-model="formRapid.final_result"
                     row
@@ -39,16 +39,17 @@
                 style="float: right;"
                 @click="handleSave"
               >
-                Simpan
+                {{ $t('label.save') }}
               </v-btn>
               <v-btn
+                :loading="loading"
                 color="grey"
                 bottom
                 outlined
                 style="float: right;margin-right: 12px;"
                 @click="handleBack"
               >
-                Kembali
+                {{ $t('label.back') }}
               </v-btn>
             </v-col>
           </v-row>
@@ -78,6 +79,7 @@ export default {
   },
   data() {
     return {
+      loading: false,
       formatDate: 'YYYY-MM-DD',
       formRapid: {
         final_result: null
@@ -97,13 +99,14 @@ export default {
       if (!valid) {
         return
       }
-
+      this.loading = true
       const updateFinalRDT = {
         id: this.idData,
         data: this.formRapid
       }
 
       this.$store.dispatch('rdt/updateRDT', updateFinalRDT)
+      this.loading = false
       this.$router.push('/rdt/list')
     }
   }

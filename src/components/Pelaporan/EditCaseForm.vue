@@ -9,7 +9,9 @@
           multiple
         >
           <v-expansion-panel>
-            <v-expansion-panel-header>Update Data Profil Pasien</v-expansion-panel-header>
+            <v-expansion-panel-header>
+              {{ $t('label.patient_profile_data_update') }}
+            </v-expansion-panel-header>
             <v-expansion-panel-content>
               <ValidationObserver ref="observer">
                 <v-form
@@ -23,7 +25,7 @@
                       sm="12"
                     >
                       <ValidationProvider>
-                        <label>ID Kasus</label>
+                        <label>{{ $t('label.case_id') }}</label>
                         <v-text-field
                           v-model="formPasien.id_case"
                           disabled
@@ -33,7 +35,7 @@
                       <ValidationProvider
                         v-slot="{ errors }"
                       >
-                        <v-label>ID Kasus Pusat</v-label>
+                        <v-label>{{ $t('label.related_case_id') }}</v-label>
                         <v-text-field
                           v-model="formPasien.id_case_national"
                           :error-messages="errors"
@@ -43,7 +45,7 @@
                       <ValidationProvider
                         v-slot="{ errors }"
                       >
-                        <v-label>ID Kasus Terkait</v-label>
+                        <v-label>{{ $t('label.center_case_id') }}</v-label>
                         <v-text-field
                           v-model="formPasien.id_case_related"
                           :error-messages="errors"
@@ -51,7 +53,7 @@
                         />
                       </ValidationProvider>
                       <ValidationProvider>
-                        <v-label>Pekerjaan</v-label>
+                        <v-label>{{ $t('label.profession') }}</v-label>
                         <v-select
                           v-model="formPasien.occupation"
                           :items="occupationList"
@@ -62,7 +64,7 @@
                         />
                       </ValidationProvider>
                       <ValidationProvider>
-                        <v-label>Alamat Kantor</v-label>
+                        <v-label>{{ $t('label.office_address') }}</v-label>
                         <v-textarea
                           v-model="formPasien.office_address"
                           solo
@@ -72,15 +74,21 @@
                         v-slot="{ errors }"
                         rules="required"
                       >
-                        <label class="required">Kewarganegaraan</label>
+                        <label class="required">{{ $t('label.citizenship') }}</label>
                         <v-radio-group
                           v-model="formPasien.nationality"
                           :error-messages="errors"
                           row
                           @change="handleChangeNationality"
                         >
-                          <v-radio label="WNI" value="WNI" />
-                          <v-radio label="WNA" value="WNA" />
+                          <v-radio
+                            :label="$t('label.wni')"
+                            value="WNI"
+                          />
+                          <v-radio
+                            :label="$t('label.wna')"
+                            value="WNA"
+                          />
                         </v-radio-group>
                       </ValidationProvider>
                       <ValidationProvider
@@ -90,7 +98,7 @@
                         <v-text-field
                           v-model="formPasien.nationality_name"
                           :error-messages="errors"
-                          placeholder="Negara Asal"
+                          :placeholder="$t('label.country_origin')"
                           solo-inverted
                         />
                       </ValidationProvider>
@@ -103,7 +111,7 @@
                       <ValidationProvider
                         v-slot="{ errors }"
                       >
-                        <label>NIK</label>
+                        <label>{{ $t('label.nik') }}</label>
                         <v-text-field
                           v-model="formPasien.nik"
                           :error-messages="errors"
@@ -114,14 +122,14 @@
                         v-slot="{ errors }"
                         rules="required|isHtml"
                       >
-                        <label class="required">Nama Pasien</label>
+                        <label class="required">{{ $t('label.name_case') }}</label>
                         <v-text-field
                           v-model="formPasien.name"
                           :error-messages="errors"
                           solo-inverted
                         />
                       </ValidationProvider>
-                      <label>Tanggal Lahir</label>
+                      <label>{{ $t('label.birth_date') }}</label>
                       <select-datetime
                         :datetime="formPasien.birth_date"
                         :date-time.sync="formPasien.birth_date"
@@ -131,7 +139,7 @@
                         v-slot="{ errors }"
                         rules="required|isHtml"
                       >
-                        <label class="required">Usia</label>
+                        <label class="required">{{ $t('label.age') }}</label>
                         <v-text-field
                           v-model="formPasien.age"
                           :error-messages="errors"
@@ -143,17 +151,23 @@
                         v-slot="{ errors }"
                         rules="required"
                       >
-                        <label class="required">Jenis Kelamin</label>
+                        <label class="required">{{ $t('label.gender') }}</label>
                         <v-radio-group
                           v-model="formPasien.gender"
                           :error-messages="errors"
                           row
                         >
-                          <v-radio label="Laki-Laki" value="L" />
-                          <v-radio label="Perempuan" value="P" />
+                          <v-radio
+                            :label="$t('label.male')"
+                            value="L"
+                          />
+                          <v-radio
+                            :label="$t('label.female')"
+                            value="P"
+                          />
                         </v-radio-group>
                       </ValidationProvider>
-                      <label class="required">Alamat Tempat Tinggal</label>
+                      <label class="required">{{ $t('label.address_home') }}</label>
                       <address-region
                         :district-code="formPasien.address_district_code"
                         :district-name="formPasien.address_district_name"
@@ -171,7 +185,7 @@
                         :required-address="true"
                       />
                       <ValidationProvider>
-                        <v-label>Alamat Lengkap Tempat Tinggal</v-label>
+                        <v-label>{{ $t('label.address_complete_home') }}</v-label>
                         <v-textarea
                           v-model="formPasien.address_street"
                           solo
@@ -181,7 +195,7 @@
                         v-slot="{ errors }"
                         rules="required"
                       >
-                        <label class="required">Nomor Telepon</label>
+                        <label class="required">{{ $t('label.phone_number') }}</label>
                         <v-text-field
                           v-model="formPasien.phone_number"
                           :error-messages="errors"
@@ -195,12 +209,13 @@
                     <v-row class="survey-bottom-form">
                       <v-col>
                         <v-btn
+                          :loading="loading"
                           color="success"
                           bottom
                           style="float: right;"
                           @click="handleUpdateCase"
                         >
-                          Update Profil
+                          {{ $t('label.profile_update') }}
                         </v-btn>
                       </v-col>
                     </v-row>
@@ -217,52 +232,11 @@
           multiple
         >
           <v-expansion-panel>
-            <v-expansion-panel-header>List Riwayat Kasus</v-expansion-panel-header>
+            <v-expansion-panel-header>{{ $t('label.case_history_list') }}</v-expansion-panel-header>
             <v-expansion-panel-content>
-              <v-simple-table fixed-header height="500px">
-                <template v-slot:default>
-                  <thead>
-                    <tr>
-                      <th class="text-left">#</th>
-                      <th class="text-left">STATUS</th>
-                      <th class="text-left">TAHAPAN</th>
-                      <th class="text-left">HASIL</th>
-                      <th class="text-left">LOKASI SAAT INI</th>
-                      <th class="text-left">TANGGAL DIUPDATE</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr v-for="(item, index) in listHistoryCase" :key="item.index">
-                      <td>{{ getTableRowNumbering(index) }}</td>
-                      <td><status :status="item.status" /></td>
-                      <td>
-                        <div v-if="item.stage === '0'">
-                          Proses
-                        </div>
-                        <div v-else>
-                          Selesai
-                        </div>
-                      </td>
-                      <td>
-                        <div v-if=" item.final_result =='0'">
-                          Negatif
-                        </div>
-                        <div v-else-if=" item.final_result =='1'">
-                          Sembuh
-                        </div>
-                        <div v-else-if=" item.final_result =='2'">
-                          Meninggal
-                        </div>
-                        <div v-else>
-                          -
-                        </div>
-                      </td>
-                      <td>{{ item.current_location_address }}</td>
-                      <td>{{ formatDatetime(item.last_changed, "DD MMMM YYYY") }}</td>
-                    </tr>
-                  </tbody>
-                </template>
-              </v-simple-table>
+              <case-history-list
+                :list-history-case="listHistoryCase"
+              />
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
@@ -290,6 +264,7 @@ export default {
   },
   data() {
     return {
+      loading: false,
       formatDate: 'YYYY/MM/DD',
       panelCase: [0],
       panelListRiwayat: [0],
@@ -327,18 +302,17 @@ export default {
         id: this.idData,
         data: this.formPasien
       }
+      this.loading = true
       await this.$store.dispatch('reports/updateReportCase', updateCase)
       await this.$store.dispatch('toast/successToast', 'Data Profil Berhasil Di Rubah')
       await this.$store.dispatch('reports/resetRiwayatFormPasien')
+      this.loading = false
       await this.$router.push('/laporan/list')
     },
     handleChangeNationality(value) {
       if (value === 'WNI') {
         this.formPasien.nationality_name = ''
       }
-    },
-    getTableRowNumbering(index) {
-      return (index + 1)
     }
   }
 }

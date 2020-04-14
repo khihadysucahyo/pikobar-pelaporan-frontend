@@ -5,7 +5,7 @@ import getters from './getters'
 function initialState() {
   return {
     detailPasien: null,
-    listKasus: null,
+    listKasus: [],
     totalList: 0,
     formPasien: {
       id_case: '',
@@ -51,6 +51,7 @@ function initialState() {
       current_location_district_code: '',
       current_location_subdistrict_code: '',
       current_location_village_code: '',
+      current_location_village_name: '',
       other_notes: ''
     },
     formRiwayatPasien: {

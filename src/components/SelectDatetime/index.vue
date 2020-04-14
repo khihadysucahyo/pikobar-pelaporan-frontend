@@ -5,7 +5,7 @@
         <v-select
           v-model="year"
           :items="yearList"
-          label="Tahun"
+          :label="$t('label.year')"
           solo
           @change="onSelectYear"
         />
@@ -14,10 +14,10 @@
         <v-select
           v-model="month"
           :items="listMonthName"
+          :disabled="disabledMonth"
+          :label="$t('label.month')"
           item-value="value"
           item-text="text"
-          :disabled="disabledMonth"
-          label="Bulan"
           solo
           @change="onSelectMonth"
         />
@@ -27,7 +27,7 @@
           v-model="days"
           :items="dayList"
           :disabled="disabledDays"
-          label="Tanggal"
+          :label="$t('label.date')"
           solo
           @change="onSelectDate"
         />

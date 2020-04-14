@@ -21,6 +21,7 @@ const service = axios.create({
 // request interceptor
 service.interceptors.request.use(
   config => {
+    store.commit('animationLottie/SET_LOADING', true)
     // Do something before request is sent
     if (store.getters['user/token']) {
       // Set Bearer Token
@@ -29,6 +30,7 @@ service.interceptors.request.use(
     return config
   },
   error => {
+    store.commit('animationLottie/SET_LOADING', false)
     // Do something with request error
     Promise.reject(error)
   }
@@ -41,11 +43,13 @@ service.interceptors.response.use(
    * Please return  response => response
    */
   response => {
+    store.commit('animationLottie/SET_LOADING', false)
     const res = response.data
 
     return res
   },
   async(error) => {
+    await store.dispatch('animationLottie/setLoading', false)
     const status = await error.response.status
     switch (status) {
       case ResponseRequest.NOTFOUND:
