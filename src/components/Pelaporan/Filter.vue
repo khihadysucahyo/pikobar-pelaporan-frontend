@@ -199,12 +199,12 @@ export default {
   .btn-reset {
     width: 100%;
     height: 46px !important;
-    min-width: 100px !important;
+    min-width: 95px!important;
     color: white !important;
   }
   .btn-cari {
     width: 100%;
     height: 46px !important;
-    min-width: 100px !important;
+    min-width: 95px!important;
   }
 </style>
