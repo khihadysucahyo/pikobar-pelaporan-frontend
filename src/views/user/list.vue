@@ -114,24 +114,7 @@
 export default {
   data() {
     return {
-      // Todo: get data from api
-      userList: [
-        {
-          _id: '5e73497682d77e001332c742',
-          name_district_city: 'KOTA SUKABUMI',
-          fullname: 'Dinkes Kota Sukabumi',
-          username: 'dinkeskotasukabumi',
-          email: 'dinkeskotasukabumi@dinkeskotasukabumi.id',
-          role: 'dinkeskota'
-        },
-        {
-          _id: '5e70ab30cc2e000012422922',
-          username: 'dinkeskota1',
-          fullname: 'Dinkes Kota Bandung',
-          email: 'oke@adminprov.com',
-          role: 'dinkeskota'
-        }
-      ],
+      userList: [], // Todo: get data from api
       headers: [
         { text: '#', value: '_id', sortable: false },
         { text: 'NAMA', value: 'fullname' },
@@ -168,13 +151,13 @@ export default {
       return ((this.listQuery.page - 1) * this.listQuery.limit) + (index + 1)
     },
     async handleSearch() {
-      // to do : get data from api
+      this.$store.dispatch('toast/errorToast', this.$t('errors.feature_under_development'))
     },
     async onSelectDistrict(value) {
       this.listQuery.address_district_code = value.kota_kode
     },
     async handleDetail(id) {
-      // to do : get data from api
+      this.$store.dispatch('toast/errorToast', this.$t('errors.feature_under_development'))
     }
   }
 }

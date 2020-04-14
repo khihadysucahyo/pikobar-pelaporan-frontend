@@ -180,6 +180,7 @@ export default {
     field_must_be_filled: 'Kolom harus diisi',
     field_unauthorized_characters: 'Bidang mengandung karakter yang tidak diizinkan.',
     field_phone_number_not_valid: 'Nomor telepon tidak valid',
-    server_error_occurred: 'Terjadi kesalahan pada server'
+    server_error_occurred: 'Terjadi kesalahan pada server',
+    feature_under_development: 'Fitur dalam pengembangan'
   },
 }
