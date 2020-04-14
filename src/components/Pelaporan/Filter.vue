@@ -27,7 +27,7 @@
               item-value="value"
             />
           </v-col>
-          <v-col cols="12" sm="9">
+          <v-col cols="12" sm="9" class="reduce-padding-top">
             <address-region
               :district-code="listQuery.address_district_code"
               :district-name="district_name_user"
@@ -204,10 +204,13 @@ export default {
       this.listQuery.search = ''
       this.listQuery.final_result = ''
       this.listQuery.status = ''
-      this.listQuery.address_district_code = ''
+      this.listQuery.address_subdistrict_code = ''
+      this.listQuery.address_village_code = ''
       this.listQuery.start_date = ''
       this.listQuery.end_date = ''
-      this.$refs.form.reset()
+      if (this.roles[0] !== 'dinkeskota') {
+        this.listQuery.address_district_code = ''
+      }
       this.$store.dispatch('reports/listReportCase', this.listQuery)
     },
     async onExport() {
@@ -222,5 +225,8 @@ export default {
 <style scoped>
   .filter-row {
     margin-bottom: -20px;
+  }
+  .reduce-padding-top {
+    padding-top: 0px !important;
   }
 </style>
