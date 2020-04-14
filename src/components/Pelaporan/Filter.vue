@@ -27,7 +27,7 @@
               item-value="value"
             />
           </v-col>
-          <v-col cols="12" sm="9">
+          <v-col cols="12" sm="9" class="reduce-padding-top">
             <address-region
               :district-code="district_user"
               :district-name="district_name_user"
@@ -42,34 +42,6 @@
               :is-label="true"
             />
           </v-col>
-          <!-- <v-col cols="12" sm="3">
-            <v-label class="title">Kabupaten/Kota:</v-label>
-            <v-select
-              v-model="listQuery.kabkota"
-              :items="resultList"
-              solo
-              item-text="label"
-              item-value="value"
-            />
-          </v-col>
-          <v-col cols="12" sm="3">
-            <v-label class="title">Kelurahan:</v-label>
-            <v-select
-              v-model="listQuery.status"
-              :items="stagesList"
-              solo
-            />
-          </v-col>
-          <v-col cols="12" sm="3">
-            <v-label class="title">Kecamatan:</v-label>
-            <v-select
-              v-model="listQuery.final_result"
-              :items="resultList"
-              solo
-              item-text="label"
-              item-value="value"
-            />
-          </v-col> -->
         </v-row>
         <v-row class="filter-row">
           <v-col cols="12" sm="3">
@@ -191,11 +163,12 @@ export default {
     ...mapGetters('user', [
       'roles',
       'district_user',
-      'district_name_user'
+      'district_name_user',
+      'fullname'
     ])
   },
   mounted() {
-    this.roles[0] === 'dinkeskota' ? this.disabledDistrict = true : this.disabledDistrict = false
+    this.disabledDistrict = this.roles[0] === 'dinkeskota'
   },
   methods: {
     onSelectDistrict(value) {
@@ -205,10 +178,13 @@ export default {
       this.listQuery.search = ''
       this.listQuery.final_result = ''
       this.listQuery.status = ''
-      this.listQuery.address_district_code = ''
+      this.listQuery.address_subdistrict_code = ''
+      this.listQuery.address_village_code = ''
       this.listQuery.start_date = ''
       this.listQuery.end_date = ''
-      this.$refs.form.reset()
+      if (this.roles[0] !== 'dinkeskota') {
+        this.listQuery.address_district_code = ''
+      }
       this.$store.dispatch('reports/listReportCase', this.listQuery)
     },
     async onExport() {
@@ -225,5 +201,8 @@ export default {
 <style scoped>
   .filter-row {
     margin-bottom: -20px;
+  }
+  .reduce-padding-top {
+    padding-top: 0px !important;
   }
 </style>

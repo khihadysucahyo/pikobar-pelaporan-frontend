@@ -248,7 +248,9 @@ export default {
         final_result: '',
         page: 1,
         limit: 30,
-        search: ''
+        search: '',
+        start_date: '',
+        end_date: ''
       },
       countingReports: null,
       dialog: false,
