@@ -100,9 +100,6 @@
         </v-row>
       </v-container>
     </v-form>
-    <loading-bar
-      :loading="loadingBar"
-    />
   </div>
 </template>
 
@@ -124,7 +121,6 @@ export default {
     return {
       formatDate: 'YYYY-MM-DD',
       disabledDistrict: true,
-      loadingBar: false,
       codeDistrict: '',
       nameVillage: '',
       stagesList: [

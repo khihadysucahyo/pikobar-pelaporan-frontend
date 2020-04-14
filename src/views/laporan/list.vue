@@ -225,9 +225,6 @@
       :store-path-get-list="`reports/listReportCase`"
       :list-query="listQuery"
     />
-    <loading-bar
-      :loading="loadingBar"
-    />
   </div>
 </template>
 
@@ -275,8 +272,7 @@ export default {
       countingReports: null,
       dialog: false,
       dataDelete: null,
-      nameDistrict: null,
-      loadingBar: false
+      nameDistrict: null
     }
   },
   computed: {
@@ -335,9 +331,7 @@ export default {
       await this.$store.dispatch('reports/listReportCase', this.listQuery)
     },
     async onExport() {
-      this.loadingBar = true
       const response = await this.$store.dispatch('reports/exportExcel', this.listQuery)
-      if (response) this.loadingBar = false
       const dateNow = Date.now()
       const fileName = `Data Kasus ${this.fullname} - ${formatDatetime(dateNow, 'DD/MM/YYYY HH:mm')} WIB.xlsx`
       FileSaver.saveAs(response, fileName)
