@@ -94,13 +94,13 @@
           </div>
         </v-col>
         <v-col cols="12" sm="4" class="align-right">
-          <v-btn
-            class="btn-coba margin-right"
-            color="#b3e2cd"
-          >
-            <v-icon left>mdi-download</v-icon>
-            Import
-          </v-btn>
+          <!--          <v-btn-->
+          <!--            class="btn-coba margin-right"-->
+          <!--            color="#b3e2cd"-->
+          <!--          >-->
+          <!--            <v-icon left>mdi-download</v-icon>-->
+          <!--            Import-->
+          <!--          </v-btn>-->
           <v-btn
             class="btn-coba margin-left"
             color="#b3e2cd"
