@@ -15,7 +15,9 @@ export default {
     laporan_detail: 'Detail Laporan Kasus',
     laporan_edit: 'Ubah Laporan Kasus',
     change_password: 'Ubah Password',
-    help: 'Bantuan'
+    help: 'Bantuan',
+    setting: 'Pengaturan',
+    user_management: 'Manajemen User'
   },
   label: {
     username: 'Username',
@@ -157,7 +159,8 @@ export default {
     total_COVID19_massive_test_results: 'Jumlah Hasil Test Masif COVID-19',
     results_test_data: 'Data Hasil Test',
     update_results: 'Update Hasil',
-    delete_participant: 'Hapus Peserta'
+    delete_participant: 'Hapus Peserta',
+    user_data: 'Data User'
   },
   success: {
     login_success: 'Login Berhasil',
