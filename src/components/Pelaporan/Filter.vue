@@ -197,13 +197,11 @@ export default {
     padding: 0px 35px;
   }
   .btn-reset {
-    width: 100%;
     height: 46px !important;
     min-width: 100px !important;
     color: white !important;
   }
   .btn-cari {
-    width: 100%;
     height: 46px !important;
     min-width: 100px !important;
   }

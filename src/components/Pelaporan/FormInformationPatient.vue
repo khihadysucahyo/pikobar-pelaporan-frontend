@@ -145,8 +145,14 @@
                 :error-messages="errors"
                 row
               >
-                <v-radio label="Laki-Laki" value="L" />
-                <v-radio label="Perempuan" value="P" />
+                <v-radio
+                  :label="$('label.male')"
+                  value="L"
+                />
+                <v-radio
+                  :label="$('label.female')"
+                  value="P"
+                />
               </v-radio-group>
             </ValidationProvider>
             <label class="required">{{ $t('label.address_home') }}</label>

@@ -104,11 +104,12 @@ export default {
     OTG: 'OTG',
     ODP: 'ODP',
     PDP: 'PDP',
-    POSITIF: 'POSITIF',
     process: 'Proses',
     done: 'Selesai',
     results: 'Hasil',
     negatif: 'Negatif',
+    invalid: 'Invalid',
+    positif: 'Positif',
     current_location: 'Lokasi Saat Ini',
     home: 'Rumah',
     hospital: 'Rumah Sakit',
@@ -158,7 +159,10 @@ export default {
     total_COVID19_massive_test_results: 'Jumlah Hasil Test Masif COVID-19',
     results_test_data: 'Data Hasil Test',
     update_results: 'Update Hasil',
-    delete_participant: 'Hapus Peserta'
+    delete_participant: 'Hapus Peserta',
+    district_city: 'Kabupaten/Kota',
+    subdistrict: 'Kecamatan',
+    village: 'Kelurahan'
   },
   success: {
     login_success: 'Login Berhasil',

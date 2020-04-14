@@ -20,9 +20,18 @@
                     v-model="formRapid.final_result"
                     row
                   >
-                    <v-radio label="Positif" value="POSITIF" />
-                    <v-radio label="Negatif" value="NEGATIF" />
-                    <v-radio label="Invalid" value="INVALID" />
+                    <v-radio
+                      :label="$t('label.positif')"
+                      value="POSITIF"
+                    />
+                    <v-radio
+                      :label="$t('label.negatif')"
+                      value="NEGATIF"
+                    />
+                    <v-radio
+                      :label="$t('label.invalid')"
+                      value="INVALID"
+                    />
 
                   </v-radio-group>
                 </ValidationProvider>

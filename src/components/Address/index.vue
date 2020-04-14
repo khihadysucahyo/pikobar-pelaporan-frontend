@@ -2,7 +2,7 @@
   <div class="type-questions-ddress">
     <v-row>
       <v-col cols="12" md="4" sm="4">
-        <v-label v-if="isLabel" class="title">Kabupaten/Kota:</v-label>
+        <v-label v-if="isLabel" class="title">{{ $t('label.district_city') }}:</v-label>
         <select-area-district-city
           :disabled-select="disabledAddress"
           :disabled-district="disabledDistrict"
@@ -13,7 +13,7 @@
         />
       </v-col>
       <v-col cols="12" md="4" sm="4">
-        <v-label v-if="isLabel" class="title">Kecamatan:</v-label>
+        <v-label v-if="isLabel" class="title">{{ $t('label.subdistrict') }}:</v-label>
         <select-area-sub-district
           :disabled-select="disabledAddress"
           :required="requiredAddress"
@@ -25,7 +25,7 @@
         />
       </v-col>
       <v-col cols="12" md="4" sm="4">
-        <v-label v-if="isLabel" class="title">Kelurahan:</v-label>
+        <v-label v-if="isLabel" class="title">{{ $t('label.village') }}:</v-label>
         <select-area-village
           :disabled-select="disabledAddress"
           :required="requiredAddress"
