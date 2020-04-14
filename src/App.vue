@@ -3,14 +3,14 @@
     id="inspire"
   >
     <toast-notification />
-    <loading-lottie
+    <loading-logo
       :loading="$store.state.animationLottie.isLoading"
     />
     <template v-if="pageLoading">
       <!-- Loader -->
       <div class="spinwrap">
         <div class="spinner">
-          <loading-lottie
+          <loading-logo
             :loading="true"
           />
         </div>

@@ -34,7 +34,7 @@
                   value="PDP"
                 />
                 <v-radio
-                  :label="$t('label.POSITIF')"
+                  :label="$t('label.positif').toUpperCase()"
                   value="POSITIF"
                 />
               </v-radio-group>

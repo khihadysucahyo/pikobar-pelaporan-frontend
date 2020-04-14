@@ -69,7 +69,7 @@
             <v-list-item two-line style="background: #FDEDED">
               <v-list-item-content>
                 <v-list-item-title style="color: #EB5757;">
-                  {{ $t('label.POSITIF') }}
+                  {{ $t('label.positif').toUpperCase() }}
                 </v-list-item-title>
                 <v-list-item-title class="headline mb-1" style="color: #EB5757;padding-top: 2rem;">{{ totalPositif }} {{ $t('label.people') }}</v-list-item-title>
               </v-list-item-content>
