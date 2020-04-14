@@ -82,7 +82,7 @@ export default {
       }
     }
   },
-  async created() {
+  async mounted() {
     if (this.disabledDistrict) {
       this.nameDistrict = this.districtCity.kota_nama
     } else {
