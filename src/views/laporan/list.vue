@@ -81,22 +81,37 @@
     <v-card
       outlined
     >
-      <v-row>
-        <v-col>
-          <v-card-text>
-            <div style="font-size: 1.5rem;">
-              {{ $t('label.case_data') }}
-            </div>
-          </v-card-text>
-        </v-col>
-        <v-col />
-      </v-row>
       <case-filter
         :list-query="listQuery"
         :query-list.sync="listQuery"
         :on-search="handleSearch"
       />
       <hr>
+      <v-row align="center" justify="space-between">
+        <v-col>
+          <div class="title">
+            {{ $t('label.case_data') }}
+          </div>
+        </v-col>
+        <v-col cols="12" sm="4" class="align-right">
+          <v-btn
+            class="btn-coba margin-right"
+            color="#b3e2cd"
+          >
+            <v-icon left>mdi-download</v-icon>
+            Import
+          </v-btn>
+          <v-btn
+            class="btn-coba margin-left"
+            color="#b3e2cd"
+            @click="onExport"
+          >
+            <v-icon left>mdi-upload</v-icon>
+            Export
+          </v-btn>
+        </v-col>
+      </v-row>
+      <hr class="table-divider">
       <v-row>
         <v-col auto>
           <v-data-table
@@ -210,11 +225,16 @@
       :store-path-get-list="`reports/listReportCase`"
       :list-query="listQuery"
     />
+    <loading-bar
+      :loading="loadingBar"
+    />
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
+import FileSaver from 'file-saver'
+import { formatDatetime } from '@/utils/parseDatetime'
 export default {
   name: 'LaporanList',
   data() {
@@ -255,7 +275,8 @@ export default {
       countingReports: null,
       dialog: false,
       dataDelete: null,
-      nameDistrict: null
+      nameDistrict: null,
+      loadingBar: false
     }
   },
   computed: {
@@ -313,7 +334,42 @@ export default {
     },
     async onNext() {
       await this.$store.dispatch('reports/listReportCase', this.listQuery)
+    },
+    async onExport() {
+      this.loadingBar = true
+      const response = await this.$store.dispatch('reports/exportExcel', this.listQuery)
+      if (response) this.loadingBar = false
+      const dateNow = Date.now()
+      const fileName = `Data Kasus ${this.fullname} - ${formatDatetime(dateNow, 'DD/MM/YYYY HH:mm')} WIB.xlsx`
+      FileSaver.saveAs(response, fileName)
     }
   }
 }
 </script>
+<style>
+  .title {
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    margin-left: 30px;
+    color: #828282;
+  }
+  .align-right {
+    text-align: right;
+    padding-right: 50px;
+  }
+  .btn-coba {
+    width: 36%;
+    height: 46px !important;
+    min-width: 100px !important;
+    color: black !important;
+  }
+  .margin-right {
+    margin-right: 8px;
+  }
+  .margin-left {
+    margin-left: 8px;
+  }
+  .table-divider {
+    margin: 15px 0px 0px 0px;
+  }
+</style>
