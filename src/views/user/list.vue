@@ -10,6 +10,43 @@
         </v-col>
         <v-col />
       </v-row>
+      <v-form ref="form" lazy-validatiaon>
+        <v-container>
+          <v-row class="filter-row">
+            <v-col cols="12" sm="4">
+              <v-label class="title">{{ $t('label.name') }}</v-label>
+              <v-text-field
+                v-model="listQuery.search"
+                solo
+                label="Cari"
+                prepend-inner-icon="search"
+              />
+            </v-col>
+            <v-col cols="12" sm="4">
+              <v-label class="title">{{ $t('label.city') }}</v-label>
+              <select-area-district-city
+                :disabled-select="false"
+                :disabled-district="false"
+                :required="false"
+                :district-city="districtCity"
+                :city-district.sync="districtCity"
+              />
+            </v-col>
+            <v-col cols="12" sm="4">
+              <br>
+              <div>
+                <v-btn
+                  color="success"
+                  style="height: 46px;min-width: 100px;margin-right: 4px;"
+                  @click="handleSearch"
+                >
+                  Cari
+                </v-btn>
+              </div>
+            </v-col>
+          </v-row>
+        </v-container>
+      </v-form>
       <hr>
       <v-row>
         <v-col auto>
@@ -56,10 +93,7 @@
                       <v-card>
                         <div>
                           <v-list-item>
-                            {{ $t('label.edit') }}
-                          </v-list-item>
-                          <v-list-item>
-                            {{ $t('label.delete') }}
+                            {{ $t('label.view_detail') }}
                           </v-list-item>
                         </div>
                       </v-card>
@@ -110,13 +144,35 @@ export default {
         page: 1,
         limit: 30,
         search: ''
-      }
+      },
+      districtCity: {}
+    }
+  },
+  watch: {
+    'listQuery.search': {
+      handler: function(value) {
+        if (value.length >= 3 || value.length === 0) {
+          this.listQuery.page = 1
+          this.handleSearch()
+        }
+      },
+      immediate: true
     }
   },
   methods: {
     getTableRowNumbering(index) {
       return ((this.listQuery.page - 1) * this.listQuery.limit) + (index + 1)
+    },
+    async handleSearch() {
+      console.log(this.listQuery)
     }
   }
 }
 </script>
+
+<style>
+.container {
+  margin-top: -30px;
+  margin-bottom: -30px;
+}
+</style>

@@ -160,7 +160,9 @@ export default {
     results_test_data: 'Data Hasil Test',
     update_results: 'Update Hasil',
     delete_participant: 'Hapus Peserta',
-    user_data: 'Data User'
+    user_data: 'Data User',
+    name: 'Nama',
+    city: 'Kota'
   },
   success: {
     login_success: 'Login Berhasil',
