@@ -42,34 +42,6 @@
               :is-label="true"
             />
           </v-col>
-          <!-- <v-col cols="12" sm="3">
-            <v-label class="title">Kabupaten/Kota:</v-label>
-            <v-select
-              v-model="listQuery.kabkota"
-              :items="resultList"
-              solo
-              item-text="label"
-              item-value="value"
-            />
-          </v-col>
-          <v-col cols="12" sm="3">
-            <v-label class="title">Kelurahan:</v-label>
-            <v-select
-              v-model="listQuery.status"
-              :items="stagesList"
-              solo
-            />
-          </v-col>
-          <v-col cols="12" sm="3">
-            <v-label class="title">Kecamatan:</v-label>
-            <v-select
-              v-model="listQuery.final_result"
-              :items="resultList"
-              solo
-              item-text="label"
-              item-value="value"
-            />
-          </v-col> -->
         </v-row>
         <v-row class="filter-row">
           <v-col cols="12" sm="3">
