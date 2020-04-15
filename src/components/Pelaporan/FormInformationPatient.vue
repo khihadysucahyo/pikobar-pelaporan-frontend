@@ -22,11 +22,15 @@
             <ValidationProvider
               v-slot="{ errors }"
             >
-              <v-label>{{ $t('label.related_case_id') }}</v-label>
-              <v-text-field
+              <v-label>{{ $t('label.related_case_name') }}</v-label>
+              <v-autocomplete
                 v-model="formPasien.id_case_national"
                 :error-messages="errors"
+                :items="listNameCases"
+                item-text="name"
+                item-value="id_case"
                 solo-inverted
+                clearable
               />
             </ValidationProvider>
             <ValidationProvider
@@ -82,10 +86,14 @@
               v-if="formPasien.nationality === 'WNA'"
               v-slot="{ errors }"
             >
-              <v-text-field
+              <v-autocomplete
                 v-model="formPasien.nationality_name"
+                :items="listCountry"
+                item-text="name"
+                item-value="name"
                 :error-messages="errors"
                 :placeholder="$t('label.country_origin')"
+                clearable
                 solo-inverted
               />
             </ValidationProvider>
@@ -219,6 +227,7 @@ import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import EventBus from '@/utils/eventBus'
 import { getAge } from '@/utils/constantVariable'
 import { mapGetters } from 'vuex'
+import axios from 'axios'
 export default {
   name: 'FormInformationPatient',
   components: {
@@ -242,7 +251,9 @@ export default {
   data() {
     return {
       formatDate: 'YYYY/MM/DD',
-      date: ''
+      date: '',
+      listCountry: [],
+      listNameCases: []
     }
   },
   computed: {
@@ -262,6 +273,13 @@ export default {
     'formPasien.birth_date': function(value) {
       this.formPasien.age = this.getAge(value)
     }
+  },
+  async mounted() {
+    const response = await axios.get('https://restcountries.eu/rest/v2/all')
+    this.listCountry = response.data
+    this.listCountry.splice(105, 1)
+    const responseName = await this.$store.dispatch('reports/listNameCase')
+    this.listNameCases = responseName.data
   },
   async beforeMount() {
     await this.$store.dispatch('occupation/getListOccuption')
