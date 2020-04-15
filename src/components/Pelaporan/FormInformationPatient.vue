@@ -146,11 +146,11 @@
                 row
               >
                 <v-radio
-                  :label="$('label.male')"
+                  :label="$t('label.male')"
                   value="L"
                 />
                 <v-radio
-                  :label="$('label.female')"
+                  :label="$t('label.female')"
                   value="P"
                 />
               </v-radio-group>
