@@ -74,6 +74,7 @@ export default {
     participant_name: 'Nama Peserta',
     case_id: 'ID Kasus',
     related_case_id: 'ID Kasus Terkait',
+    related_case_name: 'Nama (ID Kasus)',
     center_case_id: 'ID Kasus Pusat',
     identity: 'Identitas',
     nik: 'NIK',

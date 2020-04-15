@@ -95,14 +95,26 @@
         </v-col>
         <v-col cols="12" sm="4" class="align-right">
           <v-btn
-            class="btn-coba margin-right"
             color="#b3e2cd"
+            class="btn-import-export margin-right"
+            depressed
+            :loading="isSelecting"
+            @click="onButtonClick"
           >
-            <v-icon left>mdi-download</v-icon>
+            <v-icon left>
+              mdi-download
+            </v-icon>
             Import
           </v-btn>
+          <input
+            ref="uploader"
+            class="d-none"
+            type="file"
+            accept=".xlsx"
+            @change="onFileChanged"
+          >
           <v-btn
-            class="btn-coba margin-left"
+            class="btn-import-export margin-left"
             color="#b3e2cd"
             @click="onExport"
           >
@@ -272,7 +284,9 @@ export default {
       countingReports: null,
       dialog: false,
       dataDelete: null,
-      nameDistrict: null
+      nameDistrict: null,
+      selectedFile: null,
+      isSelecting: false
     }
   },
   computed: {
@@ -335,6 +349,24 @@ export default {
       const dateNow = Date.now()
       const fileName = `Data Kasus ${this.fullname} - ${formatDatetime(dateNow, 'DD/MM/YYYY HH:mm')} WIB.xlsx`
       FileSaver.saveAs(response, fileName)
+    },
+    onButtonClick() {
+      this.isSelecting = true
+      window.addEventListener('focus', () => {
+        this.isSelecting = false
+      }, { once: true })
+      this.$refs.uploader.click()
+    },
+    async onFileChanged(e) {
+      this.selectedFile = e.target.files[0]
+      const formData = new FormData()
+      formData.append('file', this.selectedFile)
+      const response = await this.$store.dispatch('reports/importExcel', formData)
+      if (response.status === 200 || response.status === 201) {
+        await this.$store.dispatch('toast/successToast', 'Upload File Berhasil')
+      } else {
+        await this.$store.dispatch('toast/errorToast', 'Upload File Gagal')
+      }
     }
   }
 }
@@ -350,7 +382,7 @@ export default {
     text-align: right;
     padding-right: 50px;
   }
-  .btn-coba {
+  .btn-import-export {
     width: 36%;
     height: 46px !important;
     min-width: 100px !important;
