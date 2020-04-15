@@ -35,6 +35,20 @@
         cols="12"
         md="6"
       >
+        <statistic-person-under-monitoring />
+      </v-col>
+      <v-col
+        cols="12"
+        md="6"
+      >
+        <statistic-patient-under-investigation />
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col
+        cols="12"
+        md="6"
+      >
         <chart-daily-person-under-monitoring />
       </v-col>
       <v-col
