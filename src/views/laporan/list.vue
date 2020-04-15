@@ -69,7 +69,7 @@
             <v-list-item two-line style="background: #FDEDED">
               <v-list-item-content>
                 <v-list-item-title style="color: #EB5757;">
-                  {{ $t('label.POSITIF') }}
+                  {{ $t('label.positif').toUpperCase() }}
                 </v-list-item-title>
                 <v-list-item-title class="headline mb-1" style="color: #EB5757;padding-top: 2rem;">{{ totalPositif }} {{ $t('label.people') }}</v-list-item-title>
               </v-list-item-content>
@@ -101,14 +101,14 @@
           <!--            <v-icon left>mdi-download</v-icon>-->
           <!--            Import-->
           <!--          </v-btn>-->
-          <!--          <v-btn-->
-          <!--            class="btn-coba margin-left"-->
-          <!--            color="#b3e2cd"-->
-          <!--            @click="onExport"-->
-          <!--          >-->
-          <!--            <v-icon left>mdi-upload</v-icon>-->
-          <!--            Export-->
-          <!--          </v-btn>-->
+          <v-btn
+            class="btn-coba margin-left"
+            color="#b3e2cd"
+            @click="onExport"
+          >
+            <v-icon left>mdi-upload</v-icon>
+            Export
+          </v-btn>
         </v-col>
       </v-row>
       <hr class="table-divider">
@@ -259,15 +259,15 @@ export default {
       },
       listQuery: {
         address_district_code: '',
-        // address_subdistrict_code: '',
-        // address_village_code: '',
-        // status: '',
-        // final_result: '',
+        address_subdistrict_code: '',
+        address_village_code: '',
+        status: '',
+        final_result: '',
         page: 1,
         limit: 30,
-        search: ''
-        // start_date: '',
-        // end_date: ''
+        search: '',
+        start_date: '',
+        end_date: ''
       },
       countingReports: null,
       dialog: false,

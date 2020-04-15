@@ -17,66 +17,63 @@
           </v-col>
         </v-row>
         <v-row class="filter-row">
-          <!--          <v-col cols="12" sm="3">-->
-          <!--            <v-label class="title">{{ $t('label.results') }}:</v-label>-->
-          <!--            <v-select-->
-          <!--              v-model="listQuery.final_result"-->
-          <!--              :items="resultList"-->
-          <!--              solo-->
-          <!--              item-text="label"-->
-          <!--              item-value="value"-->
-          <!--            />-->
-          <!--          </v-col>-->
-          <!--          <v-col cols="12" sm="9" class="reduce-padding-top">-->
-          <!--            <address-region-->
-          <!--              :disabled-district="disabledDistrict"-->
-          <!--              :district-code="listQuery.address_district_code"-->
-          <!--              :district-name="district_name_user"-->
-          <!--              :code-district.sync="listQuery.address_district_code"-->
-          <!--              :sub-district-code="listQuery.address_subdistrict_code"-->
-          <!--              :code-sub-district.sync="listQuery.address_subdistrict_code"-->
-          <!--              :village-code="listQuery.address_village_code"-->
-          <!--              :code-village.sync="listQuery.address_village_code"-->
-          <!--              :village-name="nameVillage"-->
-          <!--              :name-village.sync="nameVillage"-->
-          <!--              :disabled-address="false"-->
-          <!--              :required-address="false"-->
-          <!--              :is-label="true"-->
-          <!--            />-->
-          <!--          </v-col>-->
-          <!--        </v-row>-->
-          <!--        <v-row class="filter-row">-->
-          <!--          <v-col cols="12" sm="3">-->
-          <!--            <v-label class="title">{{ $t('label.criteria') }}:</v-label>-->
-          <!--            <v-select-->
-          <!--              v-model="listQuery.status"-->
-          <!--              :items="stagesList"-->
-          <!--              solo-->
-          <!--            />-->
-          <!--          </v-col>-->
-          <!--          <v-col cols="12" sm="3">-->
-          <!--            <v-label class="title">{{ $t('label.input_date') }}:</v-label>-->
-          <!--            <input-date-picker-->
-          <!--              :format-date="formatDate"-->
-          <!--              :label="'Tanggal Awal'"-->
-          <!--              :date-value="listQuery.start_date"-->
-          <!--              :value-date.sync="listQuery.start_date"-->
-          <!--              @changeDate="listQuery.start_date = $event"-->
-          <!--            />-->
-          <!--          </v-col>-->
-          <!--          <v-col cols="12" sm="3">-->
-          <!--            <br>-->
-          <!--            <input-date-picker-->
-          <!--              :format-date="formatDate"-->
-          <!--              :label="'Tanggal Akhir'"-->
-          <!--              :date-value="listQuery.end_date"-->
-          <!--              :value-date.sync="listQuery.end_date"-->
-          <!--              @changeDate="listQuery.end_date = $event"-->
-          <!--            />-->
-          <!--          </v-col>-->
-          <v-col cols="12" sm="3" />
-          <v-col cols="12" sm="3" />
-          <v-col cols="12" sm="3" />
+          <v-col cols="12" sm="3">
+            <v-label class="title">{{ $t('label.results') }}:</v-label>
+            <v-select
+              v-model="listQuery.final_result"
+              :items="resultList"
+              solo
+              item-text="label"
+              item-value="value"
+            />
+          </v-col>
+          <v-col cols="12" sm="9" class="reduce-padding-top">
+            <address-region
+              :disabled-district="disabledDistrict"
+              :district-code="listQuery.address_district_code"
+              :district-name="district_name_user"
+              :code-district.sync="listQuery.address_district_code"
+              :sub-district-code="listQuery.address_subdistrict_code"
+              :code-sub-district.sync="listQuery.address_subdistrict_code"
+              :village-code="listQuery.address_village_code"
+              :code-village.sync="listQuery.address_village_code"
+              :village-name="nameVillage"
+              :name-village.sync="nameVillage"
+              :disabled-address="false"
+              :required-address="false"
+              :is-label="true"
+            />
+          </v-col>
+        </v-row>
+        <v-row class="filter-row">
+          <v-col cols="12" sm="3">
+            <v-label class="title">{{ $t('label.criteria') }}:</v-label>
+            <v-select
+              v-model="listQuery.status"
+              :items="stagesList"
+              solo
+            />
+          </v-col>
+          <v-col cols="12" sm="3">
+            <v-label class="title">{{ $t('label.input_date') }}:</v-label>
+            <input-date-picker
+              :format-date="formatDate"
+              :label="'Tanggal Awal'"
+              :date-value="listQuery.start_date"
+              :value-date.sync="listQuery.start_date"
+              @changeDate="listQuery.start_date = $event"
+            />
+          </v-col>
+          <v-col cols="12" sm="3">
+            <br>
+            <input-date-picker
+              :format-date="formatDate"
+              :label="'Tanggal Akhir'"
+              :date-value="listQuery.end_date"
+              :value-date.sync="listQuery.end_date"
+              @changeDate="listQuery.end_date = $event"
+            />
+          </v-col>
           <v-col cols="12" sm="3">
             <br>
             <v-row justify="space-between">
@@ -84,7 +81,6 @@
                 <v-btn
                   color="#4f4f4f"
                   class="btn-reset"
-                  style="min-width: 100px"
                   @click="onReset"
                 >
                   {{ $t('label.reset') }}
@@ -94,7 +90,6 @@
                 <v-btn
                   color="success"
                   class="btn-cari"
-                  style="min-width: 100px"
                   @click="onSearch"
                 >
                   {{ $t('label.look_for_it') }}
@@ -200,5 +195,14 @@ export default {
   }
   .container {
     padding: 0px 35px;
+  }
+  .btn-reset {
+    height: 46px !important;
+    min-width: 95px!important;
+    color: white !important;
+  }
+  .btn-cari {
+    height: 46px !important;
+    min-width: 95px!important;
   }
 </style>
