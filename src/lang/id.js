@@ -143,6 +143,8 @@ export default {
     reset: 'Reset',
     look_for_it: 'Cari',
     input_date: 'Tanggal Penginputan',
+    test_date: 'Tanggal Pelaksanaan Tes',
+    placed_date: 'Tempat Pelaksanaan Tes',
     test_mechanism: 'Mekanisme Test',
     category: 'Kategori',
     goals: 'Sasaran',
@@ -162,7 +164,11 @@ export default {
     delete_participant: 'Hapus Peserta',
     district_city: 'Kabupaten/Kota',
     subdistrict: 'Kecamatan',
-    village: 'Kelurahan'
+    village: 'Kelurahan',
+    single_entry: 'Single Entry',
+    multiple_entry: 'Multilple Entry',
+    rdt_multiple_redaction1: 'Cari Tanggal dan Tempat Pelaksanaan',
+    rdt_multiple_redaction2: 'Multiple Entry hanya dapat dilakukan untuk tes masif yang sudah dijadwalkan melalui aplikasi pendaftaran.'
   },
   success: {
     login_success: 'Login Berhasil',
