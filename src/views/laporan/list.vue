@@ -284,7 +284,6 @@ export default {
       countingReports: null,
       dialog: false,
       dataDelete: null,
-      nameDistrict: null,
       selectedFile: null,
       isSelecting: false
     }
@@ -363,9 +362,9 @@ export default {
       formData.append('file', this.selectedFile)
       const response = await this.$store.dispatch('reports/importExcel', formData)
       if (response.status === 200 || response.status === 201) {
-        await this.$store.dispatch('toast/successToast', 'Upload File Berhasil')
+        await this.$store.dispatch('toast/successToast', this.$t('success.file_success_upload'))
       } else {
-        await this.$store.dispatch('toast/errorToast', 'Upload File Gagal')
+        await this.$store.dispatch('toast/errorToast', response.data.message)
       }
     }
   }

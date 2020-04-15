@@ -171,7 +171,8 @@ export default {
     create_date_success: 'Data Berhasil Dibuat',
     data_answer_success: 'Tanggapan Berhasil Disimpan',
     data_success_edit: 'Data Berhasil Dirubah',
-    data_success_delete: 'Data Berhasil Dihapus'
+    data_success_delete: 'Data Berhasil Dihapus',
+    file_success_upload: 'File Berhasil Diupload'
   },
   errors: {
     username_must_be_filled: 'Username harus diisi',
