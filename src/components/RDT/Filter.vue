@@ -10,8 +10,8 @@
             <br>
             <v-text-field
               v-model="listQuery.search"
+              :label="$t('label.search')"
               solo
-              label="Search"
               prepend-inner-icon="search"
             />
           </v-col>

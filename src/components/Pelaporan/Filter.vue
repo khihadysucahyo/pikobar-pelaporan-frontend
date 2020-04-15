@@ -1,10 +1,10 @@
 <template>
-  <div>
+  <div class="main-div">
     <v-form
       ref="form"
       lazy-validation
     >
-      <v-container>
+      <v-container class="container">
         <v-row class="filter-row" style="margin-top: -40px;">
           <v-col cols="12" sm="12">
             <br>
@@ -76,50 +76,35 @@
           </v-col>
           <v-col cols="12" sm="3">
             <br>
-            <div>
-              <v-btn
-                color="grey"
-                style="height: 46px;min-width: 100px;margin-right: 4px;"
-                @click="onReset"
-              >
-                {{ $t('label.reset') }}
-              </v-btn>
-              <v-btn
-                color="success"
-                style="height: 46px;min-width: 100px;margin-right: 4px;"
-                @click="onSearch"
-              >
-                {{ $t('label.look_for_it') }}
-              </v-btn>
-            </div>
-          </v-col>
-        </v-row>
-        <v-row class="filter-row">
-          <v-col cols="12" sm="3">
-            <div>
-              <v-btn
-                color="success"
-                style="height: 46px;min-width: 100px;"
-                @click="onExport"
-              >
-                Export Excel
-              </v-btn>
-            </div>
+            <v-row justify="space-between">
+              <v-col class="reduce-padding-top reduce-padding-right">
+                <v-btn
+                  color="#4f4f4f"
+                  class="btn-reset"
+                  @click="onReset"
+                >
+                  {{ $t('label.reset') }}
+                </v-btn>
+              </v-col>
+              <v-col class="reduce-padding-top reduce-padding-left">
+                <v-btn
+                  color="success"
+                  class="btn-cari"
+                  @click="onSearch"
+                >
+                  {{ $t('label.look_for_it') }}
+                </v-btn>
+              </v-col>
+            </v-row>
           </v-col>
         </v-row>
       </v-container>
     </v-form>
-    <loading-bar
-      :loading="loadingBar"
-    />
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-import FileSaver from 'file-saver'
-import { formatDatetime } from '@/utils/parseDatetime'
-
 export default {
   name: 'CaseFilter',
   props: {
@@ -136,7 +121,6 @@ export default {
     return {
       formatDate: 'YYYY-MM-DD',
       disabledDistrict: true,
-      loadingBar: false,
       codeDistrict: '',
       nameVillage: '',
       stagesList: [
@@ -189,14 +173,6 @@ export default {
         this.codeDistrict = ''
       }
       this.$store.dispatch('reports/listReportCase', this.listQuery)
-    },
-    async onExport() {
-      this.loadingBar = true
-      const response = await this.$store.dispatch('reports/exportExcel', this.listQuery)
-      if (response) this.loadingBar = false
-      const dateNow = Date.now()
-      const fileName = `Data Kasus ${this.fullname} - ${formatDatetime(dateNow, 'DD/MM/YYYY HH:mm')} WIB.xlsx`
-      FileSaver.saveAs(response, fileName)
     }
   }
 }
@@ -207,5 +183,26 @@ export default {
   }
   .reduce-padding-top {
     padding-top: 0px !important;
+  }
+  .reduce-padding-right {
+    padding-right: 6px;
+  }
+  .reduce-padding-left {
+    padding-left: 6px;
+  }
+  .main-div {
+    margin-top: 20px;
+  }
+  .container {
+    padding: 0px 35px;
+  }
+  .btn-reset {
+    height: 46px !important;
+    min-width: 95px!important;
+    color: white !important;
+  }
+  .btn-cari {
+    height: 46px !important;
+    min-width: 95px!important;
   }
 </style>
