@@ -7,7 +7,7 @@ const settingRouter = {
   meta: {
     title: 'setting',
     icon: 'mdi-settings',
-    roles: ['superadmin', 'dinkesprov', 'dinkeskota', 'faskes']
+    roles: ['superadmin', 'dinkesprov', 'dinkeskota']
   },
   active: false,
   children: [
@@ -19,7 +19,7 @@ const settingRouter = {
         icon: 'mdi-account-multiple',
         child: true,
         noCache: true,
-        roles: ['superadmin', 'dinkesprov', 'dinkeskota', 'faskes']
+        roles: ['superadmin', 'dinkesprov', 'dinkeskota']
       }
     }
   ]

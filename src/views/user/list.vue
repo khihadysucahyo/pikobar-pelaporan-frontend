@@ -41,7 +41,7 @@
                   style="height: 46px;min-width: 100px;margin-right: 4px;"
                   @click="handleSearch"
                 >
-                  Cari
+                  {{ $t('label.look_for_it') }}
                 </v-btn>
               </div>
             </v-col>
