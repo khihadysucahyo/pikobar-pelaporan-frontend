@@ -138,7 +138,6 @@
             <template v-slot:item="{ item, index }">
               <tr>
                 <td>{{ getTableRowNumbering(index) }}</td>
-                <td>{{ item.id_case.toUpperCase() }}</td>
                 <td>{{ item.name }}</td>
                 <td>{{ item.age }} Th</td>
                 <td>
@@ -250,7 +249,6 @@ export default {
     return {
       headers: [
         { text: '#', value: '_id', sortable: false },
-        { text: 'KODE KASUS', value: 'id_case' },
         { text: 'NAMA', value: 'name' },
         { text: 'USIA', value: 'age' },
         { text: 'JENIS KELAMIN', value: 'gender' },
