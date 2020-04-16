@@ -4,7 +4,7 @@
     outlined
   >
     <v-card-title class="title ml-0 black--text">
-      Angka Harian ODP
+      Angka Harian Terkonfirmasi
     </v-card-title>
     <v-divider class="mt-0 mb-2" />
     <v-card-text>
@@ -20,7 +20,7 @@
 
 <script>
 export default {
-  name: 'ChartDailyPersonUnderMonitoring',
+  name: 'ChartDailyConfirmed',
   data() {
     return {
       loaded: false,
@@ -41,16 +41,22 @@ export default {
         ],
         datasets: [
           {
-            label: 'Selesai',
-            backgroundColor: '#56CCF2',
-            hoverBackgroundColor: '#56CCF2',
-            data: [40, 20, 12, 39, 10, 40, 39, 80, 40, 20, 12, 11]
+            label: 'Meninggal',
+            backgroundColor: '#F2994A',
+            hoverBackgroundColor: '#F2994A',
+            data: [40, 20, 12, 39, 10, 40, 39, 10, 40, 20, 12, 11]
           },
           {
-            label: 'Proses',
-            backgroundColor: '#2D9CDB',
-            hoverBackgroundColor: '#2D9CDB',
+            label: 'Sembuh',
+            backgroundColor: '#27AE60',
+            hoverBackgroundColor: '#27AE60',
             data: [40, 20, 12, 39, 10, 40, 39, 10, 40, 20, 12, 11]
+          },
+          {
+            label: 'Aktif',
+            backgroundColor: '#EB5757',
+            hoverBackgroundColor: '#EB5757',
+            data: [40, 20, 12, 39, 10, 40, 39, 80, 40, 20, 12, 11]
           }
         ]
       },
@@ -106,7 +112,7 @@ export default {
       }
     }
   },
-  async mounted() {
+  mounted() {
     this.loaded = true
   }
 }

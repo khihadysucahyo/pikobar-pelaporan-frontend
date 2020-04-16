@@ -4,11 +4,11 @@
     outlined
   >
     <v-card-title class="title ml-0 black--text">
-      Angka Harian ODP
+      Umur
     </v-card-title>
     <v-divider class="mt-0 mb-2" />
     <v-card-text>
-      <chart-bar
+      <chart-bar-horizontal
         v-if="loaded"
         :chart-data="chartData"
         :options="chartOptions"
@@ -20,37 +20,33 @@
 
 <script>
 export default {
-  name: 'ChartDailyPersonUnderMonitoring',
+  name: 'ChartAge',
   data() {
     return {
       loaded: false,
       chartData: {
         labels: [
-          '01/04',
-          '02/04',
-          '03/04',
-          '04/04',
-          '05/04',
-          '06/04',
-          '07/04',
-          '08/04',
-          '09/04',
-          '10/04',
-          '11/04',
-          '12/04'
+          '90 - 100',
+          '80 - 90',
+          '70 - 80',
+          '60 - 70',
+          '50 - 60',
+          '40 - 50',
+          '30 - 40',
+          '20 - 30',
+          '10 - 20',
+          '0 - 10'
         ],
         datasets: [
           {
-            label: 'Selesai',
-            backgroundColor: '#56CCF2',
-            hoverBackgroundColor: '#56CCF2',
-            data: [40, 20, 12, 39, 10, 40, 39, 80, 40, 20, 12, 11]
+            label: 'Laki-laki',
+            backgroundColor: 'rgba(102, 164, 251, 1)',
+            data: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
           },
           {
-            label: 'Proses',
-            backgroundColor: '#2D9CDB',
-            hoverBackgroundColor: '#2D9CDB',
-            data: [40, 20, 12, 39, 10, 40, 39, 10, 40, 20, 12, 11]
+            label: 'Perempuan',
+            backgroundColor: 'rgba(255, 124, 143, 1)',
+            data: [-5, -10, -30, -40, -50, -60, -70, -80, -80, -85]
           }
         ]
       },
@@ -61,22 +57,19 @@ export default {
           xAxes: [
             {
               gridLines: {
-                display: false
+                drawBorder: false
               },
-              stacked: true
+              ticks: {
+                callback: function(value, index, values) {
+                  return Math.abs(value)
+                }
+              }
             }
           ],
           yAxes: [
             {
-              ticks: {
-                min: 0
-              },
               gridLines: {
-                drawBorder: false
-              },
-              scaleLabel: {
-                display: true,
-                labelString: 'Value'
+                display: false
               },
               stacked: true
             }
@@ -93,7 +86,16 @@ export default {
         tooltips: {
           displayColors: false,
           mode: 'index',
-          intersect: false
+          intersect: false,
+          callbacks: {
+            label: function(items, data) {
+              return data.datasets[items.datasetIndex].label + ': ' + Math.abs(items.xLabel)
+            }
+          }
+        },
+        hover: {
+          mode: 'nearest',
+          intersect: true
         }
       }
     }

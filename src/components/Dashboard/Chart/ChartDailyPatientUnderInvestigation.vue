@@ -6,13 +6,11 @@
     <v-card-title class="title ml-0 black--text">
       Angka Harian PDP
     </v-card-title>
-    <v-card-subtitle class="subtitle mb-3">
-      (Pasien Dalam Pengawasan)
-    </v-card-subtitle>
+    <v-divider class="mt-0 mb-2" />
     <v-card-text>
       <chart-bar
         v-if="loaded"
-        :chartdata="chartData"
+        :chart-data="chartData"
         :options="chartOptions"
         :styles="chartStyles"
       />
@@ -43,13 +41,13 @@ export default {
         ],
         datasets: [
           {
-            label: 'Selesai Pemantauan',
+            label: 'Selesai',
             backgroundColor: '#EED138',
             hoverBackgroundColor: '#EED138',
             data: [40, 20, 12, 39, 10, 40, 39, 80, 40, 20, 12, 11]
           },
           {
-            label: 'Proses Pemantauan',
+            label: 'Proses',
             backgroundColor: '#E08D3B',
             hoverBackgroundColor: '#E08D3B',
             data: [40, 20, 12, 39, 10, 40, 39, 10, 40, 20, 12, 11]
@@ -89,7 +87,8 @@ export default {
           position: 'bottom',
           labels: {
             boxWidth: 10
-          }
+          },
+          reverse: true
         },
         tooltips: {
           displayColors: false,
@@ -102,7 +101,7 @@ export default {
   computed: {
     chartStyles() {
       return {
-        height: `325px`,
+        height: `300px`,
         position: 'relative'
       }
     }

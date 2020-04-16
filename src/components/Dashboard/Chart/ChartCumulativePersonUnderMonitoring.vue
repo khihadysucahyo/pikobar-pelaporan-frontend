@@ -4,11 +4,11 @@
     outlined
   >
     <v-card-title class="title ml-0 black--text">
-      Angka Harian ODP
+      Kumulatif ODP
     </v-card-title>
     <v-divider class="mt-0 mb-2" />
     <v-card-text>
-      <chart-bar
+      <chart-line
         v-if="loaded"
         :chart-data="chartData"
         :options="chartOptions"
@@ -20,7 +20,7 @@
 
 <script>
 export default {
-  name: 'ChartDailyPersonUnderMonitoring',
+  name: 'ChartCumulativePersonUnderMonitoring',
   data() {
     return {
       loaded: false,
@@ -41,16 +41,24 @@ export default {
         ],
         datasets: [
           {
+            fill: false,
             label: 'Selesai',
             backgroundColor: '#56CCF2',
-            hoverBackgroundColor: '#56CCF2',
-            data: [40, 20, 12, 39, 10, 40, 39, 80, 40, 20, 12, 11]
+            borderColor: '#56CCF2',
+            pointBackgroundColor: '#56CCF2',
+            pointBorderColor: '#56CCF2',
+            radius: 0,
+            data: [10, 25, 30, 35, 40, 45, 50, 60, 70, 80, 90, 100]
           },
           {
+            fill: false,
             label: 'Proses',
             backgroundColor: '#2D9CDB',
-            hoverBackgroundColor: '#2D9CDB',
-            data: [40, 20, 12, 39, 10, 40, 39, 10, 40, 20, 12, 11]
+            borderColor: '#2D9CDB',
+            pointBackgroundColor: '#2D9CDB',
+            pointBorderColor: '#2D9CDB',
+            radius: 0,
+            data: [30, 35, 40, 45, 50, 55, 60, 70, 80, 90, 120, 130]
           }
         ]
       },
@@ -62,8 +70,7 @@ export default {
             {
               gridLines: {
                 display: false
-              },
-              stacked: true
+              }
             }
           ],
           yAxes: [
@@ -77,8 +84,7 @@ export default {
               scaleLabel: {
                 display: true,
                 labelString: 'Value'
-              },
-              stacked: true
+              }
             }
           ]
         },
@@ -94,6 +100,10 @@ export default {
           displayColors: false,
           mode: 'index',
           intersect: false
+        },
+        hover: {
+          mode: 'nearest',
+          intersect: true
         }
       }
     }

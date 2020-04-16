@@ -4,11 +4,11 @@
     outlined
   >
     <v-card-title class="title ml-0 black--text">
-      Angka Harian ODP
+      Kumulatif Terkonfirmasi
     </v-card-title>
     <v-divider class="mt-0 mb-2" />
     <v-card-text>
-      <chart-bar
+      <chart-line
         v-if="loaded"
         :chart-data="chartData"
         :options="chartOptions"
@@ -20,7 +20,7 @@
 
 <script>
 export default {
-  name: 'ChartDailyPersonUnderMonitoring',
+  name: 'ChartCumulativeConfirmed',
   data() {
     return {
       loaded: false,
@@ -41,16 +41,34 @@ export default {
         ],
         datasets: [
           {
-            label: 'Selesai',
-            backgroundColor: '#56CCF2',
-            hoverBackgroundColor: '#56CCF2',
-            data: [40, 20, 12, 39, 10, 40, 39, 80, 40, 20, 12, 11]
+            fill: false,
+            label: 'Aktif',
+            backgroundColor: '#EB5757',
+            borderColor: '#EB5757',
+            pointBackgroundColor: '#EB5757',
+            pointBorderColor: '#EB5757',
+            radius: 0,
+            data: [30, 35, 40, 45, 50, 55, 60, 70, 80, 90, 120, 130]
           },
           {
-            label: 'Proses',
-            backgroundColor: '#2D9CDB',
-            hoverBackgroundColor: '#2D9CDB',
-            data: [40, 20, 12, 39, 10, 40, 39, 10, 40, 20, 12, 11]
+            fill: false,
+            label: 'Sembuh',
+            backgroundColor: '#27AE60',
+            borderColor: '#27AE60',
+            pointBackgroundColor: '#27AE60',
+            pointBorderColor: '#27AE60',
+            radius: 0,
+            data: [10, 25, 30, 35, 40, 45, 50, 60, 70, 80, 90, 100]
+          },
+          {
+            fill: false,
+            label: 'Meninggal',
+            backgroundColor: '#F2994A',
+            borderColor: '#F2994A',
+            pointBackgroundColor: '#F2994A',
+            pointBorderColor: '#F2994A',
+            radius: 0,
+            data: [5, 10, 15, 20, 25, 30, 35, 36, 37, 40, 50, 70]
           }
         ]
       },
@@ -62,8 +80,7 @@ export default {
             {
               gridLines: {
                 display: false
-              },
-              stacked: true
+              }
             }
           ],
           yAxes: [
@@ -77,8 +94,7 @@ export default {
               scaleLabel: {
                 display: true,
                 labelString: 'Value'
-              },
-              stacked: true
+              }
             }
           ]
         },
@@ -87,13 +103,16 @@ export default {
           position: 'bottom',
           labels: {
             boxWidth: 10
-          },
-          reverse: true
+          }
         },
         tooltips: {
           displayColors: false,
           mode: 'index',
           intersect: false
+        },
+        hover: {
+          mode: 'nearest',
+          intersect: true
         }
       }
     }

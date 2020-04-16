@@ -25,19 +25,19 @@ export default {
 
 <style scoped>
   .statistic {
-    background-color: #FDEDED !important;
-    border: 1px solid #EB5757 !important;
+    background-color: #FFF3E0 !important;
+    border: 1px solid #F2994A !important;
   }
   .statistic .title {
-    color: #EB5757 !important;
+    color: #F2994A !important;
   }
   .statistic .subtitle {
     height: 69px;
     max-height: 69px;
-    color: #EB5757 !important;
+    color: #F2994A !important;
   }
   .statistic .total {
     font-size: 1.25em;
-    color: #EB5757 !important;
+    color: #F2994A !important;
   }
 </style>
