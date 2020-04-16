@@ -69,7 +69,7 @@
             <v-list-item two-line style="background: #FDEDED">
               <v-list-item-content>
                 <v-list-item-title style="color: #EB5757;">
-                  {{ $t('label.POSITIF') }}
+                  {{ $t('label.positif').toUpperCase() }}
                 </v-list-item-title>
                 <v-list-item-title class="headline mb-1" style="color: #EB5757;padding-top: 2rem;">{{ totalPositif }} {{ $t('label.people') }}</v-list-item-title>
               </v-list-item-content>
@@ -81,22 +81,49 @@
     <v-card
       outlined
     >
-      <v-row>
-        <v-col>
-          <v-card-text>
-            <div style="font-size: 1.5rem;">
-              {{ $t('label.case_data') }}
-            </div>
-          </v-card-text>
-        </v-col>
-        <v-col />
-      </v-row>
       <case-filter
         :list-query="listQuery"
         :query-list.sync="listQuery"
         :on-search="handleSearch"
       />
       <hr>
+      <v-row align="center" justify="space-between">
+        <v-col>
+          <div class="title">
+            {{ $t('label.case_data') }}
+          </div>
+        </v-col>
+        <v-col cols="12" sm="4" class="align-right">
+          <v-btn
+            color="#b3e2cd"
+            class="btn-import-export margin-right"
+            depressed
+            :loading="isSelecting"
+            @click="onButtonClick"
+          >
+            <v-icon left>
+              mdi-download
+            </v-icon>
+            Import
+          </v-btn>
+          <input
+            ref="uploader"
+            class="d-none"
+            type="file"
+            accept=".xlsx"
+            @change="onFileChanged"
+          >
+          <v-btn
+            class="btn-import-export margin-left"
+            color="#b3e2cd"
+            @click="onExport"
+          >
+            <v-icon left>mdi-upload</v-icon>
+            Export
+          </v-btn>
+        </v-col>
+      </v-row>
+      <hr class="table-divider">
       <v-row>
         <v-col auto>
           <v-data-table
@@ -215,6 +242,8 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import FileSaver from 'file-saver'
+import { formatDatetime } from '@/utils/parseDatetime'
 export default {
   name: 'LaporanList',
   data() {
@@ -255,7 +284,8 @@ export default {
       countingReports: null,
       dialog: false,
       dataDelete: null,
-      nameDistrict: null
+      selectedFile: null,
+      isSelecting: false
     }
   },
   computed: {
@@ -312,7 +342,58 @@ export default {
     },
     async onNext() {
       await this.$store.dispatch('reports/listReportCase', this.listQuery)
+    },
+    async onExport() {
+      const response = await this.$store.dispatch('reports/exportExcel', this.listQuery)
+      const dateNow = Date.now()
+      const fileName = `Data Kasus ${this.fullname} - ${formatDatetime(dateNow, 'DD/MM/YYYY HH:mm')} WIB.xlsx`
+      FileSaver.saveAs(response, fileName)
+    },
+    onButtonClick() {
+      this.isSelecting = true
+      window.addEventListener('focus', () => {
+        this.isSelecting = false
+      }, { once: true })
+      this.$refs.uploader.click()
+    },
+    async onFileChanged(e) {
+      this.selectedFile = e.target.files[0]
+      const formData = new FormData()
+      formData.append('file', this.selectedFile)
+      const response = await this.$store.dispatch('reports/importExcel', formData)
+      if (response.status === 200 || response.status === 201) {
+        await this.$store.dispatch('toast/successToast', this.$t('success.file_success_upload'))
+      } else {
+        await this.$store.dispatch('toast/errorToast', response.data.message)
+      }
     }
   }
 }
 </script>
+<style>
+  .title {
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    margin-left: 30px;
+    color: #828282;
+  }
+  .align-right {
+    text-align: right;
+    padding-right: 50px;
+  }
+  .btn-import-export {
+    width: 36%;
+    height: 46px !important;
+    min-width: 100px !important;
+    color: black !important;
+  }
+  .margin-right {
+    margin-right: 8px;
+  }
+  .margin-left {
+    margin-left: 8px;
+  }
+  .table-divider {
+    margin: 15px 0px 0px 0px;
+  }
+</style>

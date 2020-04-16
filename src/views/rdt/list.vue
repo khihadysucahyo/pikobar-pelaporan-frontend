@@ -160,7 +160,6 @@ export default {
         limit: 30,
         search: ''
       },
-      countingReports: null,
       dialog: false,
       dataDelete: null
     }
@@ -192,10 +191,8 @@ export default {
   async mounted() {
     this.listQuery.address_district_code = this.district_user
     await this.$store.dispatch('rdt/resetListRDT')
-    this.loadingTable = true
     const response = await this.$store.dispatch('rdt/getListRDT', this.listQuery)
-    if (response) this.loadingTable = false
-    this.totalReport = response.data._meta.itemCount ? response.data._meta.itemCount : '0'
+    if (response.data) this.totalReport = response.data._meta.itemCount
   },
   methods: {
     formatDatetime,
