@@ -122,8 +122,6 @@ export default {
     if (responseDetails.data[0]) {
       this.formRapid.address_district_name = responseDetails.data[0].kota_nama
     }
-  },
-  async mounted() {
     this.formRapid.address_district_code = this.district_user
     this.idEdit = this.$route.params.id
     if (this.$route.params && this.idEdit) {

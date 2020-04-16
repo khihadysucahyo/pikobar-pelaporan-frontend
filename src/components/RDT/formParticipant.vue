@@ -111,8 +111,14 @@
                 row
                 @change="handleChangeNationality"
               >
-                <v-radio label="WNI" value="WNI" />
-                <v-radio label="WNA" value="WNA" />
+                <v-radio
+                  :label="$t('label.wni')"
+                  value="WNI"
+                />
+                <v-radio
+                  :label="$t('label.wna')"
+                  value="WNA"
+                />
               </v-radio-group>
             </ValidationProvider>
             <ValidationProvider
@@ -120,10 +126,14 @@
               v-slot="{ errors }"
               rules="required"
             >
-              <v-text-field
+              <v-autocomplete
                 v-model="formRapid.nationality_name"
+                :items="listCountry"
+                item-text="name"
+                item-value="name"
                 :error-messages="errors"
-                placeholder="Negara Asal"
+                :placeholder="$t('label.country_origin')"
+                clearable
                 solo-inverted
               />
             </ValidationProvider>
@@ -206,6 +216,7 @@
 
 <script>
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'FormParticipant',
@@ -221,6 +232,7 @@ export default {
   },
   data() {
     return {
+      listCountry: [],
       formatDate: 'YYYY/MM/DD',
       targetOptions: [],
       mechanismOptions: [
@@ -243,6 +255,15 @@ export default {
         }
       ]
     }
+  },
+  computed: {
+    ...mapGetters('user', [
+      'district_user'
+    ])
+  },
+  async mounted() {
+    const response = await this.$store.dispatch('region/listCountry')
+    this.listCountry = response.data
   },
   methods: {
     async onChangeCategory(value, isODP) {

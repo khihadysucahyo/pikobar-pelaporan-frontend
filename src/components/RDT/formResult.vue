@@ -80,7 +80,7 @@
               <v-text-field
                 v-model="formResult.test_other_location"
                 :error-messages="errors"
-                placeholder="Masukan nama tempat"
+                :placeholder="$t('label.input_name_place')"
                 solo-inverted
               />
             </ValidationProvider>
@@ -123,8 +123,14 @@
                 :error-messages="errors"
                 row
               >
-                <v-radio label="Rapid Test" value="RAPID TEST" />
-                <v-radio label="PCR" value="PCR" />
+                <v-radio
+                  :label="$t('label.rapid_test')"
+                  value="RAPID TEST"
+                />
+                <v-radio
+                  :label="$t('label.pcr')"
+                  value="PCR"
+                />
               </v-radio-group>
             </ValidationProvider>
             <ValidationProvider
@@ -138,13 +144,19 @@
                 :error-messages="errors"
                 row
               >
-                <v-radio label="Hand Prix" value="HAND PRIX" />
-                <v-radio label="Flebotomy" value="FLEBOTOMY" />
+                <v-radio
+                  :label="$t('label.hand_prix')"
+                  value="HAND PRIX"
+                />
+                <v-radio
+                  :label="$t('label.flebotomy')"
+                  value="FLEBOTOMY"
+                />
               </v-radio-group>
             </ValidationProvider>
             <label class="required">{{ $t('label.testing_date') }}</label>
             <input-date-picker
-              :label="'Tanggal Pengetesan'"
+              :label="$t('label.testing_date')"
               :format-date="'YYYY/MM/DD'"
               :date-value="formResult.test_date"
               :value-date.sync="formResult.test_date"
