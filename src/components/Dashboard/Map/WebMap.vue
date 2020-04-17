@@ -14,17 +14,25 @@ export default {
     loadModules(
       [
         'esri/Map',
-        'esri/views/MapView'
+        'esri/views/MapView',
+        'esri/layers/FeatureLayer'
       ],
       { css: true }
     ).then(
       ([
         ArcGISMap,
-        MapView
+        MapView,
+        FeatureLayer
       ]) => {
         const map = new ArcGISMap({
           basemap: 'dark-gray-vector'
         })
+
+        map.add(
+          new FeatureLayer({
+            url: 'https://services5.arcgis.com/VS6HdKS0VfIhv8Ct/arcgis/rest/services/COVID19_Indonesia_per_Provinsi/FeatureServer/0'
+          })
+        )
 
         this.view = new MapView({
           container: this.$el,
@@ -52,6 +60,6 @@ export default {
     padding: 0;
     margin: 0;
     width: 100%;
-    height: 660px;
+    height: 720px;
   }
 </style>
