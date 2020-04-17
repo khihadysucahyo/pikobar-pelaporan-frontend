@@ -67,29 +67,32 @@
               cols="12"
               sm="4"
             >
-              <label class="required">{{ $t('label.type_test_tool') }}</label>
-              <v-radio-group
-                row
-              >
-                <v-radio label="Rapid Test" value="RAPID TEST" />
-                <v-radio label="PCR" value="PCR" />
-              </v-radio-group>
+              <ValidationProvider>
+                <label class="required">{{ $t('label.method') }}</label>
+                <v-radio-group
+                  v-model="formResult.tool_tester"
+                  row
+                >
+                  <v-radio label="Rapid Test" value="RAPID TEST" />
+                  <v-radio label="PCR" value="PCR" />
+                </v-radio-group>
+              </ValidationProvider>
             </v-col>
             <v-col
               cols="12"
               sm="4"
             >
               <ValidationProvider
-                v-slot="{ errors }"
-                rules="required|numeric|isHtml"
+                v-if="formResult.tool_tester === 'RAPID TEST'"
               >
-                <label class="required">Jumlah Kit Terpakai</label>
-                <v-text-field
-                  :error-messages="errors"
-                  min="0"
-                  solo-inverted
-                  type="number"
-                />
+                <label class="required">{{ $t('label.sampling') }}</label>
+                <v-radio-group
+                  v-model="formResult.test_method"
+                  row
+                >
+                  <v-radio label="Vena" value="Vena" />
+                  <v-radio label="Kapiler" value="Kapiler" />
+                </v-radio-group>
               </ValidationProvider>
             </v-col>
             <v-col
@@ -121,10 +124,14 @@ import { ValidationObserver, ValidationProvider } from 'vee-validate'
 export default {
   name: 'MultipleFormRdt',
   components: {
-    ValidationProvider,
-    ValidationObserver
+    ValidationObserver,
+    ValidationProvider
   },
   props: {
+    formResult: {
+      type: Object,
+      default: null
+    },
     listQuery: {
       type: Object,
       default: null

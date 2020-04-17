@@ -25,31 +25,27 @@
           >
             <ValidationProvider
               v-slot="{ errors }"
-              rules="required"
+              rules="required|isHtml"
             >
-              <label class="required">{{ $t('label.category') }}</label>
-              <v-select
-                v-model="formRapid.category"
+              <label class="required">{{ $t('label.participant_name') }}</label>
+              <v-text-field
+                v-model="formRapid.name"
                 :error-messages="errors"
-                :items="categoryItems"
-                item-text="label"
-                item-value="value"
-                solo
-                @change="onChangeCategory"
+                solo-inverted
               />
             </ValidationProvider>
-            <ValidationProvider
-              v-slot="{ errors }"
-              rules="required"
-            >
-              <label class="required">{{ $t('label.mechanism') }}</label>
-              <v-select
-                v-model="formRapid.mechanism"
-                :error-messages="errors"
-                :items="mechanismOptions"
-                solo
-              />
-            </ValidationProvider>
+            <!--            <ValidationProvider-->
+            <!--              v-slot="{ errors }"-->
+            <!--              rules="required"-->
+            <!--            >-->
+            <!--              <label class="required">{{ $t('label.mechanism') }}</label>-->
+            <!--              <v-select-->
+            <!--                v-model="formRapid.mechanism"-->
+            <!--                :error-messages="errors"-->
+            <!--                :items="mechanismOptions"-->
+            <!--                solo-->
+            <!--              />-->
+            <!--            </ValidationProvider>-->
             <ValidationProvider
               v-slot="{ errors }"
               rules="numeric"
@@ -104,37 +100,15 @@
               v-slot="{ errors }"
               rules="required"
             >
-              <label class="required">{{ $t('label.citizenship') }}</label>
-              <v-radio-group
-                v-model="formRapid.nationality"
+              <label class="required">{{ $t('label.category') }}</label>
+              <v-select
+                v-model="formRapid.category"
                 :error-messages="errors"
-                row
-                @change="handleChangeNationality"
-              >
-                <v-radio
-                  :label="$t('label.wni')"
-                  value="WNI"
-                />
-                <v-radio
-                  :label="$t('label.wna')"
-                  value="WNA"
-                />
-              </v-radio-group>
-            </ValidationProvider>
-            <ValidationProvider
-              v-if="formRapid.nationality === 'WNA'"
-              v-slot="{ errors }"
-              rules="required"
-            >
-              <v-autocomplete
-                v-model="formRapid.nationality_name"
-                :items="listCountry"
-                item-text="name"
-                item-value="name"
-                :error-messages="errors"
-                :placeholder="$t('label.country_origin')"
-                clearable
-                solo-inverted
+                :items="categoryItems"
+                item-text="label"
+                item-value="value"
+                solo
+                @change="onChangeCategory"
               />
             </ValidationProvider>
           </v-col>
@@ -145,28 +119,15 @@
           >
             <ValidationProvider
               v-slot="{ errors }"
-              rules="required"
+              rules="required|isPhoneNumber"
             >
-              <label class="required">{{ $t('label.goals') }}</label>
-              <v-select
-                v-model="formRapid.target"
-                :error-messages="errors"
-                :return-object="false"
-                :items="targetOptions"
-                item-text="targets"
-                item-value="targets"
-                solo
-              />
-            </ValidationProvider>
-            <ValidationProvider
-              v-slot="{ errors }"
-              rules="required|isHtml"
-            >
-              <label class="required">{{ $t('label.participant_name') }}</label>
+              <label class="required">{{ $t('label.phone_number') }}</label>
               <v-text-field
-                v-model="formRapid.name"
+                v-model="formRapid.phone_number"
                 :error-messages="errors"
+                placeholder="08xxxxxxxxx"
                 solo-inverted
+                type="number"
               />
             </ValidationProvider>
             <label class="required">{{ $t('label.address_home') }}</label>
@@ -194,17 +155,59 @@
                 solo
               />
             </ValidationProvider>
+            <v-row>
+              <ValidationProvider
+                v-slot="{ errors }"
+                rules="required"
+              >
+                <label class="required">{{ $t('label.citizenship') }}</label>
+                <v-radio-group
+                  v-model="formRapid.nationality"
+                  :error-messages="errors"
+                  row
+                  @change="handleChangeNationality"
+                >
+                  <v-radio
+                    :label="$t('label.wni')"
+                    value="WNI"
+                  />
+                  <v-radio
+                    :label="$t('label.wna')"
+                    value="WNA"
+                  />
+                </v-radio-group>
+              </ValidationProvider>
+              <ValidationProvider
+                v-if="formRapid.nationality === 'WNA'"
+                v-slot="{ errors }"
+                rules="required"
+              >
+                <br>
+                <v-autocomplete
+                  v-model="formRapid.nationality_name"
+                  :items="listCountry"
+                  item-text="name"
+                  item-value="name"
+                  :error-messages="errors"
+                  :placeholder="$t('label.country_origin')"
+                  clearable
+                  solo-inverted
+                />
+              </ValidationProvider>
+            </v-row>
             <ValidationProvider
               v-slot="{ errors }"
-              rules="required|isPhoneNumber"
+              rules="required"
             >
-              <label class="required">{{ $t('label.phone_number') }}</label>
-              <v-text-field
-                v-model="formRapid.phone_number"
+              <label class="required">{{ $t('label.goals') }}</label>
+              <v-select
+                v-model="formRapid.target"
                 :error-messages="errors"
-                placeholder="08xxxxxxxxx"
-                solo-inverted
-                type="number"
+                :return-object="false"
+                :items="targetOptions"
+                item-text="targets"
+                item-value="targets"
+                solo
               />
             </ValidationProvider>
           </v-col>

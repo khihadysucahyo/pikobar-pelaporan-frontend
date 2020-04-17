@@ -32,7 +32,10 @@
             <div
               v-else
             >
-              <multiple-form-rdt />
+              <multiple-form-rdt
+                :form-result="formResult"
+                :result-form.sync="formResult"
+              />
             </div>
           </v-container>
         </v-card>
@@ -51,7 +54,24 @@ export default {
   data() {
     return {
       title: 'Input RDT',
-      singleEntry: true
+      singleEntry: true,
+      formResult: {
+        final_result: null,
+        test_location: null,
+        test_location_type: '',
+        test_other_location: '',
+        test_address_district_code: '',
+        test_address_district_name: '',
+        test_address_subdistrict_code: '',
+        test_address_subdistrict_name: '',
+        test_address_village_code: '',
+        test_address_village_name: '',
+        test_address_detail: '',
+        tool_tester: 'RAPID TEST',
+        test_method: null,
+        test_date: null,
+        test_note: null
+      }
     }
   }
 }
