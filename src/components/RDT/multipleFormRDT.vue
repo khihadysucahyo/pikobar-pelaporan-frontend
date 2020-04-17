@@ -23,10 +23,17 @@
               <v-label class="title">{{ $t('label.placed_date') }}:</v-label>
               <br>
               <div>
-                <select-area-district-city
-                  :district-city="districtCity"
-                  :city-district.sync="districtCity"
-                  :on-select-district="onSelectDistrict"
+                <v-autocomplete
+                  :items="hospitalList"
+                  :error-messages="errors"
+                  :return-object="true"
+                  :label="$t('label.placed_date')"
+                  menu-props="auto"
+                  item-text="name"
+                  item-value="name"
+                  single-line
+                  solo
+                  autocomplete
                 />
               </div>
             </v-col>
@@ -147,7 +154,13 @@ export default {
   computed: {
     ...mapGetters('user', [
       'roles'
+    ]),
+    ...mapGetters('region', [
+      'hospitalList'
     ])
+  },
+  async mounted() {
+    await this.$store.dispatch('region/getListHospital')
   },
   methods: {
     onSelectDistrict(value) {
