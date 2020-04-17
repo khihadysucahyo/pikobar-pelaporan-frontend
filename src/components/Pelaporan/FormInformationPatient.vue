@@ -43,7 +43,7 @@
             >
               <v-label>{{ $t('label.center_case_id') }}</v-label>
               <v-text-field
-                v-model="formPasien.id_case_related"
+                v-model="formPasien.id_case_national"
                 :error-messages="errors"
                 solo-inverted
               />
