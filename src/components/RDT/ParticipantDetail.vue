@@ -455,6 +455,28 @@
         </v-col>
       </v-row>
     </v-card>
+    <v-card
+      style="margin-top: 2rem;"
+      outlined
+    >
+      <v-row>
+        <v-col>
+          <v-expansion-panels
+            v-model="panelListRiwayat"
+            multiple
+          >
+            <v-expansion-panel>
+              <v-expansion-panel-header>{{ $t('label.test_history') }}</v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <test-history-list
+                  :list-history-test="listHistoryTest"
+                />
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+          </v-expansion-panels>
+        </v-col>
+      </v-row>
+    </v-card>
     <loading-bar
       :loading="loadingBar"
     />
@@ -481,6 +503,7 @@ export default {
     return {
       loadingBar: false,
       panelListRiwayat: [0],
+      listHistoryTest: [],
       birthDate: '',
       testDate: '',
       detailGender: '',

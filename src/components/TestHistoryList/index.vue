@@ -3,17 +3,16 @@
     <template v-slot:default>
       <thead>
         <tr>
-          <th class="text-left">#</th>
-          <th class="text-left">{{ $t('label.criteria').toUpperCase() }}</th>
-          <th class="text-left">{{ $t('label.stages').toUpperCase() }}</th>
           <th class="text-left">{{ $t('label.results').toUpperCase() }}</th>
-          <th class="text-left">{{ $t('label.current_location').toUpperCase() }}</th>
+          <th class="text-left">{{ $t('label.method').toUpperCase() }}</th>
+          <th class="text-left">{{ $t('label.sampling').toUpperCase() }}</th>
+          <th class="text-left">{{ $t('label.test_place').toUpperCase() }}</th>
+          <th class="text-left">{{ $t('label.test_date').toUpperCase() }}</th>
           <th class="text-left">{{ $t('label.update_date').toUpperCase() }}</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(item, index) in listHistoryCase" :key="index">
-          <td>{{ getTableRowNumbering(index) }}</td>
+        <tr v-for="(item, index) in listHistoryTest" :key="index">
           <td><status :status="item.status" /></td>
           <td>
             <div v-if="index === 0 && item.final_result === ''">
@@ -48,18 +47,15 @@
 import { formatDatetime } from '@/utils/parseDatetime'
 
 export default {
-  name: 'CaseHistoryList',
+  name: 'TestHistoryList',
   props: {
-    listHistoryCase: {
+    listHistoryTest: {
       type: Array,
       default: null
     }
   },
   methods: {
-    formatDatetime,
-    getTableRowNumbering(index) {
-      return (index + 1)
-    }
+    formatDatetime
   }
 }
 </script>

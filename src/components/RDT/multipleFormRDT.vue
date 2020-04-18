@@ -10,10 +10,10 @@
           <h4 color="succses">{{ $t('label.rdt_multiple_redaction2') }}</h4>
           <v-row>
             <v-col cols="12" sm="4">
-              <v-label class="title">{{ $t('label.test_date') }}:</v-label>
+              <v-label class="title">{{ $t('label.test_implementation_date') }}:</v-label>
               <input-date-picker
                 :format-date="formatDate"
-                :label="$t('label.test_date')"
+                :label="$t('label.test_implementation_date')"
                 :date-value="test_date"
                 :value-date.sync="test_date"
                 @changeDate="test_date = $event"
