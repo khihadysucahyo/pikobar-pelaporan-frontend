@@ -25,7 +25,6 @@
               <div>
                 <v-autocomplete
                   :items="hospitalList"
-                  :error-messages="errors"
                   :return-object="true"
                   :label="$t('label.placed_date')"
                   menu-props="auto"

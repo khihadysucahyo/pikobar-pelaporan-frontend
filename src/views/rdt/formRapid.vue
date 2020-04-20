@@ -98,6 +98,7 @@ export default {
         test_address_village_name: '',
         test_address_detail: '',
         tool_tester: 'RAPID TEST',
+        sampling_type: '',
         test_method: null,
         test_date: null,
         test_note: null

@@ -40,16 +40,16 @@
             >
               <label class="required">{{ $t('label.sampling') }}</label>
               <v-radio-group
-                v-model="formResult.test_method"
+                v-model="formResult.sampling_type"
                 :error-messages="errors"
                 row
               >
                 <v-radio
-                  label="Vena"
+                  :label="$t('label.vena')"
                   value="Vena"
                 />
                 <v-radio
-                  label="Kapiler"
+                  :label="$t('label.kapiler')"
                   value="Kapiler"
                 />
               </v-radio-group>
@@ -64,18 +64,35 @@
                 :error-messages="errors"
                 row
               >
-                <v-radio
-                  :label="$t('label.positif')"
-                  value="POSITIF"
-                />
-                <v-radio
-                  :label="$t('label.negatif')"
-                  value="NEGATIF"
-                />
-                <v-radio
-                  :label="$t('label.invalid')"
-                  value="INVALID"
-                />
+                <v-row>
+                  <v-radio
+                    :label="$t('label.negatif')"
+                    value="NEGATIF"
+                  />
+                  <v-radio
+                    :label="$t('label.positif')"
+                    value="POSITIF"
+                  />
+                  <v-radio
+                    :label="$t('label.inkonklusif')"
+                    value="INKONKLUSIF"
+                  />
+
+                </v-row>
+                <v-row style="margin-top: 1rem;">
+                  <v-radio
+                    :label="$t('label.reaktif')"
+                    value="REAKTIF"
+                  />
+                  <v-radio
+                    :label="$t('label.non_reaktif')"
+                    value="NON REAKTIF"
+                  />
+                  <v-radio
+                    :label="$t('label.invalid')"
+                    value="INVALID"
+                  />
+                </v-row>
               </v-radio-group>
             </ValidationProvider>
           </v-col>

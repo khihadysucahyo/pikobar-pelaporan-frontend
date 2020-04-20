@@ -13,31 +13,12 @@
       </thead>
       <tbody>
         <tr v-for="(item, index) in listHistoryTest" :key="index">
-          <td><status :status="item.status" /></td>
-          <td>
-            <div v-if="index === 0 && item.final_result === ''">
-              Proses
-            </div>
-            <div v-else>
-              Selesai
-            </div>
-          </td>
-          <td>
-            <div v-if=" item.final_result =='0'">
-              Negatif
-            </div>
-            <div v-else-if=" item.final_result =='1'">
-              Sembuh
-            </div>
-            <div v-else-if=" item.final_result =='2'">
-              Meninggal
-            </div>
-            <div v-else>
-              -
-            </div>
-          </td>
-          <td>{{ item.current_location_address }}</td>
-          <td>{{ formatDatetime(item.last_changed, "DD MMMM YYYY") }}</td>
+          <td><status :status="item.final_result" /></td>
+          <td>{{ item.tool_tester }}</td>
+          <td>{{ item.sampling_type }}</td>
+          <td>{{ item.test_location }}</td>
+          <td>{{ formatDatetime(item.test_date, "DD MMMM YYYY") }}</td>
+          <td>{{ formatDatetime(item.updatedAt, "DD MMMM YYYY") }}</td>
         </tr>
       </tbody>
     </template>
