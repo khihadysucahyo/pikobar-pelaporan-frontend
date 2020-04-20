@@ -11,20 +11,12 @@
             md="6"
             sm="12"
           >
-            <ValidationProvider>
-              <label>{{ $t('label.case_id') }}</label>
-              <v-text-field
-                placeholder="ID Kasus akan generate dari system secara otomatis"
-                disabled
-                solo-inverted
-              />
-            </ValidationProvider>
             <ValidationProvider
               v-slot="{ errors }"
             >
-              <v-label>{{ $t('label.related_case_id') }}</v-label>
+              <label>{{ $t('label.nik') }}</label>
               <v-text-field
-                v-model="formPasien.id_case_national"
+                v-model="formPasien.nik"
                 :error-messages="errors"
                 solo-inverted
               />
@@ -32,9 +24,26 @@
             <ValidationProvider
               v-slot="{ errors }"
             >
+              <v-label>{{ $t('label.related_case_name') }}</v-label>
+              <v-autocomplete
+                :no-data-text="$t('label.no_data_autocomplete_related_case')"
+                :error-messages="errors"
+                :items="listNameCases"
+                :search-input.sync="searchRelatedCase"
+                item-text="relateds"
+                solo-inverted
+                clearable
+                return-object
+                @change="handleChangeRelatedCase"
+                @click:clear="clearListNameCases"
+              />
+            </ValidationProvider>
+            <ValidationProvider
+              v-slot="{ errors }"
+            >
               <v-label>{{ $t('label.center_case_id') }}</v-label>
               <v-text-field
-                v-model="formPasien.id_case_related"
+                v-model="formPasien.id_case_national"
                 :error-messages="errors"
                 solo-inverted
               />
@@ -82,10 +91,14 @@
               v-if="formPasien.nationality === 'WNA'"
               v-slot="{ errors }"
             >
-              <v-text-field
+              <v-autocomplete
                 v-model="formPasien.nationality_name"
+                :items="listCountry"
+                item-text="name"
+                item-value="name"
                 :error-messages="errors"
                 :placeholder="$t('label.country_origin')"
+                clearable
                 solo-inverted
               />
             </ValidationProvider>
@@ -95,16 +108,6 @@
             md="6"
             sm="12"
           >
-            <ValidationProvider
-              v-slot="{ errors }"
-            >
-              <label>{{ $t('label.nik') }}</label>
-              <v-text-field
-                v-model="formPasien.nik"
-                :error-messages="errors"
-                solo-inverted
-              />
-            </ValidationProvider>
             <ValidationProvider
               v-slot="{ errors }"
               rules="required|isHtml"
@@ -242,7 +245,13 @@ export default {
   data() {
     return {
       formatDate: 'YYYY/MM/DD',
-      date: ''
+      date: '',
+      listCountry: [],
+      listNameCases: [],
+      listQuery: {
+        'name': ''
+      },
+      searchRelatedCase: null
     }
   },
   computed: {
@@ -261,7 +270,20 @@ export default {
   watch: {
     'formPasien.birth_date': function(value) {
       this.formPasien.age = this.getAge(value)
+    },
+    async searchRelatedCase(value) {
+      if (value) {
+        this.listQuery.name = value
+        const response = await this.$store.dispatch('reports/listNameCase', this.listQuery)
+        this.listNameCases = response.data
+      } else {
+        this.listNameCases = []
+      }
     }
+  },
+  async mounted() {
+    const response = await this.$store.dispatch('reports/listCountry')
+    this.listCountry = response.data
   },
   async beforeMount() {
     await this.$store.dispatch('occupation/getListOccuption')
@@ -281,6 +303,13 @@ export default {
       if (value === 'WNI') {
         this.formPasien.nationality_name = ''
       }
+    },
+    handleChangeRelatedCase(value) {
+      this.formPasien.id_case_related = value.id_case
+      this.formPasien.name_case_related = value.name
+    },
+    clearListNameCases() {
+      this.listNameCases = []
     }
   }
 }

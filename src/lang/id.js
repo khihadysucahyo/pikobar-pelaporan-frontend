@@ -50,6 +50,7 @@ export default {
     summary: 'Ringkasan',
     delete_dialog: 'Apakah Anda yakin akan menghapus data',
     no_data_autocomplete_case: 'Masukan berdasarkan nama peserta/NIK/No telepon',
+    no_data_autocomplete_related_case: 'Masukan nama pasien terkait',
     recap_case: 'Rekap Kasus',
     total_case_recorded: 'Jumlah kasus terdata',
     positif_covid19: 'Positif Covid-19',
@@ -74,6 +75,7 @@ export default {
     participant_name: 'Nama Peserta',
     case_id: 'ID Kasus',
     related_case_id: 'ID Kasus Terkait',
+    related_case_name: 'Nama Pasien Terkait',
     center_case_id: 'ID Kasus Pusat',
     identity: 'Identitas',
     nik: 'NIK',
@@ -170,7 +172,8 @@ export default {
     create_date_success: 'Data Berhasil Dibuat',
     data_answer_success: 'Tanggapan Berhasil Disimpan',
     data_success_edit: 'Data Berhasil Dirubah',
-    data_success_delete: 'Data Berhasil Dihapus'
+    data_success_delete: 'Data Berhasil Dihapus',
+    file_success_upload: 'File Berhasil Diupload'
   },
   errors: {
     username_must_be_filled: 'Username harus diisi',
@@ -180,6 +183,7 @@ export default {
     field_must_be_filled: 'Kolom harus diisi',
     field_unauthorized_characters: 'Bidang mengandung karakter yang tidak diizinkan.',
     field_phone_number_not_valid: 'Nomor telepon tidak valid',
-    server_error_occurred: 'Terjadi kesalahan pada server'
+    server_error_occurred: 'Terjadi kesalahan pada server',
+    file_failed_upload: 'File Gagal Diupload!'
   },
 }

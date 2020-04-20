@@ -104,6 +104,30 @@ export default {
       return error.response
     }
   },
+  async importExcel({ commit }, data) {
+    try {
+      const response = await requestServer('/api/cases-import', 'POST', data)
+      return response
+    } catch (error) {
+      return error.response
+    }
+  },
+  async listNameCase({ commit }) {
+    try {
+      const response = await requestServer(`/api/cases-listid`, 'GET')
+      return response
+    } catch (error) {
+      return error.response
+    }
+  },
+  async listCountry({ commit }) {
+    try {
+      const response = await requestServer(`/api/country`, 'GET')
+      return response
+    } catch (error) {
+      return error.response
+    }
+  },
   resetListCase({ commit }) {
     commit('RESET_LIST_CASE')
   },
