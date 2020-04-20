@@ -129,6 +129,7 @@ export default {
     symptoms: 'Gejala',
     mention_other_symptoms: 'Sebutkan gelaja lainnya (jika ada)',
     total_case_data: 'Total data Kasus',
+    people_without_symptoms: 'Orang Tanpa Gejala',
     insiders_monitoring: 'Orang Dalam Pemantauan',
     patients_under_supervision: 'Pasien Dalam Pengawasan',
     case_data: 'Data Kasus',
