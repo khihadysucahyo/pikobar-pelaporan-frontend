@@ -95,14 +95,26 @@
         </v-col>
         <v-col cols="12" sm="4" class="align-right">
           <v-btn
-            class="btn-coba margin-right"
             color="#b3e2cd"
+            class="btn-import-export margin-right"
+            depressed
+            :loading="isSelecting"
+            @click="onButtonClick"
           >
-            <v-icon left>mdi-download</v-icon>
+            <v-icon left>
+              mdi-download
+            </v-icon>
             Import
           </v-btn>
+          <input
+            ref="uploader"
+            class="d-none"
+            type="file"
+            accept=".xlsx"
+            @change="onFileChanged"
+          >
           <v-btn
-            class="btn-coba margin-left"
+            class="btn-import-export margin-left"
             color="#b3e2cd"
             @click="onExport"
           >
@@ -126,7 +138,6 @@
             <template v-slot:item="{ item, index }">
               <tr>
                 <td>{{ getTableRowNumbering(index) }}</td>
-                <td>{{ item.id_case.toUpperCase() }}</td>
                 <td>{{ item.name }}</td>
                 <td>{{ item.age }} Th</td>
                 <td>
@@ -225,6 +236,16 @@
       :store-path-get-list="`reports/listReportCase`"
       :list-query="listQuery"
     />
+    <v-dialog v-model="failedDialog" persistent max-width="30%">
+      <v-card>
+        <v-card-title class="headline"><v-icon x-large color="red" left>mdi-close-circle</v-icon>{{ $t('errors.file_failed_upload') }}</v-card-title>
+        <v-card-text>{{ errorMessage }}</v-card-text>
+        <v-card-actions>
+          <v-spacer />
+          <v-btn color="green darken-1" text @click="failedDialog = false">{{ $t('label.ok') }}</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -238,7 +259,6 @@ export default {
     return {
       headers: [
         { text: '#', value: '_id', sortable: false },
-        { text: 'KODE KASUS', value: 'id_case' },
         { text: 'NAMA', value: 'name' },
         { text: 'USIA', value: 'age' },
         { text: 'JENIS KELAMIN', value: 'gender' },
@@ -272,7 +292,10 @@ export default {
       countingReports: null,
       dialog: false,
       dataDelete: null,
-      nameDistrict: null
+      selectedFile: null,
+      isSelecting: false,
+      failedDialog: false,
+      errorMessage: null
     }
   },
   computed: {
@@ -335,6 +358,26 @@ export default {
       const dateNow = Date.now()
       const fileName = `Data Kasus ${this.fullname} - ${formatDatetime(dateNow, 'DD/MM/YYYY HH:mm')} WIB.xlsx`
       FileSaver.saveAs(response, fileName)
+    },
+    onButtonClick() {
+      this.isSelecting = true
+      window.addEventListener('focus', () => {
+        this.isSelecting = false
+      }, { once: true })
+      this.$refs.uploader.click()
+    },
+    async onFileChanged(e) {
+      this.selectedFile = e.target.files[0]
+      const formData = new FormData()
+      formData.append('file', this.selectedFile)
+      const response = await this.$store.dispatch('reports/importExcel', formData)
+      if (response.status === 200 || response.status === 201) {
+        await this.$store.dispatch('toast/successToast', this.$t('success.file_success_upload'))
+        this.handleSearch()
+      } else {
+        this.errorMessage = response.data.message
+        this.failedDialog = true
+      }
     }
   }
 }
@@ -350,7 +393,7 @@ export default {
     text-align: right;
     padding-right: 50px;
   }
-  .btn-coba {
+  .btn-import-export {
     width: 36%;
     height: 46px !important;
     min-width: 100px !important;

@@ -11,6 +11,7 @@ function initialState() {
       id_case: '',
       id_case_national: '',
       id_case_related: '',
+      name_case_related: '',
       name: '',
       nik: '',
       birth_date: '',
