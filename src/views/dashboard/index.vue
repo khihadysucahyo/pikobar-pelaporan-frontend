@@ -1,34 +1,20 @@
 <template>
   <v-container fluid grid-list-xl py-0 mb-5>
     <v-row>
-      <v-col
-        cols="12"
-      >
+      <v-col cols="12">
         <h4>Filter Berdasarkan:</h4>
         <v-divider class="mb-0" />
       </v-col>
-      <v-col
-        cols="12"
-        md="2"
-        sm="12"
-      >
+      <v-col cols="12" md="2" sm="12">
         <select-area-district-city
-          :disabled-select="disabledAddress"
           :disabled-district="disabledDistrict"
-          :required="requiredAddress"
           :district-city="districtCity"
           :city-district.sync="districtCity"
           :on-select-district="onSelectDistrict"
         />
       </v-col>
-      <v-col
-        cols="12"
-        md="2"
-        sm="12"
-      >
+      <v-col cols="12" md="2" sm="12">
         <select-area-sub-district
-          :disabled-select="disabledAddress"
-          :required="requiredAddress"
           :sub-district="subDistrict"
           :update-sub-district.sync="subDistrict"
           :code-district="districtCity.kota_kode"
@@ -36,14 +22,8 @@
           :on-select-sub-district="onSelectSubDistrict"
         />
       </v-col>
-      <v-col
-        cols="12"
-        md="2"
-        sm="12"
-      >
+      <v-col cols="12" md="2" sm="12">
         <select-area-village
-          :disabled-select="disabledAddress"
-          :required="requiredAddress"
           :village="village"
           :update-village.sync="village"
           :code-sub-district="subDistrict.kecamatan_kode"
@@ -51,172 +31,88 @@
           :on-select-village="onSelectVillage"
         />
       </v-col>
-      <v-col
-        cols="12"
-        md="2"
-        sm="12"
-      >
-        <v-btn
-          block
-          color="grey darken-3"
-          class="button white--text"
-        >
+      <v-col cols="12" md="2" sm="12">
+        <v-btn block color="grey darken-3" class="button white--text" @click="onReset">
           Reset
         </v-btn>
       </v-col>
-      <v-col
-        cols="12"
-        md="2"
-        sm="12"
-      >
-        <v-btn
-          block
-          color="success"
-          class="button"
-        >
+      <v-col cols="12" md="2" sm="12">
+        <v-btn block color="success" class="button">
           Filter
         </v-btn>
       </v-col>
-      <v-col
-        cols="12"
-        md="2"
-        sm="12"
-      >
-        <v-btn
-          block
-          color="info"
-          class="button"
-        >
+      <v-col cols="12" md="2" sm="12">
+        <v-btn block color="info" class="button">
           Export Data
         </v-btn>
       </v-col>
     </v-row>
     <v-row>
-      <v-col
-        cols="12"
-        md="3"
-        sm="6"
-      >
+      <v-col cols="12" md="3" sm="6">
         <statistic-total-confirmed />
       </v-col>
-      <v-col
-        cols="12"
-        md="3"
-        sm="6"
-      >
+      <v-col cols="12" md="3" sm="6">
         <statistic-total-active />
       </v-col>
-      <v-col
-        cols="12"
-        md="3"
-        sm="6"
-      >
+      <v-col cols="12" md="3" sm="6">
         <statistic-total-recovered />
       </v-col>
-      <v-col
-        cols="12"
-        md="3"
-        sm="6"
-      >
+      <v-col cols="12" md="3" sm="6">
         <statistic-total-death />
       </v-col>
     </v-row>
     <v-row class="mb-3">
-      <v-col
-        cols="12"
-        md="6"
-      >
+      <v-col cols="12" md="6">
         <statistic-person-under-monitoring />
       </v-col>
-      <v-col
-        cols="12"
-        md="6"
-      >
+      <v-col cols="12" md="6">
         <statistic-patient-under-investigation />
       </v-col>
     </v-row>
     <v-tabs>
-      <v-tab
-        :key="'daily'"
-        :href="'#tab-daily'"
-      >
+      <v-tab :key="'daily'" :href="'#tab-daily'">
         Angka Harian
       </v-tab>
-      <v-tab
-        :key="'cumulative'"
-        :href="'#tab-cumulative'"
-      >
+      <v-tab :key="'cumulative'" :href="'#tab-cumulative'">
         Kumulatif
       </v-tab>
-      <v-tab-item
-        :key="'daily'"
-        :value="'tab-daily'"
-      >
+      <v-tab-item :key="'daily'" :value="'tab-daily'">
         <v-row>
-          <v-col
-            cols="12"
-            md="4"
-          >
+          <v-col cols="12" md="4">
             <chart-daily-person-under-monitoring />
           </v-col>
-          <v-col
-            cols="12"
-            md="4"
-          >
+          <v-col cols="12" md="4">
             <chart-daily-patient-under-investigation />
           </v-col>
-          <v-col
-            cols="12"
-            md="4"
-          >
+          <v-col cols="12" md="4">
             <chart-daily-confirmed />
           </v-col>
         </v-row>
       </v-tab-item>
-      <v-tab-item
-        :key="'cumulative'"
-        :value="'tab-cumulative'"
-      >
+      <v-tab-item :key="'cumulative'" :value="'tab-cumulative'">
         <v-row>
-          <v-col
-            cols="12"
-            md="4"
-          >
+          <v-col cols="12" md="4">
             <chart-cumulative-person-under-monitoring />
           </v-col>
-          <v-col
-            cols="12"
-            md="4"
-          >
+          <v-col cols="12" md="4">
             <chart-cumulative-patient-under-investigation />
           </v-col>
-          <v-col
-            cols="12"
-            md="4"
-          >
+          <v-col cols="12" md="4">
             <chart-cumulative-confirmed />
           </v-col>
         </v-row>
       </v-tab-item>
     </v-tabs>
     <v-row>
-      <v-col
-        cols="12"
-      >
+      <v-col cols="12">
         <map-point />
       </v-col>
     </v-row>
     <v-row>
-      <v-col
-        cols="12"
-        md="4"
-      >
+      <v-col cols="12" md="4">
         <chart-gender />
       </v-col>
-      <v-col
-        cols="12"
-        md="8"
-      >
+      <v-col cols="12" md="8">
         <chart-age />
       </v-col>
     </v-row>
@@ -225,21 +121,11 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'Dashboard',
   props: {
-    disabledAddress: {
-      type: Boolean,
-      default: false
-    },
-    disabledDistrict: {
-      type: Boolean,
-      default: false
-    },
-    requiredAddress: {
-      type: Boolean,
-      default: false
-    },
     districtCode: {
       type: String,
       default: null
@@ -278,11 +164,20 @@ export default {
       village: {
         desa_kode: this.villageCode,
         desa_nama: this.villageName
-      }
+      },
+      disabledDistrict: false
     }
   },
+  computed: {
+    ...mapGetters('user', [
+      'roles',
+      'fullname',
+      'district_user',
+      'district_name_user'
+    ])
+  },
   watch: {
-    'districtCode': function(value) {
+    districtCode: (value) => {
       if (value) {
         this.districtCity = {
           kota_kode: value,
@@ -295,17 +190,27 @@ export default {
         }
       }
     },
-    'subDistrictCode': function(value) {
+    subDistrictCode: (value) => {
       this.subDistrict = {
         kecamatan_kode: value,
         kecamatan_nama: this.subDistrictName
       }
     },
-    'villageCode': function(value) {
+    villageCode: (value) => {
       this.village = {
         desa_kode: value,
         desa_nama: this.villageName
       }
+    }
+  },
+  async beforeMount() {
+    if (this.roles[0] === 'dinkeskota') {
+      this.disabledDistrict = true
+    }
+
+    this.districtCity = {
+      kota_kode: this.district_user,
+      kota_nama: this.district_name_user
     }
   },
   methods: {
@@ -323,17 +228,33 @@ export default {
       this.village = value
       this.$emit('update:codeVillage', value.desa_kode)
       this.$emit('update:nameVillage', value.desa_nama)
+    },
+    onReset() {
+      if (this.roles[0] === 'dinkesprov') {
+        this.districtCity = {
+          kota_kode: null,
+          kota_nama: null
+        }
+      }
+      this.subDistrict = {
+        kecamatan_kode: null,
+        kecamatan_nama: null
+      }
+      this.village = {
+        desa_kode: null,
+        desa_nama: null
+      }
     }
   }
 }
 </script>
 
 <style scoped>
-  .button {
-    height: 46px !important;
-    text-transform: none;
-  }
-  .v-text-field.v-text-field--enclosed .v-text-field__details {
-    display: none !important;
-  }
+.button {
+  height: 46px !important;
+  text-transform: none;
+}
+.v-text-field.v-text-field--enclosed .v-text-field__details {
+  display: none !important;
+}
 </style>
