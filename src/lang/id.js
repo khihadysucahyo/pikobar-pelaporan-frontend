@@ -200,13 +200,11 @@ export default {
     rdt_multiple_redaction2: 'Multiple Entry hanya dapat dilakukan untuk tes masif yang sudah dijadwalkan melalui aplikasi pendaftaran.',
     test_history: 'Riwayat Tes',
     data_empty: 'Tidak ada data',
-<<<<<<< HEAD
     user_list: 'List Pengguna',
     name_instansi: 'Nama Instansi',
     email: 'Email',
     roles: 'Hak Akses',
-    create_account: 'Buat Akun'
-=======
+    create_account: 'Buat Akun',
     based: 'Berdasarkan',
     daily_number: 'Angka Harian',
     cumulative: 'Kumulatif',
@@ -219,8 +217,24 @@ export default {
     people_without_symptoms: 'Orang Tanpa Gejala',
     total_otg: 'Total OTG',
     confirmed: 'Terkonfirmasi',
-    age: 'Umur'
->>>>>>> c28408a0d80498c39fcf113451e029db16e133ea
+    age: 'Umur',
+    import: 'Impor',
+    guidance: 'Panduan',
+    import_instruction: 'Untuk menggunakan fitur impor, diwajibkan menggunakan template excel yang sudah kami berikan, jika belum punya bisa',
+    download_here: 'download disini!',
+    drop_file_here: 'Pilih berkas atau jatuhkan berkas disini',
+    error_message: 'Pesan Error',
+    data_in_row: 'Data pada baris',
+    import_instruction_title: 'Cara menggunakan fitur impor',
+    import_instruction_step_1: '1. Download template excel yang telah disediakan',
+    import_instruction_step_2: '2. Isi dan lengkapi data kasus pada template excel',
+    import_instruction_step_3: '3. Setelah selesai melengkapi data, tekan simpan pada excel',
+    import_instruction_step_4: '4. Klik tombol "Impor Data"',
+    import_instruction_step_5: '5. Jika proses impor gagal, maka akan muncul pesan error yang harus diperbaiki/dilengkapi datanya',
+    import_instruction_step_6: '6. Jika proses impor berhasil, maka akan muncul pesan berhasil dan data akan tersimpan serta tampil secara otomatis pada list kasus',
+    kilobyte: 'KB',
+    congratulation: 'Selamat',
+    import_success_message: 'Impor file telah berhasil'
   },
   success: {
     login_success: 'Login Berhasil',
