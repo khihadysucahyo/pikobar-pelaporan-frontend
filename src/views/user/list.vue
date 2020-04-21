@@ -55,7 +55,7 @@
             :headers="headers"
             :items="userList"
             :mobile-breakpoint="NaN"
-            :no-data-text="'Tidak ada data'"
+            :no-data-text="$t('label.data_empty')"
             :items-per-page="listQuery.limit"
             :loading="loadingTable"
             hide-default-footer
@@ -114,7 +114,7 @@
 export default {
   data() {
     return {
-      userList: [], // Todo: get data from api
+      userList: [],
       headers: [
         { text: '#', value: '_id', sortable: false },
         { text: 'NAMA', value: 'fullname' },
@@ -127,8 +127,7 @@ export default {
       listQuery: {
         page: 1,
         limit: 30,
-        search: '',
-        address_district_code: ''
+        search: ''
       },
       districtCity: {
         kota_kode: ''
@@ -146,12 +145,16 @@ export default {
       immediate: true
     }
   },
+  async mounted() {
+    const response = await this.$store.dispatch('user/listUser', this.listQuery)
+    this.userList = response.data.users
+  },
   methods: {
     getTableRowNumbering(index) {
       return ((this.listQuery.page - 1) * this.listQuery.limit) + (index + 1)
     },
     async handleSearch() {
-      this.$store.dispatch('toast/errorToast', this.$t('errors.feature_under_development'))
+      // this.$store.dispatch('toast/errorToast', this.$t('errors.feature_under_development'))
     },
     async onSelectDistrict(value) {
       this.listQuery.address_district_code = value.kota_kode

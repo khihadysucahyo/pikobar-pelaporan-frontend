@@ -11,11 +11,13 @@
             md="6"
             sm="12"
           >
-            <ValidationProvider>
-              <label>{{ $t('label.case_id') }}</label>
+            <ValidationProvider
+              v-slot="{ errors }"
+            >
+              <label>{{ $t('label.nik') }}</label>
               <v-text-field
-                placeholder="ID Kasus akan generate dari system secara otomatis"
-                disabled
+                v-model="formPasien.nik"
+                :error-messages="errors"
                 solo-inverted
               />
             </ValidationProvider>
@@ -24,13 +26,16 @@
             >
               <v-label>{{ $t('label.related_case_name') }}</v-label>
               <v-autocomplete
-                v-model="formPasien.id_case_national"
+                :no-data-text="$t('label.no_data_autocomplete_related_case')"
                 :error-messages="errors"
                 :items="listNameCases"
-                item-text="name"
-                item-value="id_case"
+                :search-input.sync="searchRelatedCase"
+                item-text="relateds"
                 solo-inverted
                 clearable
+                return-object
+                @change="handleChangeRelatedCase"
+                @click:clear="clearListNameCases"
               />
             </ValidationProvider>
             <ValidationProvider
@@ -38,7 +43,7 @@
             >
               <v-label>{{ $t('label.center_case_id') }}</v-label>
               <v-text-field
-                v-model="formPasien.id_case_related"
+                v-model="formPasien.id_case_national"
                 :error-messages="errors"
                 solo-inverted
               />
@@ -103,16 +108,6 @@
             md="6"
             sm="12"
           >
-            <ValidationProvider
-              v-slot="{ errors }"
-            >
-              <label>{{ $t('label.nik') }}</label>
-              <v-text-field
-                v-model="formPasien.nik"
-                :error-messages="errors"
-                solo-inverted
-              />
-            </ValidationProvider>
             <ValidationProvider
               v-slot="{ errors }"
               rules="required|isHtml"
@@ -227,7 +222,6 @@ import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import EventBus from '@/utils/eventBus'
 import { getAge } from '@/utils/constantVariable'
 import { mapGetters } from 'vuex'
-import axios from 'axios'
 export default {
   name: 'FormInformationPatient',
   components: {
@@ -253,7 +247,11 @@ export default {
       formatDate: 'YYYY/MM/DD',
       date: '',
       listCountry: [],
-      listNameCases: []
+      listNameCases: [],
+      listQuery: {
+        'name': ''
+      },
+      searchRelatedCase: null
     }
   },
   computed: {
@@ -272,14 +270,20 @@ export default {
   watch: {
     'formPasien.birth_date': function(value) {
       this.formPasien.age = this.getAge(value)
+    },
+    async searchRelatedCase(value) {
+      if (value) {
+        this.listQuery.name = value
+        const response = await this.$store.dispatch('reports/listNameCase', this.listQuery)
+        this.listNameCases = response.data
+      } else {
+        this.listNameCases = []
+      }
     }
   },
   async mounted() {
-    const response = await axios.get('https://restcountries.eu/rest/v2/all')
+    const response = await this.$store.dispatch('region/listCountry')
     this.listCountry = response.data
-    this.listCountry.splice(105, 1)
-    const responseName = await this.$store.dispatch('reports/listNameCase')
-    this.listNameCases = responseName.data
   },
   async beforeMount() {
     await this.$store.dispatch('occupation/getListOccuption')
@@ -299,6 +303,13 @@ export default {
       if (value === 'WNI') {
         this.formPasien.nationality_name = ''
       }
+    },
+    handleChangeRelatedCase(value) {
+      this.formPasien.id_case_related = value.id_case
+      this.formPasien.name_case_related = value.name
+    },
+    clearListNameCases() {
+      this.listNameCases = []
     }
   }
 }

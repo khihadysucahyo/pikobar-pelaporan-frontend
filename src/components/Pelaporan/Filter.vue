@@ -124,6 +124,7 @@ export default {
       codeDistrict: '',
       nameVillage: '',
       stagesList: [
+        'OTG',
         'ODP',
         'PDP',
         'POSITIF'

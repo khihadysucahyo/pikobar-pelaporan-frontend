@@ -46,58 +46,19 @@ export function listDays() {
 }
 
 export const optionGejala = [
-  {
-    value: 'Suhu tubuh >= 38 °C',
-    text: 'Suhu tubuh >= 38 °C'
-  },
-  {
-    value: 'Suhu tubuh < 38 °C',
-    text: 'Suhu tubuh < 38 °C'
-  },
-  {
-    value: 'Batuk',
-    text: 'Batuk'
-  },
-  {
-    value: 'Pilek',
-    text: 'Pilek'
-  },
-  {
-    value: 'Sakit Tenggorokan',
-    text: 'Sakit Tenggorokan'
-  },
-  {
-    value: 'Sakit Kepala',
-    text: 'Sakit Kepala'
-  },
-  {
-    value: 'Sesak Napas',
-    text: 'Sesak Napas'
-  },
-  {
-    value: 'Menggigil',
-    text: 'Menggigil'
-  },
-  {
-    value: 'Lemah (malaise)',
-    text: 'Lemah (malaise)'
-  },
-  {
-    value: 'Nyeri Otot',
-    text: 'Nyeri Otot'
-  },
-  {
-    value: 'Mual atau muntah',
-    text: 'Mual atau muntah'
-  },
-  {
-    value: 'Nyeri Abdomen',
-    text: 'Nyeri Abdomen'
-  },
-  {
-    value: 'Diare',
-    text: 'Diare'
-  }
+  'Suhu tubuh >= 38 °C',
+  'Suhu tubuh < 38 °C',
+  'Batuk',
+  'Pilek',
+  'Sakit Tenggorokan',
+  'Sakit Kepala',
+  'Sesak Napas',
+  'Menggigil',
+  'Lemah (malaise)',
+  'Nyeri Otot',
+  'Mual atau muntah',
+  'Nyeri Abdomen',
+  'Diare'
 ]
 
 export const listMonthName = [
