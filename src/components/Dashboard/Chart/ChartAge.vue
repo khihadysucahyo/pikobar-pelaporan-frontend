@@ -45,12 +45,12 @@ export default {
         ],
         datasets: [
           {
-            label: 'Perempuan',
+            label: this.$t('label.female'),
             backgroundColor: 'rgba(255, 124, 143, 1)',
             data: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
           },
           {
-            label: 'Laki-laki',
+            label: this.$t('label.male'),
             backgroundColor: 'rgba(102, 164, 251, 1)',
             data: [-5, -10, -30, -40, -50, -60, -70, -80, -80, -85]
           }
