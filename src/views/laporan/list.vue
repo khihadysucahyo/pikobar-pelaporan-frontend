@@ -148,7 +148,7 @@
             :headers="headers"
             :items="listKasus"
             :mobile-breakpoint="NaN"
-            :no-data-text="'Tidak ada data'"
+            :no-data-text="$t('label.data_empty')"
             :items-per-page="listQuery.limit"
             :loading="loadingTable"
             hide-default-footer
@@ -348,7 +348,7 @@ export default {
     this.totalODP = response.data.ODP
     this.totalPDP = response.data.PDP
     this.totalPositif = response.data.POSITIF
-    this.totalReport = this.totalODP + this.totalPDP + this.totalPositif
+    this.totalReport = this.totalOTG + this.totalODP + this.totalPDP + this.totalPositif
   },
   methods: {
     async handleDetail(id) {

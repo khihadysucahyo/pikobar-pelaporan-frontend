@@ -238,11 +238,11 @@
                 <label class="material-checkbox-custom">
                   <input
                     v-model="formPasien.diagnosis"
-                    :value="item.value"
+                    :value="item"
                     type="checkbox"
                   >
-                  <span v-if="errors.length" class="error--text">{{ item.text }}</span>
-                  <span v-else>{{ item.text }}</span>
+                  <span v-if="errors.length" class="error--text">{{ item }}</span>
+                  <span v-else>{{ item }}</span>
                 </label>
               </div>
               <span
