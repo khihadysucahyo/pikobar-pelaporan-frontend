@@ -282,7 +282,7 @@ export default {
     }
   },
   async mounted() {
-    const response = await this.$store.dispatch('reports/listCountry')
+    const response = await this.$store.dispatch('region/listCountry')
     this.listCountry = response.data
   },
   async beforeMount() {

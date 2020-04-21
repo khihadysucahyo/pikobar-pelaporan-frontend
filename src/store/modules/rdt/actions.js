@@ -65,9 +65,17 @@ export default {
       return error.response
     }
   },
-  async updateRDT(id, data) {
+  async updateRDT({ commit }, data) {
     try {
-      const response = await requestServer(`/api/rdt/${id}`, 'PUT', data)
+      const response = await requestServer(`/api/rdt/${data.id}`, 'PUT', data.data)
+      return response
+    } catch (error) {
+      return error.response
+    }
+  },
+  async listHistoryRDT({ commit }, id) {
+    try {
+      const response = await requestServer(`/api/rdt/${id}/histories`, 'GET')
       return response
     } catch (error) {
       return error.response

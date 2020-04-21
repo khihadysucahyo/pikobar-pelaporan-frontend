@@ -43,7 +43,58 @@
               class="row-detail-label"
             >
               <label style="font-weight: bold;font-size: 20px;line-height: 20px;">
-                {{ $t('label.test_mechanism') }}
+                {{ $t('label.case_id') }}
+              </label>
+            </v-col>
+            <v-col auto />
+          </v-row>
+          <v-row class="row-detail">
+            <v-col
+              cols="12"
+              md="3"
+              sm="12"
+              class="row-detail-label"
+            >
+              <label>{{ $t('label.results_test_code') }}</label>
+            </v-col>
+            <v-col auto>
+              <v-text-field
+                v-model="detailData.code_test"
+                disabled
+                hide-details
+                solo-inverted
+              />
+            </v-col>
+          </v-row>
+          <v-row class="row-detail">
+            <v-col
+              cols="12"
+              md="3"
+              sm="12"
+              class="row-detail-label"
+            >
+              <label>{{ $t('label.case_id') }}</label>
+            </v-col>
+            <v-col auto>
+              <v-text-field
+                v-model="detailData.id_case"
+                disabled
+                hide-details
+                solo-inverted
+              />
+            </v-col>
+          </v-row>
+        </v-col>
+        <v-col auto>
+          <v-row class="row-detail">
+            <v-col
+              cols="12"
+              md="6"
+              sm="12"
+              class="row-detail-label"
+            >
+              <label style="font-weight: bold;font-size: 20px;line-height: 20px;">
+                {{ $t('label.category_or_target') }}
               </label>
             </v-col>
             <v-col auto />
@@ -73,24 +124,6 @@
               sm="12"
               class="row-detail-label"
             >
-              <label>{{ $t('label.mechanism') }}</label>
-            </v-col>
-            <v-col auto>
-              <v-text-field
-                v-model="detailData.mechanism"
-                disabled
-                hide-details
-                solo-inverted
-              />
-            </v-col>
-          </v-row>
-          <v-row class="row-detail">
-            <v-col
-              cols="12"
-              md="3"
-              sm="12"
-              class="row-detail-label"
-            >
               <label>{{ $t('label.goals') }}</label>
             </v-col>
             <v-col auto>
@@ -102,160 +135,14 @@
               />
             </v-col>
           </v-row>
-          <v-row class="row-detail">
-            <v-col
-              cols="12"
-              md="6"
-              sm="12"
-              class="row-detail-label"
-            >
-              <label style="font-weight: bold;font-size: 20px;line-height: 20px;">
-                {{ $t('label.test_result') }}
-              </label>
-            </v-col>
-            <v-col auto />
-          </v-row>
-          <v-row class="row-detail">
-            <v-col
-              cols="12"
-              md="3"
-              sm="12"
-              class="row-detail-label"
-            >
-              <label>{{ $t('label.implementation_date') }}</label>
-            </v-col>
-            <v-col auto>
-              <v-text-field
-                v-model="testDate"
-                disabled
-                hide-details
-                solo-inverted
-              />
-            </v-col>
-          </v-row>
-          <v-row class="row-detail">
-            <v-col
-              cols="12"
-              md="3"
-              sm="12"
-              class="row-detail-label"
-            >
-              <label>{{ $t('label.test_place') }}</label>
-            </v-col>
-            <v-col auto>
-              <v-text-field
-                v-model="detailData.test_location"
-                disabled
-                hide-details
-                solo-inverted
-              />
-            </v-col>
-          </v-row>
-          <v-row class="row-detail">
-            <v-col
-              cols="12"
-              md="3"
-              sm="12"
-              class="row-detail-label"
-            >
-              <label>{{ $t('label.name_test_place') }}</label>
-            </v-col>
-            <v-col auto>
-              <v-text-field
-                v-model="detailData.test_other_location"
-                disabled
-                hide-details
-                solo-inverted
-              />
-            </v-col>
-          </v-row>
-          <v-row class="row-detail">
-            <v-col
-              cols="12"
-              md="3"
-              sm="12"
-              class="row-detail-label"
-            >
-              <label>{{ $t('label.address') }}</label>
-            </v-col>
-            <v-col auto>
-              <v-textarea
-                v-model="testAddres"
-                disabled
-                hide-details
-                solo-inverted
-              />
-            </v-col>
-          </v-row>
-          <v-row class="row-detail">
-            <v-col
-              cols="12"
-              md="3"
-              sm="12"
-              class="row-detail-label"
-            >
-              <label>{{ $t('label.results') }}</label>
-            </v-col>
-            <v-col auto>
-              <status :status="detailData.final_result" />
-            </v-col>
-          </v-row>
-          <v-row class="row-detail">
-            <v-col
-              cols="12"
-              md="3"
-              sm="12"
-              class="row-detail-label"
-            >
-              <label>{{ $t('label.type_test_tool') }}</label>
-            </v-col>
-            <v-col auto>
-              <v-text-field
-                v-model="detailData.tool_tester"
-                disabled
-                hide-details
-                solo-inverted
-              />
-            </v-col>
-          </v-row>
-          <v-row class="row-detail">
-            <v-col
-              cols="12"
-              md="3"
-              sm="12"
-              class="row-detail-label"
-            >
-              <label>{{ $t('label.method_used') }}</label>
-            </v-col>
-            <v-col auto>
-              <v-text-field
-                v-model="detailData.test_method"
-                disabled
-                hide-details
-                solo-inverted
-              />
-            </v-col>
-          </v-row>
-          <v-row class="row-detail">
-            <v-col
-              cols="12"
-              md="3"
-              sm="12"
-              class="row-detail-label"
-            >
-              <label>{{ $t('label.information') }}</label>
-            </v-col>
-            <v-col auto>
-              <v-textarea
-                v-model="detailData.test_note"
-                disabled
-                hide-details
-                solo-inverted
-              />
-            </v-col>
-          </v-row>
         </v-col>
-        <v-col auto>
+      </v-row>
+      <v-row>
+        <v-col
+          cols="12"
+          md="6"
+          sm="12"
+        >
           <v-row class="row-detail">
             <v-col
               cols="12"
@@ -268,24 +155,6 @@
               </label>
             </v-col>
             <v-col auto />
-          </v-row>
-          <v-row class="row-detail">
-            <v-col
-              cols="12"
-              md="3"
-              sm="12"
-              class="row-detail-label"
-            >
-              <label>{{ $t('label.participant_id') }}</label>
-            </v-col>
-            <v-col auto>
-              <v-text-field
-                v-model="detailCase"
-                disabled
-                hide-details
-                solo-inverted
-              />
-            </v-col>
           </v-row>
           <v-row class="row-detail">
             <v-col
@@ -395,6 +264,21 @@
               />
             </v-col>
           </v-row>
+        </v-col>
+        <v-col auto>
+          <v-row class="row-detail">
+            <v-col
+              cols="12"
+              md="3"
+              sm="12"
+              class="row-detail-label"
+            >
+              <label style="line-height: 20px;">
+                &nbsp;
+              </label>
+            </v-col>
+            <v-col auto />
+          </v-row>
           <v-row class="row-detail">
             <v-col
               cols="12"
@@ -455,9 +339,6 @@
         </v-col>
       </v-row>
     </v-card>
-    <loading-bar
-      :loading="loadingBar"
-    />
   </div>
 </template>
 
@@ -479,7 +360,6 @@ export default {
   },
   data() {
     return {
-      loadingBar: false,
       panelListRiwayat: [0],
       birthDate: '',
       testDate: '',
@@ -491,9 +371,7 @@ export default {
     }
   },
   async mounted() {
-    this.loadingBar = true
     const response = await this.$store.dispatch('rdt/detailParticipant', this.idData)
-    if (response) this.loadingBar = false
     this.detailData = await response.data
     this.detailCase = await response.data.id_case ? response.data.id_case.toUpperCase() : ''
     if (this.detailData) {

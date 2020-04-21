@@ -120,14 +120,6 @@ export default {
       return error.response
     }
   },
-  async listCountry({ commit }) {
-    try {
-      const response = await requestServer(`/api/country`, 'GET')
-      return response
-    } catch (error) {
-      return error.response
-    }
-  },
   resetListCase({ commit }) {
     commit('RESET_LIST_CASE')
   },
