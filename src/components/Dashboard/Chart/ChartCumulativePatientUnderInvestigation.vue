@@ -4,7 +4,7 @@
     outlined
   >
     <v-card-title class="title ml-0 black--text">
-      Kumulatif PDP
+      {{ $t('label.cumulative') }} {{ $t('label.pdp') }}
     </v-card-title>
     <v-divider class="mt-0 mb-2" />
     <v-card-text>
@@ -21,6 +21,12 @@
 <script>
 export default {
   name: 'ChartCumulativePatientUnderInvestigation',
+  props: {
+    chartHeight: {
+      type: Number,
+      default: 300
+    }
+  },
   data() {
     return {
       loaded: false,
@@ -42,7 +48,7 @@ export default {
         datasets: [
           {
             fill: false,
-            label: 'Selesai',
+            label: this.$t('label.done'),
             backgroundColor: '#EED138',
             borderColor: '#EED138',
             pointBackgroundColor: '#EED138',
@@ -52,7 +58,7 @@ export default {
           },
           {
             fill: false,
-            label: 'Proses',
+            label: this.$t('label.process'),
             backgroundColor: '#E08D3B',
             borderColor: '#E08D3B',
             pointBackgroundColor: '#E08D3B',
@@ -111,7 +117,7 @@ export default {
   computed: {
     chartStyles() {
       return {
-        height: `300px`,
+        height: `${this.chartHeight}px`,
         position: 'relative'
       }
     }

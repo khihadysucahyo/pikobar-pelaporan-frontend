@@ -4,7 +4,7 @@
     outlined
   >
     <v-card-title class="title ml-0 black--text">
-      Kumulatif Terkonfirmasi
+      {{ $t('label.cumulative') }} {{ $t('label.confirmed') }}
     </v-card-title>
     <v-divider class="mt-0 mb-2" />
     <v-card-text>
@@ -21,6 +21,12 @@
 <script>
 export default {
   name: 'ChartCumulativeConfirmed',
+  props: {
+    chartHeight: {
+      type: Number,
+      default: 300
+    }
+  },
   data() {
     return {
       loaded: false,
@@ -42,7 +48,7 @@ export default {
         datasets: [
           {
             fill: false,
-            label: 'Aktif',
+            label: this.$t('label.active'),
             backgroundColor: '#EB5757',
             borderColor: '#EB5757',
             pointBackgroundColor: '#EB5757',
@@ -52,7 +58,7 @@ export default {
           },
           {
             fill: false,
-            label: 'Sembuh',
+            label: this.$t('label.recovery'),
             backgroundColor: '#27AE60',
             borderColor: '#27AE60',
             pointBackgroundColor: '#27AE60',
@@ -62,7 +68,7 @@ export default {
           },
           {
             fill: false,
-            label: 'Meninggal',
+            label: this.$t('label.dead'),
             backgroundColor: '#F2994A',
             borderColor: '#F2994A',
             pointBackgroundColor: '#F2994A',
@@ -120,7 +126,7 @@ export default {
   computed: {
     chartStyles() {
       return {
-        height: `300px`,
+        height: `${this.chartHeight}px`,
         position: 'relative'
       }
     }

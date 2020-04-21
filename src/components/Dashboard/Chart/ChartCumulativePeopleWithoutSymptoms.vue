@@ -4,11 +4,11 @@
     outlined
   >
     <v-card-title class="title ml-0 black--text">
-      {{ $t('label.age') }}
+      {{ $t('label.cumulative') }} {{ $t('label.otg') }}
     </v-card-title>
     <v-divider class="mt-0 mb-2" />
     <v-card-text>
-      <chart-bar-horizontal
+      <chart-line
         v-if="loaded"
         :chart-data="chartData"
         :options="chartOptions"
@@ -20,7 +20,7 @@
 
 <script>
 export default {
-  name: 'ChartAge',
+  name: 'ChartCumulativePeopleWithoutSymptoms',
   props: {
     chartHeight: {
       type: Number,
@@ -32,27 +32,39 @@ export default {
       loaded: false,
       chartData: {
         labels: [
-          '0 - 10',
-          '10 - 20',
-          '20 - 30',
-          '30 - 40',
-          '40 - 50',
-          '50 - 60',
-          '60 - 70',
-          '70 - 80',
-          '80 - 90',
-          '90 - 100'
+          '01/04',
+          '02/04',
+          '03/04',
+          '04/04',
+          '05/04',
+          '06/04',
+          '07/04',
+          '08/04',
+          '09/04',
+          '10/04',
+          '11/04',
+          '12/04'
         ],
         datasets: [
           {
-            label: 'Perempuan',
-            backgroundColor: 'rgba(255, 124, 143, 1)',
-            data: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+            fill: false,
+            label: this.$t('label.done'),
+            backgroundColor: '#BDBDBD',
+            borderColor: '#BDBDBD',
+            pointBackgroundColor: '#BDBDBD',
+            pointBorderColor: '#BDBDBD',
+            radius: 0,
+            data: [10, 25, 30, 35, 40, 45, 50, 60, 70, 80, 90, 100]
           },
           {
-            label: 'Laki-laki',
-            backgroundColor: 'rgba(102, 164, 251, 1)',
-            data: [-5, -10, -30, -40, -50, -60, -70, -80, -80, -85]
+            fill: false,
+            label: this.$t('label.process'),
+            backgroundColor: '#757575',
+            borderColor: '#757575',
+            pointBackgroundColor: '#757575',
+            pointBorderColor: '#757575',
+            radius: 0,
+            data: [30, 35, 40, 45, 50, 55, 60, 70, 80, 90, 120, 130]
           }
         ]
       },
@@ -63,23 +75,21 @@ export default {
           xAxes: [
             {
               gridLines: {
-                drawBorder: false
-              },
-              ticks: {
-                callback: function(value, index, values) {
-                  return Math.abs(value)
-                }
+                display: false
               }
             }
           ],
           yAxes: [
             {
-              gridLines: {
-                display: false
-              },
-              stacked: true,
               ticks: {
-                reverse: true
+                min: 0
+              },
+              gridLines: {
+                drawBorder: false
+              },
+              scaleLabel: {
+                display: true,
+                labelString: 'Value'
               }
             }
           ]
@@ -95,12 +105,7 @@ export default {
         tooltips: {
           displayColors: false,
           mode: 'index',
-          intersect: false,
-          callbacks: {
-            label: function(items, data) {
-              return data.datasets[items.datasetIndex].label + ': ' + Math.abs(items.xLabel)
-            }
-          }
+          intersect: false
         },
         hover: {
           mode: 'nearest',
