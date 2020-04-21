@@ -200,11 +200,27 @@ export default {
     rdt_multiple_redaction2: 'Multiple Entry hanya dapat dilakukan untuk tes masif yang sudah dijadwalkan melalui aplikasi pendaftaran.',
     test_history: 'Riwayat Tes',
     data_empty: 'Tidak ada data',
+<<<<<<< HEAD
     user_list: 'List Pengguna',
     name_instansi: 'Nama Instansi',
     email: 'Email',
     roles: 'Hak Akses',
     create_account: 'Buat Akun'
+=======
+    based: 'Berdasarkan',
+    daily_number: 'Angka Harian',
+    cumulative: 'Kumulatif',
+    positive: 'Positif',
+    active: 'Aktif',
+    covid19: 'COVID-19',
+    supervision: 'Pengawasan',
+    monitoring: 'Pemantauan',
+    otg: 'OTG',
+    people_without_symptoms: 'Orang Tanpa Gejala',
+    total_otg: 'Total OTG',
+    confirmed: 'Terkonfirmasi',
+    age: 'Umur'
+>>>>>>> c28408a0d80498c39fcf113451e029db16e133ea
   },
   success: {
     login_success: 'Login Berhasil',

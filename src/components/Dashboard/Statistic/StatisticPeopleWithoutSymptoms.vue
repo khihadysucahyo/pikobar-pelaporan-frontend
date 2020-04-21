@@ -4,7 +4,7 @@
     outlined
   >
     <v-card-title class="title ml-0 black--text">
-      {{ $t('label.odp') }} <br> ({{ $t('label.insiders_monitoring') }})
+      {{ $t('label.otg') }} <br> ({{ $t('label.people_without_symptoms') }})
     </v-card-title>
     <v-divider class="ma-0" />
     <v-card-text>
@@ -15,7 +15,7 @@
             &nbsp;
             <span class="black--text">({{ (12.252).toFixed(2) | decimal }}%)</span>
             <br>
-            {{ $t('label.process') }} {{ $t('label.monitoring') }}
+            {{ $t('label.process') }}
           </div>
         </v-col>
       </v-row>
@@ -26,14 +26,14 @@
             &nbsp;
             <span class="black--text">({{ (33.34).toFixed(2) | decimal }}%)</span>
             <br>
-            {{ $t('label.done') }} {{ $t('label.monitoring') }}
+            {{ $t('label.done') }}
           </div>
         </v-col>
         <v-col cols="12" md="5">
           <div>
             <span class="total total-all font-weight-bold">{{ 12495 | number }}</span>
             <br>
-            {{ $t('label.total_odp') }}
+            {{ $t('label.total_otg') }}
           </div>
         </v-col>
       </v-row>
@@ -43,7 +43,7 @@
 
 <script>
 export default {
-  name: 'StatisticPersonUnderMonitoring'
+  name: 'StatisticPeopleWithoutSymptoms'
 }
 </script>
 
@@ -52,7 +52,7 @@ export default {
     text-transform: none;
   }
   .statistic .total {
-    color: #2D9CDB;
+    color: #616161;
   }
   .statistic .total-process {
     font-size: 2rem;
