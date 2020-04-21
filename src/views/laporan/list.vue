@@ -98,21 +98,13 @@
             color="#b3e2cd"
             class="btn-import-export margin-right"
             depressed
-            :loading="isSelecting"
-            @click="onButtonClick"
+            @click="showImportForm = true"
           >
             <v-icon left>
               mdi-download
             </v-icon>
             Import
           </v-btn>
-          <input
-            ref="uploader"
-            class="d-none"
-            type="file"
-            accept=".xlsx"
-            @change="onFileChanged"
-          >
           <v-btn
             class="btn-import-export margin-left"
             color="#b3e2cd"
@@ -246,6 +238,13 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <import-form
+      :show-import-form="showImportForm"
+      :refresh-page="handleSearch"
+      :show.sync="showImportForm"
+      :failed.sync="failedDialog"
+      :message.sync="errorMessage"
+    />
   </div>
 </template>
 
@@ -292,9 +291,8 @@ export default {
       countingReports: null,
       dialog: false,
       dataDelete: null,
-      selectedFile: null,
-      isSelecting: false,
       failedDialog: false,
+      showImportForm: false,
       errorMessage: null
     }
   },
@@ -358,26 +356,6 @@ export default {
       const dateNow = Date.now()
       const fileName = `Data Kasus ${this.fullname} - ${formatDatetime(dateNow, 'DD/MM/YYYY HH:mm')} WIB.xlsx`
       FileSaver.saveAs(response, fileName)
-    },
-    onButtonClick() {
-      this.isSelecting = true
-      window.addEventListener('focus', () => {
-        this.isSelecting = false
-      }, { once: true })
-      this.$refs.uploader.click()
-    },
-    async onFileChanged(e) {
-      this.selectedFile = e.target.files[0]
-      const formData = new FormData()
-      formData.append('file', this.selectedFile)
-      const response = await this.$store.dispatch('reports/importExcel', formData)
-      if (response.status === 200 || response.status === 201) {
-        await this.$store.dispatch('toast/successToast', this.$t('success.file_success_upload'))
-        this.handleSearch()
-      } else {
-        this.errorMessage = response.data.message
-        this.failedDialog = true
-      }
     }
   }
 }

@@ -164,7 +164,22 @@ export default {
     delete_participant: 'Hapus Peserta',
     district_city: 'Kabupaten/Kota',
     subdistrict: 'Kecamatan',
-    village: 'Kelurahan'
+    village: 'Kelurahan',
+    import: 'Import',
+    guidance: 'Panduan',
+    import_instruction: 'Untuk menggunakan fitur import, diwajibkan menggunakan template excel yang sudah kami berikan, jika belum punya bisa',
+    download_here: 'download disini!',
+    drop_file_here: 'Add file or drop files here',
+    error_message: 'Pesan Error',
+    data_in_row: 'Data pada baris',
+    import_instruction_title: 'Cara menggunakan fitur import',
+    import_instruction_step_1: '1. Download template excel yang telah disediakan',
+    import_instruction_step_2: '2. Isi dan lengkapi data kasus pada template excel',
+    import_instruction_step_3: '3. Setelah selesai melengkapi data, tekan simpan pada excel',
+    import_instruction_step_4: '4. Klik tombol "Import Data"',
+    import_instruction_step_5: '5. Jika proses import gagal, maka akan muncul Pesan Error yang harus diperbaiki/dilengkapi datanya',
+    import_instruction_step_6: '6. Jika proses import berhasil, maka akan muncul Pesan Berhasil dan Data akan tersimpan & tampil secara otomatis pada list kasus',
+    kilobyte: 'KB'
   },
   success: {
     login_success: 'Login Berhasil',
