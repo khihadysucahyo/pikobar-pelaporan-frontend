@@ -47,6 +47,15 @@ export default {
     }
   },
 
+  async createUser({ commit }, data) {
+    try {
+      const response = await requestServer('/api/users', 'POST', data)
+      return response
+    } catch (e) {
+      return e
+    }
+  },
+
   async listUser({ commit }, params) {
     try {
       const response = await requestServer('/api/users', 'GET', params)

@@ -240,7 +240,7 @@
       </v-row>
     </v-card>
     <pagination
-      :total="totalList "
+      :total="totalList"
       :page.sync="listQuery.page"
       :limit.sync="listQuery.limit"
       :on-next="onNext"

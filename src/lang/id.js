@@ -17,11 +17,13 @@ export default {
     change_password: 'Ubah Password',
     help: 'Bantuan',
     setting: 'Pengaturan',
-    user_management: 'Manajemen User'
+    user_management: 'Manajemen User',
+    user_create: 'Tambah User'
   },
   label: {
     username: 'Username',
     password: 'Password',
+    repeat_password: 'Ulangi Password',
     description: 'Deskripsi',
     date: 'Tanggal',
     start_date: 'Tanggal Mulai',
@@ -197,7 +199,12 @@ export default {
     rdt_multiple_redaction1: 'Cari Tanggal dan Tempat Pelaksanaan',
     rdt_multiple_redaction2: 'Multiple Entry hanya dapat dilakukan untuk tes masif yang sudah dijadwalkan melalui aplikasi pendaftaran.',
     test_history: 'Riwayat Tes',
-    data_empty: 'Tidak ada data'
+    data_empty: 'Tidak ada data',
+    user_list: 'List Pengguna',
+    name_instansi: 'Nama Instansi',
+    email: 'Email',
+    roles: 'Hak Akses',
+    create_account: 'Buat Akun'
   },
   success: {
     login_success: 'Login Berhasil',

@@ -13,5 +13,8 @@ export default {
   },
   fullname: (state, getters) => {
     return state.fullname
+  },
+  formUser: (state, getters) => {
+    return state.formUser
   }
 }

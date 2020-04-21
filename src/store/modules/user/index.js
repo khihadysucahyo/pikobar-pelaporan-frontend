@@ -9,7 +9,22 @@ const state = {
   roles: [],
   district_user: '',
   user_district_name: '',
-  fullname: ''
+  fullname: '',
+  formUser: {
+    username: '',
+    password: '',
+    email: '',
+    role: '',
+    code_district_city: '',
+    name_district_city: '',
+    code_sudistrict: '',
+    name_subdistrict: '',
+    code_village: '',
+    name_village: '',
+    fullname: '',
+    phone_number: '',
+    name_instansi: ''
+  }
 }
 
 export default {
