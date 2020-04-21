@@ -225,7 +225,9 @@ export default {
     import_instruction_step_4: '4. Klik tombol "Import Data"',
     import_instruction_step_5: '5. Jika proses import gagal, maka akan muncul Pesan Error yang harus diperbaiki/dilengkapi datanya',
     import_instruction_step_6: '6. Jika proses import berhasil, maka akan muncul Pesan Berhasil dan Data akan tersimpan & tampil secara otomatis pada list kasus',
-    kilobyte: 'KB'
+    kilobyte: 'KB',
+    congratulation: 'Selamat',
+    import_success_message: 'Import file telah berhasil'
   },
   success: {
     login_success: 'Login Berhasil',

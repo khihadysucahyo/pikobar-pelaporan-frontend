@@ -170,11 +170,8 @@ export default {
         return
       }
       if (response.status === 200 || response.status === 201) {
-        await this.$store.dispatch(
-          'toast/successToast',
-          this.$t('success.file_success_upload')
-        )
         this.show = false
+        this.$emit('update:success', true)
         this.refreshPage()
       } else {
         this.errorList = response.data.errors
