@@ -28,6 +28,24 @@
             class="mx-auto"
             outlined
           >
+            <v-list-item two-line style="background: #9f9f9f">
+              <v-list-item-content>
+                <v-list-item-title style="color: #FFFFFF;">{{ $t('label.people_without_symptoms') }}</v-list-item-title>
+                <v-list-item-title class="headline mb-1" style="color: #FFFFFF;padding-top: 2rem;">{{ totalOTG }} {{ $t('label.people') }}</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </v-card>
+        </v-skeleton-loader>
+      </v-col>
+      <v-col>
+        <v-skeleton-loader
+          :loading="loading"
+          type="article"
+        >
+          <v-card
+            class="mx-auto"
+            outlined
+          >
             <v-list-item two-line style="background: #D2EAFF">
               <v-list-item-content>
                 <v-list-item-title style="color: #2F80ED;">{{ $t('label.insiders_monitoring') }}</v-list-item-title>
@@ -122,7 +140,7 @@
             :headers="headers"
             :items="listKasus"
             :mobile-breakpoint="NaN"
-            :no-data-text="'Tidak ada data'"
+            :no-data-text="$t('label.data_empty')"
             :items-per-page="listQuery.limit"
             :loading="loadingTable"
             hide-default-footer
@@ -269,6 +287,7 @@ export default {
       ],
       loading: true,
       loadingTable: false,
+      totalOTG: 0,
       totalODP: 0,
       totalPDP: 0,
       totalPositif: 0,
@@ -323,10 +342,11 @@ export default {
     await this.$store.dispatch('reports/listReportCase', this.listQuery)
     const response = await this.$store.dispatch('reports/countReportCase', this.queryReportCase)
     if (response) this.loading = false
+    this.totalOTG = response.data.OTG
     this.totalODP = response.data.ODP
     this.totalPDP = response.data.PDP
     this.totalPositif = response.data.POSITIF
-    this.totalReport = this.totalODP + this.totalPDP + this.totalPositif
+    this.totalReport = this.totalOTG + this.totalODP + this.totalPDP + this.totalPositif
   },
   methods: {
     async handleDetail(id) {

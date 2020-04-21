@@ -13,7 +13,7 @@ const rdtRouter = {
   children: [
     {
       path: '/rdt/create',
-      component: () => import('@/views/rdt/formRapid'),
+      component: () => import('@/views/rdt/newInput'),
       meta: {
         title: 'create_rdt',
         icon: 'mdi-book-plus',
