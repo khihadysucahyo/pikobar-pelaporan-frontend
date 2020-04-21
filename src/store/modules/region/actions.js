@@ -42,5 +42,13 @@ export default {
     } catch (e) {
       return e
     }
+  },
+  async listCountry({ commit }) {
+    try {
+      const response = await requestServer(`/api/country`, 'GET')
+      return response
+    } catch (error) {
+      return error.response
+    }
   }
 }

@@ -4,11 +4,11 @@
       <thead>
         <tr>
           <th class="text-left">#</th>
-          <th class="text-left">STATUS</th>
-          <th class="text-left">TAHAPAN</th>
-          <th class="text-left">HASIL</th>
-          <th class="text-left">LOKASI SAAT INI</th>
-          <th class="text-left">TANGGAL DIUPDATE</th>
+          <th class="text-left">{{ $t('label.criteria').toUpperCase() }}</th>
+          <th class="text-left">{{ $t('label.stages').toUpperCase() }}</th>
+          <th class="text-left">{{ $t('label.results').toUpperCase() }}</th>
+          <th class="text-left">{{ $t('label.current_location').toUpperCase() }}</th>
+          <th class="text-left">{{ $t('label.update_date').toUpperCase() }}</th>
         </tr>
       </thead>
       <tbody>
