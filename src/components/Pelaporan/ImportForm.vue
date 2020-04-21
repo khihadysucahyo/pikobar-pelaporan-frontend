@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="show" max-width="50%">
+  <v-dialog v-model="show" max-width="50%" :persistent="isLoading">
     <v-card>
       <v-tabs
         v-model="tab"
@@ -41,7 +41,7 @@
               <v-col>{{ selectedFile.name }}</v-col>
               <v-col>
                 ({{ selectedFile.size / 1000 }} {{ $t('label.kilobyte') }})
-                <v-btn icon @click="selectedFile = null">
+                <v-btn icon :disabled="isLoading" @click="selectedFile = null">
                   <v-icon color="red" class="pb-1">mdi-delete</v-icon>
                 </v-btn>
               </v-col>
