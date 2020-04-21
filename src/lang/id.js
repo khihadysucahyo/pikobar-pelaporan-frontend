@@ -137,6 +137,7 @@ export default {
     symptoms: 'Gejala',
     mention_other_symptoms: 'Sebutkan gelaja lainnya (jika ada)',
     total_case_data: 'Total data Kasus',
+    people_without_symptoms: 'Orang Tanpa Gejala',
     insiders_monitoring: 'Orang Dalam Pemantauan',
     patients_under_supervision: 'Pasien Dalam Pengawasan',
     case_data: 'Data Kasus',
@@ -209,6 +210,7 @@ export default {
     field_must_be_filled: 'Kolom harus diisi',
     field_unauthorized_characters: 'Bidang mengandung karakter yang tidak diizinkan.',
     field_phone_number_not_valid: 'Nomor telepon tidak valid',
-    server_error_occurred: 'Terjadi kesalahan pada server'
+    server_error_occurred: 'Terjadi kesalahan pada server',
+    file_failed_upload: 'File Gagal Diupload!'
   },
 }
