@@ -164,7 +164,20 @@ export default {
     delete_participant: 'Hapus Peserta',
     district_city: 'Kabupaten/Kota',
     subdistrict: 'Kecamatan',
-    village: 'Kelurahan'
+    village: 'Kelurahan',
+    based: 'Berdasarkan',
+    daily_number: 'Angka Harian',
+    cumulative: 'Kumulatif',
+    positive: 'Positif',
+    active: 'Aktif',
+    covid19: 'COVID-19',
+    supervision: 'Pengawasan',
+    monitoring: 'Pemantauan',
+    otg: 'OTG',
+    people_without_symptoms: 'Orang Tanpa Gejala',
+    total_otg: 'Total OTG',
+    confirmed: 'Terkonfirmasi',
+    age: 'Umur'
   },
   success: {
     login_success: 'Login Berhasil',

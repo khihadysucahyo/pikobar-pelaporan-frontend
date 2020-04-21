@@ -4,7 +4,7 @@
     outlined
   >
     <v-card-title class="title ml-0 black--text">
-      Jenis Kelamin
+      {{ $t('label.gender') }}
     </v-card-title>
     <v-divider class="mt-0 mb-2" />
     <v-card-text>
@@ -21,13 +21,19 @@
 <script>
 export default {
   name: 'ChartGender',
+  props: {
+    chartHeight: {
+      type: Number,
+      default: 300
+    }
+  },
   data() {
     return {
       loaded: false,
       chartData: {
         labels: [
-          'Laki-laki',
-          'Perempuan'
+          this.$t('label.female'),
+          this.$t('label.male')
         ],
         datasets: [{
           data: [
@@ -35,8 +41,8 @@ export default {
             40
           ],
           backgroundColor: [
-            'rgba(102, 164, 251, 1)',
-            'rgba(255, 124, 143, 1)'
+            'rgba(255, 124, 143, 1)',
+            'rgba(102, 164, 251, 1)'
           ]
         }]
       },
@@ -70,7 +76,7 @@ export default {
   computed: {
     chartStyles() {
       return {
-        height: `300px`,
+        height: `${this.chartHeight}px`,
         position: 'relative'
       }
     }

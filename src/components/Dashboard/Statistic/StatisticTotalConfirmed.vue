@@ -4,14 +4,14 @@
     outlined
   >
     <v-card-title class="title ml-0">
-      Positif Covid-19
+      {{ $t('label.positive') }} {{ $t('label.covid19') }}
     </v-card-title>
     <v-card-subtitle class="subtitle pb-3">
       Jumlah Kasus yang terkonfirmasi COVID-19
     </v-card-subtitle>
-    <v-card-text>
+    <v-card-text class="mt-2">
       <span class="total font-weight-bold">
-        6 Orang
+        {{ 1290 | number }} {{ $t('label.people') | capitalize }}
       </span>
     </v-card-text>
   </v-card>
@@ -37,7 +37,7 @@ export default {
     color: #EB5757 !important;
   }
   .statistic .total {
-    font-size: 1.25em;
+    font-size: 2em;
     color: #EB5757 !important;
   }
 </style>
