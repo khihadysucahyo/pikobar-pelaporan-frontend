@@ -4,14 +4,14 @@
     outlined
   >
     <v-card-title class="title ml-0">
-      Positif Aktif
+      {{ $t('label.positive') }} {{ $t('label.active') }}
     </v-card-title>
     <v-card-subtitle class="subtitle pb-3">
       Jumlah kasus positif yang masih dalam proses pemantauan baik di RS maupun isolasi mandiri
     </v-card-subtitle>
-    <v-card-text>
+    <v-card-text class="mt-2">
       <span class="total font-weight-bold">
-        6 Orang
+        {{ 1290 | number }} {{ $t('label.people') | capitalize }}
       </span>
     </v-card-text>
   </v-card>
@@ -37,7 +37,7 @@ export default {
     color: #EB5757 !important;
   }
   .statistic .total {
-    font-size: 1.25em;
+    font-size: 2em;
     color: #EB5757 !important;
   }
 </style>

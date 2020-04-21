@@ -4,7 +4,7 @@
     outlined
   >
     <v-card-title class="title ml-0 black--text">
-      Angka Harian Terkonfirmasi
+      {{ $t('label.daily_number') }} {{ $t('label.confirmed') }}
     </v-card-title>
     <v-divider class="mt-0 mb-2" />
     <v-card-text>
@@ -21,6 +21,12 @@
 <script>
 export default {
   name: 'ChartDailyConfirmed',
+  props: {
+    chartHeight: {
+      type: Number,
+      default: 300
+    }
+  },
   data() {
     return {
       loaded: false,
@@ -41,19 +47,19 @@ export default {
         ],
         datasets: [
           {
-            label: 'Meninggal',
+            label: this.$t('label.dead'),
             backgroundColor: '#F2994A',
             hoverBackgroundColor: '#F2994A',
             data: [40, 20, 12, 39, 10, 40, 39, 10, 40, 20, 12, 11]
           },
           {
-            label: 'Sembuh',
+            label: this.$t('label.recovery'),
             backgroundColor: '#27AE60',
             hoverBackgroundColor: '#27AE60',
             data: [40, 20, 12, 39, 10, 40, 39, 10, 40, 20, 12, 11]
           },
           {
-            label: 'Aktif',
+            label: this.$t('label.active'),
             backgroundColor: '#EB5757',
             hoverBackgroundColor: '#EB5757',
             data: [40, 20, 12, 39, 10, 40, 39, 80, 40, 20, 12, 11]
@@ -107,7 +113,7 @@ export default {
   computed: {
     chartStyles() {
       return {
-        height: `300px`,
+        height: `${this.chartHeight}px`,
         position: 'relative'
       }
     }

@@ -4,40 +4,36 @@
     outlined
   >
     <v-card-title class="title ml-0 black--text">
-      PDP (Pasien Dalam Pengawasan)
+      {{ $t('label.pdp') }} <br> ({{ $t('label.patients_under_supervision') }})
     </v-card-title>
     <v-divider class="ma-0" />
     <v-card-text>
-      <v-row class="align-md-end">
-        <v-col cols="12" md="4">
+      <v-row>
+        <v-col cols="12" md="12">
           <div>
-            <span class="total total-process font-weight-bold">12.456</span>
+            <span class="total total-process font-weight-bold">{{ 12495 | number }}</span>
             &nbsp;
-            <span class="black--text">(33.34%)</span>
+            <span class="black--text">({{ (12.252).toFixed(2) | decimal }}%)</span>
             <br>
-            Proses
-            <br>
-            Pengawasan
+            {{ $t('label.process') }} {{ $t('label.supervision') }}
           </div>
         </v-col>
-        <v-col cols="12" md="4">
+      </v-row>
+      <v-row>
+        <v-col cols="12" md="7">
           <div>
-            <span class="total total-done font-weight-bold">2.456</span>
+            <span class="total total-done font-weight-bold">{{ 12495 | number }}</span>
             &nbsp;
-            <span class="black--text">(33.34%)</span>
+            <span class="black--text">({{ (33.34).toFixed(2) | decimal }}%)</span>
             <br>
-            Selesai
-            <br>
-            Pengawasan
+            {{ $t('label.done') }} {{ $t('label.supervision') }}
           </div>
         </v-col>
-        <v-col cols="12" md="4">
+        <v-col cols="12" md="5">
           <div>
-            <span class="total total-all font-weight-bold">12.456</span>
+            <span class="total total-all font-weight-bold">{{ 12495 | number }}</span>
             <br>
-            Total
-            <br>
-            PDP
+            {{ $t('label.total_pdp') }}
           </div>
         </v-col>
       </v-row>
@@ -56,15 +52,15 @@ export default {
     text-transform: none;
   }
   .statistic .total {
-    color: #5AAA4E;
+    color: #F2C94C;
   }
   .statistic .total-process {
-    font-size: 1.75rem;
+    font-size: 2rem;
   }
   .statistic .total-done {
-    font-size: 1.55rem;
+    font-size: 1.5rem;
   }
   .statistic .total-all {
-    font-size: 1.55rem;
+    font-size: 1.5rem;
   }
 </style>

@@ -197,7 +197,20 @@ export default {
     rdt_multiple_redaction1: 'Cari Tanggal dan Tempat Pelaksanaan',
     rdt_multiple_redaction2: 'Multiple Entry hanya dapat dilakukan untuk tes masif yang sudah dijadwalkan melalui aplikasi pendaftaran.',
     test_history: 'Riwayat Tes',
-    data_empty: 'Tidak ada data'
+    data_empty: 'Tidak ada data',
+    based: 'Berdasarkan',
+    daily_number: 'Angka Harian',
+    cumulative: 'Kumulatif',
+    positive: 'Positif',
+    active: 'Aktif',
+    covid19: 'COVID-19',
+    supervision: 'Pengawasan',
+    monitoring: 'Pemantauan',
+    otg: 'OTG',
+    people_without_symptoms: 'Orang Tanpa Gejala',
+    total_otg: 'Total OTG',
+    confirmed: 'Terkonfirmasi',
+    age: 'Umur'
   },
   success: {
     login_success: 'Login Berhasil',
