@@ -4,11 +4,11 @@
     outlined
   >
     <v-card-title class="title ml-0 black--text">
-      {{ $t('label.daily_number') }} {{ $t('label.odp') }}
+      {{ $t('label.cumulative') }} {{ $t('label.otg') }}
     </v-card-title>
     <v-divider class="mt-0 mb-2" />
     <v-card-text>
-      <chart-bar
+      <chart-line
         v-if="loaded"
         :chart-data="chartData"
         :options="chartOptions"
@@ -20,7 +20,7 @@
 
 <script>
 export default {
-  name: 'ChartDailyPersonUnderMonitoring',
+  name: 'ChartCumulativePeopleWithoutSymptoms',
   props: {
     chartHeight: {
       type: Number,
@@ -47,16 +47,24 @@ export default {
         ],
         datasets: [
           {
+            fill: false,
             label: this.$t('label.done'),
-            backgroundColor: '#56CCF2',
-            hoverBackgroundColor: '#56CCF2',
-            data: [40, 20, 12, 39, 10, 40, 39, 80, 40, 20, 12, 11]
+            backgroundColor: '#BDBDBD',
+            borderColor: '#BDBDBD',
+            pointBackgroundColor: '#BDBDBD',
+            pointBorderColor: '#BDBDBD',
+            radius: 0,
+            data: [10, 25, 30, 35, 40, 45, 50, 60, 70, 80, 90, 100]
           },
           {
+            fill: false,
             label: this.$t('label.process'),
-            backgroundColor: '#2D9CDB',
-            hoverBackgroundColor: '#2D9CDB',
-            data: [40, 20, 12, 39, 10, 40, 39, 10, 40, 20, 12, 11]
+            backgroundColor: '#757575',
+            borderColor: '#757575',
+            pointBackgroundColor: '#757575',
+            pointBorderColor: '#757575',
+            radius: 0,
+            data: [30, 35, 40, 45, 50, 55, 60, 70, 80, 90, 120, 130]
           }
         ]
       },
@@ -68,8 +76,7 @@ export default {
             {
               gridLines: {
                 display: false
-              },
-              stacked: true
+              }
             }
           ],
           yAxes: [
@@ -83,8 +90,7 @@ export default {
               scaleLabel: {
                 display: true,
                 labelString: 'Value'
-              },
-              stacked: true
+              }
             }
           ]
         },
@@ -100,6 +106,10 @@ export default {
           displayColors: false,
           mode: 'index',
           intersect: false
+        },
+        hover: {
+          mode: 'nearest',
+          intersect: true
         }
       }
     }

@@ -4,7 +4,7 @@
     outlined
   >
     <v-card-title class="title ml-0 black--text">
-      Umur
+      {{ $t('label.age') }}
     </v-card-title>
     <v-divider class="mt-0 mb-2" />
     <v-card-text>
@@ -21,31 +21,37 @@
 <script>
 export default {
   name: 'ChartAge',
+  props: {
+    chartHeight: {
+      type: Number,
+      default: 300
+    }
+  },
   data() {
     return {
       loaded: false,
       chartData: {
         labels: [
-          '90 - 100',
-          '80 - 90',
-          '70 - 80',
-          '60 - 70',
-          '50 - 60',
-          '40 - 50',
-          '30 - 40',
-          '20 - 30',
+          '0 - 10',
           '10 - 20',
-          '0 - 10'
+          '20 - 30',
+          '30 - 40',
+          '40 - 50',
+          '50 - 60',
+          '60 - 70',
+          '70 - 80',
+          '80 - 90',
+          '90 - 100'
         ],
         datasets: [
           {
-            label: 'Laki-laki',
-            backgroundColor: 'rgba(102, 164, 251, 1)',
+            label: this.$t('label.female'),
+            backgroundColor: 'rgba(255, 124, 143, 1)',
             data: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
           },
           {
-            label: 'Perempuan',
-            backgroundColor: 'rgba(255, 124, 143, 1)',
+            label: this.$t('label.male'),
+            backgroundColor: 'rgba(102, 164, 251, 1)',
             data: [-5, -10, -30, -40, -50, -60, -70, -80, -80, -85]
           }
         ]
@@ -71,7 +77,10 @@ export default {
               gridLines: {
                 display: false
               },
-              stacked: true
+              stacked: true,
+              ticks: {
+                reverse: true
+              }
             }
           ]
         },
@@ -103,7 +112,7 @@ export default {
   computed: {
     chartStyles() {
       return {
-        height: `300px`,
+        height: `${this.chartHeight}px`,
         position: 'relative'
       }
     }

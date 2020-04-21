@@ -4,7 +4,7 @@
     outlined
   >
     <v-card-title class="title ml-0 black--text">
-      {{ $t('label.daily_number') }} {{ $t('label.odp') }}
+      {{ $t('label.daily_number') }} {{ $t('label.otg') }}
     </v-card-title>
     <v-divider class="mt-0 mb-2" />
     <v-card-text>
@@ -20,7 +20,7 @@
 
 <script>
 export default {
-  name: 'ChartDailyPersonUnderMonitoring',
+  name: 'ChartDailyPeopleWithoutSymptoms',
   props: {
     chartHeight: {
       type: Number,
@@ -48,14 +48,14 @@ export default {
         datasets: [
           {
             label: this.$t('label.done'),
-            backgroundColor: '#56CCF2',
-            hoverBackgroundColor: '#56CCF2',
+            backgroundColor: '#BDBDBD',
+            hoverBackgroundColor: '#BDBDBD',
             data: [40, 20, 12, 39, 10, 40, 39, 80, 40, 20, 12, 11]
           },
           {
             label: this.$t('label.process'),
-            backgroundColor: '#2D9CDB',
-            hoverBackgroundColor: '#2D9CDB',
+            backgroundColor: '#757575',
+            hoverBackgroundColor: '#757575',
             data: [40, 20, 12, 39, 10, 40, 39, 10, 40, 20, 12, 11]
           }
         ]

@@ -1,8 +1,8 @@
 <template>
-  <v-container fluid grid-list-xl py-0 mb-5>
+  <v-container v-if="display" fluid grid-list-xl py-0 mb-5>
     <v-row>
       <v-col cols="12">
-        <h4>Filter Berdasarkan:</h4>
+        <h4>{{ $t('label.look_for_it') }} {{ $t('label.based') }}:</h4>
         <v-divider class="mb-0" />
       </v-col>
       <v-col cols="12" md="2" sm="12">
@@ -33,12 +33,12 @@
       </v-col>
       <v-col cols="12" md="2" sm="12">
         <v-btn block color="grey darken-3" class="button white--text" @click="onReset">
-          Reset
+          {{ $t('label.reset') }}
         </v-btn>
       </v-col>
       <v-col cols="12" md="2" sm="12">
         <v-btn block color="success" class="button">
-          Filter
+          {{ $t('label.look_for_it') }}
         </v-btn>
       </v-col>
       <v-col cols="12" md="2" sm="12">
@@ -62,52 +62,64 @@
       </v-col>
     </v-row>
     <v-row class="mb-3">
-      <v-col cols="12" md="6">
+      <v-col cols="12" md="4">
+        <statistic-people-without-symptoms />
+      </v-col>
+      <v-col cols="12" md="4">
         <statistic-person-under-monitoring />
       </v-col>
-      <v-col cols="12" md="6">
+      <v-col cols="12" md="4">
         <statistic-patient-under-investigation />
       </v-col>
     </v-row>
+    <v-divider />
     <v-tabs>
       <v-tab :key="'daily'" :href="'#tab-daily'">
-        Angka Harian
+        {{ $t('label.daily_number') }}
       </v-tab>
       <v-tab :key="'cumulative'" :href="'#tab-cumulative'">
-        Kumulatif
+        {{ $t('label.cumulative') }}
       </v-tab>
       <v-tab-item :key="'daily'" :value="'tab-daily'">
         <v-row>
-          <v-col cols="12" md="4">
-            <chart-daily-person-under-monitoring />
+          <v-col cols="12" md="6">
+            <chart-daily-people-without-symptoms :chart-height="250" />
           </v-col>
-          <v-col cols="12" md="4">
-            <chart-daily-patient-under-investigation />
+          <v-col cols="12" md="6">
+            <chart-daily-person-under-monitoring :chart-height="250" />
           </v-col>
-          <v-col cols="12" md="4">
-            <chart-daily-confirmed />
+          <v-col cols="12" md="6">
+            <chart-daily-patient-under-investigation :chart-height="250" />
+          </v-col>
+          <v-col cols="12" md="6">
+            <chart-daily-confirmed :chart-height="250" />
           </v-col>
         </v-row>
       </v-tab-item>
       <v-tab-item :key="'cumulative'" :value="'tab-cumulative'">
         <v-row>
-          <v-col cols="12" md="4">
-            <chart-cumulative-person-under-monitoring />
+          <v-col cols="12" md="6">
+            <chart-cumulative-people-without-symptoms :chart-height="250" />
           </v-col>
-          <v-col cols="12" md="4">
-            <chart-cumulative-patient-under-investigation />
+          <v-col cols="12" md="6">
+            <chart-cumulative-person-under-monitoring :chart-height="250" />
           </v-col>
-          <v-col cols="12" md="4">
-            <chart-cumulative-confirmed />
+          <v-col cols="12" md="6">
+            <chart-cumulative-patient-under-investigation :chart-height="250" />
+          </v-col>
+          <v-col cols="12" md="6">
+            <chart-cumulative-confirmed :chart-height="250" />
           </v-col>
         </v-row>
       </v-tab-item>
     </v-tabs>
+    <v-divider />
     <v-row>
       <v-col cols="12">
         <map-point />
       </v-col>
     </v-row>
+    <v-divider />
     <v-row>
       <v-col cols="12" md="4">
         <chart-gender />
@@ -153,6 +165,7 @@ export default {
   },
   data() {
     return {
+      display: true,
       districtCity: {
         kota_kode: this.districtCode,
         kota_nama: this.districtName
@@ -204,6 +217,10 @@ export default {
     }
   },
   async beforeMount() {
+    if (this.roles[0] === 'faskes') {
+      this.display = false
+    }
+
     if (this.roles[0] === 'dinkeskota') {
       this.disabledDistrict = true
     }

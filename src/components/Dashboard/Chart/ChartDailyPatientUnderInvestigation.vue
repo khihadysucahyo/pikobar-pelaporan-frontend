@@ -4,7 +4,7 @@
     outlined
   >
     <v-card-title class="title ml-0 black--text">
-      Angka Harian PDP
+      {{ $t('label.daily_number') }} {{ $t('label.pdp') }}
     </v-card-title>
     <v-divider class="mt-0 mb-2" />
     <v-card-text>
@@ -21,6 +21,12 @@
 <script>
 export default {
   name: 'ChartDailyPatientUnderInvestigation',
+  props: {
+    chartHeight: {
+      type: Number,
+      default: 300
+    }
+  },
   data() {
     return {
       loaded: false,
@@ -41,13 +47,13 @@ export default {
         ],
         datasets: [
           {
-            label: 'Selesai',
+            label: this.$t('label.done'),
             backgroundColor: '#EED138',
             hoverBackgroundColor: '#EED138',
             data: [40, 20, 12, 39, 10, 40, 39, 80, 40, 20, 12, 11]
           },
           {
-            label: 'Proses',
+            label: this.$t('label.process'),
             backgroundColor: '#E08D3B',
             hoverBackgroundColor: '#E08D3B',
             data: [40, 20, 12, 39, 10, 40, 39, 10, 40, 20, 12, 11]
@@ -101,7 +107,7 @@ export default {
   computed: {
     chartStyles() {
       return {
-        height: `300px`,
+        height: `${this.chartHeight}px`,
         position: 'relative'
       }
     }
