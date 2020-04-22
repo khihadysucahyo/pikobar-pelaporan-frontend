@@ -240,6 +240,9 @@ export default {
     import_instruction_step_6: '6. Jika proses impor berhasil, maka akan muncul pesan berhasil dan data akan tersimpan serta tampil secara otomatis pada list kasus',
     kilobyte: 'KB',
     congratulation: 'Selamat',
+    in_the_name_of: 'atas nama',
+    already_listed_by: 'sudah terdata dikasus oleh',
+    nik_already_registered: 'NIK telah terdaftar!',
     import_success_message: 'Impor file telah berhasil'
   },
   success: {
@@ -268,6 +271,10 @@ export default {
     field_non_whitespaces: 'Kolom tidak boleh mengandung spasi',
     server_error_occurred: 'Terjadi kesalahan pada server',
     feature_under_development: 'Fitur dalam pengembangan',
-    file_failed_upload: 'File Gagal Diupload!'
+    file_failed_upload: 'File Gagal Diupload!',
+    field_cannot_use_zero_in_first_and_last: 'Digit pertama dan terakhir tidak boleh 0',
+    field_first_two_digits_must_province_code: 'Dua digit pertama harus merupakan kode provinsi',
+    field_must_contains_sixteen_digits: 'Kolom harus mempunyai 16 digit',
+    duplicated_nik: 'NIK telah terdaftar di sistem'
   },
 }
