@@ -253,7 +253,12 @@ export default {
   errors: {
     username_must_be_filled: 'Username harus diisi',
     password_must_be_filled: 'Password harus diisi',
+    new_password_must_be_filled: 'Password baru harus diisi',
     password_must_be_more_than_characters: 'Password harus lebih dari 5 karakter',
+    new_password_must_be_more_than_characters: 'Password baru harus lebih dari 5 karakter',
+    confirm_new_password_must_be_filled: 'Konfirmasi password baru harus diisi',
+    confirm_new_password_must_be_more_than_characters: 'Konfirmasi password baru harus lebih dari 5 karakter',
+    confirm_new_password_not_same: 'Konfirmasi password tidak sama',
     field_must_be_valid_email: 'Masukkan email yang valid',
     field_must_be_filled: 'Kolom harus diisi',
     field_unauthorized_characters: 'Bidang mengandung karakter yang ' +

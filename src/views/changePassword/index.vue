@@ -66,13 +66,13 @@ export default {
         repeat_password: ''
       },
       passwordRules: [
-        v => !!v || 'Password baru harus diisi',
-        v => (v && v.length >= 5) || 'Password baru harus lebih dari 5 karakter'
+        v => !!v || this.$t('errors.new_password_must_be_filled'),
+        v => (v && v.length >= 5) || this.$t('errors.new_password_must_be_more_than_characters')
       ],
       repeatPasswordRules: [
-        v => !!v || 'Konfirmasi password baru harus diisi',
-        v => (v && v.length >= 5) || 'Konfirmasi password baru harus lebih dari 5 karakter',
-        v => (v && v === this.changePasswordForm.password) || 'Konfirmasi password tidak sama'
+        v => !!v || this.$t('errors.confirm_new_password_must_be_filled'),
+        v => (v && v.length >= 5) || this.$t('errors.confirm_new_password_must_be_more_than_characters'),
+        v => (v && v === this.changePasswordForm.password) || this.$t('errors.confirm_new_password_not_same')
       ]
     }
   },

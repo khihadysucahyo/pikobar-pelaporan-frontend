@@ -1,4 +1,3 @@
-
 <template>
   <div>
     <v-skeleton-loader
@@ -124,11 +123,11 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   data() {
     return {
-      totalList: 0,
-      userList: [],
       headers: [
         { text: '#', value: '_id', sortable: false },
         { text: 'USERNAME', value: 'username' },
@@ -150,10 +149,14 @@ export default {
       dataDelete: null
     }
   },
+  computed: {
+    ...mapGetters('user', [
+      'totalList',
+      'userList'
+    ])
+  },
   async mounted() {
-    const response = await this.$store.dispatch('user/listUser', this.listQuery)
-    this.userList = response.data.users
-    this.totalList = response.data._meta.totalPages
+    await this.$store.dispatch('user/listUser', this.listQuery)
   },
   methods: {
     getTableRowNumbering(index) {
