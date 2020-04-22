@@ -13,3 +13,9 @@ export function isPhoneNumber(str) {
 
   return reg.test(str)
 }
+
+export function noWhiteSpaces(str) {
+  const reg = /^\S*$/
+
+  return reg.test(str)
+}

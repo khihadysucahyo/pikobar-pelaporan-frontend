@@ -1,6 +1,6 @@
 <template>
   <detail-patient
-    :title-detail="'Detail Kasus'"
+    :title-detail="$t('label.detail_case')"
     :id-data="this.$route.params.id"
   />
 </template>

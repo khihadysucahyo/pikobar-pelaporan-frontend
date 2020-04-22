@@ -47,12 +47,57 @@ export default {
     }
   },
 
-  async listUser({ commit }, params) {
+  async createUser({ commit }, data) {
     try {
-      const response = await requestServer('/api/users', 'GET', params)
+      const response = await requestServer('/api/users', 'POST', data)
       return response
     } catch (e) {
       return e
+    }
+  },
+
+  async editUser({ commit }, data) {
+    const id = await data.id
+    await delete data['id']
+    try {
+      const response = await requestServer(`/api/users/${id}`, 'PUT', data.data)
+      return response
+    } catch (e) {
+      return e
+    }
+  },
+
+  async listUser({ commit }, params) {
+    try {
+      const response = await requestServer('/api/users', 'GET', params)
+      if (response.data === null) {
+        commit('SET_TOTAL_LIST_USER', 1)
+        commit('SET_LIST_USER', [])
+      } else {
+        commit('SET_TOTAL_LIST_USER', response.data._meta.totalPages)
+        commit('SET_LIST_USER', response.data.users)
+      }
+      return response
+    } catch (e) {
+      return e
+    }
+  },
+
+  async detailUser({ commit }, id) {
+    try {
+      const response = await requestServer(`/api/users/${id}`, 'GET')
+      return response
+    } catch (e) {
+      return e
+    }
+  },
+
+  async deleteUser({ commit }, id) {
+    try {
+      const response = await requestServer(`/api/users/${id}`, 'DELETE')
+      return response
+    } catch (error) {
+      return error.response
     }
   },
 
