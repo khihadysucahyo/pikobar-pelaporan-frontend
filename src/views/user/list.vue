@@ -54,7 +54,11 @@
             <template v-slot:item="{ item, index }">
               <tr>
                 <td>{{ getTableRowNumbering(index) }}</td>
-                <td>{{ item.username }}</td>
+                <td>
+                  <div style="width: 100px;">
+                    {{ item.username }}
+                  </div>
+                </td>
                 <td>{{ item.fullname }}</td>
                 <td>{{ item.email }}</td>
                 <td>{{ item.phone_number }}</td>
@@ -186,10 +190,6 @@ export default {
 </script>
 
 <style>
-.container {
-  margin-top: -30px;
-  margin-bottom: -30px;
-}
 .header-user-list {
   background: linear-gradient(82.33deg, #27AE60 0%, #58DA8F 100%);
 }
@@ -201,5 +201,8 @@ export default {
 .header-user-title {
   font-size: 30px;
   margin-bottom: 10px;
+}
+.class-on-data-table table {
+  table-layout: fixed;
 }
 </style>
