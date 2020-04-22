@@ -7,15 +7,15 @@
     >
       <v-card class="d-block pa-1 mx-auto header-user-list">
         <v-row justify="space-between" style="margin-top: 1rem;">
-          <v-col cols="12" sm="1">
+          <v-col cols="1" sm="1">
             <v-icon style="font-size: 70px;color: #ffff;">
               mdi-alert-circle
             </v-icon>
           </v-col>
           <v-col auto>
             <v-card-text class="header-user-text">
-              <div style="font-size: 30px;margin-bottom: 10px;">Kelola Pengguna</div>
-              <div>Untuk menambahkan pengguna baru anda dapat menekan tombol “Tambah User” disamping</div>
+              <div class="header-user-title">{{ $t('route.user_management') }}</div>
+              <div>{{ $t('label.redaction_list_user') }}</div>
             </v-card-text>
           </v-col>
           <v-col cols="12" sm="3">
@@ -26,7 +26,7 @@
               outlined
               @click="handleCreate"
             >
-              Tambah User
+              {{ $t('route.user_create') }}
             </v-btn>
           </v-col>
         </v-row>
@@ -55,10 +55,10 @@
             <template v-slot:item="{ item, index }">
               <tr>
                 <td>{{ getTableRowNumbering(index) }}</td>
+                <td>{{ item.username }}</td>
                 <td>{{ item.fullname }}</td>
                 <td>{{ item.email }}</td>
-                <td>{{ item.role }}</td>
-                <td>{{ item.name_district_city }}</td>
+                <td>{{ item.phone_number }}</td>
                 <td>
                   <v-card-actions>
                     <v-menu
@@ -85,7 +85,7 @@
                       </template>
                       <v-card>
                         <div>
-                          <v-list-item @click="handleDetail(item._id)">
+                          <v-list-item @click="handleDetail(item.id)">
                             {{ $t('label.view_detail') }}
                           </v-list-item>
                         </div>
@@ -116,10 +116,10 @@ export default {
       userList: [],
       headers: [
         { text: '#', value: '_id', sortable: false },
-        { text: 'NAMA', value: 'fullname' },
+        { text: 'USERNAME', value: 'username' },
+        { text: 'NAMA LENGKAP', value: 'fullname' },
         { text: 'EMAIL', value: 'email' },
-        { text: 'ROLE', value: 'role' },
-        { text: 'KOTA', value: 'name_district_city' },
+        { text: 'NO TELEPON', value: 'phone_number' },
         { text: 'AKSI', value: 'actions', sortable: false }
       ],
       loadingTable: false,
@@ -146,7 +146,7 @@ export default {
       await this.$store.dispatch('reports/listReportCase', this.listQuery)
     },
     async handleDetail(id) {
-      this.$store.dispatch('toast/errorToast', this.$t('errors.feature_under_development'))
+      await this.$router.push(`/user/detail/${id}`)
     },
     async handleCreate() {
       await this.$router.push(`/user/create`)
@@ -161,11 +161,15 @@ export default {
   margin-bottom: -30px;
 }
 .header-user-list {
-  height: 140px;
   background: linear-gradient(82.33deg, #27AE60 0%, #58DA8F 100%);
 }
 .header-user-text {
   font-size: 16px;
   color: #FFFFFF;
+  margin-left: 2rem;
+}
+.header-user-title {
+  font-size: 30px;
+  margin-bottom: 10px;
 }
 </style>

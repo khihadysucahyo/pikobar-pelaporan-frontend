@@ -17,13 +17,13 @@ const state = {
     role: '',
     code_district_city: '',
     name_district_city: '',
-    code_sudistrict: '',
-    name_subdistrict: '',
-    code_village: '',
-    name_village: '',
+    address_subdistrict_code: '',
+    address_subdistrict_name: '',
+    address_village_code: '',
+    address_village_name: '',
+    address_street: '',
     fullname: '',
-    phone_number: '',
-    name_instansi: ''
+    phone_number: ''
   }
 }
 

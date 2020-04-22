@@ -17,8 +17,8 @@ export default {
     change_password: 'Ubah Password',
     help: 'Bantuan',
     setting: 'Pengaturan',
-    user_management: 'Manajemen User',
-    user_create: 'Tambah User'
+    user_management: 'Kelola Pengguna',
+    user_create: 'Tambah Pengguna'
   },
   label: {
     username: 'Username',
@@ -200,13 +200,11 @@ export default {
     rdt_multiple_redaction2: 'Multiple Entry hanya dapat dilakukan untuk tes masif yang sudah dijadwalkan melalui aplikasi pendaftaran.',
     test_history: 'Riwayat Tes',
     data_empty: 'Tidak ada data',
-<<<<<<< HEAD
     user_list: 'List Pengguna',
     name_instansi: 'Nama Instansi',
     email: 'Email',
     roles: 'Hak Akses',
-    create_account: 'Buat Akun'
-=======
+    create_account: 'Buat Akun',
     based: 'Berdasarkan',
     daily_number: 'Angka Harian',
     cumulative: 'Kumulatif',
@@ -216,11 +214,11 @@ export default {
     supervision: 'Pengawasan',
     monitoring: 'Pemantauan',
     otg: 'OTG',
-    people_without_symptoms: 'Orang Tanpa Gejala',
     total_otg: 'Total OTG',
     confirmed: 'Terkonfirmasi',
-    age: 'Umur'
->>>>>>> c28408a0d80498c39fcf113451e029db16e133ea
+    detail_user: 'Detail Pengguna',
+    detail_case: 'Detail Kasus',
+    redaction_list_user: 'Untuk menambahkan pengguna baru anda dapat menekan tombol “Tambah Pengguna” disamping'
   },
   success: {
     login_success: 'Login Berhasil',

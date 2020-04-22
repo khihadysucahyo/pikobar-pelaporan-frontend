@@ -65,6 +65,15 @@ export default {
     }
   },
 
+  async detailUser({ commit }, id) {
+    try {
+      const response = await requestServer(`/api/users/${id}`, 'GET')
+      return response
+    } catch (e) {
+      return e
+    }
+  },
+
   // user logout
   logout({ commit, state, dispatch }) {
     return new Promise((resolve, reject) => {

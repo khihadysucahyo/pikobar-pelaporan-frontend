@@ -33,6 +33,16 @@ const settingRouter = {
         noCache: true,
         roles: ['superadmin', 'dinkesprov', 'dinkeskota']
       }
+    },
+    {
+      path: '/user/detail/:id',
+      component: () => import('@/views/user/detail'),
+      hidden: true,
+      meta: {
+        title: 'rdt_detail',
+        noCache: true,
+        roles: ['superadmin', 'dinkesprov', 'dinkeskota']
+      }
     }
   ]
 }

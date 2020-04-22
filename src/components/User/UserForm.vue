@@ -17,7 +17,7 @@
             >
               <label class="required">{{ $t('label.name_instansi') }}</label>
               <v-text-field
-                v-model="formUser.name_instansi"
+                v-model="formUser.fullname"
                 :error-messages="errors"
                 solo-inverted
               />
@@ -37,7 +37,7 @@
               v-slot="{ errors }"
               rules="required|isPhoneNumber"
             >
-              <label class="required">{{ $t('label.phone_number') }}n</label>
+              <label class="required">{{ $t('label.phone_number') }}</label>
               <v-text-field
                 v-model="formUser.phone_number"
                 :error-messages="errors"
@@ -52,14 +52,14 @@
               :district-name="formUser.name_district_city"
               :code-district.sync="formUser.code_district_city"
               :name-district.sync="formUser.name_district_city"
-              :sub-district-code="formUser.code_sudistrict"
-              :sub-district-name="formUser.name_subdistrict"
-              :code-sub-district.sync="formUser.code_sudistrict"
-              :name-sub-district.sync="formUser.name_subdistrict"
-              :village-code="formUser.code_village"
-              :village-name="formUser.name_village"
-              :code-village.sync="formUser.code_village"
-              :name-village.sync="formUser.name_village"
+              :sub-district-code="formUser.address_subdistrict_code"
+              :sub-district-name="formUser.address_subdistrict_name"
+              :code-sub-district.sync="formUser.address_subdistrict_code"
+              :name-sub-district.sync="formUser.address_subdistrict_name"
+              :village-code="formUser.address_village_code"
+              :village-name="formUser.address_village_name"
+              :code-village.sync="formUser.address_village_code"
+              :name-village.sync="formUser.address_village_name"
               :disabled-address="false"
               :required-address="true"
             />
@@ -112,14 +112,12 @@
             />
             <label class="required">{{ $t('label.repeat_password') }}</label>
             <v-text-field
-              v-model="formUser.repeat_password"
               :rules="repeatPasswordRules"
               :append-icon="typeRepeatPassword ? 'visibility' : 'visibility_off'"
               :type="typeRepeatPassword ? 'password' : 'text'"
               name="repeat_password"
               solo-inverted
               @click:append="() => (typeRepeatPassword = !typeRepeatPassword)"
-              @keyup.enter.native="handleChangePassword"
             />
           </v-col>
         </v-row>
@@ -130,6 +128,7 @@
                 color="success"
                 bottom
                 style="float: right;"
+                @click="handleCreate"
               >
                 {{ $t('label.create_account') }}
               </v-btn>
@@ -181,7 +180,7 @@ export default {
       repeatPasswordRules: [
         v => !!v || 'Konfirmasi password baru harus diisi',
         v => (v && v.length >= 5) || 'Konfirmasi password baru harus lebih dari 5 karakter',
-        v => (v && v === this.changePasswordForm.password) || 'Konfirmasi password tidak sama'
+        v => (v && v === this.formUser.password) || 'Konfirmasi password tidak sama'
       ]
     }
   },
@@ -194,25 +193,11 @@ export default {
     // console.log(this.formUser)
   },
   methods: {
-    handleChangePassword() {
+    async handleCreate() {
       if (this.$refs.form.validate()) {
-        this.loading = true
-        this.$store.dispatch('user/changePasswordUser', { password: this.changePasswordForm.password })
-          .then(() => {
-            this.$store.dispatch('toast/successToast', 'Password berhasil dirubah')
-            this.$store.dispatch('user/resetToken')
-            this.$router.push({ path: '/login' })
-            this.loading = false
-          })
-          .catch(() => {
-            this.loading = false
-            this.$refs.form.reset()
-          })
+        await this.$store.dispatch('user/createUser', this.formUser)
+        await this.$router.push(`/user/list`)
       }
-    },
-    handleCreate() {
-      // this.$store.dispatch('user/createUser', this.formUser)
-      this.$router.push(`/user/list`)
     }
   }
 }
