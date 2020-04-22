@@ -262,8 +262,7 @@ export default {
     confirm_new_password_not_same: 'Konfirmasi password tidak sama',
     field_must_be_valid_email: 'Masukkan email yang valid',
     field_must_be_filled: 'Kolom harus diisi',
-    field_unauthorized_characters: 'Bidang mengandung karakter yang ' +
-      'diizinkan.',
+    field_unauthorized_characters: 'Kolom mengandung karakter yang tidak diizinkan.',
     field_phone_number_not_valid: 'Nomor telepon tidak valid',
     field_non_whitespaces: 'Kolom tidak boleh mengandung spasi',
     server_error_occurred: 'Terjadi kesalahan pada server',
