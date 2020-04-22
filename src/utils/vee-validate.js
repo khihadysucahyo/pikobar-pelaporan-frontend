@@ -3,6 +3,7 @@ import { isContainHtmlTags, isPhoneNumber, noWhiteSpaces } from '@/utils/validat
 import store from '@/store'
 import { extend, setInteractionMode } from 'vee-validate'
 import i18n from '@/lang'
+import store from '@/store'
 
 setInteractionMode('eager')
 extend('required', {
@@ -78,5 +79,35 @@ extend('atLeastOne', {
   message: 'At least one item must be selected.',
   validate: (value) => {
     return value.length > 0
+  }
+})
+
+extend('zeroFrontEnd', {
+  message: (_, values) => i18n.t('errors.field_cannot_use_zero_in_first_and_last', values),
+  validate: (value) => {
+    return (value[0] !== '0' && value[value.length - 1] !== '0')
+  }
+})
+
+extend('provinceCode', {
+  message: (_, values) => i18n.t('errors.field_first_two_digits_must_province_code', values),
+  validate: (value) => {
+    const twoDigits = parseInt(value[0] + value[1])
+    return ((twoDigits >= 11 && twoDigits <= 19) || twoDigits === 21 || (twoDigits >= 31 && twoDigits <= 36) || (twoDigits >= 51 && twoDigits <= 53) || (twoDigits >= 61 && twoDigits <= 65) || (twoDigits >= 71 && twoDigits <= 76) || twoDigits === 81 || twoDigits === 82 || twoDigits === 91 || twoDigits === 94)
+  }
+})
+
+extend('sixteenDigits', {
+  message: (_, values) => i18n.t('errors.field_must_contains_sixteen_digits', values),
+  validate: (value) => {
+    return (value.length === 16)
+  }
+})
+
+extend('isNikAvailable', {
+  message: (_, values) => i18n.t('errors.duplicated_nik', values),
+  validate: async(value) => {
+    const response = await store.dispatch('reports/getNik', value)
+    return (response.data === null)
   }
 })

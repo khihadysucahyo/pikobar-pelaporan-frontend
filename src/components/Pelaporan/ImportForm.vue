@@ -17,7 +17,7 @@
               {{ $t('label.import_instruction') }}
               <a
                 class="headline font-weight-medium"
-                href="https://drive.google.com/drive/folders/1AzS8INObyQ8bW0FpIjU9LdYD4jDGR0ly"
+                href="https://drive.google.com/file/d/1RC4hqf0C02p7_OI8f664fCF1EzhWzQzW/view"
                 target="_blank"
               >{{ $t('label.download_here') }}</a>
             </v-card-text>
@@ -189,6 +189,7 @@ export default {
 }
 .import-container {
   background-color: #fafafa !important;
+  cursor: pointer;
 }
 .full-height {
   height: 100% !important;
