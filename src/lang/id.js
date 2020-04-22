@@ -218,7 +218,7 @@ export default {
     confirmed: 'Terkonfirmasi',
     detail_user: 'Detail Pengguna',
     detail_case: 'Detail Kasus',
-    redaction_list_user: 'Untuk menambahkan pengguna baru anda dapat menekan tombol “Tambah Pengguna” disamping'
+    redaction_list_user: 'Untuk menambahkan pengguna baru anda dapat menekan tombol “Tambah Pengguna” disamping',
     import: 'Impor',
     guidance: 'Panduan',
     import_instruction: 'Untuk menggunakan fitur impor, diwajibkan menggunakan template excel yang sudah kami berikan, jika belum punya bisa',
@@ -255,6 +255,7 @@ export default {
     field_unauthorized_characters: 'Bidang mengandung karakter yang ' +
       'diizinkan.',
     field_phone_number_not_valid: 'Nomor telepon tidak valid',
+    field_non_whitespaces: 'Kolom tidak boleh mengandung spasi',
     server_error_occurred: 'Terjadi kesalahan pada server',
     feature_under_development: 'Fitur dalam pengembangan',
     file_failed_upload: 'File Gagal Diupload!'
