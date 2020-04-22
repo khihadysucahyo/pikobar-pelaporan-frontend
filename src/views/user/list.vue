@@ -85,8 +85,14 @@
                       </template>
                       <v-card>
                         <div>
+                          <v-list-item @click="handleEdit(item.id)">
+                            {{ $t('label.update_user') }}
+                          </v-list-item>
                           <v-list-item @click="handleDetail(item.id)">
                             {{ $t('label.view_detail') }}
+                          </v-list-item>
+                          <v-list-item @click="handleDeleteUser(item)">
+                            {{ $t('label.deleted_user') }}
                           </v-list-item>
                         </div>
                       </v-card>
@@ -104,6 +110,15 @@
       :page.sync="listQuery.page"
       :limit.sync="listQuery.limit"
       :on-next="onNext"
+    />
+    <dialog-delete
+      :dialog="dialog"
+      :data-deleted="dataDelete"
+      :dialog-delete.sync="dialog"
+      :delete-date.sync="dataDelete"
+      :store-path-delete="`user/deleteUser`"
+      :store-path-get-list="`user/listUser`"
+      :list-query="listQuery"
     />
   </div>
 </template>
@@ -130,7 +145,9 @@ export default {
       },
       districtCity: {
         kota_kode: ''
-      }
+      },
+      dialog: false,
+      dataDelete: null
     }
   },
   async mounted() {
@@ -144,6 +161,16 @@ export default {
     },
     async onNext() {
       await this.$store.dispatch('reports/listReportCase', this.listQuery)
+    },
+    async handleDeleteUser(item) {
+      this.dialog = true
+      const dataDelete = {
+        _id: item.id
+      }
+      this.dataDelete = await dataDelete
+    },
+    async handleEdit(id) {
+      await this.$router.push(`/user/edit/${id}`)
     },
     async handleDetail(id) {
       await this.$router.push(`/user/detail/${id}`)

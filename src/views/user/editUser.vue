@@ -1,6 +1,8 @@
 <template>
   <user-form
     :form-user="formUser"
+    :id-data="this.$route.params.id"
+    :is-edit="true"
   />
 </template>
 
@@ -8,7 +10,7 @@
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'FormUser',
+  name: 'EditUser',
   computed: {
     ...mapGetters('user', [
       'formUser'

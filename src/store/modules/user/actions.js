@@ -56,6 +56,17 @@ export default {
     }
   },
 
+  async editUser({ commit }, data) {
+    const id = await data.id
+    await delete data['id']
+    try {
+      const response = await requestServer(`/api/users/${id}`, 'PUT', data.data)
+      return response
+    } catch (e) {
+      return e
+    }
+  },
+
   async listUser({ commit }, params) {
     try {
       const response = await requestServer('/api/users', 'GET', params)
@@ -71,6 +82,15 @@ export default {
       return response
     } catch (e) {
       return e
+    }
+  },
+
+  async deleteUser({ commit }, id) {
+    try {
+      const response = await requestServer(`/api/users/${id}`, 'DELETE')
+      return response
+    } catch (error) {
+      return error.response
     }
   },
 

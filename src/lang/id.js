@@ -18,7 +18,9 @@ export default {
     help: 'Bantuan',
     setting: 'Pengaturan',
     user_management: 'Kelola Pengguna',
-    user_create: 'Tambah Pengguna'
+    user_create: 'Tambah Pengguna',
+    user_detail: 'Detail Pengguna',
+    user_edit: 'Ubah Pengguna'
   },
   label: {
     username: 'Username',
@@ -147,6 +149,7 @@ export default {
     case_data: 'Data Kasus',
     view_detail: 'Lihat Detail',
     deleted_case: 'Hapus Kasus',
+    deleted_user: 'Hapus Pengguna',
     choose_action: 'Pilih aksi',
     test_result: 'Hasil Test',
     mechanism: 'Mekanisme',
@@ -185,6 +188,7 @@ export default {
     total_COVID19_massive_test_results: 'Jumlah Hasil Test Masif COVID-19',
     results_test_data: 'Data Hasil Test',
     update_results: 'Update Hasil',
+    update_user: 'Update Pengguna',
     delete_participant: 'Hapus Peserta',
     user_data: 'Data User',
     name: 'Nama',
@@ -204,7 +208,7 @@ export default {
     name_instansi: 'Nama Instansi',
     email: 'Email',
     roles: 'Hak Akses',
-    create_account: 'Buat Akun',
+    create_account: 'Buat Pengguna',
     based: 'Berdasarkan',
     daily_number: 'Angka Harian',
     cumulative: 'Kumulatif',
