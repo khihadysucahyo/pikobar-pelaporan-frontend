@@ -24,7 +24,7 @@
               <br>
               <div>
                 <v-autocomplete
-                  :items="hospitalList"
+                  :items="listLocationTest"
                   :return-object="true"
                   :label="$t('label.placed_date')"
                   menu-props="auto"
@@ -130,10 +130,6 @@ export default {
     formResult: {
       type: Object,
       default: null
-    },
-    listQuery: {
-      type: Object,
-      default: null
     }
   },
   data() {
@@ -143,6 +139,7 @@ export default {
       districtCity: {
         kota_kode: ''
       },
+      listLocationTest: [],
       listParticpant: [],
       headers: [
         { text: 'NO', value: '_id', sortable: false },
@@ -154,7 +151,13 @@ export default {
         { text: 'NO TELEPON', value: 'category', sortable: false },
         { text: 'KATEGORI', value: 'address_district_name', sortable: false },
         { text: 'HASIL TES', value: 'final_result', sortable: false }
-      ]
+      ],
+      listQuery: {
+        address_district_code: '',
+        test_date: '',
+        test_location: '',
+        search: ''
+      }
     }
   },
   computed: {
@@ -167,6 +170,10 @@ export default {
   },
   async mounted() {
     await this.$store.dispatch('region/getListHospital')
+    const responseParticipant = await this.$store.dispatch('region/listParticipantTest')
+    this.listParticpant = responseParticipant.data
+    const response = await this.$store.dispatch('rdt/listLocationTest')
+    this.listLocationTest = response.data
   },
   methods: {
     onSelectDistrict(value) {

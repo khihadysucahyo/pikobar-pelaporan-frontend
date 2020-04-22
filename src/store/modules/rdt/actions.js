@@ -81,6 +81,30 @@ export default {
       return error.response
     }
   },
+  async listLocationTest({ commit }) {
+    try {
+      const response = await requestServer(`/api/rdt/list-location-test`, 'GET')
+      return response
+    } catch (error) {
+      return error.response
+    }
+  },
+  async listParticipantTest({ commit }, params) {
+    try {
+      const response = await requestServer(`/api/rdt/list-registered-user`, 'GET', params)
+      return response
+    } catch (error) {
+      return error.response
+    }
+  },
+  async createMultipleRDT({ commit }, data) {
+    try {
+      const response = await requestServer(`/api/rdt/rdt-multiple`, 'POST', data)
+      return response
+    } catch (error) {
+      return error.response
+    }
+  },
   resetListRDT({ commit }) {
     commit('RESET_LIST_RDT')
   }
