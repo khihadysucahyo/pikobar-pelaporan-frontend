@@ -219,6 +219,23 @@ export default {
     detail_user: 'Detail Pengguna',
     detail_case: 'Detail Kasus',
     redaction_list_user: 'Untuk menambahkan pengguna baru anda dapat menekan tombol “Tambah Pengguna” disamping'
+    import: 'Impor',
+    guidance: 'Panduan',
+    import_instruction: 'Untuk menggunakan fitur impor, diwajibkan menggunakan template excel yang sudah kami berikan, jika belum punya bisa',
+    download_here: 'download disini!',
+    drop_file_here: 'Pilih berkas atau jatuhkan berkas disini',
+    error_message: 'Pesan Error',
+    data_in_row: 'Data pada baris',
+    import_instruction_title: 'Cara menggunakan fitur impor',
+    import_instruction_step_1: '1. Download template excel yang telah disediakan',
+    import_instruction_step_2: '2. Isi dan lengkapi data kasus pada template excel',
+    import_instruction_step_3: '3. Setelah selesai melengkapi data, tekan simpan pada excel',
+    import_instruction_step_4: '4. Klik tombol "Impor Data"',
+    import_instruction_step_5: '5. Jika proses impor gagal, maka akan muncul pesan error yang harus diperbaiki/dilengkapi datanya',
+    import_instruction_step_6: '6. Jika proses impor berhasil, maka akan muncul pesan berhasil dan data akan tersimpan serta tampil secara otomatis pada list kasus',
+    kilobyte: 'KB',
+    congratulation: 'Selamat',
+    import_success_message: 'Impor file telah berhasil'
   },
   success: {
     login_success: 'Login Berhasil',
