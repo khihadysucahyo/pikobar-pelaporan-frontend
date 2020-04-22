@@ -48,6 +48,7 @@ export default {
     sort_by: 'Urutkan Berdasarkan',
     target: 'Capaian / Target',
     address: 'Alamat',
+    complete_address: 'Alamat Lengkap',
     select_district: 'Kota/Kab.',
     select_sub_district: 'Kec.',
     select_village: 'Desa/Kel.',

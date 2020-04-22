@@ -46,7 +46,7 @@
                 type="number"
               />
             </ValidationProvider>
-            <label class="required">{{ $t('label.address_home') }}</label>
+            <label class="required">{{ $t('label.address') }}</label>
             <address-region
               :district-code="formUser.code_district_city"
               :district-name="formUser.name_district_city"
@@ -64,7 +64,7 @@
               :required-address="true"
             />
             <ValidationProvider>
-              <v-label>{{ $t('label.address_complete_home') }}</v-label>
+              <v-label>{{ $t('label.complete_address') }}</v-label>
               <v-textarea
                 v-model="formUser.address_street"
                 solo
