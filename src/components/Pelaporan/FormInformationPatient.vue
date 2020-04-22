@@ -308,7 +308,6 @@ export default {
       const valid = await this.$refs.observer.validate()
       if (!valid) {
         const response = await this.$store.dispatch('reports/getNik', this.formPasien.nik)
-        console.log(response)
         this.nikNumber = response.data.nik
         this.nikName = response.data.name
         this.nikAuthor = response.data.author.fullname

@@ -70,6 +70,6 @@ export default {
 </script>
 <style>
 .message {
-  color: red
+  color: #eb3535;
 }
 </style>
