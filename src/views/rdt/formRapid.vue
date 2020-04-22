@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <div>
     <h4 class="font-weight-bold" style="color:#43A047">{{ $t('label.participant_search') }}</h4>
     <v-divider />
     <ValidationObserver ref="observer">
@@ -46,7 +46,7 @@
         </v-container>
       </v-form>
     </ValidationObserver>
-  </v-container>
+  </div>
 </template>
 <script>
 import { ValidationObserver } from 'vee-validate'
