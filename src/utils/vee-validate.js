@@ -1,5 +1,5 @@
 import { required, email, max, numeric } from 'vee-validate/dist/rules'
-import { isContainHtmlTags, isPhoneNumber } from '@/utils/validate'
+import { isContainHtmlTags, isPhoneNumber, noWhiteSpaces } from '@/utils/validate'
 import { extend, setInteractionMode } from 'vee-validate'
 import i18n from '@/lang'
 
@@ -35,6 +35,13 @@ extend('isPhoneNumber', {
   message: (_, values) => i18n.t('errors.field_phone_number_not_valid', values),
   validate: value => {
     return isPhoneNumber(value)
+  }
+})
+
+extend('isWhiteSpaces', {
+  message: (_, values) => i18n.t('errors.field_non_whitespaces', values),
+  validate: value => {
+    return noWhiteSpaces(value)
   }
 })
 

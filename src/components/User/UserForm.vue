@@ -78,7 +78,7 @@
           >
             <ValidationProvider
               v-slot="{ errors }"
-              rules="required|isHtml"
+              rules="required|isHtml|isWhiteSpaces"
             >
               <label class="required">{{ $t('label.username') }}</label>
               <v-text-field
