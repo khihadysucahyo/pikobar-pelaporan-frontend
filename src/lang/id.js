@@ -267,6 +267,8 @@ export default {
     field_non_whitespaces: 'Kolom tidak boleh mengandung spasi',
     server_error_occurred: 'Terjadi kesalahan pada server',
     feature_under_development: 'Fitur dalam pengembangan',
-    file_failed_upload: 'File Gagal Diupload!'
+    file_failed_upload: 'File Gagal Diupload!',
+    username_are_used: 'Username telah digunakan',
+    email_are_used: 'Alamat email telah digunakan'
   },
 }

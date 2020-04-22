@@ -24,7 +24,7 @@
             </ValidationProvider>
             <ValidationProvider
               v-slot="{ errors }"
-              rules="required|email"
+              rules="required|email|isEmailUsed"
             >
               <label class="required">{{ $t('label.email') }}</label>
               <v-text-field
@@ -78,7 +78,7 @@
           >
             <ValidationProvider
               v-slot="{ errors }"
-              rules="required|isHtml|isWhiteSpaces"
+              rules="required|isUsernameUsed|isHtml|isWhiteSpaces"
             >
               <label class="required">{{ $t('label.username') }}</label>
               <v-text-field

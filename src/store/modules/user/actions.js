@@ -101,6 +101,15 @@ export default {
     }
   },
 
+  async checkUsernameEmail({ commit }, params) {
+    try {
+      const response = await requestServer('/api/users/check', 'GET', params)
+      return response
+    } catch (e) {
+      return e
+    }
+  },
+
   // user logout
   logout({ commit, state, dispatch }) {
     return new Promise((resolve, reject) => {
