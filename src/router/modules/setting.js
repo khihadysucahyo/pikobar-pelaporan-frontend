@@ -39,7 +39,17 @@ const settingRouter = {
       component: () => import('@/views/user/detail'),
       hidden: true,
       meta: {
-        title: 'rdt_detail',
+        title: 'user_detail',
+        noCache: true,
+        roles: ['superadmin', 'dinkesprov', 'dinkeskota']
+      }
+    },
+    {
+      path: '/user/edit/:id',
+      component: () => import('@/views/user/editUser'),
+      hidden: true,
+      meta: {
+        title: 'user_edit',
         noCache: true,
         roles: ['superadmin', 'dinkesprov', 'dinkeskota']
       }

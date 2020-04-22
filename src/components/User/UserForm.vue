@@ -46,7 +46,7 @@
                 type="number"
               />
             </ValidationProvider>
-            <label class="required">{{ $t('label.address_home') }}</label>
+            <label class="required">{{ $t('label.address') }}</label>
             <address-region
               :district-code="formUser.code_district_city"
               :district-name="formUser.name_district_city"
@@ -64,7 +64,7 @@
               :required-address="true"
             />
             <ValidationProvider>
-              <v-label>{{ $t('label.address_complete_home') }}</v-label>
+              <v-label>{{ $t('label.complete_address') }}</v-label>
               <v-textarea
                 v-model="formUser.address_street"
                 solo
@@ -100,37 +100,49 @@
                 solo
               />
             </ValidationProvider>
-            <label class="required">{{ $t('label.password') }}</label>
-            <v-text-field
-              v-model="formUser.password"
-              :rules="passwordRules"
-              :append-icon="typePassword ? 'visibility' : 'visibility_off'"
-              :type="typePassword ? 'password' : 'text'"
-              name="password"
-              solo-inverted
-              @click:append="() => (typePassword = !typePassword)"
-            />
-            <label class="required">{{ $t('label.repeat_password') }}</label>
-            <v-text-field
-              :rules="repeatPasswordRules"
-              :append-icon="typeRepeatPassword ? 'visibility' : 'visibility_off'"
-              :type="typeRepeatPassword ? 'password' : 'text'"
-              name="repeat_password"
-              solo-inverted
-              @click:append="() => (typeRepeatPassword = !typeRepeatPassword)"
-            />
+            <div v-if="!isEdit">
+              <label class="required">{{ $t('label.password') }}</label>
+              <v-text-field
+                v-model="formUser.password"
+                :rules="passwordRules"
+                :append-icon="typePassword ? 'visibility' : 'visibility_off'"
+                :type="typePassword ? 'password' : 'text'"
+                name="password"
+                solo-inverted
+                @click:append="() => (typePassword = !typePassword)"
+              />
+              <label class="required">{{ $t('label.repeat_password') }}</label>
+              <v-text-field
+                :rules="repeatPasswordRules"
+                :append-icon="typeRepeatPassword ? 'visibility' : 'visibility_off'"
+                :type="typeRepeatPassword ? 'password' : 'text'"
+                name="repeat_password"
+                solo-inverted
+                @click:append="() => (typeRepeatPassword = !typeRepeatPassword)"
+              />
+            </div>
           </v-col>
         </v-row>
         <v-container fluid>
           <v-row class="survey-bottom-form">
             <v-col>
               <v-btn
+                v-if="!isEdit"
                 color="success"
                 bottom
                 style="float: right;"
                 @click="handleCreate"
               >
                 {{ $t('label.create_account') }}
+              </v-btn>
+              <v-btn
+                v-else-if="isEdit"
+                color="success"
+                bottom
+                style="float: right;"
+                @click="handleCreate"
+              >
+                {{ $t('route.user_edit') }}
               </v-btn>
             </v-col>
           </v-row>
@@ -161,6 +173,10 @@ export default {
     formUser: {
       type: Object,
       default: null
+    },
+    idData: {
+      type: String,
+      default: null
     }
   },
   data() {
@@ -174,13 +190,13 @@ export default {
       typePassword: String,
       typeRepeatPassword: String,
       passwordRules: [
-        v => !!v || 'Password baru harus diisi',
-        v => (v && v.length >= 5) || 'Password baru harus lebih dari 5 karakter'
+        v => !!v || this.$t('errors.new_password_must_be_filled'),
+        v => (v && v.length >= 5) || this.$t('errors.new_password_must_be_more_than_characters')
       ],
       repeatPasswordRules: [
-        v => !!v || 'Konfirmasi password baru harus diisi',
-        v => (v && v.length >= 5) || 'Konfirmasi password baru harus lebih dari 5 karakter',
-        v => (v && v === this.formUser.password) || 'Konfirmasi password tidak sama'
+        v => !!v || this.$t('errors.confirm_new_password_must_be_filled'),
+        v => (v && v.length >= 5) || this.$t('errors.confirm_new_password_must_be_more_than_characters'),
+        v => (v && v === this.changePasswordForm.password) || this.$t('errors.confirm_new_password_not_same')
       ]
     }
   },
@@ -190,13 +206,27 @@ export default {
     ])
   },
   async mounted() {
-    // console.log(this.formUser)
+    this.$refs.form.reset()
+    if (this.isEdit) {
+      const response = await this.$store.dispatch('user/detailUser', this.idData)
+      await delete response.data['__v']
+      await Object.assign(this.formUser, response.data)
+    }
   },
   methods: {
     async handleCreate() {
       if (this.$refs.form.validate()) {
-        await this.$store.dispatch('user/createUser', this.formUser)
+        if (this.isEdit) {
+          const update = {
+            id: this.idData,
+            data: this.formUser
+          }
+          await this.$store.dispatch('user/editUser', update)
+        } else {
+          await this.$store.dispatch('user/createUser', this.formUser)
+        }
         await this.$router.push(`/user/list`)
+        this.$refs.form.reset()
       }
     }
   }

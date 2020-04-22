@@ -18,7 +18,9 @@ export default {
     help: 'Bantuan',
     setting: 'Pengaturan',
     user_management: 'Kelola Pengguna',
-    user_create: 'Tambah Pengguna'
+    user_create: 'Tambah Pengguna',
+    user_detail: 'Detail Pengguna',
+    user_edit: 'Ubah Pengguna'
   },
   label: {
     username: 'Username',
@@ -46,6 +48,7 @@ export default {
     sort_by: 'Urutkan Berdasarkan',
     target: 'Capaian / Target',
     address: 'Alamat',
+    complete_address: 'Alamat Lengkap',
     select_district: 'Kota/Kab.',
     select_sub_district: 'Kec.',
     select_village: 'Desa/Kel.',
@@ -147,6 +150,7 @@ export default {
     case_data: 'Data Kasus',
     view_detail: 'Lihat Detail',
     deleted_case: 'Hapus Kasus',
+    deleted_user: 'Hapus Pengguna',
     choose_action: 'Pilih aksi',
     test_result: 'Hasil Test',
     mechanism: 'Mekanisme',
@@ -185,6 +189,7 @@ export default {
     total_COVID19_massive_test_results: 'Jumlah Hasil Test Masif COVID-19',
     results_test_data: 'Data Hasil Test',
     update_results: 'Update Hasil',
+    update_user: 'Update Pengguna',
     delete_participant: 'Hapus Peserta',
     user_data: 'Data User',
     name: 'Nama',
@@ -204,7 +209,7 @@ export default {
     name_instansi: 'Nama Instansi',
     email: 'Email',
     roles: 'Hak Akses',
-    create_account: 'Buat Akun',
+    create_account: 'Buat Pengguna',
     based: 'Berdasarkan',
     daily_number: 'Angka Harian',
     cumulative: 'Kumulatif',
@@ -249,7 +254,12 @@ export default {
   errors: {
     username_must_be_filled: 'Username harus diisi',
     password_must_be_filled: 'Password harus diisi',
+    new_password_must_be_filled: 'Password baru harus diisi',
     password_must_be_more_than_characters: 'Password harus lebih dari 5 karakter',
+    new_password_must_be_more_than_characters: 'Password baru harus lebih dari 5 karakter',
+    confirm_new_password_must_be_filled: 'Konfirmasi password baru harus diisi',
+    confirm_new_password_must_be_more_than_characters: 'Konfirmasi password baru harus lebih dari 5 karakter',
+    confirm_new_password_not_same: 'Konfirmasi password tidak sama',
     field_must_be_valid_email: 'Masukkan email yang valid',
     field_must_be_filled: 'Kolom harus diisi',
     field_unauthorized_characters: 'Bidang mengandung karakter yang ' +

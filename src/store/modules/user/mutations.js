@@ -13,5 +13,11 @@ export default {
   },
   SET_FULLNAME: (state, fullname) => {
     state.fullname = fullname
+  },
+  SET_LIST_USER: (state, data) => {
+    state.userList = data
+  },
+  SET_TOTAL_LIST_USER: (state, data) => {
+    state.totalList = data
   }
 }
