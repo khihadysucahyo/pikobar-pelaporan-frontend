@@ -120,6 +120,14 @@ export default {
       return error.response
     }
   },
+  async getNik({ commit }, nik) {
+    try {
+      const response = await requestServer(`/api/cases-by-nik/${nik}`, 'GET')
+      return response
+    } catch (error) {
+      return error.response
+    }
+  },
   resetListCase({ commit }) {
     commit('RESET_LIST_CASE')
   },

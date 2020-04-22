@@ -227,7 +227,10 @@ export default {
     import_instruction_step_6: '6. Jika proses import berhasil, maka akan muncul pesan berhasil dan data akan tersimpan serta tampil secara otomatis pada list kasus',
     kilobyte: 'KB',
     congratulation: 'Selamat',
-    import_success_message: 'Import file telah berhasil'
+    import_success_message: 'Import file telah berhasil',
+    in_the_name_of: 'atas nama',
+    already_listed_by: 'sudah terdata dikasus oleh',
+    nik_already_registered: 'NIK telah terdaftar!'
   },
   success: {
     login_success: 'Login Berhasil',
@@ -249,6 +252,10 @@ export default {
     field_phone_number_not_valid: 'Nomor telepon tidak valid',
     server_error_occurred: 'Terjadi kesalahan pada server',
     feature_under_development: 'Fitur dalam pengembangan',
-    file_failed_upload: 'File Gagal Diupload!'
+    file_failed_upload: 'File Gagal Diupload!',
+    field_cannot_use_zero_in_first_and_last: 'Digit pertama dan terakhir tidak boleh 0',
+    field_first_two_digits_must_province_code: 'Dua digit pertama harus merupakan kode provinsi',
+    field_must_contains_sixteen_digits: 'Kolom harus mempunyai 16 digit',
+    duplicated_nik: 'NIK telah terdaftar di sistem'
   },
 }

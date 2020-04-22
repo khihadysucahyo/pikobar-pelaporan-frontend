@@ -265,7 +265,12 @@
           <v-card-title class="display-1 font-weight-bold pt-0 success-message">{{ $t('label.congratulation') }}</v-card-title>
         </v-row>
         <v-row class="mx-0" align="center" justify="center">
-          <v-card-title class="headline pt-0 success-message">{{ $t('label.import_success_message') }}</v-card-title>
+          <v-card-text
+            :class="{'subtitle-1': $vuetify.breakpoint. mdAndDown, 'headline': $vuetify.breakpoint. lgAndUp}"
+            class="pt-0 text-center success-message"
+          >
+            {{ $t('label.import_success_message') }}
+          </v-card-text>
         </v-row>
         <v-row class="mx-0" align="center" justify="center">
           <v-btn color="green darken-1" text @click="successDialog = false">{{ $t('label.ok') }}</v-btn>
