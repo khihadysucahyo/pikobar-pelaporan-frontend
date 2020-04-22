@@ -15,7 +15,9 @@ export default {
     laporan_detail: 'Detail Laporan Kasus',
     laporan_edit: 'Ubah Laporan Kasus',
     change_password: 'Ubah Password',
-    help: 'Bantuan'
+    help: 'Bantuan',
+    setting: 'Pengaturan',
+    user_management: 'Manajemen User'
   },
   label: {
     username: 'Username',
@@ -182,6 +184,9 @@ export default {
     results_test_data: 'Data Hasil Test',
     update_results: 'Update Hasil',
     delete_participant: 'Hapus Peserta',
+    user_data: 'Data User',
+    name: 'Nama',
+    city: 'Kota',
     district_city: 'Kabupaten/Kota',
     subdistrict: 'Kecamatan',
     village: 'Kelurahan',
@@ -192,6 +197,7 @@ export default {
     rdt_multiple_redaction1: 'Cari Tanggal dan Tempat Pelaksanaan',
     rdt_multiple_redaction2: 'Multiple Entry hanya dapat dilakukan untuk tes masif yang sudah dijadwalkan melalui aplikasi pendaftaran.',
     test_history: 'Riwayat Tes',
+    data_empty: 'Tidak ada data',
     based: 'Berdasarkan',
     daily_number: 'Angka Harian',
     cumulative: 'Kumulatif',
@@ -221,9 +227,11 @@ export default {
     password_must_be_more_than_characters: 'Password harus lebih dari 5 karakter',
     field_must_be_valid_email: 'Masukkan email yang valid',
     field_must_be_filled: 'Kolom harus diisi',
-    field_unauthorized_characters: 'Bidang mengandung karakter yang tidak diizinkan.',
+    field_unauthorized_characters: 'Bidang mengandung karakter yang ' +
+      'diizinkan.',
     field_phone_number_not_valid: 'Nomor telepon tidak valid',
     server_error_occurred: 'Terjadi kesalahan pada server',
+    feature_under_development: 'Fitur dalam pengembangan',
     file_failed_upload: 'File Gagal Diupload!'
   },
 }
