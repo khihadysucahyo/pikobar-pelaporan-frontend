@@ -21,6 +21,28 @@ const settingRouter = {
         noCache: true,
         roles: ['superadmin', 'dinkesprov', 'dinkeskota']
       }
+    },
+    {
+      path: '/user/create',
+      component: () => import('@/views/user/formUser'),
+      hidden: true,
+      meta: {
+        title: 'user_create',
+        icon: 'mdi-book-plus',
+        child: true,
+        noCache: true,
+        roles: ['superadmin', 'dinkesprov', 'dinkeskota']
+      }
+    },
+    {
+      path: '/user/detail/:id',
+      component: () => import('@/views/user/detail'),
+      hidden: true,
+      meta: {
+        title: 'rdt_detail',
+        noCache: true,
+        roles: ['superadmin', 'dinkesprov', 'dinkeskota']
+      }
     }
   ]
 }

@@ -1,54 +1,46 @@
 
 <template>
   <div>
+    <v-skeleton-loader
+      :loading="loadingTable"
+      type="article"
+    >
+      <v-card class="d-block pa-1 mx-auto header-user-list">
+        <v-row justify="space-between" style="margin-top: 1rem;">
+          <v-col cols="1" sm="1">
+            <v-icon style="font-size: 70px;color: #ffff;">
+              mdi-alert-circle
+            </v-icon>
+          </v-col>
+          <v-col auto>
+            <v-card-text class="header-user-text">
+              <div class="header-user-title">{{ $t('route.user_management') }}</div>
+              <div>{{ $t('label.redaction_list_user') }}</div>
+            </v-card-text>
+          </v-col>
+          <v-col cols="12" sm="3">
+            <v-btn
+              class="ma-1"
+              color="#009D57"
+              style="background: #FFFFFF;height: 56px;min-width: 178px;"
+              outlined
+              @click="handleCreate"
+            >
+              {{ $t('route.user_create') }}
+            </v-btn>
+          </v-col>
+        </v-row>
+      </v-card>
+    </v-skeleton-loader>
     <v-card outlined>
       <v-row>
         <v-col>
           <v-card-text>
-            <div style="font-size: 1.5rem;">{{ $t('label.user_data') }}</div>
+            <div style="font-size: 1.5rem;">{{ $t('label.user_list').toUpperCase() }}</div>
           </v-card-text>
         </v-col>
         <v-col />
       </v-row>
-      <v-form ref="form" lazy-validatiaon>
-        <v-container>
-          <v-row class="filter-row">
-            <v-col cols="12" sm="4">
-              <v-label class="title">{{ $t('label.name') }}</v-label>
-              <v-text-field
-                v-model="listQuery.search"
-                solo
-                label="Cari"
-                prepend-inner-icon="search"
-              />
-            </v-col>
-            <v-col cols="12" sm="4">
-              <v-label class="title">{{ $t('label.city') }}</v-label>
-              <select-area-district-city
-                :disabled-select="false"
-                :disabled-district="false"
-                :required="false"
-                :district-city="districtCity"
-                :city-district.sync="districtCity"
-                :on-select-district="onSelectDistrict"
-              />
-            </v-col>
-            <v-col cols="12" sm="4">
-              <br>
-              <div>
-                <v-btn
-                  color="success"
-                  style="height: 46px;min-width: 100px;margin-right: 4px;"
-                  @click="handleSearch"
-                >
-                  {{ $t('label.look_for_it') }}
-                </v-btn>
-              </div>
-            </v-col>
-          </v-row>
-        </v-container>
-      </v-form>
-      <hr>
       <v-row>
         <v-col auto>
           <v-data-table
@@ -63,10 +55,10 @@
             <template v-slot:item="{ item, index }">
               <tr>
                 <td>{{ getTableRowNumbering(index) }}</td>
+                <td>{{ item.username }}</td>
                 <td>{{ item.fullname }}</td>
                 <td>{{ item.email }}</td>
-                <td>{{ item.role }}</td>
-                <td>{{ item.name_district_city }}</td>
+                <td>{{ item.phone_number }}</td>
                 <td>
                   <v-card-actions>
                     <v-menu
@@ -93,7 +85,7 @@
                       </template>
                       <v-card>
                         <div>
-                          <v-list-item @click="handleDetail(item._id)">
+                          <v-list-item @click="handleDetail(item.id)">
                             {{ $t('label.view_detail') }}
                           </v-list-item>
                         </div>
@@ -107,6 +99,12 @@
         </v-col>
       </v-row>
     </v-card>
+    <pagination
+      :total="totalList"
+      :page.sync="listQuery.page"
+      :limit.sync="listQuery.limit"
+      :on-next="onNext"
+    />
   </div>
 </template>
 
@@ -114,13 +112,14 @@
 export default {
   data() {
     return {
+      totalList: 0,
       userList: [],
       headers: [
         { text: '#', value: '_id', sortable: false },
-        { text: 'NAMA', value: 'fullname' },
+        { text: 'USERNAME', value: 'username' },
+        { text: 'NAMA LENGKAP', value: 'fullname' },
         { text: 'EMAIL', value: 'email' },
-        { text: 'ROLE', value: 'role' },
-        { text: 'KOTA', value: 'name_district_city' },
+        { text: 'NO TELEPON', value: 'phone_number' },
         { text: 'AKSI', value: 'actions', sortable: false }
       ],
       loadingTable: false,
@@ -134,33 +133,23 @@ export default {
       }
     }
   },
-  watch: {
-    'listQuery.search': {
-      handler: function(value) {
-        if (value.length >= 3 || value.length === 0) {
-          this.listQuery.page = 1
-          this.handleSearch()
-        }
-      },
-      immediate: true
-    }
-  },
   async mounted() {
     const response = await this.$store.dispatch('user/listUser', this.listQuery)
     this.userList = response.data.users
+    this.totalList = response.data._meta.totalPages
   },
   methods: {
     getTableRowNumbering(index) {
       return ((this.listQuery.page - 1) * this.listQuery.limit) + (index + 1)
     },
-    async handleSearch() {
-      // this.$store.dispatch('toast/errorToast', this.$t('errors.feature_under_development'))
-    },
-    async onSelectDistrict(value) {
-      this.listQuery.address_district_code = value.kota_kode
+    async onNext() {
+      await this.$store.dispatch('reports/listReportCase', this.listQuery)
     },
     async handleDetail(id) {
-      this.$store.dispatch('toast/errorToast', this.$t('errors.feature_under_development'))
+      await this.$router.push(`/user/detail/${id}`)
+    },
+    async handleCreate() {
+      await this.$router.push(`/user/create`)
     }
   }
 }
@@ -170,5 +159,17 @@ export default {
 .container {
   margin-top: -30px;
   margin-bottom: -30px;
+}
+.header-user-list {
+  background: linear-gradient(82.33deg, #27AE60 0%, #58DA8F 100%);
+}
+.header-user-text {
+  font-size: 16px;
+  color: #FFFFFF;
+  margin-left: 2rem;
+}
+.header-user-title {
+  font-size: 30px;
+  margin-bottom: 10px;
 }
 </style>
