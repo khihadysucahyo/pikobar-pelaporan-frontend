@@ -231,6 +231,6 @@ export default {
   table-layout: fixed;
 }
 .td-username, .td-fullname {
-  width: 150px;
+  width: 100px;
 }
 </style>
