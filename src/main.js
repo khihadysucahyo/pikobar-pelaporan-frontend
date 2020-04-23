@@ -9,6 +9,7 @@ import * as VeeValidate from 'vee-validate'
 import moment from 'moment'
 import infiniteScroll from 'vue-infinite-scroll'
 import FlagIcon from 'vue-flag-icon'
+import VueAnalytics from 'vue-analytics'
 
 moment.locale('id')
 
@@ -24,6 +25,7 @@ import '@/styles' // include all css files
 import './permission' // permission control
 import '@/utils/vee-validate' // include all validate form
 import i18n from './lang' // Internationalization
+import '@/helpers/filters' // include all filters
 // import './registerServiceWorker'
 
 Vue.use(FlagIcon)
@@ -36,6 +38,11 @@ Vue.config.productionTip = false
 Vue.use(infiniteScroll)
 Vue.use(VueMoment, {
   moment
+})
+
+Vue.use(VueAnalytics, {
+  id: process.env.VUE_APP_ANALYTICS,
+  router
 })
 
 Vue.use(VeeValidate, {
