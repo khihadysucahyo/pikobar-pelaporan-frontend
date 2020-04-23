@@ -243,7 +243,8 @@ export default {
     in_the_name_of: 'atas nama',
     already_listed_by: 'sudah terdata dikasus oleh',
     nik_already_registered: 'NIK telah terdaftar!',
-    import_success_message: 'Impor file telah berhasil'
+    import_success_message: 'Impor file telah berhasil',
+    export: 'Ekspor'
   },
   success: {
     login_success: 'Login Berhasil',
