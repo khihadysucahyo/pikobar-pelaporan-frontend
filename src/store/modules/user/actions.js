@@ -110,6 +110,10 @@ export default {
     }
   },
 
+  resetForm({ commit }) {
+    commit('RESET_FORM_USER')
+  },
+
   // user logout
   logout({ commit, state, dispatch }) {
     return new Promise((resolve, reject) => {

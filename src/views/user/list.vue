@@ -59,7 +59,11 @@
                     {{ item.username }}
                   </div>
                 </td>
-                <td>{{ item.fullname }}</td>
+                <td>
+                  <div class="td-fullname">
+                    {{ item.fullname }}
+                  </div>
+                </td>
                 <td>{{ item.email }}</td>
                 <td>{{ item.phone_number }}</td>
                 <td>
@@ -215,7 +219,7 @@ export default {
 .class-on-data-table table {
   table-layout: fixed;
 }
-.td-username {
-  width: 100px;
+.td-username, .td-fullname {
+  width: 150px;
 }
 </style>
