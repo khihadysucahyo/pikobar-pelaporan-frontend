@@ -15,10 +15,14 @@
                 ref="form"
                 lazy-validation
               >
-                <ValidationProvider>
+                <ValidationProvider
+                  v-slot="{ errors }"
+                  rules="required"
+                >
                   <v-label>{{ $t('label.test_result') }}</v-label>
                   <v-radio-group
                     v-model="formRapid.final_result"
+                    :error-messages="errors"
                     row
                   >
                     <v-radio

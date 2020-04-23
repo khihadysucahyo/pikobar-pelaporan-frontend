@@ -99,7 +99,7 @@ export default {
   },
   async createMultipleRDT({ commit }, data) {
     try {
-      const response = await requestServer(`/api/rdt/rdt-multiple`, 'POST', data)
+      const response = await requestServer(`/api/rdt-multiple`, 'POST', data)
       return response
     } catch (error) {
       return error.response
