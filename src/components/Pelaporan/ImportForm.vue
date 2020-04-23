@@ -61,7 +61,7 @@
                   v-for="(item, index) in row.data"
                   :key="item.columnName"
                 >
-                  <span class="ml-1">{{ item.description }}</span><span v-if="index + 1 < row.data.length">,</span>
+                  <span class="ml-1">{{ item.description }}</span><span v-if="(index + 1) < row.data.length">,</span>
                 </span>
               </v-row>
             </div>
