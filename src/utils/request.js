@@ -50,23 +50,25 @@ service.interceptors.response.use(
   },
   async(error) => {
     await store.dispatch('animationLottie/setLoading', false)
-    const status = await error.response.status
-    switch (status) {
-      case ResponseRequest.NOTFOUND:
-        await store.dispatch('toast/errorToast', error.response.data.message)
-        break
-      case ResponseRequest.SERVERERROR:
-        await store.dispatch('toast/errorToast', error.response.data.message)
-        break
-      case ResponseRequest.UNAUTHORIZED:
-        await store.dispatch('toast/errorToast', error.response.data.message)
-        break
-      case ResponseRequest.UNPROCESSABLE:
-        await store.dispatch('toast/errorToast', error.response.data.message)
-        break
-      default:
-        await store.dispatch('toast/errorToast', error.message)
-        break
+    if (!error.response.data.errors) {
+      const status = await error.response.status
+      switch (status) {
+        case ResponseRequest.NOTFOUND:
+          await store.dispatch('toast/errorToast', error.response.data.message)
+          break
+        case ResponseRequest.SERVERERROR:
+          await store.dispatch('toast/errorToast', error.response.data.message)
+          break
+        case ResponseRequest.UNAUTHORIZED:
+          await store.dispatch('toast/errorToast', error.response.data.message)
+          break
+        case ResponseRequest.UNPROCESSABLE:
+          await store.dispatch('toast/errorToast', error.response.data.message)
+          break
+        default:
+          await store.dispatch('toast/errorToast', error.message)
+          break
+      }
     }
     return Promise.reject(error)
   }

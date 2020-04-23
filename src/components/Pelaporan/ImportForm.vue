@@ -17,7 +17,7 @@
               {{ $t('label.import_instruction') }}
               <a
                 class="headline font-weight-medium"
-                href="https://drive.google.com/file/d/1RC4hqf0C02p7_OI8f664fCF1EzhWzQzW/view"
+                href="https://drive.google.com/drive/folders/1AzS8INObyQ8bW0FpIjU9LdYD4jDGR0ly"
                 target="_blank"
               >{{ $t('label.download_here') }}</a>
             </v-card-text>
@@ -49,20 +49,27 @@
             <v-row v-if="selectedFile" justify="end" class="mr-0">
               <v-btn large color="success" :loading="isLoading" @click="onImport">{{ $t('label.import') }}</v-btn>
             </v-row>
-            <v-row v-if="errorList.length > 0" class="ml-0">{{ $t('label.error_message') }}</v-row>
-            <v-row
-              v-for="row in errorList"
-              :key="row.rowNumber"
-              class="my-2 mx-1 pa-3 error-message"
-            >
-              <span class="font-weight-bold">{{ $t('label.data_in_row') }} {{ row.rowNumber }}</span>
-              <span
-                v-for="(item, index) in row.data"
-                :key="item.columnName"
+            <v-row v-if="errorList.length > 0 && !isLoading" class="ml-0">{{ $t('label.error_message') }}</v-row>
+            <div v-if="errorType === 'row' && !isLoading">
+              <v-row
+                v-for="row in errorList"
+                :key="row.rowNumber"
+                class="my-2 mx-1 pa-3 error-message"
               >
-                <span class="ml-1">{{ item.description }}</span><span v-if="index + 1 < row.data.length">,</span>
-              </span>
-            </v-row>
+                <span class="font-weight-bold">{{ $t('label.data_in_row') }} {{ row.rowNumber }}</span>
+                <span
+                  v-for="(item, index) in row.data"
+                  :key="item.columnName"
+                >
+                  <span class="ml-1">{{ item.description }}</span><span v-if="(index + 1) < row.data.length">,</span>
+                </span>
+              </v-row>
+            </div>
+            <div v-else-if="errorType === 'message' && !isLoading">
+              <v-row v-for="(error, index) in errorList" :key="index">
+                <v-row class="my-2 mx-1 pa-3 error-message">{{ error }}</v-row>
+              </v-row>
+            </div>
           </v-card>
         </v-tab-item>
         <v-tab-item>
@@ -93,6 +100,7 @@
   </v-dialog>
 </template>
 <script>
+import i18n from '@/lang'
 export default {
   name: 'ImportForm',
   props: {
@@ -113,7 +121,8 @@ export default {
       errorMessage: null,
       failedDialog: false,
       isLoading: false,
-      errorList: []
+      errorList: [],
+      errorType: null
     }
   },
   watch: {
@@ -121,12 +130,16 @@ export default {
       this.show = value
       if (value) {
         this.selectedFile = null
+        this.errorList = []
+        this.errorType = null
       }
     },
     show(value) {
       this.$emit('update:show', value)
       if (!value) {
         this.selectedFile = null
+        this.errorList = []
+        this.errorType = null
       }
     },
     selectedFile(value) {
@@ -153,8 +166,7 @@ export default {
       ) {
         this.selectedFile = droppedFiles[0]
       } else {
-        this.errorMessage =
-          'Sistem hanya dapat menerima file dengan format ".xlsx"'
+        this.errorMessage = i18n.t('errors.field_only_accepts_xlsx')
         this.failedDialog = true
         this.$emit('update:failed', this.failedDialog)
         this.$emit('update:message', this.errorMessage)
@@ -170,12 +182,16 @@ export default {
         return
       }
       if (response.status === 200 || response.status === 201) {
+        this.errorType = null
         this.show = false
         this.$emit('update:success', true)
         this.refreshPage()
+      } else if (response.data.errors[0].rowNumber) {
+        this.errorList = response.data.errors
+        this.errorType = 'row'
       } else {
         this.errorList = response.data.errors
-        this.failedDialog = true
+        this.errorType = 'message'
       }
       this.isLoading = false
     }
