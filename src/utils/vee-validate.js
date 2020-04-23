@@ -1,6 +1,5 @@
 import { required, email, max, numeric } from 'vee-validate/dist/rules'
 import { isContainHtmlTags, isPhoneNumber, noWhiteSpaces } from '@/utils/validate'
-import store from '@/store'
 import { extend, setInteractionMode } from 'vee-validate'
 import i18n from '@/lang'
 import store from '@/store'
