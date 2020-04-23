@@ -55,7 +55,7 @@
               <tr>
                 <td>{{ getTableRowNumbering(index) }}</td>
                 <td>
-                  <div style="width: 100px;">
+                  <div class="td-username">
                     {{ item.username }}
                   </div>
                 </td>
@@ -214,5 +214,8 @@ export default {
 }
 .class-on-data-table table {
   table-layout: fixed;
+}
+.td-username {
+  width: 100px;
 }
 </style>
