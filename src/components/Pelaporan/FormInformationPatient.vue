@@ -13,10 +13,12 @@
           >
             <ValidationProvider
               v-slot="{ errors }"
+              rules="required|isHtml|zeroFrontEnd|provinceCode|sixteenDigits|numeric|isNikAvailable"
             >
-              <label>{{ $t('label.nik') }}</label>
+              <label class="required">{{ $t('label.nik') }}</label>
               <v-text-field
                 v-model="formPasien.nik"
+                type="number"
                 :error-messages="errors"
                 solo-inverted
               />
@@ -214,6 +216,13 @@
         </v-container>
       </v-form>
     </ValidationObserver>
+    <dialog-duplicated-nik
+      :show-dialog="showDuplicatedNikDialog"
+      :nik-number="nikNumber"
+      :nik-name="nikName"
+      :nik-author="nikAuthor"
+      :show.sync="showDuplicatedNikDialog"
+    />
   </v-container>
 </template>
 
@@ -251,7 +260,11 @@ export default {
       listQuery: {
         'name': ''
       },
-      searchRelatedCase: null
+      searchRelatedCase: null,
+      showDuplicatedNikDialog: false,
+      nikNumber: null,
+      nikName: null,
+      nikAuthor: null
     }
   },
   computed: {
@@ -294,6 +307,11 @@ export default {
     async onNext() {
       const valid = await this.$refs.observer.validate()
       if (!valid) {
+        const response = await this.$store.dispatch('reports/getNik', this.formPasien.nik)
+        this.nikNumber = response.data.nik
+        this.nikName = response.data.name
+        this.nikAuthor = response.data.author.fullname
+        this.showDuplicatedNikDialog = true
         return
       }
       await this.$store.dispatch('reports/resetRiwayatFormPasien')
