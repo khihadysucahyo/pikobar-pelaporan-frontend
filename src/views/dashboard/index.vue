@@ -43,7 +43,7 @@
       </v-col>
       <v-col cols="12" md="2" sm="12">
         <v-btn block color="info" class="button">
-          Export Data
+          {{ $t('label.export_data') }}
         </v-btn>
       </v-col>
     </v-row>

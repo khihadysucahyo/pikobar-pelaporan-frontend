@@ -64,7 +64,11 @@
                     {{ item.fullname }}
                   </div>
                 </td>
-                <td>{{ item.email }}</td>
+                <td>
+                  <div class="td-email">
+                    {{ item.email }}
+                  </div>
+                </td>
                 <td>{{ item.phone_number }}</td>
                 <td>{{
                   completeAddress(
@@ -232,5 +236,8 @@ export default {
 }
 .td-username, .td-fullname {
   width: 100px;
+}
+.td-email {
+  width: 130px;
 }
 </style>
