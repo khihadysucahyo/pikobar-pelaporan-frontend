@@ -121,7 +121,7 @@
             <v-icon left>
               mdi-download
             </v-icon>
-            Import
+            {{ $t('label.import') }}
           </v-btn>
           <v-btn
             class="btn-import-export margin-left"
@@ -129,7 +129,7 @@
             @click="onExport"
           >
             <v-icon left>mdi-upload</v-icon>
-            Export
+            {{ $t('label.export') }}
           </v-btn>
         </v-col>
       </v-row>
