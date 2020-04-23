@@ -54,7 +54,11 @@
             <template v-slot:item="{ item, index }">
               <tr>
                 <td>{{ getTableRowNumbering(index) }}</td>
-                <td>{{ item.username }}</td>
+                <td>
+                  <div class="td-username">
+                    {{ item.username }}
+                  </div>
+                </td>
                 <td>{{ item.fullname }}</td>
                 <td>{{ item.email }}</td>
                 <td>{{ item.phone_number }}</td>
@@ -84,11 +88,17 @@
                       </template>
                       <v-card>
                         <div>
-                          <v-list-item @click="handleEdit(item.id)">
-                            {{ $t('label.update_user') }}
-                          </v-list-item>
                           <v-list-item @click="handleDetail(item.id)">
                             {{ $t('label.view_detail') }}
+                          </v-list-item>
+                          <v-list-item
+                            v-if="roles[0] === 'superadmin'"
+                            @click="handleResetPassword(item.id)"
+                          >
+                            {{ $t('route.change_password') }}
+                          </v-list-item>
+                          <v-list-item @click="handleEdit(item.id)">
+                            {{ $t('label.update_user') }}
                           </v-list-item>
                           <v-list-item @click="handleDeleteUser(item)">
                             {{ $t('label.deleted_user') }}
@@ -151,6 +161,7 @@ export default {
   },
   computed: {
     ...mapGetters('user', [
+      'roles',
       'totalList',
       'userList'
     ])
@@ -180,16 +191,15 @@ export default {
     },
     async handleCreate() {
       await this.$router.push(`/user/create`)
+    },
+    handleResetPassword(id) {
+      //
     }
   }
 }
 </script>
 
 <style>
-.container {
-  margin-top: -30px;
-  margin-bottom: -30px;
-}
 .header-user-list {
   background: linear-gradient(82.33deg, #27AE60 0%, #58DA8F 100%);
 }
@@ -201,5 +211,11 @@ export default {
 .header-user-title {
   font-size: 30px;
   margin-bottom: 10px;
+}
+.class-on-data-table table {
+  table-layout: fixed;
+}
+.td-username {
+  width: 100px;
 }
 </style>

@@ -243,7 +243,8 @@ export default {
     in_the_name_of: 'atas nama',
     already_listed_by: 'sudah terdata dikasus oleh',
     nik_already_registered: 'NIK telah terdaftar!',
-    import_success_message: 'Impor file telah berhasil'
+    import_success_message: 'Impor file telah berhasil',
+    export: 'Ekspor'
   },
   success: {
     login_success: 'Login Berhasil',
@@ -265,13 +266,14 @@ export default {
     confirm_new_password_not_same: 'Konfirmasi password tidak sama',
     field_must_be_valid_email: 'Masukkan email yang valid',
     field_must_be_filled: 'Kolom harus diisi',
-    field_unauthorized_characters: 'Bidang mengandung karakter yang ' +
-      'diizinkan.',
+    field_unauthorized_characters: 'Kolom mengandung karakter yang tidak diizinkan.',
     field_phone_number_not_valid: 'Nomor telepon tidak valid',
     field_non_whitespaces: 'Kolom tidak boleh mengandung spasi',
     server_error_occurred: 'Terjadi kesalahan pada server',
     feature_under_development: 'Fitur dalam pengembangan',
     file_failed_upload: 'File Gagal Diupload!',
+    username_are_used: 'Username telah digunakan',
+    email_are_used: 'Alamat email telah digunakan',
     field_cannot_use_zero_in_first_and_last: 'Digit pertama dan terakhir tidak boleh 0',
     field_first_two_digits_must_province_code: 'Dua digit pertama harus merupakan kode provinsi',
     field_must_contains_sixteen_digits: 'Kolom harus mempunyai 16 digit',

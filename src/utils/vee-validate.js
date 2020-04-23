@@ -46,6 +46,34 @@ extend('isWhiteSpaces', {
   }
 })
 
+extend('isUsernameUsed', {
+  message: (_, values) => i18n.t('errors.username_are_used', values),
+  validate: async(value) => {
+    let isUsed = true
+    if (value.length > 3) {
+      const response = await store.dispatch('user/checkUsernameEmail', {
+        params: value
+      })
+      isUsed = response.data
+    }
+    return !isUsed
+  }
+})
+
+extend('isEmailUsed', {
+  message: (_, values) => i18n.t('errors.email_are_used', values),
+  validate: async(value) => {
+    let isUsed = true
+    if (value.length > 3) {
+      const response = await store.dispatch('user/checkUsernameEmail', {
+        params: value
+      })
+      isUsed = response.data
+    }
+    return !isUsed
+  }
+})
+
 extend('atLeastOne', {
   message: 'At least one item must be selected.',
   validate: (value) => {
