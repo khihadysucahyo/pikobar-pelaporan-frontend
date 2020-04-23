@@ -88,11 +88,17 @@
                       </template>
                       <v-card>
                         <div>
-                          <v-list-item @click="handleEdit(item.id)">
-                            {{ $t('label.update_user') }}
-                          </v-list-item>
                           <v-list-item @click="handleDetail(item.id)">
                             {{ $t('label.view_detail') }}
+                          </v-list-item>
+                          <v-list-item
+                            v-if="roles[0] === 'superadmin'"
+                            @click="handleResetPassword(item.id)"
+                          >
+                            {{ $t('route.change_password') }}
+                          </v-list-item>
+                          <v-list-item @click="handleEdit(item.id)">
+                            {{ $t('label.update_user') }}
                           </v-list-item>
                           <v-list-item @click="handleDeleteUser(item)">
                             {{ $t('label.deleted_user') }}
@@ -155,6 +161,7 @@ export default {
   },
   computed: {
     ...mapGetters('user', [
+      'roles',
       'totalList',
       'userList'
     ])
@@ -184,6 +191,9 @@ export default {
     },
     async handleCreate() {
       await this.$router.push(`/user/create`)
+    },
+    handleResetPassword(id) {
+      //
     }
   }
 }

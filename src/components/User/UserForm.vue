@@ -196,7 +196,7 @@ export default {
       repeatPasswordRules: [
         v => !!v || this.$t('errors.confirm_new_password_must_be_filled'),
         v => (v && v.length >= 5) || this.$t('errors.confirm_new_password_must_be_more_than_characters'),
-        v => (v && v === this.changePasswordForm.password) || this.$t('errors.confirm_new_password_not_same')
+        v => (v && v === this.formUser.password) || this.$t('errors.confirm_new_password_not_same')
       ]
     }
   },
