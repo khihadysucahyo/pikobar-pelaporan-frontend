@@ -32,6 +32,7 @@
     "vue-moment": "^4.1.0",
     "vue-multiple-back-top": "^1.0.2",
     "vue-router": "^3.1.5",
+    "vue-ua": "^1.7.0",
     "vue2-breadcrumbs": "^2.0.0",
     "vue2-dragula": "^2.5.4",
     "vuetify": "^2.2.11",
