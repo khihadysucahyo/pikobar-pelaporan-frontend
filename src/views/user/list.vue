@@ -62,6 +62,14 @@
                 <td>{{ item.fullname }}</td>
                 <td>{{ item.email }}</td>
                 <td>{{ item.phone_number }}</td>
+                <td>{{
+                  completeAddress(
+                    item.name_district_city,
+                    item.address_subdistrict_name,
+                    item.address_village_name,
+                    item.address_street
+                  ) }}
+                </td>
                 <td>
                   <v-card-actions>
                     <v-menu
@@ -134,6 +142,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import { completeAddress } from '@/utils/utilsFunction'
 
 export default {
   data() {
@@ -144,6 +153,7 @@ export default {
         { text: 'NAMA LENGKAP', value: 'fullname' },
         { text: 'EMAIL', value: 'email' },
         { text: 'NO TELEPON', value: 'phone_number' },
+        { text: 'ALAMAT', value: 'address_street' },
         { text: 'AKSI', value: 'actions', sortable: false }
       ],
       loadingTable: false,
@@ -170,6 +180,7 @@ export default {
     await this.$store.dispatch('user/listUser', this.listQuery)
   },
   methods: {
+    completeAddress,
     getTableRowNumbering(index) {
       return ((this.listQuery.page - 1) * this.listQuery.limit) + (index + 1)
     },
