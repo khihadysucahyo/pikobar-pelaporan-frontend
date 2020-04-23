@@ -133,7 +133,7 @@
       <v-tab-item :key="'case'" :value="'tab-case'">
         <v-row>
           <v-col cols="12">
-            asd
+            <graph-case />
           </v-col>
         </v-row>
       </v-tab-item>

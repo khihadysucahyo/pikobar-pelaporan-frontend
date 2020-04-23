@@ -1,0 +1,61 @@
+{
+  "nodes": [
+    {
+      "id": "Kasus 1123",
+      "group": "Person",
+      "image": "https://co.vid19.sg/assets/icons/adult_female_in_hospital_imported_case-15e62c9b9faa5ca74dedf70bc17c2628ad9796e7e31aa66ac6838f4f4b8fd670.png"
+    },
+    {
+      "id": "Kasus 2",
+      "group": "Person",
+      "image": "https://co.vid19.sg/assets/icons/baby_male_in_hospital_imported_case-24b3ed9f8a0a858627e44c6980f5f5b4f85558727ca67b0e705019f49f32c5ce.png"
+    },
+    {
+      "id": "Kasus 3",
+      "group": "Person",
+      "image": "https://co.vid19.sg/assets/icons/baby_male_in_hospital_imported_case-24b3ed9f8a0a858627e44c6980f5f5b4f85558727ca67b0e705019f49f32c5ce.png"
+    },
+    {
+      "id": "Kasus 5",
+      "group": "Person",
+      "image": "https://co.vid19.sg/assets/icons/baby_male_in_hospital_imported_case-24b3ed9f8a0a858627e44c6980f5f5b4f85558727ca67b0e705019f49f32c5ce.png"
+    },
+    {
+      "id": "BEC",
+      "group": "Cluster",
+      "radius": 2,
+      "citing_patents_count": 2,
+      "image": "http://www.viralnovelty.net/wp-content/uploads/2014/07/121.jpg"
+    }
+  ],
+  "links": [
+    {
+      "source": "BEC",
+      "target": "Kasus 1123",
+      "label": "",
+      "dashes": false,
+      "value": 2
+    },
+    {
+      "source": "BEC",
+      "target": "Kasus 2",
+      "label": "",
+      "dashes": false,
+      "value": 2
+    },
+    {
+      "source": "Kasus 2",
+      "target": "Kasus 3",
+      "label": "Contact",
+      "dashes": true,
+      "value": 2
+    },
+    {
+      "source": "Kasus 1123",
+      "target": "Kasus 5",
+      "label": "Family",
+      "dashes": true,
+      "value": 2
+    }
+  ]
+}
