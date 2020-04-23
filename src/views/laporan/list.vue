@@ -116,28 +116,20 @@
             color="#b3e2cd"
             class="btn-import-export margin-right"
             depressed
-            :loading="isSelecting"
-            @click="onButtonClick"
+            @click="showImportForm = true"
           >
             <v-icon left>
               mdi-download
             </v-icon>
-            Import
+            {{ $t('label.import') }}
           </v-btn>
-          <input
-            ref="uploader"
-            class="d-none"
-            type="file"
-            accept=".xlsx"
-            @change="onFileChanged"
-          >
           <v-btn
             class="btn-import-export margin-left"
             color="#b3e2cd"
             @click="onExport"
           >
             <v-icon left>mdi-upload</v-icon>
-            Export
+            {{ $t('label.export') }}
           </v-btn>
         </v-col>
       </v-row>
@@ -148,7 +140,7 @@
             :headers="headers"
             :items="listKasus"
             :mobile-breakpoint="NaN"
-            :no-data-text="'Tidak ada data'"
+            :no-data-text="$t('label.data_empty')"
             :items-per-page="listQuery.limit"
             :loading="loadingTable"
             hide-default-footer
@@ -240,7 +232,7 @@
       </v-row>
     </v-card>
     <pagination
-      :total="totalList "
+      :total="totalList"
       :page.sync="listQuery.page"
       :limit.sync="listQuery.limit"
       :on-next="onNext"
@@ -264,6 +256,35 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <v-dialog v-model="successDialog" max-width="20%">
+      <v-card>
+        <v-row class="mx-0" align="center" justify="center">
+          <v-card-title><v-icon size="80px" color="success">mdi-checkbox-marked-circle</v-icon></v-card-title>
+        </v-row>
+        <v-row class="mx-0" align="center" justify="center">
+          <v-card-title class="display-1 font-weight-bold pt-0 success-message">{{ $t('label.congratulation') }}</v-card-title>
+        </v-row>
+        <v-row class="mx-0" align="center" justify="center">
+          <v-card-text
+            :class="{'subtitle-1': $vuetify.breakpoint. mdAndDown, 'headline': $vuetify.breakpoint. lgAndUp}"
+            class="pt-0 text-center success-message"
+          >
+            {{ $t('label.import_success_message') }}
+          </v-card-text>
+        </v-row>
+        <v-row class="mx-0" align="center" justify="center">
+          <v-btn color="green darken-1" text @click="successDialog = false">{{ $t('label.ok') }}</v-btn>
+        </v-row>
+      </v-card>
+    </v-dialog>
+    <import-form
+      :show-import-form="showImportForm"
+      :refresh-page="handleSearch"
+      :show.sync="showImportForm"
+      :failed.sync="failedDialog"
+      :success.sync="successDialog"
+      :message.sync="errorMessage"
+    />
   </div>
 </template>
 
@@ -311,10 +332,10 @@ export default {
       countingReports: null,
       dialog: false,
       dataDelete: null,
-      selectedFile: null,
-      isSelecting: false,
       failedDialog: false,
-      errorMessage: null
+      showImportForm: false,
+      errorMessage: null,
+      successDialog: false
     }
   },
   computed: {
@@ -348,7 +369,7 @@ export default {
     this.totalODP = response.data.ODP
     this.totalPDP = response.data.PDP
     this.totalPositif = response.data.POSITIF
-    this.totalReport = this.totalODP + this.totalPDP + this.totalPositif
+    this.totalReport = this.totalOTG + this.totalODP + this.totalPDP + this.totalPositif
   },
   methods: {
     async handleDetail(id) {
@@ -378,26 +399,6 @@ export default {
       const dateNow = Date.now()
       const fileName = `Data Kasus ${this.fullname} - ${formatDatetime(dateNow, 'DD/MM/YYYY HH:mm')} WIB.xlsx`
       FileSaver.saveAs(response, fileName)
-    },
-    onButtonClick() {
-      this.isSelecting = true
-      window.addEventListener('focus', () => {
-        this.isSelecting = false
-      }, { once: true })
-      this.$refs.uploader.click()
-    },
-    async onFileChanged(e) {
-      this.selectedFile = e.target.files[0]
-      const formData = new FormData()
-      formData.append('file', this.selectedFile)
-      const response = await this.$store.dispatch('reports/importExcel', formData)
-      if (response.status === 200 || response.status === 201) {
-        await this.$store.dispatch('toast/successToast', this.$t('success.file_success_upload'))
-        this.handleSearch()
-      } else {
-        this.errorMessage = response.data.message
-        this.failedDialog = true
-      }
     }
   }
 }
@@ -427,5 +428,8 @@ export default {
   }
   .table-divider {
     margin: 15px 0px 0px 0px;
+  }
+  .success-message {
+    color: #27ae60;
   }
 </style>

@@ -37,7 +37,7 @@
             :headers="headers"
             :items="rdtList"
             :mobile-breakpoint="NaN"
-            :no-data-text="'Tidak ada data'"
+            :no-data-text="$t('label.data_empty')"
             :items-per-page="listQuery.limit"
             :loading="loadingTable"
             hide-default-footer

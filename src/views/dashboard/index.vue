@@ -1,8 +1,8 @@
 <template>
-  <v-container fluid grid-list-xl py-0 mb-5>
+  <v-container v-if="display" fluid grid-list-xl py-0 mb-5>
     <v-row>
       <v-col cols="12">
-        <h4>Filter Berdasarkan:</h4>
+        <h4>{{ $t('label.look_for_it') }} {{ $t('label.based') }}:</h4>
         <v-divider class="mb-0" />
       </v-col>
       <v-col cols="12" md="2" sm="12">
@@ -33,12 +33,12 @@
       </v-col>
       <v-col cols="12" md="2" sm="12">
         <v-btn block color="grey darken-3" class="button white--text" @click="onReset">
-          Reset
+          {{ $t('label.reset') }}
         </v-btn>
       </v-col>
       <v-col cols="12" md="2" sm="12">
-        <v-btn block color="success" class="button">
-          Filter
+        <v-btn block color="success" class="button" @click="onSearch">
+          {{ $t('label.look_for_it') }}
         </v-btn>
       </v-col>
       <v-col cols="12" md="2" sm="12">
@@ -62,52 +62,89 @@
       </v-col>
     </v-row>
     <v-row class="mb-3">
-      <v-col cols="12" md="6">
+      <v-col cols="12" md="4">
+        <statistic-people-without-symptoms />
+      </v-col>
+      <v-col cols="12" md="4">
         <statistic-person-under-monitoring />
       </v-col>
-      <v-col cols="12" md="6">
+      <v-col cols="12" md="4">
         <statistic-patient-under-investigation />
       </v-col>
     </v-row>
+    <v-divider />
     <v-tabs>
       <v-tab :key="'daily'" :href="'#tab-daily'">
-        Angka Harian
+        {{ $t('label.daily_number') }}
       </v-tab>
       <v-tab :key="'cumulative'" :href="'#tab-cumulative'">
-        Kumulatif
+        {{ $t('label.cumulative') }}
       </v-tab>
       <v-tab-item :key="'daily'" :value="'tab-daily'">
         <v-row>
-          <v-col cols="12" md="4">
-            <chart-daily-person-under-monitoring />
+          <v-col cols="12" md="6">
+            <chart-daily-people-without-symptoms :chart-height="250" />
           </v-col>
-          <v-col cols="12" md="4">
-            <chart-daily-patient-under-investigation />
+          <v-col cols="12" md="6">
+            <chart-daily-person-under-monitoring :chart-height="250" />
           </v-col>
-          <v-col cols="12" md="4">
-            <chart-daily-confirmed />
+          <v-col cols="12" md="6">
+            <chart-daily-patient-under-investigation :chart-height="250" />
+          </v-col>
+          <v-col cols="12" md="6">
+            <chart-daily-confirmed :chart-height="250" />
           </v-col>
         </v-row>
       </v-tab-item>
       <v-tab-item :key="'cumulative'" :value="'tab-cumulative'">
         <v-row>
-          <v-col cols="12" md="4">
-            <chart-cumulative-person-under-monitoring />
+          <v-col cols="12" md="6">
+            <chart-cumulative-people-without-symptoms :chart-height="250" />
           </v-col>
-          <v-col cols="12" md="4">
-            <chart-cumulative-patient-under-investigation />
+          <v-col cols="12" md="6">
+            <chart-cumulative-person-under-monitoring :chart-height="250" />
           </v-col>
-          <v-col cols="12" md="4">
-            <chart-cumulative-confirmed />
+          <v-col cols="12" md="6">
+            <chart-cumulative-patient-under-investigation :chart-height="250" />
+          </v-col>
+          <v-col cols="12" md="6">
+            <chart-cumulative-confirmed :chart-height="250" />
           </v-col>
         </v-row>
       </v-tab-item>
     </v-tabs>
-    <v-row>
+    <v-divider />
+    <v-tabs>
+      <v-tab :key="'map'" :href="'#tab-map'">
+        Peta Sebaran
+      </v-tab>
+      <v-tab :key="'case'" :href="'#tab-case'">
+        Kasus Keterkaitan
+      </v-tab>
+      <v-tab-item :key="'map'" :value="'tab-map'">
+        <v-row>
+          <v-col cols="12">
+            <map-point
+              :filter-data="filter"
+            />
+          </v-col>
+        </v-row>
+      </v-tab-item>
+      <v-tab-item :key="'case'" :value="'tab-case'">
+        <v-row>
+          <v-col cols="12">
+            asd
+          </v-col>
+        </v-row>
+      </v-tab-item>
+    </v-tabs>
+    <v-divider />
+    <!-- <v-row>
       <v-col cols="12">
         <map-point />
       </v-col>
     </v-row>
+    <v-divider /> -->
     <v-row>
       <v-col cols="12" md="4">
         <chart-gender />
@@ -153,6 +190,7 @@ export default {
   },
   data() {
     return {
+      display: true,
       districtCity: {
         kota_kode: this.districtCode,
         kota_nama: this.districtName
@@ -165,7 +203,15 @@ export default {
         desa_kode: this.villageCode,
         desa_nama: this.villageName
       },
-      disabledDistrict: false
+      disabledDistrict: false,
+      filter: {
+        isCity: false,
+        isDistrict: false,
+        isVillage: false,
+        city: null,
+        district: null,
+        village: null
+      }
     }
   },
   computed: {
@@ -184,10 +230,7 @@ export default {
           kota_nama: this.districtName
         }
       } else {
-        this.districtCity = {
-          kota_kode: null,
-          kota_nama: null
-        }
+        this.clearCity()
       }
     },
     subDistrictCode: (value) => {
@@ -204,8 +247,14 @@ export default {
     }
   },
   async beforeMount() {
+    if (this.roles[0] === 'faskes') {
+      this.display = false
+    }
+
     if (this.roles[0] === 'dinkeskota') {
       this.disabledDistrict = true
+      this.filter.isCity = true
+      this.filter.city = this.district_user
     }
 
     this.districtCity = {
@@ -213,14 +262,23 @@ export default {
       kota_nama: this.district_name_user
     }
   },
+  beforeDestroy() {
+    this.clearCity()
+    this.clearDistrict()
+    this.clearVillage()
+    this.filter = null
+  },
   methods: {
     async onSelectDistrict(value) {
       this.districtCity = value
+      this.clearDistrict()
+      this.clearVillage()
       this.$emit('update:codeDistrict', value.kota_kode)
       this.$emit('update:nameDistrict', value.kota_nama)
     },
     async onSelectSubDistrict(value) {
       this.subDistrict = value
+      this.clearVillage()
       this.$emit('update:codeSubDistrict', value.kecamatan_kode)
       this.$emit('update:nameSubDistrict', value.kecamatan_nama)
     },
@@ -231,15 +289,39 @@ export default {
     },
     onReset() {
       if (this.roles[0] === 'dinkesprov') {
-        this.districtCity = {
-          kota_kode: null,
-          kota_nama: null
-        }
+        this.clearCity()
+        this.filter.isCity = false
+        this.filter.city = null
       }
+      this.clearDistrict()
+      this.clearVillage()
+
+      this.filter.isDistrict = false
+      this.filter.isVillage = false
+      this.filter.district = null
+      this.filter.village = null
+    },
+    onSearch() {
+      this.filter.city = this.districtCity.kota_kode
+      this.filter.district = this.subDistrict.kecamatan_kode
+      this.filter.village = this.village.desa_kode
+      this.filter.isCity = !!this.filter.city
+      this.filter.isDistrict = !!this.filter.district
+      this.filter.isVillage = !!this.filter.village
+    },
+    clearCity() {
+      this.districtCity = {
+        kota_kode: null,
+        kota_nama: null
+      }
+    },
+    clearDistrict() {
       this.subDistrict = {
         kecamatan_kode: null,
         kecamatan_nama: null
       }
+    },
+    clearVillage() {
       this.village = {
         desa_kode: null,
         desa_nama: null
