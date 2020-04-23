@@ -48,6 +48,7 @@
             </ValidationProvider>
             <label class="required">{{ $t('label.address') }}</label>
             <address-region
+              :disabled-district="disabledDistrict"
               :district-code="formUser.code_district_city"
               :district-name="formUser.name_district_city"
               :code-district.sync="formUser.code_district_city"
@@ -182,8 +183,8 @@ export default {
   data() {
     return {
       date: '',
+      disabledDistrict: true,
       listRoles: [
-        'dinkesprov',
         'dinkeskota',
         'faskes'
       ],
@@ -206,10 +207,11 @@ export default {
     ])
   },
   async mounted() {
-    this.$refs.form.reset()
+    this.disabledDistrict = await this.roles[0] === 'dinkeskota'
     if (this.isEdit) {
       const response = await this.$store.dispatch('user/detailUser', this.idData)
       await delete response.data['__v']
+      await delete response.data['updatedAt']
       await Object.assign(this.formUser, response.data)
     }
   },
@@ -226,7 +228,6 @@ export default {
           await this.$store.dispatch('user/createUser', this.formUser)
         }
         await this.$router.push(`/user/list`)
-        this.$refs.form.reset()
       }
     }
   }
