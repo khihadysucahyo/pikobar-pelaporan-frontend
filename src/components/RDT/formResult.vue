@@ -62,9 +62,12 @@
               <v-radio-group
                 v-model="formResult.final_result"
                 :error-messages="errors"
+                style="margin-left: 0.8rem;"
                 row
               >
-                <v-row>
+                <v-row
+                  v-if="formResult.tool_tester === 'PCR'"
+                >
                   <v-radio
                     :label="$t('label.negatif')"
                     value="NEGATIF"
@@ -79,7 +82,10 @@
                   />
 
                 </v-row>
-                <v-row style="margin-top: 1rem;">
+                <v-row
+                  v-else
+                  style="margin-top: 1rem;"
+                >
                   <v-radio
                     :label="$t('label.reaktif')"
                     value="REAKTIF"

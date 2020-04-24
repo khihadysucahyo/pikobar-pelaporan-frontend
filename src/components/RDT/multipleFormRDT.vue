@@ -14,9 +14,9 @@
               <input-date-picker
                 :format-date="formatDate"
                 :label="$t('label.test_implementation_date')"
-                :date-value="test_date"
-                :value-date.sync="test_date"
-                @changeDate="test_date = $event"
+                :date-value="listQuery.test_date"
+                :value-date.sync="listQuery.test_date"
+                @changeDate="listQuery.test_date = $event"
               />
             </v-col>
             <v-col cols="12" sm="4">
@@ -24,12 +24,12 @@
               <br>
               <div>
                 <v-autocomplete
-                  :items="hospitalList"
-                  :return-object="true"
+                  v-model="listQuery.test_location"
+                  :items="listLocationTest"
                   :label="$t('label.placed_date')"
                   menu-props="auto"
                   item-text="name"
-                  item-value="name"
+                  item-value="slug"
                   single-line
                   solo
                   autocomplete
@@ -42,6 +42,7 @@
                 <v-btn
                   color="success"
                   style="height: 46px;"
+                  @click="handleSearchParticipant"
                 >
                   {{ $t('label.look_for_it') }}
                 </v-btn>
@@ -49,31 +50,28 @@
             </v-col>
           </v-row>
           <v-row>
-            <v-col auto>
-              <v-data-table
-                :headers="headers"
-                :items="listParticpant"
-                :mobile-breakpoint="NaN"
-                :no-data-text="'Tidak ada data'"
-                hide-default-footer
-              />
-            </v-col>
-          </v-row>
-        </v-container>
-        <v-container fluid>
-          <v-row>
             <v-col
               cols="12"
               sm="4"
             >
-              <ValidationProvider>
+              <ValidationProvider
+                v-slot="{ errors }"
+                rules="required"
+              >
                 <label class="required">{{ $t('label.method') }}</label>
                 <v-radio-group
                   v-model="formResult.tool_tester"
+                  :error-messages="errors"
                   row
                 >
-                  <v-radio label="Rapid Test" value="RAPID TEST" />
-                  <v-radio label="PCR" value="PCR" />
+                  <v-radio
+                    :label="$t('label.rapid_test')"
+                    value="RAPID TEST"
+                  />
+                  <v-radio
+                    :label="$t('label.pcr')"
+                    value="PCR"
+                  />
                 </v-radio-group>
               </ValidationProvider>
             </v-col>
@@ -83,27 +81,110 @@
             >
               <ValidationProvider
                 v-if="formResult.tool_tester === 'RAPID TEST'"
+                v-slot="{ errors }"
+                rules="required"
               >
                 <label class="required">{{ $t('label.sampling') }}</label>
                 <v-radio-group
                   v-model="formResult.test_method"
+                  :error-messages="errors"
                   row
                 >
-                  <v-radio label="Vena" value="Vena" />
-                  <v-radio label="Kapiler" value="Kapiler" />
+                  <v-radio
+                    :label="$t('label.vena')"
+                    value="Vena"
+                  />
+                  <v-radio
+                    :label="$t('label.kapiler')"
+                    value="Kapiler"
+                  />
                 </v-radio-group>
               </ValidationProvider>
             </v-col>
-            <v-col
-              cols="12"
-              sm="4"
-            >
+          </v-row>
+          <v-row>
+            <v-col auto>
+              <v-data-table
+                :headers="headers"
+                :items="listParticpant"
+                :mobile-breakpoint="NaN"
+                :no-data-text="$t('label.data_empty')"
+                :items-per-page="1000"
+                hide-default-footer
+              >
+                <template v-slot:item="{ item, index }">
+                  <tr>
+                    <td>{{ getTableRowNumbering(index) }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.nik }}</td>
+                    <td>{{ item.age }}</td>
+                    <td>{{ item.birth_date }}</td>
+                    <td>{{ item.gender }}</td>
+                    <td>{{ item.phone_number }}</td>
+                    <td>{{ item.category }}</td>
+                    <td>
+                      <ValidationProvider
+                        v-slot="{ errors }"
+                        rules="required"
+                      >
+                        <v-radio-group
+                          v-model="item.final_result"
+                          :error-messages="errors"
+                          row
+                        >
+                          <div
+                            v-if="formResult.tool_tester === 'PCR'"
+                          >
+                            <v-radio
+                              :label="$t('label.negatif')"
+                              value="NEGATIF"
+                            />
+                            <v-radio
+                              :label="$t('label.positif')"
+                              value="POSITIF"
+                            />
+                            <v-radio
+                              :label="$t('label.inkonklusif')"
+                              value="INKONKLUSIF"
+                            />
+
+                          </div>
+                          <div
+                            v-else
+                            style="margin-top: 1rem;"
+                          >
+                            <v-radio
+                              :label="$t('label.reaktif')"
+                              value="REAKTIF"
+                            />
+                            <v-radio
+                              :label="$t('label.non_reaktif')"
+                              value="NON REAKTIF"
+                            />
+                            <v-radio
+                              :label="$t('label.invalid')"
+                              value="INVALID"
+                            />
+                          </div>
+                        </v-radio-group>
+                      </ValidationProvider>
+                    </td>
+                  </tr>
+                </template>
+              </v-data-table>
+            </v-col>
+          </v-row>
+        </v-container>
+        <v-container fluid>
+          <v-row>
+            <v-col>
               <br>
               <div>
                 <v-btn
                   color="#828282"
                   bottom
                   style="float: right; height: 46px;color: white"
+                  @click="handleSave"
                 >
                   {{ $t('label.save') }}
                 </v-btn>
@@ -130,31 +211,31 @@ export default {
     formResult: {
       type: Object,
       default: null
-    },
-    listQuery: {
-      type: Object,
-      default: null
     }
   },
   data() {
     return {
       formatDate: 'YYYY-MM-DD',
-      test_date: '',
       districtCity: {
         kota_kode: ''
       },
+      listLocationTest: [],
       listParticpant: [],
       headers: [
         { text: 'NO', value: '_id', sortable: false },
         { text: 'NAMA', value: 'name', sortable: false },
         { text: 'NIK', value: 'nik', sortable: false },
         { text: 'USIA', value: 'age', sortable: false },
-        { text: 'TANGGAL LAHIR', value: 'age', sortable: false },
+        { text: 'TANGGAL LAHIR', value: 'birth_date', sortable: false },
         { text: 'JK', value: 'gender', sortable: false },
-        { text: 'NO TELEPON', value: 'category', sortable: false },
-        { text: 'KATEGORI', value: 'address_district_name', sortable: false },
+        { text: 'NO TELEPON', value: 'phone_number', sortable: false },
+        { text: 'KATEGORI', value: 'category', sortable: false },
         { text: 'HASIL TES', value: 'final_result', sortable: false }
-      ]
+      ],
+      listQuery: {
+        test_date: '',
+        test_location: ''
+      }
     }
   },
   computed: {
@@ -167,10 +248,37 @@ export default {
   },
   async mounted() {
     await this.$store.dispatch('region/getListHospital')
+    const response = await this.$store.dispatch('rdt/listLocationTest')
+    this.listLocationTest = response.data
   },
   methods: {
     onSelectDistrict(value) {
       this.districtCity = value.kota_kode
+    },
+    getTableRowNumbering(index) {
+      return (index + 1)
+    },
+    async handleSearchParticipant() {
+      const response = await this.$store.dispatch('rdt/listParticipantTest', this.listQuery)
+      this.listParticpant = response.data
+    },
+    async handleSave() {
+      const valid = await this.$refs.observer.validate()
+      if (!valid) {
+        return
+      }
+
+      const toolTester = this.formResult.tool_tester
+      const testMethod = this.formResult.test_method
+      await this.listParticpant.map(function(el) {
+        el['tool_tester'] = toolTester
+        el['test_method'] = testMethod
+      })
+      const response = await this.$store.dispatch('rdt/createMultipleRDT', this.listParticpant)
+      if (response) {
+        await this.$store.dispatch('toast/successToast', this.$t('success.create_date_success'))
+        this.$router.push('/rdt/list')
+      }
     }
   }
 }

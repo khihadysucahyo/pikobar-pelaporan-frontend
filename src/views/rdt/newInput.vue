@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-row>
-      <div>
+      <v-col>
         <v-btn
           :color="singleEntry ? 'success':''"
           style="text-transform: none;height: 46px;min-width: 100px;margin-right: 4px;"
@@ -16,7 +16,7 @@
         >
           {{ $t('label.multiple_entry') }}
         </v-btn>
-      </div>
+      </v-col>
     </v-row>
     <v-row>
       <v-col>

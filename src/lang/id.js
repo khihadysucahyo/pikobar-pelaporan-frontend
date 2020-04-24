@@ -245,7 +245,8 @@ export default {
     nik_already_registered: 'NIK telah terdaftar!',
     import_success_message: 'Impor file telah berhasil',
     reset_password: 'Reset Password',
-    export: 'Ekspor'
+    export: 'Ekspor',
+    export_data: 'Ekspor Data'
   },
   success: {
     login_success: 'Login Berhasil',
@@ -278,6 +279,7 @@ export default {
     field_cannot_use_zero_in_first_and_last: 'Digit pertama dan terakhir tidak boleh 0',
     field_first_two_digits_must_province_code: 'Dua digit pertama harus merupakan kode provinsi',
     field_must_contains_sixteen_digits: 'Kolom harus mempunyai 16 digit',
-    duplicated_nik: 'NIK telah terdaftar di sistem'
+    duplicated_nik: 'NIK telah terdaftar di sistem',
+    field_only_accepts_xlsx: 'Sistem hanya dapat menerima file dengan format ".xlsx"'
   },
 }
