@@ -50,70 +50,6 @@
             </v-col>
           </v-row>
           <v-row>
-            <v-col auto>
-              <v-data-table
-                :headers="headers"
-                :items="listParticpant"
-                :mobile-breakpoint="NaN"
-                :no-data-text="$t('label.data_empty')"
-                :items-per-page="1000"
-                hide-default-footer
-              >
-                <template v-slot:item="{ item, index }">
-                  <tr>
-                    <td>{{ getTableRowNumbering(index) }}</td>
-                    <td>{{ item.name }}</td>
-                    <td>{{ item.nik }}</td>
-                    <td>{{ item.age }}</td>
-                    <td>{{ item.birth_date }}</td>
-                    <td>{{ item.gender }}</td>
-                    <td>{{ item.phone_number }}</td>
-                    <td>{{ item.category }}</td>
-                    <td>
-                      <ValidationProvider
-                        v-slot="{ errors }"
-                        rules="required"
-                      >
-                        <v-radio-group
-                          v-model="item.final_result"
-                          :error-messages="errors"
-                          row
-                        >
-                          <v-radio
-                            :label="$t('label.negatif')"
-                            value="NEGATIF"
-                          />
-                          <v-radio
-                            :label="$t('label.positif')"
-                            value="POSITIF"
-                          />
-                          <v-radio
-                            :label="$t('label.inkonklusif')"
-                            value="INKONKLUSIF"
-                          />
-                          <v-radio
-                            :label="$t('label.reaktif')"
-                            value="REAKTIF"
-                          />
-                          <v-radio
-                            :label="$t('label.non_reaktif')"
-                            value="NON REAKTIF"
-                          />
-                          <v-radio
-                            :label="$t('label.invalid')"
-                            value="INVALID"
-                          />
-                        </v-radio-group>
-                      </ValidationProvider>
-                    </td>
-                  </tr>
-                </template>
-              </v-data-table>
-            </v-col>
-          </v-row>
-        </v-container>
-        <v-container fluid>
-          <v-row>
             <v-col
               cols="12"
               sm="4"
@@ -165,10 +101,83 @@
                 </v-radio-group>
               </ValidationProvider>
             </v-col>
-            <v-col
-              cols="12"
-              sm="4"
-            >
+          </v-row>
+          <v-row>
+            <v-col auto>
+              <v-data-table
+                :headers="headers"
+                :items="listParticpant"
+                :mobile-breakpoint="NaN"
+                :no-data-text="$t('label.data_empty')"
+                :items-per-page="1000"
+                hide-default-footer
+              >
+                <template v-slot:item="{ item, index }">
+                  <tr>
+                    <td>{{ getTableRowNumbering(index) }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.nik }}</td>
+                    <td>{{ item.age }}</td>
+                    <td>{{ item.birth_date }}</td>
+                    <td>{{ item.gender }}</td>
+                    <td>{{ item.phone_number }}</td>
+                    <td>{{ item.category }}</td>
+                    <td>
+                      <ValidationProvider
+                        v-slot="{ errors }"
+                        rules="required"
+                      >
+                        <v-radio-group
+                          v-model="item.final_result"
+                          :error-messages="errors"
+                          row
+                        >
+                          <div
+                            v-if="formResult.tool_tester === 'PCR'"
+                          >
+                            <v-radio
+                              :label="$t('label.negatif')"
+                              value="NEGATIF"
+                            />
+                            <v-radio
+                              :label="$t('label.positif')"
+                              value="POSITIF"
+                            />
+                            <v-radio
+                              :label="$t('label.inkonklusif')"
+                              value="INKONKLUSIF"
+                            />
+
+                          </div>
+                          <div
+                            v-else
+                            style="margin-top: 1rem;"
+                          >
+                            <v-radio
+                              :label="$t('label.reaktif')"
+                              value="REAKTIF"
+                            />
+                            <v-radio
+                              :label="$t('label.non_reaktif')"
+                              value="NON REAKTIF"
+                            />
+                            <v-radio
+                              :label="$t('label.invalid')"
+                              value="INVALID"
+                            />
+                          </div>
+                        </v-radio-group>
+                      </ValidationProvider>
+                    </td>
+                  </tr>
+                </template>
+              </v-data-table>
+            </v-col>
+          </v-row>
+        </v-container>
+        <v-container fluid>
+          <v-row>
+            <v-col>
               <br>
               <div>
                 <v-btn
