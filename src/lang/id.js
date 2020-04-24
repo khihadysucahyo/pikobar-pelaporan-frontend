@@ -244,6 +244,7 @@ export default {
     already_listed_by: 'sudah terdata dikasus oleh',
     nik_already_registered: 'NIK telah terdaftar!',
     import_success_message: 'Impor file telah berhasil',
+    reset_password: 'Reset Password',
     export: 'Ekspor'
   },
   success: {

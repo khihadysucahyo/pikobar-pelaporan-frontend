@@ -38,21 +38,6 @@ export const constantRoutes = [
     path: '/auth-redirect',
     component: () => import('@/views/login/authredirect'),
     hidden: true
-  },
-  {
-    path: '/change-password',
-    component: Layout,
-    hidden: true,
-    children: [
-      {
-        path: '/',
-        component: () => import('@/views/changePassword/index'),
-        meta: {
-          title: 'change_password'
-        },
-        hidden: true
-      }
-    ]
   }
 ]
 

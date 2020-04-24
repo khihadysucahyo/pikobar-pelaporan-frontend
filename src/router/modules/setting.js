@@ -53,6 +53,24 @@ const settingRouter = {
         noCache: true,
         roles: ['superadmin', 'dinkesprov', 'dinkeskota']
       }
+    },
+    {
+      path: '/change-password',
+      component: () => import('@/views/changePassword/index'),
+      hidden: true,
+      meta: {
+        title: 'change_password',
+        roles: ['superadmin', 'dinkesprov', 'dinkeskota', 'faskes']
+      }
+    },
+    {
+      path: '/change-password/:id',
+      component: () => import('@/views/changePassword/index'),
+      hidden: true,
+      meta: {
+        title: 'change_password',
+        roles: ['superadmin']
+      }
     }
   ]
 }
