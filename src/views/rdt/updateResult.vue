@@ -5,7 +5,7 @@
       :id-data="this.$route.params.id"
     />
     <update-result-form
-      :id-data="this.$route.params.id"
+      :id-result="this.$route.params.id"
     />
   </div>
 </template>

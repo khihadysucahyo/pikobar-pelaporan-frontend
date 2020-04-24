@@ -1,6 +1,7 @@
 <template>
   <div class="rdt-result-update">
     <v-card
+      style="margin-top: 2rem;"
       outlined
     >
       <v-container>
@@ -14,25 +15,40 @@
                 ref="form"
                 lazy-validation
               >
-                <ValidationProvider>
+                <ValidationProvider
+                  v-slot="{ errors }"
+                  rules="required"
+                >
                   <v-label>{{ $t('label.test_result') }}</v-label>
                   <v-radio-group
                     v-model="formRapid.final_result"
+                    :error-messages="errors"
                     row
                   >
-                    <v-radio
-                      :label="$t('label.positif')"
-                      value="POSITIF"
-                    />
                     <v-radio
                       :label="$t('label.negatif')"
                       value="NEGATIF"
                     />
                     <v-radio
+                      :label="$t('label.positif')"
+                      value="POSITIF"
+                    />
+                    <v-radio
+                      :label="$t('label.inkonklusif')"
+                      value="INKONKLUSIF"
+                    />
+                    <v-radio
+                      :label="$t('label.reaktif')"
+                      value="REAKTIF"
+                    />
+                    <v-radio
+                      :label="$t('label.non_reaktif')"
+                      value="NON REAKTIF"
+                    />
+                    <v-radio
                       :label="$t('label.invalid')"
                       value="INVALID"
                     />
-
                   </v-radio-group>
                 </ValidationProvider>
               </v-form>
@@ -81,7 +97,7 @@ export default {
       type: Boolean,
       default: false
     },
-    idData: {
+    idResult: {
       type: String,
       default: null
     }
@@ -96,7 +112,7 @@ export default {
     }
   },
   async mounted() {
-    const response = await this.$store.dispatch('rdt/detailParticipant', this.idData)
+    const response = await this.$store.dispatch('rdt/detailParticipant', this.idResult)
     Object.assign(this.formRapid, response.data)
   },
   methods: {
@@ -110,7 +126,7 @@ export default {
       }
       this.loading = true
       const updateFinalRDT = {
-        id: this.idData,
+        id: this.idResult,
         data: this.formRapid
       }
 

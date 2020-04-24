@@ -65,9 +65,41 @@ export default {
       return error.response
     }
   },
-  async updateRDT(id, data) {
+  async updateRDT({ commit }, data) {
     try {
-      const response = await requestServer(`/api/rdt/${id}`, 'PUT', data)
+      const response = await requestServer(`/api/rdt/${data.id}`, 'PUT', data.data)
+      return response
+    } catch (error) {
+      return error.response
+    }
+  },
+  async listHistoryRDT({ commit }, id) {
+    try {
+      const response = await requestServer(`/api/rdt/${id}/histories`, 'GET')
+      return response
+    } catch (error) {
+      return error.response
+    }
+  },
+  async listLocationTest({ commit }) {
+    try {
+      const response = await requestServer(`/api/rdt/list-location-test`, 'GET')
+      return response
+    } catch (error) {
+      return error.response
+    }
+  },
+  async listParticipantTest({ commit }, params) {
+    try {
+      const response = await requestServer(`/api/rdt/list-registered-user`, 'GET', params)
+      return response
+    } catch (error) {
+      return error.response
+    }
+  },
+  async createMultipleRDT({ commit }, data) {
+    try {
+      const response = await requestServer(`/api/rdt-multiple`, 'POST', data)
       return response
     } catch (error) {
       return error.response

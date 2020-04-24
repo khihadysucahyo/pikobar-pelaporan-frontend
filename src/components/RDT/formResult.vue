@@ -17,26 +17,100 @@
               v-slot="{ errors }"
               rules="required"
             >
-              <label class="required">{{ $t('label.test_result') }}</label>
+              <label class="required">{{ $t('label.method') }}</label>
               <v-radio-group
-                v-model="formResult.final_result"
+                v-model="formResult.tool_tester"
                 :error-messages="errors"
                 row
               >
                 <v-radio
-                  :label="$t('label.positif')"
-                  value="POSITIF"
+                  :label="$t('label.rapid_test')"
+                  value="RAPID TEST"
                 />
                 <v-radio
-                  :label="$t('label.negatif')"
-                  value="NEGATIF"
-                />
-                <v-radio
-                  :label="$t('label.invalid')"
-                  value="INVALID"
+                  :label="$t('label.pcr')"
+                  value="PCR"
                 />
               </v-radio-group>
             </ValidationProvider>
+            <ValidationProvider
+              v-if="formResult.tool_tester === 'RAPID TEST'"
+              v-slot="{ errors }"
+              rules="required"
+            >
+              <label class="required">{{ $t('label.sampling') }}</label>
+              <v-radio-group
+                v-model="formResult.sampling_type"
+                :error-messages="errors"
+                row
+              >
+                <v-radio
+                  :label="$t('label.vena')"
+                  value="Vena"
+                />
+                <v-radio
+                  :label="$t('label.kapiler')"
+                  value="Kapiler"
+                />
+              </v-radio-group>
+            </ValidationProvider>
+            <ValidationProvider
+              v-slot="{ errors }"
+              rules="required"
+            >
+              <label class="required">{{ $t('label.test_result') }}</label>
+              <v-radio-group
+                v-model="formResult.final_result"
+                :error-messages="errors"
+                style="margin-left: 0.8rem;"
+                row
+              >
+                <v-row
+                  v-if="formResult.tool_tester === 'PCR'"
+                >
+                  <v-radio
+                    :label="$t('label.negatif')"
+                    value="NEGATIF"
+                  />
+                  <v-radio
+                    :label="$t('label.positif')"
+                    value="POSITIF"
+                  />
+                  <v-radio
+                    :label="$t('label.inkonklusif')"
+                    value="INKONKLUSIF"
+                  />
+
+                </v-row>
+                <v-row
+                  v-else
+                  style="margin-top: 1rem;"
+                >
+                  <v-radio
+                    :label="$t('label.reaktif')"
+                    value="REAKTIF"
+                  />
+                  <v-radio
+                    :label="$t('label.non_reaktif')"
+                    value="NON REAKTIF"
+                  />
+                  <v-radio
+                    :label="$t('label.invalid')"
+                    value="INVALID"
+                  />
+                </v-row>
+              </v-radio-group>
+            </ValidationProvider>
+          </v-col>
+          <v-col>
+            <label class="required">{{ $t('label.testing_date') }}</label>
+            <input-date-picker
+              :label="$t('label.testing_date')"
+              :format-date="'YYYY/MM/DD'"
+              :date-value="formResult.test_date"
+              :value-date.sync="formResult.test_date"
+              @changeDate="formResult.test_date = $event"
+            />
             <ValidationProvider
               v-slot="{ errors }"
               rules="required"
@@ -48,8 +122,14 @@
                 row
                 @change="handleChangeLocationNow"
               >
-                <v-radio label="Rumah Sakit" value="RS" />
-                <v-radio label="Lainnya" value="LAINNYA" />
+                <v-radio
+                  :label="$t('label.hospital')"
+                  value="RS"
+                />
+                <v-radio
+                  :label="$t('label.other')"
+                  value="LAINNYA"
+                />
               </v-radio-group>
             </ValidationProvider>
             <ValidationProvider
@@ -63,7 +143,7 @@
                 :items="hospitalList"
                 :return-object="false"
                 :error-messages="errors"
-                label="Pilih tempat pengetesan"
+                :label="$t('label.choose_place_test')"
                 menu-props="auto"
                 item-text="name"
                 item-value="name"
@@ -80,7 +160,7 @@
               <v-text-field
                 v-model="formResult.test_other_location"
                 :error-messages="errors"
-                placeholder="Masukan nama tempat"
+                :placeholder="$t('label.input_name_place')"
                 solo-inverted
               />
             </ValidationProvider>
@@ -110,45 +190,6 @@
               v-if="formResult.test_location_type === 'LAINNYA'"
               v-model="formResult.test_address_detail"
               solo
-            />
-          </v-col>
-          <v-col>
-            <ValidationProvider
-              v-slot="{ errors }"
-              rules="required"
-            >
-              <label class="required">{{ $t('label.type_test_tool') }}</label>
-              <v-radio-group
-                v-model="formResult.tool_tester"
-                :error-messages="errors"
-                row
-              >
-                <v-radio label="Rapid Test" value="RAPID TEST" />
-                <v-radio label="PCR" value="PCR" />
-              </v-radio-group>
-            </ValidationProvider>
-            <ValidationProvider
-              v-if="formResult.tool_tester === 'RAPID TEST'"
-              v-slot="{ errors }"
-              rules="required"
-            >
-              <label class="required">{{ $t('label.method_used') }}</label>
-              <v-radio-group
-                v-model="formResult.test_method"
-                :error-messages="errors"
-                row
-              >
-                <v-radio label="Hand Prix" value="HAND PRIX" />
-                <v-radio label="Flebotomy" value="FLEBOTOMY" />
-              </v-radio-group>
-            </ValidationProvider>
-            <label class="required">{{ $t('label.testing_date') }}</label>
-            <input-date-picker
-              :label="'Tanggal Pengetesan'"
-              :format-date="'YYYY/MM/DD'"
-              :date-value="formResult.test_date"
-              :value-date.sync="formResult.test_date"
-              @changeDate="formResult.test_date = $event"
             />
             <label>{{ $t('label.additional_information') }}</label>
             <v-textarea

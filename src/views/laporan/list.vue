@@ -28,6 +28,24 @@
             class="mx-auto"
             outlined
           >
+            <v-list-item two-line style="background: #9f9f9f">
+              <v-list-item-content>
+                <v-list-item-title style="color: #FFFFFF;">{{ $t('label.people_without_symptoms') }}</v-list-item-title>
+                <v-list-item-title class="headline mb-1" style="color: #FFFFFF;padding-top: 2rem;">{{ totalOTG }} {{ $t('label.people') }}</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </v-card>
+        </v-skeleton-loader>
+      </v-col>
+      <v-col>
+        <v-skeleton-loader
+          :loading="loading"
+          type="article"
+        >
+          <v-card
+            class="mx-auto"
+            outlined
+          >
             <v-list-item two-line style="background: #D2EAFF">
               <v-list-item-content>
                 <v-list-item-title style="color: #2F80ED;">{{ $t('label.insiders_monitoring') }}</v-list-item-title>
@@ -94,20 +112,24 @@
           </div>
         </v-col>
         <v-col cols="12" sm="4" class="align-right">
-          <!--          <v-btn-->
-          <!--            class="btn-coba margin-right"-->
-          <!--            color="#b3e2cd"-->
-          <!--          >-->
-          <!--            <v-icon left>mdi-download</v-icon>-->
-          <!--            Import-->
-          <!--          </v-btn>-->
           <v-btn
-            class="btn-coba margin-left"
+            color="#b3e2cd"
+            class="btn-import-export margin-right"
+            depressed
+            @click="showImportForm = true"
+          >
+            <v-icon left>
+              mdi-download
+            </v-icon>
+            {{ $t('label.import') }}
+          </v-btn>
+          <v-btn
+            class="btn-import-export margin-left"
             color="#b3e2cd"
             @click="onExport"
           >
             <v-icon left>mdi-upload</v-icon>
-            Export
+            {{ $t('label.export') }}
           </v-btn>
         </v-col>
       </v-row>
@@ -118,7 +140,7 @@
             :headers="headers"
             :items="listKasus"
             :mobile-breakpoint="NaN"
-            :no-data-text="'Tidak ada data'"
+            :no-data-text="$t('label.data_empty')"
             :items-per-page="listQuery.limit"
             :loading="loadingTable"
             hide-default-footer
@@ -126,7 +148,6 @@
             <template v-slot:item="{ item, index }">
               <tr>
                 <td>{{ getTableRowNumbering(index) }}</td>
-                <td>{{ item.id_case.toUpperCase() }}</td>
                 <td>{{ item.name }}</td>
                 <td>{{ item.age }} Th</td>
                 <td>
@@ -211,7 +232,7 @@
       </v-row>
     </v-card>
     <pagination
-      :total="totalList "
+      :total="totalList"
       :page.sync="listQuery.page"
       :limit.sync="listQuery.limit"
       :on-next="onNext"
@@ -224,6 +245,45 @@
       :store-path-delete="`reports/deleteReportCase`"
       :store-path-get-list="`reports/listReportCase`"
       :list-query="listQuery"
+    />
+    <v-dialog v-model="failedDialog" persistent max-width="30%">
+      <v-card>
+        <v-card-title class="headline"><v-icon x-large color="red" left>mdi-close-circle</v-icon>{{ $t('errors.file_failed_upload') }}</v-card-title>
+        <v-card-text>{{ errorMessage }}</v-card-text>
+        <v-card-actions>
+          <v-spacer />
+          <v-btn color="green darken-1" text @click="failedDialog = false">{{ $t('label.ok') }}</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <v-dialog v-model="successDialog" max-width="20%">
+      <v-card>
+        <v-row class="mx-0" align="center" justify="center">
+          <v-card-title><v-icon size="80px" color="success">mdi-checkbox-marked-circle</v-icon></v-card-title>
+        </v-row>
+        <v-row class="mx-0" align="center" justify="center">
+          <v-card-title class="display-1 font-weight-bold pt-0 success-message">{{ $t('label.congratulation') }}</v-card-title>
+        </v-row>
+        <v-row class="mx-0" align="center" justify="center">
+          <v-card-text
+            :class="{'subtitle-1': $vuetify.breakpoint. mdAndDown, 'headline': $vuetify.breakpoint. lgAndUp}"
+            class="pt-0 text-center success-message"
+          >
+            {{ $t('label.import_success_message') }}
+          </v-card-text>
+        </v-row>
+        <v-row class="mx-0" align="center" justify="center">
+          <v-btn color="green darken-1" text @click="successDialog = false">{{ $t('label.ok') }}</v-btn>
+        </v-row>
+      </v-card>
+    </v-dialog>
+    <import-form
+      :show-import-form="showImportForm"
+      :refresh-page="handleSearch"
+      :show.sync="showImportForm"
+      :failed.sync="failedDialog"
+      :success.sync="successDialog"
+      :message.sync="errorMessage"
     />
   </div>
 </template>
@@ -238,7 +298,6 @@ export default {
     return {
       headers: [
         { text: '#', value: '_id', sortable: false },
-        { text: 'KODE KASUS', value: 'id_case' },
         { text: 'NAMA', value: 'name' },
         { text: 'USIA', value: 'age' },
         { text: 'JENIS KELAMIN', value: 'gender' },
@@ -250,6 +309,7 @@ export default {
       ],
       loading: true,
       loadingTable: false,
+      totalOTG: 0,
       totalODP: 0,
       totalPDP: 0,
       totalPositif: 0,
@@ -272,7 +332,10 @@ export default {
       countingReports: null,
       dialog: false,
       dataDelete: null,
-      nameDistrict: null
+      failedDialog: false,
+      showImportForm: false,
+      errorMessage: null,
+      successDialog: false
     }
   },
   computed: {
@@ -303,10 +366,11 @@ export default {
     await this.$store.dispatch('reports/listReportCase', this.listQuery)
     const response = await this.$store.dispatch('reports/countReportCase', this.queryReportCase)
     if (response) this.loading = false
+    this.totalOTG = response.data.OTG
     this.totalODP = response.data.ODP
     this.totalPDP = response.data.PDP
     this.totalPositif = response.data.POSITIF
-    this.totalReport = this.totalODP + this.totalPDP + this.totalPositif
+    this.totalReport = this.totalOTG + this.totalODP + this.totalPDP + this.totalPositif
   },
   methods: {
     async handleDetail(id) {
@@ -351,7 +415,7 @@ export default {
     text-align: right;
     padding-right: 50px;
   }
-  .btn-coba {
+  .btn-import-export {
     width: 36%;
     height: 46px !important;
     min-width: 100px !important;
@@ -365,5 +429,8 @@ export default {
   }
   .table-divider {
     margin: 15px 0px 0px 0px;
+  }
+  .success-message {
+    color: #27ae60;
   }
 </style>
