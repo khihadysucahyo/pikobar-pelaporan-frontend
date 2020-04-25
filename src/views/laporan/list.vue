@@ -148,6 +148,7 @@
             <template v-slot:item="{ item, index }">
               <tr>
                 <td>{{ getTableRowNumbering(index) }}</td>
+                <td>{{ item.id_case ? item.id_case.toUpperCase() : '-' }}</td>
                 <td>{{ item.name }}</td>
                 <td>{{ item.age }} Th</td>
                 <td>
@@ -298,6 +299,7 @@ export default {
     return {
       headers: [
         { text: '#', value: '_id', sortable: false },
+        { text: 'KODE KASUS', value: 'id_case' },
         { text: 'NAMA', value: 'name' },
         { text: 'USIA', value: 'age' },
         { text: 'JENIS KELAMIN', value: 'gender' },
@@ -362,6 +364,7 @@ export default {
   },
   async mounted() {
     if (this.roles[0] === 'dinkeskota') this.listQuery.address_district_code = this.district_user
+    this.queryReportCase.address_district_code = this.district_user
     await this.$store.dispatch('reports/listReportCase', this.listQuery)
     const response = await this.$store.dispatch('reports/countReportCase', this.queryReportCase)
     if (response) this.loading = false
