@@ -13,9 +13,9 @@
           >
             <ValidationProvider
               v-slot="{ errors }"
-              rules="required|isHtml|zeroFrontEnd|provinceCode|sixteenDigits|numeric|isNikAvailable"
+              rules="isHtml|sixteenDigits|numeric"
             >
-              <label class="required">{{ $t('label.nik') }}</label>
+              <label>{{ $t('label.nik') }}</label>
               <v-text-field
                 v-model="formPasien.nik"
                 type="number"
