@@ -38,7 +38,12 @@
             <div style="font-size: 1.5rem;">{{ $t('label.user_list').toUpperCase() }}</div>
           </v-card-text>
         </v-col>
-        <v-col />
+        <v-col>
+          <search
+            :list-query="listQuery"
+            :handle-search="handleSearch"
+          />
+        </v-col>
       </v-row>
       <v-row>
         <v-col auto>
@@ -109,12 +114,12 @@
                           </v-list-item>
                           <v-list-item
                             v-if="roles[0] === 'superadmin'"
-                            @click="handleResetPassword(item.id)"
+                            @click="handleChangePassword(item.id)"
                           >
-                            {{ $t('route.change_password') }}
+                            {{ $t('label.reset_password') }}
                           </v-list-item>
                           <v-list-item @click="handleEdit(item.id)">
-                            {{ $t('label.update_user') }}
+                            {{ $t('route.user_edit') }}
                           </v-list-item>
                           <v-list-item @click="handleDeleteUser(item)">
                             {{ $t('label.deleted_user') }}
@@ -184,6 +189,17 @@ export default {
       'userList'
     ])
   },
+  watch: {
+    'listQuery.search': {
+      handler: function(value) {
+        if ((value !== undefined) && (value.length === 0 || value.length >= 3)) {
+          this.listQuery.page = 1
+          this.handleSearch()
+        }
+      },
+      immediate: true
+    }
+  },
   async mounted() {
     await this.$store.dispatch('user/listUser', this.listQuery)
   },
@@ -193,7 +209,7 @@ export default {
       return ((this.listQuery.page - 1) * this.listQuery.limit) + (index + 1)
     },
     async onNext() {
-      await this.$store.dispatch('reports/listReportCase', this.listQuery)
+      await this.$store.dispatch('user/listUser', this.listQuery)
     },
     async handleDeleteUser(item) {
       this.dialog = true
@@ -202,17 +218,20 @@ export default {
       }
       this.dataDelete = await dataDelete
     },
+    async handleSearch() {
+      await this.$store.dispatch('user/listUser', this.listQuery)
+    },
     async handleEdit(id) {
       await this.$router.push(`/user/edit/${id}`)
+    },
+    async handleChangePassword(id) {
+      await this.$router.push(`/change-password/${id}`)
     },
     async handleDetail(id) {
       await this.$router.push(`/user/detail/${id}`)
     },
     async handleCreate() {
       await this.$router.push(`/user/create`)
-    },
-    handleResetPassword(id) {
-      //
     }
   }
 }
