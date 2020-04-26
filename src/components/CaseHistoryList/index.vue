@@ -16,7 +16,7 @@
           <td>{{ getTableRowNumbering(index) }}</td>
           <td><status :status="item.status" /></td>
           <td>
-            <div v-if="index === 0 && item.final_result === ''">
+            <div v-if="item.stage === '0'">
               Proses
             </div>
             <div v-else>
