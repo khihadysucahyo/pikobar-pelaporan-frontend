@@ -148,7 +148,10 @@ export default {
       resultCheckList: [
         { label: 'Negatif', value: 'NEGATIF' },
         { label: 'Positif', value: 'POSITIF' },
-        { label: 'Invalid', value: 'INVALID' }
+        { label: 'Invalid', value: 'INVALID' },
+        { label: 'Inkonklusif', value: 'INKONKLUSIF' },
+        { label: 'Reaktif', value: 'REAKTIF' },
+        { label: 'Non Reaktif', value: 'NON REAKTIF' }
       ]
     }
   },
