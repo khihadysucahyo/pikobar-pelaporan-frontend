@@ -14,6 +14,8 @@ export default {
     laporan_create: 'Buat Laporan Kasus',
     laporan_detail: 'Detail Laporan Kasus',
     laporan_edit: 'Ubah Laporan Kasus',
+    edit_lapor: 'Ubah Laporan',
+    edit_history_lapor: 'Ubah Histori',
     change_password: 'Ubah Password',
     help: 'Bantuan',
     setting: 'Pengaturan',
