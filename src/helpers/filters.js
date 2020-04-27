@@ -7,7 +7,7 @@ Vue.filter('capitalize', (value) => {
 })
 
 Vue.filter('number', (value) => {
-  if (!value) return ''
+  if (!value) return 0
   const reverse = value.toString().split('').reverse().join('')
   let ribuan 	= reverse.match(/\d{1,3}/g)
   ribuan	= ribuan.join('.').split('').reverse().join('')
@@ -15,7 +15,7 @@ Vue.filter('number', (value) => {
 })
 
 Vue.filter('decimal', (value) => {
-  if (!value) return ''
+  if (!value) return 0
   const numberString = value.toString()
   const split	= numberString.split('.')
   const sisa 	= split[0].length % 3

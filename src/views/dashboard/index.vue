@@ -246,7 +246,9 @@ export default {
         POSITIF: 0
       },
       listQuery: {
-        address_district_code: ''
+        address_district_code: '',
+        address_subdistrict_code: '',
+        address_village_code: ''
       },
       totalConfirmation: 0
     }
@@ -300,14 +302,7 @@ export default {
       kota_nama: this.district_name_user
     }
 
-    const data = await this.$store.dispatch('reports/countReportCase', this.listQuery)
-    const dataFinal = await this.$store.dispatch('reports/countReportCaseFinal', this.listQuery)
-
-    if (dataFinal) this.loadingStatistic = false
-
-    this.patien = data.data
-    this.final = dataFinal.data
-    this.totalConfirmation = this.final.POSITIF + this.final.SEMBUH + this.final.MENINGGAL
+    this.getStatisticConfirmed()
   },
   beforeDestroy() {
     this.clearCity()
@@ -347,6 +342,8 @@ export default {
       this.filter.isVillage = false
       this.filter.district = null
       this.filter.village = null
+
+      this.getStatisticConfirmed()
     },
     onSearch() {
       this.filter.city = this.districtCity.kota_kode
@@ -355,24 +352,41 @@ export default {
       this.filter.isCity = !!this.filter.city
       this.filter.isDistrict = !!this.filter.district
       this.filter.isVillage = !!this.filter.village
+
+      this.listQuery.address_district_code = this.districtCity.kota_kode
+      this.listQuery.address_subdistrict_code = this.subDistrict.kecamatan_kode
+      this.listQuery.address_village_code = this.village.desa_kode
+
+      this.getStatisticConfirmed()
     },
     clearCity() {
       this.districtCity = {
         kota_kode: null,
         kota_nama: null
       }
+      this.listQuery.address_district_code = null
     },
     clearDistrict() {
       this.subDistrict = {
         kecamatan_kode: null,
         kecamatan_nama: null
       }
+      this.listQuery.address_subdistrict_code = null
     },
     clearVillage() {
       this.village = {
         desa_kode: null,
         desa_nama: null
       }
+      this.listQuery.address_village_code = null
+    },
+    async getStatisticConfirmed() {
+      const dataFinal = await this.$store.dispatch('reports/countReportCaseFinal', this.listQuery)
+
+      if (dataFinal) this.loadingStatistic = false
+
+      this.final = dataFinal.data
+      this.totalConfirmation = this.final.POSITIF + this.final.SEMBUH + this.final.MENINGGAL
     }
   }
 }

@@ -32,7 +32,7 @@ export default {
     },
     totalActive: {
       type: Number,
-      default: 1290
+      default: 0
     }
   }
 }
