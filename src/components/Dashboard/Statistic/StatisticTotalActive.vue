@@ -1,25 +1,40 @@
 <template>
-  <v-card
-    class="statistic mx-auto"
-    outlined
+  <v-skeleton-loader
+    :loading="loading"
+    type="article"
   >
-    <v-card-title class="title ml-0">
-      {{ $t('label.positive') }} {{ $t('label.active') }}
-    </v-card-title>
-    <v-card-subtitle class="subtitle pb-3">
-      Jumlah kasus positif yang masih dalam proses pemantauan baik di RS maupun isolasi mandiri
-    </v-card-subtitle>
-    <v-card-text class="mt-2">
-      <span class="total font-weight-bold">
-        {{ 1290 | number }} {{ $t('label.people') | capitalize }}
-      </span>
-    </v-card-text>
-  </v-card>
+    <v-card
+      class="statistic mx-auto"
+      outlined
+    >
+      <v-card-title class="title ml-0">
+        {{ $t('label.positive') }} {{ $t('label.active') }}
+      </v-card-title>
+      <v-card-subtitle class="subtitle pb-3">
+        {{ $t('label.positive_active_redaction') }}
+      </v-card-subtitle>
+      <v-card-text class="mt-2">
+        <span class="total font-weight-bold">
+          {{ totalActive | number }} {{ $t('label.people') | capitalize }}
+        </span>
+      </v-card-text>
+    </v-card>
+  </v-skeleton-loader>
 </template>
 
 <script>
 export default {
-  name: 'StatisticTotalActive'
+  name: 'StatisticTotalActive',
+  props: {
+    loading: {
+      type: Boolean,
+      default: true
+    },
+    totalActive: {
+      type: Number,
+      default: 1290
+    }
+  }
 }
 </script>
 

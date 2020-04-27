@@ -250,7 +250,12 @@ export default {
     import_success_message: 'Impor file telah berhasil',
     reset_password: 'Reset Password',
     export: 'Ekspor',
-    export_data: 'Ekspor Data'
+    export_data: 'Ekspor Data',
+    positive_active_redaction: 'Jumlah kasus positif yang masih dalam proses pemantauan baik di RS maupun isolasi mandiri',
+    positive_confirmed_covid19: 'Jumlah Kasus yang terkonfirmasi COVID-19',
+    total_positive_case_recovered: 'Jumlah kasus positif yang sembuh',
+    total_positive_case_death: 'Jumlah kasus positif yang meninggal'
+
   },
   success: {
     login_success: 'Login Berhasil',
