@@ -49,27 +49,48 @@
     </v-row>
     <v-row>
       <v-col cols="12" md="3" sm="6">
-        <statistic-total-confirmed />
+        <statistic-total-confirmed
+          :loading="loadingStatistic"
+          :total-confirmed="totalConfirmation"
+        />
       </v-col>
       <v-col cols="12" md="3" sm="6">
-        <statistic-total-active />
+        <statistic-total-active
+          :loading="loadingStatistic"
+          :total-active="final.POSITIF"
+        />
       </v-col>
       <v-col cols="12" md="3" sm="6">
-        <statistic-total-recovered />
+        <statistic-total-recovered
+          :loading="loadingStatistic"
+          :total-recovered="final.SEMBUH"
+        />
       </v-col>
       <v-col cols="12" md="3" sm="6">
-        <statistic-total-death />
+        <statistic-total-death
+          :loading="loadingStatistic"
+          :total-death="final.MENINGGAL"
+        />
       </v-col>
     </v-row>
     <v-row class="mb-3">
       <v-col cols="12" md="4">
-        <statistic-people-without-symptoms />
+        <statistic-people-without-symptoms
+          :loading="loadingStatistic"
+          :total-otg="patien.OTG"
+        />
       </v-col>
       <v-col cols="12" md="4">
-        <statistic-person-under-monitoring />
+        <statistic-person-under-monitoring
+          :loading="loadingStatistic"
+          :total-odp="patien.ODP"
+        />
       </v-col>
       <v-col cols="12" md="4">
-        <statistic-patient-under-investigation />
+        <statistic-patient-under-investigation
+          :loading="loadingStatistic"
+          :total-pdp="patien.PDP"
+        />
       </v-col>
     </v-row>
     <v-divider />
@@ -190,6 +211,7 @@ export default {
   },
   data() {
     return {
+      loadingStatistic: true,
       display: true,
       districtCity: {
         kota_kode: this.districtCode,
@@ -211,7 +233,22 @@ export default {
         city: null,
         district: null,
         village: null
-      }
+      },
+      patien: {
+        OTG: 0,
+        ODP: 0,
+        PDP: 0,
+        POSITIF: 0
+      },
+      final: {
+        MENINGGAL: 0,
+        SEMBUH: 0,
+        POSITIF: 0
+      },
+      listQuery: {
+        address_district_code: ''
+      },
+      totalConfirmation: 0
     }
   },
   computed: {
@@ -255,12 +292,22 @@ export default {
       this.disabledDistrict = true
       this.filter.isCity = true
       this.filter.city = this.district_user
+      this.listQuery.address_district_code = this.district_user
     }
 
     this.districtCity = {
       kota_kode: this.district_user,
       kota_nama: this.district_name_user
     }
+
+    const data = await this.$store.dispatch('reports/countReportCase', this.listQuery)
+    const dataFinal = await this.$store.dispatch('reports/countReportCaseFinal', this.listQuery)
+
+    if (dataFinal) this.loadingStatistic = false
+
+    this.patien = data.data
+    this.final = dataFinal.data
+    this.totalConfirmation = this.final.POSITIF + this.final.SEMBUH + this.final.MENINGGAL
   },
   beforeDestroy() {
     this.clearCity()
