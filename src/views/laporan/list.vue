@@ -149,16 +149,18 @@
               <tr>
                 <td>{{ getTableRowNumbering(index) }}</td>
                 <td>{{ item.id_case ? item.id_case.toUpperCase() : '-' }}</td>
+                <td>{{ item.nik }}</td>
                 <td>{{ item.name }}</td>
                 <td>{{ item.age }} Th</td>
                 <td>
                   <div v-if="item.gender =='P'">
-                    {{ $t('label.female') }}
+                    {{ $t('label.female_initials') }}
                   </div>
                   <div v-else>
-                    {{ $t('label.male') }}
+                    {{ $t('label.male_initials') }}
                   </div>
                 </td>
+                <td>{{ item.phone_number }}</td>
                 <td><status :status="item.status" /> </td>
                 <td>
                   <div v-if=" item.last_history.stage =='0'">
@@ -182,7 +184,8 @@
                     -
                   </div>
                 </td>
-                <td>{{ item.author.fullname }}</td>
+                <td>{{ item.author.username }}</td>
+                <td>{{ item.last_history.createdAt ? formatDatetime(item.test_date, 'DD MMMM YYYY') : '-' }}</td>
                 <td>
                   <v-card-actions>
                     <v-menu
@@ -300,13 +303,16 @@ export default {
       headers: [
         { text: '#', value: '_id', sortable: false },
         { text: 'KODE KASUS', value: 'id_case' },
+        { text: 'NIK', value: 'nik' },
         { text: 'NAMA', value: 'name' },
         { text: 'USIA', value: 'age' },
         { text: 'JENIS KELAMIN', value: 'gender' },
+        { text: 'NO TELEPON', value: 'phone_number' },
         { text: 'STATUS', value: 'status' },
         { text: 'TAHAPAN', value: 'stage' },
         { text: 'HASIL', value: 'final_result' },
         { text: 'AUTHOR', value: 'author' },
+        { text: 'TANGGAL INPUT', value: 'createdAt' },
         { text: 'Aksi', value: 'actions', sortable: false }
       ],
       loading: true,
@@ -402,7 +408,8 @@ export default {
       const dateNow = Date.now()
       const fileName = `Data Kasus ${this.fullname} - ${formatDatetime(dateNow, 'DD/MM/YYYY HH:mm')} WIB.xlsx`
       FileSaver.saveAs(response, fileName)
-    }
+    },
+    formatDatetime
   }
 }
 </script>
