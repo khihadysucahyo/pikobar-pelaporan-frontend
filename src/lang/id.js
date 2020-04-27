@@ -108,6 +108,8 @@ export default {
     address_complete_this_time: 'Alamat Lengkap lokasi saat ini',
     male: 'Laki-Laki',
     female: 'Perempuan',
+    male_initials: 'L',
+    female_initials: 'P',
     profile_update: 'Update Profil',
     update_case_history: 'Update Riwayat Kasus',
     update_history: 'Update Riwayat',
