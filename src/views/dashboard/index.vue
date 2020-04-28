@@ -50,46 +50,46 @@
     <v-row>
       <v-col cols="12" md="3" sm="6">
         <statistic-total-confirmed
-          :loading="loadingStatistic"
-          :total-confirmed="totalConfirmation"
+          :loading="loadingConfirmed"
+          :total-confirmed="statistic.confirmed.total"
         />
       </v-col>
       <v-col cols="12" md="3" sm="6">
         <statistic-total-active
-          :loading="loadingStatistic"
-          :total-active="final.POSITIF"
+          :loading="loadingConfirmed"
+          :total-active="statistic.confirmed.active"
         />
       </v-col>
       <v-col cols="12" md="3" sm="6">
         <statistic-total-recovered
-          :loading="loadingStatistic"
-          :total-recovered="final.SEMBUH"
+          :loading="loadingConfirmed"
+          :total-recovered="statistic.confirmed.recovery"
         />
       </v-col>
       <v-col cols="12" md="3" sm="6">
         <statistic-total-death
-          :loading="loadingStatistic"
-          :total-death="final.MENINGGAL"
+          :loading="loadingConfirmed"
+          :total-death="statistic.confirmed.dead"
         />
       </v-col>
     </v-row>
     <v-row class="mb-3">
       <v-col cols="12" md="4">
         <statistic-people-without-symptoms
-          :loading="loadingStatistic"
-          :total-otg="patien.OTG"
+          :loading="loadingConfirmed"
+          :total-otg="statistic.otg.total"
         />
       </v-col>
       <v-col cols="12" md="4">
         <statistic-person-under-monitoring
-          :loading="loadingStatistic"
-          :total-odp="patien.ODP"
+          :loading="loadingConfirmed"
+          :total-odp="statistic.odp.total"
         />
       </v-col>
       <v-col cols="12" md="4">
         <statistic-patient-under-investigation
-          :loading="loadingStatistic"
-          :total-pdp="patien.PDP"
+          :loading="loadingConfirmed"
+          :total-pdp="statistic.pdp.total"
         />
       </v-col>
     </v-row>
@@ -168,7 +168,10 @@
     <v-divider /> -->
     <v-row>
       <v-col cols="12" md="4">
-        <chart-gender />
+        <chart-gender
+          :loading="loadingAgeGender"
+          :data-gender="statistic.gender"
+        />
       </v-col>
       <v-col cols="12" md="8">
         <chart-age />
@@ -211,7 +214,8 @@ export default {
   },
   data() {
     return {
-      loadingStatistic: true,
+      loadingConfirmed: true,
+      loadingAgeGender: true,
       display: true,
       districtCity: {
         kota_kode: this.districtCode,
@@ -234,23 +238,38 @@ export default {
         district: null,
         village: null
       },
-      patien: {
-        OTG: 0,
-        ODP: 0,
-        PDP: 0,
-        POSITIF: 0
-      },
-      final: {
-        MENINGGAL: 0,
-        SEMBUH: 0,
-        POSITIF: 0
+      statistic: {
+        confirmed: {
+          active: 0,
+          recovery: 0,
+          dead: 0,
+          total: 0
+        },
+        otg: {
+          process: 0,
+          done: 0,
+          total: 0
+        },
+        odp: {
+          process: 0,
+          done: 0,
+          total: 0
+        },
+        pdp: {
+          process: 0,
+          done: 0,
+          total: 0
+        },
+        gender: {
+          male: 0,
+          female: 0
+        }
       },
       listQuery: {
-        address_district_code: '',
-        address_subdistrict_code: '',
-        address_village_code: ''
-      },
-      totalConfirmation: 0
+        address_district_code: null,
+        address_subdistrict_code: null,
+        address_village_code: null
+      }
     }
   },
   computed: {
@@ -303,6 +322,7 @@ export default {
     }
 
     this.getStatisticConfirmed()
+    this.getStatisticAgeGender()
   },
   beforeDestroy() {
     this.clearCity()
@@ -344,6 +364,7 @@ export default {
       this.filter.village = null
 
       this.getStatisticConfirmed()
+      this.getStatisticAgeGender()
     },
     onSearch() {
       this.filter.city = this.districtCity.kota_kode
@@ -358,6 +379,7 @@ export default {
       this.listQuery.address_village_code = this.village.desa_kode
 
       this.getStatisticConfirmed()
+      this.getStatisticAgeGender()
     },
     clearCity() {
       this.districtCity = {
@@ -381,12 +403,31 @@ export default {
       this.listQuery.address_village_code = null
     },
     async getStatisticConfirmed() {
-      const dataFinal = await this.$store.dispatch('reports/countReportCaseFinal', this.listQuery)
+      const res = await this.$store.dispatch('reports/countReportCaseFinal', this.listQuery)
 
-      if (dataFinal) this.loadingStatistic = false
+      if (res) this.loadingConfirmed = false
 
-      this.final = dataFinal.data
-      this.totalConfirmation = this.final.POSITIF + this.final.SEMBUH + this.final.MENINGGAL
+      const active = res.data.POSITIF
+      const recovery = res.data.SEMBUH
+      const dead = res.data.MENINGGAL
+
+      this.statistic.confirmed.active = active
+      this.statistic.confirmed.recovery = recovery
+      this.statistic.confirmed.dead = dead
+      this.statistic.confirmed.total = active + recovery + dead
+      // console.log(this.statistic.confirmed)
+    },
+    async getStatisticAgeGender() {
+      const res = await this.$store.dispatch('statistic/countAgeGender', this.listQuery)
+
+      if (res) this.loadingAgeGender = false
+
+      const male = res.data.L
+      const female = res.data.P
+
+      this.statistic.gender.male = male
+      this.statistic.gender.female = female
+      // console.log(this.statistic.gender)
     }
   }
 }

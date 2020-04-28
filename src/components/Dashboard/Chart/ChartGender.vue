@@ -1,21 +1,26 @@
 <template>
-  <v-card
-    class="chart mx-auto"
-    outlined
+  <v-skeleton-loader
+    :loading="loading"
+    type="article"
   >
-    <v-card-title class="title ml-0 black--text">
-      {{ $t('label.gender') }}
-    </v-card-title>
-    <v-divider class="mt-0 mb-2" />
-    <v-card-text>
-      <chart-doughnut
-        v-if="loaded"
-        :chart-data="chartData"
-        :options="chartOptions"
-        :styles="chartStyles"
-      />
-    </v-card-text>
-  </v-card>
+    <v-card
+      class="chart mx-auto"
+      outlined
+    >
+      <v-card-title class="title ml-0 black--text">
+        {{ $t('label.gender') }}
+      </v-card-title>
+      <v-divider class="mt-0 mb-2" />
+      <v-card-text>
+        <chart-doughnut
+          v-if="loaded"
+          :chart-data="chartData"
+          :options="chartOptions"
+          :styles="chartStyles"
+        />
+      </v-card-text>
+    </v-card>
+  </v-skeleton-loader>
 </template>
 
 <script>
@@ -25,6 +30,14 @@ export default {
     chartHeight: {
       type: Number,
       default: 300
+    },
+    loading: {
+      type: Boolean,
+      default: true
+    },
+    dataGender: {
+      type: Object,
+      default: null
     }
   },
   data() {
@@ -36,10 +49,7 @@ export default {
           this.$t('label.male')
         ],
         datasets: [{
-          data: [
-            60,
-            40
-          ],
+          data: [],
           backgroundColor: [
             'rgba(255, 124, 143, 1)',
             'rgba(102, 164, 251, 1)'
@@ -81,8 +91,25 @@ export default {
       }
     }
   },
-  async mounted() {
+  watch: {
+    'dataGender': {
+      handler: function(value, oldValue) {
+        this.normalizedData(value)
+      },
+      deep: true
+    }
+  },
+  mounted() {
     this.loaded = true
+  },
+  methods: {
+    normalizedData(data) {
+      const array = []
+      array.push(data.female)
+      array.push(data.male)
+
+      this.chartData.datasets[0].data = array
+    }
   }
 }
 </script>

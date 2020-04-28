@@ -8,6 +8,7 @@ import reports from './modules/reports'
 import occupation from './modules/occupation'
 import rdt from './modules/rdt'
 import animationLottie from './modules/animationLottie'
+import statistic from './modules/statistic'
 
 Vue.use(Vuex)
 
@@ -34,7 +35,8 @@ const store = new Vuex.Store({
     toast,
     user,
     rdt,
-    animationLottie
+    animationLottie,
+    statistic
   }
 })
 

@@ -32,7 +32,7 @@ export default {
     },
     totalConfirmed: {
       type: Number,
-      default: 1290
+      default: 0
     }
   }
 }
