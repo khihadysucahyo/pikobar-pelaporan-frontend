@@ -16,11 +16,6 @@ export default {
       default: null
     }
   },
-  watch: {
-    'chartData'(to, from) {
-      this.renderChart(this.chartData, this.options)
-    }
-  },
   mounted() {
     this.renderChart(this.chartData, this.options)
   }

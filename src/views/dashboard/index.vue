@@ -174,7 +174,10 @@
         />
       </v-col>
       <v-col cols="12" md="8">
-        <chart-age />
+        <chart-age
+          :loading="loadingAgeGender"
+          :data-age="statistic.age"
+        />
       </v-col>
     </v-row>
     <!-- <card-data /> -->
@@ -263,6 +266,10 @@ export default {
         gender: {
           male: 0,
           female: 0
+        },
+        age: {
+          male: [],
+          female: []
         }
       },
       listQuery: {
@@ -428,6 +435,34 @@ export default {
       this.statistic.gender.male = male
       this.statistic.gender.female = female
       // console.log(this.statistic.gender)
+
+      const male_age = []
+      const female_age = []
+      male_age.push(-Math.abs(Number(res.data.age_male_0)))
+      male_age.push(-Math.abs(Number(res.data.age_male_10)))
+      male_age.push(-Math.abs(Number(res.data.age_male_20)))
+      male_age.push(-Math.abs(Number(res.data.age_male_30)))
+      male_age.push(-Math.abs(Number(res.data.age_male_40)))
+      male_age.push(-Math.abs(Number(res.data.age_male_50)))
+      male_age.push(-Math.abs(Number(res.data.age_male_60)))
+      male_age.push(-Math.abs(Number(res.data.age_male_70)))
+      male_age.push(-Math.abs(Number(res.data.age_male_80)))
+      male_age.push(-Math.abs(Number(res.data.age_male_90)))
+      male_age.push(-Math.abs(Number(res.data.age_male_100)))
+      female_age.push(Number(res.data.age_female_0))
+      female_age.push(Number(res.data.age_female_10))
+      female_age.push(Number(res.data.age_female_20))
+      female_age.push(Number(res.data.age_female_30))
+      female_age.push(Number(res.data.age_female_40))
+      female_age.push(Number(res.data.age_female_50))
+      female_age.push(Number(res.data.age_female_60))
+      female_age.push(Number(res.data.age_female_70))
+      female_age.push(Number(res.data.age_female_80))
+      female_age.push(Number(res.data.age_female_90))
+      female_age.push(Number(res.data.age_female_100))
+      this.statistic.age.male = male_age
+      this.statistic.age.female = female_age
+      // console.log(this.statistic.age)
     }
   }
 }

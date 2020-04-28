@@ -93,23 +93,24 @@ export default {
   },
   watch: {
     'dataGender': {
-      handler: function(value, oldValue) {
-        this.normalizedData(value)
+      handler(value) {
+        const array = []
+        array.push(value.female)
+        array.push(value.male)
+
+        this.chartData.datasets[0].data = array
       },
       deep: true
     }
   },
   mounted() {
     this.loaded = true
-  },
-  methods: {
-    normalizedData(data) {
-      const array = []
-      array.push(data.female)
-      array.push(data.male)
 
-      this.chartData.datasets[0].data = array
-    }
+    const array = []
+    array.push(this.dataGender.female)
+    array.push(this.dataGender.male)
+
+    this.chartData.datasets[0].data = array
   }
 }
 </script>

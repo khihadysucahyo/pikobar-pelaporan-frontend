@@ -1,21 +1,27 @@
 <template>
-  <v-card
-    class="chart mx-auto"
-    outlined
+  <v-skeleton-loader
+    :loading="loading"
+    type="article"
   >
-    <v-card-title class="title ml-0 black--text">
-      {{ $t('label.age') }}
-    </v-card-title>
-    <v-divider class="mt-0 mb-2" />
-    <v-card-text>
-      <chart-bar-horizontal
-        v-if="loaded"
-        :chart-data="chartData"
-        :options="chartOptions"
-        :styles="chartStyles"
-      />
-    </v-card-text>
-  </v-card>
+    <v-card
+      class="chart mx-auto"
+      outlined
+    >
+      <v-card-title class="title ml-0 black--text">
+        {{ $t('label.age') }}
+      </v-card-title>
+      <v-divider class="mt-0 mb-2" />
+      <v-card-text>
+        <chart-bar-horizontal
+          v-if="loaded"
+          ref="horizontalBarChart"
+          :chart-data="chartData"
+          :options="chartOptions"
+          :styles="chartStyles"
+        />
+      </v-card-text>
+    </v-card>
+  </v-skeleton-loader>
 </template>
 
 <script>
@@ -25,6 +31,14 @@ export default {
     chartHeight: {
       type: Number,
       default: 300
+    },
+    loading: {
+      type: Boolean,
+      default: true
+    },
+    dataAge: {
+      type: Object,
+      default: null
     }
   },
   data() {
@@ -47,12 +61,12 @@ export default {
           {
             label: this.$t('label.female'),
             backgroundColor: 'rgba(255, 124, 143, 1)',
-            data: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+            data: []
           },
           {
             label: this.$t('label.male'),
             backgroundColor: 'rgba(102, 164, 251, 1)',
-            data: [-5, -10, -30, -40, -50, -60, -70, -80, -80, -85]
+            data: []
           }
         ]
       },
@@ -66,6 +80,7 @@ export default {
                 drawBorder: false
               },
               ticks: {
+                precision: 0,
                 callback: function(value, index, values) {
                   return Math.abs(value)
                 }
@@ -117,8 +132,21 @@ export default {
       }
     }
   },
-  async mounted() {
+  watch: {
+    'dataAge': {
+      handler(value) {
+        this.chartData.datasets[0].data = value.female
+        this.chartData.datasets[1].data = value.male
+        this.$refs.horizontalBarChart.update()
+      },
+      deep: true
+    }
+  },
+  mounted() {
     this.loaded = true
+
+    this.chartData.datasets[0].data = this.dataAge.female
+    this.chartData.datasets[1].data = this.dataAge.male
   }
 }
 </script>
