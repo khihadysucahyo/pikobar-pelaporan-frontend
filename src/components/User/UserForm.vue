@@ -212,6 +212,7 @@ export default {
       const response = await this.$store.dispatch('user/detailUser', this.idData)
       await delete response.data['__v']
       await delete response.data['updatedAt']
+      await delete response.data['createdAt']
       await Object.assign(this.formUser, response.data)
     }
   },
