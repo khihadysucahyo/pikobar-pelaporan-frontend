@@ -14,6 +14,7 @@
       <v-card-text>
         <chart-doughnut
           v-if="loaded"
+          ref="doughnutChart"
           :chart-data="chartData"
           :options="chartOptions"
           :styles="chartStyles"
@@ -99,6 +100,7 @@ export default {
         array.push(value.male)
 
         this.chartData.datasets[0].data = array
+        this.$refs.doughnutChart.update()
       },
       deep: true
     }
