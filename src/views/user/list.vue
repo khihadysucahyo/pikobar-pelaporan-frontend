@@ -38,13 +38,14 @@
             <div style="font-size: 1.5rem;">{{ $t('label.user_list').toUpperCase() }}</div>
           </v-card-text>
         </v-col>
-        <v-col>
-          <search
-            :list-query="listQuery"
-            :handle-search="handleSearch"
-          />
-        </v-col>
+        <v-col />
       </v-row>
+      <user-filter
+        :list-query="listQuery"
+        :query-list.sync="listQuery"
+        :on-search="handleSearch"
+      />
+      <hr>
       <v-row>
         <v-col auto>
           <v-data-table
@@ -185,6 +186,7 @@ export default {
   computed: {
     ...mapGetters('user', [
       'roles',
+      'district_user',
       'totalList',
       'userList'
     ])
@@ -201,6 +203,7 @@ export default {
     }
   },
   async mounted() {
+    if (this.roles[0] === 'dinkeskota') this.listQuery.address_district_code = this.district_user
     await this.$store.dispatch('user/listUser', this.listQuery)
   },
   methods: {
