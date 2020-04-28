@@ -1,16 +1,16 @@
 export function completeAddress(districtCity, subDistrict, village, nameStreet) {
   let address = ''
   if (nameStreet) {
-    address += `${nameStreet}`
+    address += `${nameStreet} ,`
   }
   if (village) {
-    address += `, ${village}`
+    address += `${village} ,`
   }
   if (subDistrict) {
-    address += `, ${subDistrict}`
+    address += `${subDistrict} ,`
   }
   if (districtCity) {
-    address += `, ${districtCity}`
+    address += `${districtCity}`
   }
   return address
 }
