@@ -254,7 +254,7 @@ export default {
     export_data: 'Ekspor Data',
     minutes: 'Menit',
     hours: 'Jam',
-    verification_info: 'Data akan otomatis terverifikasi jika 24 jam tidak ada aksi',
+    verification_info: 'Data akan otomatis terverifikasi jika dalam 24 jam tidak ada aksi',
     verify_new_case: 'Verifikasi Kasus Baru',
     verify: 'Verifikasi',
     positive_active_redaction: 'Jumlah kasus positif yang masih dalam proses pemantauan baik di RS maupun isolasi mandiri',
