@@ -220,6 +220,7 @@ export default {
   data: () => ({
     loading: true,
     patien: {
+      OTG: 0,
       ODP: 0,
       PDP: 0,
       POSITIF: 0
@@ -253,7 +254,7 @@ export default {
 
     this.patien = data.data
     this.final = dataFinal.data
-    this.total = this.patien.ODP + this.patien.PDP + this.patien.POSITIF
+    this.total = this.patien.OTG + this.patien.ODP + this.patien.PDP + this.patien.POSITIF
     this.totalConfirmation = this.final.POSITIF + this.final.SEMBUH + this.final.MENINGGAL
   }
 }
