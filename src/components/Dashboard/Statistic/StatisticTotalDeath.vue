@@ -32,7 +32,7 @@ export default {
     },
     totalDeath: {
       type: Number,
-      default: 1290
+      default: 0
     }
   }
 }

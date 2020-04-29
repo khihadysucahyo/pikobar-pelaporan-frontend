@@ -50,46 +50,58 @@
     <v-row>
       <v-col cols="12" md="3" sm="6">
         <statistic-total-confirmed
-          :loading="loadingStatistic"
-          :total-confirmed="totalConfirmation"
+          :loading="loadingConfirmed"
+          :total-confirmed="statistic.confirmed.total"
         />
       </v-col>
       <v-col cols="12" md="3" sm="6">
         <statistic-total-active
-          :loading="loadingStatistic"
-          :total-active="final.POSITIF"
+          :loading="loadingConfirmed"
+          :total-active="statistic.confirmed.active"
         />
       </v-col>
       <v-col cols="12" md="3" sm="6">
         <statistic-total-recovered
-          :loading="loadingStatistic"
-          :total-recovered="final.SEMBUH"
+          :loading="loadingConfirmed"
+          :total-recovered="statistic.confirmed.recovery"
         />
       </v-col>
       <v-col cols="12" md="3" sm="6">
         <statistic-total-death
-          :loading="loadingStatistic"
-          :total-death="final.MENINGGAL"
+          :loading="loadingConfirmed"
+          :total-death="statistic.confirmed.dead"
         />
       </v-col>
     </v-row>
     <v-row class="mb-3">
       <v-col cols="12" md="4">
         <statistic-people-without-symptoms
-          :loading="loadingStatistic"
-          :total-otg="patien.OTG"
+          :loading="loadingNotConfirmed"
+          :process="statistic.otg.process"
+          :process-percent="statistic.otg.processPercent"
+          :done="statistic.otg.done"
+          :done-percent="statistic.otg.donePercent"
+          :total="statistic.otg.total"
         />
       </v-col>
       <v-col cols="12" md="4">
         <statistic-person-under-monitoring
-          :loading="loadingStatistic"
-          :total-odp="patien.ODP"
+          :loading="loadingNotConfirmed"
+          :process="statistic.odp.process"
+          :process-percent="statistic.odp.processPercent"
+          :done="statistic.odp.done"
+          :done-percent="statistic.odp.donePercent"
+          :total="statistic.odp.total"
         />
       </v-col>
       <v-col cols="12" md="4">
         <statistic-patient-under-investigation
-          :loading="loadingStatistic"
-          :total-pdp="patien.PDP"
+          :loading="loadingNotConfirmed"
+          :process="statistic.pdp.process"
+          :process-percent="statistic.pdp.processPercent"
+          :done="statistic.pdp.done"
+          :done-percent="statistic.pdp.donePercent"
+          :total="statistic.pdp.total"
         />
       </v-col>
     </v-row>
@@ -160,21 +172,20 @@
       </v-tab-item>
     </v-tabs>
     <v-divider />
-    <!-- <v-row>
-      <v-col cols="12">
-        <map-point />
-      </v-col>
-    </v-row>
-    <v-divider /> -->
     <v-row>
       <v-col cols="12" md="4">
-        <chart-gender />
+        <chart-gender
+          :loading="loadingAgeGender"
+          :data-gender="statistic.gender"
+        />
       </v-col>
       <v-col cols="12" md="8">
-        <chart-age />
+        <chart-age
+          :loading="loadingAgeGender"
+          :data-age="statistic.age"
+        />
       </v-col>
     </v-row>
-    <!-- <card-data /> -->
   </v-container>
 </template>
 
@@ -211,7 +222,9 @@ export default {
   },
   data() {
     return {
-      loadingStatistic: true,
+      loadingConfirmed: true,
+      loadingNotConfirmed: true,
+      loadingAgeGender: true,
       display: true,
       districtCity: {
         kota_kode: this.districtCode,
@@ -234,21 +247,48 @@ export default {
         district: null,
         village: null
       },
-      patien: {
-        OTG: 0,
-        ODP: 0,
-        PDP: 0,
-        POSITIF: 0
-      },
-      final: {
-        MENINGGAL: 0,
-        SEMBUH: 0,
-        POSITIF: 0
+      statistic: {
+        confirmed: {
+          active: 0,
+          recovery: 0,
+          dead: 0,
+          total: 0
+        },
+        otg: {
+          process: 0,
+          processPercent: 0,
+          done: 0,
+          donePercent: 0,
+          total: 0
+        },
+        odp: {
+          process: 0,
+          processPercent: 0,
+          done: 0,
+          donePercent: 0,
+          total: 0
+        },
+        pdp: {
+          process: 0,
+          processPercent: 0,
+          done: 0,
+          donePercent: 0,
+          total: 0
+        },
+        gender: {
+          male: 0,
+          female: 0
+        },
+        age: {
+          male: [],
+          female: []
+        }
       },
       listQuery: {
-        address_district_code: ''
-      },
-      totalConfirmation: 0
+        address_district_code: null,
+        address_subdistrict_code: null,
+        address_village_code: null
+      }
     }
   },
   computed: {
@@ -300,14 +340,9 @@ export default {
       kota_nama: this.district_name_user
     }
 
-    const data = await this.$store.dispatch('reports/countReportCase', this.listQuery)
-    const dataFinal = await this.$store.dispatch('reports/countReportCaseFinal', this.listQuery)
-
-    if (dataFinal) this.loadingStatistic = false
-
-    this.patien = data.data
-    this.final = dataFinal.data
-    this.totalConfirmation = this.final.POSITIF + this.final.SEMBUH + this.final.MENINGGAL
+    this.getStatisticConfirmed()
+    this.getStatisticNotConfirmed()
+    this.getStatisticAgeGender()
   },
   beforeDestroy() {
     this.clearCity()
@@ -347,6 +382,10 @@ export default {
       this.filter.isVillage = false
       this.filter.district = null
       this.filter.village = null
+
+      this.getStatisticConfirmed()
+      this.getStatisticNotConfirmed()
+      this.getStatisticAgeGender()
     },
     onSearch() {
       this.filter.city = this.districtCity.kota_kode
@@ -355,24 +394,145 @@ export default {
       this.filter.isCity = !!this.filter.city
       this.filter.isDistrict = !!this.filter.district
       this.filter.isVillage = !!this.filter.village
+
+      this.listQuery = {
+        address_district_code: this.districtCity.kota_kode,
+        address_subdistrict_code: this.subDistrict.kecamatan_kode,
+        address_village_code: this.village.desa_kode
+      }
+
+      this.getStatisticConfirmed()
+      this.getStatisticNotConfirmed()
+      this.getStatisticAgeGender()
     },
     clearCity() {
       this.districtCity = {
         kota_kode: null,
         kota_nama: null
       }
+      this.listQuery.address_district_code = null
     },
     clearDistrict() {
       this.subDistrict = {
         kecamatan_kode: null,
         kecamatan_nama: null
       }
+      this.listQuery.address_subdistrict_code = null
     },
     clearVillage() {
       this.village = {
         desa_kode: null,
         desa_nama: null
       }
+      this.listQuery.address_village_code = null
+    },
+    async getStatisticConfirmed() {
+      this.loadingConfirmed = true
+      const res = await this.$store.dispatch('reports/countReportCaseFinal', this.listQuery)
+
+      if (res) this.loadingConfirmed = false
+
+      const active = res.data.POSITIF
+      const recovery = res.data.SEMBUH
+      const dead = res.data.MENINGGAL
+
+      this.statistic.confirmed = {
+        active,
+        recovery,
+        dead,
+        total: active + recovery + dead
+      }
+      // console.log(this.statistic.confirmed)
+    },
+    async getStatisticNotConfirmed() {
+      this.loadingNotConfirmed = true
+      const res = await this.$store.dispatch('reports/countReportCase', this.listQuery)
+
+      if (res) this.loadingNotConfirmed = false
+
+      const otgProcess = res.data.OTG_PROCESS
+      const otgDone = res.data.OTG_DONE
+      const otgTotalSum = (otgProcess + otgDone)
+      const otgTotal = (otgTotalSum === res.data.OTG) ? res.data.OTG : otgTotalSum
+      const odpProcess = res.data.ODP_PROCESS
+      const odpDone = res.data.ODP_DONE
+      const odpTotalSum = (odpProcess + odpDone)
+      const odpTotal = (odpTotalSum === res.data.ODP) ? res.data.ODP : odpTotalSum
+      const pdpProcess = res.data.PDP_PROCESS
+      const pdpDone = res.data.PDP_DONE
+      const pdpTotalSum = (pdpProcess + pdpDone)
+      const pdpTotal = (pdpTotalSum === res.data.PDP) ? res.data.PDP : pdpTotalSum
+
+      this.statistic.otg = {
+        process: otgProcess,
+        processPercent: (otgProcess / otgTotal) * 100,
+        done: otgDone,
+        donePercent: (otgDone / otgTotal) * 100,
+        total: otgTotal
+      }
+      this.statistic.odp = {
+        process: odpProcess,
+        processPercent: (odpProcess / odpTotal) * 100,
+        done: odpDone,
+        donePercent: (odpDone / odpTotal) * 100,
+        total: odpTotal
+      }
+      this.statistic.pdp = {
+        process: pdpProcess,
+        processPercent: (pdpProcess / pdpTotal) * 100,
+        done: pdpDone,
+        donePercent: (pdpDone / pdpTotal) * 100,
+        total: pdpTotal
+      }
+      // console.log(this.statistic.otg)
+      // console.log(this.statistic.odp)
+      // console.log(this.statistic.pdp)
+    },
+    async getStatisticAgeGender() {
+      this.loadingAgeGender = true
+      const res = await this.$store.dispatch('statistic/countAgeGender', this.listQuery)
+
+      if (res) this.loadingAgeGender = false
+
+      const male = res.data.L
+      const female = res.data.P
+
+      this.statistic.gender = {
+        male,
+        female
+      }
+      // console.log(this.statistic.gender)
+
+      const male_age = []
+      const female_age = []
+      male_age.push(-Math.abs(Number(res.data.age_male_0)))
+      male_age.push(-Math.abs(Number(res.data.age_male_10)))
+      male_age.push(-Math.abs(Number(res.data.age_male_20)))
+      male_age.push(-Math.abs(Number(res.data.age_male_30)))
+      male_age.push(-Math.abs(Number(res.data.age_male_40)))
+      male_age.push(-Math.abs(Number(res.data.age_male_50)))
+      male_age.push(-Math.abs(Number(res.data.age_male_60)))
+      male_age.push(-Math.abs(Number(res.data.age_male_70)))
+      male_age.push(-Math.abs(Number(res.data.age_male_80)))
+      male_age.push(-Math.abs(Number(res.data.age_male_90)))
+      male_age.push(-Math.abs(Number(res.data.age_male_100)))
+      female_age.push(Number(res.data.age_female_0))
+      female_age.push(Number(res.data.age_female_10))
+      female_age.push(Number(res.data.age_female_20))
+      female_age.push(Number(res.data.age_female_30))
+      female_age.push(Number(res.data.age_female_40))
+      female_age.push(Number(res.data.age_female_50))
+      female_age.push(Number(res.data.age_female_60))
+      female_age.push(Number(res.data.age_female_70))
+      female_age.push(Number(res.data.age_female_80))
+      female_age.push(Number(res.data.age_female_90))
+      female_age.push(Number(res.data.age_female_100))
+
+      this.statistic.age = {
+        male: male_age,
+        female: female_age
+      }
+      // console.log(this.statistic.age)
     }
   }
 }
