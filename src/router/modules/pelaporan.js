@@ -34,6 +34,17 @@ const surveyRouter = {
       }
     },
     {
+      path: '/laporan/verify',
+      component: () => import('@/views/laporan/verify'),
+      meta: {
+        title: 'verify_case',
+        icon: 'library_books',
+        child: true,
+        noCache: true,
+        roles: ['superadmin', 'dinkeskota']
+      }
+    },
+    {
       path: 'detail/:id',
       component: () => import('@/views/laporan/detail'),
       hidden: true,

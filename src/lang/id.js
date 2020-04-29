@@ -5,6 +5,7 @@ export default {
     dashboard: 'Dashboard',
     laporan_title: 'Laporan Kasus',
     list_case: 'List Kasus',
+    verify_case: 'Verifikasi Kasus Baru',
     rdt: 'Test Masif',
     create_rdt: 'Input hasil test',
     list_rdt: 'List hasil test',
@@ -248,7 +249,12 @@ export default {
     import_success_message: 'Impor file telah berhasil',
     reset_password: 'Reset Password',
     export: 'Ekspor',
-    export_data: 'Ekspor Data'
+    export_data: 'Ekspor Data',
+    minutes: 'Menit',
+    hours: 'Jam',
+    verification_info: 'Data akan otomatis terverifikasi jika 24 jam tidak ada aksi',
+    verify_new_case: 'Verifikasi Kasus Baru',
+    verify: 'Verifikasi'
   },
   success: {
     login_success: 'Login Berhasil',
