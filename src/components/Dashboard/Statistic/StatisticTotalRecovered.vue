@@ -1,25 +1,40 @@
 <template>
-  <v-card
-    class="statistic mx-auto"
-    outlined
+  <v-skeleton-loader
+    :loading="loading"
+    type="article"
   >
-    <v-card-title class="title ml-0">
-      {{ $t('label.recovery') }}
-    </v-card-title>
-    <v-card-subtitle class="subtitle pb-3">
-      Jumlah kasus positif yang sembuh
-    </v-card-subtitle>
-    <v-card-text class="mt-2">
-      <span class="total black--text font-weight-bold">
-        {{ 1290 | number }} {{ $t('label.people') | capitalize }}
-      </span>
-    </v-card-text>
-  </v-card>
+    <v-card
+      class="statistic mx-auto"
+      outlined
+    >
+      <v-card-title class="title ml-0">
+        {{ $t('label.recovery') }}
+      </v-card-title>
+      <v-card-subtitle class="subtitle pb-3">
+        {{ $t('label.total_positive_case_recovered') }}
+      </v-card-subtitle>
+      <v-card-text class="mt-2">
+        <span class="total black--text font-weight-bold">
+          {{ totalRecovered | number }} {{ $t('label.people') | capitalize }}
+        </span>
+      </v-card-text>
+    </v-card>
+  </v-skeleton-loader>
 </template>
 
 <script>
 export default {
-  name: 'StatisticTotalRecovered'
+  name: 'StatisticTotalRecovered',
+  props: {
+    loading: {
+      type: Boolean,
+      default: true
+    },
+    totalRecovered: {
+      type: Number,
+      default: 1290
+    }
+  }
 }
 </script>
 

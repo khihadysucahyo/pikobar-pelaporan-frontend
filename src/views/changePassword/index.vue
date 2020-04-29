@@ -80,7 +80,7 @@ export default {
       if (this.$refs.form.validate()) {
         this.loading = true
         if (this.$route.params.id) {
-          this.$store.dispatch('user/editUser', { id: this.$route.params.id, password: this.changePasswordForm.password })
+          this.$store.dispatch('user/editUser', { id: this.$route.params.id, data: { password: this.changePasswordForm.password }})
             .then(() => {
               this.$store.dispatch('toast/successToast', 'Password berhasil dirubah')
               this.$router.push({ path: '/user/list' })

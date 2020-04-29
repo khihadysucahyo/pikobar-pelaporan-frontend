@@ -135,9 +135,11 @@
               <v-text-field
                 v-model="formPasien.age"
                 :error-messages="errors"
-                min="0"
-                solo-inverted
                 type="number"
+                min="0"
+                max="120"
+                solo-inverted
+                oninput="if(Number(this.value) > Number(this.max)) this.value = this.max;"
               />
             </ValidationProvider>
             <ValidationProvider

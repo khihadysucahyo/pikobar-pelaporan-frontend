@@ -15,6 +15,8 @@ export default {
     laporan_create: 'Buat Laporan Kasus',
     laporan_detail: 'Detail Laporan Kasus',
     laporan_edit: 'Ubah Laporan Kasus',
+    edit_lapor: 'Ubah Laporan',
+    edit_history_lapor: 'Ubah Histori',
     change_password: 'Ubah Password',
     help: 'Bantuan',
     setting: 'Pengaturan',
@@ -254,7 +256,11 @@ export default {
     hours: 'Jam',
     verification_info: 'Data akan otomatis terverifikasi jika 24 jam tidak ada aksi',
     verify_new_case: 'Verifikasi Kasus Baru',
-    verify: 'Verifikasi'
+    verify: 'Verifikasi',
+    positive_active_redaction: 'Jumlah kasus positif yang masih dalam proses pemantauan baik di RS maupun isolasi mandiri',
+    positive_confirmed_covid19: 'Jumlah Kasus yang terkonfirmasi COVID-19',
+    total_positive_case_recovered: 'Jumlah kasus positif yang sembuh',
+    total_positive_case_death: 'Jumlah kasus positif yang meninggal'
   },
   success: {
     login_success: 'Login Berhasil',
