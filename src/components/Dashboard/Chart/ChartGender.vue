@@ -100,9 +100,11 @@ export default {
         array.push(value.male)
 
         this.chartData.datasets[0].data = array
-        this.$refs.doughnutChart.update()
       },
       deep: true
+    },
+    '$refs'() {
+      this.$refs.doughnutChart.update()
     }
   },
   mounted() {

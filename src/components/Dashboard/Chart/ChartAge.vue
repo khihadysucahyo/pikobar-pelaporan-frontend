@@ -137,9 +137,11 @@ export default {
       handler(value) {
         this.chartData.datasets[0].data = value.female
         this.chartData.datasets[1].data = value.male
-        this.$refs.horizontalBarChart.update()
       },
       deep: true
+    },
+    '$refs'() {
+      this.$refs.horizontalBarChart.update()
     }
   },
   mounted() {

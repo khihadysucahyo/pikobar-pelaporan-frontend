@@ -15,9 +15,9 @@
         <v-row>
           <v-col cols="12" md="12">
             <div>
-              <span class="total total-process font-weight-bold">{{ 12495 | number }}</span>
+              <span class="total total-process font-weight-bold">{{ process | number }}</span>
             &nbsp;
-              <span class="black--text">({{ (12.252).toFixed(2) | decimal }}%)</span>
+              <span class="black--text">({{ (processPercent).toFixed(2) | decimal }}%)</span>
               <br>
               {{ $t('label.process') }} {{ $t('label.monitoring') }}
             </div>
@@ -26,16 +26,16 @@
         <v-row>
           <v-col cols="12" md="7">
             <div>
-              <span class="total total-done font-weight-bold">{{ 12495 | number }}</span>
+              <span class="total total-done font-weight-bold">{{ done | number }}</span>
             &nbsp;
-              <span class="black--text">({{ (33.34).toFixed(2) | decimal }}%)</span>
+              <span class="black--text">({{ (donePercent).toFixed(2) | decimal }}%)</span>
               <br>
               {{ $t('label.done') }} {{ $t('label.monitoring') }}
             </div>
           </v-col>
           <v-col cols="12" md="5">
             <div>
-              <span class="total total-all font-weight-bold">{{ totalOdp | number }}</span>
+              <span class="total total-all font-weight-bold">{{ total | number }}</span>
               <br>
               {{ $t('label.total_odp') }}
             </div>
@@ -54,9 +54,25 @@ export default {
       type: Boolean,
       default: true
     },
-    totalOdp: {
+    process: {
       type: Number,
-      default: 1290
+      default: 0
+    },
+    processPercent: {
+      type: Number,
+      default: 0
+    },
+    done: {
+      type: Number,
+      default: 0
+    },
+    donePercent: {
+      type: Number,
+      default: 0
+    },
+    total: {
+      type: Number,
+      default: 0
     }
   }
 }
