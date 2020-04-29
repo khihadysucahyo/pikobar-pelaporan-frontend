@@ -17,28 +17,36 @@
           </v-col>
         </v-row>
         <v-row class="filter-row">
-          <v-col cols="12" sm="2">
+          <v-col
+            v-if="roles[0] === 'dinkesprov'"
+            cols="12"
+            sm="2"
+          >
             <v-label class="title">{{ $t('label.roles') }}:</v-label>
             <v-select
-              v-model="listQuery.final_result"
+              v-model="listQuery.role"
               :items="rolesList"
               solo
               item-text="label"
               item-value="value"
             />
           </v-col>
-          <v-col cols="12" sm="7" class="reduce-padding-top">
+          <v-col
+            cols="12"
+            :sm="roles[0] === 'dinkesprov' ? '7':'9'"
+            class="reduce-padding-top"
+          >
             <address-region
               :disabled-district="disabledDistrict"
-              :district-code="listQuery.address_district_code"
+              :district-code="listQuery.code_district_city"
               :district-name="district_name_user"
-              :code-district.sync="listQuery.address_district_code"
+              :code-district.sync="listQuery.code_district_city"
               :sub-district-code="listQuery.address_subdistrict_code"
               :code-sub-district.sync="listQuery.address_subdistrict_code"
               :village-code="listQuery.address_village_code"
               :code-village.sync="listQuery.address_village_code"
-              :village-name="nameVillage"
-              :name-village.sync="nameVillage"
+              :village-name="villageName"
+              :name-village.sync="villageName"
               :disabled-address="false"
               :required-address="false"
               :is-label="true"
@@ -94,7 +102,7 @@ export default {
       formatDate: 'YYYY-MM-DD',
       disabledDistrict: true,
       codeDistrict: '',
-      nameVillage: '',
+      villageName: '',
       rolesList: [
         {
           label: 'Dinkes Provinsi',
@@ -102,7 +110,7 @@ export default {
         },
         {
           label: 'Dinkes Kab/Kota',
-          value: 'dinkeskabkota'
+          value: 'dinkeskota'
         },
         {
           label: 'Faskes',
@@ -124,15 +132,16 @@ export default {
   },
   methods: {
     onSelectDistrict(value) {
-      this.listQuery.address_district_code = value.kota_kode
+      this.listQuery.code_district_city = value.kota_kode
     },
     onReset() {
       this.listQuery.search = ''
+      this.listQuery.role = ''
       this.listQuery.address_subdistrict_code = ''
       this.listQuery.address_village_code = ''
-      this.nameVillage = ''
+      this.villageName = ''
       if (this.roles[0] !== 'dinkeskota') {
-        this.listQuery.address_district_code = ''
+        this.listQuery.code_district_city = ''
         this.codeDistrict = ''
       }
       this.$store.dispatch('user/listUser', this.listQuery)

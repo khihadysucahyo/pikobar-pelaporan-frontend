@@ -174,7 +174,11 @@ export default {
       listQuery: {
         page: 1,
         limit: 30,
-        search: ''
+        search: '',
+        code_district_city: '',
+        address_subdistrict_code: '',
+        address_village_code: '',
+        role: ''
       },
       districtCity: {
         kota_kode: ''
@@ -203,7 +207,7 @@ export default {
     }
   },
   async mounted() {
-    if (this.roles[0] === 'dinkeskota') this.listQuery.address_district_code = this.district_user
+    if (this.roles[0] === 'dinkeskota') this.listQuery.code_district_city = this.district_user
     await this.$store.dispatch('user/listUser', this.listQuery)
   },
   methods: {
