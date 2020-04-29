@@ -1,4 +1,3 @@
-
 <template>
   <div>
     <v-card outlined>
@@ -8,7 +7,7 @@
             <v-text-field
               v-model="listQuery.search"
               solo
-              label="Search"
+              :label="$t('label.search')"
               prepend-inner-icon="search"
             />
           </v-col>
@@ -24,8 +23,8 @@
               :code-sub-district.sync="listQuery.address_subdistrict_code"
               :village-code="listQuery.address_village_code"
               :code-village.sync="listQuery.address_village_code"
-              :village-name="nameVillage"
-              :name-village.sync="nameVillage"
+              :village-name="villageName"
+              :name-village.sync="villageName"
               :disabled-address="false"
               :required-address="false"
               :is-label="true"
@@ -120,7 +119,7 @@
                 </td>
                 <td><status :status="item.status" /> </td>
                 <td>
-                  <div v-if=" item.last_history.stage == '0'">
+                  <div v-if=" item.last_history.stage === '0'">
                     {{ $t('label.process') }}
                   </div>
                   <div v-else>
@@ -128,13 +127,13 @@
                   </div>
                 </td>
                 <td>
-                  <div v-if=" item.last_history.final_result == '0'">
+                  <div v-if=" item.last_history.final_result === '0'">
                     {{ $t('label.negatif') }}
                   </div>
-                  <div v-else-if=" item.last_history.final_result == '1'">
+                  <div v-else-if=" item.last_history.final_result === '1'">
                     {{ $t('label.recovery') }}
                   </div>
-                  <div v-else-if=" item.last_history.final_result == '2'">
+                  <div v-else-if=" item.last_history.final_result === '2'">
                     {{ $t('label.dead') }}
                   </div>
                   <div v-else>
@@ -221,7 +220,7 @@ export default {
       failedDialog: false,
       disabledDistrict: true,
       listMedicalFacility: [],
-      nameVillage: ''
+      villageName: ''
     }
   },
   computed: {
@@ -270,7 +269,7 @@ export default {
       this.listQuery.author = ''
       this.listQuery.address_subdistrict_code = ''
       this.listQuery.address_village_code = ''
-      this.nameVillage = ''
+      this.villageName = ''
       if (this.roles[0] !== 'dinkeskota') {
         this.listQuery.address_district_code = ''
         this.codeDistrict = ''
