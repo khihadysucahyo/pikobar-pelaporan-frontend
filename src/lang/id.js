@@ -5,6 +5,7 @@ export default {
     dashboard: 'Dashboard',
     laporan_title: 'Laporan Kasus',
     list_case: 'List Kasus',
+    verify_case: 'Verifikasi Kasus Baru',
     rdt: 'Test Masif',
     create_rdt: 'Input hasil test',
     list_rdt: 'List hasil test',
@@ -251,11 +252,15 @@ export default {
     reset_password: 'Reset Password',
     export: 'Ekspor',
     export_data: 'Ekspor Data',
+    minutes: 'Menit',
+    hours: 'Jam',
+    verification_info: 'Data akan otomatis terverifikasi jika dalam 24 jam tidak ada aksi',
+    verify_new_case: 'Verifikasi Kasus Baru',
+    verify: 'Verifikasi',
     positive_active_redaction: 'Jumlah kasus positif yang masih dalam proses pemantauan baik di RS maupun isolasi mandiri',
     positive_confirmed_covid19: 'Jumlah Kasus yang terkonfirmasi COVID-19',
     total_positive_case_recovered: 'Jumlah kasus positif yang sembuh',
     total_positive_case_death: 'Jumlah kasus positif yang meninggal'
-
   },
   success: {
     login_success: 'Login Berhasil',

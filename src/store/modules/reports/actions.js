@@ -128,6 +128,14 @@ export default {
       return error.response
     }
   },
+  async listMedicalFacility({ commit }, params) {
+    try {
+      const response = await requestServer('/api/users-listid', 'GET', params)
+      return response
+    } catch (e) {
+      return e
+    }
+  },
   resetListCase({ commit }) {
     commit('RESET_LIST_CASE')
   },
