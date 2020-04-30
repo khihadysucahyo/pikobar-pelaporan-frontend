@@ -32,7 +32,7 @@ export default {
     state.formUser.address_village_code = ''
     state.formUser.address_village_name = ''
     state.formUser.address_street = ''
-    state.formUser.fullName = ''
+    state.formUser.fullname = ''
     state.formUser.phone_number = ''
   }
 }
