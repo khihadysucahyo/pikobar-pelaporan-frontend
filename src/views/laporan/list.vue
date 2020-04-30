@@ -335,7 +335,8 @@ export default {
         limit: 30,
         search: '',
         start_date: '',
-        end_date: ''
+        end_date: '',
+        verified_status: 'verified'
       },
       countingReports: null,
       dialog: false,
