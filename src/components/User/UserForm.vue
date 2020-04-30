@@ -17,7 +17,7 @@
             >
               <label class="required">{{ $t('label.name_instansi') }}</label>
               <v-text-field
-                v-model="formUser.fullname"
+                v-model="formUser.fullName"
                 :error-messages="errors"
                 solo-inverted
               />

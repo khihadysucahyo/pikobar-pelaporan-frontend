@@ -325,13 +325,13 @@ export default {
     ]),
     ...mapGetters('user', [
       'roles',
-      'fullname'
+      'fullName'
     ])
   },
   async mounted() {
     await this.$store.dispatch('region/getListHospital')
     if (this.roles[0] === 'faskes') {
-      this.formPasien.report_source = this.fullname
+      this.formPasien.report_source = this.fullName
       this.disabledReportResource = true
     }
   },

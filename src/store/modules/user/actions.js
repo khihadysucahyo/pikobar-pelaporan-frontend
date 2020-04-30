@@ -21,7 +21,7 @@ export default {
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
       requestServer('/api/users/info', 'GET').then(async(response) => {
-        const { role, fullname, code_district_city } = response.data
+        const { role, fullName, code_district_city } = response.data
         const data = {
           roles: [role]
         }
@@ -29,7 +29,7 @@ export default {
         const { roles } = data
         commit('SET_ROLES', roles)
         commit('SET_DISTRICT', code_district_city)
-        commit('SET_FULLNAME', fullname)
+        commit('SET_FULLNAME', fullName)
         if (district.data[0]) commit('SET_DISTRICT_NAME', district.data[0].kota_nama)
         resolve(roles)
       }).catch((error) => {
