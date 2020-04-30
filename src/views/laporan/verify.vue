@@ -202,7 +202,8 @@ export default {
         author: '',
         page: 1,
         limit: 30,
-        search: ''
+        search: '',
+        verified_status: 'pending'
       },
       medicalFacilityListQuery: {
         role: 'faskes',
