@@ -196,9 +196,9 @@
                       </ValidationProvider>
                       <ValidationProvider
                         v-slot="{ errors }"
-                        rules="required"
+                        rules="isPhoneNumber"
                       >
-                        <label class="required">{{ $t('label.phone_number') }}</label>
+                        <label>{{ $t('label.phone_number') }}</label>
                         <v-text-field
                           v-model="formPasien.phone_number"
                           :error-messages="errors"

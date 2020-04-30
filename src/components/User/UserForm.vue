@@ -118,16 +118,12 @@
                   @click:append="() => (typePassword = !typePassword)"
                 />
               </ValidationProvider>
-              <ValidationProvider
-                v-slot="{ errors }"
-                rules="required"
-              >
+              <ValidationProvider>
                 <label class="required">{{ $t('label.repeat_password') }}</label>
                 <v-text-field
                   :rules="repeatPasswordRules"
                   :append-icon="typeRepeatPassword ? 'visibility' : 'visibility_off'"
                   :type="typeRepeatPassword ? 'password' : 'text'"
-                  :error-messages="errors"
                   name="repeat_password"
                   solo-inverted
                   @click:append="() => (typeRepeatPassword = !typeRepeatPassword)"
@@ -236,7 +232,7 @@ export default {
       }
       if (!valid) {
         return
-      } else {
+      } else if (this.$refs.form.validate()) {
         if (this.isEdit) {
           const update = {
             id: this.idData,
