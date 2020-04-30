@@ -9,7 +9,7 @@ const state = {
   roles: [],
   district_user: '',
   user_district_name: '',
-  fullname: '',
+  fullName: '',
   totalList: 0,
   userList: [],
   formUser: {
@@ -24,7 +24,7 @@ const state = {
     address_village_code: '',
     address_village_name: '',
     address_street: '',
-    fullname: '',
+    fullName: '',
     phone_number: ''
   }
 }

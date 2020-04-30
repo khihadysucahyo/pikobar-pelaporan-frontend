@@ -271,7 +271,7 @@ export default {
   },
   computed: {
     ...mapGetters('user', [
-      'fullname',
+      'fullName',
       'district_user',
       'district_name_user'
     ]),

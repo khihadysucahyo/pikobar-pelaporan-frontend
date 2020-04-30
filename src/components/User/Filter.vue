@@ -124,7 +124,7 @@ export default {
       'roles',
       'district_user',
       'district_name_user',
-      'fullname'
+      'fullName'
     ])
   },
   async beforeMount() {

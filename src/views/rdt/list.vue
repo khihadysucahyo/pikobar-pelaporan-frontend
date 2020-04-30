@@ -6,7 +6,7 @@
           <v-col cols="auto">
             <v-card-text class="header-survey-text">
               <div>{{ $t('label.total_COVID19_massive_test_results') }} : {{ totalReport }}</div>
-              <div>{{ fullname }}</div>
+              <div>{{ fullName }}</div>
             </v-card-text>
           </v-col>
         </v-row>
@@ -171,7 +171,7 @@ export default {
     ]),
     ...mapGetters('user', [
       'roles',
-      'fullname',
+      'fullName',
       'district_user'
     ])
   },

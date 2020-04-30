@@ -4,7 +4,7 @@
     class=""
   >
     <v-container>
-      <p class="title">{{ $t('label.recap_case') }} {{ fullname }}</p>
+      <p class="title">{{ $t('label.recap_case') }} {{ fullName }}</p>
       <v-row>
         <v-col
           lg="12"
@@ -22,7 +22,7 @@
               <v-row>
                 <v-col lg="4" md="6" sm="6">
                   <p class="subtitle-1 pl-4">
-                    {{ $t('label.total_case_recorded') }} {{ fullname }}
+                    {{ $t('label.total_case_recorded') }} {{ fullName }}
                   </p>
                 </v-col>
                 <v-col lg="8" md="6" sm="6">
@@ -235,7 +235,7 @@ export default {
   computed: {
     ...mapGetters('user', [
       'roles',
-      'fullname',
+      'fullName',
       'district_user'
     ])
   },

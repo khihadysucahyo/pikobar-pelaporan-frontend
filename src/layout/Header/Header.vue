@@ -41,7 +41,7 @@
       <!--        </template>-->
       <!--      </v-switch>-->
       <div>
-        <v-label>{{ fullname }}</v-label>
+        <v-label>{{ fullName }}</v-label>
       </div>
       <v-menu offset-y>
         <template v-slot:activator="{ on }">
@@ -127,7 +127,7 @@ export default {
   },
   computed: {
     ...mapGetters('user', [
-      'fullname'
+      'fullName'
     ])
   },
   methods: {
