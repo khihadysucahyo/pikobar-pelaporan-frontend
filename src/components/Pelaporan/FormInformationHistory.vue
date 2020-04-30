@@ -160,6 +160,7 @@
               <v-text-field
                 v-model="formPasien.report_source"
                 :error-messages="errors"
+                :disabled="disabledReportResource"
                 solo-inverted
               />
             </ValidationProvider>
@@ -314,16 +315,25 @@ export default {
     return {
       loading: false,
       optionGejala: optionGejala,
-      formatDate: 'YYYY/MM/DD'
+      formatDate: 'YYYY/MM/DD',
+      disabledReportResource: false
     }
   },
   computed: {
     ...mapGetters('region', [
       'hospitalList'
+    ]),
+    ...mapGetters('user', [
+      'roles',
+      'fullname'
     ])
   },
   async mounted() {
     await this.$store.dispatch('region/getListHospital')
+    if (this.roles[0] === 'faskes') {
+      this.formPasien.report_source = this.fullname
+      this.disabledReportResource = true
+    }
   },
   methods: {
     backStep() {
