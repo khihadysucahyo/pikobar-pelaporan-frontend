@@ -332,7 +332,7 @@ export default {
         status: '',
         final_result: '',
         page: 1,
-        limit: 30,
+        limit: 100,
         search: '',
         start_date: '',
         end_date: '',

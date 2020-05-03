@@ -42,7 +42,7 @@ export default {
     pageSizes: {
       type: Array,
       default() {
-        return [10, 20, 30]
+        return [10, 20, 30, 100]
       }
     },
     onNext: {
