@@ -260,7 +260,20 @@ export default {
     positive_active_redaction: 'Jumlah kasus positif yang masih dalam proses pemantauan baik di RS maupun isolasi mandiri',
     positive_confirmed_covid19: 'Jumlah Kasus yang terkonfirmasi COVID-19',
     total_positive_case_recovered: 'Jumlah kasus positif yang sembuh',
-    total_positive_case_death: 'Jumlah kasus positif yang meninggal'
+    total_positive_case_death: 'Jumlah kasus positif yang meninggal',
+    other_places: 'Tempat Lainnya',
+    others: 'Lainnya',
+    additional_condition: 'Kondisi Penyerta',
+    pregnant: 'Hamil',
+    diabetes: 'Diabetes',
+    heart_disease: 'Penyakit Jantung',
+    hypertension: 'Hipertensi',
+    malignant: 'Keganasan',
+    immunological_disorders: 'Gangguan Imunologi',
+    chronic_kidney_failure: 'Gagal Ginjal Kronis',
+    chronic_liver_failure: 'Gagal Hati Kronis',
+    ppok: 'PPOK',
+    mention_other_additional_condition: 'Sebutkan kondisi penyerta lainnya (jika ada)'
   },
   success: {
     login_success: 'Login Berhasil',
