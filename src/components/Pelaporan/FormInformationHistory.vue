@@ -164,6 +164,33 @@
                 solo-inverted
               />
             </ValidationProvider>
+            <ValidationProvider v-slot="{ errors }">
+              <label>{{ $t('label.additional_condition') }}</label>
+              <v-row v-for="rowIdx in Math.ceil(optionAdditionalCondition.length / 3)" :key="rowIdx">
+                <v-col v-for="item in optionAdditionalCondition.slice(3 * (rowIdx - 1), 3 * rowIdx)" :key="item" class="one-third column">
+                  <label class="material-checkbox-custom">
+                    <input
+                      v-model="formPasien.disaeses"
+                      :value="item"
+                      type="checkbox"
+                    >
+                    <span v-if="errors.length" class="error--text">{{ item }}</span>
+                    <span v-else>{{ item }}</span>
+                  </label>
+                  <span
+                    v-if="errors.length"
+                    class="v-messages error--text"
+                  >{{ errors[0] }}</span>
+                </v-col>
+              </v-row>
+            </ValidationProvider>
+            <ValidationProvider>
+              <v-text-field
+                v-model="formPasien.disaeses_other"
+                :placeholder="$t('label.mention_other_additional_condition')"
+                solo-inverted
+              />
+            </ValidationProvider>
             <ValidationProvider>
               <v-label>{{ $t('label.postscript') }}</v-label>
               <v-textarea
@@ -235,21 +262,23 @@
             />
             <ValidationProvider v-slot="{ errors }">
               <label>{{ $t('label.symptoms') }}</label>
-              <div v-for="(item, index) in optionGejala" :key="index">
-                <label class="material-checkbox-custom">
-                  <input
-                    v-model="formPasien.diagnosis"
-                    :value="item"
-                    type="checkbox"
-                  >
-                  <span v-if="errors.length" class="error--text">{{ item }}</span>
-                  <span v-else>{{ item }}</span>
-                </label>
-              </div>
-              <span
-                v-if="errors.length"
-                class="v-messages error--text"
-              >{{ errors[0] }}</span>
+              <v-row v-for="rowIdx in Math.ceil(optionGejala.length / 3)" :key="rowIdx">
+                <v-col v-for="item in optionGejala.slice(3 * (rowIdx - 1), 3 * rowIdx)" :key="item" class="one-third column">
+                  <label class="material-checkbox-custom">
+                    <input
+                      v-model="formPasien.diagnosis"
+                      :value="item"
+                      type="checkbox"
+                    >
+                    <span v-if="errors.length" class="error--text">{{ item }}</span>
+                    <span v-else>{{ item }}</span>
+                  </label>
+                  <span
+                    v-if="errors.length"
+                    class="v-messages error--text"
+                  >{{ errors[0] }}</span>
+                </v-col>
+              </v-row>
             </ValidationProvider>
             <ValidationProvider>
               <v-text-field
@@ -295,6 +324,7 @@ import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import EventBus from '@/utils/eventBus'
 import { optionGejala } from '@/utils/constantVariable'
 import { mapGetters } from 'vuex'
+import i18n from '@/lang'
 export default {
   name: 'FormInformationHistory',
   components: {
@@ -316,7 +346,18 @@ export default {
       loading: false,
       optionGejala: optionGejala,
       formatDate: 'YYYY/MM/DD',
-      disabledReportResource: false
+      disabledReportResource: false,
+      optionAdditionalCondition: [
+        i18n.t('label.pregnant'),
+        i18n.t('label.diabetes'),
+        i18n.t('label.heart_disease'),
+        i18n.t('label.hypertension'),
+        i18n.t('label.malignant'),
+        i18n.t('label.immunological_disorders'),
+        i18n.t('label.chronic_kidney_failure'),
+        i18n.t('label.chronic_liver_failure'),
+        i18n.t('label.ppok')
+      ]
     }
   },
   computed: {
