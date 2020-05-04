@@ -1,11 +1,47 @@
 <template>
-  <v-container v-if="display" fluid grid-list-xl py-0 mb-5>
+  <v-container
+    v-if="display"
+    fluid
+    grid-list-xl
+    py-0
+    mb-5
+  >
+    <v-row>
+      <v-col
+        cols="12"
+        class="pb-0"
+      >
+        <h3><strong>{{ `${$t('label.dashboard')} ${$t('label.report')}` }}</strong></h3>
+      </v-col>
+    </v-row>
+    <v-row class="mb-3">
+      <v-col cols="12">
+        <v-card
+          class="chart mx-auto"
+          outlined
+        >
+          <v-card-text class="white--text disclaimer">
+            {{ $t('label.dashboard_disclaimer') }}
+            <a
+              class="white--text help"
+              @click="handleHelp"
+            >
+              {{ $t('label.disclaimer_help') }}
+            </a>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
     <v-row>
       <v-col cols="12">
         <h4>{{ $t('label.look_for_it') }} {{ $t('label.based') }}:</h4>
         <v-divider class="mb-0" />
       </v-col>
-      <v-col cols="12" md="2" sm="12">
+      <v-col
+        cols="12"
+        md="2"
+        sm="12"
+      >
         <select-area-district-city
           :disabled-district="disabledDistrict"
           :district-city="districtCity"
@@ -13,7 +49,11 @@
           :on-select-district="onSelectDistrict"
         />
       </v-col>
-      <v-col cols="12" md="2" sm="12">
+      <v-col
+        cols="12"
+        md="2"
+        sm="12"
+      >
         <select-area-sub-district
           :sub-district="subDistrict"
           :update-sub-district.sync="subDistrict"
@@ -22,7 +62,11 @@
           :on-select-sub-district="onSelectSubDistrict"
         />
       </v-col>
-      <v-col cols="12" md="2" sm="12">
+      <v-col
+        cols="12"
+        md="2"
+        sm="12"
+      >
         <select-area-village
           :village="village"
           :update-village.sync="village"
@@ -31,42 +75,84 @@
           :on-select-village="onSelectVillage"
         />
       </v-col>
-      <v-col cols="12" md="2" sm="12">
-        <v-btn block color="grey darken-3" class="button white--text" @click="onReset">
+      <v-col
+        cols="12"
+        md="2"
+        sm="12"
+      >
+        <v-btn
+          block
+          color="grey darken-3"
+          class="button white--text"
+          @click="onReset"
+        >
           {{ $t('label.reset') }}
         </v-btn>
       </v-col>
-      <v-col cols="12" md="2" sm="12">
-        <v-btn block color="success" class="button" @click="onSearch">
+      <v-col
+        cols="12"
+        md="2"
+        sm="12"
+      >
+        <v-btn
+          block
+          color="success"
+          class="button"
+          @click="onSearch"
+        >
           {{ $t('label.look_for_it') }}
         </v-btn>
       </v-col>
-      <v-col cols="12" md="2" sm="12">
-        <v-btn block color="info" class="button">
+      <v-col
+        cols="12"
+        md="2"
+        sm="12"
+      >
+        <v-btn
+          block
+          color="info"
+          class="button"
+        >
           {{ $t('label.export_data') }}
         </v-btn>
       </v-col>
     </v-row>
     <v-row>
-      <v-col cols="12" md="3" sm="6">
+      <v-col
+        cols="12"
+        md="3"
+        sm="6"
+      >
         <statistic-total-confirmed
           :loading="loadingConfirmed"
           :total-confirmed="statistic.confirmed.total"
         />
       </v-col>
-      <v-col cols="12" md="3" sm="6">
+      <v-col
+        cols="12"
+        md="3"
+        sm="6"
+      >
         <statistic-total-active
           :loading="loadingConfirmed"
           :total-active="statistic.confirmed.active"
         />
       </v-col>
-      <v-col cols="12" md="3" sm="6">
+      <v-col
+        cols="12"
+        md="3"
+        sm="6"
+      >
         <statistic-total-recovered
           :loading="loadingConfirmed"
           :total-recovered="statistic.confirmed.recovery"
         />
       </v-col>
-      <v-col cols="12" md="3" sm="6">
+      <v-col
+        cols="12"
+        md="3"
+        sm="6"
+      >
         <statistic-total-death
           :loading="loadingConfirmed"
           :total-death="statistic.confirmed.dead"
@@ -74,7 +160,10 @@
       </v-col>
     </v-row>
     <v-row class="mb-3">
-      <v-col cols="12" md="4">
+      <v-col
+        cols="12"
+        md="4"
+      >
         <statistic-people-without-symptoms
           :loading="loadingNotConfirmed"
           :process="statistic.otg.process"
@@ -84,7 +173,10 @@
           :total="statistic.otg.total"
         />
       </v-col>
-      <v-col cols="12" md="4">
+      <v-col
+        cols="12"
+        md="4"
+      >
         <statistic-person-under-monitoring
           :loading="loadingNotConfirmed"
           :process="statistic.odp.process"
@@ -94,7 +186,10 @@
           :total="statistic.odp.total"
         />
       </v-col>
-      <v-col cols="12" md="4">
+      <v-col
+        cols="12"
+        md="4"
+      >
         <statistic-patient-under-investigation
           :loading="loadingNotConfirmed"
           :process="statistic.pdp.process"
@@ -107,40 +202,76 @@
     </v-row>
     <v-divider />
     <v-tabs>
-      <v-tab :key="'daily'" :href="'#tab-daily'">
+      <v-tab
+        :key="'daily'"
+        :href="'#tab-daily'"
+      >
         {{ $t('label.daily_number') }}
       </v-tab>
-      <v-tab :key="'cumulative'" :href="'#tab-cumulative'">
+      <v-tab
+        :key="'cumulative'"
+        :href="'#tab-cumulative'"
+      >
         {{ $t('label.cumulative') }}
       </v-tab>
-      <v-tab-item :key="'daily'" :value="'tab-daily'">
+      <v-tab-item
+        :key="'daily'"
+        :value="'tab-daily'"
+      >
         <v-row>
-          <v-col cols="12" md="6">
+          <v-col
+            cols="12"
+            md="6"
+          >
             <chart-daily-people-without-symptoms :chart-height="250" />
           </v-col>
-          <v-col cols="12" md="6">
+          <v-col
+            cols="12"
+            md="6"
+          >
             <chart-daily-person-under-monitoring :chart-height="250" />
           </v-col>
-          <v-col cols="12" md="6">
+          <v-col
+            cols="12"
+            md="6"
+          >
             <chart-daily-patient-under-investigation :chart-height="250" />
           </v-col>
-          <v-col cols="12" md="6">
+          <v-col
+            cols="12"
+            md="6"
+          >
             <chart-daily-confirmed :chart-height="250" />
           </v-col>
         </v-row>
       </v-tab-item>
-      <v-tab-item :key="'cumulative'" :value="'tab-cumulative'">
+      <v-tab-item
+        :key="'cumulative'"
+        :value="'tab-cumulative'"
+      >
         <v-row>
-          <v-col cols="12" md="6">
+          <v-col
+            cols="12"
+            md="6"
+          >
             <chart-cumulative-people-without-symptoms :chart-height="250" />
           </v-col>
-          <v-col cols="12" md="6">
+          <v-col
+            cols="12"
+            md="6"
+          >
             <chart-cumulative-person-under-monitoring :chart-height="250" />
           </v-col>
-          <v-col cols="12" md="6">
+          <v-col
+            cols="12"
+            md="6"
+          >
             <chart-cumulative-patient-under-investigation :chart-height="250" />
           </v-col>
-          <v-col cols="12" md="6">
+          <v-col
+            cols="12"
+            md="6"
+          >
             <chart-cumulative-confirmed :chart-height="250" />
           </v-col>
         </v-row>
@@ -148,22 +279,32 @@
     </v-tabs>
     <v-divider />
     <v-tabs>
-      <v-tab :key="'map'" :href="'#tab-map'">
+      <v-tab
+        :key="'map'"
+        :href="'#tab-map'"
+      >
         Peta Sebaran
       </v-tab>
-      <v-tab :key="'case'" :href="'#tab-case'">
+      <v-tab
+        :key="'case'"
+        :href="'#tab-case'"
+      >
         Kasus Keterkaitan
       </v-tab>
-      <v-tab-item :key="'map'" :value="'tab-map'">
+      <v-tab-item
+        :key="'map'"
+        :value="'tab-map'"
+      >
         <v-row>
           <v-col cols="12">
-            <map-point
-              :filter-data="filter"
-            />
+            <map-point :filter-data="filter" />
           </v-col>
         </v-row>
       </v-tab-item>
-      <v-tab-item :key="'case'" :value="'tab-case'">
+      <v-tab-item
+        :key="'case'"
+        :value="'tab-case'"
+      >
         <v-row>
           <v-col cols="12">
             <graph-case />
@@ -173,13 +314,19 @@
     </v-tabs>
     <v-divider />
     <v-row>
-      <v-col cols="12" md="4">
+      <v-col
+        cols="12"
+        md="4"
+      >
         <chart-gender
           :loading="loadingAgeGender"
           :data-gender="statistic.gender"
         />
       </v-col>
-      <v-col cols="12" md="8">
+      <v-col
+        cols="12"
+        md="8"
+      >
         <chart-age
           :loading="loadingAgeGender"
           :data-age="statistic.age"
@@ -533,6 +680,9 @@ export default {
         female: female_age
       }
       // console.log(this.statistic.age)
+    },
+    handleHelp() {
+      window.open('https://s.id/panduan_laporcovid19', '_blank')
     }
   }
 }
@@ -545,5 +695,16 @@ export default {
 }
 .v-text-field.v-text-field--enclosed .v-text-field__details {
   display: none !important;
+}
+.disclaimer {
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 24px;
+  background: linear-gradient(80.13deg, #27ae60 0%, #6fcf97 100%);
+  padding: 24px;
+}
+.disclaimer .help {
+  font-size: 16px;
+  text-decoration: underline;
 }
 </style>
