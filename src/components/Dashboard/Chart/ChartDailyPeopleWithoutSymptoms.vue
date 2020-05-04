@@ -10,6 +10,7 @@
     <v-card-text>
       <chart-bar
         v-if="loaded"
+        ref="barChart"
         :chart-data="chartData"
         :options="chartOptions"
         :styles="chartStyles"
@@ -25,38 +26,29 @@ export default {
     chartHeight: {
       type: Number,
       default: 300
+    },
+    filterData: {
+      type: Object,
+      default: null
     }
   },
   data() {
     return {
       loaded: false,
       chartData: {
-        labels: [
-          '01/04',
-          '02/04',
-          '03/04',
-          '04/04',
-          '05/04',
-          '06/04',
-          '07/04',
-          '08/04',
-          '09/04',
-          '10/04',
-          '11/04',
-          '12/04'
-        ],
+        labels: [],
         datasets: [
           {
             label: this.$t('label.done'),
             backgroundColor: '#BDBDBD',
             hoverBackgroundColor: '#BDBDBD',
-            data: [40, 20, 12, 39, 10, 40, 39, 80, 40, 20, 12, 11]
+            data: []
           },
           {
             label: this.$t('label.process'),
             backgroundColor: '#757575',
             hoverBackgroundColor: '#757575',
-            data: [40, 20, 12, 39, 10, 40, 39, 10, 40, 20, 12, 11]
+            data: []
           }
         ]
       },
@@ -75,6 +67,7 @@ export default {
           yAxes: [
             {
               ticks: {
+                precision: 0,
                 min: 0
               },
               gridLines: {
@@ -101,7 +94,13 @@ export default {
           mode: 'index',
           intersect: false
         }
-      }
+      },
+      listQuery: {
+        address_district_code: null,
+        address_subdistrict_code: null,
+        address_village_code: null
+      },
+      filter: null
     }
   },
   computed: {
@@ -112,14 +111,82 @@ export default {
       }
     }
   },
-  async mounted() {
-    this.loaded = true
+  watch: {
+    'filterData': {
+      handler(value) {
+        this.filter = value
+        this.setFilter()
+        this.getChartDaily()
+      },
+      deep: true
+    },
+    '$refs'() {
+      this.$refs.barChart.update()
+    }
+  },
+  beforeMount() {
+    this.filter = this.filterData
+    this.setFilter()
+    this.getChartDaily()
+  },
+  methods: {
+    setFilter() {
+      if (this.filter.isVillage) {
+        this.listQuery = {
+          address_district_code: this.filter.city,
+          address_subdistrict_code: this.filter.district,
+          address_village_code: this.filter.village
+        }
+      } else if (this.filter.isDistrict) {
+        this.listQuery = {
+          address_district_code: this.filter.city,
+          address_subdistrict_code: this.filter.district,
+          address_village_code: null
+        }
+      } else if (this.filter.isCity) {
+        this.listQuery = {
+          address_district_code: this.filter.city,
+          address_subdistrict_code: null,
+          address_village_code: null
+        }
+      } else {
+        this.listQuery = {
+          address_district_code: null,
+          address_subdistrict_code: null,
+          address_village_code: null
+        }
+      }
+    },
+    async getChartDaily() {
+      this.loaded = false
+      try {
+        const res = await this.$store.dispatch('statistic/countDailyOTG', this.listQuery)
+
+        if (res) this.loaded = true
+
+        const label = []
+        const done = []
+        const process = []
+        res.data.map((data) => {
+          let date = new Date(data.date).getTime()
+          date = this.$moment(date).format('DD/MM')
+          label.push(date)
+          done.push(data.selesai)
+          process.push(data.proses)
+        })
+        this.chartData.labels = label
+        this.chartData.datasets[0].data = done
+        this.chartData.datasets[1].data = process
+      } catch (e) {
+        console.error(e)
+      }
+    }
   }
 }
 </script>
 
 <style scoped>
-  .chart .title {
-    text-transform: none;
-  }
+.chart .title {
+  text-transform: none;
+}
 </style>
