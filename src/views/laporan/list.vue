@@ -11,7 +11,7 @@
             <v-col cols="auto">
               <v-card-text class="header-survey-text">
                 <div>{{ $t('label.total_case_data') }} : {{ totalReport }}</div>
-                <div>{{ fullname }}</div>
+                <div>{{ fullName }}</div>
               </v-card-text>
             </v-col>
           </v-row>
@@ -332,10 +332,11 @@ export default {
         status: '',
         final_result: '',
         page: 1,
-        limit: 30,
+        limit: 100,
         search: '',
         start_date: '',
-        end_date: ''
+        end_date: '',
+        verified_status: 'verified'
       },
       countingReports: null,
       dialog: false,
@@ -353,7 +354,7 @@ export default {
     ]),
     ...mapGetters('user', [
       'roles',
-      'fullname',
+      'fullName',
       'district_user'
     ])
   },
@@ -406,7 +407,7 @@ export default {
     async onExport() {
       const response = await this.$store.dispatch('reports/exportExcel', this.listQuery)
       const dateNow = Date.now()
-      const fileName = `Data Kasus ${this.fullname} - ${formatDatetime(dateNow, 'DD/MM/YYYY HH:mm')} WIB.xlsx`
+      const fileName = `Data Kasus ${this.fullName} - ${formatDatetime(dateNow, 'DD/MM/YYYY HH:mm')} WIB.xlsx`
       FileSaver.saveAs(response, fileName)
     },
     formatDatetime

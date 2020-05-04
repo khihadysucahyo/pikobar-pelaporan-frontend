@@ -135,9 +135,11 @@
               <v-text-field
                 v-model="formPasien.age"
                 :error-messages="errors"
-                min="0"
-                solo-inverted
                 type="number"
+                min="0"
+                max="120"
+                solo-inverted
+                oninput="if(Number(this.value) > Number(this.max)) this.value = this.max;"
               />
             </ValidationProvider>
             <ValidationProvider
@@ -187,9 +189,9 @@
             </ValidationProvider>
             <ValidationProvider
               v-slot="{ errors }"
-              rules="required|isPhoneNumber"
+              rules="isPhoneNumber"
             >
-              <label class="required">{{ $t('label.phone_number') }}n</label>
+              <label>{{ $t('label.phone_number') }}n</label>
               <v-text-field
                 v-model="formPasien.phone_number"
                 :error-messages="errors"
@@ -269,7 +271,7 @@ export default {
   },
   computed: {
     ...mapGetters('user', [
-      'fullname',
+      'fullName',
       'district_user',
       'district_name_user'
     ]),

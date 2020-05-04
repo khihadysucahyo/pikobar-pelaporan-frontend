@@ -4,7 +4,7 @@
       ref="form"
       lazy-validation
     >
-      <v-container class="container">
+      <v-container>
         <v-row class="filter-row" style="margin-top: -40px;">
           <v-col cols="12" sm="12">
             <br>
@@ -17,68 +17,46 @@
           </v-col>
         </v-row>
         <v-row class="filter-row">
-          <v-col cols="12" sm="3">
-            <v-label class="title">{{ $t('label.results') }}:</v-label>
+          <v-col
+            v-if="roles[0] === 'dinkesprov'"
+            cols="12"
+            sm="2"
+          >
+            <v-label class="title">{{ $t('label.roles') }}:</v-label>
             <v-select
-              v-model="listQuery.final_result"
-              :items="resultList"
+              v-model="listQuery.role"
+              :items="rolesList"
               solo
               item-text="label"
               item-value="value"
             />
           </v-col>
-          <v-col cols="12" sm="9" class="reduce-padding-top">
+          <v-col
+            cols="12"
+            :sm="roles[0] === 'dinkesprov' ? '7':'9'"
+            class="reduce-padding-top"
+          >
             <address-region
               :disabled-district="disabledDistrict"
-              :district-code="listQuery.address_district_code"
+              :district-code="listQuery.code_district_city"
               :district-name="district_name_user"
-              :code-district.sync="listQuery.address_district_code"
+              :code-district.sync="listQuery.code_district_city"
               :sub-district-code="listQuery.address_subdistrict_code"
               :code-sub-district.sync="listQuery.address_subdistrict_code"
               :village-code="listQuery.address_village_code"
               :code-village.sync="listQuery.address_village_code"
-              :village-name="nameVillage"
-              :name-village.sync="nameVillage"
+              :village-name="villageName"
+              :name-village.sync="villageName"
               :disabled-address="false"
               :required-address="false"
               :is-label="true"
             />
           </v-col>
-        </v-row>
-        <v-row class="filter-row">
-          <v-col cols="12" sm="3">
-            <v-label class="title">{{ $t('label.criteria') }}:</v-label>
-            <v-select
-              v-model="listQuery.status"
-              :items="stagesList"
-              solo
-            />
-          </v-col>
-          <v-col cols="12" sm="3">
-            <v-label class="title">{{ $t('label.input_date') }}:</v-label>
-            <input-date-picker
-              :format-date="formatDate"
-              :label="'Tanggal Awal'"
-              :date-value="listQuery.start_date"
-              :value-date.sync="listQuery.start_date"
-              @changeDate="listQuery.start_date = $event"
-            />
-          </v-col>
-          <v-col cols="12" sm="3">
-            <br>
-            <input-date-picker
-              :format-date="formatDate"
-              :label="'Tanggal Akhir'"
-              :date-value="listQuery.end_date"
-              :value-date.sync="listQuery.end_date"
-              @changeDate="listQuery.end_date = $event"
-            />
-          </v-col>
-          <v-col cols="12" sm="3">
-            <br>
-            <v-row justify="space-between">
-              <v-col class="reduce-padding-top reduce-padding-right">
+          <v-col auto>
+            <v-row style="padding-top: 10px;">
+              <v-col cols="12" md="5" sm="12">
                 <v-btn
+                  block
                   color="#4f4f4f"
                   class="btn-reset"
                   @click="onReset"
@@ -86,8 +64,9 @@
                   {{ $t('label.reset') }}
                 </v-btn>
               </v-col>
-              <v-col class="reduce-padding-top reduce-padding-left">
+              <v-col cols="12" md="5" sm="12">
                 <v-btn
+                  block
                   color="success"
                   class="btn-cari"
                   @click="onSearch"
@@ -105,8 +84,9 @@
 
 <script>
 import { mapGetters } from 'vuex'
+
 export default {
-  name: 'CaseFilter',
+  name: 'UserFilter',
   props: {
     listQuery: {
       type: Object,
@@ -122,25 +102,19 @@ export default {
       formatDate: 'YYYY-MM-DD',
       disabledDistrict: true,
       codeDistrict: '',
-      nameVillage: '',
-      stagesList: [
-        'OTG',
-        'ODP',
-        'PDP',
-        'POSITIF'
-      ],
-      resultList: [
+      villageName: '',
+      rolesList: [
         {
-          label: 'Negatif',
-          value: 0
+          label: 'Dinkes Provinsi',
+          value: 'dinkesprov'
         },
         {
-          label: 'Sembuh',
-          value: 1
+          label: 'Dinkes Kab/Kota',
+          value: 'dinkeskota'
         },
         {
-          label: 'Meninggal',
-          value: 2
+          label: 'Faskes',
+          value: 'faskes'
         }
       ]
     }
@@ -158,44 +132,27 @@ export default {
   },
   methods: {
     onSelectDistrict(value) {
-      this.listQuery.address_district_code = value.kota_kode
+      this.listQuery.code_district_city = value.kota_kode
     },
     onReset() {
       this.listQuery.search = ''
-      this.listQuery.final_result = ''
-      this.listQuery.status = ''
+      this.listQuery.role = ''
       this.listQuery.address_subdistrict_code = ''
       this.listQuery.address_village_code = ''
-      this.listQuery.start_date = ''
-      this.listQuery.end_date = ''
-      this.nameVillage = ''
+      this.villageName = ''
       if (this.roles[0] !== 'dinkeskota') {
-        this.listQuery.address_district_code = ''
+        this.listQuery.code_district_city = ''
         this.codeDistrict = ''
       }
-      this.$store.dispatch('reports/listReportCase', this.listQuery)
+      this.$store.dispatch('user/listUser', this.listQuery)
     }
   }
 }
 </script>
+
 <style scoped>
-  .filter-row {
-    margin-bottom: -20px;
-  }
   .reduce-padding-top {
     padding-top: 0px !important;
-  }
-  .reduce-padding-right {
-    padding-right: 6px;
-  }
-  .reduce-padding-left {
-    padding-left: 6px;
-  }
-  .main-div {
-    margin-top: 20px;
-  }
-  .container {
-    padding: 0px 35px;
   }
   .btn-reset {
     height: 46px !important;

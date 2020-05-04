@@ -102,25 +102,33 @@
               />
             </ValidationProvider>
             <div v-if="!isEdit">
-              <label class="required">{{ $t('label.password') }}</label>
-              <v-text-field
-                v-model="formUser.password"
-                :rules="passwordRules"
-                :append-icon="typePassword ? 'visibility' : 'visibility_off'"
-                :type="typePassword ? 'password' : 'text'"
-                name="password"
-                solo-inverted
-                @click:append="() => (typePassword = !typePassword)"
-              />
-              <label class="required">{{ $t('label.repeat_password') }}</label>
-              <v-text-field
-                :rules="repeatPasswordRules"
-                :append-icon="typeRepeatPassword ? 'visibility' : 'visibility_off'"
-                :type="typeRepeatPassword ? 'password' : 'text'"
-                name="repeat_password"
-                solo-inverted
-                @click:append="() => (typeRepeatPassword = !typeRepeatPassword)"
-              />
+              <ValidationProvider
+                v-slot="{ errors }"
+                rules="required"
+              >
+                <label class="required">{{ $t('label.password') }}</label>
+                <v-text-field
+                  v-model="formUser.password"
+                  :rules="passwordRules"
+                  :append-icon="typePassword ? 'visibility' : 'visibility_off'"
+                  :type="typePassword ? 'password' : 'text'"
+                  :error-messages="errors"
+                  name="password"
+                  solo-inverted
+                  @click:append="() => (typePassword = !typePassword)"
+                />
+              </ValidationProvider>
+              <ValidationProvider>
+                <label class="required">{{ $t('label.repeat_password') }}</label>
+                <v-text-field
+                  :rules="repeatPasswordRules"
+                  :append-icon="typeRepeatPassword ? 'visibility' : 'visibility_off'"
+                  :type="typeRepeatPassword ? 'password' : 'text'"
+                  name="repeat_password"
+                  solo-inverted
+                  @click:append="() => (typeRepeatPassword = !typeRepeatPassword)"
+                />
+              </ValidationProvider>
             </div>
           </v-col>
         </v-row>
@@ -212,12 +220,19 @@ export default {
       const response = await this.$store.dispatch('user/detailUser', this.idData)
       await delete response.data['__v']
       await delete response.data['updatedAt']
+      await delete response.data['createdAt']
       await Object.assign(this.formUser, response.data)
     }
   },
   methods: {
     async handleCreate() {
-      if (this.$refs.form.validate()) {
+      let valid = await this.$refs.observer.validate()
+      if (this.isEdit && this.formUser.username.length > 0) {
+        valid = true
+      }
+      if (!valid) {
+        return
+      } else if (this.$refs.form.validate()) {
         if (this.isEdit) {
           const update = {
             id: this.idData,

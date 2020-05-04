@@ -143,8 +143,11 @@
                         <v-text-field
                           v-model="formPasien.age"
                           :error-messages="errors"
-                          solo-inverted
                           type="number"
+                          min="0"
+                          max="120"
+                          solo-inverted
+                          oninput="if(Number(this.value) > Number(this.max)) this.value = this.max;"
                         />
                       </ValidationProvider>
                       <ValidationProvider
@@ -193,9 +196,9 @@
                       </ValidationProvider>
                       <ValidationProvider
                         v-slot="{ errors }"
-                        rules="required"
+                        rules="isPhoneNumber"
                       >
-                        <label class="required">{{ $t('label.phone_number') }}</label>
+                        <label>{{ $t('label.phone_number') }}</label>
                         <v-text-field
                           v-model="formPasien.phone_number"
                           :error-messages="errors"

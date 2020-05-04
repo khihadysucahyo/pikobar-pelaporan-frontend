@@ -9,7 +9,7 @@ const state = {
   roles: [],
   district_user: '',
   user_district_name: '',
-  fullname: '',
+  fullName: '',
   totalList: 0,
   userList: [],
   formUser: {
