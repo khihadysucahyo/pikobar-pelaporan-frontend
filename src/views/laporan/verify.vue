@@ -196,15 +196,15 @@ export default {
     return {
       headers: [
         { text: '#', value: '_id', sortable: false },
-        { text: 'NIK', value: 'nik' },
-        { text: 'NAMA', value: 'name' },
-        { text: 'USIA', value: 'age' },
-        { text: 'JENIS KELAMIN', value: 'gender' },
-        { text: 'KRITERIA', value: 'kriteria' },
-        { text: 'TAHAPAN', value: 'stage' },
-        { text: 'HASIL', value: 'final_result' },
-        { text: 'PELAPOR', value: 'author' },
-        { text: 'BATAS VERIFIKASI OTOMATIS', value: 'createdAt' }
+        { text: i18n.t('label.nik').toUpperCase(), value: 'nik' },
+        { text: i18n.t('label.name').toUpperCase(), value: 'name' },
+        { text: i18n.t('label.age').toUpperCase(), value: 'age' },
+        { text: i18n.t('label.gender').toUpperCase(), value: 'gender' },
+        { text: i18n.t('label.criteria').toUpperCase(), value: 'criteria' },
+        { text: i18n.t('label.stages').toUpperCase(), value: 'stage' },
+        { text: i18n.t('label.results').toUpperCase(), value: 'final_result' },
+        { text: i18n.t('label.reporter').toUpperCase(), value: 'author' },
+        { text: i18n.t('label.auto_verification_deadline').toUpperCase(), value: 'createdAt' }
       ],
       loadingTable: false,
       listQuery: {
@@ -262,11 +262,11 @@ export default {
   },
   async mounted() {
     if (this.roles[0] === 'faskes') {
-      this.headers.push({ text: 'STATUS', value: 'status' })
+      this.headers.push({ text: i18n.t('label.status').toUpperCase(), value: 'status' })
       this.listQuery.author = this.fullName
       this.listQuery.verified_status = 'pending,declined'
     } else {
-      this.headers.push({ text: 'AKSI', value: 'actions', sortable: false })
+      this.headers.push({ text: i18n.t('label.action').toUpperCase(), value: 'action', sortable: false })
       this.listQuery.verified_status = 'pending'
     }
     await this.$store.dispatch('reports/listReportCase', this.listQuery)

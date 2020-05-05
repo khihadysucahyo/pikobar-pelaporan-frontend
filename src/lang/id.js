@@ -279,7 +279,10 @@ export default {
     ppok: 'PPOK',
     mention_other_additional_condition: 'Sebutkan kondisi penyerta lainnya (jika ada)',
     being_checked: 'Diperiksa',
-    declined: 'Ditolak'
+    declined: 'Ditolak',
+    reporter: 'Pelapor',
+    auto_verification_deadline: 'Batas Verifikasi Otomatis',
+    action: 'Aksi'
   },
   success: {
     login_success: 'Login Berhasil',
