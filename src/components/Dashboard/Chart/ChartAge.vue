@@ -10,6 +10,9 @@
       <v-card-title class="title ml-0 black--text">
         {{ $t('label.age') }}
       </v-card-title>
+      <v-card-subtitle>
+        {{ $t('label.positive') }} {{ $t('label.active') }}
+      </v-card-subtitle>
       <v-divider class="mt-0 mb-2" />
       <v-card-text>
         <chart-bar-horizontal
