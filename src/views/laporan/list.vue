@@ -304,7 +304,7 @@ export default {
         { text: 'KODE KASUS', value: 'id_case' },
         { text: 'NAMA', value: 'name' },
         { text: 'USIA', value: 'age' },
-        { text: 'JENIS KELAMIN', value: 'gender' },
+        { text: 'JK', value: 'gender' },
         { text: 'NO TELEPON', value: 'phone_number' },
         { text: 'STATUS', value: 'status' },
         { text: 'TAHAPAN', value: 'stage' },
