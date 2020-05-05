@@ -8,7 +8,7 @@
       outlined
     >
       <v-card-title class="title ml-0 black--text">
-        {{ $t('label.gender') }}
+        {{ $t("label.gender") }}
       </v-card-title>
       <v-divider class="mt-0 mb-2" />
       <v-card-text>
@@ -45,17 +45,16 @@ export default {
     return {
       loaded: false,
       chartData: {
-        labels: [
-          this.$t('label.female'),
-          this.$t('label.male')
-        ],
-        datasets: [{
-          data: [],
-          backgroundColor: [
-            'rgba(255, 124, 143, 1)',
-            'rgba(102, 164, 251, 1)'
-          ]
-        }]
+        labels: [this.$t('label.female'), this.$t('label.male')],
+        datasets: [
+          {
+            data: [],
+            backgroundColor: [
+              'rgba(255, 124, 143, 1)',
+              'rgba(102, 164, 251, 1)'
+            ]
+          }
+        ]
       },
       chartOptions: {
         responsive: true,
@@ -71,7 +70,24 @@ export default {
         tooltips: {
           displayColors: false,
           mode: 'index',
-          intersect: false
+          intersect: false,
+          callbacks: {
+            title: (tooltipItem, data) => {
+              return data['labels'][tooltipItem[0]['index']]
+            },
+            label: (tooltipItem, data) => {
+              return 'Jumlah: ' + data['datasets'][0]['data'][tooltipItem['index']]
+            },
+            afterLabel: (tooltipItem, data) => {
+              var dataset = data.datasets[tooltipItem.datasetIndex]
+              var total = dataset.data.reduce((previousValue, currentValue, currentIndex, array) => {
+                return previousValue + currentValue
+              })
+              var currentValue = dataset.data[tooltipItem.index]
+              var percentage = Math.floor(((currentValue / total) * 100) + 0.5)
+              return 'Persen: ' + percentage + '%'
+            }
+          }
         },
         hover: {
           mode: 'nearest',
@@ -93,7 +109,7 @@ export default {
     }
   },
   watch: {
-    'dataGender': {
+    dataGender: {
       handler(value) {
         const array = []
         array.push(value.female)
@@ -103,7 +119,7 @@ export default {
       },
       deep: true
     },
-    '$refs'() {
+    $refs() {
       this.$refs.doughnutChart.update()
     }
   },
@@ -120,7 +136,7 @@ export default {
 </script>
 
 <style scoped>
-  .chart .title {
-    text-transform: none;
-  }
+.chart .title {
+  text-transform: none;
+}
 </style>

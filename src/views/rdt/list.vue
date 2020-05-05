@@ -178,7 +178,7 @@ export default {
   watch: {
     'listQuery.search': {
       handler: function(value) {
-        if ((value !== undefined) && (value.length === 0 || value.length >= 3)) {
+        if ((value !== undefined) && (value.length !== 0 || value.length >= 3)) {
           this.loadingTable = true
           this.listQuery.page = 1
           this.handleSearch()
