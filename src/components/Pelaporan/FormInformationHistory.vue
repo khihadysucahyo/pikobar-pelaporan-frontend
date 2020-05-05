@@ -106,6 +106,10 @@
                   :label="$t('label.hospital')"
                   value="RS"
                 />
+                <v-radio
+                  :label="$t('label.other_places')"
+                  value="others"
+                />
               </v-radio-group>
             </ValidationProvider>
             <div v-if="formPasien.current_location_type === 'RUMAH'">
@@ -140,10 +144,30 @@
             >
               <v-autocomplete
                 v-model="formPasien.current_location_address"
-                :items="hospitalList"
+                :items="hospitalWestJavaList"
                 :error-messages="errors"
                 :return-object="true"
                 :label="$t('label.location_hospital')"
+                menu-props="auto"
+                item-text="name"
+                item-value="name"
+                single-line
+                solo
+                autocomplete
+                @change="onSelectHospital"
+              />
+            </ValidationProvider>
+            <ValidationProvider
+              v-if="formPasien.current_location_type === 'others'"
+              v-slot="{ errors }"
+              rules="required"
+            >
+              <v-autocomplete
+                v-model="formPasien.current_location_address"
+                :items="hospitalNonWestJavaList"
+                :error-messages="errors"
+                :return-object="true"
+                :label="$t('label.others')"
                 menu-props="auto"
                 item-text="name"
                 item-value="name"
@@ -347,6 +371,8 @@ export default {
       optionGejala: optionGejala,
       formatDate: 'YYYY/MM/DD',
       disabledReportResource: false,
+      hospitalWestJavaList: [],
+      hospitalNonWestJavaList: [],
       optionAdditionalCondition: [
         i18n.t('label.pregnant'),
         i18n.t('label.diabetes'),
@@ -361,16 +387,18 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('region', [
-      'hospitalList'
-    ]),
     ...mapGetters('user', [
       'roles',
       'fullName'
     ])
   },
   async mounted() {
-    await this.$store.dispatch('region/getListHospital')
+    var paramHospitalWestJava = { 'rs_jabar': true }
+    var paramHospitalNonWestJava = { 'rs_jabar': false }
+    const responseWestJava = await this.$store.dispatch('region/getListHospital', paramHospitalWestJava)
+    this.hospitalWestJavaList = responseWestJava.data
+    const responseNonWestJava = await this.$store.dispatch('region/getListHospital', paramHospitalNonWestJava)
+    this.hospitalNonWestJavaList = responseNonWestJava.data
     if (this.roles[0] === 'faskes') {
       this.formPasien.report_source = this.fullName
       this.disabledReportResource = true
