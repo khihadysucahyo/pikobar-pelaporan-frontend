@@ -34,7 +34,14 @@
         <v-row class="filter-row" justify="center">
           <v-col cols="12" sm="3">
             <v-label class="title">{{ $t('label.reporting_sources') }}:</v-label>
+            <v-text-field
+              v-if="roles[0] === 'faskes'"
+              v-model="listQuery.author"
+              solo-inverted
+              disabled
+            />
             <v-autocomplete
+              v-else
               v-model="listQuery.author"
               :items="listMedicalFacility"
               solo
@@ -143,7 +150,14 @@
                 <td>{{ item.author.username }}</td>
                 <td>{{ item.last_history.createdAt ? timeRemain(item.last_history.createdAt) : '-' }}</td>
                 <td>
-                  <span class="verif-btn px-4 py-2">
+                  <span
+                    v-if="roles[0] === 'faskes'"
+                    :class="{'pending': item.verified_status === 'pending', 'declined': item.verified_status === 'declined'}"
+                    class="pa-2 font-weight-bold"
+                  >
+                    {{ item.verified_status === 'pending' ? $t('label.being_checked') : $t('label.declined') }}
+                  </span>
+                  <span v-else class="verif-btn px-4 py-2">
                     {{ $t('label.verify') }}
                   </span>
                 </td>
@@ -182,16 +196,15 @@ export default {
     return {
       headers: [
         { text: '#', value: '_id', sortable: false },
-        { text: 'NIK', value: 'nik' },
-        { text: 'NAMA', value: 'name' },
-        { text: 'USIA', value: 'age' },
-        { text: 'JENIS KELAMIN', value: 'gender' },
-        { text: 'STATUS', value: 'status' },
-        { text: 'TAHAPAN', value: 'stage' },
-        { text: 'HASIL', value: 'final_result' },
-        { text: 'PELAPOR', value: 'author' },
-        { text: 'BATAS VERIFIKASI OTOMATIS', value: 'createdAt' },
-        { text: 'AKSI', value: 'actions', sortable: false }
+        { text: i18n.t('label.nik').toUpperCase(), value: 'nik' },
+        { text: i18n.t('label.name').toUpperCase(), value: 'name' },
+        { text: i18n.t('label.age').toUpperCase(), value: 'age' },
+        { text: i18n.t('label.gender').toUpperCase(), value: 'gender' },
+        { text: i18n.t('label.criteria').toUpperCase(), value: 'criteria' },
+        { text: i18n.t('label.stages').toUpperCase(), value: 'stage' },
+        { text: i18n.t('label.results').toUpperCase(), value: 'final_result' },
+        { text: i18n.t('label.reporter').toUpperCase(), value: 'author' },
+        { text: i18n.t('label.auto_verification_deadline').toUpperCase(), value: 'createdAt' }
       ],
       loadingTable: false,
       listQuery: {
@@ -203,7 +216,7 @@ export default {
         page: 1,
         limit: 30,
         search: '',
-        verified_status: 'pending'
+        verified_status: ''
       },
       medicalFacilityListQuery: {
         role: 'faskes',
@@ -232,6 +245,7 @@ export default {
     ...mapGetters('user', [
       'roles',
       'district_user',
+      'fullName',
       'district_name_user'
     ])
   },
@@ -247,6 +261,14 @@ export default {
     }
   },
   async mounted() {
+    if (this.roles[0] === 'faskes') {
+      this.headers.push({ text: i18n.t('label.status').toUpperCase(), value: 'status' })
+      this.listQuery.author = this.fullName
+      this.listQuery.verified_status = 'pending,declined'
+    } else {
+      this.headers.push({ text: i18n.t('label.action').toUpperCase(), value: 'action', sortable: false })
+      this.listQuery.verified_status = 'pending'
+    }
     await this.$store.dispatch('reports/listReportCase', this.listQuery)
     this.listQuery.address_district_code = this.district_user
     this.medicalFacilityListQuery.code_district_city = this.district_user
@@ -352,5 +374,15 @@ export default {
     border-width: thin;
     color: white;
     cursor: pointer;
+  }
+  .pending {
+    color: white;
+    border-radius: 10px;
+    background-color: #2a58ff;
+  }
+  .declined {
+    color: white;
+    border-radius: 10px;
+    background-color: #f91717;
   }
 </style>

@@ -41,7 +41,7 @@ const surveyRouter = {
         icon: 'library_books',
         child: true,
         noCache: true,
-        roles: ['superadmin', 'dinkeskota']
+        roles: ['superadmin', 'dinkeskota', 'faskes']
       }
     },
     {

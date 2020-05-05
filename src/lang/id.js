@@ -277,7 +277,12 @@ export default {
     chronic_kidney_failure: 'Gagal Ginjal Kronis',
     chronic_liver_failure: 'Gagal Hati Kronis',
     ppok: 'PPOK',
-    mention_other_additional_condition: 'Sebutkan kondisi penyerta lainnya (jika ada)'
+    mention_other_additional_condition: 'Sebutkan kondisi penyerta lainnya (jika ada)',
+    being_checked: 'Diperiksa',
+    declined: 'Ditolak',
+    reporter: 'Pelapor',
+    auto_verification_deadline: 'Batas Verifikasi Otomatis',
+    action: 'Aksi'
   },
   success: {
     login_success: 'Login Berhasil',
