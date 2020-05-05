@@ -60,12 +60,12 @@ export default {
         datasets: [
           {
             label: this.$t('label.female'),
-            backgroundColor: 'rgba(255, 124, 143, 1)',
+            backgroundColor: '#F2C94C',
             data: []
           },
           {
             label: this.$t('label.male'),
-            backgroundColor: 'rgba(102, 164, 251, 1)',
+            backgroundColor: '#27AE60',
             data: []
           }
         ]
@@ -81,7 +81,7 @@ export default {
               },
               ticks: {
                 precision: 0,
-                callback: function(value, index, values) {
+                callback: (value, index, values) => {
                   return Math.abs(value)
                 }
               }
@@ -112,7 +112,7 @@ export default {
           mode: 'index',
           intersect: false,
           callbacks: {
-            label: function(items, data) {
+            label: (items, data) => {
               return data.datasets[items.datasetIndex].label + ': ' + Math.abs(items.xLabel)
             }
           }
@@ -154,7 +154,7 @@ export default {
 </script>
 
 <style scoped>
-  .chart .title {
-    text-transform: none;
-  }
+.chart .title {
+  text-transform: none;
+}
 </style>

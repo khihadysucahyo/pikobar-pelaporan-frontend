@@ -4,7 +4,7 @@
     outlined
   >
     <v-card-title class="title ml-0 black--text">
-      {{ $t('label.cumulative') }} {{ $t('label.confirmed') }}
+      {{ $t('label.cumulative') }} {{ $t('label.positive') }} {{ $t('label.covid19') }}
     </v-card-title>
     <v-divider class="mt-0 mb-2" />
     <v-card-text>
@@ -138,7 +138,7 @@ export default {
 </script>
 
 <style scoped>
-  .chart .title {
-    text-transform: none;
-  }
+.chart .title {
+  text-transform: none;
+}
 </style>

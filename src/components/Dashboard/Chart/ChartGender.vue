@@ -50,8 +50,8 @@ export default {
           {
             data: [],
             backgroundColor: [
-              'rgba(255, 124, 143, 1)',
-              'rgba(102, 164, 251, 1)'
+              '#27AE60',
+              '#F2C94C'
             ]
           }
         ]

@@ -1,21 +1,27 @@
 <template>
-  <v-card
-    class="chart mx-auto"
-    outlined
+  <v-skeleton-loader
+    :loading="loading"
+    type="article"
   >
-    <v-card-title class="title ml-0 black--text">
-      {{ $t('label.cumulative') }} {{ $t('label.odp') }}
-    </v-card-title>
-    <v-divider class="mt-0 mb-2" />
-    <v-card-text>
-      <chart-line
-        v-if="loaded"
-        :chart-data="chartData"
-        :options="chartOptions"
-        :styles="chartStyles"
-      />
-    </v-card-text>
-  </v-card>
+    <v-card
+      class="chart mx-auto"
+      outlined
+    >
+      <v-card-title class="title ml-0 black--text">
+        {{ $t('label.cumulative') }} {{ $t('label.odp') }}
+      </v-card-title>
+      <v-divider class="mt-0 mb-2" />
+      <v-card-text>
+        <chart-line
+          v-if="loaded"
+          ref="lineChart"
+          :chart-data="chartData"
+          :options="chartOptions"
+          :styles="chartStyles"
+        />
+      </v-card-text>
+    </v-card>
+  </v-skeleton-loader>
 </template>
 
 <script>
@@ -25,26 +31,21 @@ export default {
     chartHeight: {
       type: Number,
       default: 300
+    },
+    loading: {
+      type: Boolean,
+      default: true
+    },
+    cData: {
+      type: Object,
+      default: null
     }
   },
   data() {
     return {
       loaded: false,
       chartData: {
-        labels: [
-          '01/04',
-          '02/04',
-          '03/04',
-          '04/04',
-          '05/04',
-          '06/04',
-          '07/04',
-          '08/04',
-          '09/04',
-          '10/04',
-          '11/04',
-          '12/04'
-        ],
+        labels: [],
         datasets: [
           {
             fill: false,
@@ -54,7 +55,7 @@ export default {
             pointBackgroundColor: '#56CCF2',
             pointBorderColor: '#56CCF2',
             radius: 0,
-            data: [10, 25, 30, 35, 40, 45, 50, 60, 70, 80, 90, 100]
+            data: []
           },
           {
             fill: false,
@@ -64,7 +65,7 @@ export default {
             pointBackgroundColor: '#2D9CDB',
             pointBorderColor: '#2D9CDB',
             radius: 0,
-            data: [30, 35, 40, 45, 50, 55, 60, 70, 80, 90, 120, 130]
+            data: []
           }
         ]
       },
@@ -82,6 +83,7 @@ export default {
           yAxes: [
             {
               ticks: {
+                precision: 0,
                 min: 0
               },
               gridLines: {
@@ -122,14 +124,31 @@ export default {
       }
     }
   },
-  async mounted() {
+  watch: {
+    'cData': {
+      handler(value) {
+        this.chartData.labels = value.label
+        this.chartData.datasets[0].data = value.done
+        this.chartData.datasets[1].data = value.process
+      },
+      deep: true
+    },
+    '$refs'() {
+      this.$refs.lineChart.update()
+    }
+  },
+  mounted() {
     this.loaded = true
+
+    this.chartData.labels = this.cData.label
+    this.chartData.datasets[0].data = this.cData.done
+    this.chartData.datasets[1].data = this.cData.process
   }
 }
 </script>
 
 <style scoped>
-  .chart .title {
-    text-transform: none;
-  }
+.chart .title {
+  text-transform: none;
+}
 </style>
