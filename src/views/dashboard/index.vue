@@ -223,19 +223,28 @@
             cols="12"
             md="6"
           >
-            <chart-daily-people-without-symptoms :chart-height="250" />
+            <chart-daily-people-without-symptoms
+              :filter-data="filter"
+              :chart-height="250"
+            />
           </v-col>
           <v-col
             cols="12"
             md="6"
           >
-            <chart-daily-person-under-monitoring :chart-height="250" />
+            <chart-daily-person-under-monitoring
+              :filter-data="filter"
+              :chart-height="250"
+            />
           </v-col>
           <v-col
             cols="12"
             md="6"
           >
-            <chart-daily-patient-under-investigation :chart-height="250" />
+            <chart-daily-patient-under-investigation
+              :filter-data="filter"
+              :chart-height="250"
+            />
           </v-col>
           <v-col
             cols="12"
