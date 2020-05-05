@@ -11,7 +11,7 @@ export default {
       return error.response
     }
   },
-  async countDailyOTG({
+  async countOTG({
     commit
   }, params) {
     try {
@@ -21,7 +21,7 @@ export default {
       return error.response
     }
   },
-  async countDailyODP({
+  async countODP({
     commit
   }, params) {
     try {
@@ -31,7 +31,7 @@ export default {
       return error.response
     }
   },
-  async countDailyPDP({
+  async countPDP({
     commit
   }, params) {
     try {
@@ -40,5 +40,42 @@ export default {
     } catch (error) {
       return error.response
     }
+  },
+  async countPositive({
+    commit
+  }, params) {
+    // try {
+    //   const response = await requestServer('/api/dashboard/chart-pdp', 'GET', params)
+    //   return response
+    // } catch (error) {
+    //   return error.response
+    // }
+
+    const result = {
+      'status': 200,
+      'message': 'Success',
+      'data': []
+    }
+    result.data.push({
+      'sembuh': 1,
+      'meninggal': 2,
+      'positif': 3,
+      'total': 249,
+      'date': '2020/03/23',
+      'cum_sembuh': 1,
+      'cum_meninggal': 2,
+      'cum_positif': 3
+    })
+    result.data.push({
+      'sembuh': 1,
+      'meninggal': 2,
+      'positif': 3,
+      'total': 249,
+      'date': '2020/03/24',
+      'cum_sembuh': 2,
+      'cum_meninggal': 4,
+      'cum_positif': 6
+    })
+    return result
   }
 }

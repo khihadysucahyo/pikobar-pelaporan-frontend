@@ -253,7 +253,11 @@
             cols="12"
             md="6"
           >
-            <chart-daily-confirmed :chart-height="250" />
+            <chart-daily-confirmed
+              :loading="loadingPositive"
+              :c-data="statistic.positiveDaily"
+              :chart-height="250"
+            />
           </v-col>
         </v-row>
       </v-tab-item>
@@ -296,7 +300,11 @@
             cols="12"
             md="6"
           >
-            <chart-cumulative-confirmed :chart-height="250" />
+            <chart-cumulative-confirmed
+              :loading="loadingPositive"
+              :c-data="statistic.positiveCumulative"
+              :chart-height="250"
+            />
           </v-col>
         </v-row>
       </v-tab-item>
@@ -467,8 +475,9 @@ export default {
         },
         positiveDaily: {
           label: [],
-          process: [],
-          done: []
+          active: [],
+          recovery: [],
+          dead: []
         },
         otgCumulative: {
           label: [],
@@ -487,8 +496,9 @@ export default {
         },
         positiveCumulative: {
           label: [],
-          process: [],
-          done: []
+          active: [],
+          recovery: [],
+          dead: []
         },
         gender: {
           male: 0,
@@ -717,7 +727,7 @@ export default {
     },
     async getStatisticOTG() {
       this.loadingOTG = true
-      const res = await this.$store.dispatch('statistic/countDailyOTG', this.listQuery)
+      const res = await this.$store.dispatch('statistic/countOTG', this.listQuery)
 
       if (res) this.loadingOTG = false
 
@@ -750,7 +760,7 @@ export default {
     },
     async getStatisticODP() {
       this.loadingODP = true
-      const res = await this.$store.dispatch('statistic/countDailyODP', this.listQuery)
+      const res = await this.$store.dispatch('statistic/countODP', this.listQuery)
 
       if (res) this.loadingODP = false
 
@@ -783,7 +793,7 @@ export default {
     },
     async getStatisticPDP() {
       this.loadingPDP = true
-      const res = await this.$store.dispatch('statistic/countDailyPDP', this.listQuery)
+      const res = await this.$store.dispatch('statistic/countPDP', this.listQuery)
 
       if (res) this.loadingPDP = false
 
@@ -814,7 +824,45 @@ export default {
       // console.log(this.statistic.pdpDaily)
       // console.log(this.statistic.pdpCumulative)
     },
-    async getStatisticPositive() { },
+    async getStatisticPositive() {
+      this.loadingPositive = true
+      const res = await this.$store.dispatch('statistic/countPositive', this.listQuery)
+
+      if (res) this.loadingPositive = false
+
+      const label = []
+      const activeDaily = []
+      const recoveryDaily = []
+      const deadDaily = []
+      const activeCumulative = []
+      const recoveryCumulative = []
+      const deadCumulative = []
+      res.data.map((data) => {
+        let date = new Date(data.date).getTime()
+        date = this.$moment(date).format('DD/MM')
+        label.push(date)
+        activeDaily.push(data.positif)
+        recoveryDaily.push(data.sembuh)
+        deadDaily.push(data.meninggal)
+        activeCumulative.push(data.cum_positif)
+        recoveryCumulative.push(data.cum_sembuh)
+        deadCumulative.push(data.cum_meninggal)
+      })
+      this.statistic.positiveDaily = {
+        label,
+        active: activeDaily,
+        recovery: recoveryDaily,
+        dead: deadDaily
+      }
+      this.statistic.positiveCumulative = {
+        label,
+        active: activeCumulative,
+        recovery: recoveryCumulative,
+        dead: deadCumulative
+      }
+      // console.log(this.statistic.positiveDaily)
+      // console.log(this.statistic.positiveCumulative)
+    },
     async getStatisticAgeGender() {
       this.loadingAgeGender = true
       const res = await this.$store.dispatch('statistic/countAgeGender', this.listQuery)
