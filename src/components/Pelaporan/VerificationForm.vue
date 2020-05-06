@@ -166,7 +166,7 @@
           <v-row>
             <div
               v-if="caseDetail"
-              :class="{'positif': caseDetail.status === 'POSITIF', 'pdp': caseDetail.status === 'PDP', 'odp': caseDetail.status === 'ODP', 'otg': caseDetail.status === 'OTG'}"
+              :class="statusLabel"
               class="status-label"
             >
               {{ caseDetail.status }}
@@ -341,6 +341,16 @@ export default {
       caseDetail: null,
       query: null,
       show: false
+    }
+  },
+  computed: {
+    statusLabel() {
+      return {
+        'positif': this.caseDetail.status === 'POSITIF',
+        'pdp': this.caseDetail.status === 'PDP',
+        'odp': this.caseDetail.status === 'ODP',
+        'otg': this.caseDetail.status === 'OTG'
+      }
     }
   },
   watch: {
