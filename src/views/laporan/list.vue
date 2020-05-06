@@ -142,6 +142,7 @@
             :mobile-breakpoint="NaN"
             :no-data-text="$t('label.data_empty')"
             :items-per-page="listQuery.limit"
+            :options.sync="optionsDataTable"
             :loading="loadingTable"
             hide-default-footer
           >
@@ -323,6 +324,7 @@ export default {
       queryReportCase: {
         address_district_code: ''
       },
+      optionsDataTable: {},
       listQuery: {
         address_district_code: '',
         address_subdistrict_code: '',
@@ -334,7 +336,8 @@ export default {
         search: '',
         start_date: '',
         end_date: '',
-        verified_status: 'verified'
+        verified_status: 'verified',
+        sort: {}
       },
       countingReports: null,
       dialog: false,
@@ -365,6 +368,21 @@ export default {
         }
       },
       immediate: true
+    },
+    'optionsDataTable': {
+      handler: function(value) {
+        if (value.sortBy !== undefined) {
+          if ((value.sortBy[0] !== undefined) && (value.sortDesc[0])) {
+            this.listQuery.sort[value.sortBy[0]] = 'desc'
+          } else if ((value.sortBy[0] !== undefined) && (!value.sortDesc[0])) {
+            this.listQuery.sort[value.sortBy[0]] = 'asc'
+          } else {
+            this.listQuery.sort = {}
+          }
+        }
+        this.handleSearch()
+      },
+      immediate: true
     }
   },
   async mounted() {
@@ -380,6 +398,7 @@ export default {
     this.totalReport = this.totalOTG + this.totalODP + this.totalPDP + this.totalPositif
   },
   methods: {
+    formatDatetime,
     async handleDetail(id) {
       await this.$router.push(`/laporan/detail/${id}`)
     },
@@ -407,8 +426,7 @@ export default {
       const dateNow = Date.now()
       const fileName = `Data Kasus ${this.fullName} - ${formatDatetime(dateNow, 'DD/MM/YYYY HH:mm')} WIB.xlsx`
       FileSaver.saveAs(response, fileName)
-    },
-    formatDatetime
+    }
   }
 }
 </script>
