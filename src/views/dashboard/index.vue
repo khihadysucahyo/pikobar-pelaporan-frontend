@@ -224,7 +224,8 @@
             md="6"
           >
             <chart-daily-people-without-symptoms
-              :filter-data="filter"
+              :loading="loadingOTG"
+              :c-data="statistic.otgDaily"
               :chart-height="250"
             />
           </v-col>
@@ -233,7 +234,8 @@
             md="6"
           >
             <chart-daily-person-under-monitoring
-              :filter-data="filter"
+              :loading="loadingODP"
+              :c-data="statistic.odpDaily"
               :chart-height="250"
             />
           </v-col>
@@ -242,7 +244,8 @@
             md="6"
           >
             <chart-daily-patient-under-investigation
-              :filter-data="filter"
+              :loading="loadingPDP"
+              :c-data="statistic.pdpDaily"
               :chart-height="250"
             />
           </v-col>
@@ -250,7 +253,11 @@
             cols="12"
             md="6"
           >
-            <chart-daily-confirmed :chart-height="250" />
+            <chart-daily-confirmed
+              :loading="loadingPositive"
+              :c-data="statistic.positiveDaily"
+              :chart-height="250"
+            />
           </v-col>
         </v-row>
       </v-tab-item>
@@ -263,31 +270,47 @@
             cols="12"
             md="6"
           >
-            <chart-cumulative-people-without-symptoms :chart-height="250" />
+            <chart-cumulative-people-without-symptoms
+              :loading="loadingOTG"
+              :c-data="statistic.otgCumulative"
+              :chart-height="250"
+            />
           </v-col>
           <v-col
             cols="12"
             md="6"
           >
-            <chart-cumulative-person-under-monitoring :chart-height="250" />
+            <chart-cumulative-person-under-monitoring
+              :loading="loadingODP"
+              :c-data="statistic.odpCumulative"
+              :chart-height="250"
+            />
           </v-col>
           <v-col
             cols="12"
             md="6"
           >
-            <chart-cumulative-patient-under-investigation :chart-height="250" />
+            <chart-cumulative-patient-under-investigation
+              :loading="loadingPDP"
+              :c-data="statistic.pdpCumulative"
+              :chart-height="250"
+            />
           </v-col>
           <v-col
             cols="12"
             md="6"
           >
-            <chart-cumulative-confirmed :chart-height="250" />
+            <chart-cumulative-confirmed
+              :loading="loadingPositive"
+              :c-data="statistic.positiveCumulative"
+              :chart-height="250"
+            />
           </v-col>
         </v-row>
       </v-tab-item>
     </v-tabs>
     <v-divider />
-    <v-tabs>
+    <!-- <v-tabs>
       <v-tab
         :key="'map'"
         :href="'#tab-map'"
@@ -321,7 +344,7 @@
         </v-row>
       </v-tab-item>
     </v-tabs>
-    <v-divider />
+    <v-divider /> -->
     <v-row>
       <v-col
         cols="12"
@@ -380,6 +403,10 @@ export default {
     return {
       loadingConfirmed: true,
       loadingNotConfirmed: true,
+      loadingOTG: true,
+      loadingODP: true,
+      loadingPDP: true,
+      loadingPositive: true,
       loadingAgeGender: true,
       display: true,
       districtCity: {
@@ -430,6 +457,48 @@ export default {
           done: 0,
           donePercent: 0,
           total: 0
+        },
+        otgDaily: {
+          label: [],
+          process: [],
+          done: []
+        },
+        odpDaily: {
+          label: [],
+          process: [],
+          done: []
+        },
+        pdpDaily: {
+          label: [],
+          process: [],
+          done: []
+        },
+        positiveDaily: {
+          label: [],
+          active: [],
+          recovery: [],
+          dead: []
+        },
+        otgCumulative: {
+          label: [],
+          process: [],
+          done: []
+        },
+        odpCumulative: {
+          label: [],
+          process: [],
+          done: []
+        },
+        pdpCumulative: {
+          label: [],
+          process: [],
+          done: []
+        },
+        positiveCumulative: {
+          label: [],
+          active: [],
+          recovery: [],
+          dead: []
         },
         gender: {
           male: 0,
@@ -498,6 +567,10 @@ export default {
 
     this.getStatisticConfirmed()
     this.getStatisticNotConfirmed()
+    this.getStatisticOTG()
+    this.getStatisticODP()
+    this.getStatisticPDP()
+    this.getStatisticPositive()
     this.getStatisticAgeGender()
   },
   beforeDestroy() {
@@ -541,6 +614,10 @@ export default {
 
       this.getStatisticConfirmed()
       this.getStatisticNotConfirmed()
+      this.getStatisticOTG()
+      this.getStatisticODP()
+      this.getStatisticPDP()
+      this.getStatisticPositive()
       this.getStatisticAgeGender()
     },
     onSearch() {
@@ -559,6 +636,10 @@ export default {
 
       this.getStatisticConfirmed()
       this.getStatisticNotConfirmed()
+      this.getStatisticOTG()
+      this.getStatisticODP()
+      this.getStatisticPDP()
+      this.getStatisticPositive()
       this.getStatisticAgeGender()
     },
     clearCity() {
@@ -643,6 +724,144 @@ export default {
       // console.log(this.statistic.otg)
       // console.log(this.statistic.odp)
       // console.log(this.statistic.pdp)
+    },
+    async getStatisticOTG() {
+      this.loadingOTG = true
+      const res = await this.$store.dispatch('statistic/countOTG', this.listQuery)
+
+      if (res) this.loadingOTG = false
+
+      const label = []
+      const doneDaily = []
+      const processDaily = []
+      const doneCumulative = []
+      const processCumulative = []
+      res.data.map((data) => {
+        let date = new Date(data.date).getTime()
+        date = this.$moment(date).format('DD/MM')
+        label.push(date)
+        doneDaily.push(data.selesai)
+        processDaily.push(data.proses)
+        doneCumulative.push(data.cum_selesai)
+        processCumulative.push(data.cum_proses)
+      })
+      this.statistic.otgDaily = {
+        label,
+        process: processDaily,
+        done: doneDaily
+      }
+      this.statistic.otgCumulative = {
+        label,
+        process: processCumulative,
+        done: doneCumulative
+      }
+      // console.log(this.statistic.otgDaily)
+      // console.log(this.statistic.otgCumulative)
+    },
+    async getStatisticODP() {
+      this.loadingODP = true
+      const res = await this.$store.dispatch('statistic/countODP', this.listQuery)
+
+      if (res) this.loadingODP = false
+
+      const label = []
+      const doneDaily = []
+      const processDaily = []
+      const doneCumulative = []
+      const processCumulative = []
+      res.data.map((data) => {
+        let date = new Date(data.date).getTime()
+        date = this.$moment(date).format('DD/MM')
+        label.push(date)
+        doneDaily.push(data.selesai)
+        processDaily.push(data.proses)
+        doneCumulative.push(data.cum_selesai)
+        processCumulative.push(data.cum_proses)
+      })
+      this.statistic.odpDaily = {
+        label,
+        process: processDaily,
+        done: doneDaily
+      }
+      this.statistic.odpCumulative = {
+        label,
+        process: processCumulative,
+        done: doneCumulative
+      }
+      // console.log(this.statistic.odpDaily)
+      // console.log(this.statistic.odpCumulative)
+    },
+    async getStatisticPDP() {
+      this.loadingPDP = true
+      const res = await this.$store.dispatch('statistic/countPDP', this.listQuery)
+
+      if (res) this.loadingPDP = false
+
+      const label = []
+      const doneDaily = []
+      const processDaily = []
+      const doneCumulative = []
+      const processCumulative = []
+      res.data.map((data) => {
+        let date = new Date(data.date).getTime()
+        date = this.$moment(date).format('DD/MM')
+        label.push(date)
+        doneDaily.push(data.selesai)
+        processDaily.push(data.proses)
+        doneCumulative.push(data.cum_selesai)
+        processCumulative.push(data.cum_proses)
+      })
+      this.statistic.pdpDaily = {
+        label,
+        process: processDaily,
+        done: doneDaily
+      }
+      this.statistic.pdpCumulative = {
+        label,
+        process: processCumulative,
+        done: doneCumulative
+      }
+      // console.log(this.statistic.pdpDaily)
+      // console.log(this.statistic.pdpCumulative)
+    },
+    async getStatisticPositive() {
+      this.loadingPositive = true
+      const res = await this.$store.dispatch('statistic/countPositive', this.listQuery)
+
+      if (res) this.loadingPositive = false
+
+      const label = []
+      const activeDaily = []
+      const recoveryDaily = []
+      const deadDaily = []
+      const activeCumulative = []
+      const recoveryCumulative = []
+      const deadCumulative = []
+      res.data.map((data) => {
+        let date = new Date(data.date).getTime()
+        date = this.$moment(date).format('DD/MM')
+        label.push(date)
+        activeDaily.push(data.positif)
+        recoveryDaily.push(data.sembuh)
+        deadDaily.push(data.meninggal)
+        activeCumulative.push(data.cum_positif)
+        recoveryCumulative.push(data.cum_sembuh)
+        deadCumulative.push(data.cum_meninggal)
+      })
+      this.statistic.positiveDaily = {
+        label,
+        active: activeDaily,
+        recovery: recoveryDaily,
+        dead: deadDaily
+      }
+      this.statistic.positiveCumulative = {
+        label,
+        active: activeCumulative,
+        recovery: recoveryCumulative,
+        dead: deadCumulative
+      }
+      // console.log(this.statistic.positiveDaily)
+      // console.log(this.statistic.positiveCumulative)
     },
     async getStatisticAgeGender() {
       this.loadingAgeGender = true
