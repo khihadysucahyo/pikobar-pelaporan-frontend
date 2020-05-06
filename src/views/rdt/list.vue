@@ -36,6 +36,7 @@
           <v-data-table
             :headers="headers"
             :items="rdtList"
+            :options.sync="optionsDataTable"
             :mobile-breakpoint="NaN"
             :no-data-text="$t('label.data_empty')"
             :items-per-page="listQuery.limit"
@@ -148,6 +149,7 @@ export default {
       totalPDP: 0,
       totalPositif: 0,
       totalReport: 0,
+      optionsDataTable: {},
       listQuery: {
         address_district_code: '',
         start_date: '',
@@ -184,6 +186,21 @@ export default {
           this.handleSearch()
           this.loadingTable = false
         }
+      },
+      immediate: true
+    },
+    'optionsDataTable': {
+      handler: function(value) {
+        if (value.sortBy !== undefined) {
+          if ((value.sortBy[0] !== undefined) && (value.sortDesc[0])) {
+            this.listQuery.sort[value.sortBy[0]] = 'desc'
+          } else if ((value.sortBy[0] !== undefined) && (!value.sortDesc[0])) {
+            this.listQuery.sort[value.sortBy[0]] = 'asc'
+          } else {
+            this.listQuery.sort = {}
+          }
+        }
+        this.handleSearch()
       },
       immediate: true
     }
