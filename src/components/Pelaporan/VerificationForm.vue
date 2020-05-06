@@ -320,7 +320,6 @@
 </template>
 <script>
 import { formatDatetime } from '@/utils/parseDatetime'
-import i18n from '@/lang'
 export default {
   name: 'VerificationForm',
   props: {
@@ -350,26 +349,26 @@ export default {
       if (value) {
         this.caseDetail = this.caseData
         this.caseDetail.birth_date = formatDatetime(this.caseDetail.birth_date, 'DD MMMM YYYY')
-        this.caseDetail.gender = this.caseDetail.gender === 'L' ? i18n.t('label.male') : i18n.t('label.female')
+        this.caseDetail.gender = this.caseDetail.gender === 'L' ? this.$t('label.male') : this.$t('label.female')
         if (this.caseDetail.last_history.current_location_type === 'RUMAH') {
-          this.caseDetail.last_history.current_location_type = i18n.t('label.home')
+          this.caseDetail.last_history.current_location_type = this.$t('label.home')
         } else if (this.caseDetail.last_history.current_location_type === 'RS') {
-          this.caseDetail.last_history.current_location_type = i18n.t('label.hospital')
+          this.caseDetail.last_history.current_location_type = this.$t('label.hospital')
         } else {
-          this.caseDetail.last_history.current_location_type = i18n.t('label.other')
+          this.caseDetail.last_history.current_location_type = this.$t('label.other')
         }
         this.caseDetail.last_history.first_symptom_date = formatDatetime(this.caseDetail.last_history.first_symptom_date, 'DD MMMM YYYY')
         if (this.caseDetail.stage === '0') {
-          this.caseDetail.stage = i18n.t('label.process')
+          this.caseDetail.stage = this.$t('label.process')
         } else if (this.caseDetail.stage === '1') {
-          this.caseDetail.stage = i18n.t('label.done')
+          this.caseDetail.stage = this.$t('label.done')
         }
         if (this.caseDetail.final_result === '0') {
-          this.caseDetail.final_result = i18n.t('label.negatif')
+          this.caseDetail.final_result = this.$t('label.negatif')
         } else if (this.caseDetail.final_result === '1') {
-          this.caseDetail.final_result = i18n.t('label.recovery')
+          this.caseDetail.final_result = this.$t('label.recovery')
         } else if (this.caseDetail.final_result === '2') {
-          this.caseDetail.final_result = i18n.t('label.dead')
+          this.caseDetail.final_result = this.$t('label.dead')
         }
         this.query = this.queryData
       }

@@ -205,22 +205,21 @@
 import { mapGetters } from 'vuex'
 import moment from 'moment'
 import { formatDatetime } from '@/utils/parseDatetime'
-import i18n from '@/lang'
 export default {
   name: 'LaporanList',
   data() {
     return {
       headers: [
         { text: '#', value: '_id', sortable: false },
-        { text: i18n.t('label.nik').toUpperCase(), value: 'nik' },
-        { text: i18n.t('label.name').toUpperCase(), value: 'name' },
-        { text: i18n.t('label.age').toUpperCase(), value: 'age' },
-        { text: i18n.t('label.gender').toUpperCase(), value: 'gender' },
-        { text: i18n.t('label.criteria').toUpperCase(), value: 'criteria' },
-        { text: i18n.t('label.stages').toUpperCase(), value: 'stage' },
-        { text: i18n.t('label.results').toUpperCase(), value: 'final_result' },
-        { text: i18n.t('label.reporter').toUpperCase(), value: 'author' },
-        { text: i18n.t('label.auto_verification_deadline').toUpperCase(), value: 'createdAt' }
+        { text: this.$t('label.nik').toUpperCase(), value: 'nik' },
+        { text: this.$t('label.name').toUpperCase(), value: 'name' },
+        { text: this.$t('label.age').toUpperCase(), value: 'age' },
+        { text: this.$t('label.gender').toUpperCase(), value: 'gender' },
+        { text: this.$t('label.criteria').toUpperCase(), value: 'criteria' },
+        { text: this.$t('label.stages').toUpperCase(), value: 'stage' },
+        { text: this.$t('label.results').toUpperCase(), value: 'final_result' },
+        { text: this.$t('label.reporter').toUpperCase(), value: 'author' },
+        { text: this.$t('label.auto_verification_deadline').toUpperCase(), value: 'createdAt' }
       ],
       loadingTable: false,
       listQuery: {
@@ -291,7 +290,7 @@ export default {
         const response = await this.$store.dispatch('reports/verifyCase', this.verificationQuery)
         if (response.status === 200 || response.status === 201) {
           this.handleSearch()
-          await this.$store.dispatch('toast/successToast', this.verificationQuery.data.verified_status === 'verified' ? i18n.t('success.verification_success') : i18n.t('success.rejection_success'))
+          await this.$store.dispatch('toast/successToast', this.verificationQuery.data.verified_status === 'verified' ? this.$t('success.verification_success') : this.$t('success.rejection_success'))
         }
         this.isSubmit = false
       }
@@ -299,11 +298,11 @@ export default {
   },
   async mounted() {
     if (this.roles[0] === 'faskes') {
-      this.headers.push({ text: i18n.t('label.status').toUpperCase(), value: 'status' })
+      this.headers.push({ text: this.$t('label.status').toUpperCase(), value: 'status' })
       this.listQuery.author = this.fullName
       this.listQuery.verified_status = 'pending,declined'
     } else {
-      this.headers.push({ text: i18n.t('label.action').toUpperCase(), value: 'action', sortable: false })
+      this.headers.push({ text: this.$t('label.action').toUpperCase(), value: 'action', sortable: false })
       this.listQuery.verified_status = 'pending'
     }
     await this.$store.dispatch('reports/listReportCase', this.listQuery)
@@ -343,10 +342,10 @@ export default {
       var result = '-'
       if (24 - hours >= 1) {
         var remainingHours = 24 - hours
-        result = Math.ceil(remainingHours) + ' ' + i18n.t('label.hours')
+        result = Math.ceil(remainingHours) + ' ' + this.$t('label.hours')
       } else if (60 - minutes >= 1) {
         var remainingMinutes = 60 - minutes
-        result = Math.ceil(remainingMinutes) + ' ' + i18n.t('label.minutes')
+        result = Math.ceil(remainingMinutes) + ' ' + this.$t('label.minutes')
       }
       return result
     },
