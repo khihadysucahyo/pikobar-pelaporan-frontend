@@ -89,11 +89,11 @@
       >
         <v-btn
           block
-          color="grey darken-3"
-          class="button white--text"
-          @click="onReset"
+          color="success"
+          class="button"
+          @click="onSearch"
         >
-          {{ $t('label.reset') }}
+          {{ $t('label.look_for_it') }}
         </v-btn>
       </v-col>
       <v-col
@@ -103,11 +103,11 @@
       >
         <v-btn
           block
-          color="success"
-          class="button"
-          @click="onSearch"
+          color="grey darken-3"
+          class="button white--text"
+          @click="onReset"
         >
-          {{ $t('label.look_for_it') }}
+          {{ $t('label.reset') }}
         </v-btn>
       </v-col>
       <!-- <v-col
