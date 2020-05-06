@@ -37,43 +37,50 @@
         <h4>{{ $t('label.look_for_it') }} {{ $t('label.based') }}:</h4>
         <v-divider class="mb-0" />
       </v-col>
-      <v-col
-        cols="12"
-        md="2"
-        sm="12"
-      >
-        <select-area-district-city
-          :disabled-district="disabledDistrict"
-          :district-city="districtCity"
-          :city-district.sync="districtCity"
-          :on-select-district="onSelectDistrict"
-        />
-      </v-col>
-      <v-col
-        cols="12"
-        md="2"
-        sm="12"
-      >
-        <select-area-sub-district
-          :sub-district="subDistrict"
-          :update-sub-district.sync="subDistrict"
-          :code-district="districtCity.kota_kode"
-          :district-code.sync="districtCity.kota_kode"
-          :on-select-sub-district="onSelectSubDistrict"
-        />
-      </v-col>
-      <v-col
-        cols="12"
-        md="2"
-        sm="12"
-      >
-        <select-area-village
-          :village="village"
-          :update-village.sync="village"
-          :code-sub-district="subDistrict.kecamatan_kode"
-          :sub-district-code.sync="subDistrict.kecamatan_kode"
-          :on-select-village="onSelectVillage"
-        />
+      <v-col cols="8">
+        <v-row>
+          <v-col
+            cols="12"
+            md="4"
+            sm="12"
+            class="pt-0"
+          >
+            <select-area-district-city
+              :disabled-district="disabledDistrict"
+              :district-city="districtCity"
+              :city-district.sync="districtCity"
+              :on-select-district="onSelectDistrict"
+            />
+          </v-col>
+          <v-col
+            cols="12"
+            md="4"
+            sm="12"
+            class="pt-0"
+          >
+            <select-area-sub-district
+              :sub-district="subDistrict"
+              :update-sub-district.sync="subDistrict"
+              :code-district="districtCity.kota_kode"
+              :district-code.sync="districtCity.kota_kode"
+              :on-select-sub-district="onSelectSubDistrict"
+            />
+          </v-col>
+          <v-col
+            cols="12"
+            md="4"
+            sm="12"
+            class="pt-0"
+          >
+            <select-area-village
+              :village="village"
+              :update-village.sync="village"
+              :code-sub-district="subDistrict.kecamatan_kode"
+              :sub-district-code.sync="subDistrict.kecamatan_kode"
+              :on-select-village="onSelectVillage"
+            />
+          </v-col>
+        </v-row>
       </v-col>
       <v-col
         cols="12"
@@ -103,7 +110,7 @@
           {{ $t('label.look_for_it') }}
         </v-btn>
       </v-col>
-      <v-col
+      <!-- <v-col
         cols="12"
         md="2"
         sm="12"
@@ -115,7 +122,7 @@
         >
           {{ $t('label.export_data') }}
         </v-btn>
-      </v-col>
+      </v-col> -->
     </v-row>
     <v-row>
       <v-col
