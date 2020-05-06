@@ -157,7 +157,11 @@
                   >
                     {{ item.verified_status === 'pending' ? $t('label.being_checked') : $t('label.declined') }}
                   </span>
-                  <span v-else class="verif-btn px-4 py-2">
+                  <span
+                    v-else
+                    class="verif-btn px-4 py-2"
+                    @click="seeDetail(item._id)"
+                  >
                     {{ $t('label.verify') }}
                   </span>
                 </td>
@@ -173,14 +177,26 @@
       :limit.sync="listQuery.limit"
       :on-next="onNext"
     />
-    <dialog-delete
-      :dialog="dialog"
-      :data-deleted="dataDelete"
-      :dialog-delete.sync="dialog"
-      :delete-date.sync="dataDelete"
-      :store-path-delete="`reports/deleteReportCase`"
-      :store-path-get-list="`reports/listReportCase`"
-      :list-query="listQuery"
+    <verification-form
+      :show-form="showVerificationForm"
+      :show.sync="showVerificationForm"
+      :show-confirmation.sync="showConfirmation"
+      :case-data="caseDetail"
+      :query-data="verificationQuery"
+      :query.sync="verificationQuery"
+    />
+    <verification-confirmation
+      :show-dialog="showConfirmation"
+      :show.sync="showConfirmation"
+      :query-data="verificationQuery"
+      :query.sync="verificationQuery"
+      :submit-data.sync="isSubmit"
+    />
+    <dialog-failed
+      :show-dialog="showFailedDialog"
+      :show.sync="showFailedDialog"
+      :title="$t('label.verification_expired_title')"
+      :message="$t('label.verification_expired_message')"
     />
   </div>
 </template>
@@ -229,12 +245,23 @@ export default {
         'PDP',
         'POSITIF'
       ],
-      dialog: false,
-      dataDelete: null,
       failedDialog: false,
       disabledDistrict: true,
       listMedicalFacility: [],
-      villageName: ''
+      villageName: '',
+      dialogForm: true,
+      caseDetail: null,
+      showVerificationForm: false,
+      showConfirmation: false,
+      showFailedDialog: false,
+      isSubmit: false,
+      verificationQuery: {
+        'id': '',
+        'data': {
+          'verified_status': '',
+          'verified_comment': ''
+        }
+      }
     }
   },
   computed: {
@@ -258,6 +285,16 @@ export default {
         }
       },
       immediate: true
+    },
+    async isSubmit(value) {
+      if (value) {
+        const response = await this.$store.dispatch('reports/verifyCase', this.verificationQuery)
+        if (response.status === 200 || response.status === 201) {
+          this.handleSearch()
+          await this.$store.dispatch('toast/successToast', this.verificationQuery.data.verified_status === 'verified' ? 'Data berhasil disimpan sebagai kasus baru' : 'Data berhasil ditolak')
+        }
+        this.isSubmit = false
+      }
     }
   },
   async mounted() {
@@ -313,7 +350,23 @@ export default {
       }
       return result
     },
-    formatDatetime
+    formatDatetime,
+    async seeDetail(id) {
+      this.verificationQuery = {
+        'id': '',
+        'data': {
+          'verified_status': '',
+          'verified_comment': ''
+        }
+      }
+      const response = await this.$store.dispatch('reports/detailReportCase', id)
+      if (response.data.verified_status === 'verified') {
+        this.showFailedDialog = true
+      } else {
+        this.caseDetail = response.data
+        this.showVerificationForm = true
+      }
+    }
   }
 }
 </script>
