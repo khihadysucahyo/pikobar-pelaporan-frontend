@@ -157,7 +157,11 @@
                   >
                     {{ item.verified_status === 'pending' ? $t('label.being_checked') : $t('label.declined') }}
                   </span>
-                  <span v-else class="verif-btn px-4 py-2">
+                  <span
+                    v-else
+                    class="verif-btn px-4 py-2"
+                    @click="seeDetail(item._id)"
+                  >
                     {{ $t('label.verify') }}
                   </span>
                 </td>
@@ -173,14 +177,26 @@
       :limit.sync="listQuery.limit"
       :on-next="onNext"
     />
-    <dialog-delete
-      :dialog="dialog"
-      :data-deleted="dataDelete"
-      :dialog-delete.sync="dialog"
-      :delete-date.sync="dataDelete"
-      :store-path-delete="`reports/deleteReportCase`"
-      :store-path-get-list="`reports/listReportCase`"
-      :list-query="listQuery"
+    <verification-form
+      :show-form="showVerificationForm"
+      :show.sync="showVerificationForm"
+      :show-confirmation.sync="showConfirmation"
+      :case-data="caseDetail"
+      :query-data="verificationQuery"
+      :query.sync="verificationQuery"
+    />
+    <verification-confirmation
+      :show-dialog="showConfirmation"
+      :show.sync="showConfirmation"
+      :query-data="verificationQuery"
+      :query.sync="verificationQuery"
+      :submit-data.sync="isSubmit"
+    />
+    <dialog-failed
+      :show-dialog="showFailedDialog"
+      :show.sync="showFailedDialog"
+      :title="$t('label.verification_expired_title')"
+      :message="$t('label.verification_expired_message')"
     />
   </div>
 </template>
@@ -189,22 +205,21 @@
 import { mapGetters } from 'vuex'
 import moment from 'moment'
 import { formatDatetime } from '@/utils/parseDatetime'
-import i18n from '@/lang'
 export default {
   name: 'LaporanList',
   data() {
     return {
       headers: [
         { text: '#', value: '_id', sortable: false },
-        { text: i18n.t('label.nik').toUpperCase(), value: 'nik' },
-        { text: i18n.t('label.name').toUpperCase(), value: 'name' },
-        { text: i18n.t('label.age').toUpperCase(), value: 'age' },
-        { text: i18n.t('label.gender').toUpperCase(), value: 'gender' },
-        { text: i18n.t('label.criteria').toUpperCase(), value: 'criteria' },
-        { text: i18n.t('label.stages').toUpperCase(), value: 'stage' },
-        { text: i18n.t('label.results').toUpperCase(), value: 'final_result' },
-        { text: i18n.t('label.reporter').toUpperCase(), value: 'author' },
-        { text: i18n.t('label.auto_verification_deadline').toUpperCase(), value: 'createdAt' }
+        { text: this.$t('label.nik').toUpperCase(), value: 'nik' },
+        { text: this.$t('label.name').toUpperCase(), value: 'name' },
+        { text: this.$t('label.age').toUpperCase(), value: 'age' },
+        { text: this.$t('label.gender').toUpperCase(), value: 'gender' },
+        { text: this.$t('label.criteria').toUpperCase(), value: 'criteria' },
+        { text: this.$t('label.stages').toUpperCase(), value: 'stage' },
+        { text: this.$t('label.results').toUpperCase(), value: 'final_result' },
+        { text: this.$t('label.reporter').toUpperCase(), value: 'author' },
+        { text: this.$t('label.auto_verification_deadline').toUpperCase(), value: 'createdAt' }
       ],
       loadingTable: false,
       listQuery: {
@@ -229,12 +244,23 @@ export default {
         'PDP',
         'POSITIF'
       ],
-      dialog: false,
-      dataDelete: null,
       failedDialog: false,
       disabledDistrict: true,
       listMedicalFacility: [],
-      villageName: ''
+      villageName: '',
+      dialogForm: true,
+      caseDetail: null,
+      showVerificationForm: false,
+      showConfirmation: false,
+      showFailedDialog: false,
+      isSubmit: false,
+      verificationQuery: {
+        'id': '',
+        'data': {
+          'verified_status': '',
+          'verified_comment': ''
+        }
+      }
     }
   },
   computed: {
@@ -258,15 +284,25 @@ export default {
         }
       },
       immediate: true
+    },
+    async isSubmit(value) {
+      if (value) {
+        const response = await this.$store.dispatch('reports/verifyCase', this.verificationQuery)
+        if (response.status === 200 || response.status === 201) {
+          this.handleSearch()
+          await this.$store.dispatch('toast/successToast', this.verificationQuery.data.verified_status === 'verified' ? this.$t('success.verification_success') : this.$t('success.rejection_success'))
+        }
+        this.isSubmit = false
+      }
     }
   },
   async mounted() {
     if (this.roles[0] === 'faskes') {
-      this.headers.push({ text: i18n.t('label.status').toUpperCase(), value: 'status' })
+      this.headers.push({ text: this.$t('label.status').toUpperCase(), value: 'status' })
       this.listQuery.author = this.fullName
       this.listQuery.verified_status = 'pending,declined'
     } else {
-      this.headers.push({ text: i18n.t('label.action').toUpperCase(), value: 'action', sortable: false })
+      this.headers.push({ text: this.$t('label.action').toUpperCase(), value: 'action', sortable: false })
       this.listQuery.verified_status = 'pending'
     }
     await this.$store.dispatch('reports/listReportCase', this.listQuery)
@@ -306,14 +342,30 @@ export default {
       var result = '-'
       if (24 - hours >= 1) {
         var remainingHours = 24 - hours
-        result = Math.ceil(remainingHours) + ' ' + i18n.t('label.hours')
+        result = Math.ceil(remainingHours) + ' ' + this.$t('label.hours')
       } else if (60 - minutes >= 1) {
         var remainingMinutes = 60 - minutes
-        result = Math.ceil(remainingMinutes) + ' ' + i18n.t('label.minutes')
+        result = Math.ceil(remainingMinutes) + ' ' + this.$t('label.minutes')
       }
       return result
     },
-    formatDatetime
+    formatDatetime,
+    async seeDetail(id) {
+      this.verificationQuery = {
+        'id': '',
+        'data': {
+          'verified_status': '',
+          'verified_comment': ''
+        }
+      }
+      const response = await this.$store.dispatch('reports/detailReportCase', id)
+      if (response.data.verified_status === 'verified') {
+        this.showFailedDialog = true
+      } else {
+        this.caseDetail = response.data
+        this.showVerificationForm = true
+      }
+    }
   }
 }
 </script>

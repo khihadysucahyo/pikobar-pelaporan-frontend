@@ -280,9 +280,19 @@ export default {
     mention_other_additional_condition: 'Sebutkan kondisi penyerta lainnya (jika ada)',
     being_checked: 'Diperiksa',
     declined: 'Ditolak',
+    decline: 'Tolak',
     reporter: 'Pelapor',
     auto_verification_deadline: 'Batas Verifikasi Otomatis',
-    action: 'Aksi'
+    action: 'Aksi',
+    reason_for_declined: 'Alasan Penolakan',
+    date_of_beginning_symptoms: 'Tanggal Awal Gejala',
+    verify_case: 'Verifikasi Kasus',
+    decline_case: 'Tolak Kasus',
+    verification_expired_message: 'Kasus telah terverifikasi, silahkan reload kembali halaman ini!',
+    verification_expired_title: 'Kasus telah terverifikasi',
+    verification_confirmation_message: 'Data yang Anda verifikasi akan ditambahkan sebagai kasus baru. Pastikan data sudah terisi dengan benar.',
+    rejection_confirmation_message: 'Apakah Anda yakin untuk menolak verifikasi kasus ini?',
+    reason_for_declined_placeholder: 'Kasus ini ditolak karena...'
   },
   success: {
     login_success: 'Login Berhasil',
@@ -291,7 +301,9 @@ export default {
     data_answer_success: 'Tanggapan Berhasil Disimpan',
     data_success_edit: 'Data Berhasil Dirubah',
     data_success_delete: 'Data Berhasil Dihapus',
-    file_success_upload: 'File Berhasil Diupload'
+    file_success_upload: 'File Berhasil Diupload',
+    verification_success: 'Data berhasil disimpan sebagai kasus baru',
+    rejection_success: 'Data berhasil ditolak'
   },
   errors: {
     username_must_be_filled: 'Username harus diisi',
