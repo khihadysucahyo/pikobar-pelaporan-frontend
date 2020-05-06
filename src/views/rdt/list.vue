@@ -136,7 +136,7 @@ export default {
         { text: 'ID PESERTA', value: 'code_test' },
         { text: 'NAMA', value: 'name' },
         { text: 'USIA', value: 'age' },
-        { text: 'JENIS KELAMIN', value: 'gender' },
+        { text: 'JK', value: 'gender' },
         { text: 'KATEGORI', value: 'category' },
         { text: 'TEMPAT TES', value: 'address_district_name', sortable: false },
         { text: 'TANGGAL TES', value: 'test_date' },

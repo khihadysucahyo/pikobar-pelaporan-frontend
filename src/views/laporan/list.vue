@@ -149,7 +149,6 @@
               <tr>
                 <td>{{ getTableRowNumbering(index) }}</td>
                 <td>{{ item.id_case ? item.id_case.toUpperCase() : '-' }}</td>
-                <td>{{ item.nik }}</td>
                 <td>{{ item.name }}</td>
                 <td>{{ item.age }} Th</td>
                 <td>
@@ -303,10 +302,9 @@ export default {
       headers: [
         { text: '#', value: '_id', sortable: false },
         { text: 'KODE KASUS', value: 'id_case' },
-        { text: 'NIK', value: 'nik' },
         { text: 'NAMA', value: 'name' },
         { text: 'USIA', value: 'age' },
-        { text: 'JENIS KELAMIN', value: 'gender' },
+        { text: 'JK', value: 'gender' },
         { text: 'NO TELEPON', value: 'phone_number' },
         { text: 'STATUS', value: 'status' },
         { text: 'TAHAPAN', value: 'stage' },

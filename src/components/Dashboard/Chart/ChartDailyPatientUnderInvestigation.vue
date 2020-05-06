@@ -1,21 +1,27 @@
 <template>
-  <v-card
-    class="chart mx-auto"
-    outlined
+  <v-skeleton-loader
+    :loading="loading"
+    type="article"
   >
-    <v-card-title class="title ml-0 black--text">
-      {{ $t('label.daily_number') }} {{ $t('label.pdp') }}
-    </v-card-title>
-    <v-divider class="mt-0 mb-2" />
-    <v-card-text>
-      <chart-bar
-        v-if="loaded"
-        :chart-data="chartData"
-        :options="chartOptions"
-        :styles="chartStyles"
-      />
-    </v-card-text>
-  </v-card>
+    <v-card
+      class="chart mx-auto"
+      outlined
+    >
+      <v-card-title class="title ml-0 black--text">
+        {{ $t('label.daily_number') }} {{ $t('label.pdp') }}
+      </v-card-title>
+      <v-divider class="mt-0 mb-2" />
+      <v-card-text>
+        <chart-bar
+          v-if="loaded"
+          ref="barChart"
+          :chart-data="chartData"
+          :options="chartOptions"
+          :styles="chartStyles"
+        />
+      </v-card-text>
+    </v-card>
+  </v-skeleton-loader>
 </template>
 
 <script>
@@ -25,38 +31,33 @@ export default {
     chartHeight: {
       type: Number,
       default: 300
+    },
+    loading: {
+      type: Boolean,
+      default: true
+    },
+    cData: {
+      type: Object,
+      default: null
     }
   },
   data() {
     return {
       loaded: false,
       chartData: {
-        labels: [
-          '01/04',
-          '02/04',
-          '03/04',
-          '04/04',
-          '05/04',
-          '06/04',
-          '07/04',
-          '08/04',
-          '09/04',
-          '10/04',
-          '11/04',
-          '12/04'
-        ],
+        labels: [],
         datasets: [
           {
             label: this.$t('label.done'),
             backgroundColor: '#EED138',
             hoverBackgroundColor: '#EED138',
-            data: [40, 20, 12, 39, 10, 40, 39, 80, 40, 20, 12, 11]
+            data: []
           },
           {
             label: this.$t('label.process'),
             backgroundColor: '#E08D3B',
             hoverBackgroundColor: '#E08D3B',
-            data: [40, 20, 12, 39, 10, 40, 39, 10, 40, 20, 12, 11]
+            data: []
           }
         ]
       },
@@ -75,6 +76,7 @@ export default {
           yAxes: [
             {
               ticks: {
+                precision: 0,
                 min: 0
               },
               gridLines: {
@@ -112,14 +114,31 @@ export default {
       }
     }
   },
-  async mounted() {
+  watch: {
+    'cData': {
+      handler(value) {
+        this.chartData.labels = value.label
+        this.chartData.datasets[0].data = value.done
+        this.chartData.datasets[1].data = value.process
+      },
+      deep: true
+    },
+    '$refs'() {
+      this.$refs.barChart.update()
+    }
+  },
+  mounted() {
     this.loaded = true
+
+    this.chartData.labels = this.cData.label
+    this.chartData.datasets[0].data = this.cData.done
+    this.chartData.datasets[1].data = this.cData.process
   }
 }
 </script>
 
 <style scoped>
-  .chart .title {
-    text-transform: none;
-  }
+.chart .title {
+  text-transform: none;
+}
 </style>

@@ -10,6 +10,9 @@
       <v-card-title class="title ml-0 black--text">
         {{ $t("label.gender") }}
       </v-card-title>
+      <v-card-subtitle>
+        {{ $t('label.positive') }} {{ $t('label.active') }}
+      </v-card-subtitle>
       <v-divider class="mt-0 mb-2" />
       <v-card-text>
         <chart-doughnut
@@ -50,8 +53,8 @@ export default {
           {
             data: [],
             backgroundColor: [
-              'rgba(255, 124, 143, 1)',
-              'rgba(102, 164, 251, 1)'
+              '#27AE60',
+              '#F2C94C'
             ]
           }
         ]
