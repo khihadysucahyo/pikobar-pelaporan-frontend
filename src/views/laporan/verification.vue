@@ -291,7 +291,7 @@ export default {
         const response = await this.$store.dispatch('reports/verifyCase', this.verificationQuery)
         if (response.status === 200 || response.status === 201) {
           this.handleSearch()
-          await this.$store.dispatch('toast/successToast', this.verificationQuery.data.verified_status === 'verified' ? 'Data berhasil disimpan sebagai kasus baru' : 'Data berhasil ditolak')
+          await this.$store.dispatch('toast/successToast', this.verificationQuery.data.verified_status === 'verified' ? i18n.t('success.verification_success') : i18n.t('success.rejection_success'))
         }
         this.isSubmit = false
       }
