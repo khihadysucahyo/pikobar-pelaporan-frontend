@@ -413,6 +413,7 @@ export default {
       this.dataDelete = await item
     },
     async handleSearch() {
+      this.listQuery.page = 1
       await this.$store.dispatch('reports/listReportCase', this.listQuery)
     },
     getTableRowNumbering(index) {

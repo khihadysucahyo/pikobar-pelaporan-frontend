@@ -226,6 +226,7 @@ export default {
       this.dataDelete = await dataDelete
     },
     async handleSearch() {
+      this.listQuery.page = 1
       await this.$store.dispatch('user/listUser', this.listQuery)
     },
     async handleEdit(id) {
