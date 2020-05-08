@@ -110,19 +110,6 @@
           {{ $t('label.reset') }}
         </v-btn>
       </v-col>
-      <!-- <v-col
-        cols="12"
-        md="2"
-        sm="12"
-      >
-        <v-btn
-          block
-          color="info"
-          class="button"
-        >
-          {{ $t('label.export_data') }}
-        </v-btn>
-      </v-col> -->
     </v-row>
     <v-row>
       <v-col
@@ -317,41 +304,6 @@
       </v-tab-item>
     </v-tabs>
     <v-divider />
-    <!-- <v-tabs>
-      <v-tab
-        :key="'map'"
-        :href="'#tab-map'"
-      >
-        Peta Sebaran
-      </v-tab>
-      <v-tab
-        :key="'case'"
-        :href="'#tab-case'"
-      >
-        Kasus Keterkaitan
-      </v-tab>
-      <v-tab-item
-        :key="'map'"
-        :value="'tab-map'"
-      >
-        <v-row>
-          <v-col cols="12">
-            <map-point :filter-data="filter" />
-          </v-col>
-        </v-row>
-      </v-tab-item>
-      <v-tab-item
-        :key="'case'"
-        :value="'tab-case'"
-      >
-        <v-row>
-          <v-col cols="12">
-            <graph-case />
-          </v-col>
-        </v-row>
-      </v-tab-item>
-    </v-tabs>
-    <v-divider /> -->
     <v-row>
       <v-col
         cols="12"
