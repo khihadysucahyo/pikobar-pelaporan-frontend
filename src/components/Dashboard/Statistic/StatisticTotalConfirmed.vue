@@ -10,7 +10,7 @@
       <v-card-title class="title ml-0">
         {{ $t('label.positive') }} {{ $t('label.covid19') }}
       </v-card-title>
-      <v-card-subtitle class="subtitle pb-3">
+      <v-card-subtitle class="sub-title pb-3">
         {{ $t('label.positive_confirmed_covid19') }}
       </v-card-subtitle>
       <v-card-text class="mt-2">
@@ -39,20 +39,20 @@ export default {
 </script>
 
 <style scoped>
-  .statistic {
-    background-color: #FDEDED !important;
-    border: 1px solid #EB5757 !important;
-  }
-  .statistic .title {
-    color: #EB5757 !important;
-  }
-  .statistic .subtitle {
-    height: 69px;
-    max-height: 69px;
-    color: #EB5757 !important;
-  }
-  .statistic .total {
-    font-size: 2em;
-    color: #EB5757 !important;
-  }
+.statistic {
+  background-color: #fdeded !important;
+  border: 1px solid #eb5757 !important;
+}
+.statistic .title {
+  color: #eb5757 !important;
+}
+.statistic .sub-title {
+  height: 69px;
+  max-height: 69px;
+  color: #eb5757 !important;
+}
+.statistic .total {
+  font-size: 2em;
+  color: #eb5757 !important;
+}
 </style>
