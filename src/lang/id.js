@@ -23,7 +23,10 @@ export default {
     user_management: 'Kelola Pengguna',
     user_create: 'Tambah Pengguna',
     user_detail: 'Detail Pengguna',
-    user_edit: 'Ubah Pengguna'
+    user_edit: 'Ubah Pengguna',
+    distribution_case: 'Peta Penyebaran',
+    distribution_case_map: 'Lokasi Sebaran',
+    distribution_case_network: 'Kasus Keterkaitan',
   },
   label: {
     username: 'Username',
