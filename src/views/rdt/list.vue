@@ -227,6 +227,7 @@ export default {
       await this.$router.push(`/rdt/update-result/${id}`)
     },
     async handleSearch() {
+      this.listQuery.page = 1
       await this.$store.dispatch('rdt/getListRDT', this.listQuery)
     },
     getTableRowNumbering(index) {
