@@ -418,7 +418,11 @@ export default {
       if (response.status !== 422) {
         await this.$store.dispatch('reports/resetFormPasien')
         await this.$store.dispatch('toast/successToast', this.$t('success.create_date_success'))
-        this.$router.push('/laporan/list')
+        if (this.roles[0] === 'faskes') {
+          this.$router.push('/laporan/verification')
+        } else {
+          this.$router.push('/laporan/list')
+        }
         await this.$refs.form.reset()
         this.loading = false
       }
