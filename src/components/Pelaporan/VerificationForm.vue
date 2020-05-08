@@ -358,7 +358,9 @@ export default {
       this.show = value
       if (value) {
         this.caseDetail = this.caseData
-        this.caseDetail.birth_date = formatDatetime(this.caseDetail.birth_date, 'DD MMMM YYYY')
+        if (this.caseDetail.birth_date) {
+          this.caseDetail.birth_date = formatDatetime(this.caseDetail.birth_date, 'DD MMMM YYYY')
+        }
         this.caseDetail.gender = this.caseDetail.gender === 'L' ? this.$t('label.male') : this.$t('label.female')
         if (this.caseDetail.last_history.current_location_type === 'RUMAH') {
           this.caseDetail.last_history.current_location_type = this.$t('label.home')
@@ -367,7 +369,9 @@ export default {
         } else {
           this.caseDetail.last_history.current_location_type = this.$t('label.other')
         }
-        this.caseDetail.last_history.first_symptom_date = formatDatetime(this.caseDetail.last_history.first_symptom_date, 'DD MMMM YYYY')
+        if (this.caseDetail.last_history.first_symptom_date) {
+          this.caseDetail.last_history.first_symptom_date = formatDatetime(this.caseDetail.last_history.first_symptom_date, 'DD MMMM YYYY')
+        }
         if (this.caseDetail.stage === '0') {
           this.caseDetail.stage = this.$t('label.process')
         } else if (this.caseDetail.stage === '1') {
