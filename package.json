@@ -10,6 +10,7 @@
     "lint:fix": "vue-cli-service lint --fix"
   },
   "dependencies": {
+    "@turf/turf": "^5.1.6",
     "axios": "^0.19.2",
     "babel-preset-stage-2": "^6.22.0",
     "chart.js": "^2.9.3",
@@ -19,6 +20,9 @@
     "file-saver": "^2.0.2",
     "js-cookie": "^2.2.1",
     "leaflet": "^1.6.0",
+    "leaflet-easybutton": "^2.4.0",
+    "leaflet-sidebar": "^0.2.0",
+    "leaflet.markercluster": "^1.4.1",
     "moment": "^2.24.0",
     "nprogress": "^0.2.0",
     "register-service-worker": "^1.6.2",
@@ -90,7 +94,7 @@
     },
     "rules": {},
     "overrides": [
-        {
+      {
         "files": [
           "**/__tests__/*.{j,t}s?(x)",
           "**/tests/unit/**/*.spec.{j,t}s?(x)"
