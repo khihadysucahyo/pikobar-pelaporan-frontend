@@ -1,108 +1,232 @@
 <template>
-  <div class="container-map relative">
-    <div id="sidebar">
-      <div
-        class="sidebar-content"
-        v-html="sidebarContent"
-      />
-    </div>
-    <div
-      id="map"
-      class="map-wrapper bg-aqua"
-      style="z-index: 0;"
-    />
-    <div
-      v-if="isFilter"
-      class="filter"
-    >
-      <div class="filter-data">
-        <ul>
-          <li
-            :class="[filter.positive_active ? 'filter-active' : '']"
-            @click="onFilter('positive_active')"
-          >
-            <div class="legend-color cluster-positive-active" />
-            <span class="legend-text">Positif - Aktif</span>
-          </li>
-          <li
-            :class="[filter.positive_recovery ? 'filter-active' : '']"
-            @click="onFilter('positive_recovery')"
-          >
-            <div class="legend-color cluster-positive-recovery" />
-            <span class="legend-text">Positif - Sembuh</span>
-          </li>
-          <li
-            :class="[filter.positive_dead ? 'filter-active' : '']"
-            @click="onFilter('positive_dead')"
-          >
-            <div class="legend-color cluster-positive-dead" />
-            <span class="legend-text">Positif - Meninggal</span>
-          </li>
-          <li
-            :class="[filter.pdp_process ? 'filter-active' : '']"
-            @click="onFilter('pdp_process')"
-          >
-            <div class="legend-color cluster-pdp-process" />
-            <span class="legend-text">PDP - Proses</span>
-          </li>
-          <li
-            :class="[filter.pdp_done ? 'filter-active' : '']"
-            @click="onFilter('pdp_done')"
-          >
-            <div class="legend-color cluster-pdp-done" />
-            <span class="legend-text">PDP - Selesai</span>
-          </li>
-          <li
-            :class="[filter.pdp_dead ? 'filter-active' : '']"
-            @click="onFilter('pdp_dead')"
-          >
-            <div class="legend-color cluster-pdp-dead" />
-            <span class="legend-text">PDP - Meninggal</span>
-          </li>
-          <li
-            :class="[filter.odp_process ? 'filter-active' : '']"
-            @click="onFilter('odp_process')"
-          >
-            <div class="legend-color cluster-odp-process" />
-            <span class="legend-text">ODP - Proses</span>
-          </li>
-          <li
-            :class="[filter.odp_done ? 'filter-active' : '']"
-            @click="onFilter('odp_done')"
-          >
-            <div class="legend-color cluster-odp-done" />
-            <span class="legend-text">ODP - Selesai</span>
-          </li>
-          <li
-            :class="[filter.odp_dead ? 'filter-active' : '']"
-            @click="onFilter('odp_dead')"
-          >
-            <div class="legend-color cluster-odp-dead" />
-            <span class="legend-text">ODP - Meninggal</span>
-          </li>
-          <li
-            :class="[filter.otg_process ? 'filter-active' : '']"
-            @click="onFilter('otg_process')"
-          >
-            <div class="legend-color cluster-otg-process" />
-            <span class="legend-text">OTG - Proses</span>
-          </li>
-          <li
-            :class="[filter.otg_done ? 'filter-active' : '']"
-            @click="onFilter('otg_done')"
-          >
-            <div class="legend-color cluster-otg-done" />
-            <span class="legend-text">OTG - Selesai</span>
-          </li>
-          <li
-            :class="[filter.otg_dead ? 'filter-active' : '']"
-            @click="onFilter('otg_dead')"
-          >
-            <div class="legend-color cluster-otg-dead" />
-            <span class="legend-text">OTG - Meninggal</span>
-          </li>
-        </ul>
+  <div>
+    <div class="container-map relative">
+      <div id="sidebar">
+        <div
+          class="sidebar-content"
+          v-html="sidebarContent"
+        />
       </div>
+      <div
+        id="map"
+        class="map-wrapper bg-aqua"
+        style="z-index: 0;"
+      />
+      <div
+        v-if="isFilter"
+        class="filter"
+      >
+        <div class="filter-data">
+          <ul>
+            <li
+              :class="[filter.positive_active ? 'filter-active' : '']"
+              @click="onFilter('positive_active')"
+            >
+              <div class="legend-color cluster-positive-active" />
+              <span class="legend-text">Positif - Aktif</span>
+            </li>
+            <li
+              :class="[filter.positive_recovery ? 'filter-active' : '']"
+              @click="onFilter('positive_recovery')"
+            >
+              <div class="legend-color cluster-positive-recovery" />
+              <span class="legend-text">Positif - Sembuh</span>
+            </li>
+            <li
+              :class="[filter.positive_dead ? 'filter-active' : '']"
+              @click="onFilter('positive_dead')"
+            >
+              <div class="legend-color cluster-positive-dead" />
+              <span class="legend-text">Positif - Meninggal</span>
+            </li>
+            <li
+              :class="[filter.pdp_process ? 'filter-active' : '']"
+              @click="onFilter('pdp_process')"
+            >
+              <div class="legend-color cluster-pdp-process" />
+              <span class="legend-text">PDP - Proses</span>
+            </li>
+            <li
+              :class="[filter.pdp_done ? 'filter-active' : '']"
+              @click="onFilter('pdp_done')"
+            >
+              <div class="legend-color cluster-pdp-done" />
+              <span class="legend-text">PDP - Selesai</span>
+            </li>
+            <li
+              :class="[filter.pdp_dead ? 'filter-active' : '']"
+              @click="onFilter('pdp_dead')"
+            >
+              <div class="legend-color cluster-pdp-dead" />
+              <span class="legend-text">PDP - Meninggal</span>
+            </li>
+            <li
+              :class="[filter.odp_process ? 'filter-active' : '']"
+              @click="onFilter('odp_process')"
+            >
+              <div class="legend-color cluster-odp-process" />
+              <span class="legend-text">ODP - Proses</span>
+            </li>
+            <li
+              :class="[filter.odp_done ? 'filter-active' : '']"
+              @click="onFilter('odp_done')"
+            >
+              <div class="legend-color cluster-odp-done" />
+              <span class="legend-text">ODP - Selesai</span>
+            </li>
+            <li
+              :class="[filter.odp_dead ? 'filter-active' : '']"
+              @click="onFilter('odp_dead')"
+            >
+              <div class="legend-color cluster-odp-dead" />
+              <span class="legend-text">ODP - Meninggal</span>
+            </li>
+            <li
+              :class="[filter.otg_process ? 'filter-active' : '']"
+              @click="onFilter('otg_process')"
+            >
+              <div class="legend-color cluster-otg-process" />
+              <span class="legend-text">OTG - Proses</span>
+            </li>
+            <li
+              :class="[filter.otg_done ? 'filter-active' : '']"
+              @click="onFilter('otg_done')"
+            >
+              <div class="legend-color cluster-otg-done" />
+              <span class="legend-text">OTG - Selesai</span>
+            </li>
+            <li
+              :class="[filter.otg_dead ? 'filter-active' : '']"
+              @click="onFilter('otg_dead')"
+            >
+              <div class="legend-color cluster-otg-dead" />
+              <span class="legend-text">OTG - Meninggal</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div style="border-top: 1px solid rgba(0, 0, 0, 0.12)">
+      <v-row class="mx-2 mt-1">
+        <v-col
+          cols="12"
+          md="2"
+        >
+          <div class="d-flex mb-1">
+            <div
+              class="legend-color-title legend-description"
+              style="margin-top: 3px;"
+            />
+            <div class="legend-text-title">Keterangan</div>
+          </div>
+        </v-col>
+        <v-row>
+          <v-col
+            cols="12"
+            md="3"
+          >
+            <div class="d-flex mb-1">
+              <div
+                class="legend-color cluster-positive-active"
+                style="margin-top: 3px;"
+              />
+              <div class="legend-text">{{ stage.positive_active }}</div>
+            </div>
+            <div class="d-flex mb-1">
+              <div
+                class="legend-color cluster-positive-recovery"
+                style="margin-top: 3px;"
+              />
+              <div class="legend-text">{{ stage.positive_recovery }}</div>
+            </div>
+            <div class="d-flex mb-1">
+              <div
+                class="legend-color cluster-positive-dead"
+                style="margin-top: 3px;"
+              />
+              <div class="legend-text">{{ stage.positive_dead }}</div>
+            </div>
+          </v-col>
+          <v-col
+            cols="12"
+            md="3"
+          >
+            <div class="d-flex mb-1">
+              <div
+                class="legend-color cluster-pdp-process"
+                style="margin-top: 3px;"
+              />
+              <div class="legend-text">{{ stage.pdp_process }}</div>
+            </div>
+            <div class="d-flex mb-1">
+              <div
+                class="legend-color cluster-pdp-done"
+                style="margin-top: 3px;"
+              />
+              <div class="legend-text">{{ stage.pdp_done }}</div>
+            </div>
+            <div class="d-flex mb-1">
+              <div
+                class="legend-color cluster-pdp-dead"
+                style="margin-top: 3px;"
+              />
+              <div class="legend-text">{{ stage.pdp_dead }}</div>
+            </div>
+          </v-col>
+          <v-col
+            cols="12"
+            md="3"
+          >
+            <div class="d-flex mb-1">
+              <div
+                class="legend-color cluster-odp-process"
+                style="margin-top: 3px;"
+              />
+              <div class="legend-text">{{ stage.odp_process }}</div>
+            </div>
+            <div class="d-flex mb-1">
+              <div
+                class="legend-color cluster-odp-done"
+                style="margin-top: 3px;"
+              />
+              <div class="legend-text">{{ stage.odp_done }}</div>
+            </div>
+            <div class="d-flex mb-1">
+              <div
+                class="legend-color cluster-odp-dead"
+                style="margin-top: 3px;"
+              />
+              <div class="legend-text">{{ stage.odp_dead }}</div>
+            </div>
+          </v-col>
+          <v-col
+            cols="12"
+            md="3"
+          >
+            <div class="d-flex mb-1">
+              <div
+                class="legend-color cluster-otg-process"
+                style="margin-top: 3px;"
+              />
+              <div class="legend-text">{{ stage.otg_process }}</div>
+            </div>
+            <div class="d-flex mb-1">
+              <div
+                class="legend-color cluster-otg-done"
+                style="margin-top: 3px;"
+              />
+              <div class="legend-text">{{ stage.otg_done }}</div>
+            </div>
+            <div class="d-flex mb-1">
+              <div
+                class="legend-color cluster-otg-dead"
+                style="margin-top: 3px;"
+              />
+              <div class="legend-text">{{ stage.otg_dead }}</div>
+            </div>
+          </v-col>
+        </v-row>
+      </v-row>
     </div>
   </div>
 </template>
@@ -114,11 +238,12 @@ import L from 'leaflet'
 import 'leaflet-easybutton'
 import 'leaflet.markercluster'
 import 'leaflet-sidebar'
+import 'leaflet-spin'
 import * as turf from '@turf/turf'
+import axios from 'axios'
 import jsonCity from '../../json/kota.json'
 import jsonDistrict from '../../json/kecamatan.json'
 import jsonVillage from '../../json/kelurahan.json'
-import jsonMap from '../../json/map.json'
 
 export default {
   name: 'DistributionCaseMap',
@@ -128,7 +253,6 @@ export default {
       jsonCity,
       jsonDistrict,
       jsonVillage,
-      jsonMap,
       map: null,
       url: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
       isZoom: false,
@@ -146,11 +270,37 @@ export default {
         opacity: 0.5,
         color: 'red'
       },
+      stage: {
+        positive_active: 'Positif - Aktif',
+        positive_recovery: 'Positif - Sembuh',
+        positive_dead: 'Positif - Meninggal',
+        pdp_process: 'PDP - Proses',
+        pdp_done: 'PDP - Selesai',
+        pdp_dead: 'PDP - Meninggal',
+        odp_process: 'ODP - Proses',
+        odp_done: 'ODP - Selesai',
+        odp_dead: 'ODP - Meninggal',
+        otg_process: 'OTG - Proses',
+        otg_done: 'OTG - Selesai',
+        otg_dead: 'OTG - Meninggal'
+      },
       data: {
         positive_active: [],
-        positive_recovery: []
+        positive_recovery: [],
+        positive_dead: [],
+        pdp_process: [],
+        pdp_done: [],
+        pdp_dead: [],
+        odp_process: [],
+        odp_done: [],
+        odp_dead: [],
+        otg_process: [],
+        otg_done: [],
+        otg_dead: []
       },
       clusterCity: [],
+      clusterDistrict: [],
+      clusterVillage: [],
       isFilter: false,
       filter: {
         positive_active: true,
@@ -178,31 +328,61 @@ export default {
       'district_name_user'
     ])
   },
-  beforeMount() {
-    this.data.positive_active = []
-    this.data.positive_recovery = []
-    this.jsonMap.data.map((res) => {
-      if (res.status === 'Positif' && res.stage === 'Aktif') {
-        this.data.positive_active.push(res)
-      } else if (res.status === 'Positif' && res.stage === 'Sembuh') {
-        this.data.positive_recovery.push(res)
-      }
-    })
-  },
-  mounted() {
+  async mounted() {
     this.initMap()
 
-    if (this.roles[0] === 'dinkesprov') {
-      this.zoomOld = 1
-      this.zoomNew = 1
-      this.createLayerCity()
-    } else if (this.roles[0] === 'dinkeskota') {
-      this.zoomOld = 2
-      this.zoomNew = 2
-      this.createLayerDistrict(this.district_user)
-    }
+    this.map.spin(true)
+    this.data.positive_active = []
+    this.data.positive_recovery = []
+    try {
+      await axios.get('https://covid19-public.digitalservice.id/api/v1/sebaran_app/jabar')
+        .then((res) => {
+          const data = res.data.data.content
 
-    this.createMarker()
+          data.map((res) => {
+            if (res.status === 'Positif' && res.stage === 'Proses') {
+              this.data.positive_active.push(res)
+            } else if (res.status === 'Positif' && res.stage === 'Sembuh') {
+              this.data.positive_recovery.push(res)
+            } else if (res.status === 'Positif' && res.stage === 'Meninggal') {
+              this.data.positive_dead.push(res)
+            } else if (res.status === 'PDP' && res.stage === 'Proses') {
+              this.data.pdp_process.push(res)
+            } else if (res.status === 'PDP' && res.stage === 'Selesai') {
+              this.data.pdp_done.push(res)
+            } else if (res.status === 'PDP' && res.stage === 'Meninggal') {
+              this.data.pdp_dead.push(res)
+            } else if (res.status === 'ODP' && res.stage === 'Proses') {
+              this.data.odp_process.push(res)
+            } else if (res.status === 'ODP' && res.stage === 'Selesai') {
+              this.data.odp_done.push(res)
+            } else if (res.status === 'ODP' && res.stage === 'Meninggal') {
+              this.data.odp_dead.push(res)
+            } else if (res.status === 'OTG' && res.stage === 'Proses') {
+              this.data.otg_process.push(res)
+            } else if (res.status === 'OTG' && res.stage === 'Selesai') {
+              this.data.otg_done.push(res)
+            } else if (res.status === 'OTG' && res.stage === 'Meninggal') {
+              this.data.otg_dead.push(res)
+            }
+          })
+
+          if (this.roles[0] === 'dinkesprov') {
+            this.zoomOld = 1
+            this.zoomNew = 1
+            this.createLayerCity()
+            this.createMarker()
+          } else if (this.roles[0] === 'dinkeskota') {
+            this.zoomOld = 2
+            this.zoomNew = 2
+            this.createLayerDistrict(this.district_user)
+            this.createMarker(this.district_user)
+          }
+          this.map.spin(false)
+        })
+    } catch (error) {
+      console.error(error)
+    }
   },
   methods: {
     initMap() {
@@ -288,7 +468,7 @@ export default {
 
       // Sidebar
       this.sidebar = L.control.sidebar('sidebar', {
-        closeButton: false,
+        closeButton: true,
         position: 'left'
       })
       this.map.addControl(this.sidebar)
@@ -298,9 +478,15 @@ export default {
         this.isFilter = false
       })
 
-      // setTimeout(() => {
-      //   sidebar.show()
-      // }, 500)
+      // Drag
+      this.map.on('dragend', (e) => {
+        this.removeMarker()
+        if (this.roles[0] === 'dinkesprov') {
+          this.createMarker()
+        } else if (this.roles[0] === 'dinkeskota') {
+          this.createMarker(this.district_user)
+        }
+      })
 
       // Layer
       this.layerGroup = L.layerGroup().addTo(this.map)
@@ -323,14 +509,32 @@ export default {
           console.log('create layer city')
           this.removeLayer()
           this.createLayerCity()
+          this.removeMarker()
+          if (this.roles[0] === 'dinkesprov') {
+            this.createMarker()
+          } else if (this.roles[0] === 'dinkeskota') {
+            this.createMarker(this.district_user)
+          }
         } else if (this.zoomNew === 2) {
           console.log('create layer district')
           this.removeLayer()
           this.createLayerDistrict(value)
+          this.removeMarker()
+          if (this.roles[0] === 'dinkesprov') {
+            this.createMarker()
+          } else if (this.roles[0] === 'dinkeskota') {
+            this.createMarker(this.district_user)
+          }
         } else if (this.zoomNew === 3) {
           console.log('create layer village')
           this.removeLayer()
           this.createLayerVillage(value)
+          this.removeMarker()
+          if (this.roles[0] === 'dinkesprov') {
+            this.createMarker()
+          } else if (this.roles[0] === 'dinkeskota') {
+            this.createMarker(this.district_user)
+          }
         }
       }
     },
@@ -481,9 +685,8 @@ export default {
         this.map.fitBounds(geojsonLayer.getBounds())
       }
     },
-    createMarker() {
+    createMarker(value = null) {
       this.jsonAll = []
-
       Object.keys(this.filter).map((cat) => {
         if (this.filter[cat]) {
           this.jsonAll = this.data[cat]
@@ -507,6 +710,86 @@ export default {
             this.addMarkerClusterLayer(this.clusterCity, element)
           }
         })
+      } else if (this.zoomNew === 2) {
+        if (value) {
+          L.geoJSON(this.jsonDistrict, {
+            filter: (feature, layer) => {
+              return feature.properties.kemendagri_kabupaten_kode === value
+            }
+          }).eachLayer((element) => {
+            if (this.map.getBounds().intersects(element._bounds)) {
+              this.clusterDistrict[element.feature.properties.bps_kecamatan_kode] = this.paramMarkerCluster()
+
+              this.jsonAll.map((elPasien) => {
+                if (elPasien.latitude !== null) {
+                  const point = turf.point([elPasien.longitude, elPasien.latitude])
+                  const isInside = turf.inside(point, element.feature)
+                  if (isInside) {
+                    this.addMarkerLayer(this.clusterDistrict, element, elPasien)
+                  }
+                }
+              })
+              this.addMarkerClusterLayer(this.clusterDistrict, element)
+            }
+          })
+        } else {
+          L.geoJSON(this.jsonDistrict).eachLayer((element) => {
+            if (this.map.getBounds().intersects(element._bounds)) {
+              this.clusterDistrict[element.feature.properties.bps_kecamatan_kode] = this.paramMarkerCluster()
+
+              this.jsonAll.map((elPasien) => {
+                if (elPasien.latitude !== null) {
+                  const point = turf.point([elPasien.longitude, elPasien.latitude])
+                  const isInside = turf.inside(point, element.feature)
+                  if (isInside) {
+                    this.addMarkerLayer(this.clusterDistrict, element, elPasien)
+                  }
+                }
+              })
+              this.addMarkerClusterLayer(this.clusterDistrict, element)
+            }
+          })
+        }
+      } else if (this.zoomNew === 3) {
+        if (value) {
+          L.geoJSON(this.jsonVillage, {
+            filter: (feature, layer) => {
+              return feature.properties.kemendagri_kabupaten_kode === value
+            }
+          }).eachLayer((element) => {
+            if (this.map.getBounds().intersects(element._bounds)) {
+              this.clusterVillage[element.feature.properties.bps_desa_kode] = this.paramMarkerCluster()
+
+              this.jsonAll.map((elPasien) => {
+                if (elPasien.latitude !== null) {
+                  const point = turf.point([elPasien.longitude, elPasien.latitude])
+                  const isInside = turf.inside(point, element.feature)
+                  if (isInside) {
+                    this.addMarkerLayer(this.clusterVillage, element, elPasien)
+                  }
+                }
+              })
+              this.addMarkerClusterLayer(this.clusterVillage, element)
+            }
+          })
+        } else {
+          L.geoJSON(this.jsonVillage).eachLayer((element) => {
+            if (this.map.getBounds().intersects(element._bounds)) {
+              this.clusterVillage[element.feature.properties.bps_desa_kode] = this.paramMarkerCluster()
+
+              this.jsonAll.map((elPasien) => {
+                if (elPasien.latitude !== null) {
+                  const point = turf.point([elPasien.longitude, elPasien.latitude])
+                  const isInside = turf.inside(point, element.feature)
+                  if (isInside) {
+                    this.addMarkerLayer(this.clusterVillage, element, elPasien)
+                  }
+                }
+              })
+              this.addMarkerClusterLayer(this.clusterVillage, element)
+            }
+          })
+        }
       }
     },
     titleize(sentence) {
@@ -528,14 +811,115 @@ export default {
       const m = L.marker([elPasien.latitude, elPasien.longitude]).on('click', (e) => {
         this.isFilter = false
         this.sidebar.show()
-        this.sidebarContent = '<a href="google.com">dsah</a>'
+
+        let stage = elPasien.status + ' - ' + elPasien.stage
+        if (stage === 'Positif - Proses') {
+          stage = 'Positif - Aktif'
+        }
+
+        this.sidebarContent = `
+          <div class="d-flex mb-4">
+            <div class="legend-color-title legend-description" style="margin-top: 3px;"></div>
+            <div class="legend-text-title">Detail Pasien</div>
+          </div>
+          <div class="mb-2">
+            <strong>ID</strong>: ${elPasien.id} <br>
+          </div>
+          <div class="mb-2">
+            <strong>Status</strong>: ${stage} <br>
+          </div>
+          <div class="mb-2">
+            <strong>L/P</strong>: ${elPasien.gender} <br>
+          </div>
+          <div class="mb-2">
+            <strong>Umur</strong>: ${elPasien.umur} <br>
+          </div>
+          <div class="mb-2">
+            <strong>Wilayah</strong>: <br>
+            ${this.titleize(elPasien.nama_kab)} <br>
+            Kec. ${this.titleize(elPasien.nama_kec)} <br>
+            Kel/Desa. ${this.titleize(elPasien.nama_kel)} <br>
+          </div>
+        `
       })
 
       if (this.zoomNew === 1) {
-        if (elPasien.status === 'Positif' && elPasien.stage === 'Aktif') {
+        if (elPasien.status === 'Positif' && elPasien.stage === 'Proses') {
           cluster[element.feature.properties.bps_kabupaten_kode].positive_active.addLayer(m)
         } else if (elPasien.status === 'Positif' && elPasien.stage === 'Sembuh') {
           cluster[element.feature.properties.bps_kabupaten_kode].positive_recovery.addLayer(m)
+        } else if (elPasien.status === 'Positif' && elPasien.stage === 'Meninggal') {
+          cluster[element.feature.properties.bps_kabupaten_kode].positive_dead.addLayer(m)
+        } else if (elPasien.status === 'PDP' && elPasien.stage === 'Proses') {
+          cluster[element.feature.properties.bps_kabupaten_kode].pdp_process.addLayer(m)
+        } else if (elPasien.status === 'PDP' && elPasien.stage === 'Selesai') {
+          cluster[element.feature.properties.bps_kabupaten_kode].pdp_done.addLayer(m)
+        } else if (elPasien.status === 'PDP' && elPasien.stage === 'Meninggal') {
+          cluster[element.feature.properties.bps_kabupaten_kode].pdp_dead.addLayer(m)
+        } else if (elPasien.status === 'ODP' && elPasien.stage === 'Proses') {
+          cluster[element.feature.properties.bps_kabupaten_kode].odp_process.addLayer(m)
+        } else if (elPasien.status === 'ODP' && elPasien.stage === 'Selesai') {
+          cluster[element.feature.properties.bps_kabupaten_kode].odp_done.addLayer(m)
+        } else if (elPasien.status === 'ODP' && elPasien.stage === 'Meninggal') {
+          cluster[element.feature.properties.bps_kabupaten_kode].odp_dead.addLayer(m)
+        } else if (elPasien.status === 'OTG' && elPasien.stage === 'Proses') {
+          cluster[element.feature.properties.bps_kabupaten_kode].otg_process.addLayer(m)
+        } else if (elPasien.status === 'OTG' && elPasien.stage === 'Selesai') {
+          cluster[element.feature.properties.bps_kabupaten_kode].otg_done.addLayer(m)
+        } else if (elPasien.status === 'OTG' && elPasien.stage === 'Meninggal') {
+          cluster[element.feature.properties.bps_kabupaten_kode].otg_dead.addLayer(m)
+        }
+      } else if (this.zoomNew === 2) {
+        if (elPasien.status === 'Positif' && elPasien.stage === 'Proses') {
+          cluster[element.feature.properties.bps_kecamatan_kode].positive_active.addLayer(m)
+        } else if (elPasien.status === 'Positif' && elPasien.stage === 'Sembuh') {
+          cluster[element.feature.properties.bps_kecamatan_kode].positive_recovery.addLayer(m)
+        } else if (elPasien.status === 'Positif' && elPasien.stage === 'Meninggal') {
+          cluster[element.feature.properties.bps_kecamatan_kode].positive_dead.addLayer(m)
+        } else if (elPasien.status === 'PDP' && elPasien.stage === 'Proses') {
+          cluster[element.feature.properties.bps_kecamatan_kode].pdp_process.addLayer(m)
+        } else if (elPasien.status === 'PDP' && elPasien.stage === 'Selesai') {
+          cluster[element.feature.properties.bps_kecamatan_kode].pdp_done.addLayer(m)
+        } else if (elPasien.status === 'PDP' && elPasien.stage === 'Meninggal') {
+          cluster[element.feature.properties.bps_kecamatan_kode].pdp_dead.addLayer(m)
+        } else if (elPasien.status === 'ODP' && elPasien.stage === 'Proses') {
+          cluster[element.feature.properties.bps_kecamatan_kode].odp_process.addLayer(m)
+        } else if (elPasien.status === 'ODP' && elPasien.stage === 'Selesai') {
+          cluster[element.feature.properties.bps_kecamatan_kode].odp_done.addLayer(m)
+        } else if (elPasien.status === 'ODP' && elPasien.stage === 'Meninggal') {
+          cluster[element.feature.properties.bps_kecamatan_kode].odp_dead.addLayer(m)
+        } else if (elPasien.status === 'OTG' && elPasien.stage === 'Proses') {
+          cluster[element.feature.properties.bps_kecamatan_kode].otg_process.addLayer(m)
+        } else if (elPasien.status === 'OTG' && elPasien.stage === 'Selesai') {
+          cluster[element.feature.properties.bps_kecamatan_kode].otg_done.addLayer(m)
+        } else if (elPasien.status === 'OTG' && elPasien.stage === 'Meninggal') {
+          cluster[element.feature.properties.bps_kecamatan_kode].otg_dead.addLayer(m)
+        }
+      } else if (this.zoomNew === 3) {
+        if (elPasien.status === 'Positif' && elPasien.stage === 'Proses') {
+          cluster[element.feature.properties.bps_desa_kode].positive_active.addLayer(m)
+        } else if (elPasien.status === 'Positif' && elPasien.stage === 'Sembuh') {
+          cluster[element.feature.properties.bps_desa_kode].positive_recovery.addLayer(m)
+        } else if (elPasien.status === 'Positif' && elPasien.stage === 'Meninggal') {
+          cluster[element.feature.properties.bps_desa_kode].positive_dead.addLayer(m)
+        } else if (elPasien.status === 'PDP' && elPasien.stage === 'Proses') {
+          cluster[element.feature.properties.bps_desa_kode].pdp_process.addLayer(m)
+        } else if (elPasien.status === 'PDP' && elPasien.stage === 'Selesai') {
+          cluster[element.feature.properties.bps_desa_kode].pdp_done.addLayer(m)
+        } else if (elPasien.status === 'PDP' && elPasien.stage === 'Meninggal') {
+          cluster[element.feature.properties.bps_desa_kode].pdp_dead.addLayer(m)
+        } else if (elPasien.status === 'ODP' && elPasien.stage === 'Proses') {
+          cluster[element.feature.properties.bps_desa_kode].odp_process.addLayer(m)
+        } else if (elPasien.status === 'ODP' && elPasien.stage === 'Selesai') {
+          cluster[element.feature.properties.bps_desa_kode].odp_done.addLayer(m)
+        } else if (elPasien.status === 'ODP' && elPasien.stage === 'Meninggal') {
+          cluster[element.feature.properties.bps_desa_kode].odp_dead.addLayer(m)
+        } else if (elPasien.status === 'OTG' && elPasien.stage === 'Proses') {
+          cluster[element.feature.properties.bps_desa_kode].otg_process.addLayer(m)
+        } else if (elPasien.status === 'OTG' && elPasien.stage === 'Selesai') {
+          cluster[element.feature.properties.bps_desa_kode].otg_done.addLayer(m)
+        } else if (elPasien.status === 'OTG' && elPasien.stage === 'Meninggal') {
+          cluster[element.feature.properties.bps_desa_kode].otg_dead.addLayer(m)
         }
       }
     },
@@ -545,14 +929,69 @@ export default {
           const newLayer = cluster[element.feature.properties.bps_kabupaten_kode][key].addTo(this.map)
           this.dataMarker.push(newLayer)
 
-          const name = element.feature.properties.kemendagri_kabupaten_nama
           cluster[element.feature.properties.bps_kabupaten_kode][key].on('clusterclick', (c) => {
             this.isFilter = false
             this.sidebar.show()
+
+            const city = element.feature.properties.kemendagri_kabupaten_nama
+            const stage = this.stage[key]
+            const total = c.layer._childCount
+
             this.sidebarContent = `
-              Kota/Kabupaten: ${name}
+            <div class="d-flex mb-4">
+              <div class="legend-color-title legend-description" style="margin-top: 3px;"></div>
+              <div class="legend-text-title">Detail Kasus</div>
+            </div>
+            <div class="mb-2">
+              <strong>Status</strong>: ${stage} <br>
+            </div>
+            <div class="mb-2">
+              <strong>Jumlah</strong>: ${total} Kasus <br>
+            </div>
+            <div class="mb-2">
+              <strong>Kota/Kab.</strong>: ${city} <br>
+            </div>
             `
           })
+        })
+      } else if (this.zoomNew === 2) {
+        Object.keys(cluster[element.feature.properties.bps_kecamatan_kode]).map((key) => {
+          const newLayer = cluster[element.feature.properties.bps_kecamatan_kode][key].addTo(this.map)
+          this.dataMarker.push(newLayer)
+
+          cluster[element.feature.properties.bps_kecamatan_kode][key].on('clusterclick', (c) => {
+            this.isFilter = false
+            this.sidebar.show()
+
+            const city = element.feature.properties.kemendagri_kabupaten_nama
+            const district = element.feature.properties.kemendagri_kecamatan_nama
+            const stage = this.stage[key]
+            const total = c.layer._childCount
+
+            this.sidebarContent = `
+            <div class="d-flex mb-4">
+              <div class="legend-color-title legend-description" style="margin-top: 3px;"></div>
+              <div class="legend-text-title">Detail Kasus</div>
+            </div>
+            <div class="mb-2">
+              <strong>Status</strong>: ${stage} <br>
+            </div>
+            <div class="mb-2">
+              <strong>Jumlah</strong>: ${total} Kasus <br>
+            </div>
+            <div class="mb-2">
+              <strong>Kota/Kab.</strong>: ${city} <br>
+            </div>
+            <div class="mb-2">
+              <strong>Kec.</strong>: ${district} <br>
+            </div>
+            `
+          })
+        })
+      } else if (this.zoomNew === 3) {
+        Object.keys(cluster[element.feature.properties.bps_desa_kode]).map((key) => {
+          const newLayer = cluster[element.feature.properties.bps_desa_kode][key].addTo(this.map)
+          this.dataMarker.push(newLayer)
         })
       }
     },
@@ -573,10 +1012,19 @@ export default {
       }
     },
     configCluster(className = null) {
+      let spiderfyOnMaxZoom
+      if (this.zoomNew === 1) {
+        spiderfyOnMaxZoom = false
+      } else if (this.zoomNew === 2) {
+        spiderfyOnMaxZoom = false
+      } else if (this.zoomNew === 3) {
+        spiderfyOnMaxZoom = true
+      }
+
       return {
         singleMarkerMode: true,
         maxClusterRadius: 10000,
-        spiderfyOnMaxZoom: false,
+        spiderfyOnMaxZoom,
         showCoverageOnHover: false,
         zoomToBoundsOnClick: false,
         spiderLegPolylineOptions: { weight: 1.5, color: '#222', opacity: 0 },
@@ -605,9 +1053,14 @@ export default {
       })
 
       this.filter[category] = !this.filter[category]
-      this.removeMarker()
-      this.createMarker()
       this.sidebar.hide()
+
+      this.removeMarker()
+      if (this.roles[0] === 'dinkesprov') {
+        this.createMarker()
+      } else if (this.roles[0] === 'dinkeskota') {
+        this.createMarker(this.district_user)
+      }
     }
   }
 }
@@ -616,8 +1069,8 @@ export default {
 <style>
 .map-wrapper {
   background: white;
-  height: calc(100vh - 64px);
-  min-height: calc(100vh - 64px);
+  height: calc(100vh - 164px);
+  min-height: calc(100vh - 164px);
 }
 #map .easy-button-container {
   background-color: white;
@@ -670,6 +1123,21 @@ export default {
 .legend-text {
   color: black;
 }
+.legend-color-title {
+  width: 5px;
+  height: 1em;
+  float: left;
+  margin-right: 8px;
+  margin-top: 1px;
+}
+.legend-text-title {
+  color: #27ae60;
+  font-weight: bold;
+}
+.legend-description {
+  border: 2px solid #27ae60;
+  background: #27ae60;
+}
 
 .cluster {
   border-radius: 50%;
@@ -718,7 +1186,7 @@ export default {
 }
 .cluster-otg-process {
   border: 2px solid rgb(97, 97, 97, 0.9);
-  background: rgb(242, 201, 76, 0.9);
+  background: rgb(97, 97, 97, 0.9);
 }
 .cluster-otg-done {
   border: 2px solid rgb(97, 97, 97, 0.9);
@@ -774,7 +1242,6 @@ export default {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  padding: 10px;
   z-index: 2000;
 }
 .leaflet-sidebar.left {
@@ -804,9 +1271,7 @@ export default {
   padding: 20px;
   font-size: 1.1em;
   background: white;
-  box-shadow: 0 1px 7px rgba(0, 0, 0, 0.65);
-  -webkit-border-radius: 4px;
-  border-radius: 4px;
+  border-right: 1px solid rgba(0, 0, 0, 0.12);
 }
 .leaflet-touch .leaflet-sidebar > .leaflet-control {
   box-shadow: none;
@@ -847,52 +1312,51 @@ export default {
 }
 @media (min-width: 768px) and (max-width: 991px) {
   .leaflet-sidebar {
-    width: 255px;
+    width: 155px;
   }
   .leaflet-sidebar.left.visible ~ .leaflet-left {
-    left: 255px;
+    left: 155px;
   }
   .leaflet-sidebar.right.visible ~ .leaflet-right {
-    right: 255px;
+    right: 155px;
   }
 }
 @media (min-width: 992px) and (max-width: 1199px) {
   .leaflet-sidebar {
-    width: 340px;
+    width: 240px;
   }
   .leaflet-sidebar.left.visible ~ .leaflet-left {
-    left: 340px;
+    left: 240px;
   }
   .leaflet-sidebar.right.visible ~ .leaflet-right {
-    right: 340px;
+    right: 240px;
   }
 }
 @media (min-width: 1200px) {
   .leaflet-sidebar {
-    width: 410px;
+    width: 310px;
   }
   .leaflet-sidebar.left.visible ~ .leaflet-left {
-    left: 410px;
+    left: 310px;
   }
   .leaflet-sidebar.right.visible ~ .leaflet-right {
-    right: 410px;
+    right: 310px;
   }
 }
 .leaflet-sidebar .close {
   position: absolute;
-  right: 20px;
-  top: 20px;
+  right: 15px;
+  top: 17px;
   width: 31px;
   height: 31px;
-  color: #333;
-  font-size: 25pt;
+  color: #333 !important;
+  font-size: 15pt;
   line-height: 1em;
   text-align: center;
   background: white;
-  -webkit-border-radius: 16px;
   border-radius: 16px;
   cursor: pointer;
-  z-index: 8;
+  z-index: 800;
 }
 
 .leaflet-left {
@@ -901,5 +1365,19 @@ export default {
 
 .leaflet-right {
   transition: right 0.5s;
+}
+
+.sidebar-stage-color {
+  width: 2em;
+  height: 2em;
+  float: left;
+  border-radius: 15px;
+  margin-right: 8px;
+  margin-top: 1px;
+}
+.sidebar-stage {
+  font-size: 20px;
+  line-height: 27px;
+  font-weight: bold;
 }
 </style>
