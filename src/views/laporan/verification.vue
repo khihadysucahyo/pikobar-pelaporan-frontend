@@ -113,7 +113,6 @@
             <template v-slot:item="{ item, index }">
               <tr>
                 <td>{{ getTableRowNumbering(index) }}</td>
-                <td>{{ item.nik }}</td>
                 <td>{{ item.name }}</td>
                 <td>{{ item.age }} Th</td>
                 <td>
@@ -148,7 +147,6 @@
                   </div>
                 </td>
                 <td>{{ item.author.username }}</td>
-                <td>{{ item.last_history.createdAt ? timeRemain(item.last_history.createdAt) : '-' }}</td>
                 <td>
                   <span
                     v-if="roles[0] === 'faskes'"
@@ -164,6 +162,49 @@
                   >
                     {{ $t('label.verify') }}
                   </span>
+                </td>
+                <td>
+                  <v-card-actions>
+                    <v-menu
+                      :close-on-content-click="false"
+                      :nudge-width="100"
+                      :nudge-left="220"
+                      :nudge-top="40"
+                      offset-y
+                    >
+                      <template v-slot:activator="{ on }">
+                        <v-btn
+                          class="ma-1"
+                          color="#828282"
+                          style="text-transform: none;height: 30px;min-width: 80px;"
+                          tile
+                          outlined
+                          v-on="on"
+                        >
+                          {{ $t('label.choose_action') }}
+                          <v-icon style="color: #009D57;font-size: 2rem;" right>
+                            mdi-menu-down
+                          </v-icon>
+                        </v-btn>
+                      </template>
+                      <v-card>
+                        <v-list-item>
+                          {{ $t('label.view_detail') }}
+                        </v-list-item>
+                        <div v-if="roles[0] === 'dinkeskota'">
+                          <v-list-item>
+                            {{ $t('label.profile_update') }}
+                          </v-list-item>
+                          <v-list-item>
+                            {{ $t('label.update_history') }}
+                          </v-list-item>
+                          <v-list-item>
+                            {{ $t('label.deleted_case') }}
+                          </v-list-item>
+                        </div>
+                      </v-card>
+                    </v-menu>
+                  </v-card-actions>
                 </td>
               </tr>
             </template>
@@ -211,15 +252,15 @@ export default {
     return {
       headers: [
         { text: '#', value: '_id', sortable: false },
-        { text: this.$t('label.nik').toUpperCase(), value: 'nik' },
         { text: this.$t('label.name').toUpperCase(), value: 'name' },
         { text: this.$t('label.age').toUpperCase(), value: 'age' },
-        { text: this.$t('label.gender').toUpperCase(), value: 'gender' },
+        { text: 'JK', value: 'gender' },
         { text: this.$t('label.criteria').toUpperCase(), value: 'criteria' },
         { text: this.$t('label.stages').toUpperCase(), value: 'stage' },
         { text: this.$t('label.results').toUpperCase(), value: 'final_result' },
         { text: this.$t('label.reporter').toUpperCase(), value: 'author' },
-        { text: this.$t('label.auto_verification_deadline').toUpperCase(), value: 'createdAt' }
+        { text: 'Status', value: 'author' },
+        { text: 'Aksi', value: 'actions', sortable: false }
       ],
       loadingTable: false,
       listQuery: {
