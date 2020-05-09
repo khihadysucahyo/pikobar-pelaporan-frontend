@@ -158,9 +158,8 @@ export default {
       return ((this.listQuery.page - 1) * this.listQuery.limit) + (index + 1)
     },
     timeRemain(value) {
-      var seconds = moment().diff(moment(value), 'seconds')
-      var hours = seconds / 3600
-      var minutes = seconds / 60
+      var hours = moment().diff(moment(value), 'hours')
+      var minutes = moment().diff(moment(value), 'minutes')
       var result = '-'
       if (24 - hours >= 1) {
         var remainingHours = 24 - hours
