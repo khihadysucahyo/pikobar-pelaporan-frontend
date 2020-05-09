@@ -291,11 +291,16 @@ export default {
     date_of_beginning_symptoms: 'Tanggal Awal Gejala',
     verify_case: 'Verifikasi Kasus',
     decline_case: 'Tolak Kasus',
+    delete_case: 'Hapus Kasus',
     verification_expired_message: 'Kasus telah terverifikasi, silahkan reload kembali halaman ini!',
     verification_expired_title: 'Kasus telah terverifikasi',
     verification_confirmation_message: 'Data yang Anda verifikasi akan ditambahkan sebagai kasus baru. Pastikan data sudah terisi dengan benar.',
     rejection_confirmation_message: 'Apakah Anda yakin untuk menolak verifikasi kasus ini?',
-    reason_for_declined_placeholder: 'Kasus ini ditolak karena...'
+    reason_for_declined_placeholder: 'Kasus ini ditolak karena...',
+    view_case_detail: 'Lihat Detail Kasus',
+    all: 'Semua',
+    waiting_for_verification: 'Menunggu Verifikasi',
+    verification_failed: 'Gagal Verifikasi'
   },
   success: {
     login_success: 'Login Berhasil',
