@@ -45,7 +45,6 @@
               v-model="listQuery.author"
               :items="listMedicalFacility"
               solo
-              clearable
               item-text="fullname"
               item-value="_id"
             />
@@ -85,91 +84,60 @@
           </v-col>
         </v-row>
       </v-container>
-      <hr>
-      <v-row class="mx-0 mt-5" align="center" justify="space-between">
-        <v-col>
-          <div class="title">
-            {{ $t('label.verify_new_case') }}
-          </div>
-        </v-col>
-        <v-col class="align-right">
-          <span class="info-message pa-3">
-            {{ $t('label.verification_info') }}
-          </span>
-        </v-col>
+      <v-row v-if="roles[0] === 'faskes'" class="mx-0 mt-5">
+        <v-tabs
+          v-model="tab"
+          class="elevation-2"
+          background-color="white"
+          active-class="active-class"
+          color="red"
+          hide-slider
+        >
+          <v-tab @click="onTabChanges('pending,declined')">{{ tabLabel[0] }}</v-tab>
+          <v-tab @click="onTabChanges('pending')">{{ tabLabel[1] }}</v-tab>
+          <v-tab @click="onTabChanges('declined')">{{ tabLabel[2] }}</v-tab>
+          <v-tab-item v-for="(tabItem, index) in tabLabel" :key="index">
+            <v-row>
+              <verification-table
+                :table-headers="headers"
+                :list-kasus="listKasus"
+                :query="listQuery"
+                :show-failed-dialog.sync="showFailedDialog"
+                :show-verification-form.sync="showVerificationForm"
+                :case-detail.sync="caseDetail"
+                :verification-query="verificationQuery"
+              />
+            </v-row>
+          </v-tab-item>
+        </v-tabs>
       </v-row>
-      <hr>
-      <v-row>
-        <v-col auto>
-          <v-data-table
-            :headers="headers"
-            :items="listKasus"
-            :mobile-breakpoint="NaN"
-            :no-data-text="$t('label.data_empty')"
-            :items-per-page="listQuery.limit"
-            :loading="loadingTable"
-            hide-default-footer
-          >
-            <template v-slot:item="{ item, index }">
-              <tr>
-                <td>{{ getTableRowNumbering(index) }}</td>
-                <td>{{ item.nik }}</td>
-                <td>{{ item.name }}</td>
-                <td>{{ item.age }} Th</td>
-                <td>
-                  <div v-if="item.gender == 'P'">
-                    {{ $t('label.female_initials') }}
-                  </div>
-                  <div v-else>
-                    {{ $t('label.male_initials') }}
-                  </div>
-                </td>
-                <td><status :status="item.status" /> </td>
-                <td>
-                  <div v-if=" item.last_history.stage === '0'">
-                    {{ $t('label.process') }}
-                  </div>
-                  <div v-else>
-                    {{ $t('label.done') }}
-                  </div>
-                </td>
-                <td>
-                  <div v-if=" item.last_history.final_result === '0'">
-                    {{ $t('label.negatif') }}
-                  </div>
-                  <div v-else-if=" item.last_history.final_result === '1'">
-                    {{ $t('label.recovery') }}
-                  </div>
-                  <div v-else-if=" item.last_history.final_result === '2'">
-                    {{ $t('label.dead') }}
-                  </div>
-                  <div v-else>
-                    -
-                  </div>
-                </td>
-                <td>{{ item.author.username }}</td>
-                <td>{{ item.last_history.createdAt ? timeRemain(item.last_history.createdAt) : '-' }}</td>
-                <td>
-                  <span
-                    v-if="roles[0] === 'faskes'"
-                    :class="{'pending': item.verified_status === 'pending', 'declined': item.verified_status === 'declined'}"
-                    class="pa-2 font-weight-bold"
-                  >
-                    {{ item.verified_status === 'pending' ? $t('label.being_checked') : $t('label.declined') }}
-                  </span>
-                  <span
-                    v-else
-                    class="verif-btn px-4 py-2"
-                    @click="seeDetail(item._id)"
-                  >
-                    {{ $t('label.verify') }}
-                  </span>
-                </td>
-              </tr>
-            </template>
-          </v-data-table>
-        </v-col>
-      </v-row>
+      <div v-else>
+        <hr>
+        <v-row class="mx-0 mt-5" align="center" justify="space-between">
+          <v-col>
+            <div class="title">
+              {{ $t('label.verify_new_case') }}
+            </div>
+          </v-col>
+          <v-col class="align-right">
+            <span class="info-message pa-3">
+              {{ $t('label.verification_info') }}
+            </span>
+          </v-col>
+        </v-row>
+        <hr>
+        <v-row>
+          <verification-table
+            :table-headers="headers"
+            :list-kasus="listKasus"
+            :query="listQuery"
+            :show-failed-dialog.sync="showFailedDialog"
+            :show-verification-form.sync="showVerificationForm"
+            :case-detail.sync="caseDetail"
+            :verification-query="verificationQuery"
+          />
+        </v-row>
+      </div>
     </v-card>
     <pagination
       :total="totalList"
@@ -203,8 +171,6 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import moment from 'moment'
-import { formatDatetime } from '@/utils/parseDatetime'
 export default {
   name: 'LaporanList',
   data() {
@@ -218,10 +184,8 @@ export default {
         { text: this.$t('label.criteria').toUpperCase(), value: 'criteria' },
         { text: this.$t('label.stages').toUpperCase(), value: 'stage' },
         { text: this.$t('label.results').toUpperCase(), value: 'final_result' },
-        { text: this.$t('label.reporter').toUpperCase(), value: 'author' },
-        { text: this.$t('label.auto_verification_deadline').toUpperCase(), value: 'createdAt' }
+        { text: this.$t('label.reporter').toUpperCase(), value: 'author' }
       ],
-      loadingTable: false,
       listQuery: {
         address_district_code: '',
         address_subdistrict_code: '',
@@ -254,6 +218,8 @@ export default {
       showConfirmation: false,
       showFailedDialog: false,
       isSubmit: false,
+      tab: null,
+      tabLabel: [this.$t('label.all'), this.$t('label.waiting_for_verification'), this.$t('label.verification_failed')],
       verificationQuery: {
         'id': '',
         'data': {
@@ -298,11 +264,11 @@ export default {
   },
   async mounted() {
     if (this.roles[0] === 'faskes') {
-      this.headers.push({ text: this.$t('label.status').toUpperCase(), value: 'status' })
+      this.headers.push({ text: this.$t('label.status').toUpperCase(), value: 'status' }, { text: this.$t('label.action').toUpperCase(), value: 'action', sortable: false })
       this.listQuery.author = this.fullName
       this.listQuery.verified_status = 'pending,declined'
     } else {
-      this.headers.push({ text: this.$t('label.action').toUpperCase(), value: 'action', sortable: false })
+      this.headers.push({ text: this.$t('label.auto_verification_deadline').toUpperCase(), value: 'createdAt' }, { text: this.$t('label.action').toUpperCase(), value: 'action', sortable: false })
       this.listQuery.verified_status = 'pending'
     }
     await this.$store.dispatch('reports/listReportCase', this.listQuery)
@@ -315,9 +281,6 @@ export default {
     async handleSearch() {
       await this.$store.dispatch('reports/listReportCase', this.listQuery)
     },
-    getTableRowNumbering(index) {
-      return ((this.listQuery.page - 1) * this.listQuery.limit) + (index + 1)
-    },
     async onNext() {
       await this.$store.dispatch('reports/listReportCase', this.listQuery)
     },
@@ -325,46 +288,20 @@ export default {
       this.listQuery.search = ''
       this.listQuery.final_result = ''
       this.listQuery.status = ''
-      this.listQuery.author = ''
+      if (this.roles[0] !== 'faskes') {
+        this.listQuery.author = ''
+      }
       this.listQuery.address_subdistrict_code = ''
       this.listQuery.address_village_code = ''
       this.villageName = ''
-      if (this.roles[0] !== 'dinkeskota') {
+      if (this.roles[0] === 'superadmin') {
         this.listQuery.address_district_code = ''
-        this.codeDistrict = ''
       }
       this.$store.dispatch('reports/listReportCase', this.listQuery)
     },
-    timeRemain(value) {
-      var seconds = moment(Date.now()).diff(moment(value), 'seconds')
-      var hours = seconds / 3600
-      var minutes = seconds / 60
-      var result = '-'
-      if (24 - hours >= 1) {
-        var remainingHours = 24 - hours
-        result = Math.ceil(remainingHours) + ' ' + this.$t('label.hours')
-      } else if (60 - minutes >= 1) {
-        var remainingMinutes = 60 - minutes
-        result = Math.ceil(remainingMinutes) + ' ' + this.$t('label.minutes')
-      }
-      return result
-    },
-    formatDatetime,
-    async seeDetail(id) {
-      this.verificationQuery = {
-        'id': '',
-        'data': {
-          'verified_status': '',
-          'verified_comment': ''
-        }
-      }
-      const response = await this.$store.dispatch('reports/detailReportCase', id)
-      if (response.data.verified_status === 'verified') {
-        this.showFailedDialog = true
-      } else {
-        this.caseDetail = response.data
-        this.showVerificationForm = true
-      }
+    onTabChanges(value) {
+      this.listQuery.verified_status = value
+      this.handleSearch()
     }
   }
 }
