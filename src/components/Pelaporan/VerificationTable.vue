@@ -15,7 +15,7 @@
           <td>{{ item.name }}</td>
           <td>{{ item.age }} Th</td>
           <td>
-            <div v-if="item.gender == 'P'">
+            <div v-if="item.gender === 'P'">
               {{ $t('label.female_initials') }}
             </div>
             <div v-else>
@@ -158,7 +158,7 @@ export default {
       return ((this.listQuery.page - 1) * this.listQuery.limit) + (index + 1)
     },
     timeRemain(value) {
-      var seconds = moment(Date.now()).diff(moment(value), 'seconds')
+      var seconds = moment().diff(moment(value), 'seconds')
       var hours = seconds / 3600
       var minutes = seconds / 60
       var result = '-'
