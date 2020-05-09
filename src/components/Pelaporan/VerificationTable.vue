@@ -158,17 +158,20 @@ export default {
       return ((this.listQuery.page - 1) * this.listQuery.limit) + (index + 1)
     },
     timeRemain(value) {
-      var hours = moment().diff(moment(value), 'hours')
-      var minutes = moment().diff(moment(value), 'minutes')
-      var result = '-'
+      const hours = moment().diff(moment(value), 'hours')
+      const minutes = moment().diff(moment(value), 'minutes')
+      let result = '-'
       if (24 - hours >= 1) {
-        var remainingHours = 24 - hours
+        const remainingHours = 24 - hours
         result = Math.ceil(remainingHours) + ' ' + this.$t('label.hours')
       } else if (60 - minutes >= 1) {
-        var remainingMinutes = 60 - minutes
+        const remainingMinutes = 60 - minutes
         result = Math.ceil(remainingMinutes) + ' ' + this.$t('label.minutes')
       }
       return result
+      // TODO: refactor timeAgo using moment
+      // var m = moment().locale('id')
+      // var result = m.countdown(value)
     },
     async handleDetail(id) {
       this.$emit('update:verificationQuery', this.verificationQuery)
