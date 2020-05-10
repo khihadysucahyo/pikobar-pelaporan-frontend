@@ -531,8 +531,8 @@
                 disabled
               />
             </v-row>
-            <v-row v-for="rowIdx in Math.ceil(symptomOptions.length / 2)" v-else-if="caseDetail" :key="rowIdx">
-              <v-col v-for="item in symptomOptions.slice(2 * (rowIdx - 1), 2 * rowIdx)" :key="item" class="pa-0">
+            <v-row v-else-if="caseDetail">
+              <v-col v-for="item in symptomOptions" :key="item" sm="6" md="6" class="pa-0">
                 <v-checkbox
                   v-model="caseDetail.last_history.diagnosis"
                   :label="item"
