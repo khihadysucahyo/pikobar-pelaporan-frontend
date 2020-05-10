@@ -159,7 +159,7 @@ export default {
     },
     timeRemain(value) {
       const now = moment()
-      const maxVerifiedDate = moment(value)
+      const maxVerifiedDate = moment(value).add(1, 'days')
 
       // output otomatis mengeluarkan kalimat waktu. Contoh: dalam 3 jam
       return (maxVerifiedDate > now) ? now.to(maxVerifiedDate) : '-'
