@@ -176,18 +176,11 @@ export default {
       return ((this.listQuery.page - 1) * this.listQuery.limit) + (index + 1)
     },
     timeRemain(value) {
-      var seconds = moment().diff(moment(value), 'seconds')
-      var hours = seconds / 3600
-      var minutes = seconds / 60
-      var result = '-'
-      if (24 - hours >= 1) {
-        var remainingHours = 24 - hours
-        result = Math.ceil(remainingHours) + ' ' + this.$t('label.hours')
-      } else if (60 - minutes >= 1) {
-        var remainingMinutes = 60 - minutes
-        result = Math.ceil(remainingMinutes) + ' ' + this.$t('label.minutes')
-      }
-      return result
+      const now = moment()
+      const maxVerifiedDate = moment(value).add(1, 'days')
+
+      // output otomatis mengeluarkan kalimat waktu. Contoh: dalam 3 jam
+      return (maxVerifiedDate > now) ? now.to(maxVerifiedDate) : '-'
     },
     async handleDetail(id) {
       this.$emit('update:verificationQuery', this.verificationQuery)
