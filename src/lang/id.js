@@ -297,7 +297,9 @@ export default {
     view_case_detail: 'Lihat Detail Kasus',
     all: 'Semua',
     waiting_for_verification: 'Menunggu Verifikasi',
-    verification_failed: 'Gagal Verifikasi'
+    verification_failed: 'Gagal Verifikasi',
+    update_case: 'Perbarui Kasus',
+    rejection_note: 'Catatan Penolakan'
   },
   success: {
     login_success: 'Login Berhasil',
@@ -308,7 +310,8 @@ export default {
     data_success_delete: 'Data Berhasil Dihapus',
     file_success_upload: 'File Berhasil Diupload',
     verification_success: 'Data berhasil disimpan sebagai kasus baru',
-    rejection_success: 'Data berhasil ditolak'
+    rejection_success: 'Data berhasil ditolak',
+    update_success: 'Data berhasil diperbarui'
   },
   errors: {
     username_must_be_filled: 'Username harus diisi',
