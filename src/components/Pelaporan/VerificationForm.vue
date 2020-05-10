@@ -625,10 +625,10 @@ export default {
       }
     },
     showActionButton() {
-      if (this.roles[0] !== 'faskes') return true
-      else {
-        if (this.caseDetail && this.caseDetail.verified_status === 'declined') return true
-        else return false
+      if (this.roles[0] !== 'faskes') {
+        return true
+      } else {
+        return this.caseDetail && this.caseDetail.verified_status === 'declined'
       }
     },
     required() {
