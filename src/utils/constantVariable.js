@@ -45,7 +45,7 @@ export function listDays() {
   return listDay
 }
 
-export const optionGejala = [
+export const symptomOptions = [
   'Suhu tubuh >= 38 °C',
   'Suhu tubuh < 38 °C',
   'Batuk',
