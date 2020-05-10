@@ -445,7 +445,7 @@
               <div v-else-if="caseDetail">
                 <v-checkbox
                   v-model="caseDetail.last_history.is_went_abroad"
-                  label="Dari Luar Negeri"
+                  :label="$t('label.from_abroad')"
                   class="mt-0 pt-0"
                 />
                 <v-checkbox
@@ -531,8 +531,8 @@
                 disabled
               />
             </v-row>
-            <v-row v-for="rowIdx in Math.ceil(optionGejala.length / 2)" v-else-if="caseDetail" :key="rowIdx">
-              <v-col v-for="item in optionGejala.slice(2 * (rowIdx - 1), 2 * rowIdx)" :key="item" class="pa-0">
+            <v-row v-for="rowIdx in Math.ceil(symptomOptions.length / 2)" v-else-if="caseDetail" :key="rowIdx">
+              <v-col v-for="item in symptomOptions.slice(2 * (rowIdx - 1), 2 * rowIdx)" :key="item" class="pa-0">
                 <v-checkbox
                   v-model="caseDetail.last_history.diagnosis"
                   :label="item"
@@ -583,7 +583,7 @@ import { formatDatetime } from '@/utils/parseDatetime'
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import { mapGetters } from 'vuex'
 import { getAge } from '@/utils/constantVariable'
-import { optionGejala } from '@/utils/constantVariable'
+import { symptomOptions } from '@/utils/constantVariable'
 export default {
   name: 'VerificationForm',
   components: {
@@ -609,7 +609,7 @@ export default {
       caseDetail: null,
       query: null,
       show: false,
-      optionGejala: optionGejala
+      symptomOptions: symptomOptions
     }
   },
   computed: {
@@ -625,14 +625,10 @@ export default {
       }
     },
     showActionButton() {
-      if (this.roles[0] !== 'faskes') {
-        return true
-      } else {
-        if (this.caseDetail && this.caseDetail.verified_status === 'declined') {
-          return true
-        } else {
-          return false
-        }
+      if (this.roles[0] !== 'faskes') return true
+      else {
+        if (this.caseDetail && this.caseDetail.verified_status === 'declined') return true
+        else return false
       }
     },
     required() {
@@ -698,7 +694,7 @@ export default {
     show(value) {
       this.$emit('update:show', value)
     },
-    'caseDetail.birth_date': function(value) {
+    'caseDetail.birth_date'(value) {
       this.caseDetail.age = this.getAge(value)
     }
   },
