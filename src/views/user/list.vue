@@ -198,7 +198,10 @@ export default {
   watch: {
     'listQuery.search': {
       handler: function(value) {
-        if ((value !== undefined) && (value.length !== 0 || value.length >= 3)) {
+        if ((value !== undefined) && (value.length >= 2)) {
+          this.listQuery.page = 1
+          this.handleSearch()
+        } else if (value.length === 0) {
           this.listQuery.page = 1
           this.handleSearch()
         }
@@ -208,7 +211,6 @@ export default {
   },
   async mounted() {
     if (this.roles[0] === 'dinkeskota') this.listQuery.code_district_city = this.district_user
-    await this.$store.dispatch('user/listUser', this.listQuery)
   },
   methods: {
     completeAddress,
