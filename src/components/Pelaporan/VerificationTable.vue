@@ -47,14 +47,17 @@
           </td>
           <td>{{ item.author.username }}</td>
           <td v-if="roles[0] === 'faskes'">
+            {{ formatDatetime(item.createdAt, 'DD MMMM YYYY') }}
+          </td>
+          <td v-if="roles[0] === 'faskes'">
             <span
               :class="{'pending': item.verified_status === 'pending', 'declined': item.verified_status === 'declined'}"
               class="pa-2 font-weight-bold"
             >
-              {{ item.verified_status === 'pending' ? $t('label.being_checked') : $t('label.declined') }}
+              {{ item.verified_status === 'pending' ? $t('label.waiting_for_verification') : $t('label.case_rejected') }}
             </span>
           </td>
-          <td v-else>{{ item.last_history.createdAt ? timeRemain(item.last_history.createdAt) : '-' }}</td>
+          <td v-else>{{ item.last_history.createdAt ? timeRemain(item.updatedAt) : '-' }}</td>
           <td>
             <v-card-actions>
               <v-menu
