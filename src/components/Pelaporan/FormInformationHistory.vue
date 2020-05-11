@@ -286,8 +286,8 @@
             />
             <ValidationProvider v-slot="{ errors }">
               <label>{{ $t('label.symptoms') }}</label>
-              <v-row v-for="rowIdx in Math.ceil(optionGejala.length / 3)" :key="rowIdx">
-                <v-col v-for="item in optionGejala.slice(3 * (rowIdx - 1), 3 * rowIdx)" :key="item" class="one-third column">
+              <v-row>
+                <v-col v-for="item in symptomOptions" :key="item" sm="4" md="4">
                   <label class="material-checkbox-custom">
                     <input
                       v-model="formPasien.diagnosis"
@@ -346,7 +346,7 @@
 <script>
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import EventBus from '@/utils/eventBus'
-import { optionGejala, optionAdditionalCondition } from '@/utils/constantVariable'
+import { symptomOptions, optionAdditionalCondition } from '@/utils/constantVariable'
 import { mapGetters } from 'vuex'
 export default {
   name: 'FormInformationHistory',
@@ -367,7 +367,7 @@ export default {
   data() {
     return {
       loading: false,
-      optionGejala: optionGejala,
+      symptomOptions: symptomOptions,
       formatDate: 'YYYY/MM/DD',
       disabledReportResource: false,
       hospitalWestJavaList: [],
