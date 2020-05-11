@@ -94,7 +94,7 @@
                   </div>
                   <div v-else>
                     <v-list-item>
-                      {{ $t('labeflutter doctorl.verify_case') }}
+                      {{ $t('label.verify_case') }}
                     </v-list-item>
                     <v-list-item>
                       <span class="delete">{{ $t('label.decline_case') }}</span>

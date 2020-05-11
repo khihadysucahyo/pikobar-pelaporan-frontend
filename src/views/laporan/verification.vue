@@ -182,7 +182,7 @@ export default {
         { text: '#', value: '_id', sortable: false },
         { text: this.$t('label.name').toUpperCase(), value: 'name' },
         { text: this.$t('label.age').toUpperCase(), value: 'age' },
-        { text: 'JK', value: 'gender' },
+        { text: this.$t('gender_abbreviation').toUpperCase(), value: 'gender' },
         { text: this.$t('label.criteria').toUpperCase(), value: 'criteria' },
         { text: this.$t('label.stages').toUpperCase(), value: 'stage' },
         { text: this.$t('label.results').toUpperCase(), value: 'final_result' },

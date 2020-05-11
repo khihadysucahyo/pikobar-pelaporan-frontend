@@ -214,7 +214,7 @@
                         <v-list-item @click="handleDetail(item._id)">
                           {{ $t('label.view_detail') }}
                         </v-list-item>
-                        <div v-if="roles[0] === 'dinkeskota'">
+                        <div v-if="rolesWidget[RolesUser.STAFFPROV].includes(roles[0])">
                           <v-list-item @click="handleEditCase(item._id)">
                             {{ $t('label.profile_update') }}
                           </v-list-item>
@@ -295,6 +295,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import FileSaver from 'file-saver'
+import { rolesWidget } from '@/utils/constantVariable'
 import { formatDatetime } from '@/utils/parseDatetime'
 export default {
   name: 'LaporanList',
@@ -324,6 +325,7 @@ export default {
       queryReportCase: {
         address_district_code: ''
       },
+      rolesWidget,
       optionsDataTable: {},
       listQuery: {
         address_district_code: '',

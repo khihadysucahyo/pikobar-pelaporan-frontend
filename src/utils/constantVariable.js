@@ -125,3 +125,7 @@ export const optionAdditionalCondition = [
   i18n.t('label.chronic_liver_failure'),
   i18n.t('label.ppok')
 ]
+
+export const rolesWidget = {
+  'dinkeskota': ['dinkeskota', 'faskes']
+}
