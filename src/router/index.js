@@ -12,6 +12,7 @@ import Pelaporan from './modules/pelaporan'
 import rdtRouter from './modules/rdt'
 import settingRouter from './modules/setting'
 import distributionCaseRouter from './modules/distributionCase'
+import submissionLogistikRouter from './modules/submissionLogistik'
 
 /**
  * constantRoutes
@@ -51,6 +52,7 @@ export const asyncRoutes = [
   distributionCaseRouter,
   rdtRouter,
   Pelaporan,
+  submissionLogistikRouter,
   settingRouter,
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/', hidden: true }

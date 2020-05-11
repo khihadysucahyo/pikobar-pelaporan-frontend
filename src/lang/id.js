@@ -27,6 +27,10 @@ export default {
     distribution_case: 'Peta Penyebaran',
     distribution_case_map: 'Lokasi Sebaran',
     distribution_case_network: 'Kasus Keterkaitan',
+    submission_Logistics: 'Pengajuan Logistik',
+    submit_application: 'Ajukan Permohonan',
+    application_list: 'Daftar Permohonan '
+
   },
   label: {
     username: 'Username',
