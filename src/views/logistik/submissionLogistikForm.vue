@@ -1,94 +1,151 @@
 <template>
-  <div>
-    <v-stepper
-      v-model="step"
-      :alt-labels="altLabels"
-    >
-      <v-stepper-header>
-        <template v-for="n in steps">
-          <v-stepper-step
-            :key="`${n}-step`"
-            :complete="step > n"
-            :step="n"
-            :editable="editable"
-          >
-            <template v-if="n == 1">
-              {{ $t('label.detail_profile_history') }}
-            </template>
-            <template v-else-if="n == 2">
-              {{ $t('label.case_history') }}
-            </template>
+  <div v-if="!isConfirm" class="background-landing-page">
+    <div>
+      <v-stepper v-model="step" :alt-labels="true">
+        <v-stepper-header>
+          <v-stepper-step class="left-margin-form-pemohon" :complete="step > 1" step="1">
+            <center>{{ $t('label.step_title_1') }}</center>
           </v-stepper-step>
+          <v-divider />
+          <v-stepper-step :complete="step > 2" step="2">
+            <center>{{ $t('label.step_title_2') }}</center>
+          </v-stepper-step>
+          <v-divider />
+          <v-stepper-step :complete="step > 3" step="3">
+            <center>{{ $t('label.step_title_3') }}</center>
+          </v-stepper-step>
+          <v-divider />
+          <v-stepper-step :complete="step > 4" class="right-margin-form-pemohon" step="4">
+            <center>{{ $t('label.step_title_4') }}</center>
+          </v-stepper-step>
+        </v-stepper-header>
 
-          <v-divider
-            v-if="n !== steps"
-            :key="n"
-          />
-        </template>
-      </v-stepper-header>
-
-      <v-stepper-items>
-        <v-stepper-content
-          v-for="n in steps"
-          :key="`${n}-content`"
-          :step="n"
-        >
-          <template v-if="step == 1">
-            <form-information-patient
-              :form-pasien="formPasien"
-              :steps="n"
+        <v-stepper-items>
+          <v-stepper-content step="1">
+            <identitas-instansi-pemohon
+              :form-applicant="formApplicant"
             />
-          </template>
-          <template v-else-if="step == 2">
-            <form-information-history
-              :form-pasien="formPasien"
-              :steps="n"
+          </v-stepper-content>
+          <v-stepper-content step="2">
+            <identitas-pemohon
+              :form-identity-applicant="formIdentityApplicant"
+              :instance-type="formApplicant.instanceType"
             />
-          </template>
-        </v-stepper-content>
-      </v-stepper-items>
-    </v-stepper>
+          </v-stepper-content>
+          <v-stepper-content step="3">
+            <kebutuhan-logistik
+              :logistic-needs="logisticNeeds"
+            />
+          </v-stepper-content>
+          <v-stepper-content step="4">
+            <surat-permohonan />
+          </v-stepper-content>
+        </v-stepper-items>
+      </v-stepper>
+    </div>
+  </div>
+  <div v-else>
+    <tahap-konfirmasi
+      :form-applicant="formApplicant"
+      :form-identity-applicant="formIdentityApplicant"
+      :logistic-needs="logisticNeeds"
+      :applicant-letter="applicantLetter"
+    />
   </div>
 </template>
 
 <script>
 import EventBus from '@/utils/eventBus'
-import { mapGetters } from 'vuex'
 
 export default {
+  name: 'FormPermohonanLogistik',
   data() {
     return {
       step: 1,
-      steps: 2,
-      altLabels: false,
-      editable: false
+      formApplicant: {},
+      formIdentityApplicant: {},
+      logisticNeeds: [],
+      applicantLetter: null,
+      isConfirm: false
     }
   },
-  computed: {
-    ...mapGetters('reports', [
-      'formPasien'
-    ]),
-    ...mapGetters('user', [
-      'district_user'
-    ])
-  },
-  async created() {
-    // on steps change
-    this.formPasien.address_district_code = this.district_user
-    EventBus.$on('nextSurveySteps', (value) => {
+  created() {
+    EventBus.$on('nextStep', (value) => {
       this.step = value + 1
     })
-    EventBus.$on('backSurveySteps', (value) => {
+    EventBus.$on('prevStep', (value) => {
+      this.isConfirm = false
       this.step = value - 1
     })
-  },
-  methods: {
-    onInput(val) {
-      this.steps = parseInt(val)
-    },
-    onCancel() {
-      this.$router.push('/survey/index')
-    }
+    EventBus.$on('confirmStep', (value) => {
+      this.applicantLetter = value
+      this.isConfirm = true
+      this.step = 5
+    })
   }
 }
 </script>
+<style>
+  .title-page-form-pemohon {
+    padding: 5px 20px;
+    font-size: 22px;
+    color: white;
+    line-height: 29px;
+  }
+  .left-margin-form-pemohon {
+    margin-left: 200px;
+  }
+  .right-margin-form-pemohon {
+    margin-right: 200px;
+  }
+  .tutorial-class-form-pemohon {
+    font-family: 'Product Sans';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 22px;
+  }
+  .btn-margin-positive {
+    margin: 10px;
+    float: right;
+  }
+  .btn-desktop {
+    display:block;
+  }
+  .btn-mobile {
+    display: none;
+  }
+  .margin-10 {
+    margin: 10px;
+  }
+
+  @media (max-width: 588px) and (min-width: 320px) {
+    .main-card-form-pemohon {
+      margin: 150px 0px -30px 0px;
+    }
+    .left-margin-form-pemohon {
+      margin-left: 0px;
+    }
+    .right-margin-form-pemohon {
+      margin-right: 0px;
+    }
+    .stepper-margin-form-pemohon {
+      margin: -200px -10px 0px -10px;
+    }
+    .btn-desktop {
+      display: none;
+    }
+    .btn-mobile {
+      display: block;
+    }
+    .left-margin {
+      margin-left: 0px;
+    }
+    .right-margin {
+      margin-right: 0px;
+    }
+    .stepper-margin {
+      margin: -200px -10px 0px -10px;
+    }
+  }
+</style>
