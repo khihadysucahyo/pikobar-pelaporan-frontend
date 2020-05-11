@@ -106,8 +106,23 @@ export default {
         },
         tooltips: {
           displayColors: false,
-          mode: 'index',
-          intersect: false
+          mode: 'label',
+          intersect: false,
+          callbacks: {
+            label: (tooltipItem, data) => {
+              const status = data.datasets[tooltipItem.datasetIndex].label
+              const valor = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]
+
+              let total = 0
+              for (let i = 0; i < data.datasets.length; i++) { total += data.datasets[i].data[tooltipItem.index] }
+
+              if (tooltipItem.datasetIndex !== data.datasets.length - 1) {
+                return status + ' : ' + valor.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')
+              } else {
+                return [status + ' : ' + valor.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' '), 'Total : ' + total]
+              }
+            }
+          }
         },
         hover: {
           mode: 'nearest',
