@@ -154,6 +154,7 @@
       :case-data="caseDetail"
       :query-data="verificationQuery"
       :query.sync="verificationQuery"
+      :refresh-page.sync="isRefresh"
     />
     <verification-confirmation
       :show-dialog="showConfirmation"
@@ -219,6 +220,7 @@ export default {
       showConfirmation: false,
       showFailedDialog: false,
       isSubmit: false,
+      isRefresh: false,
       tab: null,
       tabLabel: [this.$t('label.all'), this.$t('label.waiting_for_verification'), this.$t('label.verification_failed')],
       verificationQuery: {
@@ -260,6 +262,12 @@ export default {
           await this.$store.dispatch('toast/successToast', this.verificationQuery.data.verified_status === 'verified' ? this.$t('success.verification_success') : this.$t('success.rejection_success'))
         }
         this.isSubmit = false
+      }
+    },
+    isRefresh(value) {
+      if (value) {
+        this.handleSearch()
+        this.isRefresh = false
       }
     }
   },
