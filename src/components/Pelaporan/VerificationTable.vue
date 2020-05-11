@@ -11,7 +11,6 @@
       <template v-slot:item="{ item, index }">
         <tr>
           <td>{{ getTableRowNumbering(index) }}</td>
-          <td>{{ item.nik }}</td>
           <td>{{ item.name }}</td>
           <td>{{ item.age }} Th</td>
           <td>
@@ -82,9 +81,17 @@
                   <v-list-item @click="handleDetail(item._id)">
                     {{ $t('label.view_case_detail') }}
                   </v-list-item>
-                  <v-list-item v-if="roles[0] === 'faskes'">
-                    <span class="delete">{{ $t('label.delete_case') }}</span>
-                  </v-list-item>
+                  <div v-if="roles[0] === 'faskes'">
+                    <v-list-item @click="handleEditCase(item._id)">
+                      {{ $t('label.profile_update') }}
+                    </v-list-item>
+                    <v-list-item @click="handleEditHistoryCase(item._id)">
+                      {{ $t('label.update_history') }}
+                    </v-list-item>
+                    <v-list-item @click="handleDeleteCase(item)">
+                      <span class="delete">{{ $t('label.delete_case') }}</span>
+                    </v-list-item>
+                  </div>
                   <div v-else>
                     <v-list-item>
                       {{ $t('label.verify_case') }}
@@ -100,6 +107,15 @@
         </tr>
       </template>
     </v-data-table>
+    <dialog-delete
+      :dialog="dialog"
+      :data-deleted="dataDelete"
+      :dialog-delete.sync="dialog"
+      :delete-date.sync="dataDelete"
+      :store-path-delete="`reports/deleteReportCase`"
+      :store-path-get-list="`reports/listReportCase`"
+      :list-query="listQuery"
+    />
   </v-col>
 </template>
 <script>
@@ -127,6 +143,8 @@ export default {
       list: this.listKasus,
       headers: this.tableHeaders,
       listQuery: this.query,
+      dialog: false,
+      dataDelete: null,
       verificationQuery: {
         'id': '',
         'data': {
@@ -173,6 +191,16 @@ export default {
         this.$emit('update:caseDetail', response.data)
         this.$emit('update:showVerificationForm', true)
       }
+    },
+    async handleEditCase(id) {
+      await this.$router.push(`/laporan/edit-case/${id}`)
+    },
+    async handleEditHistoryCase(id) {
+      await this.$router.push(`/laporan/edit-history-case/${id}`)
+    },
+    async handleDeleteCase(item) {
+      this.dialog = true
+      this.dataDelete = await item
     }
   }
 }

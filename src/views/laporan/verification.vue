@@ -1,9 +1,9 @@
 <template>
   <div>
     <v-card outlined>
-      <v-container class="px-10">
+      <v-container>
         <v-row class="filter-row mt-5" justify="center">
-          <v-col cols="12" sm="9">
+          <v-col cols="12">
             <v-text-field
               v-model="listQuery.search"
               solo
@@ -13,7 +13,7 @@
           </v-col>
         </v-row>
         <v-row justify="center">
-          <v-col cols="12" sm="9" class="reduce-padding-top">
+          <v-col cols="12" class="reduce-padding-top">
             <address-region
               :disabled-district="disabledDistrict"
               :district-code="listQuery.address_district_code"
@@ -32,7 +32,7 @@
           </v-col>
         </v-row>
         <v-row class="filter-row" justify="center">
-          <v-col cols="12" sm="3">
+          <v-col cols="12" sm="4">
             <v-label class="title">{{ $t('label.reporting_sources') }}:</v-label>
             <v-text-field
               v-if="roles[0] === 'faskes'"
@@ -49,7 +49,7 @@
               item-value="_id"
             />
           </v-col>
-          <v-col cols="12" sm="3">
+          <v-col cols="12" sm="4">
             <v-label class="title">{{ $t('label.criteria') }}:</v-label>
             <v-select
               v-model="listQuery.status"
@@ -59,11 +59,12 @@
               item-value="value"
             />
           </v-col>
-          <v-col cols="12" sm="3">
+          <v-col cols="12" sm="4">
             <br>
-            <v-row justify="space-between">
-              <v-col class="reduce-padding-top reduce-padding-right">
+            <v-row>
+              <v-col class="reduce-padding-top">
                 <v-btn
+                  block
                   color="#4f4f4f"
                   class="btn-reset"
                   @click="onReset"
@@ -71,8 +72,9 @@
                   {{ $t('label.reset') }}
                 </v-btn>
               </v-col>
-              <v-col class="reduce-padding-top reduce-padding-left">
+              <v-col class="reduce-padding-top">
                 <v-btn
+                  block
                   color="success"
                   class="btn-cari"
                   @click="handleSearch"
@@ -178,10 +180,9 @@ export default {
     return {
       headers: [
         { text: '#', value: '_id', sortable: false },
-        { text: this.$t('label.nik').toUpperCase(), value: 'nik' },
         { text: this.$t('label.name').toUpperCase(), value: 'name' },
         { text: this.$t('label.age').toUpperCase(), value: 'age' },
-        { text: this.$t('label.gender').toUpperCase(), value: 'gender' },
+        { text: 'JK', value: 'gender' },
         { text: this.$t('label.criteria').toUpperCase(), value: 'criteria' },
         { text: this.$t('label.stages').toUpperCase(), value: 'stage' },
         { text: this.$t('label.results').toUpperCase(), value: 'final_result' },
@@ -347,12 +348,12 @@ export default {
   }
   .btn-reset {
     height: 46px !important;
-    min-width: 95px!important;
+    /*min-width: 95px!important;*/
     color: white !important;
   }
   .btn-cari {
     height: 46px !important;
-    min-width: 95px!important;
+    /*min-width: 95px!important;*/
   }
   .verif-btn {
     background-color: white;

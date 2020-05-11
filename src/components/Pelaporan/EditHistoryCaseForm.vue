@@ -174,6 +174,33 @@
                           solo-inverted
                         />
                       </ValidationProvider>
+                      <ValidationProvider v-slot="{ errors }">
+                        <label>{{ $t('label.additional_condition') }}</label>
+                        <v-row v-for="rowIdx in Math.ceil(optionAdditionalCondition.length / 3)" :key="rowIdx">
+                          <v-col v-for="item in optionAdditionalCondition.slice(3 * (rowIdx - 1), 3 * rowIdx)" :key="item" class="one-third column">
+                            <label class="material-checkbox-custom">
+                              <input
+                                v-model="formRiwayatPasien.diseases"
+                                :value="item"
+                                type="checkbox"
+                              >
+                              <span v-if="errors.length" class="error--text">{{ item }}</span>
+                              <span v-else>{{ item }}</span>
+                            </label>
+                            <span
+                              v-if="errors.length"
+                              class="v-messages error--text"
+                            >{{ errors[0] }}</span>
+                          </v-col>
+                        </v-row>
+                      </ValidationProvider>
+                      <ValidationProvider>
+                        <v-text-field
+                          v-model="formRiwayatPasien.diseases_other"
+                          :placeholder="$t('label.mention_other_additional_condition')"
+                          solo-inverted
+                        />
+                      </ValidationProvider>
                       <ValidationProvider>
                         <v-label>{{ $t('label.postscript') }}</v-label>
                         <v-textarea
@@ -312,8 +339,9 @@
 
 <script>
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
-import { symptomOptions } from '@/utils/constantVariable'
+import { symptomOptions, optionAdditionalCondition } from '@/utils/constantVariable'
 import { mapGetters } from 'vuex'
+
 export default {
   name: 'EditHistoryCaseForm',
   components: {
@@ -334,7 +362,8 @@ export default {
       panelListRiwayat: [0],
       symptomOptions: symptomOptions,
       listHistoryCase: null,
-      arrayRegion: null
+      arrayRegion: null,
+      optionAdditionalCondition: optionAdditionalCondition
     }
   },
   computed: {
