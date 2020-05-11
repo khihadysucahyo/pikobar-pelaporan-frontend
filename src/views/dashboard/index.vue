@@ -472,6 +472,10 @@ export default {
         address_district_code: null,
         address_subdistrict_code: null,
         address_village_code: null
+      },
+      listQueryDate: {
+        min_date: null,
+        max_date: null
       }
     }
   },
@@ -522,6 +526,15 @@ export default {
     this.districtCity = {
       kota_kode: this.district_user,
       kota_nama: this.district_name_user
+    }
+
+    const today = new Date()
+    const max = today.getTime()
+    const min = today.getTime() - ((24 * 60 * 60 * 1000) * 14)
+
+    this.listQueryDate = {
+      min_date: this.$moment(min).format('YYYY/MM/DD'),
+      max_date: this.$moment(max).format('YYYY/MM/DD')
     }
 
     this.getStatisticConfirmed()
@@ -686,7 +699,15 @@ export default {
     },
     async getStatisticOTG() {
       this.loadingOTG = true
-      const res = await this.$store.dispatch('statistic/countOTG', this.listQuery)
+
+      const params = {
+        address_district_code: this.listQuery.address_district_code,
+        address_subdistrict_code: this.listQuery.address_subdistrict_code,
+        address_village_code: this.listQuery.address_village_code,
+        min_date: this.listQueryDate.min_date,
+        max_date: this.listQueryDate.max_date
+      }
+      const res = await this.$store.dispatch('statistic/countOTG', params)
 
       if (res) this.loadingOTG = false
 
@@ -719,7 +740,15 @@ export default {
     },
     async getStatisticODP() {
       this.loadingODP = true
-      const res = await this.$store.dispatch('statistic/countODP', this.listQuery)
+
+      const params = {
+        address_district_code: this.listQuery.address_district_code,
+        address_subdistrict_code: this.listQuery.address_subdistrict_code,
+        address_village_code: this.listQuery.address_village_code,
+        min_date: this.listQueryDate.min_date,
+        max_date: this.listQueryDate.max_date
+      }
+      const res = await this.$store.dispatch('statistic/countODP', params)
 
       if (res) this.loadingODP = false
 
@@ -752,7 +781,15 @@ export default {
     },
     async getStatisticPDP() {
       this.loadingPDP = true
-      const res = await this.$store.dispatch('statistic/countPDP', this.listQuery)
+
+      const params = {
+        address_district_code: this.listQuery.address_district_code,
+        address_subdistrict_code: this.listQuery.address_subdistrict_code,
+        address_village_code: this.listQuery.address_village_code,
+        min_date: this.listQueryDate.min_date,
+        max_date: this.listQueryDate.max_date
+      }
+      const res = await this.$store.dispatch('statistic/countPDP', params)
 
       if (res) this.loadingPDP = false
 
@@ -785,7 +822,15 @@ export default {
     },
     async getStatisticPositive() {
       this.loadingPositive = true
-      const res = await this.$store.dispatch('statistic/countPositive', this.listQuery)
+
+      const params = {
+        address_district_code: this.listQuery.address_district_code,
+        address_subdistrict_code: this.listQuery.address_subdistrict_code,
+        address_village_code: this.listQuery.address_village_code,
+        min_date: this.listQueryDate.min_date,
+        max_date: this.listQueryDate.max_date
+      }
+      const res = await this.$store.dispatch('statistic/countPositive', params)
 
       if (res) this.loadingPositive = false
 
