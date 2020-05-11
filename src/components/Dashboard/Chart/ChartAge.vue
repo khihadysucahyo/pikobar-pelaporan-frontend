@@ -140,6 +140,7 @@ export default {
       handler(value) {
         this.chartData.datasets[0].data = value.female
         this.chartData.datasets[1].data = value.male
+        this.setMinMax()
       },
       deep: true
     },
@@ -152,6 +153,24 @@ export default {
 
     this.chartData.datasets[0].data = this.dataAge.female
     this.chartData.datasets[1].data = this.dataAge.male
+    this.setMinMax()
+  },
+  methods: {
+    setMinMax(female, male) {
+      const maxFemale = Math.max(...this.dataAge.female)
+      const maxMale = Math.max(...this.dataAge.male)
+      const max = (maxFemale > maxMale) ? maxFemale : maxMale
+
+      let maxChart = 0
+      if (max <= 10) {
+        maxChart = max + 1
+      } else if (max > 10) {
+        maxChart = max + 10
+      }
+
+      this.chartOptions.scales.xAxes[0].ticks.min = -Math.abs(maxChart)
+      this.chartOptions.scales.xAxes[0].ticks.max = maxChart
+    }
   }
 }
 </script>
