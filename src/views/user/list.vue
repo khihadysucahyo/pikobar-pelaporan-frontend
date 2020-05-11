@@ -12,12 +12,12 @@
             </v-icon>
           </v-col>
           <v-col auto>
-            <v-card-text class="header-user-text">
+            <v-card-text>
               <div class="header-user-title">{{ $t('route.user_management') }}</div>
-              <div>{{ $t('label.redaction_list_user') }}</div>
+              <div class="header-user-text">{{ $t('label.redaction_list_user') }}</div>
             </v-card-text>
           </v-col>
-          <v-col cols="12" sm="3">
+          <v-col class="mr-6" cols="12" sm="3">
             <v-btn
               block
               color="#009D57"
@@ -252,11 +252,12 @@ export default {
   background: linear-gradient(82.33deg, #27AE60 0%, #58DA8F 100%);
 }
 .header-user-text {
-  font-size: 16px;
+  font-size: 13px;
   color: #FFFFFF;
 }
 .header-user-title {
   font-size: 30px;
+  color: #FFFFFF;
   margin-bottom: 10px;
 }
 .class-on-data-table table {
