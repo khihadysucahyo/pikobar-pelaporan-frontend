@@ -99,11 +99,13 @@
     <v-card
       outlined
     >
-      <case-filter
-        :list-query="listQuery"
-        :query-list.sync="listQuery"
-        :on-search="handleSearch"
-      />
+      <v-container>
+        <case-filter
+          :list-query="listQuery"
+          :query-list.sync="listQuery"
+          :on-search="handleSearch"
+        />
+      </v-container>
       <hr>
       <v-row align="center" justify="space-between">
         <v-col>
@@ -214,14 +216,17 @@
                         <v-list-item @click="handleDetail(item._id)">
                           {{ $t('label.view_detail') }}
                         </v-list-item>
-                        <div v-if="rolesWidget[RolesUser.STAFFPROV].includes(roles[0])">
+                        <div v-if="rolesWidget['dinkesKotaAndFaskes'].includes(roles[0])">
                           <v-list-item @click="handleEditCase(item._id)">
                             {{ $t('label.profile_update') }}
                           </v-list-item>
                           <v-list-item @click="handleEditHistoryCase(item._id)">
                             {{ $t('label.update_history') }}
                           </v-list-item>
-                          <v-list-item @click="handleDeleteCase(item)">
+                          <v-list-item
+                            v-if="rolesWidget['dinkeskota'].includes(roles[0])"
+                            @click="handleDeleteCase(item)"
+                          >
                             {{ $t('label.deleted_case') }}
                           </v-list-item>
                         </div>

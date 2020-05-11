@@ -127,5 +127,6 @@ export const optionAdditionalCondition = [
 ]
 
 export const rolesWidget = {
-  'dinkeskota': ['dinkeskota', 'faskes']
+  'dinkeskota': ['dinkeskota'],
+  'dinkesKotaAndFaskes': ['dinkeskota', 'faskes']
 }

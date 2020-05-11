@@ -1,91 +1,89 @@
 <template>
   <div>
     <v-card outlined>
-      <v-container>
-        <v-row class="filter-row mt-5" justify="center">
-          <v-col cols="12">
-            <v-text-field
-              v-model="listQuery.search"
-              solo
-              :label="$t('label.search')"
-              prepend-inner-icon="search"
-            />
-          </v-col>
-        </v-row>
-        <v-row justify="center">
-          <v-col cols="12" class="reduce-padding-top">
-            <address-region
-              :disabled-district="disabledDistrict"
-              :district-code="listQuery.address_district_code"
-              :district-name="district_name_user"
-              :code-district.sync="listQuery.address_district_code"
-              :sub-district-code="listQuery.address_subdistrict_code"
-              :code-sub-district.sync="listQuery.address_subdistrict_code"
-              :village-code="listQuery.address_village_code"
-              :code-village.sync="listQuery.address_village_code"
-              :village-name="villageName"
-              :name-village.sync="villageName"
-              :disabled-address="false"
-              :required-address="false"
-              :is-label="true"
-            />
-          </v-col>
-        </v-row>
-        <v-row class="filter-row" justify="center">
-          <v-col cols="12" sm="4">
-            <v-label class="title">{{ $t('label.reporting_sources') }}:</v-label>
-            <v-text-field
-              v-if="roles[0] === 'faskes'"
-              v-model="listQuery.author"
-              solo-inverted
-              disabled
-            />
-            <v-autocomplete
-              v-else
-              v-model="listQuery.author"
-              :items="listMedicalFacility"
-              solo
-              item-text="fullname"
-              item-value="_id"
-            />
-          </v-col>
-          <v-col cols="12" sm="4">
-            <v-label class="title">{{ $t('label.criteria') }}:</v-label>
-            <v-select
-              v-model="listQuery.status"
-              :items="stagesList"
-              solo
-              item-text="label"
-              item-value="value"
-            />
-          </v-col>
-          <v-col cols="12" sm="4">
-            <br>
-            <v-row>
-              <v-col class="reduce-padding-top">
-                <v-btn
-                  block
-                  color="#4f4f4f"
-                  class="btn-reset"
-                  @click="onReset"
-                >
-                  {{ $t('label.reset') }}
-                </v-btn>
-              </v-col>
-              <v-col class="reduce-padding-top">
-                <v-btn
-                  block
-                  color="success"
-                  class="btn-cari"
-                  @click="handleSearch"
-                >
-                  {{ $t('label.look_for_it') }}
-                </v-btn>
-              </v-col>
-            </v-row>
-          </v-col>
-        </v-row>
-      </v-container>
+      <v-row class="filter-row mt-5" justify="center">
+        <v-col cols="12">
+          <v-text-field
+            v-model="listQuery.search"
+            solo
+            :label="$t('label.search')"
+            prepend-inner-icon="search"
+          />
+        </v-col>
+      </v-row>
+      <v-row justify="center">
+        <v-col cols="12" class="reduce-padding-top">
+          <address-region
+            :disabled-district="disabledDistrict"
+            :district-code="listQuery.address_district_code"
+            :district-name="district_name_user"
+            :code-district.sync="listQuery.address_district_code"
+            :sub-district-code="listQuery.address_subdistrict_code"
+            :code-sub-district.sync="listQuery.address_subdistrict_code"
+            :village-code="listQuery.address_village_code"
+            :code-village.sync="listQuery.address_village_code"
+            :village-name="villageName"
+            :name-village.sync="villageName"
+            :disabled-address="false"
+            :required-address="false"
+            :is-label="true"
+          />
+        </v-col>
+      </v-row>
+      <v-row class="filter-row" justify="center">
+        <v-col cols="12" sm="4">
+          <v-label class="title">{{ $t('label.reporting_sources') }}:</v-label>
+          <v-text-field
+            v-if="roles[0] === 'faskes'"
+            v-model="listQuery.author"
+            solo-inverted
+            disabled
+          />
+          <v-autocomplete
+            v-else
+            v-model="listQuery.author"
+            :items="listMedicalFacility"
+            solo
+            item-text="fullname"
+            item-value="_id"
+          />
+        </v-col>
+        <v-col cols="12" sm="4">
+          <v-label class="title">{{ $t('label.criteria') }}:</v-label>
+          <v-select
+            v-model="listQuery.status"
+            :items="stagesList"
+            solo
+            item-text="label"
+            item-value="value"
+          />
+        </v-col>
+        <v-col cols="12" sm="4">
+          <br>
+          <v-row>
+            <v-col class="reduce-padding-top">
+              <v-btn
+                block
+                color="#4f4f4f"
+                class="btn-reset"
+                @click="onReset"
+              >
+                {{ $t('label.reset') }}
+              </v-btn>
+            </v-col>
+            <v-col class="reduce-padding-top">
+              <v-btn
+                block
+                color="success"
+                class="btn-cari"
+                @click="handleSearch"
+              >
+                {{ $t('label.look_for_it') }}
+              </v-btn>
+            </v-col>
+          </v-row>
+        </v-col>
+      </v-row>
       <v-row v-if="roles[0] === 'faskes'" class="mx-0 mt-5">
         <v-tabs
           v-model="tab"
@@ -348,12 +346,10 @@ export default {
   }
   .btn-reset {
     height: 46px !important;
-    /*min-width: 95px!important;*/
     color: white !important;
   }
   .btn-cari {
     height: 46px !important;
-    /*min-width: 95px!important;*/
   }
   .verif-btn {
     background-color: white;
