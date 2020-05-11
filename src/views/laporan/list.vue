@@ -369,9 +369,16 @@ export default {
   watch: {
     'listQuery.search': {
       handler: function(value) {
-        if ((value !== undefined) && (value.length !== 0 || value.length >= 3)) {
+        if ((value !== undefined) && (value.length >= 2)) {
+          this.loadingTable = true
           this.listQuery.page = 1
           this.handleSearch()
+          this.loadingTable = false
+        } else if (value.length === 0) {
+          this.loadingTable = true
+          this.listQuery.page = 1
+          this.handleSearch()
+          this.loadingTable = false
         }
       },
       immediate: true
@@ -386,8 +393,11 @@ export default {
           } else {
             this.listQuery.sort = {}
           }
+
+          if (Object.keys(this.listQuery.sort).length > 0) {
+            this.handleSearch()
+          }
         }
-        this.handleSearch()
       },
       immediate: true
     }
@@ -395,7 +405,6 @@ export default {
   async mounted() {
     if (this.roles[0] === 'dinkeskota') this.listQuery.address_district_code = this.district_user
     this.queryReportCase.address_district_code = this.district_user
-    await this.$store.dispatch('reports/listReportCase', this.listQuery)
     const response = await this.$store.dispatch('reports/countReportCase', this.queryReportCase)
     if (response) this.loading = false
     this.totalOTG = response.data.OTG

@@ -7,5 +7,8 @@ export default {
   },
   listTarget: (state, getters) => {
     return state.listTarget
+  },
+  totalDataRDT: (state, getters) => {
+    return state.totalDataRDT
   }
 }
