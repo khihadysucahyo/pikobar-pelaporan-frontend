@@ -37,57 +37,50 @@
         <h4>{{ $t('label.look_for_it') }} {{ $t('label.based') }}:</h4>
         <v-divider class="mb-0" />
       </v-col>
-      <v-col
-        cols="12"
-        md="2"
-        sm="12"
-      >
-        <select-area-district-city
-          :disabled-district="disabledDistrict"
-          :district-city="districtCity"
-          :city-district.sync="districtCity"
-          :on-select-district="onSelectDistrict"
-        />
-      </v-col>
-      <v-col
-        cols="12"
-        md="2"
-        sm="12"
-      >
-        <select-area-sub-district
-          :sub-district="subDistrict"
-          :update-sub-district.sync="subDistrict"
-          :code-district="districtCity.kota_kode"
-          :district-code.sync="districtCity.kota_kode"
-          :on-select-sub-district="onSelectSubDistrict"
-        />
-      </v-col>
-      <v-col
-        cols="12"
-        md="2"
-        sm="12"
-      >
-        <select-area-village
-          :village="village"
-          :update-village.sync="village"
-          :code-sub-district="subDistrict.kecamatan_kode"
-          :sub-district-code.sync="subDistrict.kecamatan_kode"
-          :on-select-village="onSelectVillage"
-        />
-      </v-col>
-      <v-col
-        cols="12"
-        md="2"
-        sm="12"
-      >
-        <v-btn
-          block
-          color="grey darken-3"
-          class="button white--text"
-          @click="onReset"
-        >
-          {{ $t('label.reset') }}
-        </v-btn>
+      <v-col cols="8">
+        <v-row>
+          <v-col
+            cols="12"
+            md="4"
+            sm="12"
+            class="pt-0"
+          >
+            <select-area-district-city
+              :disabled-district="disabledDistrict"
+              :district-city="districtCity"
+              :city-district.sync="districtCity"
+              :on-select-district="onSelectDistrict"
+            />
+          </v-col>
+          <v-col
+            cols="12"
+            md="4"
+            sm="12"
+            class="pt-0"
+          >
+            <select-area-sub-district
+              :sub-district="subDistrict"
+              :update-sub-district.sync="subDistrict"
+              :code-district="districtCity.kota_kode"
+              :district-code.sync="districtCity.kota_kode"
+              :on-select-sub-district="onSelectSubDistrict"
+            />
+          </v-col>
+          <v-col
+            cols="12"
+            md="4"
+            sm="12"
+            class="pt-0"
+          >
+            <select-area-village
+              :village="village"
+              :update-village.sync="village"
+              :code-sub-district="subDistrict.kecamatan_kode"
+              :sub-district-code.sync="subDistrict.kecamatan_kode"
+              :on-select-village="onSelectVillage"
+            />
+          </v-col>
+        </v-row>
       </v-col>
       <v-col
         cols="12"
@@ -110,10 +103,11 @@
       >
         <v-btn
           block
-          color="info"
-          class="button"
+          color="grey darken-3"
+          class="button white--text"
+          @click="onReset"
         >
-          {{ $t('label.export_data') }}
+          {{ $t('label.reset') }}
         </v-btn>
       </v-col>
     </v-row>
@@ -310,41 +304,6 @@
       </v-tab-item>
     </v-tabs>
     <v-divider />
-    <!-- <v-tabs>
-      <v-tab
-        :key="'map'"
-        :href="'#tab-map'"
-      >
-        Peta Sebaran
-      </v-tab>
-      <v-tab
-        :key="'case'"
-        :href="'#tab-case'"
-      >
-        Kasus Keterkaitan
-      </v-tab>
-      <v-tab-item
-        :key="'map'"
-        :value="'tab-map'"
-      >
-        <v-row>
-          <v-col cols="12">
-            <map-point :filter-data="filter" />
-          </v-col>
-        </v-row>
-      </v-tab-item>
-      <v-tab-item
-        :key="'case'"
-        :value="'tab-case'"
-      >
-        <v-row>
-          <v-col cols="12">
-            <graph-case />
-          </v-col>
-        </v-row>
-      </v-tab-item>
-    </v-tabs>
-    <v-divider /> -->
     <v-row>
       <v-col
         cols="12"

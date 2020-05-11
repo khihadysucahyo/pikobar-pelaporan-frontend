@@ -53,8 +53,8 @@ export default {
           {
             data: [],
             backgroundColor: [
-              '#27AE60',
-              '#F2C94C'
+              '#F2C94C',
+              '#27AE60'
             ]
           }
         ]

@@ -5,7 +5,7 @@
         <v-row justify="space-between">
           <v-col cols="auto">
             <v-card-text class="header-survey-text">
-              <div>{{ $t('label.total_COVID19_massive_test_results') }} : {{ totalReport }}</div>
+              <div>{{ $t('label.total_COVID19_massive_test_results') }} : {{ totalDataRDT }}</div>
               <div>{{ fullName }}</div>
             </v-card-text>
           </v-col>
@@ -36,6 +36,7 @@
           <v-data-table
             :headers="headers"
             :items="rdtList"
+            :options.sync="optionsDataTable"
             :mobile-breakpoint="NaN"
             :no-data-text="$t('label.data_empty')"
             :items-per-page="listQuery.limit"
@@ -147,7 +148,7 @@ export default {
       totalODP: 0,
       totalPDP: 0,
       totalPositif: 0,
-      totalReport: 0,
+      optionsDataTable: {},
       listQuery: {
         address_district_code: '',
         start_date: '',
@@ -167,6 +168,7 @@ export default {
   computed: {
     ...mapGetters('rdt', [
       'rdtList',
+      'totalDataRDT',
       'totalList'
     ]),
     ...mapGetters('user', [
@@ -178,7 +180,12 @@ export default {
   watch: {
     'listQuery.search': {
       handler: function(value) {
-        if ((value !== undefined) && (value.length !== 0 || value.length >= 3)) {
+        if ((value !== undefined) && (value.length >= 2)) {
+          this.loadingTable = true
+          this.listQuery.page = 1
+          this.handleSearch()
+          this.loadingTable = false
+        } else if (value.length === 0) {
           this.loadingTable = true
           this.listQuery.page = 1
           this.handleSearch()
@@ -186,13 +193,28 @@ export default {
         }
       },
       immediate: true
+    },
+    'optionsDataTable': {
+      handler: function(value) {
+        if (value.sortBy !== undefined) {
+          if ((value.sortBy[0] !== undefined) && (value.sortDesc[0])) {
+            this.listQuery.sort[value.sortBy[0]] = 'desc'
+          } else if ((value.sortBy[0] !== undefined) && (!value.sortDesc[0])) {
+            this.listQuery.sort[value.sortBy[0]] = 'asc'
+          } else {
+            this.listQuery.sort = {}
+          }
+
+          if (Object.keys(this.listQuery.sort).length > 0) {
+            this.handleSearch()
+          }
+        }
+      },
+      immediate: true
     }
   },
   async mounted() {
     this.listQuery.address_district_code = this.district_user
-    await this.$store.dispatch('rdt/resetListRDT')
-    const response = await this.$store.dispatch('rdt/getListRDT', this.listQuery)
-    if (response.data) this.totalReport = response.data._meta.itemCount
   },
   methods: {
     formatDatetime,
@@ -210,6 +232,7 @@ export default {
       await this.$router.push(`/rdt/update-result/${id}`)
     },
     async handleSearch() {
+      this.listQuery.page = 1
       await this.$store.dispatch('rdt/getListRDT', this.listQuery)
     },
     getTableRowNumbering(index) {

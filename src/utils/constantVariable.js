@@ -1,3 +1,5 @@
+import i18n from '@/lang'
+
 export const ResponseRequest = {
   TIMEOUT: 'ECONNABORTED',
   NETWORKERROR: 'Network Error',
@@ -111,3 +113,20 @@ export const listMonthName = [
     text: 'Desember'
   }
 ]
+
+export const optionAdditionalCondition = [
+  i18n.t('label.pregnant'),
+  i18n.t('label.diabetes'),
+  i18n.t('label.heart_disease'),
+  i18n.t('label.hypertension'),
+  i18n.t('label.malignant'),
+  i18n.t('label.immunological_disorders'),
+  i18n.t('label.chronic_kidney_failure'),
+  i18n.t('label.chronic_liver_failure'),
+  i18n.t('label.ppok')
+]
+
+export const rolesWidget = {
+  'dinkeskota': ['dinkeskota'],
+  'dinkesKotaAndFaskes': ['dinkeskota', 'faskes']
+}

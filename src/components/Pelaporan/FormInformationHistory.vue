@@ -194,7 +194,7 @@
                 <v-col v-for="item in optionAdditionalCondition.slice(3 * (rowIdx - 1), 3 * rowIdx)" :key="item" class="one-third column">
                   <label class="material-checkbox-custom">
                     <input
-                      v-model="formPasien.disaeses"
+                      v-model="formPasien.diseases"
                       :value="item"
                       type="checkbox"
                     >
@@ -210,7 +210,7 @@
             </ValidationProvider>
             <ValidationProvider>
               <v-text-field
-                v-model="formPasien.disaeses_other"
+                v-model="formPasien.diseases_other"
                 :placeholder="$t('label.mention_other_additional_condition')"
                 solo-inverted
               />
@@ -346,9 +346,8 @@
 <script>
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import EventBus from '@/utils/eventBus'
-import { symptomOptions } from '@/utils/constantVariable'
+import { symptomOptions, optionAdditionalCondition } from '@/utils/constantVariable'
 import { mapGetters } from 'vuex'
-import i18n from '@/lang'
 export default {
   name: 'FormInformationHistory',
   components: {
@@ -373,17 +372,7 @@ export default {
       disabledReportResource: false,
       hospitalWestJavaList: [],
       hospitalNonWestJavaList: [],
-      optionAdditionalCondition: [
-        i18n.t('label.pregnant'),
-        i18n.t('label.diabetes'),
-        i18n.t('label.heart_disease'),
-        i18n.t('label.hypertension'),
-        i18n.t('label.malignant'),
-        i18n.t('label.immunological_disorders'),
-        i18n.t('label.chronic_kidney_failure'),
-        i18n.t('label.chronic_liver_failure'),
-        i18n.t('label.ppok')
-      ]
+      optionAdditionalCondition: optionAdditionalCondition
     }
   },
   computed: {

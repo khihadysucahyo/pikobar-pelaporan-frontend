@@ -4,6 +4,7 @@ import getters from './getters'
 
 const state = {
   totalList: 0,
+  totalDataRDT: 0,
   listRDT: [],
   listTarget: []
 }

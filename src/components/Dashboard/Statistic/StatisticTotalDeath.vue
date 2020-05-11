@@ -10,7 +10,7 @@
       <v-card-title class="title ml-0">
         {{ $t('label.dead') }}
       </v-card-title>
-      <v-card-subtitle class="subtitle pb-3">
+      <v-card-subtitle class="sub-title pb-3">
         {{ $t('label.total_positive_case_death') }}
       </v-card-subtitle>
       <v-card-text class="mt-2">
@@ -39,20 +39,20 @@ export default {
 </script>
 
 <style scoped>
-  .statistic {
-    background-color: #FFF3E0 !important;
-    border: 1px solid #F2994A !important;
-  }
-  .statistic .title {
-    color: #F2994A !important;
-  }
-  .statistic .subtitle {
-    height: 69px;
-    max-height: 69px;
-    color: #F2994A !important;
-  }
-  .statistic .total {
-    font-size: 2em;
-    color: #F2994A !important;
-  }
+.statistic {
+  background-color: #fff3e0 !important;
+  border: 1px solid #f2994a !important;
+}
+.statistic .title {
+  color: #f2994a !important;
+}
+.statistic .sub-title {
+  height: 69px;
+  max-height: 69px;
+  color: #f2994a !important;
+}
+.statistic .total {
+  font-size: 2em;
+  color: #f2994a !important;
+}
 </style>
