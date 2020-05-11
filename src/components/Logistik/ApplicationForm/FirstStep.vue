@@ -1,0 +1,285 @@
+<template>
+  <v-container>
+    <ValidationObserver ref="observer">
+      <v-form
+        ref="form"
+        lazy-validation
+      >
+        <v-row>
+          <center><v-label class="title"><b>{{ $t('label.applicant_form_header') }}</b></v-label></center>
+        </v-row>
+        <v-row>
+          <v-col cols="12" sm="12" md="6">
+            <ValidationProvider
+              v-slot="{ errors }"
+              rules="requiredInstanceType"
+            >
+              <v-label class="title"><b>{{ $t('label.instance_type') }}</b> <i class="text-small-first-step">{{ $t('label.must_fill') }}</i></v-label>
+              <v-autocomplete
+                v-model="formApplicant.instanceType"
+                solo
+                :error-messages="errors"
+                item-value="id"
+                item-text="name"
+                :items="faskesTypeList"
+                :placeholder="$t('label.autocomplete_instance_placeholder')"
+                @change="onSelectFaskesType"
+              />
+            </ValidationProvider>
+            <ValidationProvider
+              v-slot="{ errors }"
+              rules="requiredInstanceName"
+            >
+              <v-label class="title"><b>{{ $t('label.instance_name') }}</b> <i class="text-small-first-step">{{ $t('label.must_fill') }}</i></v-label>
+              <v-autocomplete
+                v-model="formApplicant.instance"
+                :items="faskesList"
+                item-value="id"
+                item-text="nama_faskes"
+                single-line
+                solo
+                autocomplete
+                :error-messages="errors"
+                :placeholder="$t('label.example_instance_name')"
+                @input.native="querySearchFaskes"
+                @change="onSelectFaskes"
+              />
+            </ValidationProvider>
+            <div>
+              <v-label class="title"><b>{{ $t('label.instance_not_found_title') }}</b></v-label>
+              <v-btn
+                outlined
+                color="#2E7D32"
+                large
+                style="margin-left: 30px"
+                @click.stop="showForm = true"
+              >
+                {{ $t('label.adding') }}
+              </v-btn>
+              <form-add-instance :show="showForm" />
+            </div>
+            <ValidationProvider
+              v-slot="{ errors }"
+              rules="isPhoneNumber"
+            >
+              <v-label class="title"><b>{{ $t('label.instance_phone_number') }}</b></v-label>
+              <v-text-field
+                v-model="formApplicant.instancePhoneNumber"
+                solo
+                :error-messages="errors"
+                :placeholder="$t('label.example_phone_number')"
+                solo-inverted
+              />
+            </ValidationProvider>
+          </v-col>
+          <v-col cols="12" sm="12" md="6">
+            <ValidationProvider
+              v-slot="{ errors }"
+              rules="requiredCityName"
+            >
+              <v-label class="title"><b>{{ $t('label.district_city') }}</b> <i class="text-small-first-step">{{ $t('label.must_fill') }}</i></v-label>
+              <v-autocomplete
+                v-model="formApplicant.cityNameId"
+                solo
+                :error-messages="errors"
+                :items="applicantListCity"
+                :placeholder="$t('label.autocomplete_city_placeholder')"
+                @change="getListDistrict"
+              />
+            </ValidationProvider>
+            <ValidationProvider
+              v-slot="{ errors }"
+              rules="requiredDistrictName"
+            >
+              <v-label class="title"><b>{{ $t('label.subdistrict') }}</b> <i class="text-small-first-step">{{ $t('label.must_fill') }}</i></v-label>
+              <v-autocomplete
+                v-model="formApplicant.districtNameId"
+                solo
+                :error-messages="errors"
+                :items="applicantListDistrict"
+                :placeholder="$t('label.autocomplete_capital_placeholder')"
+                @change="getListVillage"
+              />
+            </ValidationProvider>
+            <ValidationProvider
+              v-slot="{ errors }"
+              rules="requiredVillageName"
+            >
+              <v-label class="title"><b>{{ $t('label.village') }}</b> <i class="text-small-first-step">{{ $t('label.must_fill') }}</i></v-label>
+              <v-autocomplete
+                v-model="formApplicant.villageNameId"
+                solo
+                :error-messages="errors"
+                :items="applicantListVillage"
+                :placeholder="$t('label.autocomplete_capital_placeholder')"
+              />
+            </ValidationProvider>
+            <ValidationProvider
+              v-slot="{ errors }"
+              rules="requiredFullAddress"
+            >
+              <v-label class="title"><b>{{ $t('label.complete_address') }}</b> <i class="text-small-first-step">{{ $t('label.must_fill') }}</i></v-label>
+              <v-textarea
+                v-model="formApplicant.fullAddress"
+                outlined
+                :height="100"
+                :no-resize="true"
+                :error-messages="errors"
+                :placeholder="$t('label.example_full_address')"
+                solo-inverted
+              />
+            </ValidationProvider>
+          </v-col>
+        </v-row>
+        <v-container fluid>
+          <div>
+            <v-col cols="12" sm="3" md="3" class="float-right-first-step">
+              <v-btn
+                block
+                class="btn-margin-positive"
+                color="primary"
+                @click="onNext()"
+              >{{ $t('label.next') }}</v-btn>
+            </v-col>
+          </div>
+        </v-container>
+      </v-form>
+    </ValidationObserver>
+  </v-container>
+</template>
+<script>
+import { ValidationObserver, ValidationProvider } from 'vee-validate'
+import EventBus from '@/utils/eventBus'
+import { mapGetters } from 'vuex'
+
+export default {
+  name: 'IdentitasInstansiPemohon',
+  components: {
+    ValidationProvider,
+    ValidationObserver
+  },
+  props: {
+    formApplicant: {
+      type: Object,
+      default: null
+    }
+  },
+  data() {
+    return {
+      step: 1,
+      nameFaskes: '',
+      listQueryFaskes: {
+        nama_faskes: null,
+        id_tipe_faskes: null
+      },
+      showForm: false
+    }
+  },
+  computed: {
+    ...mapGetters('region', [
+      'applicantListCity',
+      'applicantListDistrict',
+      'applicantListVillage'
+    ]),
+    ...mapGetters('faskes', [
+      'faskesList',
+      'faskesDetail'
+    ]),
+    ...mapGetters('faskesType', [
+      'faskesTypeList'
+    ])
+  },
+  async created() {
+    await this.getListCity()
+    await this.$store.dispatch('faskesType/getListFaskesType')
+    await this.getListFaskes()
+    EventBus.$on('dialogHide', (value) => {
+      this.showForm = value
+    })
+  },
+  methods: {
+    async onNext() {
+      this.faskesTypeList.forEach(element => {
+        if (element.id === this.formApplicant.instanceType) {
+          this.formApplicant.instanceTypeName = element.name
+        }
+      })
+      this.faskesList.forEach(element => {
+        if (element.id === this.formApplicant.instance) {
+          this.formApplicant.instanceName = element.nama_faskes
+          return
+        }
+      })
+      const valid = await this.$refs.observer.validate()
+      if (!valid) {
+        return
+      }
+      EventBus.$emit('nextStep', this.step)
+    },
+    async getListCity() {
+      await this.$store.dispatch('region/getApplicantFormListCity')
+      this.applicantListCity.forEach(element => {
+        element.value = {
+          id: element.kemendagri_kabupaten_kode,
+          name: element.kemendagri_kabupaten_nama
+        }
+        element.text = element.kemendagri_kabupaten_nama
+      })
+    },
+    async getListDistrict() {
+      await this.$store.dispatch('region/getApplicantFormListDistrict', { city_code: this.formApplicant.cityNameId.id })
+      this.applicantListDistrict.forEach(element => {
+        element.value = {
+          id: element.kemendagri_kecamatan_kode,
+          name: element.kemendagri_kecamatan_nama
+        }
+        element.text = element.kemendagri_kecamatan_nama
+      })
+    },
+    async getListVillage() {
+      await this.$store.dispatch('region/getApplicantFormListVillage', { subdistrict_code: this.formApplicant.districtNameId.id })
+      this.applicantListVillage.forEach(element => {
+        element.value = {
+          id: element.kemendagri_desa_kode,
+          name: element.kemendagri_desa_nama
+        }
+        element.text = element.kemendagri_desa_nama
+      })
+    },
+    async onSelectFaskesType(id) {
+      this.listQueryFaskes.id_tipe_faskes = id
+      await this.getListFaskes()
+    },
+    async getListFaskes() {
+      await this.$store.dispatch('faskes/getListFaskes', this.listQueryFaskes)
+    },
+    async querySearchFaskes(event) {
+      this.listQueryFaskes.nama_faskes = event.target.value
+      await this.getListFaskes()
+    },
+    async onSelectFaskes(id) {
+      if (id) {
+        await this.$store.dispatch('faskes/getDetailFaskes', id)
+      }
+    },
+    hideDialog(value) {
+
+    }
+  }
+}
+</script>
+<style>
+.text-small-first-step {
+  font-size: 13px;
+}
+.float-right-first-step {
+  float: right;
+}
+@media (max-width: 1199px) and (min-width: 960px) {
+}
+@media (max-width: 768px) and (min-width: 320px) {
+}
+
+@media (max-width: 588px) and (min-width: 320px) {
+}
+</style>
