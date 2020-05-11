@@ -98,6 +98,7 @@ export default {
     name_case: 'Nama Kasus',
     birth_date: 'Tanggal Lahir',
     gender: 'Jenis Kelamin',
+    gender_abbreviation: 'JK',
     phone_number: 'Nomor Telepon',
     citizenship: 'Kewarganegaraan',
     country: 'Negara',

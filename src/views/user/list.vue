@@ -5,9 +5,9 @@
       type="article"
     >
       <v-card class="d-block pa-1 mx-auto header-user-list">
-        <v-row justify="space-between" style="margin-top: 1rem;">
-          <v-col cols="1" sm="1">
-            <v-icon style="font-size: 70px;color: #ffff;">
+        <v-row class="mt-2">
+          <v-col cols="12" sm="1">
+            <v-icon class="ml-3" style="font-size: 70px;color: #ffff;">
               mdi-alert-circle
             </v-icon>
           </v-col>
@@ -19,7 +19,7 @@
           </v-col>
           <v-col cols="12" sm="3">
             <v-btn
-              class="ma-1"
+              block
               color="#009D57"
               style="background: #FFFFFF;height: 56px;min-width: 178px;"
               outlined
@@ -31,7 +31,7 @@
         </v-row>
       </v-card>
     </v-skeleton-loader>
-    <v-card outlined>
+    <v-card class="mt-4" outlined>
       <v-row>
         <v-col>
           <v-card-text>
@@ -252,7 +252,6 @@ export default {
 .header-user-text {
   font-size: 16px;
   color: #FFFFFF;
-  margin-left: 2rem;
 }
 .header-user-title {
   font-size: 30px;
