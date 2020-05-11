@@ -1,5 +1,23 @@
 <template>
   <div>
+    <v-card class="disclaimer pa-7 mb-5" width="100%">
+      <v-row class="mx-0 mb-2 headline">
+        <div class="font-white">
+          {{ $t('label.total_new_cases') }} : {{ totalItem }}
+        </div>
+      </v-row>
+      <v-row class="mx-0">
+        <span class="font-white">
+          {{ roles[0] === 'faskes' ? $t('label.medical_facility_verification_info_1') : $t('label.verification_info') }}
+        </span>
+        <br>
+      </v-row>
+      <v-row v-if="roles[0] === 'faskes'" class="mx-0">
+        <span class="font-white">
+          {{ $t('label.medical_facility_verification_info_2') }}
+        </span>
+      </v-row>
+    </v-card>
     <v-card outlined>
       <v-container>
         <v-row class="filter-row mt-5" justify="center">
@@ -222,7 +240,8 @@ export default {
       isSubmit: false,
       isRefresh: false,
       tab: null,
-      tabLabel: [this.$t('label.all'), this.$t('label.waiting_for_verification'), this.$t('label.verification_failed')],
+      tabLabel: [this.$t('label.all'), this.$t('label.waiting_for_verification'), this.$t('label.case_rejected')],
+      totalItem: null,
       verificationQuery: {
         'id': '',
         'data': {
@@ -273,12 +292,17 @@ export default {
   },
   async mounted() {
     if (this.roles[0] === 'faskes') {
-      this.headers.push({ text: this.$t('label.status').toUpperCase(), value: 'status' }, { text: this.$t('label.action').toUpperCase(), value: 'action', sortable: false })
+      this.headers.push({ text: this.$t('label.input_date').toUpperCase(), value: 'inputDate' }, { text: this.$t('label.status').toUpperCase(), value: 'status' }, { text: this.$t('label.action').toUpperCase(), value: 'action', sortable: false })
       this.listQuery.author = this.fullName
       this.listQuery.verified_status = 'pending,declined'
     } else {
       this.headers.push({ text: this.$t('label.auto_verification_deadline').toUpperCase(), value: 'createdAt' }, { text: this.$t('label.action').toUpperCase(), value: 'action', sortable: false })
       this.listQuery.verified_status = 'pending'
+    }
+    const response = await this.$store.dispatch('reports/countVerificationCase')
+    this.totalItem = response.data.PENDING + response.data.DECLINED
+    if (this.roles[0] !== 'faskes') {
+      this.listQuery.sort = { 'updatedAt': 'asc' }
     }
     await this.$store.dispatch('reports/listReportCase', this.listQuery)
     this.listQuery.address_district_code = this.district_user
@@ -380,5 +404,11 @@ export default {
     color: white;
     border-radius: 10px;
     background-color: #f91717;
+  }
+  .disclaimer {
+    background: linear-gradient(78.54deg, #27AE60 0%, #6FCF97 100%) !important;
+  }
+  .font-white {
+    color: white;
   }
 </style>

@@ -146,6 +146,14 @@ export default {
       return error.response
     }
   },
+  async countVerificationCase({ commit }) {
+    try {
+      const response = await requestServer('/api/cases-summary-verification', 'GET')
+      return response
+    } catch (e) {
+      return e
+    }
+  },
   resetListCase({ commit }) {
     commit('RESET_LIST_CASE')
   },

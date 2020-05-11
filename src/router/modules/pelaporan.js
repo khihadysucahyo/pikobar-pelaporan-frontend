@@ -41,7 +41,18 @@ const surveyRouter = {
         icon: 'library_books',
         child: true,
         noCache: true,
-        roles: ['superadmin', 'dinkeskota', 'faskes']
+        roles: ['superadmin', 'dinkeskota']
+      }
+    },
+    {
+      path: '/laporan/verification',
+      component: () => import('@/views/laporan/verification'),
+      meta: {
+        title: 'verification_case_list',
+        icon: 'library_books',
+        child: true,
+        noCache: true,
+        roles: ['superadmin', 'faskes']
       }
     },
     {

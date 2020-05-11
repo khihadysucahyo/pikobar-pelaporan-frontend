@@ -5,6 +5,7 @@ export default {
     dashboard: 'Dashboard',
     laporan_title: 'Laporan Kasus',
     list_case: 'List Kasus',
+    verification_case_list: 'List Verifikasi Kasus',
     verify_case: 'Verifikasi Kasus Baru',
     rdt: 'Test Masif',
     create_rdt: 'Input hasil test',
@@ -300,10 +301,14 @@ export default {
     reason_for_declined_placeholder: 'Kasus ini ditolak karena...',
     view_case_detail: 'Lihat Detail Kasus',
     all: 'Semua',
-    waiting_for_verification: 'Menunggu Verifikasi',
-    verification_failed: 'Gagal Verifikasi',
+    waiting_for_verification: 'Menunggu Diverifikasi',
+    case_rejected: 'Data Kasus Ditolak',
     update_case: 'Perbarui Kasus',
-    rejection_note: 'Catatan Penolakan'
+    rejection_note: 'Catatan Penolakan',
+    total_new_cases: 'Total Kasus Baru',
+    input_date: 'Tanggal Input',
+    medical_facility_verification_info_1: 'Data yang berhasil diverifikasi akan hilang otomatis setelah 24 jam.',
+    medical_facility_verification_info_2: 'Anda dapat melihat data yang terverifikasi pada "List Kasus".'
   },
   success: {
     login_success: 'Login Berhasil',

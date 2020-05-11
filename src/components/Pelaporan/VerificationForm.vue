@@ -695,7 +695,9 @@ export default {
       this.$emit('update:show', value)
     },
     'caseDetail.birth_date'(value) {
-      this.caseDetail.age = this.getAge(value)
+      if (this.caseDetail.verified_status === 'declined') {
+        this.caseDetail.age = this.getAge(value)
+      }
     }
   },
   methods: {
