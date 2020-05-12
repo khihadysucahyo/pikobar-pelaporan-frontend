@@ -1,5 +1,61 @@
 <template>
   <div>
+    <div style="border-bottom: 1px solid rgba(0, 0, 0, 0.12)">
+      <v-row class="filter-layer mx-2 mt-2">
+        <v-col
+          cols="12"
+          md="3"
+        >
+          <div class="d-flex mb-1">
+            <div
+              class="legend-color-title legend-description"
+              style="margin-top: 3px;"
+            />
+            <div class="legend-text-title">Filter Berdasarkan</div>
+          </div>
+        </v-col>
+        <v-row>
+          <v-col
+            cols="12"
+            md="4"
+          >
+            <v-label class="title">Kota/Kab.</v-label>
+            <select-area-district-city
+              :disabled-district="disabledDistrict"
+              :district-city="districtCity"
+              :city-district.sync="districtCity"
+              :on-select-district="onSelectDistrict"
+            />
+          </v-col>
+          <v-col
+            cols="12"
+            md="4"
+          >
+            <v-label class="title">Kecamatan.</v-label>
+            <select-area-sub-district
+              :sub-district="subDistrict"
+              :update-sub-district.sync="subDistrict"
+              :code-district="districtCity.kota_kode"
+              :district-code.sync="districtCity.kota_kode"
+              :on-select-sub-district="onSelectSubDistrict"
+            />
+          </v-col>
+          <v-col
+            cols="12"
+            md="4"
+          >
+            <v-label class="title">Kel/Desa.</v-label>
+            <select-area-village
+              :village="village"
+              :update-village.sync="village"
+              :code-sub-district="subDistrict.kecamatan_kode"
+              :sub-district-code.sync="subDistrict.kecamatan_kode"
+              :on-select-village="onSelectVillage"
+            />
+          </v-col>
+        </v-row>
+      </v-row>
+    </div>
     <div class="container-map relative">
       <div id="sidebar">
         <div
@@ -54,13 +110,6 @@
               <span class="legend-text">PDP - Selesai</span>
             </li>
             <li
-              :class="[filter.pdp_dead ? 'filter-active' : '']"
-              @click="onFilter('pdp_dead')"
-            >
-              <div class="legend-color cluster-pdp-dead" />
-              <span class="legend-text">PDP - Meninggal</span>
-            </li>
-            <li
               :class="[filter.odp_process ? 'filter-active' : '']"
               @click="onFilter('odp_process')"
             >
@@ -75,13 +124,6 @@
               <span class="legend-text">ODP - Selesai</span>
             </li>
             <li
-              :class="[filter.odp_dead ? 'filter-active' : '']"
-              @click="onFilter('odp_dead')"
-            >
-              <div class="legend-color cluster-odp-dead" />
-              <span class="legend-text">ODP - Meninggal</span>
-            </li>
-            <li
               :class="[filter.otg_process ? 'filter-active' : '']"
               @click="onFilter('otg_process')"
             >
@@ -94,13 +136,6 @@
             >
               <div class="legend-color cluster-otg-done" />
               <span class="legend-text">OTG - Selesai</span>
-            </li>
-            <li
-              :class="[filter.otg_dead ? 'filter-active' : '']"
-              @click="onFilter('otg_dead')"
-            >
-              <div class="legend-color cluster-otg-dead" />
-              <span class="legend-text">OTG - Meninggal</span>
             </li>
           </ul>
         </div>
@@ -165,13 +200,6 @@
               />
               <div class="legend-text">{{ stage.pdp_done }}</div>
             </div>
-            <div class="d-flex mb-1">
-              <div
-                class="legend-color cluster-pdp-dead"
-                style="margin-top: 3px;"
-              />
-              <div class="legend-text">{{ stage.pdp_dead }}</div>
-            </div>
           </v-col>
           <v-col
             cols="12"
@@ -191,13 +219,6 @@
               />
               <div class="legend-text">{{ stage.odp_done }}</div>
             </div>
-            <div class="d-flex mb-1">
-              <div
-                class="legend-color cluster-odp-dead"
-                style="margin-top: 3px;"
-              />
-              <div class="legend-text">{{ stage.odp_dead }}</div>
-            </div>
           </v-col>
           <v-col
             cols="12"
@@ -216,13 +237,6 @@
                 style="margin-top: 3px;"
               />
               <div class="legend-text">{{ stage.otg_done }}</div>
-            </div>
-            <div class="d-flex mb-1">
-              <div
-                class="legend-color cluster-otg-dead"
-                style="margin-top: 3px;"
-              />
-              <div class="legend-text">{{ stage.otg_dead }}</div>
             </div>
           </v-col>
         </v-row>
@@ -247,6 +261,32 @@ import jsonVillage from '../../json/kelurahan.json'
 
 export default {
   name: 'DistributionCaseMap',
+  props: {
+    districtCode: {
+      type: String,
+      default: null
+    },
+    districtName: {
+      type: String,
+      default: null
+    },
+    subDistrictCode: {
+      type: String,
+      default: null
+    },
+    subDistrictName: {
+      type: String,
+      default: null
+    },
+    villageCode: {
+      type: String,
+      default: null
+    },
+    villageName: {
+      type: String,
+      default: null
+    }
+  },
   data() {
     return {
       jsonAll: [],
@@ -258,8 +298,8 @@ export default {
       isZoom: false,
       zoomOld: 0,
       zoomNew: 0,
-      center: [-6.932694, 107.627449],
-      centerCity: null,
+      centerCity: [-6.932694, 107.627449],
+      // centerCity: null,
       layerGroup: null,
       dataLayer: [],
       dataMarker: [],
@@ -301,6 +341,7 @@ export default {
       clusterCity: [],
       clusterDistrict: [],
       clusterVillage: [],
+      clusterVillageSingle: [],
       isFilter: false,
       filter: {
         positive_active: true,
@@ -317,7 +358,29 @@ export default {
         otg_dead: false
       },
       sidebar: null,
-      sidebarContent: ''
+      sidebarContent: '',
+      districtCity: {
+        kota_kode: this.districtCode,
+        kota_nama: this.districtName
+      },
+      subDistrict: {
+        kecamatan_kode: this.subDistrictCode,
+        kecamatan_nama: this.subDistrictName
+      },
+      village: {
+        desa_kode: this.villageCode,
+        desa_nama: this.villageName
+      },
+      disabledDistrict: false,
+      isFilterLayer: false,
+      filterLayer: {
+        isCity: false,
+        isDistrict: false,
+        isVillage: false,
+        city: null,
+        district: null,
+        village: null
+      }
     }
   },
   computed: {
@@ -327,6 +390,42 @@ export default {
       'district_user',
       'district_name_user'
     ])
+  },
+  watch: {
+    districtCode: (value) => {
+      if (value) {
+        this.districtCity = {
+          kota_kode: value,
+          kota_nama: this.districtName
+        }
+      } else {
+        this.clearCity()
+      }
+    },
+    subDistrictCode: (value) => {
+      this.subDistrict = {
+        kecamatan_kode: value,
+        kecamatan_nama: this.subDistrictName
+      }
+    },
+    villageCode: (value) => {
+      this.village = {
+        desa_kode: value,
+        desa_nama: this.villageName
+      }
+    }
+  },
+  async beforeMount() {
+    if (this.roles[0] === 'dinkeskota') {
+      this.disabledDistrict = true
+      this.filterLayer.isCity = true
+      this.filterLayer.city = this.district_user
+    }
+
+    this.districtCity = {
+      kota_kode: this.district_user,
+      kota_nama: this.district_name_user
+    }
   },
   async mounted() {
     this.initMap()
@@ -367,7 +466,7 @@ export default {
             }
           })
 
-          if (this.roles[0] === 'dinkesprov') {
+          if (this.roles[0] === 'dinkesprov' || this.roles[0] === 'superadmin') {
             this.zoomOld = 1
             this.zoomNew = 1
             this.createLayerCity()
@@ -384,12 +483,18 @@ export default {
       console.error(error)
     }
   },
+  beforeDestroy() {
+    this.clearCity()
+    this.clearDistrict()
+    this.clearVillage()
+    this.filterLayer = null
+  },
   methods: {
     initMap() {
       // Map
       this.map = L.map('map', {
         zoomControl: false
-      }).setView(this.center, 8)
+      }).setView(this.centerCity, 8)
 
       // Copyright
       L.tileLayer(
@@ -407,34 +512,34 @@ export default {
         })
         .addTo(this.map)
 
-      this.map.on('zoomend', () => {
-        this.isZoom = true
-        if (this.roles[0] === 'dinkesprov') {
-          if (this.map.getZoom() <= 10) {
-            this.zoomOld = this.zoomNew
-            this.zoomNew = 1
-            this.zoomLayer()
-          } else if (this.map.getZoom() > 10 && this.map.getZoom() <= 13) {
-            this.zoomOld = this.zoomNew
-            this.zoomNew = 2
-            this.zoomLayer()
-          } else if (this.map.getZoom() > 13) {
-            this.zoomOld = this.zoomNew
-            this.zoomNew = 3
-            this.zoomLayer()
-          }
-        } else if (this.roles[0] === 'dinkeskota') {
-          if (this.map.getZoom() <= 13) {
-            this.zoomOld = this.zoomNew
-            this.zoomNew = 2
-            this.zoomLayer(this.district_user)
-          } else if (this.map.getZoom() > 13) {
-            this.zoomOld = this.zoomNew
-            this.zoomNew = 3
-            this.zoomLayer(this.district_user)
-          }
-        }
-      })
+      // this.map.on('zoomend', () => {
+      //   this.isZoom = true
+      //   if (this.roles[0] === 'dinkesprov' || this.roles[0] === 'superadmin') {
+      //     if (this.map.getZoom() <= 10) {
+      //       this.zoomOld = this.zoomNew
+      //       this.zoomNew = 1
+      //       this.zoomLayer()
+      //     } else if (this.map.getZoom() > 10 && this.map.getZoom() <= 13) {
+      //       this.zoomOld = this.zoomNew
+      //       this.zoomNew = 2
+      //       this.zoomLayer()
+      //     } else if (this.map.getZoom() > 13) {
+      //       this.zoomOld = this.zoomNew
+      //       this.zoomNew = 3
+      //       this.zoomLayer()
+      //     }
+      //   } else if (this.roles[0] === 'dinkeskota') {
+      //     if (this.map.getZoom() <= 13) {
+      //       this.zoomOld = this.zoomNew
+      //       this.zoomNew = 2
+      //       this.zoomLayer(this.district_user)
+      //     } else if (this.map.getZoom() > 13) {
+      //       this.zoomOld = this.zoomNew
+      //       this.zoomNew = 3
+      //       this.zoomLayer(this.district_user)
+      //     }
+      //   }
+      // })
 
       // Home
       L.easyButton({
@@ -443,11 +548,7 @@ export default {
           {
             icon: '<i class="material-icons">home</i>',
             onClick: () => {
-              if (this.roles[0] === 'dinkesprov') {
-                this.map.setView(this.center, 8)
-              } else if (this.roles[0] === 'dinkeskota') {
-                this.map.fitBounds(this.centerCity)
-              }
+              this.map.fitBounds(this.centerCity)
             }
           }
         ]
@@ -481,10 +582,14 @@ export default {
       // Drag
       this.map.on('dragend', (e) => {
         this.removeMarker()
-        if (this.roles[0] === 'dinkesprov') {
+        if (this.zoomNew === 1) {
           this.createMarker()
-        } else if (this.roles[0] === 'dinkeskota') {
-          this.createMarker(this.district_user)
+        } else if (this.zoomNew === 2) {
+          this.createMarker(this.filterLayer.city)
+        } else if (this.zoomNew === 3) {
+          this.createMarker(this.filterLayer.district)
+        } else if (this.zoomNew === 4) {
+          this.createMarker(this.filterLayer.village)
         }
       })
 
@@ -510,7 +615,7 @@ export default {
           this.removeLayer()
           this.createLayerCity()
           this.removeMarker()
-          if (this.roles[0] === 'dinkesprov') {
+          if (this.roles[0] === 'dinkesprov' || this.roles[0] === 'superadmin') {
             this.createMarker()
           } else if (this.roles[0] === 'dinkeskota') {
             this.createMarker(this.district_user)
@@ -520,7 +625,7 @@ export default {
           this.removeLayer()
           this.createLayerDistrict(value)
           this.removeMarker()
-          if (this.roles[0] === 'dinkesprov') {
+          if (this.roles[0] === 'dinkesprov' || this.roles[0] === 'superadmin') {
             this.createMarker()
           } else if (this.roles[0] === 'dinkeskota') {
             this.createMarker(this.district_user)
@@ -530,7 +635,7 @@ export default {
           this.removeLayer()
           this.createLayerVillage(value)
           this.removeMarker()
-          if (this.roles[0] === 'dinkesprov') {
+          if (this.roles[0] === 'dinkesprov' || this.roles[0] === 'superadmin') {
             this.createMarker()
           } else if (this.roles[0] === 'dinkeskota') {
             this.createMarker(this.district_user)
@@ -610,8 +715,8 @@ export default {
             return this.styleBorderline
           },
           filter: (feature, layer) => {
-            return feature.properties.kemendagri_kabupaten_kode === value
-            // return feature.properties.kemendagri_kecamatan_kode === value
+            // return feature.properties.kemendagri_kabupaten_kode === value
+            return feature.properties.kemendagri_kecamatan_kode === value
           },
           onEachFeature: (feature, layer, element) => {
             const polygon = layer.addTo(this.map)
@@ -657,32 +762,37 @@ export default {
       }
     },
     createLayerVillageSingle(value) {
-      const geojsonLayer = L.geoJSON(this.jsonVillage, {
-        style: feature => {
-          return this.styleBorderline
-        },
-        filter: (feature, layer) => {
-          return feature.properties.kemendagri_desa_kode === value
-        },
-        onEachFeature: (feature, layer, element) => {
-          const polygon = layer.addTo(this.map)
-          this.dataLayer.push(polygon)
+      let geojsonLayer
+      if (value) {
+        geojsonLayer = L.geoJSON(this.jsonVillage, {
+          style: feature => {
+            return this.styleBorderline
+          },
+          filter: (feature, layer) => {
+            return feature.properties.kemendagri_desa_kode === value
+          },
+          onEachFeature: (feature, layer, element) => {
+            const polygon = layer.addTo(this.map)
+            this.dataLayer.push(polygon)
 
-          const nameCity = feature.properties.kemendagri_kabupaten_nama
-          const nameDistrict = feature.properties.kemendagri_kecamatan_nama
-          const nameVillage = feature.properties.kemendagri_desa_nama
-          layer.bindTooltip(`
-            ${this.titleize(nameCity)} <br>
-            ${this.$t('label.select_sub_district')} ${nameDistrict} <br>
-            ${this.$t('label.select_village')} ${nameVillage}
-          `)
+            const nameCity = feature.properties.kemendagri_kabupaten_nama
+            const nameDistrict = feature.properties.kemendagri_kecamatan_nama
+            const nameVillage = feature.properties.kemendagri_desa_nama
+            layer.bindTooltip(`
+              ${this.titleize(nameCity)} <br>
+              ${this.$t('label.select_sub_district')} ${nameDistrict} <br>
+              ${this.$t('label.select_village')} ${nameVillage}
+            `)
+          }
+        })
+
+        if (!this.isZoom) {
+          if (geojsonLayer.getLayers() && geojsonLayer.getLayers().length > 1) {
+            this.map.fitBounds(geojsonLayer.getBounds())
+          } else if (geojsonLayer.getLayers() && geojsonLayer.getLayers().length === 1) {
+            this.map.fitBounds(geojsonLayer.getBounds())
+          }
         }
-      })
-
-      if (geojsonLayer.getLayers() && geojsonLayer.getLayers().length > 1) {
-        this.map.fitBounds(geojsonLayer.getBounds())
-      } else if (geojsonLayer.getLayers() && geojsonLayer.getLayers().length === 1) {
-        this.map.fitBounds(geojsonLayer.getBounds())
       }
     },
     createMarker(value = null) {
@@ -693,8 +803,9 @@ export default {
         }
       })
 
+      let geojsonLayer
       if (this.zoomNew === 1) {
-        L.geoJSON(this.jsonCity).eachLayer((element) => {
+        geojsonLayer = L.geoJSON(this.jsonCity).eachLayer((element) => {
           if (this.map.getBounds().intersects(element._bounds)) {
             this.clusterCity[element.feature.properties.bps_kabupaten_kode] = this.paramMarkerCluster()
 
@@ -710,9 +821,13 @@ export default {
             this.addMarkerClusterLayer(this.clusterCity, element)
           }
         })
+
+        if (geojsonLayer.getLayers() && geojsonLayer.getLayers().length > 1) {
+          this.centerCity = geojsonLayer.getBounds()
+        }
       } else if (this.zoomNew === 2) {
         if (value) {
-          L.geoJSON(this.jsonDistrict, {
+          geojsonLayer = L.geoJSON(this.jsonDistrict, {
             filter: (feature, layer) => {
               return feature.properties.kemendagri_kabupaten_kode === value
             }
@@ -733,7 +848,7 @@ export default {
             }
           })
         } else {
-          L.geoJSON(this.jsonDistrict).eachLayer((element) => {
+          geojsonLayer = L.geoJSON(this.jsonDistrict).eachLayer((element) => {
             if (this.map.getBounds().intersects(element._bounds)) {
               this.clusterDistrict[element.feature.properties.bps_kecamatan_kode] = this.paramMarkerCluster()
 
@@ -750,11 +865,16 @@ export default {
             }
           })
         }
+
+        if (geojsonLayer.getLayers() && geojsonLayer.getLayers().length > 1) {
+          this.centerCity = geojsonLayer.getBounds()
+        }
       } else if (this.zoomNew === 3) {
         if (value) {
-          L.geoJSON(this.jsonVillage, {
+          geojsonLayer = L.geoJSON(this.jsonVillage, {
             filter: (feature, layer) => {
-              return feature.properties.kemendagri_kabupaten_kode === value
+              // return feature.properties.kemendagri_kabupaten_kode === value
+              return feature.properties.kemendagri_kecamatan_kode === value
             }
           }).eachLayer((element) => {
             if (this.map.getBounds().intersects(element._bounds)) {
@@ -773,7 +893,7 @@ export default {
             }
           })
         } else {
-          L.geoJSON(this.jsonVillage).eachLayer((element) => {
+          geojsonLayer = L.geoJSON(this.jsonVillage).eachLayer((element) => {
             if (this.map.getBounds().intersects(element._bounds)) {
               this.clusterVillage[element.feature.properties.bps_desa_kode] = this.paramMarkerCluster()
 
@@ -789,6 +909,38 @@ export default {
               this.addMarkerClusterLayer(this.clusterVillage, element)
             }
           })
+        }
+
+        if (geojsonLayer.getLayers() && geojsonLayer.getLayers().length > 1) {
+          this.centerCity = geojsonLayer.getBounds()
+        }
+      } else if (this.zoomNew === 4) {
+        if (value) {
+          geojsonLayer = L.geoJSON(this.jsonVillage, {
+            filter: (feature, layer) => {
+              // return feature.properties.kemendagri_kecamatan_kode === value
+              return feature.properties.kemendagri_desa_kode === value
+            }
+          }).eachLayer((element) => {
+            if (this.map.getBounds().intersects(element._bounds)) {
+              this.clusterVillageSingle = this.paramMarkerCluster()
+
+              this.jsonAll.map((elPasien) => {
+                if (elPasien.latitude !== null) {
+                  const point = turf.point([elPasien.longitude, elPasien.latitude])
+                  const isInside = turf.inside(point, element.feature)
+                  if (isInside) {
+                    this.addMarkerLayer(this.clusterVillageSingle, element, elPasien)
+                  }
+                }
+              })
+              this.addMarkerClusterLayer(this.clusterVillageSingle, element)
+            }
+          })
+        }
+
+        if (geojsonLayer.getLayers() && geojsonLayer.getLayers().length > 1) {
+          this.centerCity = geojsonLayer.getBounds()
         }
       }
     },
@@ -921,6 +1073,32 @@ export default {
         } else if (elPasien.status === 'OTG' && elPasien.stage === 'Meninggal') {
           cluster[element.feature.properties.bps_desa_kode].otg_dead.addLayer(m)
         }
+      } else if (this.zoomNew === 4) {
+        if (elPasien.status === 'Positif' && elPasien.stage === 'Proses') {
+          cluster.positive_active.addLayer(m)
+        } else if (elPasien.status === 'Positif' && elPasien.stage === 'Sembuh') {
+          cluster.positive_recovery.addLayer(m)
+        } else if (elPasien.status === 'Positif' && elPasien.stage === 'Meninggal') {
+          cluster.positive_dead.addLayer(m)
+        } else if (elPasien.status === 'PDP' && elPasien.stage === 'Proses') {
+          cluster.pdp_process.addLayer(m)
+        } else if (elPasien.status === 'PDP' && elPasien.stage === 'Selesai') {
+          cluster.pdp_done.addLayer(m)
+        } else if (elPasien.status === 'PDP' && elPasien.stage === 'Meninggal') {
+          cluster.pdp_dead.addLayer(m)
+        } else if (elPasien.status === 'ODP' && elPasien.stage === 'Proses') {
+          cluster.odp_process.addLayer(m)
+        } else if (elPasien.status === 'ODP' && elPasien.stage === 'Selesai') {
+          cluster.odp_done.addLayer(m)
+        } else if (elPasien.status === 'ODP' && elPasien.stage === 'Meninggal') {
+          cluster.odp_dead.addLayer(m)
+        } else if (elPasien.status === 'OTG' && elPasien.stage === 'Proses') {
+          cluster.otg_process.addLayer(m)
+        } else if (elPasien.status === 'OTG' && elPasien.stage === 'Selesai') {
+          cluster.otg_done.addLayer(m)
+        } else if (elPasien.status === 'OTG' && elPasien.stage === 'Meninggal') {
+          cluster.otg_dead.addLayer(m)
+        }
       }
     },
     addMarkerClusterLayer(cluster, element) {
@@ -993,6 +1171,11 @@ export default {
           const newLayer = cluster[element.feature.properties.bps_desa_kode][key].addTo(this.map)
           this.dataMarker.push(newLayer)
         })
+      } else if (this.zoomNew === 4) {
+        Object.keys(cluster).map((key) => {
+          const newLayer = cluster[key].addTo(this.map)
+          this.dataMarker.push(newLayer)
+        })
       }
     },
     paramMarkerCluster() {
@@ -1017,7 +1200,7 @@ export default {
         spiderfyOnMaxZoom = false
       } else if (this.zoomNew === 2) {
         spiderfyOnMaxZoom = false
-      } else if (this.zoomNew === 3) {
+      } else if (this.zoomNew === 3 || this.zoomNew === 4) {
         spiderfyOnMaxZoom = true
       }
 
@@ -1056,10 +1239,80 @@ export default {
       this.sidebar.hide()
 
       this.removeMarker()
-      if (this.roles[0] === 'dinkesprov') {
+      if (this.zoomNew === 1) {
         this.createMarker()
-      } else if (this.roles[0] === 'dinkeskota') {
-        this.createMarker(this.district_user)
+      } else if (this.zoomNew === 2) {
+        this.createMarker(this.filterLayer.city)
+      } else if (this.zoomNew === 3) {
+        this.createMarker(this.filterLayer.district)
+      } else if (this.zoomNew === 4) {
+        this.createMarker(this.filterLayer.village)
+      }
+    },
+    async onSelectDistrict(value) {
+      this.removeMarker()
+      this.removeLayer()
+
+      this.isFilterLayer = true
+      this.districtCity = value
+      this.clearDistrict()
+      this.clearVillage()
+      this.$emit('update:codeDistrict', value.kota_kode)
+      this.$emit('update:nameDistrict', value.kota_nama)
+
+      this.zoomNew = 2
+      this.filterLayer.city = value.kota_kode
+
+      this.createLayerDistrict(value.kota_kode)
+      this.createMarker(value.kota_kode)
+    },
+    async onSelectSubDistrict(value) {
+      this.removeMarker()
+      this.removeLayer()
+
+      this.isFilterLayer = true
+      this.subDistrict = value
+      this.clearVillage()
+      this.$emit('update:codeSubDistrict', value.kecamatan_kode)
+      this.$emit('update:nameSubDistrict', value.kecamatan_nama)
+
+      this.zoomNew = 3
+      this.filterLayer.district = value.kecamatan_kode
+
+      this.createLayerVillage(value.kecamatan_kode)
+      this.createMarker(value.kecamatan_kode)
+    },
+    async onSelectVillage(value) {
+      this.removeMarker()
+      this.removeLayer()
+
+      this.isFilterLayer = true
+      this.village = value
+      this.$emit('update:codeVillage', value.desa_kode)
+      this.$emit('update:nameVillage', value.desa_nama)
+
+      this.zoomNew = 4
+      this.filterLayer.village = value.desa_kode
+
+      this.createLayerVillageSingle(value.desa_kode)
+      this.createMarker(value.desa_kode)
+    },
+    clearCity() {
+      this.districtCity = {
+        kota_kode: null,
+        kota_nama: null
+      }
+    },
+    clearDistrict() {
+      this.subDistrict = {
+        kecamatan_kode: null,
+        kecamatan_nama: null
+      }
+    },
+    clearVillage() {
+      this.village = {
+        desa_kode: null,
+        desa_nama: null
       }
     }
   }
@@ -1069,8 +1322,8 @@ export default {
 <style>
 .map-wrapper {
   background: white;
-  height: calc(100vh - 164px);
-  min-height: calc(100vh - 164px);
+  height: calc(100vh - 178px);
+  min-height: calc(100vh - 178px);
 }
 #map .easy-button-container {
   background-color: white;
@@ -1087,7 +1340,7 @@ export default {
 
 .filter {
   position: absolute;
-  top: 85px;
+  top: 195px;
   right: 10px;
 }
 .filter ul {
@@ -1379,5 +1632,9 @@ export default {
   font-size: 20px;
   line-height: 27px;
   font-weight: bold;
+}
+
+.filter-layer .v-text-field__details {
+  display: none;
 }
 </style>
