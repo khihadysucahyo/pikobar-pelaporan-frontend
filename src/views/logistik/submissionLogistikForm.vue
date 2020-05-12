@@ -1,56 +1,58 @@
 <template>
-  <div v-if="!isConfirm" class="background-landing-page">
-    <div>
-      <v-stepper v-model="step" :alt-labels="true">
-        <v-stepper-header>
-          <v-stepper-step class="left-margin-form-pemohon" :complete="step > 1" step="1">
-            <center>{{ $t('label.step_title_1') }}</center>
-          </v-stepper-step>
-          <v-divider />
-          <v-stepper-step :complete="step > 2" step="2">
-            <center>{{ $t('label.step_title_2') }}</center>
-          </v-stepper-step>
-          <v-divider />
-          <v-stepper-step :complete="step > 3" step="3">
-            <center>{{ $t('label.step_title_3') }}</center>
-          </v-stepper-step>
-          <v-divider />
-          <v-stepper-step :complete="step > 4" class="right-margin-form-pemohon" step="4">
-            <center>{{ $t('label.step_title_4') }}</center>
-          </v-stepper-step>
-        </v-stepper-header>
+  <div>
+    <v-stepper v-model="step" :alt-labels="true">
+      <v-stepper-header>
+        <v-stepper-step class="left-margin-form-pemohon" :complete="step > 1" step="1">
+          <center>{{ $t('label.step_title_1') }}</center>
+        </v-stepper-step>
+        <v-divider />
+        <v-stepper-step :complete="step > 2" step="2">
+          <center>{{ $t('label.step_title_2') }}</center>
+        </v-stepper-step>
+        <v-divider />
+        <v-stepper-step :complete="step > 3" step="3">
+          <center>{{ $t('label.step_title_3') }}</center>
+        </v-stepper-step>
+        <v-divider />
+        <v-stepper-step :complete="step > 4" step="4">
+          <center>{{ $t('label.step_title_4') }}</center>
+        </v-stepper-step>
+        <v-divider />
+        <v-stepper-step :complete="step > 5" class="right-margin-form-pemohon" step="5">
+          <center>{{ $t('label.step_title_5') }}</center>
+        </v-stepper-step>
+      </v-stepper-header>
 
-        <v-stepper-items>
-          <v-stepper-content step="1">
-            <identitas-instansi-pemohon
-              :form-applicant="formApplicant"
-            />
-          </v-stepper-content>
-          <v-stepper-content step="2">
-            <identitas-pemohon
-              :form-identity-applicant="formIdentityApplicant"
-              :instance-type="formApplicant.instanceType"
-            />
-          </v-stepper-content>
-          <v-stepper-content step="3">
-            <kebutuhan-logistik
-              :logistic-needs="logisticNeeds"
-            />
-          </v-stepper-content>
-          <v-stepper-content step="4">
-            <surat-permohonan />
-          </v-stepper-content>
-        </v-stepper-items>
-      </v-stepper>
-    </div>
-  </div>
-  <div v-else>
-    <tahap-konfirmasi
-      :form-applicant="formApplicant"
-      :form-identity-applicant="formIdentityApplicant"
-      :logistic-needs="logisticNeeds"
-      :applicant-letter="applicantLetter"
-    />
+      <v-stepper-items>
+        <v-stepper-content step="1">
+          <identitas-instansi-pemohon
+            :form-applicant="formApplicant"
+          />
+        </v-stepper-content>
+        <v-stepper-content step="2">
+          <identitas-pemohon
+            :form-identity-applicant="formIdentityApplicant"
+            :instance-type="formApplicant.instanceType"
+          />
+        </v-stepper-content>
+        <v-stepper-content step="3">
+          <kebutuhan-logistik
+            :logistic-needs="logisticNeeds"
+          />
+        </v-stepper-content>
+        <v-stepper-content step="4">
+          <surat-permohonan />
+        </v-stepper-content>
+        <v-stepper-content step="5">
+          <tahap-konfirmasi
+            :form-applicant="formApplicant"
+            :form-identity-applicant="formIdentityApplicant"
+            :logistic-needs="logisticNeeds"
+            :applicant-letter="applicantLetter"
+          />
+        </v-stepper-content>
+      </v-stepper-items>
+    </v-stepper>
   </div>
 </template>
 
@@ -78,7 +80,7 @@ export default {
       this.step = value - 1
     })
     EventBus.$on('confirmStep', (value) => {
-      this.applicantLetter = value
+      // this.applicantLetter = value
       this.isConfirm = true
       this.step = 5
     })

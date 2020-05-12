@@ -200,36 +200,23 @@
         </v-row>
       </v-form>
       <v-container fluid>
-        <div class="btn-desktop">
-          <v-col cols="6" sm="6" md="6" class="float-right-third-step">
+        <div>
+          <v-col cols="12" sm="3" md="3" class="float-right-fourth-step">
             <v-btn
-              class="btn-margin-positive"
-              color="primary"
-              @click="onNext"
-            >{{ $t('label.next') }}</v-btn>
-            <v-btn
-              class="btn-margin-positive"
-              outlined
-              text
-              @click="onPrev"
-            >{{ $t('label.cancel') }}</v-btn>
-          </v-col>
-        </div>
-        <div class="btn-mobile">
-          <v-col cols="12" sm="12" md="6" class="float-right-third-step">
-            <v-btn
+              block
               class="btn-margin-positive"
               color="primary"
               @click="onNext"
             >{{ $t('label.next') }}</v-btn>
           </v-col>
-          <v-col cols="12" sm="12" md="6" class="float-right-third-step">
+          <v-col cols="12" sm="3" md="3" class="float-right-fourth-step">
             <v-btn
+              block
               class="btn-margin-positive"
               outlined
               text
               @click="onPrev"
-            >{{ $t('label.cancel') }}</v-btn>
+            >{{ $t('label.back') }}</v-btn>
           </v-col>
         </div>
       </v-container>
@@ -299,28 +286,28 @@ export default {
     },
     setTotalAPD() {
       this.totalLogistic = 0
-      this.logisticNeeds.forEach(element => {
-        this.totalLogistic = this.totalLogistic + parseInt(element.total)
-      })
+      // this.logisticNeeds.forEach(element => {
+      //   this.totalLogistic = this.totalLogistic + parseInt(element.total)
+      // })
     },
     async setUnit(value) {
       value.unitId = ''
       value.unitName = ''
       value.unitList = await this.$store.dispatch('logistics/getListApdUnit', value.apd)
-      this.listAPD.forEach(element => {
-        if (element.id === value.apd) {
-          value.apdName = element.name
-          return
-        }
-      })
+      // this.listAPD.forEach(element => {
+      //   if (element.id === value.apd) {
+      //     value.apdName = element.name
+      //     return
+      //   }
+      // })
     },
     setUnitName(value) {
-      value.unitList.forEach(element => {
-        if (value.unitId === element.unit_id) {
-          value.unitName = element.unit
-          return
-        }
-      })
+      // value.unitList.forEach(element => {
+      //   if (value.unitId === element.unit_id) {
+      //     value.unitName = element.unit
+      //     return
+      //   }
+      // })
     },
     deleteData(index) {
       this.logisticNeeds.splice(index, 1)
@@ -330,25 +317,25 @@ export default {
       }
     },
     async getListAPD() {
-      await this.$store.dispatch('logistics/getListAPD', this.listQueryAPD)
-      this.listAPD.forEach(element => {
-        element.value = {
-          id: element.id,
-          name: element.name
-        }
-      })
+      // await this.$store.dispatch('logistics/getListAPD', this.listQueryAPD)
+      // this.listAPD.forEach(element => {
+      //   element.value = {
+      //     id: element.id,
+      //     name: element.name
+      //   }
+      // })
     },
     async onNext() {
-      const valid = await this.$refs.observer.validate()
-      if (this.logisticNeeds.length > 0) {
-        this.isValid = true
-      }
-      if (!valid) {
-        return
-      } else if (!this.isValid) {
-        this.showAlert = true
-        return
-      }
+      // const valid = await this.$refs.observer.validate()
+      // if (this.logisticNeeds.length > 0) {
+      //   this.isValid = true
+      // }
+      // if (!valid) {
+      //   return
+      // } else if (!this.isValid) {
+      //   this.showAlert = true
+      //   return
+      // }
       EventBus.$emit('nextStep', this.step)
     },
     onPrev() {

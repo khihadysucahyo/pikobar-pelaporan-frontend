@@ -121,7 +121,6 @@
               <v-label class="title"><b>{{ $t('label.complete_address') }}</b> <i class="text-small-first-step">{{ $t('label.must_fill') }}</i></v-label>
               <v-textarea
                 v-model="formApplicant.fullAddress"
-                outlined
                 :height="100"
                 :no-resize="true"
                 :error-messages="errors"
@@ -199,25 +198,25 @@ export default {
   },
   methods: {
     async onNext() {
-      this.faskesTypeList.forEach(element => {
-        if (element.id === this.formApplicant.instanceType) {
-          this.formApplicant.instanceTypeName = element.name
-        }
-      })
-      this.faskesList.forEach(element => {
-        if (element.id === this.formApplicant.instance) {
-          this.formApplicant.instanceName = element.nama_faskes
-          return
-        }
-      })
-      const valid = await this.$refs.observer.validate()
-      if (!valid) {
-        return
-      }
+      // this.faskesTypeList.forEach(element => {
+      //   if (element.id === this.formApplicant.instanceType) {
+      //     this.formApplicant.instanceTypeName = element.name
+      //   }
+      // })
+      // this.faskesList.forEach(element => {
+      //   if (element.id === this.formApplicant.instance) {
+      //     this.formApplicant.instanceName = element.nama_faskes
+      //     return
+      //   }
+      // })
+      // const valid = await this.$refs.observer.validate()
+      // if (!valid) {
+      //   return
+      // }
       EventBus.$emit('nextStep', this.step)
     },
     async getListCity() {
-      await this.$store.dispatch('region/getApplicantFormListCity')
+      await this.$store.dispatch('region/getListDistrictCity')
       this.applicantListCity.forEach(element => {
         element.value = {
           id: element.kemendagri_kabupaten_kode,
@@ -227,7 +226,7 @@ export default {
       })
     },
     async getListDistrict() {
-      await this.$store.dispatch('region/getApplicantFormListDistrict', { city_code: this.formApplicant.cityNameId.id })
+      await this.$store.dispatch('region/getListSubDistrict', { city_code: this.formApplicant.cityNameId.id })
       this.applicantListDistrict.forEach(element => {
         element.value = {
           id: element.kemendagri_kecamatan_kode,
@@ -237,7 +236,7 @@ export default {
       })
     },
     async getListVillage() {
-      await this.$store.dispatch('region/getApplicantFormListVillage', { subdistrict_code: this.formApplicant.districtNameId.id })
+      await this.$store.dispatch('region/getListVillage', { subdistrict_code: this.formApplicant.districtNameId.id })
       this.applicantListVillage.forEach(element => {
         element.value = {
           id: element.kemendagri_desa_kode,

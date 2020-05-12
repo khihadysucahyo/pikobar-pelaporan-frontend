@@ -397,10 +397,25 @@
         <hr>
         <v-row>
           <v-col cols="5" sm="5">
-            <v-btn class="ml-5 white--text" min-width="140px" color="success" outlined @click="onPrev()">{{ $t('label.back') }}</v-btn>
+            <v-btn
+              class="ml-5 white--text"
+              min-width="140px"
+              color="success"
+              outlined
+              @click="onPrev()"
+            >
+              {{ $t('label.back') }}
+            </v-btn>
           </v-col>
           <v-col cols="5" sm="5">
-            <v-btn class="ml-5 white--text" min-width="140px" color="success" @click="submitData">{{ $t('label.save') }}</v-btn>
+            <v-btn
+              class="ml-5 white--text"
+              min-width="140px"
+              olor="success"
+              @click="submitData"
+            >
+              {{ $t('label.save') }}
+            </v-btn>
           </v-col>
         </v-row>
       </div>

@@ -17,7 +17,7 @@
               <v-label class="title"><b>{{ $t('label.contact_person') }}</b> <i class="text-small-second-step">{{ $t('label.must_fill') }}</i></v-label>
               <v-text-field
                 v-model="formIdentityApplicant.applicantName"
-                outlined
+                solo
                 :error-messages="errors"
                 :placeholder="$t('label.input_full_name')"
                 solo-inverted
@@ -30,7 +30,7 @@
               <v-label class="title"><b>{{ $t('label.applicant_position') }}</b> <i class="text-small-second-step">{{ $t('label.must_fill') }}</i></v-label>
               <v-text-field
                 v-model="formIdentityApplicant.applicantPosition"
-                outlined
+                solo
                 :error-messages="errors"
                 :placeholder="$t('label.applicant_position_placeholder')"
                 solo-inverted
@@ -105,7 +105,7 @@
               <v-label class="title"><b>{{ $t('label.applicant_email') }}</b> <i class="text-small-second-step">{{ $t('label.must_fill') }}</i></v-label>
               <v-text-field
                 v-model="formIdentityApplicant.applicantEmail"
-                outlined
+                solo
                 :error-messages="errors"
                 :placeholder="$t('label.applicant_email_placeholder')"
                 solo-inverted
@@ -118,7 +118,7 @@
               <v-label class="title"><b>{{ $t('label.applicant_phone_number') }}</b> <i class="text-small-second-step">{{ $t('label.must_fill') }}</i></v-label>
               <v-text-field
                 v-model="formIdentityApplicant.applicantPhoneNumber"
-                outlined
+                solo
                 :error-messages="errors"
                 :placeholder="$t('label.applicant_phone_number_placeholder')"
                 solo-inverted
@@ -131,7 +131,7 @@
               <v-label class="title"><b>{{ $t('label.other_applicant_phone_number') }}</b> <i class="text-small-second-step">{{ $t('label.must_fill') }}</i></v-label>
               <v-text-field
                 v-model="formIdentityApplicant.applicantPhoneNumber2"
-                outlined
+                solo
                 :error-messages="errors"
                 :placeholder="$t('label.applicant_phone_number_placeholder')"
                 solo-inverted
@@ -140,36 +140,23 @@
           </v-col>
         </v-row>
         <v-container fluid>
-          <div class="btn-desktop">
-            <v-col cols="6" sm="6" md="6" class="float-right-second-step">
+          <div>
+            <v-col cols="12" sm="3" md="3" class="float-right-fourth-step">
               <v-btn
-                class="btn-margin-positive"
-                color="primary"
-                @click="onNext"
-              >{{ $t('label.next') }}</v-btn>
-              <v-btn
-                class="btn-margin-positive"
-                outlined
-                text
-                @click="onPrev"
-              >{{ $t('label.cancel') }}</v-btn>
-            </v-col>
-          </div>
-          <div class="btn-mobile">
-            <v-col cols="12" sm="12" md="6" class="float-right-second-step">
-              <v-btn
+                block
                 class="btn-margin-positive"
                 color="primary"
                 @click="onNext"
               >{{ $t('label.next') }}</v-btn>
             </v-col>
-            <v-col cols="12" sm="12" md="6" class="float-right-second-step">
+            <v-col cols="12" sm="3" md="3" class="float-right-fourth-step">
               <v-btn
+                block
                 class="btn-margin-positive"
                 outlined
                 text
                 @click="onPrev"
-              >{{ $t('label.cancel') }}</v-btn>
+              >{{ $t('label.back') }}</v-btn>
             </v-col>
           </div>
         </v-container>
@@ -206,11 +193,11 @@ export default {
   },
   methods: {
     async onNext() {
-      const valid = await this.$refs.observer.validate()
-      if (!valid || !this.isFileValid) {
-        this.uploadAlert = true
-        return
-      }
+      // const valid = await this.$refs.observer.validate()
+      // if (!valid || !this.isFileValid) {
+      //   this.uploadAlert = true
+      //   return
+      // }
       EventBus.$emit('nextStep', this.step)
     },
     onPrev() {

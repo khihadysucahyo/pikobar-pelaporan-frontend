@@ -64,36 +64,23 @@
           </v-col>
         </v-row>
         <v-container fluid>
-          <div class="btn-desktop">
-            <v-col cols="6" sm="6" md="6" class="float-right-fourth-step">
+          <div>
+            <v-col cols="12" sm="3" md="3" class="float-right-fourth-step">
               <v-btn
-                class="btn-margin-positive"
-                color="primary"
-                @click="onNext"
-              >{{ $t('label.next') }}</v-btn>
-              <v-btn
-                class="btn-margin-positive"
-                outlined
-                text
-                @click="onPrev"
-              >{{ $t('label.cancel') }}</v-btn>
-            </v-col>
-          </div>
-          <div class="btn-mobile">
-            <v-col cols="12" sm="12" md="6" class="float-right-fourth-step">
-              <v-btn
+                block
                 class="btn-margin-positive"
                 color="primary"
                 @click="onNext"
               >{{ $t('label.next') }}</v-btn>
             </v-col>
-            <v-col cols="12" sm="12" md="6" class="float-right-fourth-step">
+            <v-col cols="12" sm="3" md="3" class="float-right-fourth-step">
               <v-btn
+                block
                 class="btn-margin-positive"
                 outlined
                 text
                 @click="onPrev"
-              >{{ $t('label.cancel') }}</v-btn>
+              >{{ $t('label.back') }}</v-btn>
             </v-col>
           </div>
         </v-container>
@@ -141,12 +128,12 @@ export default {
       return this.applicantLetter
     },
     async onNext() {
-      const valid = await this.$refs.observer.validate()
-      if (!valid) {
-        this.uploadAlert = true
-        return
-      }
-      EventBus.$emit('confirmStep', this.applicantLetter)
+      // const valid = await this.$refs.observer.validate()
+      // if (!valid) {
+      //   this.uploadAlert = true
+      //   return
+      // }
+      EventBus.$emit('nextStep', this.step)
     },
     onPrev() {
       this.isAddAPD = false
