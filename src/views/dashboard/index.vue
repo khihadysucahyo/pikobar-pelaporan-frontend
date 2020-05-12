@@ -530,7 +530,7 @@ export default {
 
     const today = new Date()
     const max = today.getTime()
-    const min = today.getTime() - ((24 * 60 * 60 * 1000) * 14)
+    const min = today.getTime() - ((24 * 60 * 60 * 1000) * 13)
 
     this.listQueryDate = {
       min_date: this.$moment(min).format('YYYY/MM/DD'),
