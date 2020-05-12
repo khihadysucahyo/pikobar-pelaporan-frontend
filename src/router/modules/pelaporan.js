@@ -23,17 +23,6 @@ const surveyRouter = {
       }
     },
     {
-      path: '/laporan/list',
-      component: () => import('@/views/laporan/list'),
-      meta: {
-        title: 'list_case',
-        icon: 'library_books',
-        child: true,
-        noCache: true,
-        roles: ['superadmin', 'dinkesprov', 'dinkeskota', 'faskes']
-      }
-    },
-    {
       path: '/laporan/verification',
       component: () => import('@/views/laporan/verification'),
       meta: {
@@ -42,6 +31,17 @@ const surveyRouter = {
         child: true,
         noCache: true,
         roles: ['superadmin', 'dinkeskota', 'faskes']
+      }
+    },
+    {
+      path: '/laporan/list',
+      component: () => import('@/views/laporan/list'),
+      meta: {
+        title: 'list_case',
+        icon: 'library_books',
+        child: true,
+        noCache: true,
+        roles: ['superadmin', 'dinkesprov', 'dinkeskota', 'faskes']
       }
     },
     {

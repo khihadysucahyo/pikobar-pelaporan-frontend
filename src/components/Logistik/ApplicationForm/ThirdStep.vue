@@ -57,7 +57,7 @@
           >
             <ValidationProvider
               v-slot="{ errors }"
-              rules="requiredAPDName"
+              rules="required"
             >
               <v-label class="title"><b>{{ $t('label.apd_name_spec') }}</b></v-label>
               <v-autocomplete
@@ -80,7 +80,7 @@
           >
             <ValidationProvider
               v-slot="{ errors }"
-              rules="requiredBrand"
+              rules="required"
             >
               <v-label class="title"><b>{{ $t('label.brand') }}</b></v-label>
               <v-text-field
@@ -99,7 +99,7 @@
           >
             <ValidationProvider
               v-slot="{ errors }"
-              rules="requiredTotal|notMinus"
+              rules="required|notMinus"
             >
               <v-label class="title"><b>{{ $t('label.total') }}</b></v-label>
               <v-text-field
@@ -141,7 +141,7 @@
           >
             <ValidationProvider
               v-slot="{ errors }"
-              rules="requiredPurpose"
+              rules="required"
             >
               <v-label class="title"><b>{{ $t('label.purpose') }}</b></v-label>
               <v-text-field
@@ -160,7 +160,7 @@
           >
             <ValidationProvider
               v-slot="{ errors }"
-              rules="requiredUrgencyLevel"
+              rules="required"
             >
               <v-label class="title"><b>{{ $t('label.urgency_level') }}</b></v-label>
               <v-select
