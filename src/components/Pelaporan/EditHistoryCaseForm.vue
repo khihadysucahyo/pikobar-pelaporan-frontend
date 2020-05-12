@@ -176,8 +176,8 @@
                       </ValidationProvider>
                       <ValidationProvider v-slot="{ errors }">
                         <label>{{ $t('label.additional_condition') }}</label>
-                        <v-row v-for="rowIdx in Math.ceil(additionalConditionOptions.length / 3)" :key="rowIdx">
-                          <v-col v-for="item in additionalConditionOptions.slice(3 * (rowIdx - 1), 3 * rowIdx)" :key="item" class="one-third column">
+                        <v-row>
+                          <v-col v-for="item in additionalConditionOptions" :key="item" sm="4" md="4">
                             <label class="material-checkbox-custom">
                               <input
                                 v-model="formRiwayatPasien.diseases"
