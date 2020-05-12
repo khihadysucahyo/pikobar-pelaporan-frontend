@@ -47,7 +47,7 @@
           <tahap-konfirmasi
             :form-applicant="formApplicant"
             :form-identity-applicant="formIdentityApplicant"
-            :logistic-needs="logisticNeeds"
+            :logistic-needs.sync="logisticNeeds"
             :applicant-letter="applicantLetter"
           />
         </v-stepper-content>
@@ -80,7 +80,7 @@ export default {
       this.step = value - 1
     })
     EventBus.$on('confirmStep', (value) => {
-      // this.applicantLetter = value
+      this.applicantLetter = value
       this.isConfirm = true
       this.step = 5
     })

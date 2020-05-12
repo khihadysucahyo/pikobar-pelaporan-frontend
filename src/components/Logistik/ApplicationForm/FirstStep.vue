@@ -32,10 +32,10 @@
             >
               <v-label class="title"><b>{{ $t('label.instance_name') }}</b> <i class="text-small-first-step">{{ $t('label.must_fill') }}</i></v-label>
               <v-autocomplete
-                v-model="formApplicant.instance"
-                :items="faskesList"
-                item-value="id"
-                item-text="nama_faskes"
+                v-model="formApplicant.instanceName"
+                :items="hospitalList"
+                item-value="_id"
+                item-text="name"
                 single-line
                 solo
                 autocomplete
@@ -45,19 +45,6 @@
                 @change="onSelectFaskes"
               />
             </ValidationProvider>
-            <!--            <div>-->
-            <!--              <v-label class="title"><b>{{ $t('label.instance_not_found_title') }}</b></v-label>-->
-            <!--              <v-btn-->
-            <!--                outlined-->
-            <!--                color="#2E7D32"-->
-            <!--                large-->
-            <!--                style="margin-left: 30px"-->
-            <!--                @click.stop="showForm = true"-->
-            <!--              >-->
-            <!--                {{ $t('label.adding') }}-->
-            <!--              </v-btn>-->
-            <!--              <form-add-instance :show="showForm" />-->
-            <!--            </div>-->
             <ValidationProvider
               v-slot="{ errors }"
               rules="isPhoneNumber"
@@ -149,7 +136,7 @@
 <script>
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import EventBus from '@/utils/eventBus'
-// import { mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'IdentitasInstansiPemohon',
@@ -174,24 +161,22 @@ export default {
       listDistrictCity: [],
       listSubDistrict: [],
       listVillage: [],
-      faskesList: [],
-      faskesTypeList: [],
       faskesDetail: '',
       showForm: false
     }
   },
-  // computed: {
-  //   ...mapGetters('faskes', [
-  //     'faskesList',
-  //     'faskesDetail'
-  //   ]),
-  //   ...mapGetters('faskesType', [
-  //     'faskesTypeList'
-  //   ])
-  // },
+  computed: {
+    ...mapGetters('region', [
+      'hospitalList'
+    ]),
+    ...mapGetters('logistic', [
+      'faskesTypeList'
+    ])
+  },
   async created() {
     await this.getListCity()
-    // await this.$store.dispatch('faskesType/getListFaskesType')
+    await this.$store.dispatch('logistic/getListFaskesType')
+    await this.$store.dispatch('region/getListHospital')
     // await this.getListFaskes()
     EventBus.$on('dialogHide', (value) => {
       this.showForm = value
@@ -199,21 +184,21 @@ export default {
   },
   methods: {
     async onNext() {
-      // this.faskesTypeList.forEach(element => {
-      //   if (element.id === this.formApplicant.instanceType) {
-      //     this.formApplicant.instanceTypeName = element.name
-      //   }
-      // })
-      // this.faskesList.forEach(element => {
-      //   if (element.id === this.formApplicant.instance) {
-      //     this.formApplicant.instanceName = element.nama_faskes
-      //     return
-      //   }
-      // })
-      // const valid = await this.$refs.observer.validate()
-      // if (!valid) {
-      //   return
-      // }
+      this.faskesTypeList.forEach(element => {
+        if (element.id === this.formApplicant.instanceType) {
+          this.formApplicant.instanceTypeName = element.name
+        }
+      })
+      this.hospitalList.forEach(element => {
+        if (element.id === this.formApplicant.instance) {
+          this.formApplicant.instanceName = element.name
+          return
+        }
+      })
+      const valid = await this.$refs.observer.validate()
+      if (!valid) {
+        return
+      }
       EventBus.$emit('nextStep', this.step)
     },
     async getListCity() {

@@ -386,6 +386,7 @@ export default {
     applicant_phone: 'No. HP Pemohon',
     applicant_phone_sub: 'No. HP Pemohon Pengganti',
     apd_name_specification: 'Nama/Spesifikasi APD',
+    upload_error_message: 'Mohon Upload File dengan benar',
     number: 'No',
     instance_identity: 'Identitas Instansi'
   },
@@ -424,6 +425,7 @@ export default {
     field_first_two_digits_must_province_code: 'Dua digit pertama harus merupakan kode provinsi',
     field_must_contains_sixteen_digits: 'Kolom harus mempunyai 16 digit',
     duplicated_nik: 'NIK telah terdaftar di sistem',
+    not_minus: 'Nilai tidak boleh 0 atau kurang',
     field_only_accepts_xlsx: 'Sistem hanya dapat menerima file dengan format ".xlsx"'
   },
 }

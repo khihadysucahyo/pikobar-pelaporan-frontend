@@ -1,101 +1,6 @@
 
 <template>
   <div>
-    <v-skeleton-loader
-      :loading="loading"
-      type="article"
-    >
-      <v-card class="d-block pa-1 mx-auto header-survey-list">
-        <v-container>
-          <v-row justify="space-between">
-            <v-col cols="auto">
-              <v-card-text class="header-survey-text">
-                <div>{{ $t('label.total_case_data') }} : {{ totalReport }}</div>
-                <div>{{ fullName }}</div>
-              </v-card-text>
-            </v-col>
-          </v-row>
-        </v-container>
-      </v-card>
-    </v-skeleton-loader>
-    <v-row>
-      <v-col>
-        <v-skeleton-loader
-          :loading="loading"
-          type="article"
-        >
-          <v-card
-            class="mx-auto"
-            outlined
-          >
-            <v-list-item two-line style="background: #9f9f9f">
-              <v-list-item-content>
-                <v-list-item-title style="color: #FFFFFF;">{{ $t('label.people_without_symptoms') }}</v-list-item-title>
-                <v-list-item-title class="headline mb-1" style="color: #FFFFFF;padding-top: 2rem;">{{ totalOTG }} {{ $t('label.people') }}</v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-          </v-card>
-        </v-skeleton-loader>
-      </v-col>
-      <v-col>
-        <v-skeleton-loader
-          :loading="loading"
-          type="article"
-        >
-          <v-card
-            class="mx-auto"
-            outlined
-          >
-            <v-list-item two-line style="background: #D2EAFF">
-              <v-list-item-content>
-                <v-list-item-title style="color: #2F80ED;">{{ $t('label.insiders_monitoring') }}</v-list-item-title>
-                <v-list-item-title class="headline mb-1" style="color: #2F80ED;padding-top: 2rem;">{{ totalODP }} {{ $t('label.people') }}</v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-          </v-card>
-        </v-skeleton-loader>
-      </v-col>
-      <v-col>
-        <v-skeleton-loader
-          :loading="loading"
-          type="article"
-        >
-          <v-card
-            class="mx-auto"
-            outlined
-          >
-            <v-list-item two-line style="background: #FEF9EC">
-              <v-list-item-content>
-                <v-list-item-title style="color: #F2994A;">
-                  {{ $t('label.patients_under_supervision') }}
-                </v-list-item-title>
-                <v-list-item-title class="headline mb-1" style="color: #F2994A;padding-top: 2rem;">{{ totalPDP }} {{ $t('label.people') }}</v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-          </v-card>
-        </v-skeleton-loader>
-      </v-col>
-      <v-col>
-        <v-skeleton-loader
-          :loading="loading"
-          type="article"
-        >
-          <v-card
-            class="mx-auto"
-            outlined
-          >
-            <v-list-item two-line style="background: #FDEDED">
-              <v-list-item-content>
-                <v-list-item-title style="color: #EB5757;">
-                  {{ $t('label.positif').toUpperCase() }}
-                </v-list-item-title>
-                <v-list-item-title class="headline mb-1" style="color: #EB5757;padding-top: 2rem;">{{ totalPositif }} {{ $t('label.people') }}</v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-          </v-card>
-        </v-skeleton-loader>
-      </v-col>
-    </v-row>
     <v-card
       outlined
     >
@@ -110,29 +15,8 @@
       <v-row align="center" justify="space-between">
         <v-col>
           <div class="title">
-            {{ $t('label.case_data') }}
+            {{ $t('route.application_list') }}
           </div>
-        </v-col>
-        <v-col cols="12" sm="4" class="align-right">
-          <v-btn
-            color="#b3e2cd"
-            class="btn-import-export margin-right"
-            depressed
-            @click="showImportForm = true"
-          >
-            <v-icon left>
-              mdi-download
-            </v-icon>
-            {{ $t('label.import') }}
-          </v-btn>
-          <v-btn
-            class="btn-import-export margin-left"
-            color="#b3e2cd"
-            @click="onExport"
-          >
-            <v-icon left>mdi-upload</v-icon>
-            {{ $t('label.export') }}
-          </v-btn>
         </v-col>
       </v-row>
       <hr class="table-divider">

@@ -20,6 +20,13 @@ extend('numeric', {
   message: (_, values) => i18n.t('errors.field_unauthorized_characters', values)
 })
 
+extend('notMinus', {
+  message: (_, values) => i18n.t('errors.not_minus', values),
+  validate: value => {
+    return value >= 0
+  }
+})
+
 extend('email', {
   ...email,
   message: (_, values) => i18n.t('errors.field_must_be_valid_email', values)

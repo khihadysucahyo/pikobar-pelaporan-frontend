@@ -12,7 +12,7 @@
           <v-col cols="12" sm="12" md="6">
             <ValidationProvider
               v-slot="{ errors }"
-              rules="requiredApplicantName"
+              rules="required"
             >
               <v-label class="title"><b>{{ $t('label.contact_person') }}</b> <i class="text-small-second-step">{{ $t('label.must_fill') }}</i></v-label>
               <v-text-field
@@ -25,7 +25,7 @@
             </ValidationProvider>
             <ValidationProvider
               v-slot="{ errors }"
-              rules="requiredApplicantPosition"
+              rules="required"
             >
               <v-label class="title"><b>{{ $t('label.applicant_position') }}</b> <i class="text-small-second-step">{{ $t('label.must_fill') }}</i></v-label>
               <v-text-field
@@ -100,7 +100,7 @@
           <v-col cols="12" sm="12" md="6">
             <ValidationProvider
               v-slot="{ errors }"
-              rules="requiredApplicantEmail|email"
+              rules="required|email"
             >
               <v-label class="title"><b>{{ $t('label.applicant_email') }}</b> <i class="text-small-second-step">{{ $t('label.must_fill') }}</i></v-label>
               <v-text-field
@@ -113,7 +113,7 @@
             </ValidationProvider>
             <ValidationProvider
               v-slot="{ errors }"
-              rules="requiredApplicantPhoneNumber|isPhoneNumber"
+              rules="required|isPhoneNumber"
             >
               <v-label class="title"><b>{{ $t('label.applicant_phone_number') }}</b> <i class="text-small-second-step">{{ $t('label.must_fill') }}</i></v-label>
               <v-text-field
@@ -126,7 +126,7 @@
             </ValidationProvider>
             <ValidationProvider
               v-slot="{ errors }"
-              rules="requiredApplicantPhoneNumber|isPhoneNumber"
+              rules="required|isPhoneNumber"
             >
               <v-label class="title"><b>{{ $t('label.other_applicant_phone_number') }}</b> <i class="text-small-second-step">{{ $t('label.must_fill') }}</i></v-label>
               <v-text-field
@@ -193,11 +193,11 @@ export default {
   },
   methods: {
     async onNext() {
-      // const valid = await this.$refs.observer.validate()
-      // if (!valid || !this.isFileValid) {
-      //   this.uploadAlert = true
-      //   return
-      // }
+      const valid = await this.$refs.observer.validate()
+      if (!valid || !this.isFileValid) {
+        this.uploadAlert = true
+        return
+      }
       EventBus.$emit('nextStep', this.step)
     },
     onPrev() {

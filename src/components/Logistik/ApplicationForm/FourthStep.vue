@@ -128,11 +128,11 @@ export default {
       return this.applicantLetter
     },
     async onNext() {
-      // const valid = await this.$refs.observer.validate()
-      // if (!valid) {
-      //   this.uploadAlert = true
-      //   return
-      // }
+      const valid = await this.$refs.observer.validate()
+      if (!valid) {
+        this.uploadAlert = true
+        return
+      }
       EventBus.$emit('nextStep', this.step)
     },
     onPrev() {

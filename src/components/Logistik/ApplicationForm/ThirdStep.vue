@@ -119,7 +119,7 @@
           >
             <ValidationProvider
               v-slot="{ errors }"
-              rules="requiredUnit"
+              rules="required"
             >
               <v-label class="title"><b>{{ $t('label.unit') }}</b></v-label>
               <v-select
@@ -257,8 +257,9 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('logistics', [
-      'listAPD', 'listApdUnit'
+    ...mapGetters('logistic', [
+      'listAPD',
+      'listApdUnit'
     ])
   },
   async created() {
@@ -286,28 +287,28 @@ export default {
     },
     setTotalAPD() {
       this.totalLogistic = 0
-      // this.logisticNeeds.forEach(element => {
-      //   this.totalLogistic = this.totalLogistic + parseInt(element.total)
-      // })
+      this.logisticNeeds.forEach(element => {
+        this.totalLogistic = this.totalLogistic + parseInt(element.total)
+      })
     },
     async setUnit(value) {
       value.unitId = ''
       value.unitName = ''
-      value.unitList = await this.$store.dispatch('logistics/getListApdUnit', value.apd)
-      // this.listAPD.forEach(element => {
-      //   if (element.id === value.apd) {
-      //     value.apdName = element.name
-      //     return
-      //   }
-      // })
+      value.unitList = await this.$store.dispatch('logistic/getListApdUnit', value.apd)
+      this.listAPD.forEach(element => {
+        if (element.id === value.apd) {
+          value.apdName = element.name
+          return
+        }
+      })
     },
     setUnitName(value) {
-      // value.unitList.forEach(element => {
-      //   if (value.unitId === element.unit_id) {
-      //     value.unitName = element.unit
-      //     return
-      //   }
-      // })
+      value.unitList.forEach(element => {
+        if (value.unitId === element.unit_id) {
+          value.unitName = element.unit
+          return
+        }
+      })
     },
     deleteData(index) {
       this.logisticNeeds.splice(index, 1)
@@ -317,25 +318,25 @@ export default {
       }
     },
     async getListAPD() {
-      // await this.$store.dispatch('logistics/getListAPD', this.listQueryAPD)
-      // this.listAPD.forEach(element => {
-      //   element.value = {
-      //     id: element.id,
-      //     name: element.name
-      //   }
-      // })
+      await this.$store.dispatch('logistic/getListAPD', this.listQueryAPD)
+      this.listAPD.forEach(element => {
+        element.value = {
+          id: element.id,
+          name: element.name
+        }
+      })
     },
     async onNext() {
-      // const valid = await this.$refs.observer.validate()
-      // if (this.logisticNeeds.length > 0) {
-      //   this.isValid = true
-      // }
-      // if (!valid) {
-      //   return
-      // } else if (!this.isValid) {
-      //   this.showAlert = true
-      //   return
-      // }
+      const valid = await this.$refs.observer.validate()
+      if (this.logisticNeeds.length > 0) {
+        this.isValid = true
+      }
+      if (!valid) {
+        return
+      } else if (!this.isValid) {
+        this.showAlert = true
+        return
+      }
       EventBus.$emit('nextStep', this.step)
     },
     onPrev() {
