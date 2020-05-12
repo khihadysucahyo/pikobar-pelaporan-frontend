@@ -48,7 +48,7 @@
           <td v-if="roles[0] === 'faskes'">
             {{ formatDatetime(item.createdAt, 'DD MMMM YYYY') }}
           </td>
-          <td v-if="roles[0] === 'faskes'">
+          <td v-if="roles[0] === 'faskes'" class="adjust-width">
             <span
               :class="{'pending': item.verified_status === 'pending', 'declined': item.verified_status === 'declined'}"
               class="pa-2 font-weight-bold"
@@ -81,14 +81,14 @@
                   </v-btn>
                 </template>
                 <v-card>
-                  <v-list-item @click="handleDetail(item._id)">
-                    {{ $t('label.view_case_detail') }}
-                  </v-list-item>
                   <div v-if="roles[0] === 'faskes'">
-                    <v-list-item @click="handleEditCase(item._id)">
+                    <v-list-item @click="handleDetail(item._id)">
+                      {{ item.verified_status === 'declined' ? $t('label.fix_case') : $t('label.view_case_detail') }}
+                    </v-list-item>
+                    <v-list-item v-if="item.verified_status !== 'declined'" @click="handleEditCase(item._id)">
                       {{ $t('label.profile_update') }}
                     </v-list-item>
-                    <v-list-item @click="handleEditHistoryCase(item._id)">
+                    <v-list-item v-if="item.verified_status !== 'declined'" @click="handleEditHistoryCase(item._id)">
                       {{ $t('label.update_history') }}
                     </v-list-item>
                     <v-list-item @click="handleDeleteCase(item)">
@@ -96,11 +96,8 @@
                     </v-list-item>
                   </div>
                   <div v-else>
-                    <v-list-item>
-                      {{ $t('label.verify_case') }}
-                    </v-list-item>
-                    <v-list-item>
-                      <span class="delete">{{ $t('label.decline_case') }}</span>
+                    <v-list-item @click="handleDetail(item._id)">
+                      {{ $t('label.verification_process') }}
                     </v-list-item>
                   </div>
                 </v-card>
@@ -220,5 +217,8 @@ export default {
 .action-icon {
   color: #009D57 !important;
   font-size: 2rem !important;
+}
+.adjust-width {
+  width: 20%;
 }
 </style>
