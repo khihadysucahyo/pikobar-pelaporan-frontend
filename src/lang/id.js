@@ -308,7 +308,9 @@ export default {
     total_new_cases: 'Total Kasus Baru',
     input_date: 'Tanggal Input',
     medical_facility_verification_info_1: 'Data yang berhasil diverifikasi akan hilang otomatis setelah 24 jam.',
-    medical_facility_verification_info_2: 'Anda dapat melihat data yang terverifikasi pada "List Kasus".'
+    medical_facility_verification_info_2: 'Anda dapat melihat data yang terverifikasi pada "List Kasus".',
+    fix_case: 'Perbaiki Data Kasus',
+    verification_process: 'Proses Verifikasi'
   },
   success: {
     login_success: 'Login Berhasil',

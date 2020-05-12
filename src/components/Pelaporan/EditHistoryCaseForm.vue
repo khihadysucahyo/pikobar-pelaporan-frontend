@@ -176,8 +176,8 @@
                       </ValidationProvider>
                       <ValidationProvider v-slot="{ errors }">
                         <label>{{ $t('label.additional_condition') }}</label>
-                        <v-row v-for="rowIdx in Math.ceil(optionAdditionalCondition.length / 3)" :key="rowIdx">
-                          <v-col v-for="item in optionAdditionalCondition.slice(3 * (rowIdx - 1), 3 * rowIdx)" :key="item" class="one-third column">
+                        <v-row v-for="rowIdx in Math.ceil(additionalConditionOptions.length / 3)" :key="rowIdx">
+                          <v-col v-for="item in additionalConditionOptions.slice(3 * (rowIdx - 1), 3 * rowIdx)" :key="item" class="one-third column">
                             <label class="material-checkbox-custom">
                               <input
                                 v-model="formRiwayatPasien.diseases"
@@ -339,7 +339,7 @@
 
 <script>
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
-import { symptomOptions, optionAdditionalCondition } from '@/utils/constantVariable'
+import { symptomOptions, additionalConditionOptions } from '@/utils/constantVariable'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -363,7 +363,7 @@ export default {
       symptomOptions: symptomOptions,
       listHistoryCase: null,
       arrayRegion: null,
-      optionAdditionalCondition: optionAdditionalCondition
+      additionalConditionOptions: additionalConditionOptions
     }
   },
   computed: {
