@@ -1212,19 +1212,10 @@ export default {
       }
     },
     configCluster(className = null) {
-      let spiderfyOnMaxZoom
-      if (this.zoomNew === 1) {
-        spiderfyOnMaxZoom = false
-      } else if (this.zoomNew === 2) {
-        spiderfyOnMaxZoom = false
-      } else if (this.zoomNew === 3 || this.zoomNew === 4) {
-        spiderfyOnMaxZoom = true
-      }
-
       return {
         singleMarkerMode: true,
         maxClusterRadius: 10000,
-        spiderfyOnMaxZoom,
+        spiderfyOnMaxZoom: true,
         showCoverageOnHover: false,
         zoomToBoundsOnClick: false,
         spiderLegPolylineOptions: { weight: 1.5, color: '#222', opacity: 0 },
