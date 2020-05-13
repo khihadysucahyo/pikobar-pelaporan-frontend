@@ -312,6 +312,7 @@ export default {
   },
   methods: {
     async handleSearch() {
+      await this.$store.dispatch('reports/countVerificationCase')
       await this.$store.dispatch('reports/listReportCase', this.listQuery)
     },
     async onNext() {

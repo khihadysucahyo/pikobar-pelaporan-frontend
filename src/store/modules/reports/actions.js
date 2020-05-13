@@ -149,6 +149,7 @@ export default {
   async countVerificationCase({ commit }) {
     try {
       const response = await requestServer('/api/cases-summary-verification', 'GET')
+      commit('SET_TOTAL_PENDING', response.data.PENDING)
       return response
     } catch (e) {
       return e
