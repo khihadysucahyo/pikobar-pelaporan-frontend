@@ -254,8 +254,7 @@ export default {
   computed: {
     ...mapGetters('reports', [
       'listKasus',
-      'totalList',
-      'totalPending'
+      'totalList'
     ]),
     ...mapGetters('user', [
       'roles',

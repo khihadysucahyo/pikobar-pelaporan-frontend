@@ -13,7 +13,6 @@
             <v-badge :value="item.meta.title === 'verify_case'" overlap offset-x="25" :content="totalPending" color="#EB5757">
               <v-list-item-title v-text="generateTitle(onlyOneChild.meta.title)" />
             </v-badge>
-            <!-- <v-list-item-title v-else v-text="generateTitle(onlyOneChild.meta.title)" /> -->
           </v-list-item-content>
         </v-list-item>
         <div v-if="onlyOneChild.children">
