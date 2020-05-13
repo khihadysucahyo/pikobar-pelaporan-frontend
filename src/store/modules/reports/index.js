@@ -7,6 +7,7 @@ function initialState() {
     detailPasien: null,
     listKasus: [],
     totalList: 0,
+    totalPending: 0,
     formPasien: {
       id_case: '',
       id_case_national: '',
@@ -91,6 +92,7 @@ const state = {
   detailPasien: initialState().detailPasien,
   listKasus: initialState().listKasus,
   totalList: initialState().totalList,
+  totalPending: initialState().totalPending,
   formPasien: initialState().formPasien,
   formRiwayatPasien: initialState().formRiwayatPasien
 }

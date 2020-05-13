@@ -10,7 +10,10 @@
             <v-icon v-if="!item.meta.child" v-text="onlyOneChild.meta.icon" />
           </v-list-item-icon>
           <v-list-item-content>
-            <v-list-item-title v-text="generateTitle(onlyOneChild.meta.title)" />
+            <v-badge v-if="item.meta.title === 'verify_case' && totalPending && totalPending !== 0" :key="itemPending" overlap offset-x="25" :content="itemPending" color="#EB5757">
+              <v-list-item-title v-text="generateTitle(onlyOneChild.meta.title)" />
+            </v-badge>
+            <v-list-item-title v-else v-text="generateTitle(onlyOneChild.meta.title)" />
           </v-list-item-content>
         </v-list-item>
         <div v-if="onlyOneChild.children">
@@ -62,6 +65,7 @@
 import path from 'path'
 import { isExternal } from '@/utils/validate'
 import generateTitle from '@/utils/generateTitle'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'SidebarItem',
@@ -73,7 +77,27 @@ export default {
   },
   data() {
     return {
-      onlyOneChild: null
+      onlyOneChild: null,
+      itemPending: 0
+    }
+  },
+  computed: {
+    ...mapGetters('reports', [
+      'totalPending'
+    ])
+  },
+  watch: {
+    totalPending(value) {
+      this.itemPending = value
+      // console.log(this.itemPending)
+      console.log('beda')
+      console.log(this.totalPending)
+    }
+  },
+  async mounted() {
+    if (this.item.meta && this.item.meta.title === 'verify_case') {
+      await this.$store.dispatch('reports/countVerificationCase')
+      this.itemPending = this.totalPending
     }
   },
   methods: {

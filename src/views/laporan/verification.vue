@@ -254,7 +254,8 @@ export default {
   computed: {
     ...mapGetters('reports', [
       'listKasus',
-      'totalList'
+      'totalList',
+      'totalPending'
     ]),
     ...mapGetters('user', [
       'roles',
@@ -312,6 +313,7 @@ export default {
   },
   methods: {
     async handleSearch() {
+      await this.$store.dispatch('reports/countVerificationCase')
       await this.$store.dispatch('reports/listReportCase', this.listQuery)
     },
     async onNext() {
