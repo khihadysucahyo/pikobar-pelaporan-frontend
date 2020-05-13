@@ -11,7 +11,7 @@
               class="legend-color-title legend-description"
               style="margin-top: 3px;"
             />
-            <div class="legend-text-title">Filter Berdasarkan</div>
+            <div class="legend-text-title">{{ $t('label.look_for_it') }} {{ $t('label.based') }}</div>
           </div>
         </v-col>
         <v-row>
@@ -19,7 +19,7 @@
             cols="12"
             md="4"
           >
-            <v-label class="title">Kota/Kab.</v-label>
+            <v-label class="title">{{ $t('label.select_district') }}</v-label>
             <select-area-district-city
               :disabled-district="disabledDistrict"
               :district-city="districtCity"
@@ -31,7 +31,7 @@
             cols="12"
             md="4"
           >
-            <v-label class="title">Kecamatan.</v-label>
+            <v-label class="title">{{ $t('label.select_sub_district') }}</v-label>
             <select-area-sub-district
               :sub-district="subDistrict"
               :update-sub-district.sync="subDistrict"
@@ -44,7 +44,7 @@
             cols="12"
             md="4"
           >
-            <v-label class="title">Kel/Desa.</v-label>
+            <v-label class="title">{{ $t('label.select_village') }}</v-label>
             <select-area-village
               :village="village"
               :update-village.sync="village"
@@ -79,63 +79,81 @@
               @click="onFilter('positive_active')"
             >
               <div class="legend-color cluster-positive-active" />
-              <span class="legend-text">Positif - Aktif</span>
+              <span class="legend-text">
+                {{ `${$t('label.positive')} - ${$t('label.active')}` }}
+              </span>
             </li>
             <li
               :class="[filter.positive_recovery ? 'filter-active' : '']"
               @click="onFilter('positive_recovery')"
             >
               <div class="legend-color cluster-positive-recovery" />
-              <span class="legend-text">Positif - Sembuh</span>
+              <span class="legend-text">
+                {{ `${$t('label.positive')} - ${$t('label.recovery')}` }}
+              </span>
             </li>
             <li
               :class="[filter.positive_dead ? 'filter-active' : '']"
               @click="onFilter('positive_dead')"
             >
               <div class="legend-color cluster-positive-dead" />
-              <span class="legend-text">Positif - Meninggal</span>
+              <span class="legend-text">
+                {{ `${$t('label.positive')} - ${$t('label.dead')}` }}
+              </span>
             </li>
             <li
               :class="[filter.pdp_process ? 'filter-active' : '']"
               @click="onFilter('pdp_process')"
             >
               <div class="legend-color cluster-pdp-process" />
-              <span class="legend-text">PDP - Proses</span>
+              <span class="legend-text">
+                {{ `${$t('label.PDP')} - ${$t('label.process')}` }}
+              </span>
             </li>
             <li
               :class="[filter.pdp_done ? 'filter-active' : '']"
               @click="onFilter('pdp_done')"
             >
               <div class="legend-color cluster-pdp-done" />
-              <span class="legend-text">PDP - Selesai</span>
+              <span class="legend-text">
+                {{ `${$t('label.PDP')} - ${$t('label.done')}` }}
+              </span>
             </li>
             <li
               :class="[filter.odp_process ? 'filter-active' : '']"
               @click="onFilter('odp_process')"
             >
               <div class="legend-color cluster-odp-process" />
-              <span class="legend-text">ODP - Proses</span>
+              <span class="legend-text">
+                {{ `${$t('label.ODP')} - ${$t('label.process')}` }}
+              </span>
             </li>
             <li
               :class="[filter.odp_done ? 'filter-active' : '']"
               @click="onFilter('odp_done')"
             >
               <div class="legend-color cluster-odp-done" />
-              <span class="legend-text">ODP - Selesai</span>
+              <span class="legend-text">
+                {{ `${$t('label.ODP')} - ${$t('label.done')}` }}
+              </span>
             </li>
             <li
               :class="[filter.otg_process ? 'filter-active' : '']"
               @click="onFilter('otg_process')"
             >
               <div class="legend-color cluster-otg-process" />
-              <span class="legend-text">OTG - Proses</span>
+              <span class="legend-text">
+                {{ `${$t('label.OTG')} - ${$t('label.process')}` }}
+              </span>
             </li>
             <li
               :class="[filter.otg_done ? 'filter-active' : '']"
               @click="onFilter('otg_done')"
             >
               <div class="legend-color cluster-otg-done" />
-              <span class="legend-text">OTG - Selesai</span>
+              <span class="legend-text">
+                {{ `${$t('label.OTG')} - ${$t('label.done')}` }}
+              </span>
             </li>
           </ul>
         </div>
@@ -152,7 +170,7 @@
               class="legend-color-title legend-description"
               style="margin-top: 3px;"
             />
-            <div class="legend-text-title">Keterangan</div>
+            <div class="legend-text-title">{{ $t('label.information') }}</div>
           </div>
         </v-col>
         <v-row>
@@ -299,7 +317,6 @@ export default {
       zoomOld: 0,
       zoomNew: 0,
       centerCity: [-6.932694, 107.627449],
-      // centerCity: null,
       layerGroup: null,
       dataLayer: [],
       dataMarker: [],
@@ -1476,7 +1493,7 @@ export default {
   font-size: 18px;
   height: 48px;
   width: 47px;
-  line-height: 47px;
+  line-height: 44px;
   margin-top: -24px;
   margin-left: -24px;
 }
@@ -1484,7 +1501,7 @@ export default {
   font-size: 18px;
   height: 58px;
   width: 58px;
-  line-height: 57px;
+  line-height: 54px;
   margin-top: -29px;
   margin-left: -29px;
 }
