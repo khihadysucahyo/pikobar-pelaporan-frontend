@@ -10,7 +10,7 @@
             <v-icon v-if="!item.meta.child" v-text="onlyOneChild.meta.icon" />
           </v-list-item-icon>
           <v-list-item-content>
-            <v-badge :value="item.meta.title === 'verify_case'" overlap offset-x="25" :content="totalPending" color="#EB5757">
+            <v-badge :value="item.meta.title === 'verify_case' && totalPending !== 0" overlap offset-x="25" :content="totalPending" color="#EB5757">
               <v-list-item-title v-text="generateTitle(onlyOneChild.meta.title)" />
             </v-badge>
           </v-list-item-content>
