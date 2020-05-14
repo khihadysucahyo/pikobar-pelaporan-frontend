@@ -295,11 +295,18 @@ export default {
   },
   async mounted() {
     if (this.roles[0] === 'faskes') {
-      this.headers.push({ text: this.$t('label.input_date').toUpperCase(), value: 'inputDate' }, { text: this.$t('label.status').toUpperCase(), value: 'status' }, { text: this.$t('label.action').toUpperCase(), value: 'action', sortable: false })
+      this.headers.push(
+        { text: this.$t('label.input_date').toUpperCase(), value: 'inputDate' },
+        { text: this.$t('label.status').toUpperCase(), value: 'status' },
+        { text: this.$t('label.action').toUpperCase(), value: 'action', sortable: false }
+      )
       this.listQuery.author = this.fullName
       this.listQuery.verified_status = 'pending,declined'
     } else {
-      this.headers.push({ text: this.$t('label.auto_verification_deadline').toUpperCase(), value: 'createdAt' }, { text: this.$t('label.action').toUpperCase(), value: 'action', sortable: false })
+      this.headers.push(
+        { text: this.$t('label.auto_verification_deadline').toUpperCase(), value: 'createdAt' },
+        { text: this.$t('label.action').toUpperCase(), value: 'action', sortable: false }
+      )
       this.listQuery.verified_status = 'pending'
     }
     const response = await this.$store.dispatch('reports/countVerificationCase')
@@ -337,6 +344,15 @@ export default {
       this.$store.dispatch('reports/listReportCase', this.listQuery)
     },
     onTabChanges(value) {
+      const ids = this.headers.length
+      if (this.roles[0] === 'dinkeskota' && value === 'declined') {
+        this.headers.splice(8, 2)
+      } else if (ids === 8) {
+        this.headers.push(
+          { text: this.$t('label.auto_verification_deadline').toUpperCase(), value: 'createdAt' },
+          { text: this.$t('label.action').toUpperCase(), value: 'action', sortable: false }
+        )
+      }
       this.listQuery.verified_status = value
       this.handleSearch()
     }

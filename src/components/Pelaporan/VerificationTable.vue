@@ -56,8 +56,8 @@
               {{ item.verified_status === 'pending' ? $t('label.waiting_for_verification') : $t('label.case_rejected') }}
             </span>
           </td>
-          <td v-else>{{ item.last_history.createdAt ? timeRemain(item.updatedAt) : '-' }}</td>
-          <td>
+          <td v-else-if="item.verified_status !== 'declined'">{{ item.last_history.createdAt ? timeRemain(item.updatedAt) : '-' }}</td>
+          <td v-if="item.verified_status !== 'declined'">
             <v-card-actions>
               <v-menu
                 :close-on-content-click="false"
