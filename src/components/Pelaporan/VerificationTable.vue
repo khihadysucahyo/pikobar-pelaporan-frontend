@@ -1,6 +1,7 @@
 <template>
   <v-col auto>
     <v-data-table
+      :key="list.length"
       :headers="headers"
       :items="list"
       :mobile-breakpoint="NaN"
@@ -68,6 +69,7 @@
               >
                 <template v-slot:activator="{ on }">
                   <v-btn
+                    v-if="showActionButton(item.verified_status)"
                     class="ma-1 action-btn"
                     color="#828282"
                     tile
@@ -201,6 +203,13 @@ export default {
     async handleDeleteCase(item) {
       this.dialog = true
       this.dataDelete = await item
+    },
+    showActionButton(status) {
+      if (this.roles[0] === 'dinkeskota') {
+        return status === 'pending'
+      } else {
+        return true
+      }
     }
   }
 }
