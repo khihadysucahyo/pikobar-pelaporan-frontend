@@ -34,8 +34,8 @@ const surveyRouter = {
       }
     },
     {
-      path: '/laporan/verification',
-      component: () => import('@/views/laporan/verification'),
+      path: '/laporan/list',
+      component: () => import('@/views/laporan/list'),
       meta: {
         title: 'verification_case_list',
         icon: 'library_books',
