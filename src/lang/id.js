@@ -5,6 +5,7 @@ export default {
     dashboard: 'Dashboard',
     laporan_title: 'Laporan Kasus',
     list_case: 'List Kasus',
+    verification_case_list: 'List Verifikasi Kasus',
     verify_case: 'Verifikasi Kasus Baru',
     rdt: 'Test Masif',
     create_rdt: 'Input hasil test',
@@ -319,8 +320,8 @@ export default {
     add_more: 'Tambah Lagi',
     view_case_detail: 'Lihat Detail Kasus',
     all: 'Semua',
-    waiting_for_verification: 'Menunggu Verifikasi',
-    verification_failed: 'Gagal Verifikasi',
+    waiting_for_verification: 'Menunggu Diverifikasi',
+    case_rejected: 'Data Kasus Ditolak',
     update_case: 'Perbarui Kasus',
     rejection_note: 'Catatan Penolakan',
     tutorial: 'Panduan',
@@ -390,7 +391,13 @@ export default {
     number: 'No',
     instance_identity: 'Identitas Instansi',
     application_logistic_title_1: 'Untuk melakukan pengajuan permohonan Alat Kesehatan, klik tautan di bawah ini',
-    application_logistic_title_2: 'Buka Website Permohonan Alat Kesehatan'
+    application_logistic_title_2: 'Buka Website Permohonan Alat Kesehatan',
+    total_new_cases: 'Total Kasus Baru',
+    input_date: 'Tanggal Input',
+    medical_facility_verification_info_1: 'Data yang berhasil diverifikasi akan hilang otomatis setelah 24 jam.',
+    medical_facility_verification_info_2: 'Anda dapat melihat data yang terverifikasi pada "List Kasus".',
+    fix_case: 'Perbaiki Data Kasus',
+    verification_process: 'Proses Verifikasi'
   },
   success: {
     login_success: 'Login Berhasil',

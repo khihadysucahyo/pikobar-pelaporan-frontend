@@ -482,24 +482,28 @@
                 :disabled="caseDetail.verified_status !== 'declined'"
               />
             </v-row>
-            <v-row class="input-label">
+            <v-row v-if="caseDetail && caseDetail.verified_status === 'declined'" class="input-label">
+              {{ $t('label.additional_condition') }}
+            </v-row>
+            <v-row v-if="caseDetail && caseDetail.verified_status === 'declined'">
+              <v-col v-for="item in additionalConditionOptions" :key="item" sm="6" md="6" class="pa-0">
+                <v-checkbox
+                  v-model="caseDetail.last_history.diseases"
+                  :label="item"
+                  :value="item"
+                  class="mt-0 pt-0"
+                />
+              </v-col>
+            </v-row>
+            <v-row v-if="caseDetail && caseDetail.verified_status !== 'declined'" class="input-label">
               {{ $t('label.reporting_sources') }}
             </v-row>
-            <v-row>
+            <v-row v-if="caseDetail && caseDetail.verified_status !== 'declined'">
               <v-text-field
                 v-if="caseDetail"
                 v-model="caseDetail.last_history.report_source"
                 solo-inverted
                 disabled
-              />
-            </v-row>
-            <v-row v-if="caseDetail && caseDetail.verified_status === 'declined'" class="input-label">
-              {{ $t('label.postscript') }}
-            </v-row>
-            <v-row v-if="caseDetail && caseDetail.verified_status === 'declined'">
-              <v-text-field
-                v-model="caseDetail.last_history.other_notes"
-                solo-inverted
               />
             </v-row>
           </v-col>
@@ -542,6 +546,16 @@
               </v-col>
             </v-row>
             <v-row v-if="caseDetail && caseDetail.verified_status !== 'declined'" class="input-label">
+              {{ $t('label.additional_condition') }}
+            </v-row>
+            <v-row v-if="caseDetail && caseDetail.verified_status !== 'declined'">
+              <v-text-field
+                v-model="caseDetail.last_history.diseases"
+                solo-inverted
+                disabled
+              />
+            </v-row>
+            <v-row v-if="caseDetail && caseDetail.verified_status !== 'declined'" class="input-label">
               {{ $t('label.postscript') }}
             </v-row>
             <v-row v-if="caseDetail && caseDetail.verified_status !== 'declined'">
@@ -549,6 +563,32 @@
                 v-model="caseDetail.last_history.other_notes"
                 solo-inverted
                 :disabled="caseDetail.verified_status !== 'declined'"
+              />
+            </v-row>
+          </v-col>
+        </v-row>
+        <v-row v-if="caseDetail && caseDetail.verified_status === 'declined'" class="mx-0">
+          <v-col class="mr-5">
+            <v-row class="input-label">
+              {{ $t('label.reporting_sources') }}
+            </v-row>
+            <v-row>
+              <v-text-field
+                v-if="caseDetail"
+                v-model="caseDetail.last_history.report_source"
+                solo-inverted
+                disabled
+              />
+            </v-row>
+          </v-col>
+          <v-col>
+            <v-row class="input-label">
+              {{ $t('label.postscript') }}
+            </v-row>
+            <v-row>
+              <v-text-field
+                v-model="caseDetail.last_history.other_notes"
+                solo-inverted
               />
             </v-row>
           </v-col>
@@ -583,7 +623,7 @@ import { formatDatetime } from '@/utils/parseDatetime'
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import { mapGetters } from 'vuex'
 import { getAge } from '@/utils/constantVariable'
-import { symptomOptions } from '@/utils/constantVariable'
+import { symptomOptions, additionalConditionOptions } from '@/utils/constantVariable'
 export default {
   name: 'VerificationForm',
   components: {
@@ -609,7 +649,8 @@ export default {
       caseDetail: null,
       query: null,
       show: false,
-      symptomOptions: symptomOptions
+      symptomOptions: symptomOptions,
+      additionalConditionOptions: additionalConditionOptions
     }
   },
   computed: {
@@ -695,7 +736,9 @@ export default {
       this.$emit('update:show', value)
     },
     'caseDetail.birth_date'(value) {
-      this.caseDetail.age = this.getAge(value)
+      if (this.caseDetail.verified_status === 'declined') {
+        this.caseDetail.age = this.getAge(value)
+      }
     }
   },
   methods: {

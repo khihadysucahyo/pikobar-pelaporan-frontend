@@ -1,5 +1,23 @@
 <template>
   <div>
+    <v-card class="disclaimer pa-7 mb-5" width="100%">
+      <v-row class="mx-0 mb-2 headline">
+        <div class="font-white">
+          {{ $t('label.total_new_cases') }} : {{ totalItem }}
+        </div>
+      </v-row>
+      <v-row class="mx-0">
+        <span class="font-white">
+          {{ roles[0] === 'faskes' ? $t('label.medical_facility_verification_info_1') : $t('label.verification_info') }}
+        </span>
+        <br>
+      </v-row>
+      <v-row v-if="roles[0] === 'faskes'" class="mx-0">
+        <span class="font-white">
+          {{ $t('label.medical_facility_verification_info_2') }}
+        </span>
+      </v-row>
+    </v-card>
     <v-card outlined>
       <v-container>
         <v-row class="filter-row mt-5" justify="center">
@@ -85,61 +103,61 @@
             </v-row>
           </v-col>
         </v-row>
-        <v-row v-if="roles[0] === 'faskes'" class="mx-0 mt-5">
-          <v-tabs
-            v-model="tab"
-            class="elevation-2"
-            background-color="white"
-            active-class="active-class"
-            color="red"
-            hide-slider
-          >
-            <v-tab @click="onTabChanges('pending,declined')">{{ tabLabel[0] }}</v-tab>
-            <v-tab @click="onTabChanges('pending')">{{ tabLabel[1] }}</v-tab>
-            <v-tab @click="onTabChanges('declined')">{{ tabLabel[2] }}</v-tab>
-            <v-tab-item v-for="(tabItem, index) in tabLabel" :key="index">
-              <v-row>
-                <verification-table
-                  :table-headers="headers"
-                  :list-kasus="listKasus"
-                  :query="listQuery"
-                  :show-failed-dialog.sync="showFailedDialog"
-                  :show-verification-form.sync="showVerificationForm"
-                  :case-detail.sync="caseDetail"
-                  :verification-query="verificationQuery"
-                />
-              </v-row>
-            </v-tab-item>
-          </v-tabs>
-        </v-row>
-        <div v-else>
-          <hr>
-          <v-row class="mx-0 mt-5" align="center" justify="space-between">
-            <v-col>
-              <div class="title">
-                {{ $t('label.verify_new_case') }}
-              </div>
-            </v-col>
-            <v-col class="align-right">
-              <span class="info-message pa-3">
-                {{ $t('label.verification_info') }}
-              </span>
-            </v-col>
-          </v-row>
-          <hr>
-          <v-row>
-            <verification-table
-              :table-headers="headers"
-              :list-kasus="listKasus"
-              :query="listQuery"
-              :show-failed-dialog.sync="showFailedDialog"
-              :show-verification-form.sync="showVerificationForm"
-              :case-detail.sync="caseDetail"
-              :verification-query="verificationQuery"
-            />
-          </v-row>
-        </div>
       </v-container>
+      <v-row v-if="roles[0] === 'faskes'" class="mx-0 mt-5">
+        <v-tabs
+          v-model="tab"
+          class="elevation-2"
+          background-color="white"
+          active-class="active-class"
+          color="red"
+          hide-slider
+        >
+          <v-tab @click="onTabChanges('pending,declined')">{{ tabLabel[0] }}</v-tab>
+          <v-tab @click="onTabChanges('pending')">{{ tabLabel[1] }}</v-tab>
+          <v-tab @click="onTabChanges('declined')">{{ tabLabel[2] }}</v-tab>
+          <v-tab-item v-for="(tabItem, index) in tabLabel" :key="index">
+            <v-row>
+              <verification-table
+                :table-headers="headers"
+                :list-kasus="listKasus"
+                :query="listQuery"
+                :show-failed-dialog.sync="showFailedDialog"
+                :show-verification-form.sync="showVerificationForm"
+                :case-detail.sync="caseDetail"
+                :verification-query="verificationQuery"
+              />
+            </v-row>
+          </v-tab-item>
+        </v-tabs>
+      </v-row>
+      <div v-else>
+        <hr>
+        <v-row class="mx-0 mt-5" align="center" justify="space-between">
+          <v-col>
+            <div class="title">
+              {{ $t('label.verify_new_case') }}
+            </div>
+          </v-col>
+          <v-col class="align-right">
+            <span class="info-message pa-3">
+              {{ $t('label.verification_info') }}
+            </span>
+          </v-col>
+        </v-row>
+        <hr>
+        <v-row>
+          <verification-table
+            :table-headers="headers"
+            :list-kasus="listKasus"
+            :query="listQuery"
+            :show-failed-dialog.sync="showFailedDialog"
+            :show-verification-form.sync="showVerificationForm"
+            :case-detail.sync="caseDetail"
+            :verification-query="verificationQuery"
+          />
+        </v-row>
+      </div>
     </v-card>
     <pagination
       :total="totalList"
@@ -182,7 +200,7 @@ export default {
         { text: '#', value: '_id', sortable: false },
         { text: this.$t('label.name').toUpperCase(), value: 'name' },
         { text: this.$t('label.age').toUpperCase(), value: 'age' },
-        { text: this.$t('gender_abbreviation').toUpperCase(), value: 'gender' },
+        { text: this.$t('label.gender_abbreviation').toUpperCase(), value: 'gender' },
         { text: this.$t('label.criteria').toUpperCase(), value: 'criteria' },
         { text: this.$t('label.stages').toUpperCase(), value: 'stage' },
         { text: this.$t('label.results').toUpperCase(), value: 'final_result' },
@@ -222,7 +240,8 @@ export default {
       isSubmit: false,
       isRefresh: false,
       tab: null,
-      tabLabel: [this.$t('label.all'), this.$t('label.waiting_for_verification'), this.$t('label.verification_failed')],
+      tabLabel: [this.$t('label.all'), this.$t('label.waiting_for_verification'), this.$t('label.case_rejected')],
+      totalItem: null,
       verificationQuery: {
         'id': '',
         'data': {
@@ -273,12 +292,17 @@ export default {
   },
   async mounted() {
     if (this.roles[0] === 'faskes') {
-      this.headers.push({ text: this.$t('label.status').toUpperCase(), value: 'status' }, { text: this.$t('label.action').toUpperCase(), value: 'action', sortable: false })
+      this.headers.push({ text: this.$t('label.input_date').toUpperCase(), value: 'inputDate' }, { text: this.$t('label.status').toUpperCase(), value: 'status' }, { text: this.$t('label.action').toUpperCase(), value: 'action', sortable: false })
       this.listQuery.author = this.fullName
       this.listQuery.verified_status = 'pending,declined'
     } else {
       this.headers.push({ text: this.$t('label.auto_verification_deadline').toUpperCase(), value: 'createdAt' }, { text: this.$t('label.action').toUpperCase(), value: 'action', sortable: false })
       this.listQuery.verified_status = 'pending'
+    }
+    const response = await this.$store.dispatch('reports/countVerificationCase')
+    this.totalItem = response.data.PENDING + response.data.DECLINED
+    if (this.roles[0] !== 'faskes') {
+      this.listQuery.sort = { 'updatedAt': 'asc' }
     }
     await this.$store.dispatch('reports/listReportCase', this.listQuery)
     this.listQuery.address_district_code = this.district_user
@@ -288,6 +312,7 @@ export default {
   },
   methods: {
     async handleSearch() {
+      await this.$store.dispatch('reports/countVerificationCase')
       await this.$store.dispatch('reports/listReportCase', this.listQuery)
     },
     async onNext() {
@@ -380,5 +405,11 @@ export default {
     color: white;
     border-radius: 10px;
     background-color: #f91717;
+  }
+  .disclaimer {
+    background: linear-gradient(78.54deg, #27AE60 0%, #6FCF97 100%) !important;
+  }
+  .font-white {
+    color: white;
   }
 </style>

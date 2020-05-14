@@ -114,7 +114,7 @@ export const listMonthName = [
   }
 ]
 
-export const optionAdditionalCondition = [
+export const additionalConditionOptions = [
   i18n.t('label.pregnant'),
   i18n.t('label.diabetes'),
   i18n.t('label.heart_disease'),

@@ -30,7 +30,18 @@ const surveyRouter = {
         icon: 'library_books',
         child: true,
         noCache: true,
-        roles: ['superadmin', 'dinkeskota', 'faskes']
+        roles: ['superadmin', 'dinkeskota']
+      }
+    },
+    {
+      path: '/laporan/list',
+      component: () => import('@/views/laporan/list'),
+      meta: {
+        title: 'verification_case_list',
+        icon: 'library_books',
+        child: true,
+        noCache: true,
+        roles: ['superadmin', 'faskes']
       }
     },
     {
