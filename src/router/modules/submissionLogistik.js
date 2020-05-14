@@ -3,7 +3,7 @@ import Layout from '@/layout'
 const submissionLogistikRouter = {
   path: '/submission-logistik',
   component: Layout,
-  redirect: '/submission-logistik/list',
+  redirect: '/submission-logistik/create',
   meta: {
     title: 'submission_Logistics',
     icon: 'library_books',
@@ -15,7 +15,7 @@ const submissionLogistikRouter = {
       path: '/submission-logistik/create',
       component: () => import('@/views/logistik/submissionLogistik'),
       meta: {
-        title: 'submit_application',
+        title: 'submission_Logistics',
         icon: 'library_books',
         child: true,
         noCache: true,
