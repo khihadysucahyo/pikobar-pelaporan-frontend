@@ -294,10 +294,6 @@ export default {
 }
 </script>
 <style>
-  .main-card-data-confirmation {
-    padding: 30px;
-    margin: 10px 120px 30px 120px;
-  }
   .data-confirmation-text {
     font-size: 20px;
     font-weight: bold;
@@ -313,18 +309,6 @@ export default {
   }
   .main-page-data-confirmation {
     display: block;
-  }
-  .main-page-mobile-data-confirmation {
-    display: none;
-  }
-  .margin-top-min-50-data-confirmation {
-    margin-top: -50px;
-  }
-  .margin-20-data-confirmation {
-    margin: 20px;
-  }
-  .margin-instance-mobile-data-confirmation {
-    margin: -20px 20px 0px 20px
   }
   .padding-100-data-confirmation {
     padding: 100px 100px;
@@ -348,23 +332,4 @@ export default {
   .text-center-data-confirmation {
     text-align: center;
   }
-  .title-page-data-confirmation {
-    padding: 5px 20px;
-    font-size: 22px;
-    color: white;
-    line-height: 29px;
-  }
-@media (max-width: 1199px) and (min-width: 960px) {
-}
-@media (max-width: 768px) and (min-width: 320px) {
-}
-
-@media (max-width: 588px) and (min-width: 320px) {
-  .main-page-mobile-data-confirmation {
-    display: block;
-  }
-  .bg-mobile-data-confirmation {
-    background-color: white !important;
-  }
-}
 </style>

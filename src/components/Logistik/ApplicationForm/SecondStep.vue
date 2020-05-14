@@ -239,13 +239,6 @@ export default {
 .text-small-second-step {
   font-size: 13px;
 }
-.float-right-second-step {
-  float: right;
-}
-@media (max-width: 1199px) and (min-width: 960px) {
-}
-@media (max-width: 768px) and (min-width: 320px) {
-}
 
 @media (max-width: 588px) and (min-width: 320px) {
   .btn-delete-mobile-second-step {
