@@ -104,7 +104,7 @@
           </v-col>
         </v-row>
       </v-container>
-      <v-row v-if="roles[0] === 'faskes'" class="mx-0 mt-5">
+      <v-row v-if="rolesWidget['dinkesKotaAndFaskes'].includes(roles[0])" class="mx-0 mt-5">
         <v-tabs
           v-model="tab"
           class="elevation-2"
@@ -192,6 +192,8 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import { rolesWidget } from '@/utils/constantVariable'
+
 export default {
   name: 'LaporanList',
   data() {
@@ -222,6 +224,7 @@ export default {
         code_district_city: '',
         search: ''
       },
+      rolesWidget,
       stagesList: [
         'OTG',
         'ODP',
