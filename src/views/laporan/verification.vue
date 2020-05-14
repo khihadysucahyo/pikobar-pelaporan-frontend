@@ -104,7 +104,7 @@
           </v-col>
         </v-row>
       </v-container>
-      <v-row v-if="rolesWidget['dinkesKotaAndFaskes'].includes(roles[0])" class="mx-0 mt-5">
+      <v-row class="mx-0 mt-5">
         <v-tabs
           v-model="tab"
           class="elevation-2"
@@ -131,33 +131,6 @@
           </v-tab-item>
         </v-tabs>
       </v-row>
-      <div v-else>
-        <hr>
-        <v-row class="mx-0 mt-5" align="center" justify="space-between">
-          <v-col>
-            <div class="title">
-              {{ $t('label.verify_new_case') }}
-            </div>
-          </v-col>
-          <v-col class="align-right">
-            <span class="info-message pa-3">
-              {{ $t('label.verification_info') }}
-            </span>
-          </v-col>
-        </v-row>
-        <hr>
-        <v-row>
-          <verification-table
-            :table-headers="headers"
-            :list-kasus="listKasus"
-            :query="listQuery"
-            :show-failed-dialog.sync="showFailedDialog"
-            :show-verification-form.sync="showVerificationForm"
-            :case-detail.sync="caseDetail"
-            :verification-query="verificationQuery"
-          />
-        </v-row>
-      </div>
     </v-card>
     <pagination
       :total="totalList"
@@ -192,7 +165,6 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { rolesWidget } from '@/utils/constantVariable'
 
 export default {
   name: 'LaporanList',
@@ -224,7 +196,6 @@ export default {
         code_district_city: '',
         search: ''
       },
-      rolesWidget,
       stagesList: [
         'OTG',
         'ODP',
@@ -300,7 +271,7 @@ export default {
       this.listQuery.verified_status = 'pending,declined'
     } else {
       this.headers.push({ text: this.$t('label.auto_verification_deadline').toUpperCase(), value: 'createdAt' }, { text: this.$t('label.action').toUpperCase(), value: 'action', sortable: false })
-      this.listQuery.verified_status = 'pending'
+      this.listQuery.verified_status = 'pending,declined'
     }
     const response = await this.$store.dispatch('reports/countVerificationCase')
     this.totalItem = response.data.PENDING + response.data.DECLINED
