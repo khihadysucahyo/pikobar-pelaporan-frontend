@@ -21,18 +21,18 @@ const submissionLogistikRouter = {
         noCache: true,
         roles: ['superadmin', 'dinkeskota', 'faskes']
       }
-    },
-    {
-      path: '/submission-logistik/list',
-      component: () => import('@/views/logistik/submissionLogistikList'),
-      meta: {
-        title: 'application_list',
-        icon: 'library_books',
-        child: true,
-        noCache: true,
-        roles: ['superadmin', 'dinkesprov', 'dinkeskota', 'faskes']
-      }
     }
+    // {
+    //   path: '/submission-logistik/list',
+    //   component: () => import('@/views/logistik/submissionLogistikList'),
+    //   meta: {
+    //     title: 'application_list',
+    //     icon: 'library_books',
+    //     child: true,
+    //     noCache: true,
+    //     roles: ['superadmin', 'dinkesprov', 'dinkeskota', 'faskes']
+    //   }
+    // }
   ]
 }
 
