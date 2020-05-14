@@ -187,7 +187,7 @@
                   </div>
                 </td>
                 <td>{{ item.author.username }}</td>
-                <td>{{ item.last_history.createdAt ? formatDatetime(item.last_history.createdAt, 'DD MMMM YYYY') : '-' }}</td>
+                <td>{{ item.createdAt ? formatDatetime(item.createdAt, 'DD MMMM YYYY') : '-' }}</td>
                 <td>
                   <v-card-actions>
                     <v-menu
