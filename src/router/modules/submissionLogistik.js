@@ -13,7 +13,7 @@ const submissionLogistikRouter = {
   children: [
     {
       path: '/submission-logistik/create',
-      component: () => import('@/views/logistik/submissionLogistikForm'),
+      component: () => import('@/views/logistik/submissionLogistik'),
       meta: {
         title: 'submit_application',
         icon: 'library_books',

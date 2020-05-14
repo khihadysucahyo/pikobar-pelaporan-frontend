@@ -388,7 +388,9 @@ export default {
     apd_name_specification: 'Nama/Spesifikasi APD',
     upload_error_message: 'Mohon Upload File dengan benar',
     number: 'No',
-    instance_identity: 'Identitas Instansi'
+    instance_identity: 'Identitas Instansi',
+    application_logistic_title_1: 'Untuk melakukan pengajuan permohonan Alat Kesehatan, klik tautan di bawah ini',
+    application_logistic_title_2: 'Buka Website Permohonan Alat Kesehatan'
   },
   success: {
     login_success: 'Login Berhasil',
