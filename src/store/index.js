@@ -9,6 +9,7 @@ import occupation from './modules/occupation'
 import rdt from './modules/rdt'
 import animationLottie from './modules/animationLottie'
 import statistic from './modules/statistic'
+import logistic from './modules/logistic'
 
 Vue.use(Vuex)
 
@@ -36,7 +37,8 @@ const store = new Vuex.Store({
     user,
     rdt,
     animationLottie,
-    statistic
+    statistic,
+    logistic
   }
 })
 
