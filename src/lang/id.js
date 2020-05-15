@@ -189,7 +189,7 @@ export default {
     inspection_date: 'Tanggal Pemeriksaan',
     reset: 'Reset',
     look_for_it: 'Cari',
-    input_date: 'Tanggal Penginputan',
+    // input_date: 'Tanggal Penginputan',
     test_implementation_date: 'Tanggal Pelaksanaan Tes',
     placed_date: 'Tempat Pelaksanaan Tes',
     test_mechanism: 'Mekanisme Test',

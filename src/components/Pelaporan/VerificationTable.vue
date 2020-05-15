@@ -57,8 +57,9 @@
               {{ item.verified_status === 'pending' ? $t('label.waiting_for_verification') : $t('label.case_rejected') }}
             </span>
           </td>
-          <td v-else>{{ item.updatedAt && item.verified_status === 'pending' ? timeRemain(item.updatedAt) : '-' }}</td>
-          <td>
+          <td v-else-if="item.verified_status !== 'declined'">{{ item.last_history.createdAt ? timeRemain(item.updatedAt) : '-' }}</td>
+          <td v-else-if="tableHeaders.length > 8">&nbsp;</td>
+          <td v-if="tableHeaders.length > 8">
             <v-card-actions>
               <v-menu
                 :close-on-content-click="false"
@@ -81,6 +82,9 @@
                       mdi-menu-down
                     </v-icon>
                   </v-btn>
+                  <div v-else>
+                    &nbsp;
+                  </div>
                 </template>
                 <v-card>
                   <div v-if="roles[0] === 'faskes'">
