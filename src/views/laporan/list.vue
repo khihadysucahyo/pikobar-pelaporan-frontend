@@ -115,6 +115,7 @@
         </v-col>
         <v-col cols="12" sm="4" class="align-right">
           <v-btn
+            v-if="roles[0] !== 'faskes'"
             color="#b3e2cd"
             class="btn-import-export margin-right"
             depressed
