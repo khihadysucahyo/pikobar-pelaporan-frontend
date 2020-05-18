@@ -10,7 +10,9 @@
     <v-card class="d-block pa-1 mx-auto header-application-logistic">
       <v-row class="mt-2">
         <v-col auto>
-          <v-card-text>
+          <v-card-text
+            @click="handleClickLink"
+          >
             <div class="header-user-title">{{ $t('label.application_logistic_title_1') }}</div>
             <div class="header-user-text">{{ $t('label.application_logistic_title_2') }}
               <v-icon

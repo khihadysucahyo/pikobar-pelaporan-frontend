@@ -6,7 +6,7 @@ const submissionLogistikRouter = {
   redirect: '/submission-logistik/create',
   meta: {
     title: 'submission_Logistics',
-    icon: 'library_books',
+    icon: 'mdi-clipboard-plus',
     roles: ['superadmin', 'dinkesprov', 'dinkeskota', 'faskes']
   },
   active: false,
@@ -16,7 +16,7 @@ const submissionLogistikRouter = {
       component: () => import('@/views/logistik/submissionLogistik'),
       meta: {
         title: 'submission_Logistics',
-        icon: 'library_books',
+        icon: 'mdi-clipboard-plus',
         child: true,
         noCache: true,
         roles: ['superadmin', 'dinkeskota', 'faskes']
