@@ -299,6 +299,41 @@
         </v-col>
       </v-row>
     </div>
+    <div
+      class="disclaimer"
+      :style="{'display': disclaimer}"
+    >
+      <div class="backdrop" />
+      <div class="modal-disclaimer">
+        <div class="text-center pb-5">
+          <v-img
+            src="@/static/modal-disclaimer.svg"
+            width="75%"
+            class="img-center"
+          />
+        </div>
+        <div class="d-flex mb-1">
+          <div
+            class="legend-color-title legend-description"
+            style="margin-top: 3px;"
+          />
+          <div class="legend-text-title">{{ $t('label.disclaimer') }}</div>
+        </div>
+        <ol class="text-description">
+          <li>{{ $t('label.map_disclaimer_step_1') }}</li>
+          <li>{{ $t('label.map_disclaimer_step_2') }}</li>
+        </ol>
+        <div class="text-center pt-5">
+          <v-btn
+            color="success"
+            class="button button-action white--text"
+            @click="onDisclaimer"
+          >
+            {{ $t('label.understand') }}
+          </v-btn>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -350,6 +385,7 @@ export default {
       jsonCity,
       jsonDistrict,
       jsonVillage,
+      disclaimer: 'block',
       map: null,
       url: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
       isZoom: false,
@@ -482,62 +518,6 @@ export default {
     this.districtCity = {
       kota_kode: this.district_user,
       kota_nama: this.district_name_user
-    }
-  },
-  async mounted() {
-    this.initMap()
-
-    this.map.spin(true)
-    this.data.positive_active = []
-    this.data.positive_recovery = []
-    try {
-      await axios.get('https://covid19-public.digitalservice.id/api/v1/sebaran_app/jabar')
-        .then((res) => {
-          const data = res.data.data.content
-
-          data.map((res) => {
-            if (res.status === 'Positif' && res.stage === 'Proses') {
-              this.data.positive_active.push(res)
-            } else if (res.status === 'Positif' && res.stage === 'Sembuh') {
-              this.data.positive_recovery.push(res)
-            } else if (res.status === 'Positif' && res.stage === 'Meninggal') {
-              this.data.positive_dead.push(res)
-            } else if (res.status === 'PDP' && res.stage === 'Proses') {
-              this.data.pdp_process.push(res)
-            } else if (res.status === 'PDP' && res.stage === 'Selesai') {
-              this.data.pdp_done.push(res)
-            } else if (res.status === 'PDP' && res.stage === 'Meninggal') {
-              this.data.pdp_dead.push(res)
-            } else if (res.status === 'ODP' && res.stage === 'Proses') {
-              this.data.odp_process.push(res)
-            } else if (res.status === 'ODP' && res.stage === 'Selesai') {
-              this.data.odp_done.push(res)
-            } else if (res.status === 'ODP' && res.stage === 'Meninggal') {
-              this.data.odp_dead.push(res)
-            } else if (res.status === 'OTG' && res.stage === 'Proses') {
-              this.data.otg_process.push(res)
-            } else if (res.status === 'OTG' && res.stage === 'Selesai') {
-              this.data.otg_done.push(res)
-            } else if (res.status === 'OTG' && res.stage === 'Meninggal') {
-              this.data.otg_dead.push(res)
-            }
-          })
-
-          if (this.roles[0] === 'dinkesprov' || this.roles[0] === 'superadmin') {
-            this.zoomOld = 1
-            this.zoomNew = 1
-            this.createLayerCity()
-            this.createMarker()
-          } else if (this.roles[0] === 'dinkeskota') {
-            this.zoomOld = 2
-            this.zoomNew = 2
-            this.createLayerDistrict(this.district_user)
-            this.createMarker(this.district_user)
-          }
-          this.map.spin(false)
-        })
-    } catch (error) {
-      console.error(error)
     }
   },
   beforeDestroy() {
@@ -1412,6 +1392,64 @@ export default {
     },
     sleep(ms) {
       return new Promise(resolve => setTimeout(resolve, ms))
+    },
+    async onDisclaimer() {
+      this.disclaimer = 'none'
+
+      this.initMap()
+
+      this.map.spin(true)
+      this.data.positive_active = []
+      this.data.positive_recovery = []
+      try {
+        await axios.get('https://covid19-public.digitalservice.id/api/v1/sebaran_app/jabar')
+          .then((res) => {
+            const data = res.data.data.content
+
+            data.map((res) => {
+              if (res.status === 'Positif' && res.stage === 'Proses') {
+                this.data.positive_active.push(res)
+              } else if (res.status === 'Positif' && res.stage === 'Sembuh') {
+                this.data.positive_recovery.push(res)
+              } else if (res.status === 'Positif' && res.stage === 'Meninggal') {
+                this.data.positive_dead.push(res)
+              } else if (res.status === 'PDP' && res.stage === 'Proses') {
+                this.data.pdp_process.push(res)
+              } else if (res.status === 'PDP' && res.stage === 'Selesai') {
+                this.data.pdp_done.push(res)
+              } else if (res.status === 'PDP' && res.stage === 'Meninggal') {
+                this.data.pdp_dead.push(res)
+              } else if (res.status === 'ODP' && res.stage === 'Proses') {
+                this.data.odp_process.push(res)
+              } else if (res.status === 'ODP' && res.stage === 'Selesai') {
+                this.data.odp_done.push(res)
+              } else if (res.status === 'ODP' && res.stage === 'Meninggal') {
+                this.data.odp_dead.push(res)
+              } else if (res.status === 'OTG' && res.stage === 'Proses') {
+                this.data.otg_process.push(res)
+              } else if (res.status === 'OTG' && res.stage === 'Selesai') {
+                this.data.otg_done.push(res)
+              } else if (res.status === 'OTG' && res.stage === 'Meninggal') {
+                this.data.otg_dead.push(res)
+              }
+            })
+
+            if (this.roles[0] === 'dinkesprov' || this.roles[0] === 'superadmin') {
+              this.zoomOld = 1
+              this.zoomNew = 1
+              this.createLayerCity()
+              this.createMarker()
+            } else if (this.roles[0] === 'dinkeskota') {
+              this.zoomOld = 2
+              this.zoomNew = 2
+              this.createLayerDistrict(this.district_user)
+              this.createMarker(this.district_user)
+            }
+            this.map.spin(false)
+          })
+      } catch (error) {
+        console.error(error)
+      }
     }
   }
 }
@@ -1746,5 +1784,30 @@ export default {
 
 .filter-layer .v-text-field__details {
   display: none;
+}
+
+.backdrop {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: #000;
+  opacity: 0.5;
+}
+.modal-disclaimer {
+  position: absolute;
+  background-color: #fff;
+  width: 400px;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  border-radius: 8px;
+  padding: 30px;
+}
+.img-center {
+  display: block;
+  margin: 0 auto;
 }
 </style>
