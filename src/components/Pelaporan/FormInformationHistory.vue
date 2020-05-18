@@ -408,13 +408,13 @@ export default {
         await this.$store.dispatch('reports/resetFormPasien')
         await this.$store.dispatch('toast/successToast', this.$t('success.create_date_success'))
         if (this.roles[0] === 'faskes') {
-          this.$router.push('/laporan/verification')
+          await this.$router.push('/laporan/verification')
         } else {
-          this.$router.push('/laporan/list')
+          await this.$router.push('/laporan/list')
         }
         await this.$refs.form.reset()
-        this.loading = false
       }
+      this.loading = false
     },
     onSelectHospital(value) {
       this.formPasien.current_hospital_id = value._id

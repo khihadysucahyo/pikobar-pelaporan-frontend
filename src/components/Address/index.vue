@@ -134,11 +134,17 @@ export default {
       this.districtCity = value
       this.$emit('update:codeDistrict', value.kota_kode)
       this.$emit('update:nameDistrict', value.kota_nama)
+      this.$emit('update:codeSubDistrict', '')
+      this.$emit('update:nameSubDistrict', '')
+      this.$emit('update:codeVillage', '')
+      this.$emit('update:nameVillage', '')
     },
     async onSelectSubDistrict(value) {
       this.subDistrict = value
       this.$emit('update:codeSubDistrict', value.kecamatan_kode)
       this.$emit('update:nameSubDistrict', value.kecamatan_nama)
+      this.$emit('update:codeVillage', '')
+      this.$emit('update:nameVillage', '')
     },
     async onSelectVillage(value) {
       this.village = value
