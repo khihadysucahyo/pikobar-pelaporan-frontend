@@ -157,11 +157,17 @@ export default {
   methods: {
     setMinMax(female, male) {
       const maxFemale = Math.max(...female)
-      const maxMale = Math.max(...male)
-      const max = (maxFemale > maxMale) ? maxFemale : maxMale
+      const minMale = Math.min(...male)
+      const max = (maxFemale > Math.abs(minMale)) ? maxFemale : Math.abs(minMale)
 
-      this.chartOptions.scales.xAxes[0].ticks.min = -Math.abs(max)
-      this.chartOptions.scales.xAxes[0].ticks.max = max
+      let plus = 0
+      const last = max % 10
+      if (max > 10) {
+        plus = (last < 5) ? 10 - last : 15 - last
+      }
+
+      this.chartOptions.scales.xAxes[0].ticks.min = -Math.abs(max + plus)
+      this.chartOptions.scales.xAxes[0].ticks.max = max + plus
     }
   }
 }
