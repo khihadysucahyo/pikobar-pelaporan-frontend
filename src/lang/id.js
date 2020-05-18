@@ -277,7 +277,8 @@ export default {
     chronic_kidney_failure: 'Gagal Ginjal Kronis',
     chronic_liver_failure: 'Gagal Hati Kronis',
     ppok: 'PPOK',
-    mention_other_additional_condition: 'Sebutkan kondisi penyerta lainnya (jika ada)'
+    mention_other_additional_condition: 'Sebutkan kondisi penyerta lainnya (jika ada)',
+    total_case: 'Jumlah Kasus'
   },
   success: {
     login_success: 'Login Berhasil',
