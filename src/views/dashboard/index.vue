@@ -33,9 +33,6 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col cols="12">
-        <card-data />
-      </v-col>
       <v-col cols="8">
         <v-row>
           <v-col
