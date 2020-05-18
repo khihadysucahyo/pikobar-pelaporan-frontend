@@ -11,8 +11,8 @@ export default {
   district_name_user: (state, getters) => {
     return state.user_district_name
   },
-  fullname: (state, getters) => {
-    return state.fullname
+  fullName: (state, getters) => {
+    return state.fullName
   },
   formUser: (state, getters) => {
     return state.formUser

@@ -68,7 +68,9 @@ export default {
   async mounted() {
     this.yearList = await this.listYear()
     this.dayList = await this.listDays()
-    this.date = await this.datetime.split('/')
+    if (this.datetime) {
+      this.date = await this.datetime.split('/')
+    }
     if (this.date[1]) {
       this.disabledMonth = false
     }

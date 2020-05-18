@@ -11,8 +11,8 @@ export default {
   SET_DISTRICT_NAME: (state, districtName) => {
     state.user_district_name = districtName
   },
-  SET_FULLNAME: (state, fullname) => {
-    state.fullname = fullname
+  SET_FULLNAME: (state, fullName) => {
+    state.fullName = fullName
   },
   SET_LIST_USER: (state, data) => {
     state.userList = data

@@ -106,6 +106,10 @@
                   :label="$t('label.hospital')"
                   value="RS"
                 />
+                <v-radio
+                  :label="$t('label.other_places')"
+                  value="others"
+                />
               </v-radio-group>
             </ValidationProvider>
             <div v-if="formPasien.current_location_type === 'RUMAH'">
@@ -140,10 +144,30 @@
             >
               <v-autocomplete
                 v-model="formPasien.current_location_address"
-                :items="hospitalList"
+                :items="hospitalWestJavaList"
                 :error-messages="errors"
                 :return-object="true"
                 :label="$t('label.location_hospital')"
+                menu-props="auto"
+                item-text="name"
+                item-value="name"
+                single-line
+                solo
+                autocomplete
+                @change="onSelectHospital"
+              />
+            </ValidationProvider>
+            <ValidationProvider
+              v-if="formPasien.current_location_type === 'others'"
+              v-slot="{ errors }"
+              rules="required"
+            >
+              <v-autocomplete
+                v-model="formPasien.current_location_address"
+                :items="hospitalNonWestJavaList"
+                :error-messages="errors"
+                :return-object="true"
+                :label="$t('label.others')"
                 menu-props="auto"
                 item-text="name"
                 item-value="name"
@@ -160,6 +184,34 @@
               <v-text-field
                 v-model="formPasien.report_source"
                 :error-messages="errors"
+                :disabled="disabledReportResource"
+                solo-inverted
+              />
+            </ValidationProvider>
+            <ValidationProvider v-slot="{ errors }">
+              <label>{{ $t('label.additional_condition') }}</label>
+              <v-row>
+                <v-col v-for="item in additionalConditionOptions" :key="item" sm="4" md="4">
+                  <label class="material-checkbox-custom">
+                    <input
+                      v-model="formPasien.diseases"
+                      :value="item"
+                      type="checkbox"
+                    >
+                    <span v-if="errors.length" class="error--text">{{ item }}</span>
+                    <span v-else>{{ item }}</span>
+                  </label>
+                  <span
+                    v-if="errors.length"
+                    class="v-messages error--text"
+                  >{{ errors[0] }}</span>
+                </v-col>
+              </v-row>
+            </ValidationProvider>
+            <ValidationProvider>
+              <v-text-field
+                v-model="formPasien.diseases_other"
+                :placeholder="$t('label.mention_other_additional_condition')"
                 solo-inverted
               />
             </ValidationProvider>
@@ -234,21 +286,23 @@
             />
             <ValidationProvider v-slot="{ errors }">
               <label>{{ $t('label.symptoms') }}</label>
-              <div v-for="(item, index) in optionGejala" :key="index">
-                <label class="material-checkbox-custom">
-                  <input
-                    v-model="formPasien.diagnosis"
-                    :value="item"
-                    type="checkbox"
-                  >
-                  <span v-if="errors.length" class="error--text">{{ item }}</span>
-                  <span v-else>{{ item }}</span>
-                </label>
-              </div>
-              <span
-                v-if="errors.length"
-                class="v-messages error--text"
-              >{{ errors[0] }}</span>
+              <v-row>
+                <v-col v-for="item in symptomOptions" :key="item" sm="4" md="4">
+                  <label class="material-checkbox-custom">
+                    <input
+                      v-model="formPasien.diagnosis"
+                      :value="item"
+                      type="checkbox"
+                    >
+                    <span v-if="errors.length" class="error--text">{{ item }}</span>
+                    <span v-else>{{ item }}</span>
+                  </label>
+                  <span
+                    v-if="errors.length"
+                    class="v-messages error--text"
+                  >{{ errors[0] }}</span>
+                </v-col>
+              </v-row>
             </ValidationProvider>
             <ValidationProvider>
               <v-text-field
@@ -292,7 +346,7 @@
 <script>
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import EventBus from '@/utils/eventBus'
-import { optionGejala } from '@/utils/constantVariable'
+import { symptomOptions, additionalConditionOptions } from '@/utils/constantVariable'
 import { mapGetters } from 'vuex'
 export default {
   name: 'FormInformationHistory',
@@ -313,17 +367,31 @@ export default {
   data() {
     return {
       loading: false,
-      optionGejala: optionGejala,
-      formatDate: 'YYYY/MM/DD'
+      symptomOptions: symptomOptions,
+      formatDate: 'YYYY/MM/DD',
+      disabledReportResource: false,
+      hospitalWestJavaList: [],
+      hospitalNonWestJavaList: [],
+      additionalConditionOptions: additionalConditionOptions
     }
   },
   computed: {
-    ...mapGetters('region', [
-      'hospitalList'
+    ...mapGetters('user', [
+      'roles',
+      'fullName'
     ])
   },
   async mounted() {
-    await this.$store.dispatch('region/getListHospital')
+    var paramHospitalWestJava = { 'rs_jabar': true }
+    var paramHospitalNonWestJava = { 'rs_jabar': false }
+    const responseWestJava = await this.$store.dispatch('region/getListHospital', paramHospitalWestJava)
+    this.hospitalWestJavaList = responseWestJava.data
+    const responseNonWestJava = await this.$store.dispatch('region/getListHospital', paramHospitalNonWestJava)
+    this.hospitalNonWestJavaList = responseNonWestJava.data
+    if (this.roles[0] === 'faskes') {
+      this.formPasien.report_source = this.fullName
+      this.disabledReportResource = true
+    }
   },
   methods: {
     backStep() {
@@ -339,7 +407,11 @@ export default {
       if (response.status !== 422) {
         await this.$store.dispatch('reports/resetFormPasien')
         await this.$store.dispatch('toast/successToast', this.$t('success.create_date_success'))
-        this.$router.push('/laporan/list')
+        if (this.roles[0] === 'faskes') {
+          this.$router.push('/laporan/verification')
+        } else {
+          this.$router.push('/laporan/list')
+        }
         await this.$refs.form.reset()
         this.loading = false
       }

@@ -25,7 +25,6 @@ const rdtRouter = {
     {
       path: '/rdt/list',
       component: () => import('@/views/rdt/list'),
-      child: true,
       meta: {
         title: 'list_rdt',
         icon: 'mdi-book-plus',

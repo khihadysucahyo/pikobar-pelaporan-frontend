@@ -46,7 +46,7 @@ export default {
   computed: {
     ...mapGetters('user', [
       'roles',
-      'fullname',
+      'fullName',
       'district_user',
       'district_name_user'
     ])

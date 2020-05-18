@@ -11,7 +11,7 @@
             <v-col cols="auto">
               <v-card-text class="header-survey-text">
                 <div>{{ $t('label.total_case_data') }} : {{ totalReport }}</div>
-                <div>{{ fullname }}</div>
+                <div>{{ fullName }}</div>
               </v-card-text>
             </v-col>
           </v-row>
@@ -99,11 +99,13 @@
     <v-card
       outlined
     >
-      <case-filter
-        :list-query="listQuery"
-        :query-list.sync="listQuery"
-        :on-search="handleSearch"
-      />
+      <v-container>
+        <case-filter
+          :list-query="listQuery"
+          :query-list.sync="listQuery"
+          :on-search="handleSearch"
+        />
+      </v-container>
       <hr>
       <v-row align="center" justify="space-between">
         <v-col>
@@ -113,6 +115,7 @@
         </v-col>
         <v-col cols="12" sm="4" class="align-right">
           <v-btn
+            v-if="roles[0] !== 'faskes'"
             color="#b3e2cd"
             class="btn-import-export margin-right"
             depressed
@@ -142,6 +145,7 @@
             :mobile-breakpoint="NaN"
             :no-data-text="$t('label.data_empty')"
             :items-per-page="listQuery.limit"
+            :options.sync="optionsDataTable"
             :loading="loadingTable"
             hide-default-footer
           >
@@ -153,12 +157,13 @@
                 <td>{{ item.age }} Th</td>
                 <td>
                   <div v-if="item.gender =='P'">
-                    {{ $t('label.female') }}
+                    {{ $t('label.female_initials') }}
                   </div>
                   <div v-else>
-                    {{ $t('label.male') }}
+                    {{ $t('label.male_initials') }}
                   </div>
                 </td>
+                <td>{{ item.phone_number }}</td>
                 <td><status :status="item.status" /> </td>
                 <td>
                   <div v-if=" item.last_history.stage =='0'">
@@ -182,7 +187,8 @@
                     -
                   </div>
                 </td>
-                <td>{{ item.author.fullname }}</td>
+                <td>{{ item.author.username }}</td>
+                <td>{{ item.createdAt ? formatDatetime(item.createdAt, 'DD MMMM YYYY') : '-' }}</td>
                 <td>
                   <v-card-actions>
                     <v-menu
@@ -211,14 +217,17 @@
                         <v-list-item @click="handleDetail(item._id)">
                           {{ $t('label.view_detail') }}
                         </v-list-item>
-                        <div v-if="roles[0] === 'dinkeskota'">
+                        <div v-if="rolesWidget['dinkesKotaAndFaskes'].includes(roles[0])">
                           <v-list-item @click="handleEditCase(item._id)">
                             {{ $t('label.profile_update') }}
                           </v-list-item>
                           <v-list-item @click="handleEditHistoryCase(item._id)">
                             {{ $t('label.update_history') }}
                           </v-list-item>
-                          <v-list-item @click="handleDeleteCase(item)">
+                          <v-list-item
+                            v-if="rolesWidget['dinkeskota'].includes(roles[0])"
+                            @click="handleDeleteCase(item)"
+                          >
                             {{ $t('label.deleted_case') }}
                           </v-list-item>
                         </div>
@@ -292,6 +301,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import FileSaver from 'file-saver'
+import { rolesWidget } from '@/utils/constantVariable'
 import { formatDatetime } from '@/utils/parseDatetime'
 export default {
   name: 'LaporanList',
@@ -302,11 +312,13 @@ export default {
         { text: 'KODE KASUS', value: 'id_case' },
         { text: 'NAMA', value: 'name' },
         { text: 'USIA', value: 'age' },
-        { text: 'JENIS KELAMIN', value: 'gender' },
+        { text: 'JK', value: 'gender' },
+        { text: 'NO TELEPON', value: 'phone_number' },
         { text: 'STATUS', value: 'status' },
         { text: 'TAHAPAN', value: 'stage' },
         { text: 'HASIL', value: 'final_result' },
         { text: 'AUTHOR', value: 'author' },
+        { text: 'TANGGAL INPUT', value: 'createdAt' },
         { text: 'Aksi', value: 'actions', sortable: false }
       ],
       loading: true,
@@ -319,6 +331,8 @@ export default {
       queryReportCase: {
         address_district_code: ''
       },
+      rolesWidget,
+      optionsDataTable: {},
       listQuery: {
         address_district_code: '',
         address_subdistrict_code: '',
@@ -326,10 +340,12 @@ export default {
         status: '',
         final_result: '',
         page: 1,
-        limit: 30,
+        limit: 100,
         search: '',
         start_date: '',
-        end_date: ''
+        end_date: '',
+        verified_status: 'verified',
+        sort: {}
       },
       countingReports: null,
       dialog: false,
@@ -347,16 +363,41 @@ export default {
     ]),
     ...mapGetters('user', [
       'roles',
-      'fullname',
+      'fullName',
       'district_user'
     ])
   },
   watch: {
     'listQuery.search': {
       handler: function(value) {
-        if ((value !== undefined) && (value.length === 0 || value.length >= 3)) {
+        if ((value !== undefined) && (value.length >= 2)) {
+          this.loadingTable = true
           this.listQuery.page = 1
           this.handleSearch()
+          this.loadingTable = false
+        } else if (value.length === 0) {
+          this.loadingTable = true
+          this.listQuery.page = 1
+          this.handleSearch()
+          this.loadingTable = false
+        }
+      },
+      immediate: true
+    },
+    'optionsDataTable': {
+      handler: function(value) {
+        if (value.sortBy !== undefined) {
+          if ((value.sortBy[0] !== undefined) && (value.sortDesc[0])) {
+            this.listQuery.sort[value.sortBy[0]] = 'desc'
+          } else if ((value.sortBy[0] !== undefined) && (!value.sortDesc[0])) {
+            this.listQuery.sort[value.sortBy[0]] = 'asc'
+          } else {
+            this.listQuery.sort = {}
+          }
+
+          if (Object.keys(this.listQuery.sort).length > 0) {
+            this.handleSearch()
+          }
         }
       },
       immediate: true
@@ -375,6 +416,7 @@ export default {
     this.totalReport = this.totalOTG + this.totalODP + this.totalPDP + this.totalPositif
   },
   methods: {
+    formatDatetime,
     async handleDetail(id) {
       await this.$router.push(`/laporan/detail/${id}`)
     },
@@ -389,6 +431,7 @@ export default {
       this.dataDelete = await item
     },
     async handleSearch() {
+      this.listQuery.page = 1
       await this.$store.dispatch('reports/listReportCase', this.listQuery)
     },
     getTableRowNumbering(index) {
@@ -400,7 +443,7 @@ export default {
     async onExport() {
       const response = await this.$store.dispatch('reports/exportExcel', this.listQuery)
       const dateNow = Date.now()
-      const fileName = `Data Kasus ${this.fullname} - ${formatDatetime(dateNow, 'DD/MM/YYYY HH:mm')} WIB.xlsx`
+      const fileName = `Data Kasus ${this.fullName} - ${formatDatetime(dateNow, 'DD/MM/YYYY HH:mm')} WIB.xlsx`
       FileSaver.saveAs(response, fileName)
     }
   }

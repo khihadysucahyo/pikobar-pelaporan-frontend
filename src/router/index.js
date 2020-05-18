@@ -11,6 +11,8 @@ import dashboardRouter from './modules/dashboard'
 import Pelaporan from './modules/pelaporan'
 // import rdtRouter from './modules/rdt'
 import settingRouter from './modules/setting'
+import distributionCaseRouter from './modules/distributionCase'
+import submissionLogistikRouter from './modules/submissionLogistik'
 
 /**
  * constantRoutes
@@ -38,21 +40,6 @@ export const constantRoutes = [
     path: '/auth-redirect',
     component: () => import('@/views/login/authredirect'),
     hidden: true
-  },
-  {
-    path: '/change-password',
-    component: Layout,
-    hidden: true,
-    children: [
-      {
-        path: '/',
-        component: () => import('@/views/changePassword/index'),
-        meta: {
-          title: 'change_password'
-        },
-        hidden: true
-      }
-    ]
   }
 ]
 
@@ -62,8 +49,10 @@ export const constantRoutes = [
  */
 export const asyncRoutes = [
   dashboardRouter,
+  distributionCaseRouter,
   // rdtRouter,
   Pelaporan,
+  submissionLogistikRouter,
   settingRouter,
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/', hidden: true }

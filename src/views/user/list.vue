@@ -5,21 +5,21 @@
       type="article"
     >
       <v-card class="d-block pa-1 mx-auto header-user-list">
-        <v-row justify="space-between" style="margin-top: 1rem;">
-          <v-col cols="1" sm="1">
-            <v-icon style="font-size: 70px;color: #ffff;">
+        <v-row class="mt-2">
+          <v-col cols="12" sm="1">
+            <v-icon class="ml-3" style="font-size: 70px;color: #ffff;">
               mdi-alert-circle
             </v-icon>
           </v-col>
           <v-col auto>
-            <v-card-text class="header-user-text">
+            <v-card-text>
               <div class="header-user-title">{{ $t('route.user_management') }}</div>
-              <div>{{ $t('label.redaction_list_user') }}</div>
+              <div class="header-user-text">{{ $t('label.redaction_list_user') }}</div>
             </v-card-text>
           </v-col>
-          <v-col cols="12" sm="3">
+          <v-col class="mr-6" cols="12" sm="3">
             <v-btn
-              class="ma-1"
+              block
               color="#009D57"
               style="background: #FFFFFF;height: 56px;min-width: 178px;"
               outlined
@@ -31,7 +31,7 @@
         </v-row>
       </v-card>
     </v-skeleton-loader>
-    <v-card outlined>
+    <v-card class="mt-4" outlined>
       <v-row>
         <v-col>
           <v-card-text>
@@ -40,6 +40,12 @@
         </v-col>
         <v-col />
       </v-row>
+      <user-filter
+        :list-query="listQuery"
+        :query-list.sync="listQuery"
+        :on-search="handleSearch"
+      />
+      <hr>
       <v-row>
         <v-col auto>
           <v-data-table
@@ -109,12 +115,12 @@
                           </v-list-item>
                           <v-list-item
                             v-if="roles[0] === 'superadmin'"
-                            @click="handleResetPassword(item.id)"
+                            @click="handleChangePassword(item.id)"
                           >
-                            {{ $t('route.change_password') }}
+                            {{ $t('label.reset_password') }}
                           </v-list-item>
                           <v-list-item @click="handleEdit(item.id)">
-                            {{ $t('label.update_user') }}
+                            {{ $t('route.user_edit') }}
                           </v-list-item>
                           <v-list-item @click="handleDeleteUser(item)">
                             {{ $t('label.deleted_user') }}
@@ -168,7 +174,11 @@ export default {
       listQuery: {
         page: 1,
         limit: 30,
-        search: ''
+        search: '',
+        code_district_city: '',
+        address_subdistrict_code: '',
+        address_village_code: '',
+        role: ''
       },
       districtCity: {
         kota_kode: ''
@@ -180,12 +190,27 @@ export default {
   computed: {
     ...mapGetters('user', [
       'roles',
+      'district_user',
       'totalList',
       'userList'
     ])
   },
+  watch: {
+    'listQuery.search': {
+      handler: function(value) {
+        if ((value !== undefined) && (value.length >= 2)) {
+          this.listQuery.page = 1
+          this.handleSearch()
+        } else if (value.length === 0) {
+          this.listQuery.page = 1
+          this.handleSearch()
+        }
+      },
+      immediate: true
+    }
+  },
   async mounted() {
-    await this.$store.dispatch('user/listUser', this.listQuery)
+    if (this.roles[0] === 'dinkeskota') this.listQuery.code_district_city = this.district_user
   },
   methods: {
     completeAddress,
@@ -193,7 +218,7 @@ export default {
       return ((this.listQuery.page - 1) * this.listQuery.limit) + (index + 1)
     },
     async onNext() {
-      await this.$store.dispatch('reports/listReportCase', this.listQuery)
+      await this.$store.dispatch('user/listUser', this.listQuery)
     },
     async handleDeleteUser(item) {
       this.dialog = true
@@ -202,17 +227,21 @@ export default {
       }
       this.dataDelete = await dataDelete
     },
+    async handleSearch() {
+      this.listQuery.page = 1
+      await this.$store.dispatch('user/listUser', this.listQuery)
+    },
     async handleEdit(id) {
       await this.$router.push(`/user/edit/${id}`)
+    },
+    async handleChangePassword(id) {
+      await this.$router.push(`/change-password/${id}`)
     },
     async handleDetail(id) {
       await this.$router.push(`/user/detail/${id}`)
     },
     async handleCreate() {
       await this.$router.push(`/user/create`)
-    },
-    handleResetPassword(id) {
-      //
     }
   }
 }
@@ -223,12 +252,12 @@ export default {
   background: linear-gradient(82.33deg, #27AE60 0%, #58DA8F 100%);
 }
 .header-user-text {
-  font-size: 16px;
+  font-size: 13px;
   color: #FFFFFF;
-  margin-left: 2rem;
 }
 .header-user-title {
   font-size: 30px;
+  color: #FFFFFF;
   margin-bottom: 10px;
 }
 .class-on-data-table table {

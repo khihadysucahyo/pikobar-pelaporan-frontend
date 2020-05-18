@@ -54,7 +54,6 @@
 <script>
 export default {
   name: 'ChangePassword',
-  components: { },
   data() {
     return {
       valid: true,
@@ -80,17 +79,30 @@ export default {
     handleChangePassword() {
       if (this.$refs.form.validate()) {
         this.loading = true
-        this.$store.dispatch('user/changePasswordUser', { password: this.changePasswordForm.password })
-          .then(() => {
-            this.$store.dispatch('toast/successToast', 'Password berhasil dirubah')
-            this.$store.dispatch('user/resetToken')
-            this.$router.push({ path: '/login' })
-            this.loading = false
-          })
-          .catch(() => {
-            this.loading = false
-            this.$refs.form.reset()
-          })
+        if (this.$route.params.id) {
+          this.$store.dispatch('user/editUser', { id: this.$route.params.id, data: { password: this.changePasswordForm.password }})
+            .then(() => {
+              this.$store.dispatch('toast/successToast', 'Password berhasil dirubah')
+              this.$router.push({ path: '/user/list' })
+              this.loading = false
+            })
+            .catch(() => {
+              this.loading = false
+              this.$refs.form.reset()
+            })
+        } else {
+          this.$store.dispatch('user/changePasswordUser', { password: this.changePasswordForm.password })
+            .then(() => {
+              this.$store.dispatch('toast/successToast', 'Password berhasil dirubah')
+              this.$store.dispatch('user/resetToken')
+              this.$router.push({ path: '/login' })
+              this.loading = false
+            })
+            .catch(() => {
+              this.loading = false
+              this.$refs.form.reset()
+            })
+        }
       }
     }
   }

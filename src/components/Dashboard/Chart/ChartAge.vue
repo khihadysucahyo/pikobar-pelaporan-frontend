@@ -1,21 +1,30 @@
 <template>
-  <v-card
-    class="chart mx-auto"
-    outlined
+  <v-skeleton-loader
+    :loading="loading"
+    type="article"
   >
-    <v-card-title class="title ml-0 black--text">
-      {{ $t('label.age') }}
-    </v-card-title>
-    <v-divider class="mt-0 mb-2" />
-    <v-card-text>
-      <chart-bar-horizontal
-        v-if="loaded"
-        :chart-data="chartData"
-        :options="chartOptions"
-        :styles="chartStyles"
-      />
-    </v-card-text>
-  </v-card>
+    <v-card
+      class="chart mx-auto"
+      outlined
+    >
+      <v-card-title class="title ml-0 black--text">
+        {{ $t('label.age') }}
+      </v-card-title>
+      <v-card-subtitle>
+        {{ $t('label.positive') }} {{ $t('label.active') }}
+      </v-card-subtitle>
+      <v-divider class="mt-0 mb-2" />
+      <v-card-text>
+        <chart-bar-horizontal
+          v-if="loaded"
+          ref="horizontalBarChart"
+          :chart-data="chartData"
+          :options="chartOptions"
+          :styles="chartStyles"
+        />
+      </v-card-text>
+    </v-card>
+  </v-skeleton-loader>
 </template>
 
 <script>
@@ -25,6 +34,14 @@ export default {
     chartHeight: {
       type: Number,
       default: 300
+    },
+    loading: {
+      type: Boolean,
+      default: true
+    },
+    dataAge: {
+      type: Object,
+      default: null
     }
   },
   data() {
@@ -46,13 +63,13 @@ export default {
         datasets: [
           {
             label: this.$t('label.female'),
-            backgroundColor: 'rgba(255, 124, 143, 1)',
-            data: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+            backgroundColor: '#F2C94C',
+            data: []
           },
           {
             label: this.$t('label.male'),
-            backgroundColor: 'rgba(102, 164, 251, 1)',
-            data: [-5, -10, -30, -40, -50, -60, -70, -80, -80, -85]
+            backgroundColor: '#27AE60',
+            data: []
           }
         ]
       },
@@ -66,7 +83,8 @@ export default {
                 drawBorder: false
               },
               ticks: {
-                callback: function(value, index, values) {
+                precision: 0,
+                callback: (value, index, values) => {
                   return Math.abs(value)
                 }
               }
@@ -97,7 +115,7 @@ export default {
           mode: 'index',
           intersect: false,
           callbacks: {
-            label: function(items, data) {
+            label: (items, data) => {
               return data.datasets[items.datasetIndex].label + ': ' + Math.abs(items.xLabel)
             }
           }
@@ -117,14 +135,41 @@ export default {
       }
     }
   },
-  async mounted() {
+  watch: {
+    'dataAge': {
+      handler(value) {
+        this.chartData.datasets[0].data = value.female
+        this.chartData.datasets[1].data = value.male
+        this.setMinMax(value.female, value.male)
+      },
+      deep: true
+    },
+    '$refs'() {
+      this.$refs.horizontalBarChart.update()
+    }
+  },
+  mounted() {
     this.loaded = true
+
+    this.chartData.datasets[0].data = this.dataAge.female
+    this.chartData.datasets[1].data = this.dataAge.male
+    this.setMinMax(this.dataAge.female, this.dataAge.male)
+  },
+  methods: {
+    setMinMax(female, male) {
+      const maxFemale = Math.max(...female)
+      const maxMale = Math.max(...male)
+      const max = (maxFemale > maxMale) ? maxFemale : maxMale
+
+      this.chartOptions.scales.xAxes[0].ticks.min = -Math.abs(max)
+      this.chartOptions.scales.xAxes[0].ticks.max = max
+    }
   }
 }
 </script>
 
 <style scoped>
-  .chart .title {
-    text-transform: none;
-  }
+.chart .title {
+  text-transform: none;
+}
 </style>

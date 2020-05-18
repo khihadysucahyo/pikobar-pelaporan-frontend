@@ -1,162 +1,329 @@
 <template>
-  <v-container v-if="display" fluid grid-list-xl py-0 mb-5>
+  <v-container
+    v-if="display"
+    fluid
+    grid-list-xl
+    py-0
+    mb-5
+  >
+    <v-row>
+      <v-col
+        cols="12"
+        class="pb-0"
+      >
+        <h3><strong>{{ `${$t('label.dashboard')} ${$t('label.report')}` }}</strong></h3>
+      </v-col>
+    </v-row>
+    <v-row class="mb-3">
+      <v-col cols="12">
+        <v-card
+          class="chart mx-auto"
+          outlined
+        >
+          <v-card-text class="white--text disclaimer">
+            {{ $t('label.dashboard_disclaimer') }}
+            <a
+              class="white--text help"
+              @click="handleHelp"
+            >
+              {{ $t('label.disclaimer_help') }}
+            </a>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
     <v-row>
       <v-col cols="12">
         <card-data />
       </v-col>
-      <!--      <v-col cols="12">-->
-      <!--        <h4>{{ $t('label.look_for_it') }} {{ $t('label.based') }}:</h4>-->
-      <!--        <v-divider class="mb-0" />-->
-      <!--      </v-col>-->
-      <!--      <v-col cols="12" md="2" sm="12">-->
-      <!--        <select-area-district-city-->
-      <!--          :disabled-district="disabledDistrict"-->
-      <!--          :district-city="districtCity"-->
-      <!--          :city-district.sync="districtCity"-->
-      <!--          :on-select-district="onSelectDistrict"-->
-      <!--        />-->
-      <!--      </v-col>-->
-      <!--      <v-col cols="12" md="2" sm="12">-->
-      <!--        <select-area-sub-district-->
-      <!--          :sub-district="subDistrict"-->
-      <!--          :update-sub-district.sync="subDistrict"-->
-      <!--          :code-district="districtCity.kota_kode"-->
-      <!--          :district-code.sync="districtCity.kota_kode"-->
-      <!--          :on-select-sub-district="onSelectSubDistrict"-->
-      <!--        />-->
-      <!--      </v-col>-->
-      <!--      <v-col cols="12" md="2" sm="12">-->
-      <!--        <select-area-village-->
-      <!--          :village="village"-->
-      <!--          :update-village.sync="village"-->
-      <!--          :code-sub-district="subDistrict.kecamatan_kode"-->
-      <!--          :sub-district-code.sync="subDistrict.kecamatan_kode"-->
-      <!--          :on-select-village="onSelectVillage"-->
-      <!--        />-->
-      <!--      </v-col>-->
-      <!--      <v-col cols="12" md="2" sm="12">-->
-      <!--        <v-btn block color="grey darken-3" class="button white&#45;&#45;text" @click="onReset">-->
-      <!--          {{ $t('label.reset') }}-->
-      <!--        </v-btn>-->
-      <!--      </v-col>-->
-      <!--      <v-col cols="12" md="2" sm="12">-->
-      <!--        <v-btn block color="success" class="button" @click="onSearch">-->
-      <!--          {{ $t('label.look_for_it') }}-->
-      <!--        </v-btn>-->
-      <!--      </v-col>-->
-      <!--      <v-col cols="12" md="2" sm="12">-->
-      <!--        <v-btn block color="info" class="button">-->
-      <!--          {{ $t('label.export_data') }}-->
-      <!--        </v-btn>-->
-      <!--      </v-col>-->
-      <!--    </v-row>-->
-      <!--    <v-row>-->
-      <!--      <v-col cols="12" md="3" sm="6">-->
-      <!--        <statistic-total-confirmed />-->
-      <!--      </v-col>-->
-      <!--      <v-col cols="12" md="3" sm="6">-->
-      <!--        <statistic-total-active />-->
-      <!--      </v-col>-->
-      <!--      <v-col cols="12" md="3" sm="6">-->
-      <!--        <statistic-total-recovered />-->
-      <!--      </v-col>-->
-      <!--      <v-col cols="12" md="3" sm="6">-->
-      <!--        <statistic-total-death />-->
-      <!--      </v-col>-->
-      <!--    </v-row>-->
-      <!--    <v-row class="mb-3">-->
-      <!--      <v-col cols="12" md="4">-->
-      <!--        <statistic-people-without-symptoms />-->
-      <!--      </v-col>-->
-      <!--      <v-col cols="12" md="4">-->
-      <!--        <statistic-person-under-monitoring />-->
-      <!--      </v-col>-->
-      <!--      <v-col cols="12" md="4">-->
-      <!--        <statistic-patient-under-investigation />-->
-      <!--      </v-col>-->
-      <!--    </v-row>-->
-      <!--    <v-divider />-->
-      <!--    <v-tabs>-->
-      <!--      <v-tab :key="'daily'" :href="'#tab-daily'">-->
-      <!--        {{ $t('label.daily_number') }}-->
-      <!--      </v-tab>-->
-      <!--      <v-tab :key="'cumulative'" :href="'#tab-cumulative'">-->
-      <!--        {{ $t('label.cumulative') }}-->
-      <!--      </v-tab>-->
-      <!--      <v-tab-item :key="'daily'" :value="'tab-daily'">-->
-      <!--        <v-row>-->
-      <!--          <v-col cols="12" md="6">-->
-      <!--            <chart-daily-people-without-symptoms :chart-height="250" />-->
-      <!--          </v-col>-->
-      <!--          <v-col cols="12" md="6">-->
-      <!--            <chart-daily-person-under-monitoring :chart-height="250" />-->
-      <!--          </v-col>-->
-      <!--          <v-col cols="12" md="6">-->
-      <!--            <chart-daily-patient-under-investigation :chart-height="250" />-->
-      <!--          </v-col>-->
-      <!--          <v-col cols="12" md="6">-->
-      <!--            <chart-daily-confirmed :chart-height="250" />-->
-      <!--          </v-col>-->
-      <!--        </v-row>-->
-      <!--      </v-tab-item>-->
-      <!--      <v-tab-item :key="'cumulative'" :value="'tab-cumulative'">-->
-      <!--        <v-row>-->
-      <!--          <v-col cols="12" md="6">-->
-      <!--            <chart-cumulative-people-without-symptoms :chart-height="250" />-->
-      <!--          </v-col>-->
-      <!--          <v-col cols="12" md="6">-->
-      <!--            <chart-cumulative-person-under-monitoring :chart-height="250" />-->
-      <!--          </v-col>-->
-      <!--          <v-col cols="12" md="6">-->
-      <!--            <chart-cumulative-patient-under-investigation :chart-height="250" />-->
-      <!--          </v-col>-->
-      <!--          <v-col cols="12" md="6">-->
-      <!--            <chart-cumulative-confirmed :chart-height="250" />-->
-      <!--          </v-col>-->
-      <!--        </v-row>-->
-      <!--      </v-tab-item>-->
-      <!--    </v-tabs>-->
-      <!--    <v-divider />-->
-      <!--    <v-tabs>-->
-      <!--      <v-tab :key="'map'" :href="'#tab-map'">-->
-      <!--        Peta Sebaran-->
-      <!--      </v-tab>-->
-      <!--      <v-tab :key="'case'" :href="'#tab-case'">-->
-      <!--        Kasus Keterkaitan-->
-      <!--      </v-tab>-->
-      <!--      <v-tab-item :key="'map'" :value="'tab-map'">-->
-      <!--        <v-row>-->
-      <!--          <v-col cols="12">-->
-      <!--            <map-point-->
-      <!--              :filter-data="filter"-->
-      <!--            />-->
-      <!--          </v-col>-->
-      <!--        </v-row>-->
-      <!--      </v-tab-item>-->
-      <!--      <v-tab-item :key="'case'" :value="'tab-case'">-->
-      <!--        <v-row>-->
-      <!--          <v-col cols="12">-->
-      <!--            <graph-case />-->
-      <!--          </v-col>-->
-      <!--        </v-row>-->
-      <!--      </v-tab-item>-->
-      <!--    </v-tabs>-->
-      <!--    <v-divider />-->
-      <!--    &lt;!&ndash; <v-row>-->
-      <!--      <v-col cols="12">-->
-      <!--        <map-point />-->
-      <!--      </v-col>-->
-      <!--    </v-row>-->
-      <!--    <v-divider /> &ndash;&gt;-->
-      <!--    <v-row>-->
-      <!--      <v-col cols="12" md="4">-->
-      <!--        <chart-gender />-->
-      <!--      </v-col>-->
-      <!--      <v-col cols="12" md="8">-->
-      <!--        <chart-age />-->
-      <!--      </v-col>-->
-      <!--    </v-row>-->
-    </v-row></v-container>
+      <v-col cols="8">
+        <v-row>
+          <v-col
+            cols="12"
+            md="4"
+            sm="12"
+            class="pt-0"
+          >
+            <select-area-district-city
+              :disabled-district="disabledDistrict"
+              :district-city="districtCity"
+              :city-district.sync="districtCity"
+              :on-select-district="onSelectDistrict"
+            />
+          </v-col>
+          <v-col
+            cols="12"
+            md="4"
+            sm="12"
+            class="pt-0"
+          >
+            <select-area-sub-district
+              :sub-district="subDistrict"
+              :update-sub-district.sync="subDistrict"
+              :code-district="districtCity.kota_kode"
+              :district-code.sync="districtCity.kota_kode"
+              :on-select-sub-district="onSelectSubDistrict"
+            />
+          </v-col>
+          <v-col
+            cols="12"
+            md="4"
+            sm="12"
+            class="pt-0"
+          >
+            <select-area-village
+              :village="village"
+              :update-village.sync="village"
+              :code-sub-district="subDistrict.kecamatan_kode"
+              :sub-district-code.sync="subDistrict.kecamatan_kode"
+              :on-select-village="onSelectVillage"
+            />
+          </v-col>
+        </v-row>
+      </v-col>
+      <v-col
+        cols="12"
+        md="2"
+        sm="12"
+      >
+        <v-btn
+          block
+          color="success"
+          class="button"
+          @click="onSearch"
+        >
+          {{ $t('label.look_for_it') }}
+        </v-btn>
+      </v-col>
+      <v-col
+        cols="12"
+        md="2"
+        sm="12"
+      >
+        <v-btn
+          block
+          color="grey darken-3"
+          class="button white--text"
+          @click="onReset"
+        >
+          {{ $t('label.reset') }}
+        </v-btn>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col
+        cols="12"
+        md="3"
+        sm="6"
+      >
+        <statistic-total-confirmed
+          :loading="loadingConfirmed"
+          :total-confirmed="statistic.confirmed.total"
+        />
+      </v-col>
+      <v-col
+        cols="12"
+        md="3"
+        sm="6"
+      >
+        <statistic-total-active
+          :loading="loadingConfirmed"
+          :total-active="statistic.confirmed.active"
+        />
+      </v-col>
+      <v-col
+        cols="12"
+        md="3"
+        sm="6"
+      >
+        <statistic-total-recovered
+          :loading="loadingConfirmed"
+          :total-recovered="statistic.confirmed.recovery"
+        />
+      </v-col>
+      <v-col
+        cols="12"
+        md="3"
+        sm="6"
+      >
+        <statistic-total-death
+          :loading="loadingConfirmed"
+          :total-death="statistic.confirmed.dead"
+        />
+      </v-col>
+    </v-row>
+    <v-row class="mb-3">
+      <v-col
+        cols="12"
+        md="4"
+      >
+        <statistic-people-without-symptoms
+          :loading="loadingNotConfirmed"
+          :process="statistic.otg.process"
+          :process-percent="statistic.otg.processPercent"
+          :done="statistic.otg.done"
+          :done-percent="statistic.otg.donePercent"
+          :total="statistic.otg.total"
+        />
+      </v-col>
+      <v-col
+        cols="12"
+        md="4"
+      >
+        <statistic-person-under-monitoring
+          :loading="loadingNotConfirmed"
+          :process="statistic.odp.process"
+          :process-percent="statistic.odp.processPercent"
+          :done="statistic.odp.done"
+          :done-percent="statistic.odp.donePercent"
+          :total="statistic.odp.total"
+        />
+      </v-col>
+      <v-col
+        cols="12"
+        md="4"
+      >
+        <statistic-patient-under-investigation
+          :loading="loadingNotConfirmed"
+          :process="statistic.pdp.process"
+          :process-percent="statistic.pdp.processPercent"
+          :done="statistic.pdp.done"
+          :done-percent="statistic.pdp.donePercent"
+          :total="statistic.pdp.total"
+        />
+      </v-col>
+    </v-row>
+    <v-divider />
+    <v-tabs>
+      <v-tab
+        :key="'daily'"
+        :href="'#tab-daily'"
+      >
+        {{ $t('label.daily_number') }}
+      </v-tab>
+      <v-tab
+        :key="'cumulative'"
+        :href="'#tab-cumulative'"
+      >
+        {{ $t('label.cumulative') }}
+      </v-tab>
+      <v-tab-item
+        :key="'daily'"
+        :value="'tab-daily'"
+      >
+        <v-row>
+          <v-col
+            cols="12"
+            md="6"
+          >
+            <chart-daily-people-without-symptoms
+              :loading="loadingOTG"
+              :c-data="statistic.otgDaily"
+              :chart-height="250"
+            />
+          </v-col>
+          <v-col
+            cols="12"
+            md="6"
+          >
+            <chart-daily-person-under-monitoring
+              :loading="loadingODP"
+              :c-data="statistic.odpDaily"
+              :chart-height="250"
+            />
+          </v-col>
+          <v-col
+            cols="12"
+            md="6"
+          >
+            <chart-daily-patient-under-investigation
+              :loading="loadingPDP"
+              :c-data="statistic.pdpDaily"
+              :chart-height="250"
+            />
+          </v-col>
+          <v-col
+            cols="12"
+            md="6"
+          >
+            <chart-daily-confirmed
+              :loading="loadingPositive"
+              :c-data="statistic.positiveDaily"
+              :chart-height="250"
+            />
+          </v-col>
+        </v-row>
+      </v-tab-item>
+      <v-tab-item
+        :key="'cumulative'"
+        :value="'tab-cumulative'"
+      >
+        <v-row>
+          <v-col
+            cols="12"
+            md="6"
+          >
+            <chart-cumulative-people-without-symptoms
+              :loading="loadingOTG"
+              :c-data="statistic.otgCumulative"
+              :chart-height="250"
+            />
+          </v-col>
+          <v-col
+            cols="12"
+            md="6"
+          >
+            <chart-cumulative-person-under-monitoring
+              :loading="loadingODP"
+              :c-data="statistic.odpCumulative"
+              :chart-height="250"
+            />
+          </v-col>
+          <v-col
+            cols="12"
+            md="6"
+          >
+            <chart-cumulative-patient-under-investigation
+              :loading="loadingPDP"
+              :c-data="statistic.pdpCumulative"
+              :chart-height="250"
+            />
+          </v-col>
+          <v-col
+            cols="12"
+            md="6"
+          >
+            <chart-cumulative-confirmed
+              :loading="loadingPositive"
+              :c-data="statistic.positiveCumulative"
+              :chart-height="250"
+            />
+          </v-col>
+        </v-row>
+      </v-tab-item>
+    </v-tabs>
+    <v-divider />
+    <v-row>
+      <v-col
+        cols="12"
+        md="4"
+      >
+        <chart-gender
+          :loading="loadingAgeGender"
+          :data-gender="statistic.gender"
+        />
+      </v-col>
+      <v-col
+        cols="12"
+        md="8"
+      >
+        <chart-age
+          :loading="loadingAgeGender"
+          :data-age="statistic.age"
+        />
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
@@ -192,6 +359,13 @@ export default {
   },
   data() {
     return {
+      loadingConfirmed: true,
+      loadingNotConfirmed: true,
+      loadingOTG: true,
+      loadingODP: true,
+      loadingPDP: true,
+      loadingPositive: true,
+      loadingAgeGender: true,
       display: true,
       districtCity: {
         kota_kode: this.districtCode,
@@ -213,13 +387,101 @@ export default {
         city: null,
         district: null,
         village: null
+      },
+      statistic: {
+        confirmed: {
+          active: 0,
+          recovery: 0,
+          dead: 0,
+          total: 0
+        },
+        otg: {
+          process: 0,
+          processPercent: 0,
+          done: 0,
+          donePercent: 0,
+          total: 0
+        },
+        odp: {
+          process: 0,
+          processPercent: 0,
+          done: 0,
+          donePercent: 0,
+          total: 0
+        },
+        pdp: {
+          process: 0,
+          processPercent: 0,
+          done: 0,
+          donePercent: 0,
+          total: 0
+        },
+        otgDaily: {
+          label: [],
+          process: [],
+          done: []
+        },
+        odpDaily: {
+          label: [],
+          process: [],
+          done: []
+        },
+        pdpDaily: {
+          label: [],
+          process: [],
+          done: []
+        },
+        positiveDaily: {
+          label: [],
+          active: [],
+          recovery: [],
+          dead: []
+        },
+        otgCumulative: {
+          label: [],
+          process: [],
+          done: []
+        },
+        odpCumulative: {
+          label: [],
+          process: [],
+          done: []
+        },
+        pdpCumulative: {
+          label: [],
+          process: [],
+          done: []
+        },
+        positiveCumulative: {
+          label: [],
+          active: [],
+          recovery: [],
+          dead: []
+        },
+        gender: {
+          male: 0,
+          female: 0
+        },
+        age: {
+          male: [],
+          female: []
+        }
+      },
+      listQuery: {
+        address_district_code: null,
+        address_subdistrict_code: null,
+        address_village_code: null
+      },
+      listQueryDate: {
+        min_date: null,
+        max_date: null
       }
     }
   },
   computed: {
     ...mapGetters('user', [
       'roles',
-      'fullname',
+      'fullName',
       'district_user',
       'district_name_user'
     ])
@@ -257,12 +519,30 @@ export default {
       this.disabledDistrict = true
       this.filter.isCity = true
       this.filter.city = this.district_user
+      this.listQuery.address_district_code = this.district_user
     }
 
     this.districtCity = {
       kota_kode: this.district_user,
       kota_nama: this.district_name_user
     }
+
+    const today = new Date()
+    const max = today.getTime()
+    const min = today.getTime() - ((24 * 60 * 60 * 1000) * 13)
+
+    this.listQueryDate = {
+      min_date: this.$moment(min).format('YYYY/MM/DD'),
+      max_date: this.$moment(max).format('YYYY/MM/DD')
+    }
+
+    this.getStatisticConfirmed()
+    this.getStatisticNotConfirmed()
+    this.getStatisticOTG()
+    this.getStatisticODP()
+    this.getStatisticPDP()
+    this.getStatisticPositive()
+    this.getStatisticAgeGender()
   },
   beforeDestroy() {
     this.clearCity()
@@ -302,6 +582,14 @@ export default {
       this.filter.isVillage = false
       this.filter.district = null
       this.filter.village = null
+
+      this.getStatisticConfirmed()
+      this.getStatisticNotConfirmed()
+      this.getStatisticOTG()
+      this.getStatisticODP()
+      this.getStatisticPDP()
+      this.getStatisticPositive()
+      this.getStatisticAgeGender()
     },
     onSearch() {
       this.filter.city = this.districtCity.kota_kode
@@ -310,24 +598,322 @@ export default {
       this.filter.isCity = !!this.filter.city
       this.filter.isDistrict = !!this.filter.district
       this.filter.isVillage = !!this.filter.village
+
+      this.listQuery = {
+        address_district_code: this.districtCity.kota_kode,
+        address_subdistrict_code: this.subDistrict.kecamatan_kode,
+        address_village_code: this.village.desa_kode
+      }
+
+      this.getStatisticConfirmed()
+      this.getStatisticNotConfirmed()
+      this.getStatisticOTG()
+      this.getStatisticODP()
+      this.getStatisticPDP()
+      this.getStatisticPositive()
+      this.getStatisticAgeGender()
     },
     clearCity() {
       this.districtCity = {
         kota_kode: null,
         kota_nama: null
       }
+      this.listQuery.address_district_code = null
     },
     clearDistrict() {
       this.subDistrict = {
         kecamatan_kode: null,
         kecamatan_nama: null
       }
+      this.listQuery.address_subdistrict_code = null
     },
     clearVillage() {
       this.village = {
         desa_kode: null,
         desa_nama: null
       }
+      this.listQuery.address_village_code = null
+    },
+    async getStatisticConfirmed() {
+      this.loadingConfirmed = true
+      const res = await this.$store.dispatch('reports/countReportCaseFinal', this.listQuery)
+
+      if (res) this.loadingConfirmed = false
+
+      const active = res.data.POSITIF
+      const recovery = res.data.SEMBUH
+      const dead = res.data.MENINGGAL
+
+      this.statistic.confirmed = {
+        active,
+        recovery,
+        dead,
+        total: active + recovery + dead
+      }
+      // console.log(this.statistic.confirmed)
+    },
+    async getStatisticNotConfirmed() {
+      this.loadingNotConfirmed = true
+      const res = await this.$store.dispatch('reports/countReportCase', this.listQuery)
+
+      if (res) this.loadingNotConfirmed = false
+
+      const otgProcess = res.data.OTG_PROCESS
+      const otgDone = res.data.OTG_DONE
+      const otgTotalSum = (otgProcess + otgDone)
+      const otgTotal = (otgTotalSum === res.data.OTG) ? res.data.OTG : otgTotalSum
+      const odpProcess = res.data.ODP_PROCESS
+      const odpDone = res.data.ODP_DONE
+      const odpTotalSum = (odpProcess + odpDone)
+      const odpTotal = (odpTotalSum === res.data.ODP) ? res.data.ODP : odpTotalSum
+      const pdpProcess = res.data.PDP_PROCESS
+      const pdpDone = res.data.PDP_DONE
+      const pdpTotalSum = (pdpProcess + pdpDone)
+      const pdpTotal = (pdpTotalSum === res.data.PDP) ? res.data.PDP : pdpTotalSum
+
+      this.statistic.otg = {
+        process: otgProcess,
+        processPercent: (otgProcess / otgTotal) * 100,
+        done: otgDone,
+        donePercent: (otgDone / otgTotal) * 100,
+        total: otgTotal
+      }
+      this.statistic.odp = {
+        process: odpProcess,
+        processPercent: (odpProcess / odpTotal) * 100,
+        done: odpDone,
+        donePercent: (odpDone / odpTotal) * 100,
+        total: odpTotal
+      }
+      this.statistic.pdp = {
+        process: pdpProcess,
+        processPercent: (pdpProcess / pdpTotal) * 100,
+        done: pdpDone,
+        donePercent: (pdpDone / pdpTotal) * 100,
+        total: pdpTotal
+      }
+      // console.log(this.statistic.otg)
+      // console.log(this.statistic.odp)
+      // console.log(this.statistic.pdp)
+    },
+    async getStatisticOTG() {
+      this.loadingOTG = true
+
+      const params = {
+        address_district_code: this.listQuery.address_district_code,
+        address_subdistrict_code: this.listQuery.address_subdistrict_code,
+        address_village_code: this.listQuery.address_village_code,
+        min_date: this.listQueryDate.min_date,
+        max_date: this.listQueryDate.max_date
+      }
+      const res = await this.$store.dispatch('statistic/countOTG', params)
+
+      if (res) this.loadingOTG = false
+
+      const label = []
+      const doneDaily = []
+      const processDaily = []
+      const doneCumulative = []
+      const processCumulative = []
+      res.data.map((data) => {
+        let date = new Date(data.date).getTime()
+        date = this.$moment(date).format('DD/MM')
+        label.push(date)
+        doneDaily.push(data.selesai)
+        processDaily.push(data.proses)
+        doneCumulative.push(data.cum_selesai)
+        processCumulative.push(data.cum_proses)
+      })
+      this.statistic.otgDaily = {
+        label,
+        process: processDaily,
+        done: doneDaily
+      }
+      this.statistic.otgCumulative = {
+        label,
+        process: processCumulative,
+        done: doneCumulative
+      }
+      // console.log(this.statistic.otgDaily)
+      // console.log(this.statistic.otgCumulative)
+    },
+    async getStatisticODP() {
+      this.loadingODP = true
+
+      const params = {
+        address_district_code: this.listQuery.address_district_code,
+        address_subdistrict_code: this.listQuery.address_subdistrict_code,
+        address_village_code: this.listQuery.address_village_code,
+        min_date: this.listQueryDate.min_date,
+        max_date: this.listQueryDate.max_date
+      }
+      const res = await this.$store.dispatch('statistic/countODP', params)
+
+      if (res) this.loadingODP = false
+
+      const label = []
+      const doneDaily = []
+      const processDaily = []
+      const doneCumulative = []
+      const processCumulative = []
+      res.data.map((data) => {
+        let date = new Date(data.date).getTime()
+        date = this.$moment(date).format('DD/MM')
+        label.push(date)
+        doneDaily.push(data.selesai)
+        processDaily.push(data.proses)
+        doneCumulative.push(data.cum_selesai)
+        processCumulative.push(data.cum_proses)
+      })
+      this.statistic.odpDaily = {
+        label,
+        process: processDaily,
+        done: doneDaily
+      }
+      this.statistic.odpCumulative = {
+        label,
+        process: processCumulative,
+        done: doneCumulative
+      }
+      // console.log(this.statistic.odpDaily)
+      // console.log(this.statistic.odpCumulative)
+    },
+    async getStatisticPDP() {
+      this.loadingPDP = true
+
+      const params = {
+        address_district_code: this.listQuery.address_district_code,
+        address_subdistrict_code: this.listQuery.address_subdistrict_code,
+        address_village_code: this.listQuery.address_village_code,
+        min_date: this.listQueryDate.min_date,
+        max_date: this.listQueryDate.max_date
+      }
+      const res = await this.$store.dispatch('statistic/countPDP', params)
+
+      if (res) this.loadingPDP = false
+
+      const label = []
+      const doneDaily = []
+      const processDaily = []
+      const doneCumulative = []
+      const processCumulative = []
+      res.data.map((data) => {
+        let date = new Date(data.date).getTime()
+        date = this.$moment(date).format('DD/MM')
+        label.push(date)
+        doneDaily.push(data.selesai)
+        processDaily.push(data.proses)
+        doneCumulative.push(data.cum_selesai)
+        processCumulative.push(data.cum_proses)
+      })
+      this.statistic.pdpDaily = {
+        label,
+        process: processDaily,
+        done: doneDaily
+      }
+      this.statistic.pdpCumulative = {
+        label,
+        process: processCumulative,
+        done: doneCumulative
+      }
+      // console.log(this.statistic.pdpDaily)
+      // console.log(this.statistic.pdpCumulative)
+    },
+    async getStatisticPositive() {
+      this.loadingPositive = true
+
+      const params = {
+        address_district_code: this.listQuery.address_district_code,
+        address_subdistrict_code: this.listQuery.address_subdistrict_code,
+        address_village_code: this.listQuery.address_village_code,
+        min_date: this.listQueryDate.min_date,
+        max_date: this.listQueryDate.max_date
+      }
+      const res = await this.$store.dispatch('statistic/countPositive', params)
+
+      if (res) this.loadingPositive = false
+
+      const label = []
+      const activeDaily = []
+      const recoveryDaily = []
+      const deadDaily = []
+      const activeCumulative = []
+      const recoveryCumulative = []
+      const deadCumulative = []
+      res.data.map((data) => {
+        let date = new Date(data.date).getTime()
+        date = this.$moment(date).format('DD/MM')
+        label.push(date)
+        activeDaily.push(data.positif)
+        recoveryDaily.push(data.sembuh)
+        deadDaily.push(data.meninggal)
+        activeCumulative.push(data.cum_positif)
+        recoveryCumulative.push(data.cum_sembuh)
+        deadCumulative.push(data.cum_meninggal)
+      })
+      this.statistic.positiveDaily = {
+        label,
+        active: activeDaily,
+        recovery: recoveryDaily,
+        dead: deadDaily
+      }
+      this.statistic.positiveCumulative = {
+        label,
+        active: activeCumulative,
+        recovery: recoveryCumulative,
+        dead: deadCumulative
+      }
+      // console.log(this.statistic.positiveDaily)
+      // console.log(this.statistic.positiveCumulative)
+    },
+    async getStatisticAgeGender() {
+      this.loadingAgeGender = true
+      const res = await this.$store.dispatch('statistic/countAgeGender', this.listQuery)
+
+      if (res) this.loadingAgeGender = false
+
+      const male = res.data.L
+      const female = res.data.P
+
+      this.statistic.gender = {
+        male,
+        female
+      }
+      // console.log(this.statistic.gender)
+
+      const male_age = []
+      const female_age = []
+      male_age.push(-Math.abs(Number(res.data.age_male_0)))
+      male_age.push(-Math.abs(Number(res.data.age_male_10)))
+      male_age.push(-Math.abs(Number(res.data.age_male_20)))
+      male_age.push(-Math.abs(Number(res.data.age_male_30)))
+      male_age.push(-Math.abs(Number(res.data.age_male_40)))
+      male_age.push(-Math.abs(Number(res.data.age_male_50)))
+      male_age.push(-Math.abs(Number(res.data.age_male_60)))
+      male_age.push(-Math.abs(Number(res.data.age_male_70)))
+      male_age.push(-Math.abs(Number(res.data.age_male_80)))
+      male_age.push(-Math.abs(Number(res.data.age_male_90)))
+      male_age.push(-Math.abs(Number(res.data.age_male_100)))
+      female_age.push(Number(res.data.age_female_0))
+      female_age.push(Number(res.data.age_female_10))
+      female_age.push(Number(res.data.age_female_20))
+      female_age.push(Number(res.data.age_female_30))
+      female_age.push(Number(res.data.age_female_40))
+      female_age.push(Number(res.data.age_female_50))
+      female_age.push(Number(res.data.age_female_60))
+      female_age.push(Number(res.data.age_female_70))
+      female_age.push(Number(res.data.age_female_80))
+      female_age.push(Number(res.data.age_female_90))
+      female_age.push(Number(res.data.age_female_100))
+
+      this.statistic.age = {
+        male: male_age,
+        female: female_age
+      }
+      // console.log(this.statistic.age)
+    },
+    handleHelp() {
+      window.open('https://s.id/panduan_laporcovid19', '_blank')
     }
   }
 }
@@ -340,5 +926,16 @@ export default {
 }
 .v-text-field.v-text-field--enclosed .v-text-field__details {
   display: none !important;
+}
+.disclaimer {
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 24px;
+  background: linear-gradient(80.13deg, #27ae60 0%, #6fcf97 100%);
+  padding: 24px;
+}
+.disclaimer .help {
+  font-size: 16px;
+  text-decoration: underline;
 }
 </style>
