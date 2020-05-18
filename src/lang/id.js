@@ -398,7 +398,11 @@ export default {
     medical_facility_verification_info_2: 'Anda dapat melihat data yang terverifikasi pada "List Kasus".',
     fix_case: 'Perbaiki Data Kasus',
     verification_process: 'Proses Verifikasi',
-    total_case: 'Jumlah Kasus'
+    total_case: 'Jumlah Kasus',
+    label: 'Label',
+    map_description_step_1: 'Klik pada salah satu titik untuk melihat detail kasus.',
+    map_description_step_2: 'Gunakan filter di atas peta untuk mencari kasus berdasarkan Desa/Kelurahan atau Kecamatan tertentu.',
+    map_description_step_3: 'Klik icon filter pada peta untuk mencari kasus berdasar status tertentu.',
   },
   success: {
     login_success: 'Login Berhasil',
