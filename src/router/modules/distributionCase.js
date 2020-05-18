@@ -6,7 +6,7 @@ const distributionCaseRouter = {
   redirect: '/distribution-case/map',
   meta: {
     title: 'distribution_case',
-    icon: 'location_on',
+    icon: 'mdi-map-marker-radius',
     roles: ['superadmin', 'dinkesprov', 'dinkeskota']
   },
   active: false,
@@ -16,7 +16,7 @@ const distributionCaseRouter = {
       component: () => import('@/views/distributionCase/map'),
       meta: {
         title: 'distribution_case_map',
-        icon: 'location_on',
+        icon: 'mdi-map-marker-radius',
         child: true,
         noCache: true,
         roles: ['superadmin', 'dinkesprov', 'dinkeskota']
