@@ -15,7 +15,7 @@
             </v-badge>
           </v-list-item-content>
         </v-list-item>
-        <div v-if="onlyOneChild.children">
+        <div v-if="!onlyOneChild.hidden && onlyOneChild.children">
           <v-list-group
             sub-group
             no-action
