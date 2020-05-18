@@ -5,21 +5,21 @@
       type="article"
     >
       <v-card class="d-block pa-1 mx-auto header-user-list">
-        <v-row justify="space-between" style="margin-top: 1rem;">
-          <v-col cols="1" sm="1">
-            <v-icon style="font-size: 70px;color: #ffff;">
+        <v-row class="mt-2">
+          <v-col cols="12" sm="1">
+            <v-icon class="ml-3" style="font-size: 70px;color: #ffff;">
               mdi-alert-circle
             </v-icon>
           </v-col>
           <v-col auto>
-            <v-card-text class="header-user-text">
+            <v-card-text>
               <div class="header-user-title">{{ $t('route.user_management') }}</div>
-              <div>{{ $t('label.redaction_list_user') }}</div>
+              <div class="header-user-text">{{ $t('label.redaction_list_user') }}</div>
             </v-card-text>
           </v-col>
-          <v-col cols="12" sm="3">
+          <v-col class="mr-6" cols="12" sm="3">
             <v-btn
-              class="ma-1"
+              block
               color="#009D57"
               style="background: #FFFFFF;height: 56px;min-width: 178px;"
               outlined
@@ -31,7 +31,7 @@
         </v-row>
       </v-card>
     </v-skeleton-loader>
-    <v-card outlined>
+    <v-card class="mt-4" outlined>
       <v-row>
         <v-col>
           <v-card-text>
@@ -198,7 +198,10 @@ export default {
   watch: {
     'listQuery.search': {
       handler: function(value) {
-        if ((value !== undefined) && (value.length === 0 || value.length >= 3)) {
+        if ((value !== undefined) && (value.length >= 2)) {
+          this.listQuery.page = 1
+          this.handleSearch()
+        } else if (value.length === 0) {
           this.listQuery.page = 1
           this.handleSearch()
         }
@@ -208,7 +211,6 @@ export default {
   },
   async mounted() {
     if (this.roles[0] === 'dinkeskota') this.listQuery.code_district_city = this.district_user
-    await this.$store.dispatch('user/listUser', this.listQuery)
   },
   methods: {
     completeAddress,
@@ -226,6 +228,7 @@ export default {
       this.dataDelete = await dataDelete
     },
     async handleSearch() {
+      this.listQuery.page = 1
       await this.$store.dispatch('user/listUser', this.listQuery)
     },
     async handleEdit(id) {
@@ -249,12 +252,12 @@ export default {
   background: linear-gradient(82.33deg, #27AE60 0%, #58DA8F 100%);
 }
 .header-user-text {
-  font-size: 16px;
+  font-size: 13px;
   color: #FFFFFF;
-  margin-left: 2rem;
 }
 .header-user-title {
   font-size: 30px;
+  color: #FFFFFF;
   margin-bottom: 10px;
 }
 .class-on-data-table table {

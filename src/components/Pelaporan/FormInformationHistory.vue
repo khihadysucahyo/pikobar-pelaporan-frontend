@@ -106,6 +106,10 @@
                   :label="$t('label.hospital')"
                   value="RS"
                 />
+                <v-radio
+                  :label="$t('label.other_places')"
+                  value="others"
+                />
               </v-radio-group>
             </ValidationProvider>
             <div v-if="formPasien.current_location_type === 'RUMAH'">
@@ -140,10 +144,30 @@
             >
               <v-autocomplete
                 v-model="formPasien.current_location_address"
-                :items="hospitalList"
+                :items="hospitalWestJavaList"
                 :error-messages="errors"
                 :return-object="true"
                 :label="$t('label.location_hospital')"
+                menu-props="auto"
+                item-text="name"
+                item-value="name"
+                single-line
+                solo
+                autocomplete
+                @change="onSelectHospital"
+              />
+            </ValidationProvider>
+            <ValidationProvider
+              v-if="formPasien.current_location_type === 'others'"
+              v-slot="{ errors }"
+              rules="required"
+            >
+              <v-autocomplete
+                v-model="formPasien.current_location_address"
+                :items="hospitalNonWestJavaList"
+                :error-messages="errors"
+                :return-object="true"
+                :label="$t('label.others')"
                 menu-props="auto"
                 item-text="name"
                 item-value="name"
@@ -166,11 +190,11 @@
             </ValidationProvider>
             <ValidationProvider v-slot="{ errors }">
               <label>{{ $t('label.additional_condition') }}</label>
-              <v-row v-for="rowIdx in Math.ceil(optionAdditionalCondition.length / 3)" :key="rowIdx">
-                <v-col v-for="item in optionAdditionalCondition.slice(3 * (rowIdx - 1), 3 * rowIdx)" :key="item" class="one-third column">
+              <v-row>
+                <v-col v-for="item in additionalConditionOptions" :key="item" sm="4" md="4">
                   <label class="material-checkbox-custom">
                     <input
-                      v-model="formPasien.disaeses"
+                      v-model="formPasien.diseases"
                       :value="item"
                       type="checkbox"
                     >
@@ -186,7 +210,7 @@
             </ValidationProvider>
             <ValidationProvider>
               <v-text-field
-                v-model="formPasien.disaeses_other"
+                v-model="formPasien.diseases_other"
                 :placeholder="$t('label.mention_other_additional_condition')"
                 solo-inverted
               />
@@ -262,8 +286,8 @@
             />
             <ValidationProvider v-slot="{ errors }">
               <label>{{ $t('label.symptoms') }}</label>
-              <v-row v-for="rowIdx in Math.ceil(optionGejala.length / 3)" :key="rowIdx">
-                <v-col v-for="item in optionGejala.slice(3 * (rowIdx - 1), 3 * rowIdx)" :key="item" class="one-third column">
+              <v-row>
+                <v-col v-for="item in symptomOptions" :key="item" sm="4" md="4">
                   <label class="material-checkbox-custom">
                     <input
                       v-model="formPasien.diagnosis"
@@ -322,9 +346,8 @@
 <script>
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import EventBus from '@/utils/eventBus'
-import { optionGejala } from '@/utils/constantVariable'
+import { symptomOptions, additionalConditionOptions } from '@/utils/constantVariable'
 import { mapGetters } from 'vuex'
-import i18n from '@/lang'
 export default {
   name: 'FormInformationHistory',
   components: {
@@ -344,33 +367,27 @@ export default {
   data() {
     return {
       loading: false,
-      optionGejala: optionGejala,
+      symptomOptions: symptomOptions,
       formatDate: 'YYYY/MM/DD',
       disabledReportResource: false,
-      optionAdditionalCondition: [
-        i18n.t('label.pregnant'),
-        i18n.t('label.diabetes'),
-        i18n.t('label.heart_disease'),
-        i18n.t('label.hypertension'),
-        i18n.t('label.malignant'),
-        i18n.t('label.immunological_disorders'),
-        i18n.t('label.chronic_kidney_failure'),
-        i18n.t('label.chronic_liver_failure'),
-        i18n.t('label.ppok')
-      ]
+      hospitalWestJavaList: [],
+      hospitalNonWestJavaList: [],
+      additionalConditionOptions: additionalConditionOptions
     }
   },
   computed: {
-    ...mapGetters('region', [
-      'hospitalList'
-    ]),
     ...mapGetters('user', [
       'roles',
       'fullName'
     ])
   },
   async mounted() {
-    await this.$store.dispatch('region/getListHospital')
+    var paramHospitalWestJava = { 'rs_jabar': true }
+    var paramHospitalNonWestJava = { 'rs_jabar': false }
+    const responseWestJava = await this.$store.dispatch('region/getListHospital', paramHospitalWestJava)
+    this.hospitalWestJavaList = responseWestJava.data
+    const responseNonWestJava = await this.$store.dispatch('region/getListHospital', paramHospitalNonWestJava)
+    this.hospitalNonWestJavaList = responseNonWestJava.data
     if (this.roles[0] === 'faskes') {
       this.formPasien.report_source = this.fullName
       this.disabledReportResource = true
@@ -390,7 +407,11 @@ export default {
       if (response.status !== 422) {
         await this.$store.dispatch('reports/resetFormPasien')
         await this.$store.dispatch('toast/successToast', this.$t('success.create_date_success'))
-        this.$router.push('/laporan/list')
+        if (this.roles[0] === 'faskes') {
+          this.$router.push('/laporan/verification')
+        } else {
+          this.$router.push('/laporan/list')
+        }
         await this.$refs.form.reset()
         this.loading = false
       }

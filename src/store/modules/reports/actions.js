@@ -136,6 +136,25 @@ export default {
       return e
     }
   },
+  async verifyCase({ commit }, params) {
+    const id = params.id
+    const data = params.data
+    try {
+      const response = await requestServer(`/api/cases/${id}/verifications`, 'POST', data)
+      return response
+    } catch (error) {
+      return error.response
+    }
+  },
+  async countVerificationCase({ commit }) {
+    try {
+      const response = await requestServer('/api/cases-summary-verification', 'GET')
+      commit('SET_TOTAL_PENDING', response.data.PENDING)
+      return response
+    } catch (e) {
+      return e
+    }
+  },
   resetListCase({ commit }) {
     commit('RESET_LIST_CASE')
   },

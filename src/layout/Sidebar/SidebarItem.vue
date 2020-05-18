@@ -10,7 +10,9 @@
             <v-icon v-if="!item.meta.child" v-text="onlyOneChild.meta.icon" />
           </v-list-item-icon>
           <v-list-item-content>
-            <v-list-item-title v-text="generateTitle(onlyOneChild.meta.title)" />
+            <v-badge :value="item.meta.title === 'verify_case' && totalPending !== 0" overlap offset-x="25" :content="totalPending" color="#EB5757">
+              <v-list-item-title v-text="generateTitle(onlyOneChild.meta.title)" />
+            </v-badge>
           </v-list-item-content>
         </v-list-item>
         <div v-if="onlyOneChild.children">
@@ -37,6 +39,7 @@
       </div>
       <div v-else>
         <v-list-group
+          :key="itemPending"
           no-action
         >
           <template v-slot:activator>
@@ -62,6 +65,7 @@
 import path from 'path'
 import { isExternal } from '@/utils/validate'
 import generateTitle from '@/utils/generateTitle'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'SidebarItem',
@@ -73,7 +77,18 @@ export default {
   },
   data() {
     return {
-      onlyOneChild: null
+      onlyOneChild: null,
+      itemPending: null
+    }
+  },
+  computed: {
+    ...mapGetters('reports', [
+      'totalPending'
+    ])
+  },
+  watch: {
+    totalPending(value) {
+      this.itemPending = value
     }
   },
   methods: {

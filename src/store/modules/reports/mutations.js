@@ -9,6 +9,9 @@ export default {
   SET_TOTAL_LIST_PASIEN: (state, data) => {
     state.totalList = data
   },
+  SET_TOTAL_PENDING: (state, data) => {
+    state.totalPending = data
+  },
   RESET_FORM_PASIEN: (state) => {
     state.formPasien.nik = ''
     state.formPasien.name = ''

@@ -5,10 +5,11 @@ export default {
     try {
       const response = await requestServer('/api/rdt', 'GET', params)
       if (response.data === null) {
-        commit('SET_TOTAL_LIST_RDT', 1)
+        commit('SET_TOTAL_PAGE_LIST_RDT', 1)
         commit('SET_LIST_RDT', [])
       } else {
-        commit('SET_TOTAL_LIST_RDT', response.data._meta.totalPages)
+        commit('SET_TOTAL_RDT', response.data._meta.itemCount)
+        commit('SET_TOTAL_PAGE_LIST_RDT', response.data._meta.totalPages)
         commit('SET_LIST_RDT', response.data.rdt)
       }
       return response

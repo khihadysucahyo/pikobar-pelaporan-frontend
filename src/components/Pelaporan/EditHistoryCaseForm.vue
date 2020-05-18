@@ -174,6 +174,33 @@
                           solo-inverted
                         />
                       </ValidationProvider>
+                      <ValidationProvider v-slot="{ errors }">
+                        <label>{{ $t('label.additional_condition') }}</label>
+                        <v-row>
+                          <v-col v-for="item in additionalConditionOptions" :key="item" sm="4" md="4">
+                            <label class="material-checkbox-custom">
+                              <input
+                                v-model="formRiwayatPasien.diseases"
+                                :value="item"
+                                type="checkbox"
+                              >
+                              <span v-if="errors.length" class="error--text">{{ item }}</span>
+                              <span v-else>{{ item }}</span>
+                            </label>
+                            <span
+                              v-if="errors.length"
+                              class="v-messages error--text"
+                            >{{ errors[0] }}</span>
+                          </v-col>
+                        </v-row>
+                      </ValidationProvider>
+                      <ValidationProvider>
+                        <v-text-field
+                          v-model="formRiwayatPasien.diseases_other"
+                          :placeholder="$t('label.mention_other_additional_condition')"
+                          solo-inverted
+                        />
+                      </ValidationProvider>
                       <ValidationProvider>
                         <v-label>{{ $t('label.postscript') }}</v-label>
                         <v-textarea
@@ -245,7 +272,7 @@
                       />
                       <ValidationProvider v-slot="{ errors }">
                         <label>{{ $t('label.symptoms') }}</label>
-                        <div v-for="(item, index) in optionGejala" :key="index">
+                        <div v-for="(item, index) in symptomOptions" :key="index">
                           <label class="material-checkbox-custom">
                             <input
                               v-model="formRiwayatPasien.diagnosis"
@@ -312,8 +339,9 @@
 
 <script>
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
-import { optionGejala } from '@/utils/constantVariable'
+import { symptomOptions, additionalConditionOptions } from '@/utils/constantVariable'
 import { mapGetters } from 'vuex'
+
 export default {
   name: 'EditHistoryCaseForm',
   components: {
@@ -332,9 +360,10 @@ export default {
       formatDate: 'YYYY/MM/DD',
       panelRiwayat: [0],
       panelListRiwayat: [0],
-      optionGejala: optionGejala,
+      symptomOptions: symptomOptions,
       listHistoryCase: null,
-      arrayRegion: null
+      arrayRegion: null,
+      additionalConditionOptions: additionalConditionOptions
     }
   },
   computed: {

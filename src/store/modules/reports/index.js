@@ -7,6 +7,7 @@ function initialState() {
     detailPasien: null,
     listKasus: [],
     totalList: 0,
+    totalPending: 0,
     formPasien: {
       id_case: '',
       id_case_national: '',
@@ -37,8 +38,8 @@ function initialState() {
       report_source: '',
       diagnosis: [],
       diagnosis_other: '',
-      disaeses: [],
-      disaeses_other: '',
+      diseases: [],
+      diseases_other: '',
       first_symptom_date: '',
       history_tracing: [],
       is_went_abroad: false,
@@ -72,6 +73,8 @@ function initialState() {
       is_went_other_city: false,
       visited_city: '',
       is_contact_with_positive: false,
+      diseases: [],
+      diseases_other: '',
       history_notes: '',
       report_source: '',
       current_location_type: '',
@@ -89,6 +92,7 @@ const state = {
   detailPasien: initialState().detailPasien,
   listKasus: initialState().listKasus,
   totalList: initialState().totalList,
+  totalPending: initialState().totalPending,
   formPasien: initialState().formPasien,
   formRiwayatPasien: initialState().formRiwayatPasien
 }
