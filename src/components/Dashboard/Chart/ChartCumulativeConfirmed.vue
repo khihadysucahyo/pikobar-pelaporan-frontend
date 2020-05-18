@@ -101,7 +101,7 @@ export default {
               },
               scaleLabel: {
                 display: true,
-                labelString: 'Value'
+                labelString: this.$t('label.total_case')
               }
             }
           ]
