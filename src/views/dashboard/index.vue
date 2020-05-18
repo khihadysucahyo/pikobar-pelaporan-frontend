@@ -873,8 +873,8 @@ export default {
 
       if (res) this.loadingAgeGender = false
 
-      const male = res.data.L
-      const female = res.data.P
+      const male = res.data.chart_by_gender.L
+      const female = res.data.chart_by_gender.P
 
       this.statistic.gender = {
         male,
@@ -884,28 +884,45 @@ export default {
 
       const male_age = []
       const female_age = []
-      male_age.push(-Math.abs(Number(res.data.age_male_0)))
-      male_age.push(-Math.abs(Number(res.data.age_male_10)))
-      male_age.push(-Math.abs(Number(res.data.age_male_20)))
-      male_age.push(-Math.abs(Number(res.data.age_male_30)))
-      male_age.push(-Math.abs(Number(res.data.age_male_40)))
-      male_age.push(-Math.abs(Number(res.data.age_male_50)))
-      male_age.push(-Math.abs(Number(res.data.age_male_60)))
-      male_age.push(-Math.abs(Number(res.data.age_male_70)))
-      male_age.push(-Math.abs(Number(res.data.age_male_80)))
-      male_age.push(-Math.abs(Number(res.data.age_male_90)))
-      male_age.push(-Math.abs(Number(res.data.age_male_100)))
-      female_age.push(Number(res.data.age_female_0))
-      female_age.push(Number(res.data.age_female_10))
-      female_age.push(Number(res.data.age_female_20))
-      female_age.push(Number(res.data.age_female_30))
-      female_age.push(Number(res.data.age_female_40))
-      female_age.push(Number(res.data.age_female_50))
-      female_age.push(Number(res.data.age_female_60))
-      female_age.push(Number(res.data.age_female_70))
-      female_age.push(Number(res.data.age_female_80))
-      female_age.push(Number(res.data.age_female_90))
-      female_age.push(Number(res.data.age_female_100))
+      const groupMale = res.data.ageGroupMale
+      const groupFemale = res.data.ageGroupFemale
+      const m1 = groupMale.find(x => x._id === 'bawah_5')
+      const m2 = groupMale.find(x => x._id === '6_19')
+      const m3 = groupMale.find(x => x._id === '20_29')
+      const m4 = groupMale.find(x => x._id === '30_39')
+      const m5 = groupMale.find(x => x._id === '40_49')
+      const m6 = groupMale.find(x => x._id === '50_59')
+      const m7 = groupMale.find(x => x._id === '60_69')
+      const m8 = groupMale.find(x => x._id === '70_79')
+      const m9 = groupMale.find(x => x._id === 'atas_80')
+      const f1 = groupFemale.find(x => x._id === 'bawah_5')
+      const f2 = groupFemale.find(x => x._id === '6_19')
+      const f3 = groupFemale.find(x => x._id === '20_29')
+      const f4 = groupFemale.find(x => x._id === '30_39')
+      const f5 = groupFemale.find(x => x._id === '40_49')
+      const f6 = groupFemale.find(x => x._id === '50_59')
+      const f7 = groupFemale.find(x => x._id === '60_69')
+      const f8 = groupFemale.find(x => x._id === '70_79')
+      const f9 = groupFemale.find(x => x._id === 'atas_80')
+
+      male_age.push(-Math.abs(this.checkVariable(m1)))
+      male_age.push(-Math.abs(this.checkVariable(m2)))
+      male_age.push(-Math.abs(this.checkVariable(m3)))
+      male_age.push(-Math.abs(this.checkVariable(m4)))
+      male_age.push(-Math.abs(this.checkVariable(m5)))
+      male_age.push(-Math.abs(this.checkVariable(m6)))
+      male_age.push(-Math.abs(this.checkVariable(m7)))
+      male_age.push(-Math.abs(this.checkVariable(m8)))
+      male_age.push(-Math.abs(this.checkVariable(m9)))
+      female_age.push(this.checkVariable(f1))
+      female_age.push(this.checkVariable(f2))
+      female_age.push(this.checkVariable(f3))
+      female_age.push(this.checkVariable(f4))
+      female_age.push(this.checkVariable(f5))
+      female_age.push(this.checkVariable(f6))
+      female_age.push(this.checkVariable(f7))
+      female_age.push(this.checkVariable(f8))
+      female_age.push(this.checkVariable(f9))
 
       this.statistic.age = {
         male: male_age,
@@ -915,6 +932,12 @@ export default {
     },
     handleHelp() {
       window.open('https://s.id/panduan_laporcovid19', '_blank')
+    },
+    checkVariable(variable) {
+      if (typeof variable === 'undefined' || variable === null) {
+        return 0
+      }
+      return Number(variable.count)
     }
   }
 }

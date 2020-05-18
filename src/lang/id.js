@@ -397,7 +397,8 @@ export default {
     medical_facility_verification_info_1: 'Data yang berhasil diverifikasi akan hilang otomatis setelah 24 jam.',
     medical_facility_verification_info_2: 'Anda dapat melihat data yang terverifikasi pada "List Kasus".',
     fix_case: 'Perbaiki Data Kasus',
-    verification_process: 'Proses Verifikasi'
+    verification_process: 'Proses Verifikasi',
+    total_case: 'Jumlah Kasus'
   },
   success: {
     login_success: 'Login Berhasil',
