@@ -12724,6 +12724,13 @@ vue2-breadcrumbs@^2.0.0:
   resolved "https://registry.yarnpkg.com/vue2-breadcrumbs/-/vue2-breadcrumbs-2.0.0.tgz#9f01dd3b937e50c2a38cb055c4cf531b144752eb"
   integrity sha1-nwHdO5N+UMKjjLBVxM9TGxRHUus=
 
+vue2-daterange-picker@^0.5.1:
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/vue2-daterange-picker/-/vue2-daterange-picker-0.5.1.tgz#f41f3cd20b242b7f34ce16eeea9534d9cbe9f4d7"
+  integrity sha512-p0y9RyI6wqqwffKM5EYgxvNM51un/fBu9hLZ/GxXVOBqTMxjDuV8mz9iUTj4p5R80lWSBwIY7GshW5RYgS8+rw==
+  dependencies:
+    vue "^2.6.10"
+
 vue2-dragula@^2.5.4:
   version "2.5.4"
   resolved "https://registry.yarnpkg.com/vue2-dragula/-/vue2-dragula-2.5.4.tgz#2aa7d605c1284ab655ea0bd30b7f15b9dcbfbe88"
@@ -12731,7 +12738,7 @@ vue2-dragula@^2.5.4:
   dependencies:
     dragula "3.7.2"
 
-vue@^2.3.3, vue@^2.6.11:
+vue@^2.3.3, vue@^2.6.10, vue@^2.6.11:
   version "2.6.11"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.11.tgz#76594d877d4b12234406e84e35275c6d514125c5"
   integrity sha512-VfPwgcGABbGAue9+sfrD4PuwFar7gPb1yl1UK1MwXoQPAw0BKSqWfoYCT/ThFrdEVWoI51dBuyCoiNU9bZDZxQ==

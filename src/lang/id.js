@@ -30,7 +30,8 @@ export default {
     distribution_case_network: 'Kasus Keterkaitan',
     submission_Logistics: 'Pengajuan Logistik',
     submit_application: 'Ajukan Permohonan',
-    application_list: 'Daftar Permohonan '
+    application_list: 'Daftar Permohonan',
+    daily_report: 'Laporan Harian'
 
   },
   label: {

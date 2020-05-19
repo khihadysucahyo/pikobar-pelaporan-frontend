@@ -13,6 +13,7 @@ import rdtRouter from './modules/rdt'
 import settingRouter from './modules/setting'
 import distributionCaseRouter from './modules/distributionCase'
 import submissionLogistikRouter from './modules/submissionLogistik'
+import dailyReportRouter from './modules/dailyReport'
 
 /**
  * constantRoutes
@@ -68,8 +69,9 @@ export const constantRoutes = [
 export const asyncRoutes = [
   dashboardRouter,
   distributionCaseRouter,
-  rdtRouter,
+  dailyReportRouter,
   Pelaporan,
+  rdtRouter,
   submissionLogistikRouter,
   settingRouter,
   // 404 page must be placed at the end !!!

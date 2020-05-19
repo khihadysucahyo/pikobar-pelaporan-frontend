@@ -27,6 +27,8 @@ import '@/utils/vee-validate' // include all validate form
 import i18n from './lang' // Internationalization
 import '@/helpers/filters' // include all filters
 // import './registerServiceWorker'
+import DateRangePicker from 'vue2-daterange-picker'
+Vue.use(DateRangePicker)
 
 Vue.use(FlagIcon)
 Vue.use(Vue2Dragula)
