@@ -67,8 +67,12 @@ module.exports = {
       config.devtool('cheap-source-map')
     )
     config.when(process.env.NODE_ENV === 'production', config => {
+      config.performance
+        .maxEntrypointSize(400000)
+        .maxAssetSize(400000)
       config.optimization.splitChunks({
         chunks: 'all',
+        maxSize: 400000,
         cacheGroups: {
           libs: {
             name: 'chunk-libs',
@@ -76,10 +80,10 @@ module.exports = {
             priority: 10,
             chunks: 'initial' // only package third parties that are initially dependent
           },
-          elementUI: {
-            name: 'chunk-elementUI', // split elementUI into a single package
+          vuetify: {
+            name: 'chunk-vuetify', // split vuetify into a single package
             priority: 20, // the weight needs to be larger than libs and app or it will be packaged into libs or app
-            test: /[\\/]node_modules[\\/]element-ui[\\/]/
+            test: /[\\/]node_modules[\\/]vuetify[\\/]/
           },
           commons: {
             name: 'chunk-commons',
@@ -89,6 +93,11 @@ module.exports = {
             reuseExistingChunk: true
           }
         }
+      })
+      config.optimization.minimizer("terser").tap(args => {
+        const { terserOptions } = args[0]
+        terserOptions.compress = true
+        return args
       })
       config.optimization.runtimeChunk('single')
     })
