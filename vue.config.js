@@ -90,6 +90,11 @@ module.exports = {
           }
         }
       })
+      config.optimization.minimizer("terser").tap(args => {
+        const { terserOptions } = args[0]
+        terserOptions.compress = true
+        return args
+      })
       config.optimization.runtimeChunk('single')
     })
   },
