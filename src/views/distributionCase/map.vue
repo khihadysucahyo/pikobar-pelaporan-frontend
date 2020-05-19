@@ -5,6 +5,7 @@
         <v-col
           cols="12"
           md="3"
+          class="pb-0"
         >
           <div class="d-flex mb-1">
             <div
@@ -14,46 +15,64 @@
             <div class="legend-text-title">{{ $t('label.look_for_it') }} {{ $t('label.based') }}</div>
           </div>
         </v-col>
-        <v-row>
-          <v-col
-            cols="12"
-            md="4"
+      </v-row>
+      <v-row class="filter-layer mx-2">
+        <v-col cols="10">
+          <v-row>
+            <v-col
+              cols="12"
+              md="4"
+              class="pt-0"
+            >
+              <select-area-district-city
+                :disabled-district="disabledDistrict"
+                :district-city="districtCity"
+                :city-district.sync="districtCity"
+                :on-select-district="onSelectDistrict"
+              />
+            </v-col>
+            <v-col
+              cols="12"
+              md="4"
+              class="pt-0"
+            >
+              <select-area-sub-district
+                :sub-district="subDistrict"
+                :update-sub-district.sync="subDistrict"
+                :code-district="districtCity.kota_kode"
+                :district-code.sync="districtCity.kota_kode"
+                :on-select-sub-district="onSelectSubDistrict"
+              />
+            </v-col>
+            <v-col
+              cols="12"
+              md="4"
+              class="pt-0"
+            >
+              <select-area-village
+                :village="village"
+                :update-village.sync="village"
+                :code-sub-district="subDistrict.kecamatan_kode"
+                :sub-district-code.sync="subDistrict.kecamatan_kode"
+                :on-select-village="onSelectVillage"
+              />
+            </v-col>
+          </v-row>
+        </v-col>
+        <v-col
+          cols="12"
+          md="2"
+          sm="12"
+        >
+          <v-btn
+            block
+            color="grey darken-3"
+            class="button button-action white--text"
+            @click="onReset"
           >
-            <v-label class="title">{{ $t('label.select_district') }}</v-label>
-            <select-area-district-city
-              :disabled-district="disabledDistrict"
-              :district-city="districtCity"
-              :city-district.sync="districtCity"
-              :on-select-district="onSelectDistrict"
-            />
-          </v-col>
-          <v-col
-            cols="12"
-            md="4"
-          >
-            <v-label class="title">{{ $t('label.select_sub_district') }}</v-label>
-            <select-area-sub-district
-              :sub-district="subDistrict"
-              :update-sub-district.sync="subDistrict"
-              :code-district="districtCity.kota_kode"
-              :district-code.sync="districtCity.kota_kode"
-              :on-select-sub-district="onSelectSubDistrict"
-            />
-          </v-col>
-          <v-col
-            cols="12"
-            md="4"
-          >
-            <v-label class="title">{{ $t('label.select_village') }}</v-label>
-            <select-area-village
-              :village="village"
-              :update-village.sync="village"
-              :code-sub-district="subDistrict.kecamatan_kode"
-              :sub-district-code.sync="subDistrict.kecamatan_kode"
-              :on-select-village="onSelectVillage"
-            />
-          </v-col>
-        </v-row>
+            {{ $t('label.reset') }}
+          </v-btn>
+        </v-col>
       </v-row>
     </div>
     <div class="container-map relative">
@@ -163,7 +182,7 @@
       <v-row class="mx-2 mt-1">
         <v-col
           cols="12"
-          md="2"
+          md="6"
         >
           <div class="d-flex mb-1">
             <div
@@ -172,93 +191,148 @@
             />
             <div class="legend-text-title">{{ $t('label.information') }}</div>
           </div>
+          <ol class="text-description">
+            <li>{{ $t('label.map_description_step_1') }}</li>
+            <li>{{ $t('label.map_description_step_2') }}</li>
+            <li>{{ $t('label.map_description_step_3') }}</li>
+          </ol>
         </v-col>
-        <v-row>
-          <v-col
-            cols="12"
-            md="3"
-          >
-            <div class="d-flex mb-1">
-              <div
-                class="legend-color cluster-positive-active"
-                style="margin-top: 3px;"
-              />
-              <div class="legend-text">{{ stage.positive_active }}</div>
-            </div>
-            <div class="d-flex mb-1">
-              <div
-                class="legend-color cluster-positive-recovery"
-                style="margin-top: 3px;"
-              />
-              <div class="legend-text">{{ stage.positive_recovery }}</div>
-            </div>
-            <div class="d-flex mb-1">
-              <div
-                class="legend-color cluster-positive-dead"
-                style="margin-top: 3px;"
-              />
-              <div class="legend-text">{{ stage.positive_dead }}</div>
-            </div>
-          </v-col>
-          <v-col
-            cols="12"
-            md="3"
-          >
-            <div class="d-flex mb-1">
-              <div
-                class="legend-color cluster-pdp-process"
-                style="margin-top: 3px;"
-              />
-              <div class="legend-text">{{ stage.pdp_process }}</div>
-            </div>
-            <div class="d-flex mb-1">
-              <div
-                class="legend-color cluster-pdp-done"
-                style="margin-top: 3px;"
-              />
-              <div class="legend-text">{{ stage.pdp_done }}</div>
-            </div>
-          </v-col>
-          <v-col
-            cols="12"
-            md="3"
-          >
-            <div class="d-flex mb-1">
-              <div
-                class="legend-color cluster-odp-process"
-                style="margin-top: 3px;"
-              />
-              <div class="legend-text">{{ stage.odp_process }}</div>
-            </div>
-            <div class="d-flex mb-1">
-              <div
-                class="legend-color cluster-odp-done"
-                style="margin-top: 3px;"
-              />
-              <div class="legend-text">{{ stage.odp_done }}</div>
-            </div>
-          </v-col>
-          <v-col
-            cols="12"
-            md="3"
-          >
-            <div class="d-flex mb-1">
-              <div
-                class="legend-color cluster-otg-process"
-                style="margin-top: 3px;"
-              />
-              <div class="legend-text">{{ stage.otg_process }}</div>
-            </div>
-            <div class="d-flex mb-1">
-              <div
-                class="legend-color cluster-otg-done"
-                style="margin-top: 3px;"
-              />
-              <div class="legend-text">{{ stage.otg_done }}</div>
-            </div>
-          </v-col>
-        </v-row>
+        <v-col
+          cols="12"
+          md="6"
+        >
+          <v-row>
+            <v-col
+              cols="12"
+              class="py-0"
+            >
+              <div class="d-flex mb-1">
+                <div
+                  class="legend-color-title legend-description"
+                  style="margin-top: 3px;"
+                />
+                <div class="legend-text-title">{{ `${$t('label.information')} ${$t('label.label')}` }}</div>
+              </div>
+            </v-col>
+            <v-col
+              cols="12"
+              md="4"
+              class="py-0"
+            >
+              <div class="d-flex mb-1">
+                <div
+                  class="legend-color cluster-otg-process"
+                  style="margin-top: 3px;"
+                />
+                <div class="legend-text">{{ stage.otg_process }}</div>
+              </div>
+              <div class="d-flex mb-1">
+                <div
+                  class="legend-color cluster-otg-done"
+                  style="margin-top: 3px;"
+                />
+                <div class="legend-text">{{ stage.otg_done }}</div>
+              </div>
+              <div class="d-flex mb-1">
+                <div
+                  class="legend-color cluster-odp-process"
+                  style="margin-top: 3px;"
+                />
+                <div class="legend-text">{{ stage.odp_process }}</div>
+              </div>
+            </v-col>
+            <v-col
+              cols="12"
+              md="4"
+              class="py-0"
+            >
+              <div class="d-flex mb-1">
+                <div
+                  class="legend-color cluster-odp-done"
+                  style="margin-top: 3px;"
+                />
+                <div class="legend-text">{{ stage.odp_done }}</div>
+              </div>
+              <div class="d-flex mb-1">
+                <div
+                  class="legend-color cluster-pdp-process"
+                  style="margin-top: 3px;"
+                />
+                <div class="legend-text">{{ stage.pdp_process }}</div>
+              </div>
+              <div class="d-flex mb-1">
+                <div
+                  class="legend-color cluster-pdp-done"
+                  style="margin-top: 3px;"
+                />
+                <div class="legend-text">{{ stage.pdp_done }}</div>
+              </div>
+            </v-col>
+            <v-col
+              cols="12"
+              md="4"
+              class="py-0"
+            >
+              <div class="d-flex mb-1">
+                <div
+                  class="legend-color cluster-positive-active"
+                  style="margin-top: 3px;"
+                />
+                <div class="legend-text">{{ stage.positive_active }}</div>
+              </div>
+              <div class="d-flex mb-1">
+                <div
+                  class="legend-color cluster-positive-recovery"
+                  style="margin-top: 3px;"
+                />
+                <div class="legend-text">{{ stage.positive_recovery }}</div>
+              </div>
+              <div class="d-flex mb-1">
+                <div
+                  class="legend-color cluster-positive-dead"
+                  style="margin-top: 3px;"
+                />
+                <div class="legend-text">{{ stage.positive_dead }}</div>
+              </div>
+            </v-col>
+          </v-row>
+        </v-col>
       </v-row>
+    </div>
+    <div
+      class="disclaimer"
+      :style="{'display': disclaimer}"
+    >
+      <div class="backdrop" />
+      <div class="modal-disclaimer">
+        <div class="text-center pb-5">
+          <v-img
+            src="@/static/modal-disclaimer.svg"
+            width="75%"
+            class="img-center"
+          />
+        </div>
+        <div class="d-flex mb-1">
+          <div
+            class="legend-color-title legend-description"
+            style="margin-top: 3px;"
+          />
+          <div class="legend-text-title">{{ $t('label.disclaimer') }}</div>
+        </div>
+        <ol class="text-description">
+          <li>{{ $t('label.map_disclaimer_step_1') }}</li>
+          <li>{{ $t('label.map_disclaimer_step_2') }}</li>
+        </ol>
+        <div class="text-center pt-5">
+          <v-btn
+            color="success"
+            class="button button-action white--text"
+            @click="onDisclaimer"
+          >
+            {{ $t('label.understand') }}
+          </v-btn>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -311,11 +385,13 @@ export default {
       jsonCity,
       jsonDistrict,
       jsonVillage,
+      disclaimer: 'block',
       map: null,
       url: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
       isZoom: false,
       zoomOld: 0,
       zoomNew: 0,
+      center: [-6.932694, 107.627449],
       centerCity: [-6.932694, 107.627449],
       layerGroup: null,
       dataLayer: [],
@@ -444,62 +520,6 @@ export default {
       kota_nama: this.district_name_user
     }
   },
-  async mounted() {
-    this.initMap()
-
-    this.map.spin(true)
-    this.data.positive_active = []
-    this.data.positive_recovery = []
-    try {
-      await axios.get('https://covid19-public.digitalservice.id/api/v1/sebaran_app/jabar')
-        .then((res) => {
-          const data = res.data.data.content
-
-          data.map((res) => {
-            if (res.status === 'Positif' && res.stage === 'Proses') {
-              this.data.positive_active.push(res)
-            } else if (res.status === 'Positif' && res.stage === 'Sembuh') {
-              this.data.positive_recovery.push(res)
-            } else if (res.status === 'Positif' && res.stage === 'Meninggal') {
-              this.data.positive_dead.push(res)
-            } else if (res.status === 'PDP' && res.stage === 'Proses') {
-              this.data.pdp_process.push(res)
-            } else if (res.status === 'PDP' && res.stage === 'Selesai') {
-              this.data.pdp_done.push(res)
-            } else if (res.status === 'PDP' && res.stage === 'Meninggal') {
-              this.data.pdp_dead.push(res)
-            } else if (res.status === 'ODP' && res.stage === 'Proses') {
-              this.data.odp_process.push(res)
-            } else if (res.status === 'ODP' && res.stage === 'Selesai') {
-              this.data.odp_done.push(res)
-            } else if (res.status === 'ODP' && res.stage === 'Meninggal') {
-              this.data.odp_dead.push(res)
-            } else if (res.status === 'OTG' && res.stage === 'Proses') {
-              this.data.otg_process.push(res)
-            } else if (res.status === 'OTG' && res.stage === 'Selesai') {
-              this.data.otg_done.push(res)
-            } else if (res.status === 'OTG' && res.stage === 'Meninggal') {
-              this.data.otg_dead.push(res)
-            }
-          })
-
-          if (this.roles[0] === 'dinkesprov' || this.roles[0] === 'superadmin') {
-            this.zoomOld = 1
-            this.zoomNew = 1
-            this.createLayerCity()
-            this.createMarker()
-          } else if (this.roles[0] === 'dinkeskota') {
-            this.zoomOld = 2
-            this.zoomNew = 2
-            this.createLayerDistrict(this.district_user)
-            this.createMarker(this.district_user)
-          }
-          this.map.spin(false)
-        })
-    } catch (error) {
-      console.error(error)
-    }
-  },
   beforeDestroy() {
     this.clearCity()
     this.clearDistrict()
@@ -511,7 +531,7 @@ export default {
       // Map
       this.map = L.map('map', {
         zoomControl: false
-      }).setView(this.centerCity, 8)
+      }).setView(this.center, 8)
 
       // Copyright
       L.tileLayer(
@@ -661,7 +681,7 @@ export default {
       }
     },
     createLayerCity() {
-      L.geoJSON(this.jsonCity, {
+      const geojsonLayer = L.geoJSON(this.jsonCity, {
         style: feature => {
           return this.styleBorderline
         },
@@ -673,6 +693,8 @@ export default {
           layer.bindTooltip(this.titleize(nameCity))
         }
       })
+
+      this.map.fitBounds(geojsonLayer.getBounds())
     },
     createLayerDistrict(value = null) {
       let geojsonLayer
@@ -1268,11 +1290,15 @@ export default {
       this.$emit('update:codeDistrict', value.kota_kode)
       this.$emit('update:nameDistrict', value.kota_nama)
 
+      this.map.spin(true)
       this.zoomNew = 2
       this.filterLayer.city = value.kota_kode
 
       this.createLayerDistrict(value.kota_kode)
-      this.createMarker(value.kota_kode)
+      this.sleep(1500).then(() => {
+        this.createMarker(value.kota_kode)
+        this.map.spin(false)
+      })
     },
     async onSelectSubDistrict(value) {
       this.removeMarker()
@@ -1284,11 +1310,15 @@ export default {
       this.$emit('update:codeSubDistrict', value.kecamatan_kode)
       this.$emit('update:nameSubDistrict', value.kecamatan_nama)
 
+      this.map.spin(true)
       this.zoomNew = 3
       this.filterLayer.district = value.kecamatan_kode
 
       this.createLayerVillage(value.kecamatan_kode)
-      this.createMarker(value.kecamatan_kode)
+      this.sleep(1000).then(() => {
+        this.createMarker(value.kecamatan_kode)
+        this.map.spin(false)
+      })
     },
     async onSelectVillage(value) {
       this.removeMarker()
@@ -1299,11 +1329,15 @@ export default {
       this.$emit('update:codeVillage', value.desa_kode)
       this.$emit('update:nameVillage', value.desa_nama)
 
+      this.map.spin(true)
       this.zoomNew = 4
       this.filterLayer.village = value.desa_kode
 
       this.createLayerVillageSingle(value.desa_kode)
-      this.createMarker(value.desa_kode)
+      this.sleep(500).then(() => {
+        this.createMarker(value.desa_kode)
+        this.map.spin(false)
+      })
     },
     clearCity() {
       this.districtCity = {
@@ -1322,12 +1356,111 @@ export default {
         desa_kode: null,
         desa_nama: null
       }
+    },
+    onReset() {
+      this.removeMarker()
+      this.removeLayer()
+
+      if (this.roles[0] === 'dinkesprov' || this.roles[0] === 'superadmin') {
+        this.clearCity()
+        this.filterLayer.city = null
+
+        this.map.spin(true)
+        this.map.setView(this.center, 8)
+        this.zoomNew = 1
+        this.createLayerCity()
+
+        this.sleep(2000).then(() => {
+          this.createMarker()
+          this.map.spin(false)
+        })
+      } else {
+        this.clearVillage()
+        this.clearDistrict()
+        this.filterLayer.village = null
+        this.filterLayer.district = null
+
+        this.map.spin(true)
+        this.zoomNew = 2
+        this.createLayerDistrict(this.district_user)
+
+        this.sleep(2000).then(() => {
+          this.createMarker(this.district_user)
+          this.map.spin(false)
+        })
+      }
+    },
+    sleep(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms))
+    },
+    async onDisclaimer() {
+      this.disclaimer = 'none'
+
+      this.initMap()
+
+      this.map.spin(true)
+      this.data.positive_active = []
+      this.data.positive_recovery = []
+      try {
+        await axios.get('https://covid19-public.digitalservice.id/api/v1/sebaran_app/jabar')
+          .then((res) => {
+            const data = res.data.data.content
+
+            data.map((res) => {
+              if (res.status === 'Positif' && res.stage === 'Proses') {
+                this.data.positive_active.push(res)
+              } else if (res.status === 'Positif' && res.stage === 'Sembuh') {
+                this.data.positive_recovery.push(res)
+              } else if (res.status === 'Positif' && res.stage === 'Meninggal') {
+                this.data.positive_dead.push(res)
+              } else if (res.status === 'PDP' && res.stage === 'Proses') {
+                this.data.pdp_process.push(res)
+              } else if (res.status === 'PDP' && res.stage === 'Selesai') {
+                this.data.pdp_done.push(res)
+              } else if (res.status === 'PDP' && res.stage === 'Meninggal') {
+                this.data.pdp_dead.push(res)
+              } else if (res.status === 'ODP' && res.stage === 'Proses') {
+                this.data.odp_process.push(res)
+              } else if (res.status === 'ODP' && res.stage === 'Selesai') {
+                this.data.odp_done.push(res)
+              } else if (res.status === 'ODP' && res.stage === 'Meninggal') {
+                this.data.odp_dead.push(res)
+              } else if (res.status === 'OTG' && res.stage === 'Proses') {
+                this.data.otg_process.push(res)
+              } else if (res.status === 'OTG' && res.stage === 'Selesai') {
+                this.data.otg_done.push(res)
+              } else if (res.status === 'OTG' && res.stage === 'Meninggal') {
+                this.data.otg_dead.push(res)
+              }
+            })
+
+            if (this.roles[0] === 'dinkesprov' || this.roles[0] === 'superadmin') {
+              this.zoomOld = 1
+              this.zoomNew = 1
+              this.createLayerCity()
+              this.createMarker()
+            } else if (this.roles[0] === 'dinkeskota') {
+              this.zoomOld = 2
+              this.zoomNew = 2
+              this.createLayerDistrict(this.district_user)
+              this.createMarker(this.district_user)
+            }
+            this.map.spin(false)
+          })
+      } catch (error) {
+        console.error(error)
+      }
     }
   }
 }
 </script>
 
 <style>
+.button-action {
+  height: 46px !important;
+  text-transform: none;
+}
+
 .map-wrapper {
   background: white;
   height: calc(100vh - 178px);
@@ -1398,6 +1531,13 @@ export default {
 .legend-description {
   border: 2px solid #27ae60;
   background: #27ae60;
+}
+.text-description {
+  padding-left: 15px;
+}
+.text-description li {
+  color: black !important;
+  font-weight: normal;
 }
 
 .cluster {
@@ -1644,5 +1784,30 @@ export default {
 
 .filter-layer .v-text-field__details {
   display: none;
+}
+
+.backdrop {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: #000;
+  opacity: 0.5;
+}
+.modal-disclaimer {
+  position: absolute;
+  background-color: #fff;
+  width: 400px;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  border-radius: 8px;
+  padding: 30px;
+}
+.img-center {
+  display: block;
+  margin: 0 auto;
 }
 </style>
