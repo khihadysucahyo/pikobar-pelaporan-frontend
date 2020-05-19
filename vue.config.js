@@ -72,7 +72,7 @@ module.exports = {
         .maxAssetSize(400000)
       config.optimization.splitChunks({
         chunks: 'all',
-        maxSize: 40000,
+        maxSize: 400000,
         cacheGroups: {
           libs: {
             name: 'chunk-libs',
