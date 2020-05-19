@@ -67,8 +67,12 @@ module.exports = {
       config.devtool('cheap-source-map')
     )
     config.when(process.env.NODE_ENV === 'production', config => {
+      config.performance
+        .maxEntrypointSize(400000)
+        .maxAssetSize(400000)
       config.optimization.splitChunks({
         chunks: 'all',
+        maxSize: 40000,
         cacheGroups: {
           libs: {
             name: 'chunk-libs',
