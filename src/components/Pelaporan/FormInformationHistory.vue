@@ -60,7 +60,7 @@
               </v-radio-group>
             </ValidationProvider>
             <ValidationProvider
-              v-if="formPasien.status !== 'OTG' && formPasien.status !== 'ODP' && formPasien.stage === '1'"
+              v-if="formPasien.status !== 'OTG' && formPasien.status !== 'ODP'"
               v-slot="{ errors }"
             >
               <label>{{ $t('label.results') }}</label>
@@ -403,9 +403,6 @@ export default {
         return
       }
       this.loading = true
-      if (this.formPasien.stage === '0') {
-        this.formPasien.final_result = ''
-      }
       const response = await this.$store.dispatch('reports/createReportCase', this.formPasien)
       if (response.status !== 422) {
         await this.$store.dispatch('reports/resetFormPasien')
