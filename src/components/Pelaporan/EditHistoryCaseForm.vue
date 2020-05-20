@@ -73,7 +73,7 @@
                         </v-radio-group>
                       </ValidationProvider>
                       <ValidationProvider
-                        v-if="formRiwayatPasien.status !== 'OTG' && formRiwayatPasien.status !== 'ODP'"
+                        v-if="formRiwayatPasien.status !== 'OTG' && formRiwayatPasien.status !== 'ODP' && formRiwayatPasien.stage === '1'"
                         v-slot="{ errors }"
                       >
                         <label>{{ $t('label.results') }}</label>
@@ -385,6 +385,9 @@ export default {
         return
       }
       this.loading = true
+      if (this.formRiwayatPasien.stage === '0') {
+        this.formRiwayatPasien.final_result = ''
+      }
       await this.$store.dispatch('reports/createHistoryCase', this.formRiwayatPasien)
       await this.$store.dispatch('toast/successToast', 'Data Riwayat Kasus Berhasil Di Perbaharui')
       await this.$store.dispatch('reports/resetRiwayatFormPasien')
