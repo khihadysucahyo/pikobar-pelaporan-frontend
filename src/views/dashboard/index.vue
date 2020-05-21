@@ -309,19 +309,13 @@
         cols="12"
         md="4"
       >
-        <chart-gender
-          :loading="loadingAgeGender"
-          :data-gender="statistic.gender"
-        />
+        <chart-gender :list-query="listQuery" />
       </v-col>
       <v-col
         cols="12"
         md="8"
       >
-        <chart-age
-          :loading="loadingAgeGender"
-          :data-age="statistic.age"
-        />
+        <chart-age :list-query="listQuery" />
       </v-col>
     </v-row>
   </v-container>
@@ -366,7 +360,6 @@ export default {
       loadingODP: true,
       loadingPDP: true,
       loadingPositive: true,
-      loadingAgeGender: true,
       display: true,
       districtCity: {
         kota_kode: this.districtCode,
@@ -543,7 +536,6 @@ export default {
     this.getStatisticODP()
     this.getStatisticPDP()
     this.getStatisticPositive()
-    this.getStatisticAgeGender()
   },
   beforeDestroy() {
     this.clearCity()
@@ -571,7 +563,7 @@ export default {
       this.$emit('update:nameVillage', value.desa_nama)
     },
     onReset() {
-      if (this.roles[0] === 'dinkesprov') {
+      if (this.roles[0] === 'dinkesprov' || this.roles[0] === 'superadmin') {
         this.clearCity()
         this.filter.isCity = false
         this.filter.city = null
@@ -590,7 +582,6 @@ export default {
       this.getStatisticODP()
       this.getStatisticPDP()
       this.getStatisticPositive()
-      this.getStatisticAgeGender()
     },
     onSearch() {
       this.filter.city = this.districtCity.kota_kode
@@ -612,7 +603,6 @@ export default {
       this.getStatisticODP()
       this.getStatisticPDP()
       this.getStatisticPositive()
-      this.getStatisticAgeGender()
     },
     clearCity() {
       this.districtCity = {
@@ -867,77 +857,8 @@ export default {
       // console.log(this.statistic.positiveDaily)
       // console.log(this.statistic.positiveCumulative)
     },
-    async getStatisticAgeGender() {
-      this.loadingAgeGender = true
-      const res = await this.$store.dispatch('statistic/countAgeGender', this.listQuery)
-
-      if (res) this.loadingAgeGender = false
-
-      const male = res.data.chart_by_gender.L
-      const female = res.data.chart_by_gender.P
-
-      this.statistic.gender = {
-        male,
-        female
-      }
-      // console.log(this.statistic.gender)
-
-      const male_age = []
-      const female_age = []
-      const groupMale = res.data.ageGroupMale
-      const groupFemale = res.data.ageGroupFemale
-      const m1 = groupMale.find(x => x._id === 'bawah_5')
-      const m2 = groupMale.find(x => x._id === '6_19')
-      const m3 = groupMale.find(x => x._id === '20_29')
-      const m4 = groupMale.find(x => x._id === '30_39')
-      const m5 = groupMale.find(x => x._id === '40_49')
-      const m6 = groupMale.find(x => x._id === '50_59')
-      const m7 = groupMale.find(x => x._id === '60_69')
-      const m8 = groupMale.find(x => x._id === '70_79')
-      const m9 = groupMale.find(x => x._id === 'atas_80')
-      const f1 = groupFemale.find(x => x._id === 'bawah_5')
-      const f2 = groupFemale.find(x => x._id === '6_19')
-      const f3 = groupFemale.find(x => x._id === '20_29')
-      const f4 = groupFemale.find(x => x._id === '30_39')
-      const f5 = groupFemale.find(x => x._id === '40_49')
-      const f6 = groupFemale.find(x => x._id === '50_59')
-      const f7 = groupFemale.find(x => x._id === '60_69')
-      const f8 = groupFemale.find(x => x._id === '70_79')
-      const f9 = groupFemale.find(x => x._id === 'atas_80')
-
-      male_age.push(-Math.abs(this.checkVariable(m1)))
-      male_age.push(-Math.abs(this.checkVariable(m2)))
-      male_age.push(-Math.abs(this.checkVariable(m3)))
-      male_age.push(-Math.abs(this.checkVariable(m4)))
-      male_age.push(-Math.abs(this.checkVariable(m5)))
-      male_age.push(-Math.abs(this.checkVariable(m6)))
-      male_age.push(-Math.abs(this.checkVariable(m7)))
-      male_age.push(-Math.abs(this.checkVariable(m8)))
-      male_age.push(-Math.abs(this.checkVariable(m9)))
-      female_age.push(this.checkVariable(f1))
-      female_age.push(this.checkVariable(f2))
-      female_age.push(this.checkVariable(f3))
-      female_age.push(this.checkVariable(f4))
-      female_age.push(this.checkVariable(f5))
-      female_age.push(this.checkVariable(f6))
-      female_age.push(this.checkVariable(f7))
-      female_age.push(this.checkVariable(f8))
-      female_age.push(this.checkVariable(f9))
-
-      this.statistic.age = {
-        male: male_age,
-        female: female_age
-      }
-      // console.log(this.statistic.age)
-    },
     handleHelp() {
       window.open('https://s.id/panduan_laporcovid19', '_blank')
-    },
-    checkVariable(variable) {
-      if (typeof variable === 'undefined' || variable === null) {
-        return 0
-      }
-      return Number(variable.count)
     }
   }
 }
