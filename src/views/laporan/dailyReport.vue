@@ -5,7 +5,7 @@
     <v-row align="center" justify="space-between">
       <v-col>
         <div class="title ml-4">
-          Rekap Pasien Dinkes [Nama dinkesnya] 05 Mei 2020 17:00 WIB
+          {{ $t('label.patient_recap') }}
         </div>
       </v-col>
     </v-row>
@@ -13,16 +13,25 @@
     <v-row align="center" justify="space-between">
       <v-col>
         <div class="title ml-4">
-          <date-range-picker
-            v-model="dateRange"
-          />
-          <v-btn
-            color="#4f4f4f"
-            class="ml-5 btn-reset"
-            @click="onReset"
-          >
-            {{ $t('label.reset') }}
-          </v-btn>
+          <v-row>
+            <v-col>
+              <range-date-picker
+                v-model="dateRange"
+                :start-label="$t('label.start_date')"
+                :end-label="$t('label.end_date')"
+                :place-holder="$t('label.input_date_filters')"
+              />
+            </v-col>
+            <v-col>
+              <v-btn
+                color="#4f4f4f"
+                class="ml-5 btn-reset"
+                @click="onReset"
+              >
+                {{ $t('label.reset') }}
+              </v-btn>
+            </v-col>
+          </v-row>
         </div>
       </v-col>
       <v-col cols="12" sm="4" class="align-right">
@@ -45,27 +54,25 @@
 </template>
 
 <script>
-import DateRangePicker from 'vue2-daterange-picker'
-import 'vue2-daterange-picker/dist/vue2-daterange-picker.css'
 
 export default {
   name: 'DailyReport',
-  components: { DateRangePicker },
   data() {
     return {
+      autoApply: true,
       dateRange: {
-        startDate: '',
-        endDate: ''
+        start: '',
+        end: ''
       },
       headers: [
-        { text: 'KOTA/KAB', value: 'name' },
+        { text: 'KOTA/KAB', value: 'id' },
         { text: 'OTG PROSES', value: 'age' },
         { text: 'OTG SELESAI', value: 'gender' },
         { text: 'ODP PROSES', value: 'criteria' },
         { text: 'ODP SELESAI', value: 'stage' },
         { text: 'POSITIF PROSES', value: 'final_result' },
         { text: 'POSITIF SELESAI', value: 'author' },
-        { text: 'GRAND TOTAL', value: 'author' }
+        { text: 'GRAND TOTAL', value: 'grand_total' }
       ],
       listQuery: {
         limit: 10
@@ -79,24 +86,33 @@ export default {
           criteria: 4,
           stage: 5,
           final_result: 6,
-          author: 7
+          author: 7,
+          grand_total: 8
+        },
+        {
+          id: 'Kabupaten Bandung Barat',
+          name: 1,
+          age: 2,
+          gender: 3,
+          criteria: 4,
+          stage: 5,
+          final_result: 6,
+          author: 7,
+          grand_total: 8
         }
       ]
     }
   },
   methods: {
     onReset() {
-      this.dateRange.startDate = ''
-      this.dateRange.endDate = ''
+      this.dateRange.start = ''
+      this.dateRange.end = ''
     }
   }
 }
 </script>
 
 <style scoped>
-  .vue-daterange-picker {
-    min-width: 260px;
-  }
   .btn-reset {
     min-width: 37px!important;
     height: 46px !important;

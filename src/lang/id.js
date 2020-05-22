@@ -32,7 +32,6 @@ export default {
     submit_application: 'Ajukan Permohonan',
     application_list: 'Daftar Permohonan',
     daily_report: 'Laporan Harian'
-
   },
   label: {
     username: 'Username',
@@ -218,6 +217,7 @@ export default {
     user_data: 'Data User',
     name: 'Nama',
     city: 'Kota',
+    input_date_filters: 'Filter Tanggal Penginputan',
     district_city: 'Kabupaten/Kota',
     subdistrict: 'Kecamatan',
     village: 'Kelurahan',
@@ -322,6 +322,7 @@ export default {
     view_case_detail: 'Lihat Detail Kasus',
     all: 'Semua',
     waiting_for_verification: 'Menunggu Diverifikasi',
+    patient_recap: 'Rekap Pasien Dinkes [Nama dinkesnya] 05 Mei 2020 17:00 WIB',
     case_rejected: 'Data Kasus Ditolak',
     update_case: 'Perbarui Kasus',
     rejection_note: 'Catatan Penolakan',

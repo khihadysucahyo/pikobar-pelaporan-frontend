@@ -11,7 +11,7 @@
       <v-text-field
         v-model="setDate"
         :placeholder="label"
-        append-icon="event"
+        append-icon-cb="event"
         style="padding-bottom: 12px;"
         solo-inverted
         readonly
