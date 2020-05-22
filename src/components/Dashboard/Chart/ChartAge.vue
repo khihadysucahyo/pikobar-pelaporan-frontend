@@ -36,6 +36,8 @@
 </template>
 
 <script>
+import { groupAge } from '@/utils/utilsFunction'
+
 export default {
   name: 'ChartAge',
   props: {
@@ -159,6 +161,7 @@ export default {
     this.getStatisticGender()
   },
   methods: {
+    groupAge,
     async getStatisticGender() {
       this.params.status_patient = (this.selectedStatus === 'POSITIF-0') ? null : this.selectedStatus
 
@@ -167,47 +170,8 @@ export default {
 
       if (res) this.loading = false
 
-      const male_age = []
-      const female_age = []
-      const groupMale = res.data.ageGroupMale
-      const groupFemale = res.data.ageGroupFemale
-      const m1 = groupMale.find(x => x._id === 'bawah_5')
-      const m2 = groupMale.find(x => x._id === '6_19')
-      const m3 = groupMale.find(x => x._id === '20_29')
-      const m4 = groupMale.find(x => x._id === '30_39')
-      const m5 = groupMale.find(x => x._id === '40_49')
-      const m6 = groupMale.find(x => x._id === '50_59')
-      const m7 = groupMale.find(x => x._id === '60_69')
-      const m8 = groupMale.find(x => x._id === '70_79')
-      const m9 = groupMale.find(x => x._id === 'atas_80')
-      const f1 = groupFemale.find(x => x._id === 'bawah_5')
-      const f2 = groupFemale.find(x => x._id === '6_19')
-      const f3 = groupFemale.find(x => x._id === '20_29')
-      const f4 = groupFemale.find(x => x._id === '30_39')
-      const f5 = groupFemale.find(x => x._id === '40_49')
-      const f6 = groupFemale.find(x => x._id === '50_59')
-      const f7 = groupFemale.find(x => x._id === '60_69')
-      const f8 = groupFemale.find(x => x._id === '70_79')
-      const f9 = groupFemale.find(x => x._id === 'atas_80')
-
-      male_age.push(-Math.abs(this.checkVariable(m1)))
-      male_age.push(-Math.abs(this.checkVariable(m2)))
-      male_age.push(-Math.abs(this.checkVariable(m3)))
-      male_age.push(-Math.abs(this.checkVariable(m4)))
-      male_age.push(-Math.abs(this.checkVariable(m5)))
-      male_age.push(-Math.abs(this.checkVariable(m6)))
-      male_age.push(-Math.abs(this.checkVariable(m7)))
-      male_age.push(-Math.abs(this.checkVariable(m8)))
-      male_age.push(-Math.abs(this.checkVariable(m9)))
-      female_age.push(this.checkVariable(f1))
-      female_age.push(this.checkVariable(f2))
-      female_age.push(this.checkVariable(f3))
-      female_age.push(this.checkVariable(f4))
-      female_age.push(this.checkVariable(f5))
-      female_age.push(this.checkVariable(f6))
-      female_age.push(this.checkVariable(f7))
-      female_age.push(this.checkVariable(f8))
-      female_age.push(this.checkVariable(f9))
+      const male_age = this.groupAge('male', res.data.ageGroupMale)
+      const female_age = this.groupAge('female', res.data.ageGroupFemale)
 
       this.chartData.datasets[0].data = female_age
       this.chartData.datasets[1].data = male_age
