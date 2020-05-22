@@ -187,9 +187,16 @@ export default {
       const max = (maxFemale > Math.abs(minMale)) ? maxFemale : Math.abs(minMale)
 
       let plus = 0
-      const last = max % 10
-      if (max > 10) {
+      let last = 0
+      if (max > 10 && max <= 100) {
+        last = max % 10
         plus = (last <= 5) ? 10 - last : 15 - last
+      } if (max > 100 && max <= 1000) {
+        last = max % 100
+        plus = (last <= 75) ? 75 - last : 100 - last
+      } else if (max > 1000) {
+        last = max % 1000
+        plus = (last <= 500) ? 1000 - last : 1500 - last
       }
 
       this.chartOptions.scales.xAxes[0].ticks.min = -Math.abs(max + plus)
