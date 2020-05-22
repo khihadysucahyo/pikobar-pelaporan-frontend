@@ -160,7 +160,7 @@ export default {
   },
   methods: {
     async getStatisticGender() {
-      this.params.status = (this.selectedStatus === 'POSITIF-0') ? null : this.selectedStatus
+      this.params.status_patient = (this.selectedStatus === 'POSITIF-0') ? null : this.selectedStatus
 
       this.loading = true
       const res = await this.$store.dispatch('statistic/countAgeGender', this.params)
@@ -225,7 +225,7 @@ export default {
       let plus = 0
       const last = max % 10
       if (max > 10) {
-        plus = (last < 5) ? 10 - last : 15 - last
+        plus = (last <= 5) ? 10 - last : 15 - last
       }
 
       this.chartOptions.scales.xAxes[0].ticks.min = -Math.abs(max + plus)

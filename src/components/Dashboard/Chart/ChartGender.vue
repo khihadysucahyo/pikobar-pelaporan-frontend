@@ -137,7 +137,7 @@ export default {
   },
   methods: {
     async getStatisticAge() {
-      this.params.status = (this.selectedStatus === 'POSITIF-0') ? null : this.selectedStatus
+      this.params.status_patient = (this.selectedStatus === 'POSITIF-0') ? null : this.selectedStatus
 
       this.loading = true
       const res = await this.$store.dispatch('statistic/countAgeGender', this.params)

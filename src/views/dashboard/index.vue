@@ -208,6 +208,17 @@
       >
         {{ $t('label.cumulative') }}
       </v-tab>
+      <div class="ml-auto">
+        <v-select
+          v-model="selectedTimeSeries"
+          :items="listTimeSeries"
+          item-value="id"
+          item-text="name"
+          label="Waktu"
+          solo
+          @change="onSelectTimeSeries"
+        />
+      </div>
       <v-tab-item
         :key="'daily'"
         :value="'tab-daily'"
@@ -469,7 +480,26 @@ export default {
       listQueryDate: {
         min_date: null,
         max_date: null
-      }
+      },
+      selectedTimeSeries: 'two_week',
+      listTimeSeries: [
+        {
+          id: 'all',
+          name: 'Semua Waktu'
+        },
+        {
+          id: 'one_week',
+          name: '1 Minggu Terakhir'
+        },
+        {
+          id: 'two_week',
+          name: '2 Minggu Terakhir'
+        },
+        {
+          id: 'one_month',
+          name: '1 Bulan Terakhir'
+        }
+      ]
     }
   },
   computed: {
@@ -521,15 +551,7 @@ export default {
       kota_nama: this.district_name_user
     }
 
-    const today = new Date()
-    const max = today.getTime()
-    const min = today.getTime() - ((24 * 60 * 60 * 1000) * 13)
-
-    this.listQueryDate = {
-      min_date: this.$moment(min).format('YYYY/MM/DD'),
-      max_date: this.$moment(max).format('YYYY/MM/DD')
-    }
-
+    await this.filterTimeSeries()
     this.getStatisticConfirmed()
     this.getStatisticNotConfirmed()
     this.getStatisticOTG()
@@ -562,7 +584,7 @@ export default {
       this.$emit('update:codeVillage', value.desa_kode)
       this.$emit('update:nameVillage', value.desa_nama)
     },
-    onReset() {
+    async onReset() {
       if (this.roles[0] === 'dinkesprov' || this.roles[0] === 'superadmin') {
         this.clearCity()
         this.filter.isCity = false
@@ -576,6 +598,7 @@ export default {
       this.filter.district = null
       this.filter.village = null
 
+      await this.filterTimeSeries()
       this.getStatisticConfirmed()
       this.getStatisticNotConfirmed()
       this.getStatisticOTG()
@@ -583,7 +606,7 @@ export default {
       this.getStatisticPDP()
       this.getStatisticPositive()
     },
-    onSearch() {
+    async onSearch() {
       this.filter.city = this.districtCity.kota_kode
       this.filter.district = this.subDistrict.kecamatan_kode
       this.filter.village = this.village.desa_kode
@@ -597,6 +620,7 @@ export default {
         address_village_code: this.village.desa_kode
       }
 
+      await this.filterTimeSeries()
       this.getStatisticConfirmed()
       this.getStatisticNotConfirmed()
       this.getStatisticOTG()
@@ -857,6 +881,40 @@ export default {
       // console.log(this.statistic.positiveDaily)
       // console.log(this.statistic.positiveCumulative)
     },
+    async onSelectTimeSeries(value) {
+      this.selectedTimeSeries = value
+
+      await this.filterTimeSeries()
+      this.getStatisticOTG()
+      this.getStatisticODP()
+      this.getStatisticPDP()
+      this.getStatisticPositive()
+    },
+    filterTimeSeries() {
+      const today = new Date()
+      const max = today.getTime()
+      if (this.selectedTimeSeries === 'all') {
+        this.listQueryDate = {
+          min_date: null,
+          max_date: null
+        }
+      } else if (this.selectedTimeSeries === 'one_week') {
+        this.listQueryDate = {
+          min_date: this.$moment(max).subtract(6, 'days').format('YYYY/MM/DD'),
+          max_date: this.$moment(max).format('YYYY/MM/DD')
+        }
+      } else if (this.selectedTimeSeries === 'two_week') {
+        this.listQueryDate = {
+          min_date: this.$moment(max).subtract(13, 'days').format('YYYY/MM/DD'),
+          max_date: this.$moment(max).format('YYYY/MM/DD')
+        }
+      } else if (this.selectedTimeSeries === 'one_month') {
+        this.listQueryDate = {
+          min_date: this.$moment(max).subtract(1, 'months').format('YYYY/MM/DD'),
+          max_date: this.$moment(max).format('YYYY/MM/DD')
+        }
+      }
+    },
     handleHelp() {
       window.open('https://s.id/panduan_laporcovid19', '_blank')
     }
@@ -882,5 +940,11 @@ export default {
 .disclaimer .help {
   font-size: 16px;
   text-decoration: underline;
+}
+.v-input__slot {
+  width: 250px;
+}
+.v-tabs-bar__content {
+  display: flex;
 }
 </style>
