@@ -33,11 +33,9 @@ export function groupAge(type, group) {
     for (let i = 0; i < temp.length; i++) {
       result.push(-Math.abs(varUndefined(temp[i])))
     }
-  } else {
-    if (type === 'female') {
-      for (let i = 0; i < temp.length; i++) {
-        result.push(varUndefined(temp[i]))
-      }
+  } else if (type === 'female') {
+    for (let i = 0; i < temp.length; i++) {
+      result.push(varUndefined(temp[i]))
     }
   }
   return result
