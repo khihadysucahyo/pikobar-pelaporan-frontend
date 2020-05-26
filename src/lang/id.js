@@ -322,7 +322,7 @@ export default {
     view_case_detail: 'Lihat Detail Kasus',
     all: 'Semua',
     waiting_for_verification: 'Menunggu Diverifikasi',
-    patient_recap: 'Rekap Pasien Dinkes [Nama dinkesnya] 05 Mei 2020 17:00 WIB',
+    patient_recap: 'Rekap Pasien Dinkes',
     case_rejected: 'Data Kasus Ditolak',
     update_case: 'Perbarui Kasus',
     rejection_note: 'Catatan Penolakan',

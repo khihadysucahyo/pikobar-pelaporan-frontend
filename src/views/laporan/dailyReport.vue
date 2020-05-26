@@ -4,8 +4,9 @@
   >
     <v-row align="center" justify="space-between">
       <v-col>
+        <!--        05 Mei 2020 17:00 WIB-->
         <div class="title ml-4">
-          {{ $t('label.patient_recap') }}
+          {{ $t('label.patient_recap') }} <span>{{ fullName }} {{ this.$moment().format('DD MMMM YYYY HH:mm') }} WIB</span>
         </div>
       </v-col>
     </v-row>
@@ -55,6 +56,8 @@
 
 <script>
 
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'DailyReport',
   data() {
@@ -65,48 +68,55 @@ export default {
         end: ''
       },
       headers: [
-        { text: 'KOTA/KAB', value: 'id' },
-        { text: 'OTG PROSES', value: 'age' },
-        { text: 'OTG SELESAI', value: 'gender' },
-        { text: 'ODP PROSES', value: 'criteria' },
-        { text: 'ODP SELESAI', value: 'stage' },
-        { text: 'POSITIF PROSES', value: 'final_result' },
-        { text: 'POSITIF SELESAI', value: 'author' },
+        { text: 'KOTA/KAB', value: 'kab_kota_name' },
+        { text: 'OTG PROSES', value: 'otg_proses' },
+        { text: 'OTG SELESAI', value: 'otg_selesai' },
+        { text: 'ODP PROSES', value: 'odp_proses' },
+        { text: 'ODP SELESAI', value: 'odp_selesai' },
+        { text: 'PDP PROSES', value: 'pdp_proses' },
+        { text: 'PDP SELESAI', value: 'pdp_selesai' },
+        { text: 'POSITIF PROSES', value: 'positif_proses' },
+        { text: 'POSITIF SELESAI', value: 'positif_selesai' },
         { text: 'GRAND TOTAL', value: 'grand_total' }
       ],
       listQuery: {
-        limit: 10
+        min_date: '',
+        max_date: ''
       },
-      list: [
-        {
-          id: 'Kota Bandung',
-          name: 1,
-          age: 2,
-          gender: 3,
-          criteria: 4,
-          stage: 5,
-          final_result: 6,
-          author: 7,
-          grand_total: 8
-        },
-        {
-          id: 'Kabupaten Bandung Barat',
-          name: 1,
-          age: 2,
-          gender: 3,
-          criteria: 4,
-          stage: 5,
-          final_result: 6,
-          author: 7,
-          grand_total: 8
-        }
-      ]
+      list: []
     }
   },
+  computed: {
+    ...mapGetters('user', [
+      'fullName'
+    ])
+  },
+  watch: {
+    'dateRange': {
+      handler: function(value) {
+        if (Object.keys(this.dateRange.start).length > 0) {
+          this.listQuery.min_date = value.start
+          this.listQuery.max_date = value.end
+        }
+        this.handleSearch()
+      },
+      immediate: true
+    }
+  },
+  async mounted() {
+    this.handleSearch()
+  },
   methods: {
+    async handleSearch() {
+      const response = await this.$store.dispatch('statistic/agregateCriteria', this.listQuery)
+      this.list = response.data.summary
+    },
     onReset() {
       this.dateRange.start = ''
       this.dateRange.end = ''
+      this.listQuery.min_date = ''
+      this.listQuery.max_date = ''
+      this.handleSearch()
     }
   }
 }

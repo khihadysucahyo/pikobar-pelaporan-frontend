@@ -13,13 +13,15 @@
         <template slot="body.append">
           <tr class="footer-totals">
             <th class="footer-title">Total</th>
-            <th class="footer-title">{{ sumField('age') }}</th>
-            <th class="footer-title">{{ sumField('gender') }}</th>
-            <th class="footer-title">{{ sumField('criteria') }}</th>
-            <th class="footer-title">{{ sumField('stage') }}</th>
-            <th class="footer-title">{{ sumField('final_result') }}</th>
-            <th class="footer-title">{{ sumField('author') }}</th>
-            <th class="footer-title">{{ sumField('author') }}</th>
+            <th class="footer-title">{{ sumField('otg_proses') }}</th>
+            <th class="footer-title">{{ sumField('otg_selesai') }}</th>
+            <th class="footer-title">{{ sumField('odp_proses') }}</th>
+            <th class="footer-title">{{ sumField('odp_selesai') }}</th>
+            <th class="footer-title">{{ sumField('pdp_proses') }}</th>
+            <th class="footer-title">{{ sumField('pdp_selesai') }}</th>
+            <th class="footer-title">{{ sumField('positif_proses') }}</th>
+            <th class="footer-title">{{ sumField('positif_selesai') }}</th>
+            <th class="footer-title">{{ sumField('grand_total') }}</th>
           </tr>
         </template>
       </v-data-table>

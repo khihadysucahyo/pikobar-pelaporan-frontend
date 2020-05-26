@@ -50,5 +50,15 @@ export default {
     } catch (error) {
       return error.response
     }
+  },
+  async agregateCriteria({
+    commit
+  }, params) {
+    try {
+      const response = await requestServer('/api/dashboard/tabel-aggregate-criteria', 'GET', params)
+      return response
+    } catch (error) {
+      return error.response
+    }
   }
 }

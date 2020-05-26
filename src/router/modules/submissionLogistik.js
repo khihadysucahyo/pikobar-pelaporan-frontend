@@ -19,7 +19,7 @@ const submissionLogistikRouter = {
         icon: 'mdi-clipboard-plus',
         child: true,
         noCache: true,
-        roles: ['superadmin', 'dinkeskota', 'faskes']
+        roles: ['superadmin', 'dinkesprov', 'dinkeskota', 'faskes']
       }
     }
     // {
