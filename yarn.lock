@@ -6066,11 +6066,6 @@ electron-to-chromium@^1.3.413, electron-to-chromium@^1.3.47:
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.432.tgz#3bf7b191978ff2e8bc3caf811bb52b1e9f9eab25"
   integrity sha512-/GdNhXyLP5Yl2322CUX/+Xi8NhdHBqL6lD9VJVKjH6CjoPGakvwZ5CpKgj/oOlbzuWWjOvMjDw1bBuAIRCNTlw==
 
-element-range-picker@^0.2.1:
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/element-range-picker/-/element-range-picker-0.2.1.tgz#c6669aa45c113abfd90ba8e195c6268ca75e03ba"
-  integrity sha512-8hp1PxTvCm0UTOoeAFVd/gmnOycdn88an5JZoiQtW1aw3r19XGH76vcnhQQdE6aUqabNmRBBh85UNFVJ0JJChw==
-
 elliptic@^6.0.0, elliptic@^6.5.2:
   version "6.5.2"
   resolved "https://registry.yarnpkg.com/elliptic/-/elliptic-6.5.2.tgz#05c5678d7173c049d8ca433552224a495d0e3762"
