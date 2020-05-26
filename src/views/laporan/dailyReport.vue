@@ -40,6 +40,7 @@
           class="mr-5"
           style="float: right;"
           color="#b3e2cd"
+          @click="handleExport"
         >
           <v-icon left>mdi-upload</v-icon>
           {{ $t('label.export') }}
@@ -55,8 +56,9 @@
 </template>
 
 <script>
-
 import { mapGetters } from 'vuex'
+import FileSaver from 'file-saver'
+import { formatDatetime } from '@/utils/parseDatetime'
 
 export default {
   name: 'DailyReport',
@@ -80,6 +82,7 @@ export default {
         { text: 'GRAND TOTAL', value: 'grand_total' }
       ],
       listQuery: {
+        limit: 100,
         min_date: '',
         max_date: ''
       },
@@ -110,6 +113,12 @@ export default {
     async handleSearch() {
       const response = await this.$store.dispatch('statistic/agregateCriteria', this.listQuery)
       this.list = response.data.summary
+    },
+    async handleExport() {
+      const response = await this.$store.dispatch('statistic/exportAgregateCriteriaExcel', this.listQuery)
+      const dateNow = Date.now()
+      const fileName = `${this.$t('label.patient_recap')} ${this.fullName} - ${formatDatetime(dateNow, 'DD/MM/YYYY HH:mm')} WIB.xlsx`
+      FileSaver.saveAs(response, fileName)
     },
     onReset() {
       this.dateRange.start = ''
