@@ -70,15 +70,16 @@ export default {
         end: ''
       },
       headers: [
-        { text: 'KOTA/KAB', value: 'kab_kota_name' },
+        { text: 'KOTA/KAB', value: 'kotkabkec' },
         { text: 'OTG PROSES', value: 'otg_proses' },
         { text: 'OTG SELESAI', value: 'otg_selesai' },
         { text: 'ODP PROSES', value: 'odp_proses' },
         { text: 'ODP SELESAI', value: 'odp_selesai' },
         { text: 'PDP PROSES', value: 'pdp_proses' },
         { text: 'PDP SELESAI', value: 'pdp_selesai' },
-        { text: 'POSITIF PROSES', value: 'positif_proses' },
-        { text: 'POSITIF SELESAI', value: 'positif_selesai' },
+        { text: 'POSITIF PROSES', value: 'positif_aktif_proses' },
+        { text: 'POSITIF SEMBUH', value: 'positif_sembuh_selesai' },
+        { text: 'POSITIF MENINGGAL', value: 'positif_meninggal_selesai' },
         { text: 'GRAND TOTAL', value: 'grand_total' }
       ],
       listQuery: {
