@@ -19,8 +19,9 @@
             <th class="footer-title">{{ sumField('odp_selesai') }}</th>
             <th class="footer-title">{{ sumField('pdp_proses') }}</th>
             <th class="footer-title">{{ sumField('pdp_selesai') }}</th>
-            <th class="footer-title">{{ sumField('positif_proses') }}</th>
-            <th class="footer-title">{{ sumField('positif_selesai') }}</th>
+            <th class="footer-title">{{ sumField('positif_aktif_proses') }}</th>
+            <th class="footer-title">{{ sumField('positif_sembuh_selesai') }}</th>
+            <th class="footer-title">{{ sumField('positif_meninggal_selesai') }}</th>
             <th class="footer-title">{{ sumField('grand_total') }}</th>
           </tr>
         </template>
