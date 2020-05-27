@@ -274,6 +274,8 @@ export default {
     import_success_message: 'Impor file telah berhasil',
     reset_password: 'Reset Password',
     export: 'Ekspor',
+    export_png: 'Ekspor PNG',
+    export_xls: 'Ekspor Excel',
     export_data: 'Ekspor Data',
     minutes: 'Menit',
     hours: 'Jam',

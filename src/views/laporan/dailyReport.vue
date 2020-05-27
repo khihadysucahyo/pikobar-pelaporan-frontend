@@ -35,23 +35,36 @@
           </v-row>
         </div>
       </v-col>
-      <v-col cols="12" sm="4" class="align-right">
+      <v-col cols="12" sm="6" class="align-right">
         <v-btn
           class="mr-5"
           style="float: right;"
           color="#b3e2cd"
+          :loading="loading"
+          @click="handleVisualReport"
+        >
+          <v-icon left>mdi-upload</v-icon>
+          {{ $t('label.export_png') }}
+        </v-btn>
+        <v-btn
+          class="mr-5"
+          style="float: right;"
+          color="#b3e2cd"
+          :loading="loading"
           @click="handleExport"
         >
           <v-icon left>mdi-upload</v-icon>
-          {{ $t('label.export') }}
+          {{ $t('label.export_xls') }}
         </v-btn>
       </v-col>
     </v-row>
-    <daily-report-table
-      :list="list"
-      :table-headers="headers"
-      :list-query="listQuery"
-    />
+    <div ref="printMe">
+      <daily-report-table
+        :list="list"
+        :table-headers="headers"
+        :list-query="listQuery"
+      />
+    </div>
   </v-card>
 </template>
 
@@ -64,7 +77,7 @@ export default {
   name: 'DailyReport',
   data() {
     return {
-      autoApply: true,
+      loading: false,
       dateRange: {
         start: '',
         end: ''
@@ -116,10 +129,24 @@ export default {
       this.list = response.data.summary
     },
     async handleExport() {
+      this.loading = true
       const response = await this.$store.dispatch('statistic/exportAgregateCriteriaExcel', this.listQuery)
       const dateNow = Date.now()
       const fileName = `${this.$t('label.patient_recap')} ${this.fullName} - ${formatDatetime(dateNow, 'DD/MM/YYYY HH:mm')} WIB.xlsx`
-      FileSaver.saveAs(response, fileName)
+      await FileSaver.saveAs(response, fileName)
+      this.loading = false
+    },
+    async handleVisualReport() {
+      this.loading = true
+      const el = this.$refs.printMe
+      const dateNow = Date.now()
+      const filename = `${this.$t('label.patient_recap')} ${this.fullName} - ${formatDatetime(dateNow, 'DD/MM/YYYY HH:mm')} WIB.png`
+      const options = {
+        type: 'dataURL'
+      }
+      const output = await this.$html2canvas(el, options)
+      await FileSaver.saveAs(output, filename)
+      this.loading = false
     },
     onReset() {
       this.dateRange.start = ''
