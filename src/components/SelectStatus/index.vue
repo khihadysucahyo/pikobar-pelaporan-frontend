@@ -31,7 +31,7 @@ export default {
           name: `${this.$t('label.all')} ${this.$t('label.status')}`
         },
         {
-          id: 'POSITIF',
+          id: 'POSITIF-3',
           name: `${this.$t('label.positive')} ${this.$t('label.covid19')}`
         },
         {
