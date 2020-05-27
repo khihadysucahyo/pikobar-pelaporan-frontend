@@ -324,7 +324,7 @@ export default {
     view_case_detail: 'Lihat Detail Kasus',
     all: 'Semua',
     waiting_for_verification: 'Menunggu Diverifikasi',
-    patient_recap: 'Rekap Pasien Dinkes',
+    patient_recap: 'Rekap Pasien ',
     case_rejected: 'Data Kasus Ditolak',
     update_case: 'Perbarui Kasus',
     rejection_note: 'Catatan Penolakan',

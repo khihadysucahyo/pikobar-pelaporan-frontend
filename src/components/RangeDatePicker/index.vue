@@ -34,32 +34,38 @@
             </v-card-title>
             <v-card-text>
               <div class="v-date-range__content">
-                <v-date-picker
-                  v-model="pickerStart"
-                  class="mr-4 v-date-range__picker--start v-date-range__picker"
-                  :locale="locale"
-                  :first-day-of-week="firstDayOfWeek"
-                  :min="min"
-                  :max="pickerEnd || max"
-                  :no-title="noTitle"
-                  :next-icon="nextIcon"
-                  :prev-icon="prevIcon"
-                  :events="highlightDates"
-                  :event-color="highlightClasses"
-                />
-                <v-date-picker
-                  v-model="pickerEnd"
-                  class="v-date-range__picker--end v-date-range__picker"
-                  :locale="locale"
-                  :first-day-of-week="firstDayOfWeek"
-                  :min="pickerStart || min"
-                  :max="max"
-                  :no-title="noTitle"
-                  :next-icon="nextIcon"
-                  :prev-icon="prevIcon"
-                  :events="highlightDates"
-                  :event-color="highlightClasses"
-                />
+                <div>
+                  <h4>{{ $t('label.start_date') }}</h4>
+                  <v-date-picker
+                    v-model="pickerStart"
+                    class="mr-4 v-date-range__picker--start v-date-range__picker"
+                    :locale="locale"
+                    :first-day-of-week="firstDayOfWeek"
+                    :min="min"
+                    :max="pickerEnd || max"
+                    :no-title="noTitle"
+                    :next-icon="nextIcon"
+                    :prev-icon="prevIcon"
+                    :events="highlightDates"
+                    :event-color="highlightClasses"
+                  />
+                </div>
+                <div>
+                  <h4>{{ $t('label.end_date') }}</h4>
+                  <v-date-picker
+                    v-model="pickerEnd"
+                    class="v-date-range__picker--end v-date-range__picker"
+                    :locale="locale"
+                    :first-day-of-week="firstDayOfWeek"
+                    :min="pickerStart || min"
+                    :max="max"
+                    :no-title="noTitle"
+                    :next-icon="nextIcon"
+                    :prev-icon="prevIcon"
+                    :events="highlightDates"
+                    :event-color="highlightClasses"
+                  />
+                </div>
               </div>
             </v-card-text>
           </div>

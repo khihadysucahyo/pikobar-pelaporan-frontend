@@ -65,4 +65,7 @@ export default {
   .footer-title {
     font-size: 14px;
   }
+  .v-data-table tr:hover:not(.v-table__expanded__content) {
+    background: #27AE60 !important;
+  }
 </style>
