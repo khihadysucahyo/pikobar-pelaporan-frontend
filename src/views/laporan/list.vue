@@ -392,7 +392,7 @@ export default {
           } else if ((value.sortBy[0] !== undefined) && (!value.sortDesc[0])) {
             this.listQuery.sort[value.sortBy[0]] = 'asc'
           } else {
-            this.listQuery.sort = {}
+            this.listQuery.sort['createdAt'] = 'desc'
           }
 
           if (Object.keys(this.listQuery.sort).length > 0) {
