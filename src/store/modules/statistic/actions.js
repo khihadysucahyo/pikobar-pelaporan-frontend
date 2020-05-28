@@ -1,4 +1,5 @@
 import requestServer from '@/api'
+import request from '@/utils/request'
 
 export default {
   async countAgeGender({
@@ -46,6 +47,29 @@ export default {
   }, params) {
     try {
       const response = await requestServer('/api/dashboard/chart-confirm', 'GET', params)
+      return response
+    } catch (error) {
+      return error.response
+    }
+  },
+  async agregateCriteria({
+    commit
+  }, params) {
+    try {
+      const response = await requestServer('/api/dashboard/tabel-aggregate-criteria', 'GET', params)
+      return response
+    } catch (error) {
+      return error.response
+    }
+  },
+  async exportAgregateCriteriaExcel({ commit }, params) {
+    try {
+      const response = await request({
+        url: `/api/dashboard/tabel-aggregate-criteria-export`,
+        method: 'GET',
+        params: params,
+        responseType: 'blob'
+      })
       return response
     } catch (error) {
       return error.response
