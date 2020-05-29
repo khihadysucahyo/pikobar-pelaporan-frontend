@@ -155,6 +155,18 @@ export default {
       return e
     }
   },
+  async printPEForm({ commit }, id) {
+    try {
+      const response = await request({
+        url: `/api/cases/${id}/export-to-pe-form`,
+        method: 'GET',
+        responseType: 'blob'
+      })
+      return response
+    } catch (e) {
+      return e
+    }
+  },
   resetListCase({ commit }) {
     commit('RESET_LIST_CASE')
   },
