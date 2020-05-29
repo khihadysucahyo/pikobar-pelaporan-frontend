@@ -410,8 +410,7 @@ export default {
     disclaimer: 'Disclaimer',
     map_disclaimer_step_1: 'Pembaruan jumlah titik sebaran membutuhkan waktu hingga 1 jam setelah data diinput ke sistem melalui fitur “Laporan Kasus”.',
     map_disclaimer_step_2: 'Penentuan titik lokasi hanya berdasarkan lokasi Kelurahan dan tidak menunjuk pada alamat persis masing-masing kasus.',
-    understand: 'Mengerti',
-    print_pe_form: 'Cetak Laporan PE'
+    understand: 'Mengerti'
   },
   success: {
     login_success: 'Login Berhasil',
