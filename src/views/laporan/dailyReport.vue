@@ -4,7 +4,6 @@
   >
     <v-row align="center" justify="space-between">
       <v-col>
-        <!--        05 Mei 2020 17:00 WIB-->
         <div class="title ml-4">
           {{ $t('label.patient_recap') }} <span>{{ fullName }} {{ this.$moment().format('DD MMMM YYYY HH:mm') }} WIB</span>
         </div>
@@ -16,11 +15,12 @@
         <div class="title ml-4">
           <v-row>
             <v-col>
-              <range-date-picker
-                v-model="dateRange"
-                :start-label="$t('label.start_date')"
-                :end-label="$t('label.end_date')"
-                :place-holder="$t('label.input_date_filters')"
+              <input-date-picker
+                :format-date="formatDate"
+                :label="$t('label.input_date_filters')"
+                :date-value="listQuery.min_date"
+                :value-date.sync="listQuery.min_date"
+                @changeDate="listQuery.min_date = $event"
               />
             </v-col>
             <v-col>
@@ -77,11 +77,8 @@ export default {
   name: 'DailyReport',
   data() {
     return {
+      formatDate: 'YYYY-MM-DD',
       loading: false,
-      dateRange: {
-        start: '',
-        end: ''
-      },
       headers: [
         { text: 'KOTA/KAB', value: 'kotkabkec' },
         { text: 'OTG PROSES', value: 'otg_proses' },
@@ -98,7 +95,7 @@ export default {
       listQuery: {
         limit: 100,
         min_date: '',
-        max_date: ''
+        filter: 'criteria'
       },
       list: []
     }
@@ -109,13 +106,11 @@ export default {
     ])
   },
   watch: {
-    'dateRange': {
+    'listQuery.min_date': {
       handler: function(value) {
-        if (Object.keys(this.dateRange.start).length > 0) {
-          this.listQuery.min_date = value.start
-          this.listQuery.max_date = value.end
+        if (value.length > 0) {
+          this.handleSearch()
         }
-        this.handleSearch()
       },
       immediate: true
     }
@@ -149,10 +144,7 @@ export default {
       this.loading = false
     },
     onReset() {
-      this.dateRange.start = ''
-      this.dateRange.end = ''
       this.listQuery.min_date = ''
-      this.listQuery.max_date = ''
       this.handleSearch()
     }
   }
