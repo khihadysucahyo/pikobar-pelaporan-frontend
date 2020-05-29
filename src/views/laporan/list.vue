@@ -430,7 +430,7 @@ export default {
     },
     async handlePrintPEForm(id, caseCode) {
       const response = await this.$store.dispatch('reports/printPEForm', id)
-      const fileName = `Laporan PE - ${caseCode}.pdf`
+      const fileName = `${this.$t('label.pe_report')} - ${caseCode}.pdf`
       FileSaver.saveAs(response, fileName)
     },
     async handleDeleteCase(item) {
