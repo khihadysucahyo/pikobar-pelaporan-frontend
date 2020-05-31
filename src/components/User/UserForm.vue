@@ -221,6 +221,8 @@ export default {
       await delete response.data['__v']
       await delete response.data['updatedAt']
       await delete response.data['createdAt']
+      await delete response.data['hash']
+      await delete response.data['salt']
       await Object.assign(this.formUser, response.data)
     }
   },
@@ -234,6 +236,7 @@ export default {
         return
       } else if (this.$refs.form.validate()) {
         if (this.isEdit) {
+          await delete this.formUser['password']
           const update = {
             id: this.idData,
             data: this.formUser
