@@ -7,7 +7,7 @@ const dailyReportRouter = {
   meta: {
     title: 'daily_report',
     icon: 'mdi-calendar-blank',
-    roles: ['superadmin', 'dinkesprov', 'dinkeskota', 'faskes']
+    roles: ['superadmin', 'dinkesprov', 'dinkeskota']
   },
   active: false,
   children: [
