@@ -80,7 +80,6 @@ export default {
       formatDate: 'YYYY-MM-DD',
       loading: false,
       headers: [
-        { text: 'KOTA/KAB', value: 'kotkabkec' },
         { text: 'OTG PROSES', value: 'otg_proses' },
         { text: 'OTG SELESAI', value: 'otg_selesai' },
         { text: 'ODP PROSES', value: 'odp_proses' },
@@ -102,6 +101,7 @@ export default {
   },
   computed: {
     ...mapGetters('user', [
+      'roles',
       'fullName'
     ])
   },
@@ -116,6 +116,11 @@ export default {
     }
   },
   async mounted() {
+    if (this.roles[0] === 'dinkeskota') {
+      this.headers.unshift({ text: 'KECAMATAN', value: 'kotkabkec' })
+    } else {
+      this.headers.unshift({ text: 'KOTA/KAB', value: 'kotkabkec' })
+    }
     this.handleSearch()
   },
   methods: {
