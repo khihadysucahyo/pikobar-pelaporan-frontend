@@ -224,6 +224,9 @@
                           <v-list-item @click="handleEditHistoryCase(item._id)">
                             {{ $t('label.update_history') }}
                           </v-list-item>
+                          <v-list-item @click="handlePrintPEForm(item._id, item.id_case)">
+                            {{ $t('label.print_pe_form') }}
+                          </v-list-item>
                           <v-list-item
                             v-if="rolesWidget['dinkeskota'].includes(roles[0])"
                             @click="handleDeleteCase(item)"
@@ -424,6 +427,11 @@ export default {
     },
     async handleEditHistoryCase(id) {
       await this.$router.push(`/laporan/edit-history-case/${id}`)
+    },
+    async handlePrintPEForm(id, caseCode) {
+      const response = await this.$store.dispatch('reports/printPEForm', id)
+      const fileName = `${this.$t('label.pe_report')} - ${caseCode}.pdf`
+      FileSaver.saveAs(response, fileName)
     },
     async handleDeleteCase(item) {
       this.dialog = true

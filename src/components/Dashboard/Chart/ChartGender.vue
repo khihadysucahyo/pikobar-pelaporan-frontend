@@ -7,11 +7,19 @@
       class="chart mx-auto"
       outlined
     >
-      <v-card-title class="title ml-0 black--text">
+      <v-card-title class="title ml-0 mb-3 black--text">
         {{ $t("label.gender") }}
       </v-card-title>
       <v-card-subtitle>
-        {{ $t('label.positive') }} {{ $t('label.active') }}
+        <v-col
+          cols="auto"
+          class="pa-0"
+        >
+          <select-status
+            :selected-status="selectedStatus"
+            :on-select-status="onSelectStatus"
+          />
+        </v-col>
       </v-card-subtitle>
       <v-divider class="mt-0 mb-2" />
       <v-card-text>
@@ -35,17 +43,14 @@ export default {
       type: Number,
       default: 300
     },
-    loading: {
-      type: Boolean,
-      default: true
-    },
-    dataGender: {
+    listQuery: {
       type: Object,
       default: null
     }
   },
   data() {
     return {
+      loading: false,
       loaded: false,
       chartData: {
         labels: [this.$t('label.female'), this.$t('label.male')],
@@ -100,7 +105,9 @@ export default {
           animateScale: true,
           animateRotate: true
         }
-      }
+      },
+      params: null,
+      selectedStatus: 'POSITIF-0'
     }
   },
   computed: {
@@ -112,13 +119,10 @@ export default {
     }
   },
   watch: {
-    dataGender: {
+    listQuery: {
       handler(value) {
-        const array = []
-        array.push(value.female)
-        array.push(value.male)
-
-        this.chartData.datasets[0].data = array
+        this.params = value
+        this.getStatisticAge()
       },
       deep: true
     },
@@ -128,17 +132,33 @@ export default {
   },
   mounted() {
     this.loaded = true
+    this.params = this.listQuery
+    this.getStatisticAge()
+  },
+  methods: {
+    async getStatisticAge() {
+      this.params.status_patient = (this.selectedStatus === 'POSITIF-0') ? null : this.selectedStatus
 
-    const array = []
-    array.push(this.dataGender.female)
-    array.push(this.dataGender.male)
+      this.loading = true
+      const res = await this.$store.dispatch('statistic/countAgeGender', this.params)
 
-    this.chartData.datasets[0].data = array
+      if (res) this.loading = false
+
+      const array = []
+      array.push(res.data.chart_by_gender.P)
+      array.push(res.data.chart_by_gender.L)
+
+      this.chartData.datasets[0].data = array
+    },
+    async onSelectStatus(value) {
+      this.selectedStatus = value
+      this.getStatisticAge()
+    }
   }
 }
 </script>
 
-<style scoped>
+<style>
 .chart .title {
   text-transform: none;
 }

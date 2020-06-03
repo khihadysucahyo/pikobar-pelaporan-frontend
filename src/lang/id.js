@@ -424,7 +424,9 @@ export default {
     fifty_fifty_nine_year: '50 - 59 th',
     sixty_sixty_nine_year: '60 - 69 th',
     seventy_seventy_nine_year: '70 - 79 th',
-    more_eighty_year: '> 80 th'
+    more_eighty_year: '> 80 th',
+    print_pe_form: 'Cetak Laporan PE',
+    pe_report: 'Laporan PE'
   },
   success: {
     login_success: 'Login Berhasil',
