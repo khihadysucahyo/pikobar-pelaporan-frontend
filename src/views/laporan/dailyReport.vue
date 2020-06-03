@@ -1,80 +1,147 @@
 <template>
-  <v-card
-    outlined
-  >
-    <v-row align="center" justify="space-between">
-      <v-col>
-        <div class="title ml-4">
-          {{ $t('label.patient_recap') }} <span>{{ fullName }} {{ this.$moment().format('DD MMMM YYYY HH:mm') }} WIB</span>
-        </div>
-      </v-col>
-    </v-row>
-    <hr class="table-divider">
-    <v-row align="center" justify="space-between">
-      <v-col>
-        <div class="title ml-4">
-          <v-row>
-            <v-col>
-              <input-date-picker
-                :format-date="formatDate"
-                :label="$t('label.input_date_filters')"
-                :date-value="listQuery.min_date"
-                :value-date.sync="listQuery.min_date"
-                @changeDate="listQuery.min_date = $event"
-              />
-            </v-col>
-            <v-col>
-              <v-btn
-                color="#4f4f4f"
-                class="ml-5 btn-reset"
-                @click="onReset"
-              >
-                {{ $t('label.reset') }}
-              </v-btn>
-            </v-col>
-          </v-row>
-        </div>
-      </v-col>
-      <v-col cols="12" sm="6" class="align-right">
-        <v-btn
-          class="mr-5"
-          style="float: right;"
-          color="#b3e2cd"
-          :loading="loading"
-          @click="handleVisualReport"
+  <div>
+    <v-card
+      outlined
+    >
+      <v-row align="center" justify="space-between">
+        <v-col>
+          <div class="title ml-4">
+            {{ $t('label.patient_recap') }} <span>{{ fullName }} {{ this.$moment().format('DD MMMM YYYY HH:mm') }} WIB</span>
+          </div>
+        </v-col>
+      </v-row>
+      <hr class="table-divider">
+      <v-row align="center" justify="space-between">
+        <v-col>
+          <div class="title ml-4">
+            <v-row>
+              <v-col>
+                <input-date-picker
+                  :format-date="formatDate"
+                  :label="$t('label.input_date_filters')"
+                  :date-value="listQuery.min_date"
+                  :value-date.sync="listQuery.min_date"
+                  @changeDate="listQuery.min_date = $event"
+                />
+              </v-col>
+              <v-col>
+                <v-btn
+                  color="#4f4f4f"
+                  class="ml-5 btn-reset"
+                  @click="onReset"
+                >
+                  {{ $t('label.reset') }}
+                </v-btn>
+              </v-col>
+            </v-row>
+          </div>
+        </v-col>
+        <v-col cols="12" sm="6" class="align-right">
+          <v-btn
+            class="mr-5"
+            style="float: right;"
+            color="#b3e2cd"
+            :loading="loading"
+            @click="handleVisualReport"
+          >
+            <v-icon left>mdi-upload</v-icon>
+            {{ $t('label.export_png') }}
+          </v-btn>
+          <v-btn
+            class="mr-5"
+            style="float: right;"
+            color="#b3e2cd"
+            :loading="loading"
+            @click="handleExport"
+          >
+            <v-icon left>mdi-upload</v-icon>
+            {{ $t('label.export_xls') }}
+          </v-btn>
+        </v-col>
+      </v-row>
+      <div ref="printMe">
+        <daily-report-table
+          :list="list"
+          :table-headers="headers"
+          :list-query="listQuery"
+        />
+      </div>
+    </v-card>
+    <v-container>
+      <v-row>
+        <v-col
+          auto
         >
-          <v-icon left>mdi-upload</v-icon>
-          {{ $t('label.export_png') }}
-        </v-btn>
-        <v-btn
-          class="mr-5"
-          style="float: right;"
-          color="#b3e2cd"
-          :loading="loading"
-          @click="handleExport"
+          <card-repot-daily
+            :title="'Distribusi Total OTG'"
+            :total="listTotal.otg_total"
+            :process="listTotal.otg_proses"
+            :done="listTotal.otg_selesai"
+            :gender="listTotal.otg_by_gender"
+            :nationality-wna="listTotal.wna_total"
+            :nationality-wni="listTotal.wni_total"
+            :age="listTotal.otg_by_usia"
+          />
+        </v-col>
+        <v-col
+          auto
         >
-          <v-icon left>mdi-upload</v-icon>
-          {{ $t('label.export_xls') }}
-        </v-btn>
-      </v-col>
-    </v-row>
-    <div ref="printMe">
-      <daily-report-table
-        :list="list"
-        :table-headers="headers"
-        :list-query="listQuery"
-      />
-    </div>
-  </v-card>
+          <card-repot-daily
+            :title="'Distribusi Total ODP'"
+            :active-color="'#2D9CDB'"
+            :total="listTotal.odp_total"
+            :process="listTotal.odp_proses"
+            :done="listTotal.odp_selesai"
+            :gender="listTotal.odp_by_gender"
+            :nationality-wna="listTotal.wna_total"
+            :nationality-wni="listTotal.wni_total"
+            :age="listTotal.odp_by_usia"
+          />
+        </v-col>
+        <v-col
+          auto
+        >
+          <card-repot-daily
+            :title="'Distribusi Total PDP'"
+            :active-color="'#F2C94C'"
+            :total="listTotal.pdp_total"
+            :process="listTotal.pdp_proses"
+            :done="listTotal.pdp_selesai"
+            :gender="listTotal.pdp_by_gender"
+            :nationality-wna="listTotal.wna_total"
+            :nationality-wni="listTotal.wni_total"
+            :age="listTotal.pdp_by_usia"
+          />
+        </v-col>
+        <v-col
+          auto
+        >
+          <card-repot-daily
+            :title="'Distribusi Total Positif'"
+            :active-color="'#EB5757'"
+            :total="listTotal.positif_aktif_total"
+            :process="listTotal.positif_aktif_proses"
+            :done="listTotal.positif_aktif_selesai"
+            :gender="listTotal.positif_aktif_by_gender"
+            :nationality-wna="listTotal.wna_total"
+            :nationality-wni="listTotal.wni_total"
+            :age="listTotal.positif_aktif_by_usia"
+          />
+        </v-col>
+      </v-row>
+    </v-container>
+  </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 import FileSaver from 'file-saver'
 import { formatDatetime } from '@/utils/parseDatetime'
+import CardRepotDaily from '../../components/Pelaporan/CardRepotDaily'
 
 export default {
   name: 'DailyReport',
+  components: { CardRepotDaily },
   data() {
     return {
       formatDate: 'YYYY-MM-DD',
@@ -94,9 +161,10 @@ export default {
       listQuery: {
         limit: 100,
         min_date: '',
-        filter: 'criteria'
+        filter: ''
       },
-      list: []
+      list: [],
+      listTotal: ''
     }
   },
   computed: {
@@ -127,6 +195,8 @@ export default {
     async handleSearch() {
       const response = await this.$store.dispatch('statistic/agregateCriteria', this.listQuery)
       this.list = response.data.summary
+      this.listTotal = response.data.total
+      console.log(this.listTotal)
     },
     async handleExport() {
       this.loading = true
