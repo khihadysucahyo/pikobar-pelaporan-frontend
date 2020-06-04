@@ -88,7 +88,7 @@ export default {
   },
   computed: {
     maxWidthDialog() {
-      return this.$vuetify.breakpoint.xlAndUp ? '20%' : '30%'
+      return this.$vuetify.breakpoint.xl ? '20%' : '30%'
     }
   },
   watch: {
