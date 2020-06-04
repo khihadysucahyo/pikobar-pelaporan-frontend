@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="show" max-width="20%">
+  <v-dialog v-model="show" :max-width="maxWidthDialog">
     <v-card class="pa-7">
       <v-row class="mx-0 mb-6" justify="center">
         <img src="../../static/confirmation-logo.svg">
@@ -84,6 +84,11 @@ export default {
     return {
       show: false,
       query: null
+    }
+  },
+  computed: {
+    maxWidthDialog() {
+      return this.$vuetify.breakpoint.xlAndUp ? '20%' : '30%'
     }
   },
   watch: {

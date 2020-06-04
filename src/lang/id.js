@@ -426,7 +426,11 @@ export default {
     seventy_seventy_nine_year: '70 - 79 th',
     more_eighty_year: '> 80 th',
     print_pe_form: 'Cetak Laporan PE',
-    pe_report: 'Laporan PE'
+    pe_report: 'Laporan PE',
+    indonesia: 'Indonesia',
+    other_illness_history: 'Riwayat Lainnya',
+    other_additional_condition: 'Kondisi Penyerta Lainnya',
+    other_symptoms: 'Gejala Lainnya'
   },
   success: {
     login_success: 'Login Berhasil',
