@@ -21,18 +21,18 @@ const distributionCaseRouter = {
         noCache: true,
         roles: ['superadmin', 'dinkesprov', 'dinkeskota']
       }
+    },
+    {
+      path: '/distribution-case/network',
+      component: () => import('@/views/distributionCase/network'),
+      meta: {
+        title: 'distribution_case_network',
+        icon: 'location_on',
+        child: true,
+        noCache: true,
+        roles: ['superadmin', 'dinkesprov', 'dinkeskota']
+      }
     }
-    // {
-    //   path: '/distribution-case/network',
-    //   component: () => import('@/views/distributionCase/network'),
-    //   meta: {
-    //     title: 'distribution_case_network',
-    //     icon: 'location_on',
-    //     child: true,
-    //     noCache: true,
-    //     roles: ['superadmin', 'dinkesprov', 'dinkeskota']
-    //   }
-    // }
   ]
 }
 

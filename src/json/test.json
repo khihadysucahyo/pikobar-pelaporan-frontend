@@ -1,61 +1,76 @@
 {
-  "nodes": [
-    {
+  "nodes": [{
       "id": "Kasus 1123",
-      "group": "Person",
-      "image": "https://co.vid19.sg/assets/icons/adult_female_in_hospital_imported_case-15e62c9b9faa5ca74dedf70bc17c2628ad9796e7e31aa66ac6838f4f4b8fd670.png"
+      "shape": "image",
+      "x": 1,
+      "y": -1
     },
     {
       "id": "Kasus 2",
-      "group": "Person",
-      "image": "https://co.vid19.sg/assets/icons/baby_male_in_hospital_imported_case-24b3ed9f8a0a858627e44c6980f5f5b4f85558727ca67b0e705019f49f32c5ce.png"
+      "shape": "image",
+      "x": 2,
+      "y": -2
     },
     {
       "id": "Kasus 3",
-      "group": "Person",
-      "image": "https://co.vid19.sg/assets/icons/baby_male_in_hospital_imported_case-24b3ed9f8a0a858627e44c6980f5f5b4f85558727ca67b0e705019f49f32c5ce.png"
+      "shape": "image",
+      "x": 3,
+      "y": -3
     },
     {
       "id": "Kasus 5",
-      "group": "Person",
-      "image": "https://co.vid19.sg/assets/icons/baby_male_in_hospital_imported_case-24b3ed9f8a0a858627e44c6980f5f5b4f85558727ca67b0e705019f49f32c5ce.png"
+      "shape": "image",
+      "x": 4,
+      "y": -4
+    },
+    {
+      "id": "Kasus 1",
+      "shape": "image",
+      "x": 5,
+      "y": -5
+    },
+    {
+      "id": "Kasus 4",
+      "shape": "image",
+      "x": 6,
+      "y": -6
     },
     {
       "id": "BEC",
-      "group": "Cluster",
-      "radius": 2,
-      "citing_patents_count": 2,
-      "image": "http://www.viralnovelty.net/wp-content/uploads/2014/07/121.jpg"
+      "shape": "photo",
+      "x": 7,
+      "y": -7
     }
   ],
-  "links": [
-    {
+  "edges": [{
       "source": "BEC",
       "target": "Kasus 1123",
       "label": "",
-      "dashes": false,
-      "value": 2
+      "dashes": false
     },
     {
       "source": "BEC",
       "target": "Kasus 2",
       "label": "",
-      "dashes": false,
-      "value": 2
+      "dashes": false
     },
     {
       "source": "Kasus 2",
       "target": "Kasus 3",
       "label": "Contact",
-      "dashes": true,
-      "value": 2
+      "dashes": true
     },
     {
       "source": "Kasus 1123",
       "target": "Kasus 5",
       "label": "Family",
-      "dashes": true,
-      "value": 2
+      "dashes": true
+    },
+    {
+      "source": "Kasus 1",
+      "target": "Kasus 4",
+      "label": "Family",
+      "dashes": true
     }
   ]
 }
