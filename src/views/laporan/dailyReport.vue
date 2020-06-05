@@ -80,8 +80,7 @@
             :process="listTotal.otg_proses"
             :done="listTotal.otg_selesai"
             :gender="listTotal.otg_by_gender"
-            :nationality-wna="listTotal.wna_total"
-            :nationality-wni="listTotal.wni_total"
+            :nationality="listTotal.otg_by_nationality"
             :age="listTotal.otg_by_usia"
           />
         </v-col>
@@ -95,8 +94,7 @@
             :process="listTotal.odp_proses"
             :done="listTotal.odp_selesai"
             :gender="listTotal.odp_by_gender"
-            :nationality-wna="listTotal.wna_total"
-            :nationality-wni="listTotal.wni_total"
+            :nationality="listTotal.odp_by_nationality"
             :age="listTotal.odp_by_usia"
           />
         </v-col>
@@ -110,8 +108,7 @@
             :process="listTotal.pdp_proses"
             :done="listTotal.pdp_selesai"
             :gender="listTotal.pdp_by_gender"
-            :nationality-wna="listTotal.wna_total"
-            :nationality-wni="listTotal.wni_total"
+            :nationality="listTotal.pdp_by_nationality"
             :age="listTotal.pdp_by_usia"
           />
         </v-col>
@@ -125,8 +122,7 @@
             :process="listTotal.positif_aktif_proses"
             :done="listTotal.positif_aktif_selesai"
             :gender="listTotal.positif_aktif_by_gender"
-            :nationality-wna="listTotal.wna_total"
-            :nationality-wni="listTotal.wni_total"
+            :nationality="listTotal.positif_aktif_by_nationality"
             :age="listTotal.positif_aktif_by_usia"
           />
         </v-col>
@@ -149,16 +145,16 @@ export default {
       formatDate: 'YYYY-MM-DD',
       loading: false,
       headers: [
-        { text: 'OTG PROSES', value: 'otg_proses' },
-        { text: 'OTG SELESAI', value: 'otg_selesai' },
-        { text: 'ODP PROSES', value: 'odp_proses' },
-        { text: 'ODP SELESAI', value: 'odp_selesai' },
-        { text: 'PDP PROSES', value: 'pdp_proses' },
-        { text: 'PDP SELESAI', value: 'pdp_selesai' },
-        { text: 'POSITIF PROSES', value: 'positif_aktif_proses' },
-        { text: 'POSITIF SEMBUH', value: 'positif_sembuh_selesai' },
-        { text: 'POSITIF MENINGGAL', value: 'positif_meninggal_selesai' },
-        { text: 'GRAND TOTAL', value: 'grand_total' }
+        { text: this.$t('label.otg_procces').toUpperCase(), value: 'otg_proses' },
+        { text: this.$t('label.otg_done').toUpperCase(), value: 'otg_selesai' },
+        { text: this.$t('label.odp_procces').toUpperCase(), value: 'odp_proses' },
+        { text: this.$t('label.odp_done').toUpperCase(), value: 'odp_selesai' },
+        { text: this.$t('label.pdp_procces').toUpperCase(), value: 'pdp_proses' },
+        { text: this.$t('label.pdp_done').toUpperCase(), value: 'pdp_selesai' },
+        { text: this.$t('label.positif_procces').toUpperCase(), value: 'positif_aktif_proses' },
+        { text: this.$t('label.positif_done').toUpperCase(), value: 'positif_sembuh_selesai' },
+        { text: this.$t('label.positif_dead').toUpperCase(), value: 'positif_meninggal_selesai' },
+        { text: this.$t('label.grand_total').toUpperCase(), value: 'grand_total' }
       ],
       listQuery: {
         limit: 100,
@@ -187,9 +183,9 @@ export default {
   },
   async mounted() {
     if (this.roles[0] === 'dinkeskota') {
-      this.headers.unshift({ text: 'KECAMATAN', value: 'kotkabkec' })
+      this.headers.unshift({ text: this.$t('label.subdistrict').toUpperCase(), value: 'kotkabkec' })
     } else {
-      this.headers.unshift({ text: 'KOTA/KAB', value: 'kotkabkec' })
+      this.headers.unshift({ text: this.$t('label.select_district').toUpperCase(), value: 'kotkabkec' })
     }
     this.handleSearch()
   },
