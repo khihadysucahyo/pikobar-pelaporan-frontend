@@ -94,13 +94,13 @@
       <v-list-item-title class="title-font-size">
         {{ $t('label.wni') }}:
       </v-list-item-title>
-      <v-list-item-subtitle class="text-right title-font-size">{{ nationalityWni }}</v-list-item-subtitle>
+      <v-list-item-subtitle class="text-right title-font-size">{{ nationality.wni }}</v-list-item-subtitle>
     </v-list-item>
     <v-list-item>
       <v-list-item-title class="title-font-size">
         {{ $t('label.wna') }}:
       </v-list-item-title>
-      <v-list-item-subtitle class="text-right title-font-size">{{ nationalityWna }}</v-list-item-subtitle>
+      <v-list-item-subtitle class="text-right title-font-size">{{ nationality.wna }}</v-list-item-subtitle>
     </v-list-item>
     <v-divider class="ma-4" />
     <v-list-item>
@@ -206,13 +206,11 @@ export default {
         return {}
       }
     },
-    nationalityWni: {
-      type: Number,
-      default: 0
-    },
-    nationalityWna: {
-      type: Number,
-      default: 0
+    nationality: {
+      type: Object,
+      default: function() {
+        return {}
+      }
     },
     age: {
       type: Object,
