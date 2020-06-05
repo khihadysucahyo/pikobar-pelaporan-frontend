@@ -165,7 +165,7 @@ export default {
     city_visited: 'Kota Yang Dikunjungi',
     contact_with_positive_patients: 'Kontak Dengan Pasien Positif',
     enter_other_history_applicable: 'Masukkan Riwayat Lainnya Jika Ada',
-    date_symptoms: 'Tanggal Gejala',
+    date_symptoms: 'Tanggal Muncul Gejala',
     symptoms: 'Gejala',
     mention_other_symptoms: 'Sebutkan gelaja lainnya (jika ada)',
     total_case_data: 'Total data Kasus',
@@ -439,7 +439,15 @@ export default {
     positif_procces: 'positif proses',
     positif_done: 'positif selesai',
     positif_dead: 'positif meninggal',
-    grand_total: 'grand total'
+    grand_total: 'grand total',
+    house_address: 'Alamat Rumah',
+    complete_house_address: 'Alamat Rumah Lengkap',
+    indonesia: 'Indonesia',
+    other_illness_history: 'Riwayat Lainnya',
+    other_additional_condition: 'Kondisi Penyerta Lainnya',
+    other_symptoms: 'Gejala Lainnya',
+    case_status: 'Status Kasus',
+    history_and_symptoms: 'Riwayat & Gejala'
   },
   success: {
     login_success: 'Login Berhasil',

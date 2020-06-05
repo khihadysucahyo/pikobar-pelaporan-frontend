@@ -8,14 +8,32 @@
         <v-row>
           <v-col
             cols="12"
-            md="6"
+            md="3"
             sm="12"
+            :class="{'py-0': $vuetify.breakpoint. smAndDown}"
+          >
+            <v-icon class="rotate" color="#27AE60" left>mdi-color-helper</v-icon><label class="capitalize">{{ $t('label.identity') }}</label>
+          </v-col>
+        </v-row>
+        <v-row align="start">
+          <v-col
+            cols="12"
+            md="3"
+            sm="12"
+            :class="{'py-0': $vuetify.breakpoint. smAndDown}"
+          >
+            <label>{{ $t('label.nik') }}</label>
+          </v-col>
+          <v-col
+            cols="12"
+            md="9"
+            sm="12"
+            :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
           >
             <ValidationProvider
               v-slot="{ errors }"
               rules="isHtml|sixteenDigits|numeric"
             >
-              <label>{{ $t('label.nik') }}</label>
               <v-text-field
                 v-model="formPasien.nik"
                 type="number"
@@ -23,115 +41,76 @@
                 solo-inverted
               />
             </ValidationProvider>
-            <ValidationProvider
-              v-slot="{ errors }"
-            >
-              <v-label>{{ $t('label.related_case_name') }}</v-label>
-              <v-autocomplete
-                :no-data-text="$t('label.no_data_autocomplete_related_case')"
-                :error-messages="errors"
-                :items="listNameCases"
-                :search-input.sync="searchRelatedCase"
-                item-text="relateds"
-                solo-inverted
-                clearable
-                return-object
-                @change="handleChangeRelatedCase"
-                @click:clear="clearListNameCases"
-              />
-            </ValidationProvider>
-            <ValidationProvider
-              v-slot="{ errors }"
-            >
-              <v-label>{{ $t('label.center_case_id') }}</v-label>
-              <v-text-field
-                v-model="formPasien.id_case_national"
-                :error-messages="errors"
-                solo-inverted
-              />
-            </ValidationProvider>
-            <ValidationProvider>
-              <v-label>{{ $t('label.profession') }}</v-label>
-              <v-select
-                v-model="formPasien.occupation"
-                :items="occupationList"
-                item-value="title"
-                item-text="title"
-                menu-props="auto"
-                solo
-              />
-            </ValidationProvider>
-            <ValidationProvider>
-              <v-label>{{ $t('label.office_address') }}</v-label>
-              <v-textarea
-                v-model="formPasien.office_address"
-                solo
-              />
-            </ValidationProvider>
-            <ValidationProvider
-              v-slot="{ errors }"
-              rules="required"
-            >
-              <label class="required">{{ $t('label.citizenship') }}</label>
-              <v-radio-group
-                v-model="formPasien.nationality"
-                :error-messages="errors"
-                row
-                @change="handleChangeNationality"
-              >
-                <v-radio
-                  :label="$t('label.wni')"
-                  value="WNI"
-                />
-                <v-radio
-                  :label="$t('label.wna')"
-                  value="WNA"
-                />
-              </v-radio-group>
-            </ValidationProvider>
-            <ValidationProvider
-              v-if="formPasien.nationality === 'WNA'"
-              v-slot="{ errors }"
-            >
-              <v-autocomplete
-                v-model="formPasien.nationality_name"
-                :items="listCountry"
-                item-text="name"
-                item-value="name"
-                :error-messages="errors"
-                :placeholder="$t('label.country_origin')"
-                clearable
-                solo-inverted
-              />
-            </ValidationProvider>
+          </v-col>
+        </v-row>
+        <v-row align="start">
+          <v-col
+            cols="12"
+            md="3"
+            sm="12"
+            :class="{'py-0': $vuetify.breakpoint. smAndDown}"
+          >
+            <label class="required">{{ $t('label.name_case') }}</label>
           </v-col>
           <v-col
             cols="12"
-            md="6"
+            md="9"
             sm="12"
+            :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
           >
             <ValidationProvider
               v-slot="{ errors }"
               rules="required|isHtml"
             >
-              <label class="required">{{ $t('label.name_case') }}</label>
               <v-text-field
                 v-model="formPasien.name"
                 :error-messages="errors"
                 solo-inverted
               />
             </ValidationProvider>
+          </v-col>
+        </v-row>
+        <v-row align="start">
+          <v-col
+            cols="12"
+            md="3"
+            sm="12"
+            :class="{'py-0': $vuetify.breakpoint. smAndDown}"
+          >
             <label>{{ $t('label.birth_date') }}</label>
+          </v-col>
+          <v-col
+            cols="12"
+            md="9"
+            sm="12"
+            :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
+          >
             <select-datetime
               :datetime="formPasien.birth_date"
               :date-time.sync="formPasien.birth_date"
               :formate-date="formatDate"
             />
+          </v-col>
+        </v-row>
+        <v-row align="start">
+          <v-col
+            cols="12"
+            md="3"
+            sm="12"
+            :class="{'py-0': $vuetify.breakpoint. smAndDown}"
+          >
+            <label class="required">{{ $t('label.age') }}</label>
+          </v-col>
+          <v-col
+            cols="12"
+            md="9"
+            sm="12"
+            :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
+          >
             <ValidationProvider
               v-slot="{ errors }"
               rules="required|numeric|isHtml"
             >
-              <label class="required">{{ $t('label.age') }}</label>
               <v-text-field
                 v-model="formPasien.age"
                 :error-messages="errors"
@@ -142,11 +121,27 @@
                 oninput="if(Number(this.value) > Number(this.max)) this.value = this.max;"
               />
             </ValidationProvider>
+          </v-col>
+        </v-row>
+        <v-row align="center">
+          <v-col
+            cols="12"
+            md="3"
+            sm="12"
+            :class="{'py-0': $vuetify.breakpoint. smAndDown}"
+          >
+            <label class="required">{{ $t('label.gender') }}</label>
+          </v-col>
+          <v-col
+            cols="12"
+            md="9"
+            sm="12"
+            :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
+          >
             <ValidationProvider
               v-slot="{ errors }"
               rules="required"
             >
-              <label class="required">{{ $t('label.gender') }}</label>
               <v-radio-group
                 v-model="formPasien.gender"
                 :error-messages="errors"
@@ -162,7 +157,52 @@
                 />
               </v-radio-group>
             </ValidationProvider>
+          </v-col>
+        </v-row>
+        <v-row align="start">
+          <v-col
+            cols="12"
+            md="3"
+            sm="12"
+            :class="{'py-0': $vuetify.breakpoint. smAndDown}"
+          >
+            <label>{{ $t('label.phone_number') }}</label>
+          </v-col>
+          <v-col
+            cols="12"
+            md="9"
+            sm="12"
+            :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
+          >
+            <ValidationProvider
+              v-slot="{ errors }"
+              rules="isPhoneNumber"
+            >
+              <v-text-field
+                v-model="formPasien.phone_number"
+                :error-messages="errors"
+                placeholder="08xxxxxxxxx"
+                solo-inverted
+                type="number"
+              />
+            </ValidationProvider>
+          </v-col>
+        </v-row>
+        <v-row align="start">
+          <v-col
+            cols="12"
+            md="3"
+            sm="12"
+            :class="{'py-0': $vuetify.breakpoint. smAndDown}"
+          >
             <label class="required">{{ $t('label.address_home') }}</label>
+          </v-col>
+          <v-col
+            cols="12"
+            md="9"
+            sm="12"
+            :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
+          >
             <address-region
               v-if="formPasien.address_district_name"
               :district-code="formPasien.address_district_code"
@@ -180,42 +220,241 @@
               :disabled-address="false"
               :required-address="true"
             />
+          </v-col>
+        </v-row>
+        <v-row align="start">
+          <v-col
+            cols="12"
+            md="3"
+            sm="12"
+            :class="{'py-0': $vuetify.breakpoint. smAndDown}"
+          >
+            <label>{{ $t('label.address_complete_home') }}</label>
+          </v-col>
+          <v-col
+            cols="12"
+            md="9"
+            sm="12"
+            :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
+          >
             <ValidationProvider>
-              <v-label>{{ $t('label.address_complete_home') }}</v-label>
               <v-textarea
                 v-model="formPasien.address_street"
                 solo
               />
             </ValidationProvider>
+          </v-col>
+        </v-row>
+        <v-row align="center">
+          <v-col
+            cols="12"
+            md="3"
+            sm="12"
+            :class="{'py-0': $vuetify.breakpoint. smAndDown}"
+          >
+            <label class="required">{{ $t('label.citizenship') }}</label>
+          </v-col>
+          <v-col
+            cols="12"
+            md="9"
+            sm="12"
+            :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
+          >
             <ValidationProvider
               v-slot="{ errors }"
-              rules="isPhoneNumber"
+              rules="required"
             >
-              <label>{{ $t('label.phone_number') }}n</label>
-              <v-text-field
-                v-model="formPasien.phone_number"
+              <v-radio-group
+                v-model="formPasien.nationality"
                 :error-messages="errors"
-                placeholder="08xxxxxxxxx"
+                row
+                @change="handleChangeNationality"
+              >
+                <v-radio
+                  :label="$t('label.wni')"
+                  value="WNI"
+                />
+                <v-radio
+                  :label="$t('label.wna')"
+                  value="WNA"
+                />
+              </v-radio-group>
+            </ValidationProvider>
+          </v-col>
+        </v-row>
+        <v-row v-if="formPasien.nationality === 'WNA'" align="start">
+          <v-col
+            cols="12"
+            md="3"
+            sm="12"
+            :class="{'py-0': $vuetify.breakpoint. smAndDown}"
+          >
+            <label>{{ $t('label.country_origin') }}</label>
+          </v-col>
+          <v-col
+            cols="12"
+            md="9"
+            sm="12"
+            :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
+          >
+            <ValidationProvider
+              v-slot="{ errors }"
+            >
+              <v-autocomplete
+                v-model="formPasien.nationality_name"
+                :items="listCountry"
+                item-text="name"
+                item-value="name"
+                :error-messages="errors"
+                :placeholder="$t('label.country_origin')"
+                clearable
                 solo-inverted
-                type="number"
               />
             </ValidationProvider>
           </v-col>
         </v-row>
-        <v-container fluid>
-          <v-row class="survey-bottom-form">
-            <v-col>
-              <v-btn
-                color="success"
-                bottom
-                style="float: right;"
-                @click="onNext"
-              >
-                {{ $t('label.continue') }}
-              </v-btn>
-            </v-col>
-          </v-row>
-        </v-container>
+        <hr>
+        <v-row>
+          <v-col
+            cols="12"
+            md="3"
+            sm="12"
+            :class="{'py-0': $vuetify.breakpoint. smAndDown}"
+          >
+            <v-icon class="rotate" color="#27AE60" left>mdi-color-helper</v-icon><label class="capitalize">{{ $t('label.case_id') }}</label>
+          </v-col>
+        </v-row>
+        <v-row align="start">
+          <v-col
+            cols="12"
+            md="3"
+            sm="12"
+            :class="{'py-0': $vuetify.breakpoint. smAndDown}"
+          >
+            <label>{{ $t('label.center_case_id') }}</label>
+          </v-col>
+          <v-col
+            cols="12"
+            md="9"
+            sm="12"
+            :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
+          >
+            <ValidationProvider
+              v-slot="{ errors }"
+            >
+              <v-text-field
+                v-model="formPasien.id_case_national"
+                :error-messages="errors"
+                solo-inverted
+              />
+            </ValidationProvider>
+          </v-col>
+        </v-row>
+        <v-row align="start">
+          <v-col
+            cols="12"
+            md="3"
+            sm="12"
+            :class="{'py-0': $vuetify.breakpoint. smAndDown}"
+          >
+            <label>{{ $t('label.related_case_name') }}</label>
+          </v-col>
+          <v-col
+            cols="12"
+            md="9"
+            sm="12"
+            :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
+          >
+            <ValidationProvider
+              v-slot="{ errors }"
+            >
+              <v-autocomplete
+                :no-data-text="$t('label.no_data_autocomplete_related_case')"
+                :error-messages="errors"
+                :items="listNameCases"
+                :search-input.sync="searchRelatedCase"
+                item-text="relateds"
+                solo-inverted
+                clearable
+                return-object
+                @change="handleChangeRelatedCase"
+                @click:clear="clearListNameCases"
+              />
+            </ValidationProvider>
+          </v-col>
+        </v-row>
+        <hr>
+        <v-row>
+          <v-col
+            cols="12"
+            md="3"
+            sm="12"
+            :class="{'py-0': $vuetify.breakpoint. smAndDown}"
+          >
+            <v-icon class="rotate" color="#27AE60" left>mdi-color-helper</v-icon><label class="capitalize">{{ $t('label.profession') }}</label>
+          </v-col>
+        </v-row>
+        <v-row align="start">
+          <v-col
+            cols="12"
+            md="3"
+            sm="12"
+            :class="{'py-0': $vuetify.breakpoint. smAndDown}"
+          >
+            <label>{{ $t('label.profession') }}</label>
+          </v-col>
+          <v-col
+            cols="12"
+            md="9"
+            sm="12"
+            :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
+          >
+            <ValidationProvider>
+              <v-select
+                v-model="formPasien.occupation"
+                :items="occupationList"
+                item-value="title"
+                item-text="title"
+                menu-props="auto"
+                solo
+              />
+            </ValidationProvider>
+          </v-col>
+        </v-row>
+        <v-row align="start">
+          <v-col
+            cols="12"
+            md="3"
+            sm="12"
+            :class="{'py-0': $vuetify.breakpoint. smAndDown}"
+          >
+            <label>{{ $t('label.office_address') }}</label>
+          </v-col>
+          <v-col
+            cols="12"
+            md="9"
+            sm="12"
+            :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
+          >
+            <ValidationProvider>
+              <v-textarea
+                v-model="formPasien.office_address"
+                solo
+              />
+            </ValidationProvider>
+          </v-col>
+        </v-row>
+        <v-row class="survey-bottom-form ma-0 pa-0">
+          <v-col cols="12" :class="{'text-right': $vuetify.breakpoint.mdAndUp}" class="ma-0 pa-0">
+            <v-btn
+              color="success"
+              bottom
+              @click="onNext"
+            >
+              {{ $t('label.continue') }}
+            </v-btn>
+          </v-col>
+        </v-row>
       </v-form>
     </ValidationObserver>
     <dialog-duplicated-nik
@@ -334,3 +573,14 @@ export default {
   }
 }
 </script>
+<style>
+.capitalize {
+  text-transform: uppercase;
+  font-family: "Product Sans";
+  font-weight: bold;
+  font-size: 16px;
+}
+.rotate {
+  rotate: 90deg;
+}
+</style>
