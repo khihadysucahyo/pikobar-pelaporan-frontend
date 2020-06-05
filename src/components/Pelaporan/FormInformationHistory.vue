@@ -5,6 +5,16 @@
         ref="form"
         lazy-validation
       >
+        <v-row>
+          <v-col
+            cols="12"
+            md="3"
+            sm="12"
+            :class="{'py-0': $vuetify.breakpoint. smAndDown}"
+          >
+            <v-icon class="rotate" color="#27AE60" left>mdi-color-helper</v-icon><label class="capitalize">{{ $t('label.case_status') }}</label>
+          </v-col>
+        </v-row>
         <v-row align="center">
           <v-col
             cols="12"
@@ -327,6 +337,17 @@
             </ValidationProvider>
           </v-col>
         </v-row>
+        <hr>
+        <v-row>
+          <v-col
+            cols="12"
+            md="3"
+            sm="12"
+            :class="{'py-0': $vuetify.breakpoint. smAndDown}"
+          >
+            <v-icon class="rotate" color="#27AE60" left>mdi-color-helper</v-icon><label class="capitalize">{{ $t('label.history_and_symptoms') }}</label>
+          </v-col>
+        </v-row>
         <v-row align="start">
           <v-col
             cols="12"
@@ -555,8 +576,8 @@
           </v-col>
         </v-row>
         <v-container fluid>
-          <v-row class="survey-bottom-form">
-            <v-col>
+          <v-row class="survey-bottom-form" justify="space-between">
+            <v-col cols="12" md="6" sm="12" :class="{'mb-2': $vuetify.breakpoint.smAndDown}" class="ma-0 pa-0">
               <v-btn
                 :loading="loading"
                 bottom
@@ -566,12 +587,11 @@
                 {{ $t('label.back') }}
               </v-btn>
             </v-col>
-            <v-col>
+            <v-col cols="12" md="6" sm="12" :class="{'text-right': $vuetify.breakpoint.mdAndUp}" class="ma-0 pa-0">
               <v-btn
                 color="success"
                 :loading="loading"
                 bottom
-                style="float: right;"
                 @click="handleSave"
               >
                 {{ $t('label.save') }}

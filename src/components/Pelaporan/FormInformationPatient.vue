@@ -444,20 +444,17 @@
             </ValidationProvider>
           </v-col>
         </v-row>
-        <v-container fluid>
-          <v-row class="survey-bottom-form">
-            <v-col>
-              <v-btn
-                color="success"
-                bottom
-                style="float: right;"
-                @click="onNext"
-              >
-                {{ $t('label.continue') }}
-              </v-btn>
-            </v-col>
-          </v-row>
-        </v-container>
+        <v-row class="survey-bottom-form ma-0 pa-0">
+          <v-col cols="12" :class="{'text-right': $vuetify.breakpoint.mdAndUp}" class="ma-0 pa-0">
+            <v-btn
+              color="success"
+              bottom
+              @click="onNext"
+            >
+              {{ $t('label.continue') }}
+            </v-btn>
+          </v-col>
+        </v-row>
       </v-form>
     </ValidationObserver>
     <dialog-duplicated-nik

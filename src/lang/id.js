@@ -432,7 +432,9 @@ export default {
     indonesia: 'Indonesia',
     other_illness_history: 'Riwayat Lainnya',
     other_additional_condition: 'Kondisi Penyerta Lainnya',
-    other_symptoms: 'Gejala Lainnya'
+    other_symptoms: 'Gejala Lainnya',
+    case_status: 'Status Kasus',
+    history_and_symptoms: 'Riwayat & Gejala'
   },
   success: {
     login_success: 'Login Berhasil',
