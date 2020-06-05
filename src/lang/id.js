@@ -163,7 +163,7 @@ export default {
     city_visited: 'Kota Yang Dikunjungi',
     contact_with_positive_patients: 'Kontak Dengan Pasien Positif',
     enter_other_history_applicable: 'Masukkan Riwayat Lainnya Jika Ada',
-    date_symptoms: 'Tanggal Gejala',
+    date_symptoms: 'Tanggal Muncul Gejala',
     symptoms: 'Gejala',
     mention_other_symptoms: 'Sebutkan gelaja lainnya (jika ada)',
     total_case_data: 'Total data Kasus',
@@ -412,7 +412,9 @@ export default {
     map_disclaimer_step_2: 'Penentuan titik lokasi hanya berdasarkan lokasi Kelurahan dan tidak menunjuk pada alamat persis masing-masing kasus.',
     understand: 'Mengerti',
     print_pe_form: 'Cetak Laporan PE',
-    pe_report: 'Laporan PE'
+    pe_report: 'Laporan PE',
+    house_address: 'Alamat Rumah',
+    complete_house_address: 'Alamat Rumah Lengkap'
   },
   success: {
     login_success: 'Login Berhasil',
