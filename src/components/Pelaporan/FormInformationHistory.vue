@@ -8,14 +8,32 @@
         <v-row>
           <v-col
             cols="12"
-            md="6"
+            md="3"
             sm="12"
+            :class="{'py-0': $vuetify.breakpoint. smAndDown}"
+          >
+            <v-icon class="rotate" color="#27AE60" left>mdi-color-helper</v-icon><label class="capitalize">{{ $t('label.case_status') }}</label>
+          </v-col>
+        </v-row>
+        <v-row align="center">
+          <v-col
+            cols="12"
+            md="3"
+            sm="12"
+            :class="{'py-0': $vuetify.breakpoint. smAndDown}"
+          >
+            <label class="required">{{ $t('label.criteria') }}</label>
+          </v-col>
+          <v-col
+            cols="12"
+            md="9"
+            sm="12"
+            :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
           >
             <ValidationProvider
               v-slot="{ errors }"
               rules="required"
             >
-              <label class="required">{{ $t('label.criteria') }}</label>
               <v-radio-group
                 v-model="formPasien.status"
                 :error-messages="errors"
@@ -39,11 +57,27 @@
                 />
               </v-radio-group>
             </ValidationProvider>
+          </v-col>
+        </v-row>
+        <v-row align="center">
+          <v-col
+            cols="12"
+            md="3"
+            sm="12"
+            :class="{'py-0': $vuetify.breakpoint. smAndDown}"
+          >
+            <label class="required">{{ $t('label.stages') }}</label>
+          </v-col>
+          <v-col
+            cols="12"
+            md="9"
+            sm="12"
+            :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
+          >
             <ValidationProvider
               v-slot="{ errors }"
               rules="required"
             >
-              <label class="required">{{ $t('label.stages') }}</label>
               <v-radio-group
                 v-model="formPasien.stage"
                 :error-messages="errors"
@@ -59,11 +93,29 @@
                 />
               </v-radio-group>
             </ValidationProvider>
+          </v-col>
+        </v-row>
+        <v-row
+          v-if="formPasien.status !== 'OTG' && formPasien.status !== 'ODP' && formPasien.stage === '1'"
+          align="center"
+        >
+          <v-col
+            cols="12"
+            md="3"
+            sm="12"
+            :class="{'py-0': $vuetify.breakpoint. smAndDown}"
+          >
+            <label>{{ $t('label.results') }}</label>
+          </v-col>
+          <v-col
+            cols="12"
+            md="9"
+            sm="12"
+            :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
+          >
             <ValidationProvider
-              v-if="formPasien.status !== 'OTG' && formPasien.status !== 'ODP' && formPasien.stage === '1'"
               v-slot="{ errors }"
             >
-              <label>{{ $t('label.results') }}</label>
               <v-radio-group
                 v-model="formPasien.final_result"
                 :error-messages="errors"
@@ -87,11 +139,27 @@
                 />
               </v-radio-group>
             </ValidationProvider>
+          </v-col>
+        </v-row>
+        <v-row align="center">
+          <v-col
+            cols="12"
+            md="3"
+            sm="12"
+            :class="{'py-0': $vuetify.breakpoint. smAndDown}"
+          >
+            <label class="required">{{ $t('label.current_location') }}</label>
+          </v-col>
+          <v-col
+            cols="12"
+            md="9"
+            sm="12"
+            :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
+          >
             <ValidationProvider
               v-slot="{ errors }"
               rules="required"
             >
-              <label class="required">{{ $t('label.current_location') }}</label>
               <v-radio-group
                 v-model="formPasien.current_location_type"
                 :error-messages="errors"
@@ -112,33 +180,79 @@
                 />
               </v-radio-group>
             </ValidationProvider>
-            <div v-if="formPasien.current_location_type === 'RUMAH'">
-              <address-region
-                :district-code="formPasien.current_location_district_code"
-                :code-district.sync="formPasien.current_location_district_code"
-                :sub-district-code="formPasien.current_location_subdistrict_code"
-                :code-sub-district.sync="formPasien.current_location_subdistrict_code"
-                :village-code="formPasien.current_location_village_code"
-                :village-name="formPasien.current_location_village_name"
-                :code-village.sync="formPasien.current_location_village_code"
-                :name-village.sync="formPasien.current_location_village_name"
-                :disabled-address="false"
-                :required-address="true"
-              />
-            </div>
+          </v-col>
+        </v-row>
+        <v-row v-if="formPasien.current_location_type === 'RUMAH'" align="center">
+          <v-col
+            cols="12"
+            md="3"
+            sm="12"
+            :class="{'py-0': $vuetify.breakpoint. smAndDown}"
+          >
+            <label class="additional-label">({{ $t('label.house_address') }})</label>
+          </v-col>
+          <v-col
+            cols="12"
+            md="9"
+            sm="12"
+            :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
+          >
+            <address-region
+              :district-code="formPasien.current_location_district_code"
+              :code-district.sync="formPasien.current_location_district_code"
+              :sub-district-code="formPasien.current_location_subdistrict_code"
+              :code-sub-district.sync="formPasien.current_location_subdistrict_code"
+              :village-code="formPasien.current_location_village_code"
+              :village-name="formPasien.current_location_village_name"
+              :code-village.sync="formPasien.current_location_village_code"
+              :name-village.sync="formPasien.current_location_village_name"
+              :disabled-address="false"
+              :required-address="true"
+            />
+          </v-col>
+        </v-row>
+        <v-row v-if="formPasien.current_location_type === 'RUMAH'" align="center">
+          <v-col
+            cols="12"
+            md="3"
+            sm="12"
+            :class="{'py-0': $vuetify.breakpoint. smAndDown}"
+          >
+            <label class="additional-label">({{ $t('label.complete_house_address') }})</label>
+          </v-col>
+          <v-col
+            cols="12"
+            md="9"
+            sm="12"
+            :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
+          >
             <ValidationProvider
-              v-if="formPasien.current_location_type === 'RUMAH'"
               v-slot="{ errors }"
             >
-              <v-label>{{ $t('label.address_complete_this_time') }}</v-label>
               <v-text-field
                 v-model="formPasien.current_location_address"
                 :error-messages="errors"
                 solo-inverted
               />
             </ValidationProvider>
+          </v-col>
+        </v-row>
+        <v-row v-if="formPasien.current_location_type === 'RS'" align="center">
+          <v-col
+            cols="12"
+            md="3"
+            sm="12"
+            :class="{'py-0': $vuetify.breakpoint. smAndDown}"
+          >
+            <label class="additional-label">({{ $t('label.location_hospital') }})</label>
+          </v-col>
+          <v-col
+            cols="12"
+            md="9"
+            sm="12"
+            :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
+          >
             <ValidationProvider
-              v-if="formPasien.current_location_type === 'RS'"
               v-slot="{ errors }"
               rules="required"
             >
@@ -157,6 +271,23 @@
                 @change="onSelectHospital"
               />
             </ValidationProvider>
+          </v-col>
+        </v-row>
+        <v-row v-if="formPasien.current_location_type === 'others'" align="center">
+          <v-col
+            cols="12"
+            md="3"
+            sm="12"
+            :class="{'py-0': $vuetify.breakpoint. smAndDown}"
+          >
+            <label class="additional-label">({{ $t('label.other_places') }})</label>
+          </v-col>
+          <v-col
+            cols="12"
+            md="9"
+            sm="12"
+            :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
+          >
             <ValidationProvider
               v-if="formPasien.current_location_type === 'others'"
               v-slot="{ errors }"
@@ -177,10 +308,26 @@
                 @change="onSelectHospital"
               />
             </ValidationProvider>
+          </v-col>
+        </v-row>
+        <v-row align="start">
+          <v-col
+            cols="12"
+            md="3"
+            sm="12"
+            :class="{'py-0': $vuetify.breakpoint. smAndDown}"
+          >
+            <label>{{ $t('label.reporting_sources') }}</label>
+          </v-col>
+          <v-col
+            cols="12"
+            md="9"
+            sm="12"
+            :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
+          >
             <ValidationProvider
               v-slot="{ errors }"
             >
-              <v-label>{{ $t('label.reporting_sources') }}</v-label>
               <v-text-field
                 v-model="formPasien.report_source"
                 :error-messages="errors"
@@ -188,48 +335,35 @@
                 solo-inverted
               />
             </ValidationProvider>
-            <ValidationProvider v-slot="{ errors }">
-              <label>{{ $t('label.additional_condition') }}</label>
-              <v-row>
-                <v-col v-for="item in additionalConditionOptions" :key="item" sm="4" md="4">
-                  <label class="material-checkbox-custom">
-                    <input
-                      v-model="formPasien.diseases"
-                      :value="item"
-                      type="checkbox"
-                    >
-                    <span v-if="errors.length" class="error--text">{{ item }}</span>
-                    <span v-else>{{ item }}</span>
-                  </label>
-                  <span
-                    v-if="errors.length"
-                    class="v-messages error--text"
-                  >{{ errors[0] }}</span>
-                </v-col>
-              </v-row>
-            </ValidationProvider>
-            <ValidationProvider>
-              <v-text-field
-                v-model="formPasien.diseases_other"
-                :placeholder="$t('label.mention_other_additional_condition')"
-                solo-inverted
-              />
-            </ValidationProvider>
-            <ValidationProvider>
-              <v-label>{{ $t('label.postscript') }}</v-label>
-              <v-textarea
-                v-model="formPasien.other_notes"
-                solo
-              />
-            </ValidationProvider>
+          </v-col>
+        </v-row>
+        <hr>
+        <v-row>
+          <v-col
+            cols="12"
+            md="3"
+            sm="12"
+            :class="{'py-0': $vuetify.breakpoint. smAndDown}"
+          >
+            <v-icon class="rotate" color="#27AE60" left>mdi-color-helper</v-icon><label class="capitalize">{{ $t('label.history_and_symptoms') }}</label>
+          </v-col>
+        </v-row>
+        <v-row align="start">
+          <v-col
+            cols="12"
+            md="3"
+            sm="12"
+            :class="{'py-0': $vuetify.breakpoint. smAndDown}"
+          >
+            <label>{{ $t('label.history') }}</label>
           </v-col>
           <v-col
             cols="12"
-            md="6"
+            md="9"
             sm="12"
+            :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
           >
             <ValidationProvider>
-              <v-label>{{ $t('label.history') }}</v-label>
               <v-checkbox
                 v-model="formPasien.is_went_abroad"
                 label="Dari Luar Negeri"
@@ -278,14 +412,46 @@
                 solo-inverted
               />
             </ValidationProvider>
+          </v-col>
+        </v-row>
+        <v-row align="start">
+          <v-col
+            cols="12"
+            md="3"
+            sm="12"
+            :class="{'py-0': $vuetify.breakpoint. smAndDown}"
+          >
             <label>{{ $t('label.date_symptoms') }}</label>
+          </v-col>
+          <v-col
+            cols="12"
+            md="9"
+            sm="12"
+            :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
+          >
             <select-datetime
               :datetime="formPasien.first_symptom_date"
               :date-time.sync="formPasien.first_symptom_date"
               :formate-date="formatDate"
             />
+          </v-col>
+        </v-row>
+        <v-row align="start">
+          <v-col
+            cols="12"
+            md="3"
+            sm="12"
+            :class="{'py-0': $vuetify.breakpoint. smAndDown}"
+          >
+            <label>{{ $t('label.symptoms') }}</label>
+          </v-col>
+          <v-col
+            cols="12"
+            md="9"
+            sm="12"
+            :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
+          >
             <ValidationProvider v-slot="{ errors }">
-              <label>{{ $t('label.symptoms') }}</label>
               <v-row>
                 <v-col v-for="item in symptomOptions" :key="item" sm="4" md="4">
                   <label class="material-checkbox-custom">
@@ -304,6 +470,21 @@
                 </v-col>
               </v-row>
             </ValidationProvider>
+          </v-col>
+        </v-row>
+        <v-row align="start">
+          <v-col
+            cols="12"
+            md="3"
+            sm="12"
+            :class="{'py-0': $vuetify.breakpoint. smAndDown}"
+          />
+          <v-col
+            cols="12"
+            md="9"
+            sm="12"
+            :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
+          >
             <ValidationProvider>
               <v-text-field
                 v-model="formPasien.diagnosis_other"
@@ -313,9 +494,90 @@
             </ValidationProvider>
           </v-col>
         </v-row>
+        <v-row align="start">
+          <v-col
+            cols="12"
+            md="3"
+            sm="12"
+            :class="{'py-0': $vuetify.breakpoint. smAndDown}"
+          >
+            <label>{{ $t('label.additional_condition') }}</label>
+          </v-col>
+          <v-col
+            cols="12"
+            md="9"
+            sm="12"
+            :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
+          >
+            <ValidationProvider v-slot="{ errors }">
+              <v-row>
+                <v-col v-for="item in additionalConditionOptions" :key="item" sm="4" md="4">
+                  <label class="material-checkbox-custom">
+                    <input
+                      v-model="formPasien.diseases"
+                      :value="item"
+                      type="checkbox"
+                    >
+                    <span v-if="errors.length" class="error--text">{{ item }}</span>
+                    <span v-else>{{ item }}</span>
+                  </label>
+                  <span
+                    v-if="errors.length"
+                    class="v-messages error--text"
+                  >{{ errors[0] }}</span>
+                </v-col>
+              </v-row>
+            </ValidationProvider>
+          </v-col>
+        </v-row>
+        <v-row align="start">
+          <v-col
+            cols="12"
+            md="3"
+            sm="12"
+            :class="{'py-0': $vuetify.breakpoint. smAndDown}"
+          />
+          <v-col
+            cols="12"
+            md="9"
+            sm="12"
+            :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
+          >
+            <ValidationProvider>
+              <v-text-field
+                v-model="formPasien.diseases_other"
+                :placeholder="$t('label.mention_other_additional_condition')"
+                solo-inverted
+              />
+            </ValidationProvider>
+          </v-col>
+        </v-row>
+        <v-row align="start">
+          <v-col
+            cols="12"
+            md="3"
+            sm="12"
+            :class="{'py-0': $vuetify.breakpoint. smAndDown}"
+          >
+            <label>{{ $t('label.postscript') }}</label>
+          </v-col>
+          <v-col
+            cols="12"
+            md="9"
+            sm="12"
+            :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
+          >
+            <ValidationProvider>
+              <v-textarea
+                v-model="formPasien.other_notes"
+                solo
+              />
+            </ValidationProvider>
+          </v-col>
+        </v-row>
         <v-container fluid>
-          <v-row class="survey-bottom-form">
-            <v-col>
+          <v-row class="survey-bottom-form" justify="space-between">
+            <v-col cols="12" md="6" sm="12" :class="{'mb-2': $vuetify.breakpoint.smAndDown}" class="ma-0 pa-0">
               <v-btn
                 :loading="loading"
                 bottom
@@ -325,12 +587,11 @@
                 {{ $t('label.back') }}
               </v-btn>
             </v-col>
-            <v-col>
+            <v-col cols="12" md="6" sm="12" :class="{'text-right': $vuetify.breakpoint.mdAndUp}" class="ma-0 pa-0">
               <v-btn
                 color="success"
                 :loading="loading"
                 bottom
-                style="float: right;"
                 @click="handleSave"
               >
                 {{ $t('label.save') }}
@@ -445,6 +706,9 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style>
+.additional-label {
+  color: #828282;
+  font-style: italic;
+}
 </style>

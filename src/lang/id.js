@@ -163,7 +163,7 @@ export default {
     city_visited: 'Kota Yang Dikunjungi',
     contact_with_positive_patients: 'Kontak Dengan Pasien Positif',
     enter_other_history_applicable: 'Masukkan Riwayat Lainnya Jika Ada',
-    date_symptoms: 'Tanggal Gejala',
+    date_symptoms: 'Tanggal Muncul Gejala',
     symptoms: 'Gejala',
     mention_other_symptoms: 'Sebutkan gelaja lainnya (jika ada)',
     total_case_data: 'Total data Kasus',
@@ -427,10 +427,14 @@ export default {
     more_eighty_year: '> 80 th',
     print_pe_form: 'Cetak Laporan PE',
     pe_report: 'Laporan PE',
+    house_address: 'Alamat Rumah',
+    complete_house_address: 'Alamat Rumah Lengkap',
     indonesia: 'Indonesia',
     other_illness_history: 'Riwayat Lainnya',
     other_additional_condition: 'Kondisi Penyerta Lainnya',
-    other_symptoms: 'Gejala Lainnya'
+    other_symptoms: 'Gejala Lainnya',
+    case_status: 'Status Kasus',
+    history_and_symptoms: 'Riwayat & Gejala'
   },
   success: {
     login_success: 'Login Berhasil',
