@@ -12,7 +12,7 @@
             sm="12"
             :class="{'py-0': $vuetify.breakpoint. smAndDown}"
           >
-            <v-icon class="rotate" color="#27AE60" left>mdi-color-helper</v-icon><label class="capitalize">{{ $t('label.case_status') }}</label>
+            <v-icon class="rotate" color="#27AE60" left>mdi-color-helper</v-icon><label class="subtitle text-uppercase">{{ $t('label.case_status') }}</label>
           </v-col>
         </v-row>
         <v-row align="center">
@@ -345,7 +345,7 @@
             sm="12"
             :class="{'py-0': $vuetify.breakpoint. smAndDown}"
           >
-            <v-icon class="rotate" color="#27AE60" left>mdi-color-helper</v-icon><label class="capitalize">{{ $t('label.history_and_symptoms') }}</label>
+            <v-icon class="rotate" color="#27AE60" left>mdi-color-helper</v-icon><label class="subtitle text-uppercase">{{ $t('label.history_and_symptoms') }}</label>
           </v-col>
         </v-row>
         <v-row align="start">

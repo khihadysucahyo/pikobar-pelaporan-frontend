@@ -12,7 +12,7 @@
             sm="12"
             :class="{'py-0': $vuetify.breakpoint. smAndDown}"
           >
-            <v-icon class="rotate" color="#27AE60" left>mdi-color-helper</v-icon><label class="capitalize">{{ $t('label.identity') }}</label>
+            <v-icon class="rotate" color="#27AE60" left>mdi-color-helper</v-icon><label class="subtitle text-uppercase">{{ $t('label.identity') }}</label>
           </v-col>
         </v-row>
         <v-row align="start">
@@ -321,7 +321,7 @@
             sm="12"
             :class="{'py-0': $vuetify.breakpoint. smAndDown}"
           >
-            <v-icon class="rotate" color="#27AE60" left>mdi-color-helper</v-icon><label class="capitalize">{{ $t('label.case_id') }}</label>
+            <v-icon class="rotate" color="#27AE60" left>mdi-color-helper</v-icon><label class="subtitle text-uppercase">{{ $t('label.case_id') }}</label>
           </v-col>
         </v-row>
         <v-row align="start">
@@ -391,7 +391,7 @@
             sm="12"
             :class="{'py-0': $vuetify.breakpoint. smAndDown}"
           >
-            <v-icon class="rotate" color="#27AE60" left>mdi-color-helper</v-icon><label class="capitalize">{{ $t('label.profession') }}</label>
+            <v-icon class="rotate" color="#27AE60" left>mdi-color-helper</v-icon><label class="subtitle text-uppercase">{{ $t('label.profession') }}</label>
           </v-col>
         </v-row>
         <v-row align="start">
@@ -574,8 +574,7 @@ export default {
 }
 </script>
 <style>
-.capitalize {
-  text-transform: uppercase;
+.subtitle {
   font-family: "Product Sans";
   font-weight: bold;
   font-size: 16px;
