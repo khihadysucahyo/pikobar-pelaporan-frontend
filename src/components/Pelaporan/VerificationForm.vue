@@ -211,6 +211,7 @@
               <ValidationProvider
                 v-if="caseDetail && caseDetail.verified_status === 'declined'"
                 v-slot="{ errors }"
+                class="full-width"
               >
                 <v-autocomplete
                   :no-data-text="$t('label.no_data_autocomplete_related_case')"
@@ -495,6 +496,7 @@
                 v-if="caseDetail && caseDetail.verified_status === 'declined' && caseDetail.last_history.current_location_type === 'RS'"
                 v-slot="{ errors }"
                 rules="required"
+                class="full-width"
               >
                 <v-autocomplete
                   v-model="caseDetail.last_history.current_location_address"
@@ -515,6 +517,7 @@
                 v-if="caseDetail && caseDetail.verified_status === 'declined' && caseDetail.last_history.current_location_type === 'others'"
                 v-slot="{ errors }"
                 rules="required"
+                class="full-width"
               >
                 <v-autocomplete
                   v-model="caseDetail.last_history.current_location_address"
@@ -531,7 +534,11 @@
                   @change="onSelectHospital"
                 />
               </ValidationProvider>
+            </v-row>
+            <v-row>
               <label v-if="displayCurrentLocation" class="input-label">{{ $t('label.address_complete_this_time') }}</label>
+            </v-row>
+            <v-row>
               <v-text-field
                 v-if="displayCurrentLocation"
                 v-model="caseDetail.last_history.current_location_address"
