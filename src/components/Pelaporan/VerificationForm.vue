@@ -857,7 +857,7 @@ export default {
       }
     },
     maxWidthDialog() {
-      return this.$vuetify.breakpoint.xlAndUp ? '50%' : '70%'
+      return this.$vuetify.breakpoint.xl ? '50%' : '70%'
     },
     displayCurrentLocation() {
       if (this.caseDetail) {
@@ -925,7 +925,7 @@ export default {
           if (this.caseDetail.last_history.is_contact_with_positive) {
             this.caseDetail.last_history.historyList.push(this.$t('label.contact_with_positive_patients'))
           }
-          this.caseDetail.new_address = this.caseDetail.address_village_name + ', ' + this.caseDetail.address_subdistrict_name + ', ' + this.caseDetail.address_district_name
+          this.caseDetail.new_address = `${this.caseDetail.address_village_name}, ${this.caseDetail.address_subdistrict_name}, ${this.caseDetail.address_district_name}`
         } else {
           const response = await this.$store.dispatch('region/listCountry')
           this.listCountry = response.data

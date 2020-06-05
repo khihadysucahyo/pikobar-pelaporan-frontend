@@ -59,15 +59,17 @@
           </v-btn>
         </v-col>
       </v-row>
-      <div ref="printMe">
+    </v-card>
+    <div ref="printMe">
+      <v-card
+        outlined
+      >
         <daily-report-table
           :list="list"
           :table-headers="headers"
           :list-query="listQuery"
         />
-      </div>
-    </v-card>
-    <v-container>
+      </v-card>
       <v-row>
         <v-col
           auto
@@ -129,7 +131,7 @@
           />
         </v-col>
       </v-row>
-    </v-container>
+    </div>
   </div>
 </template>
 
@@ -196,7 +198,6 @@ export default {
       const response = await this.$store.dispatch('statistic/agregateCriteria', this.listQuery)
       this.list = response.data.summary
       this.listTotal = response.data.total
-      console.log(this.listTotal)
     },
     async handleExport() {
       this.loading = true
