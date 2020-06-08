@@ -14,7 +14,7 @@ import VueAnalytics from 'vue-analytics'
 moment.locale('id')
 
 import vuetify from './plugins/vuetify'
-import keycloakPlugin from './plugins/keycloak'
+import keycloak from './plugins/keycloak'
 Vue.config.performance = process.env.NODE_ENV === 'development'
 
 import App from './App'
@@ -32,7 +32,7 @@ import VueHtml2Canvas from 'vue-html2canvas'
 
 Vue.use(VueHtml2Canvas)
 Vue.use(FlagIcon)
-Vue.use(keycloakPlugin)
+Vue.use(keycloak)
 Vue.use(Vue2Dragula)
 Vue.use(VueBreadcrumbs)
 Vue.component(VmBackTop.name, VmBackTop)

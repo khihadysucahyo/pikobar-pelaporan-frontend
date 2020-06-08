@@ -50,6 +50,7 @@ export default {
     login_title: 'Selamat datang di Aplikasi',
     report_covid: 'Pelaporan Covid-19',
     login: 'Login',
+    login_sso: 'Login SSO',
     ok: 'OK',
     next: 'Berikutnya',
     cancel: 'Batal',

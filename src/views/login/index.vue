@@ -58,6 +58,17 @@
             {{ $t('label.login') }}
           </v-btn>
         </v-card-actions>
+        <v-card-actions>
+          <v-spacer />
+          <v-btn
+            block
+            color="primary"
+            :loading="loading"
+            @click="handleLoginSSO"
+          >
+            {{ $t('label.login_sso') }}
+          </v-btn>
+        </v-card-actions>
       </v-card-text>
     </div>
   </div>
@@ -106,6 +117,10 @@ export default {
             this.$refs.form.reset()
           })
       }
+    },
+    handleLoginSSO() {
+      console.log(this.$keycloak.init())
+      this.$keycloak.login({ redirectUri: process.env.VUE_APP_KEYCLOAK_REDIRECT_URI })
     }
   }
 }
