@@ -20,6 +20,7 @@
     "esri-loader": "^2.14.0",
     "file-saver": "^2.0.2",
     "js-cookie": "^2.2.1",
+    "keycloak-js": "^10.0.2",
     "leaflet": "^1.6.0",
     "leaflet-easybutton": "^2.4.0",
     "leaflet-sidebar": "^0.2.0",
