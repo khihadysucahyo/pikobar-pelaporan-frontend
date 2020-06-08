@@ -301,7 +301,7 @@
             </v-row>
             <v-row>
               <v-text-field
-                v-if="caseDetail && caseDetail.nationality === 'WNI'"
+                v-if="displayNationality"
                 v-model="caseDetail.nationality_name"
                 solo-inverted
                 :disabled="caseDetail.verified_status !== 'declined' || caseDetail.nationality === 'WNI'"
@@ -312,7 +312,6 @@
                 :items="listCountry"
                 item-text="name"
                 item-value="name"
-                :error-messages="errors"
                 :placeholder="$t('label.country_origin')"
                 clearable
                 solo-inverted
@@ -873,6 +872,17 @@ export default {
       } else {
         return false
       }
+    },
+    displayNationality() {
+      if (this.caseDetail) {
+        if (this.caseDetail.verified_status === 'declined') {
+          return this.caseDetail.nationality === 'WNI'
+        } else {
+          return true
+        }
+      } else {
+        return false
+      }
     }
   },
   watch: {
@@ -950,7 +960,7 @@ export default {
     'caseDetail.nationality'(value) {
       if (value === 'WNI') {
         this.caseDetail.nationality_name = this.$t('label.indonesia')
-      } else {
+      } else if (this.caseDetail.nationality_name === this.$t('label.indonesia')) {
         this.caseDetail.nationality_name = ''
       }
     },
