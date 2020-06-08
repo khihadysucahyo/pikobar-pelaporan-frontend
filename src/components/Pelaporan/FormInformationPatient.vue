@@ -32,7 +32,7 @@
           >
             <ValidationProvider
               v-slot="{ errors }"
-              rules="isHtml|sixteenDigits|numeric"
+              rules="isHtml|sixteenDigits|numeric|provinceCode"
             >
               <v-text-field
                 v-model="formPasien.nik"
@@ -587,7 +587,10 @@ export default {
     async onNext() {
       const valid = await this.$refs.observer.validate()
       if (!valid) {
-        const response = await this.$store.dispatch('reports/getNik', this.formPasien.nik)
+        return
+      }
+      const response = await this.$store.dispatch('reports/getNik', this.formPasien.nik)
+      if (response.data) {
         this.nikNumber = response.data.nik
         this.nikName = response.data.name
         this.nikAuthor = response.data.author.fullname
