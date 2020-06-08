@@ -120,7 +120,7 @@
                     min="0"
                     max="120"
                     solo-inverted
-                    oninput="if(Number(this.value) > Number(this.max)) this.value = this.max;"
+                    oninput="if(Number(this.value) > Number(this.max)) this.value = this.max"
                   />
                 </ValidationProvider>
               </v-col>
@@ -139,7 +139,7 @@
                     min="0"
                     max="11"
                     solo-inverted
-                    oninput="if(Number(this.value) > Number(this.max)) this.value = this.max;"
+                    oninput="if(Number(this.value) > Number(this.max)) this.value = this.max"
                   />
                 </ValidationProvider>
               </v-col>
