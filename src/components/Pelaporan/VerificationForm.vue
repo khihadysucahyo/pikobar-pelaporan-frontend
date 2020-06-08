@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="show" max-width="50%">
+  <v-dialog v-model="show" :max-width="maxWidthDialog">
     <v-card class="pa-7">
       <ValidationObserver ref="observer">
         <v-row class="mx-0 font-weight-bold headline mb-5">
@@ -8,10 +8,10 @@
         <v-row v-if="caseDetail && caseDetail.verified_status === 'declined'" class="mx-0">
           <div class="rejection py-2 px-7">
             <v-row justify="start">
-              <v-col class="icon-warning">
+              <v-col cols="12" sm="1">
                 <v-icon x-large color="#EB5757">mdi-alert-circle</v-icon>
               </v-col>
-              <v-col>
+              <v-col cols="12" sm="11">
                 <v-row>
                   <span class="font-weight-bold">{{ $t('label.rejection_note') }}</span>
                 </v-row>
@@ -27,8 +27,25 @@
             <v-row class="font-weight-bold subtitle">
               {{ $t('label.identity') }}
             </v-row>
+            <v-row class="input-label">
+              {{ $t('label.nik') }}
+            </v-row>
+            <v-row>
+              <ValidationProvider
+                v-slot="{ errors }"
+                class="full-width"
+              >
+                <v-text-field
+                  v-if="caseDetail"
+                  v-model="caseDetail.nik"
+                  solo-inverted
+                  :error-messages="errors"
+                  :disabled="caseDetail.verified_status !== 'declined'"
+                />
+              </ValidationProvider>
+            </v-row>
             <v-row class="input-label" :class="required">
-              {{ $t('label.name') }}
+              {{ $t('label.name_case') }}
             </v-row>
             <v-row>
               <ValidationProvider
@@ -116,15 +133,52 @@
               {{ $t('label.phone_number') }}
             </v-row>
             <v-row>
+              <ValidationProvider
+                v-slot="{ errors }"
+                rules="isPhoneNumber"
+                class="full-width"
+              >
+                <v-text-field
+                  v-if="caseDetail"
+                  v-model="caseDetail.phone_number"
+                  solo-inverted
+                  type="number"
+                  placeholder="08xxxxxxxxx"
+                  :disabled="caseDetail.verified_status !== 'declined'"
+                  :error-messages="errors"
+                />
+              </ValidationProvider>
+            </v-row>
+            <v-row class="input-label">
+              {{ $t('label.address_home') }}
+            </v-row>
+            <v-row>
               <v-text-field
-                v-if="caseDetail"
-                v-model="caseDetail.phone_number"
+                v-if="caseDetail && caseDetail.verified_status !== 'declined'"
+                v-model="caseDetail.new_address"
                 solo-inverted
-                :disabled="caseDetail.verified_status !== 'declined'"
+                disabled
+              />
+              <address-region
+                v-else-if="caseDetail && caseDetail.address_district_name"
+                :district-code="caseDetail.address_district_code"
+                :district-name="caseDetail.address_district_name"
+                :code-district.sync="caseDetail.address_district_code"
+                :name-district.sync="caseDetail.address_district_name"
+                :sub-district-code="caseDetail.address_subdistrict_code"
+                :sub-district-name="caseDetail.address_subdistrict_name"
+                :code-sub-district.sync="caseDetail.address_subdistrict_code"
+                :name-sub-district.sync="caseDetail.address_subdistrict_name"
+                :village-code="caseDetail.address_village_code"
+                :village-name="caseDetail.address_village_name"
+                :code-village.sync="caseDetail.address_village_code"
+                :name-village.sync="caseDetail.address_village_name"
+                :disabled-address="false"
+                :required-address="true"
               />
             </v-row>
             <v-row class="input-label">
-              {{ $t('label.address') }}
+              {{ $t('label.address_complete_home') }}
             </v-row>
             <v-row>
               <v-text-field
@@ -154,8 +208,26 @@
               {{ $t('label.related_case_id') }}
             </v-row>
             <v-row>
+              <ValidationProvider
+                v-if="caseDetail && caseDetail.verified_status === 'declined'"
+                v-slot="{ errors }"
+                class="full-width"
+              >
+                <v-autocomplete
+                  :no-data-text="$t('label.no_data_autocomplete_related_case')"
+                  :error-messages="errors"
+                  :items="listNameCases"
+                  :search-input.sync="searchRelatedCase"
+                  item-text="relateds"
+                  solo-inverted
+                  clearable
+                  return-object
+                  @change="handleChangeRelatedCase"
+                  @click:clear="clearListNameCases"
+                />
+              </ValidationProvider>
               <v-text-field
-                v-if="caseDetail"
+                v-else-if="caseDetail"
                 v-model="caseDetail.id_case_related"
                 solo-inverted
                 :disabled="caseDetail.verified_status !== 'declined'"
@@ -229,10 +301,21 @@
             </v-row>
             <v-row>
               <v-text-field
-                v-if="caseDetail"
+                v-if="caseDetail && caseDetail.nationality === 'WNI'"
                 v-model="caseDetail.nationality_name"
                 solo-inverted
                 :disabled="caseDetail.verified_status !== 'declined' || caseDetail.nationality === 'WNI'"
+              />
+              <v-autocomplete
+                v-else-if="caseDetail"
+                v-model="caseDetail.nationality_name"
+                :items="listCountry"
+                item-text="name"
+                item-value="name"
+                :error-messages="errors"
+                :placeholder="$t('label.country_origin')"
+                clearable
+                solo-inverted
               />
             </v-row>
           </v-col>
@@ -283,56 +366,6 @@
         <v-row v-else-if="caseDetail" class="mx-0">
           <v-col class="mr-5">
             <v-row class="input-label" :class="required">
-              {{ $t('label.stages') }}
-            </v-row>
-            <v-row>
-              <ValidationProvider
-                v-slot="{ errors }"
-                rules="required"
-                class="full-width"
-              >
-                <v-radio-group
-                  v-model="caseDetail.stage"
-                  row
-                  :error-messages="errors"
-                >
-                  <v-radio
-                    :label="$t('label.process')"
-                    value="0"
-                  />
-                  <v-radio
-                    :label="$t('label.done')"
-                    value="1"
-                  />
-                </v-radio-group>
-              </ValidationProvider>
-            </v-row>
-            <v-row class="input-label">
-              {{ $t('label.results') }}
-            </v-row>
-            <v-row>
-              <v-radio-group
-                v-model="caseDetail.final_result"
-                row
-              >
-                <v-radio
-                  v-if="caseDetail.status !== 'POSITIF'"
-                  :label="$t('label.negatif')"
-                  value="0"
-                />
-                <v-radio
-                  :label="$t('label.recovery')"
-                  value="1"
-                />
-                <v-radio
-                  :label="$t('label.dead')"
-                  value="2"
-                />
-              </v-radio-group>
-            </v-row>
-          </v-col>
-          <v-col>
-            <v-row class="input-label" :class="required">
               {{ $t('label.status') }}
             </v-row>
             <v-row>
@@ -366,6 +399,56 @@
               </ValidationProvider>
             </v-row>
             <v-row class="input-label" :class="required">
+              {{ $t('label.stages') }}
+            </v-row>
+            <v-row>
+              <ValidationProvider
+                v-slot="{ errors }"
+                rules="required"
+                class="full-width"
+              >
+                <v-radio-group
+                  v-model="caseDetail.stage"
+                  row
+                  :error-messages="errors"
+                >
+                  <v-radio
+                    :label="$t('label.process')"
+                    value="0"
+                  />
+                  <v-radio
+                    :label="$t('label.done')"
+                    value="1"
+                  />
+                </v-radio-group>
+              </ValidationProvider>
+            </v-row>
+            <v-row v-if="caseDetail.stage === '1'" class="input-label">
+              {{ $t('label.results') }}
+            </v-row>
+            <v-row v-if="caseDetail.stage === '1'">
+              <v-radio-group
+                v-model="caseDetail.final_result"
+                row
+              >
+                <v-radio
+                  v-if="caseDetail.status !== 'POSITIF'"
+                  :label="$t('label.negatif')"
+                  value="0"
+                />
+                <v-radio
+                  :label="$t('label.recovery')"
+                  value="1"
+                />
+                <v-radio
+                  :label="$t('label.dead')"
+                  value="2"
+                />
+              </v-radio-group>
+            </v-row>
+          </v-col>
+          <v-col>
+            <v-row class="input-label" :class="required">
               {{ $t('label.current_location') }}
             </v-row>
             <v-row>
@@ -378,6 +461,7 @@
                   v-model="caseDetail.last_history.current_location_type"
                   row
                   :error-messages="errors"
+                  @change="handleChangeLocationNow"
                 >
                   <v-radio
                     :label="$t('label.home')"
@@ -394,12 +478,69 @@
                 </v-radio-group>
               </ValidationProvider>
             </v-row>
-            <v-row class="input-label">
-              {{ $t('label.address') }}
+            <v-row>
+              <address-region
+                v-if="caseDetail && caseDetail.last_history.current_location_type === 'RUMAH'"
+                :district-code="caseDetail.current_location_district_code"
+                :code-district.sync="caseDetail.current_location_district_code"
+                :sub-district-code="caseDetail.current_location_subdistrict_code"
+                :code-sub-district.sync="caseDetail.current_location_subdistrict_code"
+                :village-code="caseDetail.current_location_village_code"
+                :village-name="caseDetail.current_location_village_name"
+                :code-village.sync="caseDetail.current_location_village_code"
+                :name-village.sync="caseDetail.current_location_village_name"
+                :disabled-address="false"
+                :required-address="true"
+              />
+              <ValidationProvider
+                v-if="caseDetail && caseDetail.verified_status === 'declined' && caseDetail.last_history.current_location_type === 'RS'"
+                v-slot="{ errors }"
+                rules="required"
+                class="full-width"
+              >
+                <v-autocomplete
+                  v-model="caseDetail.last_history.current_location_address"
+                  :items="hospitalWestJavaList"
+                  :error-messages="errors"
+                  :return-object="true"
+                  :label="$t('label.location_hospital')"
+                  menu-props="auto"
+                  item-text="name"
+                  item-value="name"
+                  single-line
+                  solo
+                  autocomplete
+                  @change="onSelectHospital"
+                />
+              </ValidationProvider>
+              <ValidationProvider
+                v-if="caseDetail && caseDetail.verified_status === 'declined' && caseDetail.last_history.current_location_type === 'others'"
+                v-slot="{ errors }"
+                rules="required"
+                class="full-width"
+              >
+                <v-autocomplete
+                  v-model="caseDetail.last_history.current_location_address"
+                  :items="hospitalNonWestJavaList"
+                  :error-messages="errors"
+                  :return-object="true"
+                  :label="$t('label.others')"
+                  menu-props="auto"
+                  item-text="name"
+                  item-value="name"
+                  single-line
+                  solo
+                  autocomplete
+                  @change="onSelectHospital"
+                />
+              </ValidationProvider>
+            </v-row>
+            <v-row>
+              <label v-if="displayCurrentLocation" class="input-label">{{ $t('label.address_complete_this_time') }}</label>
             </v-row>
             <v-row>
               <v-text-field
-                v-if="caseDetail"
+                v-if="displayCurrentLocation"
                 v-model="caseDetail.last_history.current_location_address"
                 solo-inverted
                 :disabled="caseDetail.verified_status !== 'declined'"
@@ -460,6 +601,16 @@
                 />
               </div>
             </v-row>
+            <v-row class="input-label">
+              {{ $t('label.other_illness_history') }}
+            </v-row>
+            <v-row v-if="caseDetail">
+              <v-text-field
+                v-model="caseDetail.last_history.history_notes"
+                solo-inverted
+                :disabled="caseDetail.verified_status !== 'declined'"
+              />
+            </v-row>
             <v-row v-if="caseDetail && caseDetail.last_history.is_went_abroad" class="input-label">
               {{ $t('label.country_visited') }}
             </v-row>
@@ -494,6 +645,16 @@
                   class="mt-0 pt-0"
                 />
               </v-col>
+            </v-row>
+            <v-row class="input-label">
+              {{ $t('label.other_additional_condition') }}
+            </v-row>
+            <v-row v-if="caseDetail">
+              <v-text-field
+                v-model="caseDetail.last_history.diseases_other"
+                solo-inverted
+                :disabled="caseDetail.verified_status !== 'declined'"
+              />
             </v-row>
             <v-row v-if="caseDetail && caseDetail.verified_status !== 'declined'" class="input-label">
               {{ $t('label.reporting_sources') }}
@@ -544,6 +705,16 @@
                   class="mt-0 pt-0"
                 />
               </v-col>
+            </v-row>
+            <v-row class="input-label">
+              {{ $t('label.other_symptoms') }}
+            </v-row>
+            <v-row v-if="caseDetail">
+              <v-text-field
+                v-model="caseDetail.last_history.diagnosis_other"
+                solo-inverted
+                :disabled="caseDetail.verified_status !== 'declined'"
+              />
             </v-row>
             <v-row v-if="caseDetail && caseDetail.verified_status !== 'declined'" class="input-label">
               {{ $t('label.additional_condition') }}
@@ -650,7 +821,15 @@ export default {
       query: null,
       show: false,
       symptomOptions: symptomOptions,
-      additionalConditionOptions: additionalConditionOptions
+      additionalConditionOptions: additionalConditionOptions,
+      listNameCases: [],
+      listCountry: [],
+      hospitalWestJavaList: [],
+      hospitalNonWestJavaList: [],
+      searchRelatedCase: null,
+      listQuery: {
+        'name': ''
+      }
     }
   },
   computed: {
@@ -676,10 +855,28 @@ export default {
       return {
         'required': this.caseDetail && this.caseDetail.verified_status === 'declined'
       }
+    },
+    maxWidthDialog() {
+      return this.$vuetify.breakpoint.xl ? '50%' : '70%'
+    },
+    displayCurrentLocation() {
+      if (this.caseDetail) {
+        if (this.caseDetail.verified_status !== 'declined') {
+          return true
+        } else {
+          if (this.caseDetail.last_history.current_location_type === 'RUMAH') {
+            return true
+          } else {
+            return false
+          }
+        }
+      } else {
+        return false
+      }
     }
   },
   watch: {
-    showForm(value) {
+    async showForm(value) {
       this.show = value
       if (value) {
         this.caseDetail = this.caseData
@@ -728,6 +925,16 @@ export default {
           if (this.caseDetail.last_history.is_contact_with_positive) {
             this.caseDetail.last_history.historyList.push(this.$t('label.contact_with_positive_patients'))
           }
+          this.caseDetail.new_address = `${this.caseDetail.address_village_name}, ${this.caseDetail.address_subdistrict_name}, ${this.caseDetail.address_district_name}`
+        } else {
+          const response = await this.$store.dispatch('region/listCountry')
+          this.listCountry = response.data
+          const paramHospitalWestJava = { 'rs_jabar': true }
+          const paramHospitalNonWestJava = { 'rs_jabar': false }
+          const responseWestJava = await this.$store.dispatch('region/getListHospital', paramHospitalWestJava)
+          this.hospitalWestJavaList = responseWestJava.data
+          const responseNonWestJava = await this.$store.dispatch('region/getListHospital', paramHospitalNonWestJava)
+          this.hospitalNonWestJavaList = responseNonWestJava.data
         }
         this.query = this.queryData
       }
@@ -738,6 +945,22 @@ export default {
     'caseDetail.birth_date'(value) {
       if (this.caseDetail.verified_status === 'declined') {
         this.caseDetail.age = this.getAge(value)
+      }
+    },
+    'caseDetail.nationality'(value) {
+      if (value === 'WNI') {
+        this.caseDetail.nationality_name = this.$t('label.indonesia')
+      } else {
+        this.caseDetail.nationality_name = ''
+      }
+    },
+    async searchRelatedCase(value) {
+      if (value) {
+        this.listQuery.name = value
+        const response = await this.$store.dispatch('reports/listNameCase', this.listQuery)
+        this.listNameCases = response.data
+      } else {
+        this.listNameCases = []
       }
     }
   },
@@ -763,6 +986,7 @@ export default {
       const reportData = {
         'id': this.caseDetail._id,
         'data': {
+          'nik': this.caseDetail.nik,
           'name': this.caseDetail.name,
           'age': this.caseDetail.age,
           'gender': this.caseDetail.gender,
@@ -772,6 +996,7 @@ export default {
           'nationality_name': this.caseDetail.nationality_name,
           'id_case_national': this.caseDetail.id_case_national,
           'id_case_related': this.caseDetail.id_case_related,
+          'name_case_related': this.caseDetail.name_case_related,
           'occupation': this.caseDetail.occupation,
           'office_address': this.caseDetail.office_address
         }
@@ -790,7 +1015,9 @@ export default {
         'is_contact_with_positive': this.caseDetail.last_history.is_contact_with_positive,
         'other_notes': this.caseDetail.last_history.other_notes,
         'first_symptom_date': this.caseDetail.last_history.first_symptom_date,
-        'diagnosis': this.caseDetail.last_history.diagnosis
+        'diagnosis': this.caseDetail.last_history.diagnosis,
+        'current_hospital_id': this.caseDetail.last_history.current_hospital_id,
+        'history_notes': this.caseDetail.last_history.history_notes
       }
       const verificationData = {
         'id': this.caseDetail._id,
@@ -805,6 +1032,28 @@ export default {
         await this.$store.dispatch('toast/successToast', this.$t('success.update_success'))
       }
       this.$emit('update:refreshPage', true)
+    },
+    handleChangeRelatedCase(value) {
+      this.caseDetail.id_case_related = value.id_case
+      this.caseDetail.name_case_related = value.name
+    },
+    clearListNameCases() {
+      this.listNameCases = []
+    },
+    onSelectHospital(value) {
+      this.caseDetail.last_history.current_hospital_id = value._id
+      this.caseDetail.last_history.current_location_address = value.name
+    },
+    handleChangeLocationNow(value) {
+      if (value === 'RUMAH') {
+        this.caseDetail.current_location_address = ''
+      } else {
+        this.caseDetail.current_hospital_id = ''
+        this.caseDetail.current_location_address = ''
+        this.caseDetail.current_location_district = ''
+        this.caseDetail.current_location_subdistrict = ''
+        this.caseDetail.current_location_village = ''
+      }
     }
   }
 }
@@ -869,8 +1118,5 @@ export default {
   width: 100%;
   border-radius: 10px;
   color: #EB5757;
-}
-.icon-warning {
-  max-width: 8% !important;
 }
 </style>

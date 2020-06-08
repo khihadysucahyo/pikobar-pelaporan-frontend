@@ -224,6 +224,9 @@
                           <v-list-item @click="handleEditHistoryCase(item._id)">
                             {{ $t('label.update_history') }}
                           </v-list-item>
+                          <v-list-item @click="handlePrintPEForm(item._id, item.id_case)">
+                            {{ $t('label.print_pe_form') }}
+                          </v-list-item>
                           <v-list-item
                             v-if="rolesWidget['dinkeskota'].includes(roles[0])"
                             @click="handleDeleteCase(item)"
@@ -309,17 +312,17 @@ export default {
     return {
       headers: [
         { text: '#', value: '_id', sortable: false },
-        { text: 'KODE KASUS', value: 'id_case' },
-        { text: 'NAMA', value: 'name' },
-        { text: 'USIA', value: 'age' },
-        { text: 'JK', value: 'gender' },
-        { text: 'NO TELEPON', value: 'phone_number' },
-        { text: 'STATUS', value: 'status' },
-        { text: 'TAHAPAN', value: 'stage' },
-        { text: 'HASIL', value: 'final_result' },
-        { text: 'AUTHOR', value: 'author' },
-        { text: 'TANGGAL INPUT', value: 'createdAt' },
-        { text: 'Aksi', value: 'actions', sortable: false }
+        { text: this.$t('label.case_code').toUpperCase(), value: 'id_case' },
+        { text: this.$t('label.name').toUpperCase(), value: 'name' },
+        { text: this.$t('label.age').toUpperCase(), value: 'age' },
+        { text: this.$t('label.gender_abbreviation').toUpperCase(), value: 'gender' },
+        { text: this.$t('label.short_phone_number').toUpperCase(), value: 'phone_number' },
+        { text: this.$t('label.status').toUpperCase(), value: 'status' },
+        { text: this.$t('label.stages').toUpperCase(), value: 'stage' },
+        { text: this.$t('label.results').toUpperCase(), value: 'final_result' },
+        { text: this.$t('label.author').toUpperCase(), value: 'author' },
+        { text: this.$t('label.input_date').toUpperCase(), value: 'createdAt' },
+        { text: this.$t('label.action'), value: 'actions', sortable: false }
       ],
       loading: true,
       loadingTable: false,
@@ -425,6 +428,11 @@ export default {
     },
     async handleEditHistoryCase(id) {
       await this.$router.push(`/laporan/edit-history-case/${id}`)
+    },
+    async handlePrintPEForm(id, caseCode) {
+      const response = await this.$store.dispatch('reports/printPEForm', id)
+      const fileName = `${this.$t('label.pe_report')} - ${caseCode}.pdf`
+      FileSaver.saveAs(response, fileName)
     },
     async handleDeleteCase(item) {
       this.dialog = true

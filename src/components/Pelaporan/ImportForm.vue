@@ -1,4 +1,4 @@
-<template>
+  <template>
   <v-dialog v-model="show" max-width="50%" :persistent="isLoading">
     <v-card>
       <v-tabs
