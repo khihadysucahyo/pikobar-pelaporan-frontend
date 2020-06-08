@@ -10,7 +10,7 @@
             cols="12"
             md="3"
             sm="12"
-            :class="{'py-0': $vuetify.breakpoint. smAndDown}"
+            :class="{'mb-3': $vuetify.breakpoint. smAndDown}"
           >
             <v-icon class="rotate" color="#27AE60" left>mdi-color-helper</v-icon><label class="subtitle text-uppercase">{{ $t('label.case_status') }}</label>
           </v-col>
@@ -343,7 +343,7 @@
             cols="12"
             md="3"
             sm="12"
-            :class="{'py-0': $vuetify.breakpoint. smAndDown}"
+            :class="{'mb-3': $vuetify.breakpoint. smAndDown}"
           >
             <v-icon class="rotate" color="#27AE60" left>mdi-color-helper</v-icon><label class="subtitle text-uppercase">{{ $t('label.history_and_symptoms') }}</label>
           </v-col>

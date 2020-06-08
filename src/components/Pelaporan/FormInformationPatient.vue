@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container fluid>
     <ValidationObserver ref="observer">
       <v-form
         ref="form"
@@ -10,7 +10,7 @@
             cols="12"
             md="3"
             sm="12"
-            :class="{'py-0': $vuetify.breakpoint. smAndDown}"
+            :class="{'mb-3': $vuetify.breakpoint. smAndDown}"
           >
             <v-icon class="rotate" color="#27AE60" left>mdi-color-helper</v-icon><label class="subtitle text-uppercase">{{ $t('label.identity') }}</label>
           </v-col>
@@ -319,7 +319,7 @@
             cols="12"
             md="3"
             sm="12"
-            :class="{'py-0': $vuetify.breakpoint. smAndDown}"
+            :class="{'mb-3': $vuetify.breakpoint. smAndDown}"
           >
             <v-icon class="rotate" color="#27AE60" left>mdi-color-helper</v-icon><label class="subtitle text-uppercase">{{ $t('label.case_id') }}</label>
           </v-col>
@@ -389,7 +389,7 @@
             cols="12"
             md="3"
             sm="12"
-            :class="{'py-0': $vuetify.breakpoint. smAndDown}"
+            :class="{'mb-3': $vuetify.breakpoint. smAndDown}"
           >
             <v-icon class="rotate" color="#27AE60" left>mdi-color-helper</v-icon><label class="subtitle text-uppercase">{{ $t('label.profession') }}</label>
           </v-col>
@@ -580,6 +580,6 @@ export default {
   font-size: 16px;
 }
 .rotate {
-  rotate: 90deg;
+  transform: rotate(90deg);
 }
 </style>
