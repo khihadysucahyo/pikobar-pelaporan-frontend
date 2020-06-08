@@ -1,6 +1,7 @@
 import i18n from '@/lang'
 
 import { format } from 'date-fns'
+import moment from 'moment'
 export const ISO_FORMAT = 'yyyy-MM-dd'
 export const DEFAULT_DATE = format(new Date(), ISO_FORMAT)
 export const DEFAULT_ACTION_LABELS = {
@@ -34,6 +35,19 @@ export function getAge(DOB) {
   const m = today.getMonth() - birthDate.getMonth()
   if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
     age = age - 1
+  }
+  return age
+}
+
+export function getAgeWithMonth(dob) {
+  const today = moment()
+  const birthDate = moment(dob, 'YYYY/MM/DD')
+  let age = moment.duration(today.diff(birthDate))
+  const year = age.years()
+  const month = age.months()
+  age = {
+    'year': year,
+    'month': month
   }
   return age
 }
