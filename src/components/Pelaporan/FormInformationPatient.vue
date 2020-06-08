@@ -589,13 +589,15 @@ export default {
       if (!valid) {
         return
       }
-      const response = await this.$store.dispatch('reports/getNik', this.formPasien.nik)
-      if (response.data) {
-        this.nikNumber = response.data.nik
-        this.nikName = response.data.name
-        this.nikAuthor = response.data.author.fullname
-        this.showDuplicatedNikDialog = true
-        return
+      if (this.formPasien.nik) {
+        const response = await this.$store.dispatch('reports/getNik', this.formPasien.nik)
+        if (response.data) {
+          this.nikNumber = response.data.nik
+          this.nikName = response.data.name
+          this.nikAuthor = response.data.author.fullname
+          this.showDuplicatedNikDialog = true
+          return
+        }
       }
       await this.$store.dispatch('reports/resetRiwayatFormPasien')
       EventBus.$emit('nextSurveySteps', this.steps)
