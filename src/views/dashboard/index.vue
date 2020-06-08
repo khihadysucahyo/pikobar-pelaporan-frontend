@@ -33,10 +33,6 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col cols="12">
-        <h4>{{ $t('label.look_for_it') }} {{ $t('label.based') }}:</h4>
-        <v-divider class="mb-0" />
-      </v-col>
       <v-col cols="8">
         <v-row>
           <v-col

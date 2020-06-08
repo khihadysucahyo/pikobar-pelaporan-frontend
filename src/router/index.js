@@ -9,7 +9,7 @@ import Layout from '@/layout'
 /* Router Modules */
 import dashboardRouter from './modules/dashboard'
 import Pelaporan from './modules/pelaporan'
-import rdtRouter from './modules/rdt'
+// import rdtRouter from './modules/rdt'
 import settingRouter from './modules/setting'
 import distributionCaseRouter from './modules/distributionCase'
 import submissionLogistikRouter from './modules/submissionLogistik'
