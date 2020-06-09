@@ -974,9 +974,7 @@ export default {
       }
     },
     'caseDetail.last_history.current_location_type'(value) {
-      if (value === 'RUMAH') {
-        this.caseDetail.last_history.current_location_address = ''
-      }
+      if (value === 'RUMAH') this.caseDetail.last_history.current_location_address = ''
     }
   },
   methods: {
