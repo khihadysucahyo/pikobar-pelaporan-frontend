@@ -953,9 +953,7 @@ export default {
       this.$emit('update:show', value)
     },
     'caseDetail.birth_date'(value) {
-      if (this.caseDetail.birth_date && this.caseDetail.verified_status === 'declined') {
-        this.caseDetail.age = this.getAge(value)
-      }
+      if (this.caseDetail.birth_date && this.caseDetail.verified_status === 'declined') this.caseDetail.age = this.getAge(value)
     },
     'caseDetail.nationality'(value) {
       if (value === 'WNI') {
