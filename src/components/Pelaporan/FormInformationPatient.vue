@@ -130,7 +130,7 @@
               <v-col cols="12" sm="3" class="pa-0">
                 <ValidationProvider
                   v-slot="{ errors }"
-                  rules="required|numeric|isHtml"
+                  rules="numeric|isHtml"
                 >
                   <v-text-field
                     v-model="formPasien.monthsOld"
@@ -557,6 +557,8 @@ export default {
     'formPasien.yearsOld'(value) {
       if (this.formPasien.monthsOld !== '') {
         this.formPasien.age = parseInt(this.formPasien.yearsOld) + (parseInt(this.formPasien.monthsOld) / 12)
+      } else {
+        this.formPasien.age = parseInt(this.formPasien.yearsOld)
       }
     },
     'formPasien.monthsOld'(value) {
