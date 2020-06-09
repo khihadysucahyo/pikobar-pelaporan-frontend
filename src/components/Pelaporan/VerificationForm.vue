@@ -480,14 +480,14 @@
             <v-row>
               <address-region
                 v-if="caseDetail && caseDetail.last_history.current_location_type === 'RUMAH'"
-                :district-code="caseDetail.current_location_district_code"
-                :code-district.sync="caseDetail.current_location_district_code"
-                :sub-district-code="caseDetail.current_location_subdistrict_code"
-                :code-sub-district.sync="caseDetail.current_location_subdistrict_code"
-                :village-code="caseDetail.current_location_village_code"
-                :village-name="caseDetail.current_location_village_name"
-                :code-village.sync="caseDetail.current_location_village_code"
-                :name-village.sync="caseDetail.current_location_village_name"
+                :district-code="caseDetail.last_history.current_location_district_code"
+                :code-district.sync="caseDetail.last_history.current_location_district_code"
+                :sub-district-code="caseDetail.last_history.current_location_subdistrict_code"
+                :code-sub-district.sync="caseDetail.last_history.current_location_subdistrict_code"
+                :village-code="caseDetail.last_history.current_location_village_code"
+                :village-name="caseDetail.last_history.current_location_village_name"
+                :code-village.sync="caseDetail.last_history.current_location_village_code"
+                :name-village.sync="caseDetail.last_history.current_location_village_name"
                 :disabled-address="false"
                 :required-address="true"
               />
@@ -582,17 +582,39 @@
                 solo-inverted
                 disabled
               />
-              <div v-else-if="caseDetail">
+              <div v-else-if="caseDetail" class="full-width">
                 <v-checkbox
                   v-model="caseDetail.last_history.is_went_abroad"
                   :label="$t('label.from_abroad')"
                   class="mt-0 pt-0"
                 />
+                <v-row v-if="caseDetail && caseDetail.last_history.is_went_abroad" class="input-label mx-0">
+                  {{ $t('label.country_visited') }}
+                </v-row>
+                <v-row class="mx-0">
+                  <v-text-field
+                    v-if="caseDetail && caseDetail.last_history.is_went_abroad"
+                    v-model="caseDetail.last_history.visited_country"
+                    solo-inverted
+                    :disabled="caseDetail.verified_status !== 'declined'"
+                  />
+                </v-row>
                 <v-checkbox
                   v-model="caseDetail.last_history.is_went_other_city"
                   :label="$t('label.trip_outside_the_city')"
                   class="mt-0 pt-0"
                 />
+                <v-row v-if="caseDetail && caseDetail.last_history.is_went_other_city" class="input-label mx-0">
+                  {{ $t('label.city_visited') }}
+                </v-row>
+                <v-row class="mx-0">
+                  <v-text-field
+                    v-if="caseDetail && caseDetail.last_history.is_went_other_city"
+                    v-model="caseDetail.last_history.visited_city"
+                    solo-inverted
+                    :disabled="caseDetail.verified_status !== 'declined'"
+                  />
+                </v-row>
                 <v-checkbox
                   v-model="caseDetail.last_history.is_contact_with_positive"
                   :label="$t('label.contact_with_positive_patients')"
@@ -606,28 +628,6 @@
             <v-row v-if="caseDetail">
               <v-text-field
                 v-model="caseDetail.last_history.history_notes"
-                solo-inverted
-                :disabled="caseDetail.verified_status !== 'declined'"
-              />
-            </v-row>
-            <v-row v-if="caseDetail && caseDetail.last_history.is_went_abroad" class="input-label">
-              {{ $t('label.country_visited') }}
-            </v-row>
-            <v-row>
-              <v-text-field
-                v-if="caseDetail && caseDetail.last_history.is_went_abroad"
-                v-model="caseDetail.last_history.visited_country"
-                solo-inverted
-                :disabled="caseDetail.verified_status !== 'declined'"
-              />
-            </v-row>
-            <v-row v-if="caseDetail && caseDetail.last_history.is_went_other_city" class="input-label">
-              {{ $t('label.city_visited') }}
-            </v-row>
-            <v-row>
-              <v-text-field
-                v-if="caseDetail && caseDetail.last_history.is_went_other_city"
-                v-model="caseDetail.last_history.visited_city"
                 solo-inverted
                 :disabled="caseDetail.verified_status !== 'declined'"
               />
@@ -953,7 +953,7 @@ export default {
       this.$emit('update:show', value)
     },
     'caseDetail.birth_date'(value) {
-      if (this.caseDetail.verified_status === 'declined') {
+      if (this.caseDetail.birth_date && this.caseDetail.verified_status === 'declined') {
         this.caseDetail.age = this.getAge(value)
       }
     },
@@ -971,6 +971,11 @@ export default {
         this.listNameCases = response.data
       } else {
         this.listNameCases = []
+      }
+    },
+    'caseDetail.last_history.current_location_type'(value) {
+      if (value === 'RUMAH') {
+        this.caseDetail.last_history.current_location_address = ''
       }
     }
   },
@@ -1027,7 +1032,11 @@ export default {
         'first_symptom_date': this.caseDetail.last_history.first_symptom_date,
         'diagnosis': this.caseDetail.last_history.diagnosis,
         'current_hospital_id': this.caseDetail.last_history.current_hospital_id,
-        'history_notes': this.caseDetail.last_history.history_notes
+        'history_notes': this.caseDetail.last_history.history_notes,
+        'diseases_other': this.caseDetail.last_history.diseases_other,
+        'diagnosis_other': this.caseDetail.last_history.diagnosis_other,
+        'diseases': this.caseDetail.last_history.diseases,
+        'report_source': this.caseDetail.last_history.report_source
       }
       const verificationData = {
         'id': this.caseDetail._id,
