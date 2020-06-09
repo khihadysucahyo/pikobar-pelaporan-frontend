@@ -16,7 +16,7 @@
             />
           </v-col>
         </v-row>
-        <v-row class="filter-row">
+        <v-row>
           <v-col cols="12" sm="3">
             <v-label class="title">{{ $t('label.test_result') }}:</v-label>
             <v-select
@@ -54,7 +54,7 @@
             />
           </v-col>
         </v-row>
-        <v-row class="filter-row">
+        <v-row>
           <v-col cols="12" sm="3">
             <v-label class="title">{{ $t('label.goal_category') }}:</v-label>
             <v-select
@@ -180,7 +180,4 @@ export default {
 }
 </script>
 <style scoped>
-  .filter-row {
-    margin-bottom: -40px;
-  }
 </style>

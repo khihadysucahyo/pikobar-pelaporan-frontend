@@ -14,6 +14,7 @@ import settingRouter from './modules/setting'
 import distributionCaseRouter from './modules/distributionCase'
 import submissionLogistikRouter from './modules/submissionLogistik'
 import dailyReportRouter from './modules/dailyReport'
+import hospitalReferralRouter from './modules/hospitalReferral'
 
 /**
  * constantRoutes
@@ -73,6 +74,7 @@ export const asyncRoutes = [
   Pelaporan,
   rdtRouter,
   submissionLogistikRouter,
+  hospitalReferralRouter,
   settingRouter,
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/', hidden: true }
