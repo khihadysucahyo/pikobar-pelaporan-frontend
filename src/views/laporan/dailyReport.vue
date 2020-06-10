@@ -118,9 +118,9 @@
           <card-repot-daily
             :title="'Distribusi Total Positif'"
             :active-color="'#EB5757'"
-            :total="listTotal.positif_aktif_total"
-            :process="listTotal.positif_aktif_proses"
-            :done="listTotal.positif_aktif_selesai"
+            :total="totalPositif"
+            :process="totalPositifProcces"
+            :done="totalPositifDone"
             :gender="listTotal.positif_aktif_by_gender"
             :nationality="listTotal.positif_aktif_by_nationality"
             :age="listTotal.positif_aktif_by_usia"
@@ -162,7 +162,10 @@ export default {
         filter: ''
       },
       list: [],
-      listTotal: ''
+      listTotal: '',
+      totalPositif: 0,
+      totalPositifProcces: 0,
+      totalPositifDone: 0
     }
   },
   computed: {
@@ -194,6 +197,9 @@ export default {
       const response = await this.$store.dispatch('statistic/agregateCriteria', this.listQuery)
       this.list = response.data.summary
       this.listTotal = response.data.total
+      this.totalPositif = this.listTotal.positif_aktif_total + this.listTotal.positif_meninggal_total + this.listTotal.positif_sembuh_total
+      this.totalPositifProcces = this.listTotal.positif_aktif_proses + this.listTotal.positif_meninggal_proses + this.listTotal.positif_sembuh_proses
+      this.totalPositifDone = this.listTotal.positif_aktif_selesai + this.listTotal.positif_meninggal_selesai + this.listTotal.positif_sembuh_selesai
     },
     async handleExport() {
       this.loading = true
