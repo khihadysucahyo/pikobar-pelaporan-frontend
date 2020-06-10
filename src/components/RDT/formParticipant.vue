@@ -156,7 +156,7 @@
                 solo
               />
             </ValidationProvider>
-            <v-row>
+            <v-row class="mx-0">
               <ValidationProvider
                 v-slot="{ errors }"
                 rules="required"
