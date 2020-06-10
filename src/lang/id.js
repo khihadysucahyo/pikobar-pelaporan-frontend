@@ -434,7 +434,13 @@ export default {
     other_additional_condition: 'Kondisi Penyerta Lainnya',
     other_symptoms: 'Gejala Lainnya',
     case_status: 'Status Kasus',
-    history_and_symptoms: 'Riwayat & Gejala'
+    history_and_symptoms: 'Riwayat & Gejala',
+    patient_search: 'Cari Pasien',
+    search_patient_by_name_nik: 'Cari Nama Pasien/NIK/No Telepon',
+    patient_name: 'Nama Pasien',
+    patient_personal_data: 'Data Diri Pasien',
+    lab: "Lab",
+    data_not_available: "Data tidak tersedia"
   },
   success: {
     login_success: 'Login Berhasil',

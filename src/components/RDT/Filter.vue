@@ -17,7 +17,7 @@
           </v-col>
         </v-row>
         <v-row class="filter-row">
-          <v-col cols="12" sm="3">
+          <v-col cols="12" sm="4">
             <v-label class="title">{{ $t('label.test_result') }}:</v-label>
             <v-select
               v-model="listQuery.final_result"
@@ -27,7 +27,7 @@
               item-value="value"
             />
           </v-col>
-          <v-col cols="12" sm="3">
+          <v-col cols="12" sm="4">
             <v-label class="title">{{ $t('label.mechanism') }}:</v-label>
             <v-select
               v-model="listQuery.mechanism"
@@ -35,7 +35,7 @@
               solo
             />
           </v-col>
-          <v-col cols="12" sm="3">
+          <v-col cols="12" sm="4">
             <v-label class="title">{{ $t('label.method_used') }}:</v-label>
             <v-select
               v-model="listQuery.test_method"
@@ -87,22 +87,28 @@
           </v-col>
           <v-col cols="12" sm="3">
             <br>
-            <div>
-              <v-btn
-                color="grey"
-                style="height: 46px;min-width: 100px;margin-right: 4px;"
-                @click="onReset"
-              >
-                {{ $t('label.reset') }}
-              </v-btn>
-              <v-btn
-                color="success"
-                style="height: 46px;min-width: 100px;"
-                @click="onSearch"
-              >
-                {{ $t('label.look_for_it') }}
-              </v-btn>
-            </div>
+            <v-row>
+              <v-col class="pt-0">
+                <v-btn
+                  block
+                  color="#4f4f4f"
+                  class="btn-reset"
+                  @click="onReset"
+                >
+                  {{ $t('label.reset') }}
+                </v-btn>
+              </v-col>
+              <v-col class="pt-0">
+                <v-btn
+                  block
+                  color="success"
+                  class="btn-search"
+                  @click="onSearch"
+                >
+                  {{ $t('label.look_for_it') }}
+                </v-btn>
+              </v-col>
+            </v-row>
           </v-col>
         </v-row>
       </v-container>
@@ -181,6 +187,13 @@ export default {
 </script>
 <style scoped>
   .filter-row {
-    margin-bottom: -40px;
+    margin-bottom: -20px;
+  }
+  .btn-reset {
+    height: 46px !important;
+    color: white !important;
+  }
+  .btn-search {
+    height: 46px !important;
   }
 </style>
