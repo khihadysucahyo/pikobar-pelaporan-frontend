@@ -552,18 +552,18 @@ export default {
       const age = this.getAgeWithMonth(value)
       this.formPasien.yearsOld = age.year
       this.formPasien.monthsOld = age.month
-      this.formPasien.age = this.formPasien.yearsOld + (this.formPasien.monthsOld / 12)
+      this.formPasien.age = Number((this.formPasien.yearsOld + (this.formPasien.monthsOld / 12)).toFixed(2))
     },
     'formPasien.yearsOld'(value) {
       if (this.formPasien.monthsOld !== '') {
-        this.formPasien.age = parseInt(this.formPasien.yearsOld) + (parseInt(this.formPasien.monthsOld) / 12)
+        this.formPasien.age = Number((Number(this.formPasien.yearsOld) + (Number(this.formPasien.monthsOld) / 12)).toFixed(2))
       } else {
-        this.formPasien.age = parseInt(this.formPasien.yearsOld)
+        this.formPasien.age = Number(this.formPasien.yearsOld)
       }
     },
     'formPasien.monthsOld'(value) {
       if (this.formPasien.yearsOld !== '') {
-        this.formPasien.age = parseInt(this.formPasien.yearsOld) + (parseInt(this.formPasien.monthsOld) / 12)
+        this.formPasien.age = Number((Number(this.formPasien.yearsOld) + (Number(this.formPasien.monthsOld) / 12)).toFixed(2))
       }
     },
     async searchRelatedCase(value) {
