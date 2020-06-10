@@ -127,6 +127,10 @@
                   value="RS"
                 />
                 <v-radio
+                  :label="$t('label.lab')"
+                  value="LAB"
+                />
+                <v-radio
                   :label="$t('label.other')"
                   value="LAINNYA"
                 />
@@ -139,8 +143,28 @@
             >
               <v-autocomplete
                 v-model="formResult.test_location"
-                no-data-text="Data tidak tersedia"
+                :no-data-text="$t('label.data_not_available')"
                 :items="hospitalList"
+                :return-object="false"
+                :error-messages="errors"
+                :label="$t('label.choose_place_test')"
+                menu-props="auto"
+                item-text="name"
+                item-value="name"
+                single-line
+                solo
+                autocomplete
+                @change="onSelectHospital"
+              />
+            </ValidationProvider>
+            <ValidationProvider
+              v-if="formResult.test_location_type === 'LAB'"
+              v-slot="{ errors }"
+              rules="required"
+            >
+              <v-autocomplete
+                v-model="formResult.test_location"
+                :no-data-text="$t('label.data_not_available')"
                 :return-object="false"
                 :error-messages="errors"
                 :label="$t('label.choose_place_test')"

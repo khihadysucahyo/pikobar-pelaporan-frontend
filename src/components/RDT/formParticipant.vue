@@ -7,14 +7,14 @@
       >
         <v-row>
           <v-col>
-            <label>{{ $t('label.search_participant_by_name_nik') }}</label>
+            <label>{{ $t('label.search_patient_by_name_nik') }}</label>
             <autocomplete-cases
               :on-select-case="onSelectCase"
             />
           </v-col>
         </v-row>
         <h4 class="font-weight-bold" style="color:#43A047">
-          {{ $t('label.participant_personal_data') }}
+          {{ $t('label.patient_personal_data') }}
         </h4>
         <v-divider />
         <v-row>
@@ -27,7 +27,7 @@
               v-slot="{ errors }"
               rules="required|isHtml"
             >
-              <label class="required">{{ $t('label.participant_name') }}</label>
+              <label class="required">{{ $t('label.patient_name') }}</label>
               <v-text-field
                 v-model="formRapid.name"
                 :error-messages="errors"
@@ -96,7 +96,8 @@
                 type="number"
               />
             </ValidationProvider>
-            <ValidationProvider
+            <!-- Sementara fitur kategori di hide -->
+            <!-- <ValidationProvider
               v-slot="{ errors }"
               rules="required"
             >
@@ -110,7 +111,7 @@
                 solo
                 @change="onChangeCategory"
               />
-            </ValidationProvider>
+            </ValidationProvider> -->
           </v-col>
           <v-col
             cols="12"
@@ -155,7 +156,7 @@
                 solo
               />
             </ValidationProvider>
-            <v-row>
+            <v-row class="mx-0">
               <ValidationProvider
                 v-slot="{ errors }"
                 rules="required"
@@ -195,7 +196,8 @@
                 />
               </ValidationProvider>
             </v-row>
-            <ValidationProvider
+            <!-- Sementara fitur sasaran di hide -->
+            <!-- <ValidationProvider
               v-slot="{ errors }"
               rules="required"
             >
@@ -209,7 +211,7 @@
                 item-value="targets"
                 solo
               />
-            </ValidationProvider>
+            </ValidationProvider> -->
           </v-col>
         </v-row>
       </v-form>

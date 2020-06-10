@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h4 class="font-weight-bold" style="color:#43A047">{{ $t('label.participant_search') }}</h4>
+    <h4 class="font-weight-bold" style="color:#43A047">{{ $t('label.patient_search') }}</h4>
     <v-divider />
     <ValidationObserver ref="observer">
       <v-form
@@ -19,6 +19,19 @@
           <v-row class="survey-bottom-form">
             <v-col cols="" md="4" sm="0" />
             <v-col cols="12" md="3" sm="12">
+              <!-- Sementara button ini di hide -->
+              <!-- <v-btn
+                color="blue"
+                :disabled="formResult.final_result !== 'POSITIF'"
+                :loading="loading"
+                bottom
+                style="float: left; color: white"
+                @click="saveRdtAndCase"
+              >
+                {{ $t('label.save_and_add_to_report_case') }}
+              </v-btn> -->
+            </v-col>
+            <v-col cols="12" md="5" sm="12">
               <v-btn
                 color="success"
                 :disabled="formResult.final_result === 'POSITIF'"
@@ -28,18 +41,6 @@
                 @click="saveData"
               >
                 {{ $t('label.save') }}
-              </v-btn>
-            </v-col>
-            <v-col cols="12" md="5" sm="12">
-              <v-btn
-                color="blue"
-                :disabled="formResult.final_result !== 'POSITIF'"
-                :loading="loading"
-                bottom
-                style="float: left; color: white"
-                @click="saveRdtAndCase"
-              >
-                {{ $t('label.save_and_add_to_report_case') }}
               </v-btn>
             </v-col>
           </v-row>
@@ -66,7 +67,7 @@ export default {
       formRapid: {
         id: '',
         id_case: '',
-        target: '',
+        target: null,
         nik: null,
         name: null,
         birth_date: '',
