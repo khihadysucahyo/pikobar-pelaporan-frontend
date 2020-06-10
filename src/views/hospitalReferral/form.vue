@@ -14,6 +14,7 @@
       <v-col
         cols="12"
         sm="6"
+        @click="handleReferralCase"
       >
         <v-card
           outlined
@@ -74,12 +75,26 @@
         </v-card>
       </v-col>
     </v-row>
+    <pop-up-referral
+      :dialog="dialog"
+    />
   </div>
 </template>
 
 <script>
 export default {
-  name: 'FormHospitalReferral'
+  name: 'FormHospitalReferral',
+  data() {
+    return {
+      dialog: false
+    }
+  },
+  methods: {
+    async handleReferralCase() {
+      console.log('ok')
+      this.dialog = true
+    }
+  }
 }
 </script>
 
