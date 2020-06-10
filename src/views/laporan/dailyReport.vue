@@ -162,10 +162,7 @@ export default {
         filter: ''
       },
       list: [],
-      listTotal: '',
-      totalPositif: 0,
-      totalPositifProcces: 0,
-      totalPositifDone: 0
+      listTotal: ''
     }
   },
   computed: {
