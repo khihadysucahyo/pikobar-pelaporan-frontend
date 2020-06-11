@@ -335,7 +335,7 @@
               </div>
             </v-row>
           </v-col>
-          <v-col class="mx-5">
+          <v-col :class="caseDetail.stage === $t('label.done') ? 'mx-5' : 'ml-5'">
             <v-row class="input-label">
               {{ $t('label.stages') }}
             </v-row>
@@ -348,7 +348,7 @@
               />
             </v-row>
           </v-col>
-          <v-col v-if="caseDetail.stage === '1'">
+          <v-col v-if="caseDetail.stage === $t('label.done')">
             <v-row class="input-label">
               {{ $t('label.results') }}
             </v-row>
@@ -994,7 +994,6 @@ export default {
       this.show = false
     },
     async updateCase() {
-      
       const reportData = {
         'id': this.caseDetail._id,
         'data': {
