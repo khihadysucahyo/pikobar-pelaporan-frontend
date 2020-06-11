@@ -453,7 +453,13 @@ export default {
     patient_name: 'Nama Pasien',
     patient_personal_data: 'Data Diri Pasien',
     lab: "Lab",
-    data_not_available: "Data tidak tersedia"
+    data_not_available: "Data tidak tersedia",
+    do_not_have_nik: "Tidak ada nik",
+    reason_do_not_have_nik: "Alasan tidak ada nik",
+    do_not_have_phone_number: "Tidak ada No Telepon",
+    reason_do_not_have_phone_number: "Alasan tidak ada No Telepon",
+    swab_count: "Swab Ke",
+    internal_and_external_data_not_found: "Data tidak ditemukan di Laporan Kasus atau Pendaftaran Pikobar. Harap Data diri pasien diinputkan manual"
   },
   success: {
     login_success: 'Login Berhasil',

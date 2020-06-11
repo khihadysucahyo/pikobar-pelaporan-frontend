@@ -84,7 +84,9 @@ export default {
         category: null,
         mechanism: null,
         nationality: null,
-        nationality_name: null
+        nationality_name: null,
+        note_nik: '',
+        note_phone_number: ''
       },
       formResult: {
         final_result: null,
@@ -102,7 +104,8 @@ export default {
         sampling_type: '',
         test_method: null,
         test_date: null,
-        test_note: null
+        test_note: null,
+        swab_count: 1
       }
     }
   },
@@ -143,7 +146,6 @@ export default {
         await this.$store.dispatch('toast/errorToast', 'Tanggal Harus Diisi')
         return
       }
-
       try {
         this.loading = true
         Object.assign(this.formRapid, this.formResult)
