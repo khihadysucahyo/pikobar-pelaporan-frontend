@@ -82,20 +82,56 @@
             <v-row class="input-label" :class="required">
               {{ $t('label.age') }}
             </v-row>
-            <v-row>
-              <ValidationProvider
-                v-slot="{ errors }"
-                rules="required"
-                class="full-width"
+            <v-row align="start">
+              <v-col
+                cols="12"
+                md="9"
+                sm="12"
+                :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown, 'px-0': $vuetify.breakpoint. mdAndUp}"
               >
-                <v-text-field
-                  v-if="caseDetail"
-                  v-model="caseDetail.age"
-                  solo-inverted
-                  :error-messages="errors"
-                  :disabled="caseDetail.verified_status !== 'declined'"
-                />
-              </ValidationProvider>
+                <v-row align="center" class="ma-0">
+                  <v-col cols="12" sm="3" class="pa-0">
+                    <ValidationProvider
+                      v-slot="{ errors }"
+                      rules="required|numeric|isHtml"
+                    >
+                      <v-text-field
+                        v-model="caseDetail.yearsOld"
+                        :error-messages="errors"
+                        type="number"
+                        min="0"
+                        max="120"
+                        solo-inverted
+                        oninput="if(Number(this.value) > Number(this.max)) this.value = this.max"
+                        :disabled="caseDetail.verified_status !== 'declined'"
+                      />
+                    </ValidationProvider>
+                  </v-col>
+                  <v-col cols="12" md="3" sm="2" class="pa-0 text-center">
+                    <label>{{ $t('label.year') }}</label>
+                  </v-col>
+                  <v-col cols="12" sm="3" class="pa-0">
+                    <ValidationProvider
+                      v-slot="{ errors }"
+                      rules="numeric|isHtml"
+                    >
+                      <v-text-field
+                        v-model="caseDetail.monthsOld"
+                        :error-messages="errors"
+                        type="number"
+                        min="0"
+                        max="11"
+                        solo-inverted
+                        oninput="if(Number(this.value) > Number(this.max)) this.value = this.max"
+                        :disabled="caseDetail.verified_status !== 'declined'"
+                      />
+                    </ValidationProvider>
+                  </v-col>
+                  <v-col cols="12" md="3" sm="2" class="pa-0 text-center">
+                    <label>{{ $t('label.month') }}</label>
+                  </v-col>
+                </v-row>
+              </v-col>
             </v-row>
             <v-row class="input-label" :class="required">
               {{ $t('label.gender') }}
@@ -792,7 +828,7 @@
 import { formatDatetime } from '@/utils/parseDatetime'
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import { mapGetters } from 'vuex'
-import { getAge } from '@/utils/constantVariable'
+import { getAgeWithMonth } from '@/utils/constantVariable'
 import { symptomOptions, additionalConditionOptions } from '@/utils/constantVariable'
 export default {
   name: 'VerificationForm',
@@ -890,6 +926,8 @@ export default {
       this.show = value
       if (value) {
         this.caseDetail = this.caseData
+        this.caseDetail.yearsOld = Math.floor(this.caseDetail.age)
+        this.caseDetail.monthsOld = Math.ceil((this.caseDetail.age - Math.floor(this.caseDetail.age)) * 12)
         if (this.caseDetail.birth_date) {
           if (this.caseDetail.verified_status !== 'declined') {
             this.caseDetail.birth_date = formatDatetime(this.caseDetail.birth_date, 'DD MMMM YYYY')
@@ -953,7 +991,24 @@ export default {
       this.$emit('update:show', value)
     },
     'caseDetail.birth_date'(value) {
-      if (this.caseDetail.birth_date && this.caseDetail.verified_status === 'declined') this.caseDetail.age = this.getAge(value)
+      if (this.caseDetail.birth_date && this.caseDetail.verified_status === 'declined') {
+        const age = this.getAgeWithMonth(value)
+        this.caseDetail.yearsOld = age.year
+        this.caseDetail.monthsOld = age.month
+        this.caseDetail.age = Number((this.caseDetail.yearsOld + (this.caseDetail.monthsOld / 12)).toFixed(2))
+      }
+    },
+    'caseDetail.yearsOld'(value) {
+      if (this.caseDetail.monthsOld !== '') {
+        this.caseDetail.age = Number((Number(this.caseDetail.yearsOld) + (Number(this.caseDetail.monthsOld) / 12)).toFixed(2))
+      } else {
+        this.caseDetail.age = Number(this.caseDetail.yearsOld)
+      }
+    },
+    'caseDetail.monthsOld'(value) {
+      if (this.caseDetail.yearsOld !== '') {
+        this.caseDetail.age = Number((Number(this.caseDetail.yearsOld) + (Number(this.caseDetail.monthsOld) / 12)).toFixed(2))
+      }
     },
     'caseDetail.nationality'(value) {
       if (value === 'WNI') {
@@ -977,7 +1032,7 @@ export default {
   },
   methods: {
     formatDatetime,
-    getAge,
+    getAgeWithMonth,
     async onClose(isVerified) {
       if (this.roles[0] !== 'faskes') {
         this.query.id = this.caseDetail._id
