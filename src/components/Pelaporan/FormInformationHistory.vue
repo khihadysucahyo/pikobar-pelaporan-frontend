@@ -141,7 +141,10 @@
             </ValidationProvider>
           </v-col>
         </v-row>
-        <v-row align="center">
+        <v-row
+          v-if="!patientReferral"
+          align="center"
+        >
           <v-col
             cols="12"
             md="3"
@@ -576,7 +579,11 @@
           </v-col>
         </v-row>
         <v-container fluid>
-          <v-row class="survey-bottom-form" justify="space-between">
+          <v-row
+            v-if="!patientReferral"
+            class="survey-bottom-form"
+            justify="space-between"
+          >
             <v-col cols="12" md="6" sm="12" :class="{'mb-2': $vuetify.breakpoint.smAndDown}" class="ma-0 pa-0">
               <v-btn
                 :loading="loading"
@@ -623,6 +630,10 @@ export default {
     formPasien: {
       type: Object,
       default: null
+    },
+    patientReferral: {
+      type: Boolean,
+      default: false
     }
   },
   data() {

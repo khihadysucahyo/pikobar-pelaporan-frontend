@@ -444,7 +444,10 @@
             </ValidationProvider>
           </v-col>
         </v-row>
-        <v-row class="survey-bottom-form ma-0 pa-0">
+        <v-row
+          v-if="!patientReferral"
+          class="survey-bottom-form ma-0 pa-0"
+        >
           <v-col cols="12" :class="{'text-right': $vuetify.breakpoint.mdAndUp}" class="ma-0 pa-0">
             <v-btn
               color="success"
@@ -490,6 +493,10 @@ export default {
     formPasien: {
       type: Object,
       default: null
+    },
+    patientReferral: {
+      type: Boolean,
+      default: false
     }
   },
   data() {

@@ -1,54 +1,29 @@
 <template>
   <v-row justify="center">
     <v-dialog
-      v-model="dialogPopUp"
+      v-model="dialogPopup"
       persistent
-      max-width="440px"
+      :max-width="patientRegistered ? '380px':'980px'"
     >
       <v-card>
-        <div class="justify-center dialog-img-delete">
+        <v-card-title class="justify-center">
           <img src="@/static/hospital_reference_1.svg">
-        </div>
+        </v-card-title>
         <v-card-title class="justify-center">
           <div class="font-weight-bold" style="font-size: 16px">
-            Pasien Terdata Di [Nama RS-nya]
+            {{ patientRegistered ? `${ $t('label.patients_recorded_at') } ${fullName}`:`${ $t('label.patients_not_yet_recorded_in') } ${fullName}` }}
           </div>
         </v-card-title>
         <v-container>
           <ValidationObserver ref="observer">
-            <v-form
-              ref="form"
-              lazy-validation
-            >
-              <v-row>
-                <v-col>
-                  <label>NIK</label>
-                  <ValidationProvider
-                    v-slot="{ errors }"
-                  >
-                    <v-text-field
-                      v-model="formReferral"
-                      :error-messages="errors"
-                      solo-inverted
-                    />
-                  </ValidationProvider>
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col>
-                  <label>Rumah Sakit Rujukan</label>
-                  <ValidationProvider
-                    v-slot="{ errors }"
-                  >
-                    <v-text-field
-                      v-model="formReferral"
-                      :error-messages="errors"
-                      solo-inverted
-                    />
-                  </ValidationProvider>
-                </v-col>
-              </v-row>
-            </v-form>
+            <div v-if="patientRegistered">
+              <form-patient-registered
+                :form-referral="formReferral"
+              />
+            </div>
+            <div v-else>
+              <form-patient-unregistered />
+            </div>
           </ValidationObserver>
         </v-container>
         <v-card-actions>
@@ -56,15 +31,16 @@
             <v-btn
               class="mr-5"
               style="height: 40px;min-width: 120px;"
-              @click="dialogPopUp = false"
+              @click="dialogPopup = false"
             >
               {{ $t('label.canceled') }}
             </v-btn>
             <v-btn
               color="primary"
               style="height: 40px;min-width: 120px;"
+              @click="closeData"
             >
-              RUJUK
+              {{ $t('label.short_reference').toUpperCase() }}
             </v-btn>
           </v-col>
         </v-card-actions>
@@ -74,15 +50,20 @@
 </template>
 
 <script>
-import { ValidationObserver, ValidationProvider } from 'vee-validate'
+import { ValidationObserver } from 'vee-validate'
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'PopUpReferral',
   components: {
-    ValidationProvider,
     ValidationObserver
   },
   props: {
     dialog: {
+      type: Boolean,
+      default: false
+    },
+    patientRegistered: {
       type: Boolean,
       default: false
     },
@@ -92,13 +73,21 @@ export default {
     }
   },
   computed: {
-    dialogPopUp: {
+    dialogPopup: {
       get() {
         return this.dialog
       },
       set(val) {
-        this.$emit('update:dialogPopUp', val)
+        this.$emit('update:dialogPopup', val)
       }
+    },
+    ...mapGetters('user', [
+      'fullName'
+    ])
+  },
+  methods: {
+    async closeData() {
+      await this.$emit('update:dialogPopup', false)
     }
   }
 }

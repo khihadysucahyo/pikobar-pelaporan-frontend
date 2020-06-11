@@ -4,8 +4,8 @@
       <v-row class="mt-2">
         <v-col auto>
           <v-card-text>
-            <div class="header-user-title">Total List Pasien Rujukan : 10</div>
-            <div class="header-user-text">Dinas Kota Bandung</div>
+            <div class="header-user-title">{{ $t('label.total_list_referral_patients') }} : 10</div>
+            <div class="header-user-text">{{ fullName }}</div>
           </v-card-text>
         </v-col>
       </v-row>
@@ -14,7 +14,7 @@
       <v-col
         cols="12"
         sm="6"
-        @click="handleReferralCase"
+        @click="handleReferralCaseRegistered"
       >
         <v-card
           outlined
@@ -29,10 +29,10 @@
             </v-avatar>
             <v-list-item-content class="flex-wrap pos-center">
               <v-list-item-title class="font-weight-bold" style="font-size: 16px">
-                Pasien Terdata Di [Nama RS-nya]
+                {{ $t('label.patients_recorded_at') }} {{ fullName }}
               </v-list-item-title>
               <v-list-item-subtitle>
-                Klik disini apabila pasien sudah terdata di <br>RS [Nama RS-nya]
+                {{ $t('label.click_here_if_patient_has_already_recorded') }}
               </v-list-item-subtitle>
             </v-list-item-content>
             <div class="pos-center">
@@ -46,6 +46,7 @@
       <v-col
         cols="12"
         sm="6"
+        @click="handleReferralCaseUnegistered"
       >
         <v-card
           outlined
@@ -60,10 +61,10 @@
             </v-avatar>
             <v-list-item-content class="pos-center">
               <v-list-item-title class="flex-nowrap font-weight-bold" style="font-size: 16px">
-                Pasien Belum Terdata Di [Nama RS-nya]
+                {{ $t('label.patients_not_yet_recorded_in') }} {{ fullName }}
               </v-list-item-title>
               <v-list-item-subtitle>
-                Klik disini apabila pasien belum terdata di <br>RS [Nama RS-nya]
+                {{ $t('label.click_here_if_patient_has_not_been_recorded') }}
               </v-list-item-subtitle>
             </v-list-item-content>
             <div class="pos-center">
@@ -77,22 +78,36 @@
     </v-row>
     <pop-up-referral
       :dialog="dialog"
+      :dialog-popup.sync="dialog"
+      :patient-registered="patientRegistered"
     />
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'FormHospitalReferral',
   data() {
     return {
-      dialog: false
+      dialog: false,
+      patientRegistered: false
     }
   },
+  computed: {
+    ...mapGetters('user', [
+      'fullName'
+    ])
+  },
   methods: {
-    async handleReferralCase() {
-      console.log('ok')
+    async handleReferralCaseRegistered() {
       this.dialog = true
+      this.patientRegistered = true
+    },
+    async handleReferralCaseUnegistered() {
+      this.dialog = true
+      this.patientRegistered = false
     }
   }
 }

@@ -4,8 +4,8 @@
       <v-row class="mt-2">
         <v-col auto>
           <v-card-text>
-            <div class="header-user-title">Buat Rujukan Untuk Pasien</div>
-            <div class="header-user-text">Pilih salah satu dibawah ini</div>
+            <div class="header-user-title">{{ $t('label.make_referrals_for_patients') }}</div>
+            <div class="header-user-text">{{ $t('label.choose_one_below') }}</div>
           </v-card-text>
         </v-col>
       </v-row>
@@ -23,7 +23,7 @@
           <v-tab @click="onTabChanges('pending,declined')">{{ tabLabel[0] }}</v-tab>
           <v-tab @click="onTabChanges('pending')">{{ tabLabel[1] }}</v-tab>
           <v-tab @click="onTabChanges('declined')">{{ tabLabel[2] }}</v-tab>
-          <v-tab @click="onTabChanges('declined')">{{ tabLabel[3] }}</v-tab>
+          <v-tab @click="onTabChanges('received')">{{ tabLabel[3] }}</v-tab>
           <v-tab-item v-for="(tabItem, index) in tabLabel" :key="index">
             <v-container>
               <v-row>
@@ -51,18 +51,23 @@ export default {
       },
       listReferral: [],
       tab: null,
-      tabLabel: [this.$t('label.all'), 'Menunggu Diverifikasi', 'Pasien Ditolak', 'Rujukan Diterima'],
+      tabLabel: [
+        this.$t('label.all'),
+        this.$t('label.waiting_for_verification'),
+        this.$t('label.patient_rejected'),
+        this.$t('label.reference_received')
+      ],
       headers: [
-        { text: 'NO.', value: '_id', sortable: false },
-        { text: 'NIK', value: 'id_case' },
-        { text: 'NAMA', value: 'name' },
-        { text: 'USIA', value: 'age' },
-        { text: 'L/P', value: 'gender' },
-        { text: 'STATUS', value: 'phone_number' },
-        { text: 'TAHAPAN', value: 'status' },
-        { text: 'HASIL', value: 'stage' },
-        { text: 'RUJUKAN', value: 'final_result' },
-        { text: 'STATUS RUJUKAN', value: 'author' },
+        { text: this.$t('label.number').toUpperCase(), value: '_id', sortable: false },
+        { text: this.$t('label.nik').toUpperCase(), value: 'id_case' },
+        { text: this.$t('label.name').toUpperCase(), value: 'name' },
+        { text: this.$t('label.age').toUpperCase(), value: 'age' },
+        { text: this.$t('label.short_gender_abbreviation'), value: 'gender' },
+        { text: this.$t('label.status').toUpperCase(), value: 'phone_number' },
+        { text: this.$t('label.stages').toUpperCase(), value: 'status' },
+        { text: this.$t('label.results').toUpperCase(), value: 'stage' },
+        { text: this.$t('label.reference').toUpperCase(), value: 'final_result' },
+        { text: this.$t('label.reference_status').toUpperCase(), value: 'author' },
         { text: this.$t('label.action').toUpperCase(), value: 'actions', sortable: false }
       ]
     }
