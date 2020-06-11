@@ -348,7 +348,7 @@
               />
             </v-row>
           </v-col>
-          <v-col>
+          <v-col v-if="caseDetail.stage === '1'">
             <v-row class="input-label">
               {{ $t('label.results') }}
             </v-row>
@@ -994,6 +994,7 @@ export default {
       this.show = false
     },
     async updateCase() {
+      
       const reportData = {
         'id': this.caseDetail._id,
         'data': {
@@ -1009,7 +1010,13 @@ export default {
           'id_case_related': this.caseDetail.id_case_related,
           'name_case_related': this.caseDetail.name_case_related,
           'occupation': this.caseDetail.occupation,
-          'office_address': this.caseDetail.office_address
+          'office_address': this.caseDetail.office_address,
+          'address_district_code': this.caseDetail.address_district_code,
+          'address_district_name': this.caseDetail.address_district_name,
+          'address_subdistrict_code': this.caseDetail.address_subdistrict_code,
+          'address_subdistrict_name': this.caseDetail.address_subdistrict_name,
+          'address_village_code': this.caseDetail.address_village_code,
+          'address_village_name': this.caseDetail.address_village_name
         }
       }
       const historyData = {
