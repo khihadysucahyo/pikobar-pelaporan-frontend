@@ -994,7 +994,6 @@ export default {
       this.show = false
     },
     async updateCase() {
-      
       const reportData = {
         'id': this.caseDetail._id,
         'data': {

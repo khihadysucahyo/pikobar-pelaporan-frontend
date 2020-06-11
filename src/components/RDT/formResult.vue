@@ -101,6 +101,19 @@
                 </v-row>
               </v-radio-group>
             </ValidationProvider>
+            <ValidationProvider
+              v-slot="{ errors }"
+              rules="required|numeric"
+              class="full-width"
+            >
+              <label class="required">{{ $t('label.swab_count') }}</label>
+              <v-text-field
+                v-model="formResult.swab_count"
+                :error-messages="errors"
+                solo-inverted
+                type="number"
+              />
+            </ValidationProvider>
           </v-col>
           <v-col>
             <label class="required">{{ $t('label.testing_date') }}</label>
@@ -163,14 +176,15 @@
               rules="required"
             >
               <v-autocomplete
-                v-model="formResult.test_location"
+                v-model="formResult.lab"
                 :no-data-text="$t('label.data_not_available')"
                 :return-object="false"
                 :error-messages="errors"
                 :label="$t('label.choose_place_test')"
+                :items="listLab"
                 menu-props="auto"
-                item-text="name"
-                item-value="name"
+                item-text="lab_name"
+                item-value="lab_name"
                 single-line
                 solo
                 autocomplete
@@ -242,6 +256,11 @@ export default {
       default: null
     }
   },
+  data() {
+    return {
+      listLab: []
+    }
+  },
   computed: {
     ...mapGetters('region', [
       'hospitalList'
@@ -255,6 +274,10 @@ export default {
       city_code: this.district_user
     }
     await this.$store.dispatch('region/getListHospital', listQuery)
+    const response = await this.$store.dispatch('rdt/getLabList')
+    this.listLab = response.data
+    var paramHospitalWestJava = { 'rs_jabar': true }
+    await this.$store.dispatch('region/getListHospital', paramHospitalWestJava)
   },
   methods: {
     handleChangeLocationNow(value) {
