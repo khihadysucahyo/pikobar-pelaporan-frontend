@@ -51,7 +51,7 @@
                 <td>{{ item.name }}</td>
                 <td>{{ item.age }} Th</td>
                 <td>
-                  <div v-if="item.gender =='P'">
+                  <div v-if="item.gender === 'P'">
                     {{ $t('label.female_initials') }}
                   </div>
                   <div v-else>
