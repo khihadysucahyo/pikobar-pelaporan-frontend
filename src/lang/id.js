@@ -478,7 +478,13 @@ export default {
     reason_do_not_have_phone_number: "Alasan tidak ada No Telepon",
     swab_count: "Swab Ke",
     work_unit: 'Unit Kerja',
-    internal_and_external_data_not_found: "Data tidak ditemukan di Laporan Kasus atau Pendaftaran Pikobar. Harap Data diri pasien diinputkan manual"
+    internal_and_external_data_not_found: "Data tidak ditemukan di Laporan Kasus atau Pendaftaran Pikobar. Harap Data diri pasien diinputkan manual",
+    test_id: "Id Tes",
+    rdt: "RDT",
+    latest_test_date: "Tanggal Tes Terakhir",
+    latest_test_result: "Hasil Tes Terakhir",
+    delete_data: "Hapus Data",
+    edit_latest_test_result: "Edit Hasil Tes Terakhir"
   },
   success: {
     login_success: 'Login Berhasil',
