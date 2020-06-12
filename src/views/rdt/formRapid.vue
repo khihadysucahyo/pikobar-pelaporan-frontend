@@ -86,7 +86,8 @@ export default {
         nationality: null,
         nationality_name: null,
         note_nik: '',
-        note_phone_number: ''
+        note_phone_number: '',
+        source_data: 'manual'
       },
       formResult: {
         final_result: null,
