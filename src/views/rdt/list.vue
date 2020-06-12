@@ -51,15 +51,16 @@
                 <td>{{ item.name }}</td>
                 <td>{{ item.age }} Th</td>
                 <td>
-                  <div v-if="item.gender =='P'">
-                    Perempuan
+                  <div v-if="item.gender === 'P'">
+                    {{ $t('label.female_initials') }}
                   </div>
                   <div v-else>
-                    Laki-Laki
+                    {{ $t('label.male_initials') }}
                   </div>
                 </td>
                 <td>{{ item.category }}</td>
-                <td>{{ item.address_district_name }} </td>
+                <td>{{ item.rdt_count }}x</td>
+                <td>{{ item.pcr_count }}x</td>
                 <td>{{ item.test_date ? formatDatetime(item.test_date, 'DD MMMM YYYY') : '-' }}</td>
                 <td>{{ item.final_result }} </td>
                 <td>
@@ -91,10 +92,10 @@
                           {{ $t('label.view_detail') }}
                         </v-list-item>
                         <v-list-item v-if="roles[0] === 'dinkeskota' && item.final_result && item.final_result.length > 0 " @click="handleUpdateResults(item._id)">
-                          {{ $t('label.update_results') }}
+                          {{ $t('label.edit_latest_test_result') }}
                         </v-list-item>
                         <v-list-item v-if="roles[0] === 'dinkeskota'" @click="handleDeleteRDT(item._id)">
-                          {{ $t('label.delete_participant') }}
+                          {{ $t('label.delete_data') }}
                         </v-list-item>
                       </v-card>
                     </v-menu>
@@ -133,16 +134,17 @@ export default {
     return {
       headers: [
         { text: '#', value: '_id', sortable: false },
-        { text: 'ID KASUS', value: 'id_case' },
-        { text: 'ID PESERTA', value: 'code_test' },
-        { text: 'NAMA', value: 'name' },
-        { text: 'USIA', value: 'age' },
-        { text: 'JK', value: 'gender' },
-        { text: 'KATEGORI', value: 'category' },
-        { text: 'TEMPAT TES', value: 'address_district_name', sortable: false },
-        { text: 'TANGGAL TES', value: 'test_date' },
-        { text: 'HASIL TES', value: 'final_result' },
-        { text: 'Aksi', value: 'actions', sortable: false }
+        { text: this.$t('label.case_id').toUpperCase(), value: 'id_case' },
+        { text: this.$t('label.test_id').toUpperCase(), value: 'code_test' },
+        { text: this.$t('label.name').toUpperCase(), value: 'name' },
+        { text: this.$t('label.age').toUpperCase(), value: 'age' },
+        { text: this.$t('label.short_gender_abbreviation').toUpperCase(), value: 'gender' },
+        { text: this.$t('label.category').toUpperCase(), value: 'category' },
+        { text: this.$t('label.rdt').toUpperCase(), value: 'rdt' },
+        { text: this.$t('label.pcr').toUpperCase(), value: 'pcr' },
+        { text: this.$t('label.latest_test_date').toUpperCase(), value: 'test_date' },
+        { text: this.$t('label.latest_test_result').toUpperCase(), value: 'final_result' },
+        { text: this.$t('label.action'), value: 'actions', sortable: false }
       ],
       loadingTable: false,
       totalODP: 0,
