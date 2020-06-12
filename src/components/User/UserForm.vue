@@ -101,6 +101,25 @@
                 solo
               />
             </ValidationProvider>
+            <ValidationProvider
+              v-slot="{ errors }"
+            >
+              <label class="required">{{ $t('label.work_unit') }}</label>
+              <v-autocomplete
+                v-model="formUser.unit_id"
+                :items="unitList"
+                :error-messages="errors"
+                :loading="isUnitLoading"
+                :search-input.sync="searchUnit"
+                :label="$t('label.work_unit')"
+                menu-props="auto"
+                item-text="name"
+                item-value="_id"
+                single-line
+                solo
+                autocomplete
+              />
+            </ValidationProvider>
             <div v-if="!isEdit">
               <ValidationProvider
                 v-slot="{ errors }"
@@ -192,10 +211,16 @@ export default {
     return {
       date: '',
       disabledDistrict: true,
+      unitList: [],
       listRoles: [
         'dinkeskota',
         'faskes'
       ],
+      queryUnit: {
+        search: ''
+      },
+      searchUnit: null,
+      isUnitLoading: false,
       typePassword: String,
       typeRepeatPassword: String,
       passwordRules: [
@@ -214,8 +239,21 @@ export default {
       'roles'
     ])
   },
+  watch: {
+    async searchUnit(value) {
+      if (value.length > 2) {
+        this.isUnitLoading = true
+        this.queryUnit.search = value
+        const response = await this.$store.dispatch('region/listUnit', this.queryUnit)
+        this.unitList = response.data.itemsList
+      }
+      this.isUnitLoading = false
+    }
+  },
   async mounted() {
     this.disabledDistrict = await this.roles[0] === 'dinkeskota'
+    const response = await this.$store.dispatch('region/listUnit', this.queryUnit)
+    this.unitList = response.data.itemsList
     if (this.isEdit) {
       const response = await this.$store.dispatch('user/detailUser', this.idData)
       await delete response.data['__v']
