@@ -82,20 +82,56 @@
             <v-row class="input-label" :class="required">
               {{ $t('label.age') }}
             </v-row>
-            <v-row>
-              <ValidationProvider
-                v-slot="{ errors }"
-                rules="required"
-                class="full-width"
+            <v-row align="start">
+              <v-col
+                cols="12"
+                md="9"
+                sm="12"
+                :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown, 'px-0': $vuetify.breakpoint. mdAndUp}"
               >
-                <v-text-field
-                  v-if="caseDetail"
-                  v-model="caseDetail.age"
-                  solo-inverted
-                  :error-messages="errors"
-                  :disabled="caseDetail.verified_status !== 'declined'"
-                />
-              </ValidationProvider>
+                <v-row align="center" class="ma-0">
+                  <v-col cols="12" sm="3" class="pa-0">
+                    <ValidationProvider
+                      v-slot="{ errors }"
+                      rules="required|numeric|isHtml"
+                    >
+                      <v-text-field
+                        v-model="caseDetail.yearsOld"
+                        :error-messages="errors"
+                        type="number"
+                        min="0"
+                        max="120"
+                        solo-inverted
+                        oninput="if(Number(this.value) > Number(this.max)) this.value = this.max"
+                        :disabled="caseDetail.verified_status !== 'declined'"
+                      />
+                    </ValidationProvider>
+                  </v-col>
+                  <v-col cols="12" md="3" sm="2" class="pa-0 text-center">
+                    <label>{{ $t('label.year') }}</label>
+                  </v-col>
+                  <v-col cols="12" sm="3" class="pa-0">
+                    <ValidationProvider
+                      v-slot="{ errors }"
+                      rules="numeric|isHtml"
+                    >
+                      <v-text-field
+                        v-model="caseDetail.monthsOld"
+                        :error-messages="errors"
+                        type="number"
+                        min="0"
+                        max="11"
+                        solo-inverted
+                        oninput="if(Number(this.value) > Number(this.max)) this.value = this.max"
+                        :disabled="caseDetail.verified_status !== 'declined'"
+                      />
+                    </ValidationProvider>
+                  </v-col>
+                  <v-col cols="12" md="3" sm="2" class="pa-0 text-center">
+                    <label>{{ $t('label.month') }}</label>
+                  </v-col>
+                </v-row>
+              </v-col>
             </v-row>
             <v-row class="input-label" :class="required">
               {{ $t('label.gender') }}
@@ -335,7 +371,7 @@
               </div>
             </v-row>
           </v-col>
-          <v-col class="mx-5">
+          <v-col :class="caseDetail.stage === $t('label.done') ? 'mx-5' : 'ml-5'">
             <v-row class="input-label">
               {{ $t('label.stages') }}
             </v-row>
@@ -348,7 +384,7 @@
               />
             </v-row>
           </v-col>
-          <v-col>
+          <v-col v-if="caseDetail.stage === $t('label.done')">
             <v-row class="input-label">
               {{ $t('label.results') }}
             </v-row>
@@ -480,14 +516,14 @@
             <v-row>
               <address-region
                 v-if="caseDetail && caseDetail.last_history.current_location_type === 'RUMAH'"
-                :district-code="caseDetail.current_location_district_code"
-                :code-district.sync="caseDetail.current_location_district_code"
-                :sub-district-code="caseDetail.current_location_subdistrict_code"
-                :code-sub-district.sync="caseDetail.current_location_subdistrict_code"
-                :village-code="caseDetail.current_location_village_code"
-                :village-name="caseDetail.current_location_village_name"
-                :code-village.sync="caseDetail.current_location_village_code"
-                :name-village.sync="caseDetail.current_location_village_name"
+                :district-code="caseDetail.last_history.current_location_district_code"
+                :code-district.sync="caseDetail.last_history.current_location_district_code"
+                :sub-district-code="caseDetail.last_history.current_location_subdistrict_code"
+                :code-sub-district.sync="caseDetail.last_history.current_location_subdistrict_code"
+                :village-code="caseDetail.last_history.current_location_village_code"
+                :village-name="caseDetail.last_history.current_location_village_name"
+                :code-village.sync="caseDetail.last_history.current_location_village_code"
+                :name-village.sync="caseDetail.last_history.current_location_village_name"
                 :disabled-address="false"
                 :required-address="true"
               />
@@ -582,17 +618,39 @@
                 solo-inverted
                 disabled
               />
-              <div v-else-if="caseDetail">
+              <div v-else-if="caseDetail" class="full-width">
                 <v-checkbox
                   v-model="caseDetail.last_history.is_went_abroad"
                   :label="$t('label.from_abroad')"
                   class="mt-0 pt-0"
                 />
+                <v-row v-if="caseDetail && caseDetail.last_history.is_went_abroad" class="input-label mx-0">
+                  {{ $t('label.country_visited') }}
+                </v-row>
+                <v-row class="mx-0">
+                  <v-text-field
+                    v-if="caseDetail && caseDetail.last_history.is_went_abroad"
+                    v-model="caseDetail.last_history.visited_country"
+                    solo-inverted
+                    :disabled="caseDetail.verified_status !== 'declined'"
+                  />
+                </v-row>
                 <v-checkbox
                   v-model="caseDetail.last_history.is_went_other_city"
                   :label="$t('label.trip_outside_the_city')"
                   class="mt-0 pt-0"
                 />
+                <v-row v-if="caseDetail && caseDetail.last_history.is_went_other_city" class="input-label mx-0">
+                  {{ $t('label.city_visited') }}
+                </v-row>
+                <v-row class="mx-0">
+                  <v-text-field
+                    v-if="caseDetail && caseDetail.last_history.is_went_other_city"
+                    v-model="caseDetail.last_history.visited_city"
+                    solo-inverted
+                    :disabled="caseDetail.verified_status !== 'declined'"
+                  />
+                </v-row>
                 <v-checkbox
                   v-model="caseDetail.last_history.is_contact_with_positive"
                   :label="$t('label.contact_with_positive_patients')"
@@ -606,28 +664,6 @@
             <v-row v-if="caseDetail">
               <v-text-field
                 v-model="caseDetail.last_history.history_notes"
-                solo-inverted
-                :disabled="caseDetail.verified_status !== 'declined'"
-              />
-            </v-row>
-            <v-row v-if="caseDetail && caseDetail.last_history.is_went_abroad" class="input-label">
-              {{ $t('label.country_visited') }}
-            </v-row>
-            <v-row>
-              <v-text-field
-                v-if="caseDetail && caseDetail.last_history.is_went_abroad"
-                v-model="caseDetail.last_history.visited_country"
-                solo-inverted
-                :disabled="caseDetail.verified_status !== 'declined'"
-              />
-            </v-row>
-            <v-row v-if="caseDetail && caseDetail.last_history.is_went_other_city" class="input-label">
-              {{ $t('label.city_visited') }}
-            </v-row>
-            <v-row>
-              <v-text-field
-                v-if="caseDetail && caseDetail.last_history.is_went_other_city"
-                v-model="caseDetail.last_history.visited_city"
                 solo-inverted
                 :disabled="caseDetail.verified_status !== 'declined'"
               />
@@ -792,7 +828,7 @@
 import { formatDatetime } from '@/utils/parseDatetime'
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import { mapGetters } from 'vuex'
-import { getAge } from '@/utils/constantVariable'
+import { getAgeWithMonth } from '@/utils/constantVariable'
 import { symptomOptions, additionalConditionOptions } from '@/utils/constantVariable'
 export default {
   name: 'VerificationForm',
@@ -890,6 +926,8 @@ export default {
       this.show = value
       if (value) {
         this.caseDetail = this.caseData
+        this.caseDetail.yearsOld = Math.floor(this.caseDetail.age)
+        this.caseDetail.monthsOld = Math.ceil((this.caseDetail.age - Math.floor(this.caseDetail.age)) * 12)
         if (this.caseDetail.birth_date) {
           if (this.caseDetail.verified_status !== 'declined') {
             this.caseDetail.birth_date = formatDatetime(this.caseDetail.birth_date, 'DD MMMM YYYY')
@@ -953,8 +991,23 @@ export default {
       this.$emit('update:show', value)
     },
     'caseDetail.birth_date'(value) {
-      if (this.caseDetail.verified_status === 'declined') {
-        this.caseDetail.age = this.getAge(value)
+      if (this.caseDetail.birth_date && this.caseDetail.verified_status === 'declined') {
+        const age = this.getAgeWithMonth(value)
+        this.caseDetail.yearsOld = age.year
+        this.caseDetail.monthsOld = age.month
+        this.caseDetail.age = Number((this.caseDetail.yearsOld + (this.caseDetail.monthsOld / 12)).toFixed(2))
+      }
+    },
+    'caseDetail.yearsOld'(value) {
+      if (this.caseDetail.monthsOld !== '') {
+        this.caseDetail.age = Number((Number(this.caseDetail.yearsOld) + (Number(this.caseDetail.monthsOld) / 12)).toFixed(2))
+      } else {
+        this.caseDetail.age = Number(this.caseDetail.yearsOld)
+      }
+    },
+    'caseDetail.monthsOld'(value) {
+      if (this.caseDetail.yearsOld !== '') {
+        this.caseDetail.age = Number((Number(this.caseDetail.yearsOld) + (Number(this.caseDetail.monthsOld) / 12)).toFixed(2))
       }
     },
     'caseDetail.nationality'(value) {
@@ -972,11 +1025,14 @@ export default {
       } else {
         this.listNameCases = []
       }
+    },
+    'caseDetail.last_history.current_location_type'(value) {
+      if (value === 'RUMAH') this.caseDetail.last_history.current_location_address = ''
     }
   },
   methods: {
     formatDatetime,
-    getAge,
+    getAgeWithMonth,
     async onClose(isVerified) {
       if (this.roles[0] !== 'faskes') {
         this.query.id = this.caseDetail._id
@@ -1008,7 +1064,13 @@ export default {
           'id_case_related': this.caseDetail.id_case_related,
           'name_case_related': this.caseDetail.name_case_related,
           'occupation': this.caseDetail.occupation,
-          'office_address': this.caseDetail.office_address
+          'office_address': this.caseDetail.office_address,
+          'address_district_code': this.caseDetail.address_district_code,
+          'address_district_name': this.caseDetail.address_district_name,
+          'address_subdistrict_code': this.caseDetail.address_subdistrict_code,
+          'address_subdistrict_name': this.caseDetail.address_subdistrict_name,
+          'address_village_code': this.caseDetail.address_village_code,
+          'address_village_name': this.caseDetail.address_village_name
         }
       }
       const historyData = {
@@ -1027,7 +1089,11 @@ export default {
         'first_symptom_date': this.caseDetail.last_history.first_symptom_date,
         'diagnosis': this.caseDetail.last_history.diagnosis,
         'current_hospital_id': this.caseDetail.last_history.current_hospital_id,
-        'history_notes': this.caseDetail.last_history.history_notes
+        'history_notes': this.caseDetail.last_history.history_notes,
+        'diseases_other': this.caseDetail.last_history.diseases_other,
+        'diagnosis_other': this.caseDetail.last_history.diagnosis_other,
+        'diseases': this.caseDetail.last_history.diseases,
+        'report_source': this.caseDetail.last_history.report_source
       }
       const verificationData = {
         'id': this.caseDetail._id,

@@ -7,14 +7,14 @@
       >
         <v-row>
           <v-col>
-            <label>{{ $t('label.search_participant_by_name_nik') }}</label>
+            <label>{{ $t('label.search_patient_by_name_nik') }}</label>
             <autocomplete-cases
               :on-select-case="onSelectCase"
             />
           </v-col>
         </v-row>
         <h4 class="font-weight-bold" style="color:#43A047">
-          {{ $t('label.participant_personal_data') }}
+          {{ $t('label.patient_personal_data') }}
         </h4>
         <v-divider />
         <v-row>
@@ -27,7 +27,7 @@
               v-slot="{ errors }"
               rules="required|isHtml"
             >
-              <label class="required">{{ $t('label.participant_name') }}</label>
+              <label class="required">{{ $t('label.patient_name') }}</label>
               <v-text-field
                 v-model="formRapid.name"
                 :error-messages="errors"
@@ -48,11 +48,28 @@
             <!--            </ValidationProvider>-->
             <ValidationProvider
               v-slot="{ errors }"
-              rules="numeric"
+              :rules="isNikNull ? 'numeric' : 'required|numeric|sixteenDigits|provinceCode'"
             >
-              <label>{{ $t('label.nik') }}</label>
+              <label :class="!isNikNull ? 'required' : ''">{{ $t('label.nik') }}</label>
               <v-text-field
                 v-model="formRapid.nik"
+                :error-messages="errors"
+                solo-inverted
+              />
+            </ValidationProvider>
+            <v-checkbox
+              v-model="isNikNull"
+              :label="$t('label.do_not_have_nik')"
+              class="mt-0 pt-0"
+            />
+            <ValidationProvider
+              v-if="isNikNull"
+              v-slot="{ errors }"
+              rules="required"
+            >
+              <label class="required">{{ $t('label.reason_do_not_have_nik') }}</label>
+              <v-text-field
+                v-model="formRapid.note_nik"
                 :error-messages="errors"
                 solo-inverted
               />
@@ -96,7 +113,8 @@
                 type="number"
               />
             </ValidationProvider>
-            <ValidationProvider
+            <!-- Sementara fitur kategori di hide -->
+            <!-- <ValidationProvider
               v-slot="{ errors }"
               rules="required"
             >
@@ -110,6 +128,21 @@
                 solo
                 @change="onChangeCategory"
               />
+            </ValidationProvider> -->
+            <ValidationProvider
+              v-slot="{ errors }"
+              rules="required"
+            >
+              <label class="required">{{ $t('label.goals') }}</label>
+              <v-select
+                v-model="formRapid.target"
+                :error-messages="errors"
+                :return-object="false"
+                :items="targetOptions"
+                item-text="targets"
+                item-value="targets"
+                solo
+              />
             </ValidationProvider>
           </v-col>
           <v-col
@@ -119,15 +152,32 @@
           >
             <ValidationProvider
               v-slot="{ errors }"
-              rules="required|isPhoneNumber"
+              :rules="isPhoneNumberNull ? 'isPhoneNumber' : 'required|isPhoneNumber'"
             >
-              <label class="required">{{ $t('label.phone_number') }}</label>
+              <label :class="!isPhoneNumberNull ? 'required' : ''">{{ $t('label.phone_number') }}</label>
               <v-text-field
                 v-model="formRapid.phone_number"
                 :error-messages="errors"
                 placeholder="08xxxxxxxxx"
                 solo-inverted
                 type="number"
+              />
+            </ValidationProvider>
+            <v-checkbox
+              v-model="isPhoneNumberNull"
+              :label="$t('label.do_not_have_phone_number')"
+              class="mt-0 pt-0"
+            />
+            <ValidationProvider
+              v-if="isPhoneNumberNull"
+              v-slot="{ errors }"
+              rules="required"
+            >
+              <label class="required">{{ $t('label.reason_do_not_have_phone_number') }}</label>
+              <v-text-field
+                v-model="formRapid.note_phone_number"
+                :error-messages="errors"
+                solo-inverted
               />
             </ValidationProvider>
             <label class="required">{{ $t('label.address_home') }}</label>
@@ -155,7 +205,7 @@
                 solo
               />
             </ValidationProvider>
-            <v-row>
+            <v-row class="mx-0">
               <ValidationProvider
                 v-slot="{ errors }"
                 rules="required"
@@ -195,21 +245,6 @@
                 />
               </ValidationProvider>
             </v-row>
-            <ValidationProvider
-              v-slot="{ errors }"
-              rules="required"
-            >
-              <label class="required">{{ $t('label.goals') }}</label>
-              <v-select
-                v-model="formRapid.target"
-                :error-messages="errors"
-                :return-object="false"
-                :items="targetOptions"
-                item-text="targets"
-                item-value="targets"
-                solo
-              />
-            </ValidationProvider>
           </v-col>
         </v-row>
       </v-form>
@@ -256,7 +291,9 @@ export default {
           label: 'Kategori C',
           value: 'C'
         }
-      ]
+      ],
+      isNikNull: false,
+      isPhoneNumberNull: false
     }
   },
   computed: {
@@ -267,6 +304,8 @@ export default {
   async mounted() {
     const response = await this.$store.dispatch('region/listCountry')
     this.listCountry = response.data
+    const responseTarget = await this.$store.dispatch('rdt/getTargetList')
+    this.targetOptions = responseTarget.data
   },
   methods: {
     async onChangeCategory(value, isODP) {

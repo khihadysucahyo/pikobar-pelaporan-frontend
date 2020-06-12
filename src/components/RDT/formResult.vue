@@ -101,6 +101,19 @@
                 </v-row>
               </v-radio-group>
             </ValidationProvider>
+            <ValidationProvider
+              v-slot="{ errors }"
+              rules="required|numeric"
+              class="full-width"
+            >
+              <label class="required">{{ $t('label.swab_count') }}</label>
+              <v-text-field
+                v-model="formResult.swab_count"
+                :error-messages="errors"
+                solo-inverted
+                type="number"
+              />
+            </ValidationProvider>
           </v-col>
           <v-col>
             <label class="required">{{ $t('label.testing_date') }}</label>
@@ -127,6 +140,10 @@
                   value="RS"
                 />
                 <v-radio
+                  :label="$t('label.lab')"
+                  value="LAB"
+                />
+                <v-radio
                   :label="$t('label.other')"
                   value="LAINNYA"
                 />
@@ -139,7 +156,7 @@
             >
               <v-autocomplete
                 v-model="formResult.test_location"
-                no-data-text="Data tidak tersedia"
+                :no-data-text="$t('label.data_not_available')"
                 :items="hospitalList"
                 :return-object="false"
                 :error-messages="errors"
@@ -147,6 +164,27 @@
                 menu-props="auto"
                 item-text="name"
                 item-value="name"
+                single-line
+                solo
+                autocomplete
+                @change="onSelectHospital"
+              />
+            </ValidationProvider>
+            <ValidationProvider
+              v-if="formResult.test_location_type === 'LAB'"
+              v-slot="{ errors }"
+              rules="required"
+            >
+              <v-autocomplete
+                v-model="formResult.lab"
+                :no-data-text="$t('label.data_not_available')"
+                :return-object="false"
+                :error-messages="errors"
+                :label="$t('label.choose_place_test')"
+                :items="listLab"
+                menu-props="auto"
+                item-text="lab_name"
+                item-value="lab_name"
                 single-line
                 solo
                 autocomplete
@@ -218,6 +256,11 @@ export default {
       default: null
     }
   },
+  data() {
+    return {
+      listLab: []
+    }
+  },
   computed: {
     ...mapGetters('region', [
       'hospitalList'
@@ -231,6 +274,10 @@ export default {
       city_code: this.district_user
     }
     await this.$store.dispatch('region/getListHospital', listQuery)
+    const response = await this.$store.dispatch('rdt/getLabList')
+    this.listLab = response.data
+    var paramHospitalWestJava = { 'rs_jabar': true }
+    await this.$store.dispatch('region/getListHospital', paramHospitalWestJava)
   },
   methods: {
     handleChangeLocationNow(value) {

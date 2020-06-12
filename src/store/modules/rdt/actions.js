@@ -106,6 +106,22 @@ export default {
       return error.response
     }
   },
+  async getLabList({ commit }) {
+    try {
+      const response = await requestServer(`/api/areas/lab`, 'GET')
+      return response
+    } catch (error) {
+      return error.response
+    }
+  },
+  async getTargetList({ commit }) {
+    try {
+      const response = await requestServer(`/api/category-target`, 'GET')
+      return response
+    } catch (error) {
+      return error.response
+    }
+  },
   resetListRDT({ commit }) {
     commit('RESET_LIST_RDT')
   }

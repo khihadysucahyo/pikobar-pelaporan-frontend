@@ -32,7 +32,7 @@
           >
             <ValidationProvider
               v-slot="{ errors }"
-              rules="isHtml|sixteenDigits|numeric"
+              rules="isHtml|sixteenDigits|numeric|provinceCode"
             >
               <v-text-field
                 v-model="formPasien.nik"
@@ -107,20 +107,46 @@
             sm="12"
             :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
           >
-            <ValidationProvider
-              v-slot="{ errors }"
-              rules="required|numeric|isHtml"
-            >
-              <v-text-field
-                v-model="formPasien.age"
-                :error-messages="errors"
-                type="number"
-                min="0"
-                max="120"
-                solo-inverted
-                oninput="if(Number(this.value) > Number(this.max)) this.value = this.max;"
-              />
-            </ValidationProvider>
+            <v-row align="center" class="ma-0">
+              <v-col cols="12" sm="3" class="pa-0">
+                <ValidationProvider
+                  v-slot="{ errors }"
+                  rules="required|numeric|isHtml"
+                >
+                  <v-text-field
+                    v-model="formPasien.yearsOld"
+                    :error-messages="errors"
+                    type="number"
+                    min="0"
+                    max="120"
+                    solo-inverted
+                    oninput="if(Number(this.value) > Number(this.max)) this.value = this.max"
+                  />
+                </ValidationProvider>
+              </v-col>
+              <v-col cols="12" md="1" sm="2" class="pa-0 text-center">
+                <label>{{ $t('label.year') }}</label>
+              </v-col>
+              <v-col cols="12" sm="3" class="pa-0">
+                <ValidationProvider
+                  v-slot="{ errors }"
+                  rules="numeric|isHtml"
+                >
+                  <v-text-field
+                    v-model="formPasien.monthsOld"
+                    :error-messages="errors"
+                    type="number"
+                    min="0"
+                    max="11"
+                    solo-inverted
+                    oninput="if(Number(this.value) > Number(this.max)) this.value = this.max"
+                  />
+                </ValidationProvider>
+              </v-col>
+              <v-col cols="12" md="1" sm="2" class="pa-0 text-center">
+                <label>{{ $t('label.month') }}</label>
+              </v-col>
+            </v-row>
           </v-col>
         </v-row>
         <v-row align="center">
@@ -473,7 +499,7 @@
 <script>
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import EventBus from '@/utils/eventBus'
-import { getAge } from '@/utils/constantVariable'
+import { getAgeWithMonth } from '@/utils/constantVariable'
 import { mapGetters } from 'vuex'
 export default {
   name: 'FormInformationPatient',
@@ -530,7 +556,22 @@ export default {
   },
   watch: {
     'formPasien.birth_date': function(value) {
-      this.formPasien.age = this.getAge(value)
+      const age = this.getAgeWithMonth(value)
+      this.formPasien.yearsOld = age.year
+      this.formPasien.monthsOld = age.month
+      this.formPasien.age = Number((this.formPasien.yearsOld + (this.formPasien.monthsOld / 12)).toFixed(2))
+    },
+    'formPasien.yearsOld'(value) {
+      if (this.formPasien.monthsOld !== '') {
+        this.formPasien.age = Number((Number(this.formPasien.yearsOld) + (Number(this.formPasien.monthsOld) / 12)).toFixed(2))
+      } else {
+        this.formPasien.age = Number(this.formPasien.yearsOld)
+      }
+    },
+    'formPasien.monthsOld'(value) {
+      if (this.formPasien.yearsOld !== '') {
+        this.formPasien.age = Number((Number(this.formPasien.yearsOld) + (Number(this.formPasien.monthsOld) / 12)).toFixed(2))
+      }
     },
     async searchRelatedCase(value) {
       if (value) {
@@ -551,16 +592,21 @@ export default {
     this.formPasien.address_district_name = this.district_name_user
   },
   methods: {
-    getAge,
+    getAgeWithMonth,
     async onNext() {
       const valid = await this.$refs.observer.validate()
       if (!valid) {
-        const response = await this.$store.dispatch('reports/getNik', this.formPasien.nik)
-        this.nikNumber = response.data.nik
-        this.nikName = response.data.name
-        this.nikAuthor = response.data.author.fullname
-        this.showDuplicatedNikDialog = true
         return
+      }
+      if (this.formPasien.nik) {
+        const response = await this.$store.dispatch('reports/getNik', this.formPasien.nik)
+        if (response.data) {
+          this.nikNumber = response.data.nik
+          this.nikName = response.data.name
+          this.nikAuthor = response.data.author.fullname
+          this.showDuplicatedNikDialog = true
+          return
+        }
       }
       await this.$store.dispatch('reports/resetRiwayatFormPasien')
       EventBus.$emit('nextSurveySteps', this.steps)

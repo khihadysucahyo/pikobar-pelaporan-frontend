@@ -118,12 +118,12 @@
           <card-repot-daily
             :title="'Distribusi Total Positif'"
             :active-color="'#EB5757'"
-            :total="listTotal.positif_aktif_total"
-            :process="listTotal.positif_aktif_proses"
-            :done="listTotal.positif_aktif_selesai"
-            :gender="listTotal.positif_aktif_by_gender"
-            :nationality="listTotal.positif_aktif_by_nationality"
-            :age="listTotal.positif_aktif_by_usia"
+            :total="listTotal.positif_total"
+            :process="listTotal.positif_proses"
+            :done="listTotal.positif_selesai"
+            :gender="listTotal.positif_by_gender"
+            :nationality="listTotal.positif_by_nationality"
+            :age="listTotal.positif_by_usia"
           />
         </v-col>
       </v-row>

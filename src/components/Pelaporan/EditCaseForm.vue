@@ -135,21 +135,62 @@
                         :date-time.sync="formPasien.birth_date"
                         :formate-date="formatDate"
                       />
-                      <ValidationProvider
-                        v-slot="{ errors }"
-                        rules="required|isHtml"
-                      >
-                        <label class="required">{{ $t('label.age') }}</label>
-                        <v-text-field
-                          v-model="formPasien.age"
-                          :error-messages="errors"
-                          type="number"
-                          min="0"
-                          max="120"
-                          solo-inverted
-                          oninput="if(Number(this.value) > Number(this.max)) this.value = this.max;"
-                        />
-                      </ValidationProvider>
+                      <v-row align="start">
+                        <v-col
+                          cols="12"
+                          sm="12"
+                          :class="{'py-0': $vuetify.breakpoint. smAndDown}"
+                        >
+                          <label class="required">{{ $t('label.age') }}</label>
+                        </v-col>
+                        <v-col
+                          cols="12"
+                          md="9"
+                          sm="12"
+                          :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
+                        >
+                          <v-row align="center" class="ma-0">
+                            <v-col cols="12" sm="3" class="pa-0">
+                              <ValidationProvider
+                                v-slot="{ errors }"
+                                rules="required|numeric|isHtml"
+                              >
+                                <v-text-field
+                                  v-model="formPasien.yearsOld"
+                                  :error-messages="errors"
+                                  type="number"
+                                  min="0"
+                                  max="120"
+                                  solo-inverted
+                                  oninput="if(Number(this.value) > Number(this.max)) this.value = this.max"
+                                />
+                              </ValidationProvider>
+                            </v-col>
+                            <v-col cols="12" md="3" sm="2" class="pa-0 text-center">
+                              <label>{{ $t('label.year') }}</label>
+                            </v-col>
+                            <v-col cols="12" sm="3" class="pa-0">
+                              <ValidationProvider
+                                v-slot="{ errors }"
+                                rules="numeric|isHtml"
+                              >
+                                <v-text-field
+                                  v-model="formPasien.monthsOld"
+                                  :error-messages="errors"
+                                  type="number"
+                                  min="0"
+                                  max="11"
+                                  solo-inverted
+                                  oninput="if(Number(this.value) > Number(this.max)) this.value = this.max"
+                                />
+                              </ValidationProvider>
+                            </v-col>
+                            <v-col cols="12" md="3" sm="2" class="pa-0 text-center">
+                              <label>{{ $t('label.month') }}</label>
+                            </v-col>
+                          </v-row>
+                        </v-col>
+                      </v-row>
                       <ValidationProvider
                         v-slot="{ errors }"
                         rules="required"
@@ -250,7 +291,7 @@
 
 <script>
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
-import { getAge } from '@/utils/constantVariable'
+import { getAgeWithMonth } from '@/utils/constantVariable'
 import { formatDatetime } from '@/utils/parseDatetime'
 import { mapGetters } from 'vuex'
 export default {
@@ -284,17 +325,32 @@ export default {
   },
   watch: {
     'formPasien.birth_date': function(value) {
-      if ((value !== '') && (value !== null) && (value !== 'Invalid date')) {
-        this.formPasien.age = this.getAge(value)
+      const age = this.getAgeWithMonth(value)
+      this.formPasien.yearsOld = age.year
+      this.formPasien.monthsOld = age.month
+      this.formPasien.age = Number((this.formPasien.yearsOld + (this.formPasien.monthsOld / 12)).toFixed(2))
+    },
+    'formPasien.yearsOld'(value) {
+      if (this.formPasien.monthsOld !== '') {
+        this.formPasien.age = Number((Number(this.formPasien.yearsOld) + (Number(this.formPasien.monthsOld) / 12)).toFixed(2))
+      } else {
+        this.formPasien.age = Number(this.formPasien.yearsOld)
+      }
+    },
+    'formPasien.monthsOld'(value) {
+      if (this.formPasien.yearsOld !== '') {
+        this.formPasien.age = Number((Number(this.formPasien.yearsOld) + (Number(this.formPasien.monthsOld) / 12)).toFixed(2))
       }
     }
   },
   async mounted() {
     const response = await this.$store.dispatch('reports/listHistoryCase', this.idData)
     this.listHistoryCase = response.data
+    this.formPasien.yearsOld = Math.floor(this.formPasien.age)
+    this.formPasien.monthsOld = Math.ceil((this.formPasien.age - Math.floor(this.formPasien.age)) * 12)
   },
   methods: {
-    getAge,
+    getAgeWithMonth,
     formatDatetime,
     async handleUpdateCase() {
       const valid = await this.$refs.observer.validate()
