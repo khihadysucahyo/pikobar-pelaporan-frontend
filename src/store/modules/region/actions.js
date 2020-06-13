@@ -50,5 +50,13 @@ export default {
     } catch (error) {
       return error.response
     }
+  },
+  async listUnit({ commit }, params) {
+    try {
+      const response = await requestServer(`/api/unit`, 'GET', params)
+      return response
+    } catch (error) {
+      return error.response
+    }
   }
 }
