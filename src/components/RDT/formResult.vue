@@ -34,7 +34,7 @@
               </v-radio-group>
             </ValidationProvider>
             <ValidationProvider
-              v-if="formResult.tool_tester === 'RAPID TEST'"
+              v-if="formResult.tool_tester === 'RDT'"
               v-slot="{ errors }"
               rules="required"
             >
@@ -268,6 +268,14 @@ export default {
     ...mapGetters('user', [
       'district_user'
     ])
+  },
+  watch: {
+    'formResult.tool_tester'(value) {
+      if (this.formResult) {
+        if (value === 'PCR') this.formResult.sampling_type = null
+        this.formResult.final_result = null
+      }
+    }
   },
   async mounted() {
     const listQuery = {
