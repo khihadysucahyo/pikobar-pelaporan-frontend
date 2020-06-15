@@ -25,7 +25,7 @@
               >
                 <v-radio
                   :label="$t('label.rapid_test')"
-                  value="RAPID TEST"
+                  value="RDT"
                 />
                 <v-radio
                   :label="$t('label.pcr')"
