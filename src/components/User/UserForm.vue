@@ -104,7 +104,7 @@
             <ValidationProvider
               v-slot="{ errors }"
             >
-              <label class="required">{{ $t('label.work_unit') }}</label>
+              <label>{{ $t('label.work_unit') }}</label>
               <v-autocomplete
                 v-model="formUser.unit_id"
                 :items="unitList"
@@ -241,12 +241,10 @@ export default {
   },
   watch: {
     async searchUnit(value) {
-      if (value.length > 2) {
-        this.isUnitLoading = true
-        this.queryUnit.search = value
-        const response = await this.$store.dispatch('region/listUnit', this.queryUnit)
-        this.unitList = response.data.itemsList
-      }
+      this.isUnitLoading = true
+      this.queryUnit.search = value
+      const response = await this.$store.dispatch('region/listUnit', this.queryUnit)
+      this.unitList = response.data.itemsList
       this.isUnitLoading = false
     }
   },
@@ -262,6 +260,8 @@ export default {
       await delete response.data['hash']
       await delete response.data['salt']
       await Object.assign(this.formUser, response.data)
+      const detailUnit = await this.$store.dispatch('region/detailUnit', this.formUser.unit_id)
+      this.unitList.push(detailUnit.data)
     }
   },
   methods: {
