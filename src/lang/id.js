@@ -441,7 +441,7 @@ export default {
     pdp_procces: 'pdp proses',
     pdp_done: 'pdp selesai',
     positif_procces: 'positif proses',
-    positif_done: 'positif selesai',
+    positive_cured: 'positif sembuh',
     positif_dead: 'positif meninggal',
     grand_total: 'grand total',
     house_address: 'Alamat Rumah',

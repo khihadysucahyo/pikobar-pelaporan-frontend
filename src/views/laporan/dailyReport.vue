@@ -152,7 +152,7 @@ export default {
         { text: this.$t('label.pdp_procces').toUpperCase(), value: 'pdp_proses' },
         { text: this.$t('label.pdp_done').toUpperCase(), value: 'pdp_selesai' },
         { text: this.$t('label.positif_procces').toUpperCase(), value: 'positif_aktif_proses' },
-        { text: this.$t('label.positif_done').toUpperCase(), value: 'positif_sembuh_selesai' },
+        { text: this.$t('label.positive_cured').toUpperCase(), value: 'positif_sembuh_selesai' },
         { text: this.$t('label.positif_dead').toUpperCase(), value: 'positif_meninggal_selesai' },
         { text: this.$t('label.grand_total').toUpperCase(), value: 'grand_total' }
       ],
