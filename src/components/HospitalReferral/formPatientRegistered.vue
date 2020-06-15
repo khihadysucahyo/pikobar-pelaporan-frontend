@@ -9,10 +9,18 @@
         <ValidationProvider
           v-slot="{ errors }"
         >
-          <v-text-field
+          <v-autocomplete
             v-model="formReferral"
+            :items="unitList"
             :error-messages="errors"
-            solo-inverted
+            :loading="isUnitLoading"
+            :search-input.sync="searchUnit"
+            menu-props="auto"
+            item-text="name"
+            item-value="_id"
+            single-line
+            solo
+            autocomplete
           />
         </ValidationProvider>
       </v-col>
@@ -23,10 +31,18 @@
         <ValidationProvider
           v-slot="{ errors }"
         >
-          <v-text-field
+          <v-autocomplete
             v-model="formReferral"
+            :items="unitList"
             :error-messages="errors"
-            solo-inverted
+            :loading="isUnitLoading"
+            :search-input.sync="searchUnit"
+            menu-props="auto"
+            item-text="name"
+            item-value="_id"
+            single-line
+            solo
+            autocomplete
           />
         </ValidationProvider>
       </v-col>
@@ -46,6 +62,17 @@ export default {
     formReferral: {
       type: Array,
       default: null
+    }
+  },
+  data() {
+    return {
+      isUnitLoading: false,
+      unitList: []
+    }
+  },
+  methods: {
+    searchUnit() {
+      return ''
     }
   }
 }
