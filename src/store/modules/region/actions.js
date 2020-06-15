@@ -47,8 +47,24 @@ export default {
     try {
       const response = await requestServer(`/api/country`, 'GET')
       return response
-    } catch (error) {
-      return error.response
+    } catch (e) {
+      return e
+    }
+  },
+  async listUnit({ commit }, params) {
+    try {
+      const response = await requestServer(`/api/unit`, 'GET', params)
+      return response
+    } catch (e) {
+      return e
+    }
+  },
+  async detailUnit({ commit }, id) {
+    try {
+      const response = await requestServer(`/api/unit/${id}`, 'GET')
+      return response
+    } catch (e) {
+      return e
     }
   }
 }
