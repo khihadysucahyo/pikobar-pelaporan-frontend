@@ -318,7 +318,7 @@ export default {
     await this.$store.dispatch('region/getListHospital', listQuery)
     const responseLab = await this.$store.dispatch('rdt/getLabList')
     this.listLab = responseLab.data
-    var paramHospitalWestJava = { 'rs_jabar': true }
+    const paramHospitalWestJava = { 'rs_jabar': true }
     await this.$store.dispatch('region/getListHospital', paramHospitalWestJava)
   },
   methods: {

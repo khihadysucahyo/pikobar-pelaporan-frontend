@@ -523,6 +523,6 @@ export default {
     duplicated_nik: 'NIK telah terdaftar di sistem',
     not_minus: 'Nilai tidak boleh 0 atau kurang',
     field_only_accepts_xlsx: 'Sistem hanya dapat menerima file dengan format ".xlsx"',
-    data_failed_edit: 'Data Gagal Dirubah',
+    data_failed_edit: 'Data Gagal Diubah',
   },
 }
