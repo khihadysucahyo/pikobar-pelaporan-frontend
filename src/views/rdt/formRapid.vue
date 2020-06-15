@@ -34,7 +34,6 @@
             <v-col cols="12" md="5" sm="12">
               <v-btn
                 color="success"
-                :disabled="formResult.final_result === 'POSITIF'"
                 :loading="loading"
                 bottom
                 style="float: right; color: white"

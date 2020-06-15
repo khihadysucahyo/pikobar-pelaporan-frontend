@@ -58,7 +58,6 @@
                     {{ $t('label.male_initials') }}
                   </div>
                 </td>
-                <td>{{ item.category }}</td>
                 <td>{{ item.rdt_count }}x</td>
                 <td>{{ item.pcr_count }}x</td>
                 <td>{{ item.test_date ? formatDatetime(item.test_date, 'DD MMMM YYYY') : '-' }}</td>
@@ -139,7 +138,6 @@ export default {
         { text: this.$t('label.name').toUpperCase(), value: 'name' },
         { text: this.$t('label.age').toUpperCase(), value: 'age' },
         { text: this.$t('label.short_gender_abbreviation').toUpperCase(), value: 'gender' },
-        { text: this.$t('label.category').toUpperCase(), value: 'category' },
         { text: this.$t('label.rdt').toUpperCase(), value: 'rdt' },
         { text: this.$t('label.pcr').toUpperCase(), value: 'pcr' },
         { text: this.$t('label.latest_test_date').toUpperCase(), value: 'test_date' },

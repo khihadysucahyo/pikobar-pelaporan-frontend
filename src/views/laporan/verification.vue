@@ -233,7 +233,6 @@ export default {
     ...mapGetters('user', [
       'roles',
       'district_user',
-      'fullName',
       'district_name_user'
     ])
   },
@@ -271,7 +270,6 @@ export default {
         { text: this.$t('label.status').toUpperCase(), value: 'status' },
         { text: this.$t('label.action').toUpperCase(), value: 'action', sortable: false }
       )
-      this.listQuery.author = this.fullName
       this.listQuery.verified_status = 'pending,declined'
     } else {
       this.headers.push(

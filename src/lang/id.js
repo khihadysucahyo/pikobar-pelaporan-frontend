@@ -522,6 +522,7 @@ export default {
     field_must_contains_sixteen_digits: 'Kolom harus mempunyai 16 digit',
     duplicated_nik: 'NIK telah terdaftar di sistem',
     not_minus: 'Nilai tidak boleh 0 atau kurang',
-    field_only_accepts_xlsx: 'Sistem hanya dapat menerima file dengan format ".xlsx"'
+    field_only_accepts_xlsx: 'Sistem hanya dapat menerima file dengan format ".xlsx"',
+    data_failed_edit: 'Data Gagal Diubah',
   },
 }
