@@ -79,6 +79,7 @@
     <pop-up-referral
       :dialog="dialog"
       :dialog-popup.sync="dialog"
+      :form-referral="formReferral"
       :patient-registered="patientRegistered"
     />
   </div>
@@ -92,7 +93,8 @@ export default {
   data() {
     return {
       dialog: false,
-      patientRegistered: false
+      patientRegistered: false,
+      formReferral: {}
     }
   },
   computed: {

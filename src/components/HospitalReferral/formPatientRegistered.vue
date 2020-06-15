@@ -5,16 +5,16 @@
   >
     <v-row>
       <v-col>
-        <label>{{ $t('label.nik').toUpperCase() }}</label>
+        <label>{{ $t('label.search_patient_by_name_nik') }}</label>
         <ValidationProvider
           v-slot="{ errors }"
         >
           <v-autocomplete
-            v-model="formReferral"
-            :items="unitList"
+            v-model="formReferral.user_id"
+            :items="caseList"
             :error-messages="errors"
-            :loading="isUnitLoading"
-            :search-input.sync="searchUnit"
+            :loading="isCaseLoading"
+            :search-input.sync="searchCase"
             menu-props="auto"
             item-text="name"
             item-value="_id"
@@ -32,7 +32,7 @@
           v-slot="{ errors }"
         >
           <v-autocomplete
-            v-model="formReferral"
+            v-model="formReferral.transfer_to_unit_id"
             :items="unitList"
             :error-messages="errors"
             :loading="isUnitLoading"
@@ -60,20 +60,46 @@ export default {
   },
   props: {
     formReferral: {
-      type: Array,
+      type: Object,
       default: null
     }
   },
   data() {
     return {
       isUnitLoading: false,
-      unitList: []
+      isCaseLoading: false,
+      caseList: [],
+      unitList: [],
+      searchCase: null,
+      searchUnit: null,
+      queryUnit: {
+        search: '',
+        unit_type: 'rumahsakit'
+      }
     }
   },
-  methods: {
-    searchUnit() {
-      return ''
+  watch: {
+    async searchCase(value) {
+      this.isUnitLoading = true
+      this.queryUnit.search = value
+      const response = await this.$store.dispatch('region/listUnit', this.queryUnit)
+      this.unitList = response.data.itemsList
+      this.isUnitLoading = false
+    },
+    async searchUnit(value) {
+      this.isUnitLoading = true
+      this.queryUnit.search = value
+      const response = await this.$store.dispatch('region/listUnit', this.queryUnit)
+      this.unitList = response.data.itemsList
+      this.isUnitLoading = false
     }
+  },
+  async mounted() {
+    const response = await this.$store.dispatch('region/listUnit', this.queryUnit)
+    this.unitList = response.data.itemsList
+  },
+  methods: {
+
   }
 }
 </script>

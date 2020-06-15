@@ -68,7 +68,7 @@ export default {
       default: false
     },
     formReferral: {
-      type: Array,
+      type: Object,
       default: null
     }
   },
