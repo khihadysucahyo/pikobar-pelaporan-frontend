@@ -102,6 +102,7 @@
               />
             </ValidationProvider>
             <ValidationProvider
+              v-if="formUser.role !== 'dinkeskota'"
               v-slot="{ errors }"
             >
               <label>{{ $t('label.work_unit') }}</label>
