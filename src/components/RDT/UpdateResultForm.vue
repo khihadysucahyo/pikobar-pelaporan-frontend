@@ -206,6 +206,7 @@
               <div v-if="formRapid.test_location_type === 'LAINNYA'">
                 <address-region
                   v-model="formRapid.test_address_district_name"
+                  :disabled-district="true"
                   :district-code="formRapid.test_address_district_code"
                   :district-name="formRapid.test_address_district_name"
                   :code-district.sync="formRapid.test_address_district_code"
@@ -218,7 +219,6 @@
                   :village-name="formRapid.test_address_village_name"
                   :code-village.sync="formRapid.test_address_village_code"
                   :name-village.sync="formRapid.test_address_village_name"
-                  :disabled-address="true"
                   :required-address="true"
                 />
               </div>

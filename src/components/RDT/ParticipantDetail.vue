@@ -99,7 +99,8 @@
             </v-col>
             <v-col auto />
           </v-row>
-          <v-row class="row-detail">
+          <!-- Sementara field kategori di hide -->
+          <!-- <v-row class="row-detail">
             <v-col
               cols="12"
               md="3"
@@ -116,7 +117,7 @@
                 solo-inverted
               />
             </v-col>
-          </v-row>
+          </v-row> -->
           <v-row class="row-detail">
             <v-col
               cols="12"
