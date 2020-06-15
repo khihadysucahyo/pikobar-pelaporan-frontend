@@ -11,6 +11,12 @@ export default {
   SET_DISTRICT_NAME: (state, districtName) => {
     state.user_district_name = districtName
   },
+  SET_UNIT_NAME: (state, unit_name) => {
+    state.unitName = unit_name
+  },
+  SET_UNIT_TYPE: (state, unit_type) => {
+    state.unitType = unit_type
+  },
   SET_FULLNAME: (state, fullName) => {
     state.fullName = fullName
   },

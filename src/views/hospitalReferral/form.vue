@@ -80,6 +80,7 @@
       :dialog="dialog"
       :dialog-popup.sync="dialog"
       :form-referral="formReferral"
+      :referral-form.sync="formReferral"
       :patient-registered="patientRegistered"
     />
   </div>
