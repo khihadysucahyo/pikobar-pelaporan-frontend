@@ -289,7 +289,8 @@ export default {
       loading: false,
       formatDate: 'YYYY-MM-DD',
       formRapid: {
-        tool_tester: ''
+        tool_tester: '',
+        test_location_type: ''
       },
       listLab: []
     }
@@ -348,8 +349,10 @@ export default {
     handleChangeLocationNow(value) {
       if (value === 'LAINNYA') {
         this.formRapid.test_location = null
+        this.formRapid.lab = null
         this.getCity()
       } else {
+        if (value !== 'LAB') this.formRapid.lab = null
         this.formRapid.test_address_district_code = ''
         this.formRapid.test_address_district_name = ''
         this.formRapid.test_address_subdistrict_code = ''
@@ -362,13 +365,13 @@ export default {
       }
     },
     onSelectHospital(value) {
-      this.formResult.test_location = value
+      this.formRapid.test_location = value
     },
     async getCity() {
       const responseDetails = await this.$store.dispatch('region/getDetailDistrict', this.district_user)
       if (responseDetails.data[0]) {
-        this.formResult.test_address_district_name = responseDetails.data[0].kota_nama
-        this.formResult.test_address_district_code = responseDetails.data[0].kota_kode
+        this.formRapid.test_address_district_name = responseDetails.data[0].kota_nama
+        this.formRapid.test_address_district_code = responseDetails.data[0].kota_kode
       }
     }
   }
