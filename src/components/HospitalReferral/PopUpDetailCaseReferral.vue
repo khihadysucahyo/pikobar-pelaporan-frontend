@@ -70,7 +70,7 @@
           </v-tabs-items>
         </v-row>
         <v-row
-          v-if="userUnitType === 'rumahsakit' && detailTransfer.transfer_status !== 'approved'"
+          v-if="userUnitType === 'rumahsakit' && detailTransfer.transfer_status !== 'approved' && detailTransfer.transfer_status !== 'declined'"
           class="ma-2"
         >
           <v-col
@@ -98,6 +98,14 @@
           </v-col>
         </v-row>
       </v-container>
+      <decline-referral
+        :dialog-decline="dialogDecline"
+        :detail-case="detailCase"
+        :detail-transfer="detailTransfer"
+        :case-detail.sync="detailCase"
+        :transfer-detail.sync="detailTransfer"
+        :show-decline.sync="dialogDecline"
+      />
     </v-card>
   </v-dialog>
 </template>
@@ -137,7 +145,8 @@ export default {
   data() {
     return {
       tab: null,
-      show: this.showDialog
+      show: this.showDialog,
+      dialogDecline: false
     }
   },
   watch: {
@@ -147,9 +156,6 @@ export default {
     show(value) {
       this.$emit('update:show', value)
     }
-  },
-  mounted() {
-    console.log(this.detailTransfer)
   },
   methods: {
     async handleApprove() {
@@ -170,21 +176,8 @@ export default {
       }
     },
     async handleDecline() {
-      const data = {
-        idCase: this.detailCase._id,
-        idTransfer: this.detailTransfer._id,
-        actions: 'decline',
-        body: {
-          transfer_comment: null
-        }
-      }
-      const response = await this.$store.dispatch('reports/actionHospitalReferral', data)
-      if (response) {
-        this.$emit('update:caseDetail', {})
-        this.$emit('update:transferDetail', {})
-        this.$emit('update:show', false)
-        await this.$store.dispatch('toast/successToast', this.$t('success.reference_successfully_verified'))
-      }
+      this.dialogDecline = true
+      this.$emit('update:show', false)
     }
   }
 }

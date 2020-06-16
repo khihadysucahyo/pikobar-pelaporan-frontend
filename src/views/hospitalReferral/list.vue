@@ -66,7 +66,7 @@ export default {
         { text: this.$t('label.name').toUpperCase(), value: 'case.name' },
         { text: this.$t('label.age').toUpperCase(), value: 'case.age' },
         { text: this.$t('label.short_gender_abbreviation'), value: 'case.gender' },
-        { text: this.$t('label.status').toUpperCase(), value: 'case.phone_number' },
+        { text: this.$t('label.phone_number').toUpperCase(), value: 'case.phone_number' },
         { text: this.$t('label.stages').toUpperCase(), value: 'case.status' },
         { text: this.$t('label.reference').toUpperCase(), value: 'transfer_from_unit_name' },
         { text: this.$t('label.reference_status').toUpperCase(), value: 'transfer_status' },

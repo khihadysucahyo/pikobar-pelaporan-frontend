@@ -19,7 +19,7 @@
     <v-chip
       v-else-if="status === 'pending'"
       class="ma-2"
-      color="#F5F5F5"
+      color="rgb(130, 130, 130)"
       outlined
     >
       {{ $t('label.waiting') }}

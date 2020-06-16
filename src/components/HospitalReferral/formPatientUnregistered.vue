@@ -1,11 +1,11 @@
 <template>
   <div>
     <form-information-patient
-      :form-pasien="formPasien"
+      :form-pasien="formReferral"
       :patient-referral="true"
     />
     <form-information-history
-      :form-pasien="formPasien"
+      :form-pasien="formReferral"
       :patient-referral="true"
     />
     <v-container>
@@ -19,33 +19,29 @@
             {{ $t('label.choose_referral_hospital') }}
           </v-expansion-panel-header>
           <v-expansion-panel-content>
-            <v-form
-              ref="form"
-              lazy-validation
-            >
-              <v-row>
-                <v-col>
-                  <label>{{ $t('label.choose_referral_hospital') }}</label>
-                  <ValidationProvider
-                    v-slot="{ errors }"
-                  >
-                    <v-autocomplete
-                      v-model="formPasien.hospital_referral"
-                      :items="hospitalWestJavaList"
-                      :error-messages="errors"
-                      :return-object="true"
-                      :label="$t('label.location_hospital')"
-                      menu-props="auto"
-                      item-text="name"
-                      item-value="name"
-                      single-line
-                      solo
-                      autocomplete
-                    />
-                  </ValidationProvider>
-                </v-col>
-              </v-row>
-            </v-form>
+
+            <v-row>
+              <v-col>
+                <label>{{ $t('label.choose_referral_hospital') }}</label>
+                <ValidationProvider
+                  v-slot="{ errors }"
+                >
+                  <v-autocomplete
+                    v-model="formReferral.hospital_referral"
+                    :items="hospitalWestJavaList"
+                    :error-messages="errors"
+                    :return-object="true"
+                    :label="$t('label.location_hospital')"
+                    menu-props="auto"
+                    item-text="name"
+                    item-value="name"
+                    single-line
+                    solo
+                    autocomplete
+                  />
+                </ValidationProvider>
+              </v-col>
+            </v-row>
           </v-expansion-panel-content>
         </v-expansion-panel>
       </v-expansion-panels>
