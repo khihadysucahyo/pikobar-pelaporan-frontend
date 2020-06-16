@@ -159,7 +159,8 @@ export default {
         category: '',
         page: 1,
         limit: 30,
-        search: ''
+        search: '',
+        sort: {}
       },
       dialog: false,
       dataDelete: null
