@@ -113,7 +113,6 @@ export default {
     },
     async onHandleSave() {
       const valid = await this.$refs.observer.validate()
-      console.log(valid)
       if (!valid) {
         return
       }

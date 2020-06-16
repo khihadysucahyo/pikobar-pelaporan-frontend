@@ -16,14 +16,21 @@
         </v-card-title>
         <v-container>
           <ValidationObserver ref="observer">
-            <div v-if="patientRegistered">
-              <form-patient-registered
-                :form-referral="formReferral"
-              />
-            </div>
-            <div v-else>
-              <form-patient-unregistered />
-            </div>
+            <v-form
+              ref="form"
+              lazy-validation
+            >
+              <div v-if="patientRegistered">
+                <form-patient-registered
+                  :form-referral="formReferral"
+                />
+              </div>
+              <div v-else>
+                <form-patient-unregistered
+                  :form-referral="formReferral"
+                />
+              </div>
+            </v-form>
           </ValidationObserver>
         </v-container>
         <v-card-actions>
