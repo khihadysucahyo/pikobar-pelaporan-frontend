@@ -19,7 +19,7 @@
           <td> {{ item.case.phone_number }} </td>
           <td> {{ item.case.status }} </td>
           <td> {{ item.transfer_from_unit_name }} </td>
-          <td> {{ item.case.transfer_status.toUpperCase() }} </td>
+          <td><status-referral :status="item.transfer_status" /></td>
           <td>
             <v-card-actions>
               <v-menu
@@ -68,6 +68,7 @@
       :case-detail.sync="detailCase"
       :transfer-detail.sync="detailTransfer"
       :list-history-case="listHistoryCase"
+      :referral-history-case="referralHistoryCase"
       :user-unit-type="unitType"
       :title-detail="$t('label.detail_case')"
     />
@@ -97,7 +98,8 @@ export default {
       dialogDetailCase: false,
       detailCase: {},
       detailTransfer: {},
-      listHistoryCase: []
+      listHistoryCase: [],
+      referralHistoryCase: []
     }
   },
   computed: {
@@ -111,8 +113,10 @@ export default {
     },
     async handleDetail(tranferDetail, idCase) {
       const responseHistory = await this.$store.dispatch('reports/listHistoryCase', idCase)
+      const responseReferralHistory = await this.$store.dispatch('reports/caseHospitalReferralHistory', idCase)
       this.detailCase = tranferDetail.case
       this.listHistoryCase = responseHistory.data
+      this.referralHistoryCase = responseReferralHistory.data
       this.detailTransfer = tranferDetail
       this.dialogDetailCase = true
     }

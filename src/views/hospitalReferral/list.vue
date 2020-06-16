@@ -86,9 +86,9 @@ export default {
     async handleSearch() {
       let response
       if (this.unitType === 'rumahsakit') {
-        response = await this.$store.dispatch('reports/caseHospitalRefferalIn', this.listQuery)
+        response = await this.$store.dispatch('reports/caseHospitalReferralIn', this.listQuery)
       } else {
-        response = await this.$store.dispatch('reports/caseHospitalRefferalOut', this.listQuery)
+        response = await this.$store.dispatch('reports/caseHospitalReferralOut', this.listQuery)
       }
       this.listReferral = response.data.cases
     },

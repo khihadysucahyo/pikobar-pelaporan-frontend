@@ -177,7 +177,7 @@ export default {
       return error.response
     }
   },
-  async caseHospitalRefferalOut({ commit }, params) {
+  async caseHospitalReferralOut({ commit }, params) {
     try {
       const response = await requestServer(`/api/cases-transfer/out`, 'GET', params)
       return response
@@ -185,7 +185,7 @@ export default {
       return error.response
     }
   },
-  async caseHospitalRefferalIn({ commit }, params) {
+  async caseHospitalReferralIn({ commit }, params) {
     try {
       const response = await requestServer(`/api/cases-transfer/in`, 'GET', params)
       return response
@@ -202,6 +202,14 @@ export default {
     } = params
     try {
       const response = await requestServer(`api/cases/${idCase}/transfers/${idTransfer}/${actions}`, 'POST', body)
+      return response
+    } catch (error) {
+      return error.response
+    }
+  },
+  async caseHospitalReferralHistory({ commit }, id) {
+    try {
+      const response = await requestServer(`/api/cases/${id}/transfers`, 'GET')
       return response
     } catch (error) {
       return error.response

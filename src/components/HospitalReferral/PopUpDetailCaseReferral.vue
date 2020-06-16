@@ -60,8 +60,8 @@
                   <v-card
                     outlined=""
                   >
-                    <case-history-list
-                      :list-history-case="listHistoryCase"
+                    <referral-history-list
+                      :referral-history-case="referralHistoryCase"
                     />
                   </v-card>
                 </v-container>
@@ -80,6 +80,7 @@
               color="#EB5757"
               outlined
               block
+              @click="handleDecline"
             >
               <span style="color: #EB5757;">{{ $t('label.reject_reference') }}</span>
             </v-btn>
@@ -127,6 +128,10 @@ export default {
     listHistoryCase: {
       type: Array,
       default: null
+    },
+    referralHistoryCase: {
+      type: Array,
+      default: null
     }
   },
   data() {
@@ -152,6 +157,23 @@ export default {
         idCase: this.detailCase._id,
         idTransfer: this.detailTransfer._id,
         actions: 'approve',
+        body: {
+          transfer_comment: null
+        }
+      }
+      const response = await this.$store.dispatch('reports/actionHospitalReferral', data)
+      if (response) {
+        this.$emit('update:caseDetail', {})
+        this.$emit('update:transferDetail', {})
+        this.$emit('update:show', false)
+        await this.$store.dispatch('toast/successToast', this.$t('success.reference_successfully_verified'))
+      }
+    },
+    async handleDecline() {
+      const data = {
+        idCase: this.detailCase._id,
+        idTransfer: this.detailTransfer._id,
+        actions: 'decline',
         body: {
           transfer_comment: null
         }
