@@ -11,7 +11,7 @@ import dashboardRouter from './modules/dashboard'
 import Pelaporan from './modules/pelaporan'
 import rdtRouter from './modules/rdt'
 import settingRouter from './modules/setting'
-import distributionCaseRouter from './modules/distributionCase'
+// import distributionCaseRouter from './modules/distributionCase'
 import submissionLogistikRouter from './modules/submissionLogistik'
 import dailyReportRouter from './modules/dailyReport'
 // import hospitalReferralRouter from './modules/hospitalReferral'
@@ -69,7 +69,7 @@ export const constantRoutes = [
  */
 export const asyncRoutes = [
   dashboardRouter,
-  distributionCaseRouter,
+  // distributionCaseRouter,
   dailyReportRouter,
   Pelaporan,
   rdtRouter,
