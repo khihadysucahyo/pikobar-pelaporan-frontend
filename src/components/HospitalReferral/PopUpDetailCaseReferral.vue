@@ -70,7 +70,7 @@
           </v-tabs-items>
         </v-row>
         <v-row
-          v-if="userUnitType === 'rumahsakit'"
+          v-if="userUnitType === 'rumahsakit' && detailTransfer.transfer_status !== 'approved' && detailTransfer.transfer_status !== 'declined'"
           class="ma-2"
         >
           <v-col

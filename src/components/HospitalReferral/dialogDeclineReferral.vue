@@ -16,20 +16,20 @@
             </v-card-title>
             <v-card-title class="justify-center">
               <div class="font-weight-bold" style="font-size: 16px">
-                Verifikasi Penolakan Pasien
+                {{ $t('label.patient_rejection_verification') }}
               </div>
             </v-card-title>
             <v-container>
               <v-row>
                 <v-col>
-                  <label class="require">Berikan Alasan Penolakan</label>
+                  <label class="require">{{ $t('label.give_reason_for_rejection') }}</label>
                   <ValidationProvider
                     v-slot="{ errors }"
                     rules="required"
                   >
                     <v-textarea
                       v-model="formReferral.transfer_comment"
-                      placeholder="Rujukan ditolak karena ..."
+                      :placeholder="$t('label.reference_rejected_because')"
                       :error-messages="errors"
                       solo
                     />
@@ -109,8 +109,6 @@ export default {
   methods: {
     async closeData() {
       await this.$emit('update:showDecline', false)
-      // this.$emit('update:caseDetail', {})
-      // this.$emit('update:transferDetail', {})
       this.formReferral = {}
     },
     async onHandleSave() {
