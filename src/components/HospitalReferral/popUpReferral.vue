@@ -31,14 +31,14 @@
             <v-btn
               class="mr-5"
               style="height: 40px;min-width: 120px;"
-              @click="dialogPopup = false"
+              @click="closeData"
             >
               {{ $t('label.canceled') }}
             </v-btn>
             <v-btn
               color="primary"
               style="height: 40px;min-width: 120px;"
-              @click="closeData"
+              @click="onHandleSave"
             >
               {{ $t('label.short_reference').toUpperCase() }}
             </v-btn>
@@ -46,13 +46,18 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <dialog-refferal
+      :show-dialog="dialogReferral"
+      :show.sync="dialogReferral"
+      :title-detail="$t('label.detail_case')"
+    />
   </v-row>
 </template>
 
 <script>
 import { ValidationObserver } from 'vee-validate'
 import { mapGetters } from 'vuex'
-
+import { ResponseRequest } from '@/utils/constantVariable'
 export default {
   name: 'PopUpReferral',
   components: {
@@ -68,8 +73,13 @@ export default {
       default: false
     },
     formReferral: {
-      type: Array,
+      type: Object,
       default: null
+    }
+  },
+  data() {
+    return {
+      dialogReferral: false
     }
   },
   computed: {
@@ -88,6 +98,27 @@ export default {
   methods: {
     async closeData() {
       await this.$emit('update:dialogPopup', false)
+      await this.$emit('update:referralForm', {})
+    },
+    async onHandleSave() {
+      if (this.patientRegistered) {
+        const data = {
+          id: this.formReferral.case_id,
+          data: {
+            transfer_to_unit_id: this.formReferral.transfer_to_unit._id,
+            transfer_to_unit_name: this.formReferral.transfer_to_unit.name
+          }
+        }
+        const response = await this.$store.dispatch('reports/caseHospitalRefferal', data)
+        if (response.status !== ResponseRequest.UNPROCESSABLE) {
+          await this.$emit('update:dialogPopup', false)
+          await this.$emit('update:referralForm', {})
+        } else {
+          await this.$emit('update:dialogPopup', false)
+          await this.$emit('update:referralForm', {})
+          this.dialogReferral = true
+        }
+      }
     }
   }
 }

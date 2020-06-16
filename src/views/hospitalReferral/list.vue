@@ -20,10 +20,10 @@
           color="red"
           hide-slider
         >
-          <v-tab @click="onTabChanges('pending,declined')">{{ tabLabel[0] }}</v-tab>
+          <v-tab @click="onTabChanges('')">{{ tabLabel[0] }}</v-tab>
           <v-tab @click="onTabChanges('pending')">{{ tabLabel[1] }}</v-tab>
           <v-tab @click="onTabChanges('declined')">{{ tabLabel[2] }}</v-tab>
-          <v-tab @click="onTabChanges('received')">{{ tabLabel[3] }}</v-tab>
+          <v-tab @click="onTabChanges('approved')">{{ tabLabel[3] }}</v-tab>
           <v-tab-item v-for="(tabItem, index) in tabLabel" :key="index">
             <v-container>
               <v-row>
@@ -42,12 +42,15 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   name: 'ListHospitalReferral',
   data() {
     return {
       listQuery: {
-        verified_status: null
+        transfer_status: null,
+        page: 1,
+        limit: 100
       },
       listReferral: [],
       tab: null,
@@ -59,22 +62,39 @@ export default {
       ],
       headers: [
         { text: this.$t('label.number').toUpperCase(), value: '_id', sortable: false },
-        { text: this.$t('label.nik').toUpperCase(), value: 'id_case' },
-        { text: this.$t('label.name').toUpperCase(), value: 'name' },
-        { text: this.$t('label.age').toUpperCase(), value: 'age' },
-        { text: this.$t('label.short_gender_abbreviation'), value: 'gender' },
-        { text: this.$t('label.status').toUpperCase(), value: 'phone_number' },
-        { text: this.$t('label.stages').toUpperCase(), value: 'status' },
-        { text: this.$t('label.results').toUpperCase(), value: 'stage' },
-        { text: this.$t('label.reference').toUpperCase(), value: 'final_result' },
-        { text: this.$t('label.reference_status').toUpperCase(), value: 'author' },
+        { text: this.$t('label.nik').toUpperCase(), value: 'case.id_case' },
+        { text: this.$t('label.name').toUpperCase(), value: 'case.name' },
+        { text: this.$t('label.age').toUpperCase(), value: 'case.age' },
+        { text: this.$t('label.short_gender_abbreviation'), value: 'case.gender' },
+        { text: this.$t('label.status').toUpperCase(), value: 'case.phone_number' },
+        { text: this.$t('label.stages').toUpperCase(), value: 'case.status' },
+        { text: this.$t('label.reference').toUpperCase(), value: 'transfer_from_unit_name' },
+        { text: this.$t('label.reference_status').toUpperCase(), value: 'transfer_status' },
         { text: this.$t('label.action').toUpperCase(), value: 'actions', sortable: false }
       ]
     }
   },
+  computed: {
+    ...mapGetters('user', [
+      'unitType'
+    ])
+  },
+  async mounted() {
+    this.handleSearch()
+  },
   methods: {
+    async handleSearch() {
+      let response
+      if (this.unitType === 'rumahsakit') {
+        response = await this.$store.dispatch('reports/caseHospitalReferralIn', this.listQuery)
+      } else {
+        response = await this.$store.dispatch('reports/caseHospitalReferralOut', this.listQuery)
+      }
+      this.listReferral = response.data.cases
+    },
     onTabChanges(value) {
-      this.listQuery.verified_status = value
+      this.listQuery.transfer_status = value
+      this.handleSearch()
     }
   }
 }

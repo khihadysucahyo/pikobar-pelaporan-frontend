@@ -167,6 +167,54 @@ export default {
       return e
     }
   },
+  async caseHospitalRefferal({ commit }, params) {
+    const id = params.id
+    const data = params.data
+    try {
+      const response = await requestServer(`/api/cases/${id}/transfers`, 'POST', data)
+      return response
+    } catch (error) {
+      return error.response
+    }
+  },
+  async caseHospitalReferralOut({ commit }, params) {
+    try {
+      const response = await requestServer(`/api/cases-transfer/out`, 'GET', params)
+      return response
+    } catch (error) {
+      return error.response
+    }
+  },
+  async caseHospitalReferralIn({ commit }, params) {
+    try {
+      const response = await requestServer(`/api/cases-transfer/in`, 'GET', params)
+      return response
+    } catch (error) {
+      return error.response
+    }
+  },
+  async actionHospitalReferral({ commit }, params) {
+    const {
+      idCase,
+      idTransfer,
+      actions,
+      body
+    } = params
+    try {
+      const response = await requestServer(`api/cases/${idCase}/transfers/${idTransfer}/${actions}`, 'POST', body)
+      return response
+    } catch (error) {
+      return error.response
+    }
+  },
+  async caseHospitalReferralHistory({ commit }, id) {
+    try {
+      const response = await requestServer(`/api/cases/${id}/transfers`, 'GET')
+      return response
+    } catch (error) {
+      return error.response
+    }
+  },
   resetListCase({ commit }) {
     commit('RESET_LIST_CASE')
   },

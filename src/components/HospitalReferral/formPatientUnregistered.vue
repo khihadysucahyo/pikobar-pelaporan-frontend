@@ -62,7 +62,7 @@ export default {
   },
   props: {
     formReferral: {
-      type: Array,
+      type: Object,
       default: null
     }
   },
@@ -70,13 +70,16 @@ export default {
     return {
       formPasien: {},
       hospitalWestJavaList: [],
-      panelListRiwayat: [0]
+      panelListRiwayat: [0],
+      queryUnit: {
+        search: '',
+        unit_type: 'rumahsakit'
+      }
     }
   },
   async mounted() {
-    var paramHospitalWestJava = { 'rs_jabar': true }
-    const responseWestJava = await this.$store.dispatch('region/getListHospital', paramHospitalWestJava)
-    this.hospitalWestJavaList = responseWestJava.data
+    const response = await this.$store.dispatch('region/listUnit', this.queryUnit)
+    this.hospitalWestJavaList = response.data.itemsList
   }
 }
 </script>

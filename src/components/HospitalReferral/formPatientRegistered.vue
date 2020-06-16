@@ -5,15 +5,30 @@
   >
     <v-row>
       <v-col>
-        <label>{{ $t('label.nik').toUpperCase() }}</label>
+        <label>{{ $t('label.search_patient_by_name_nik') }}</label>
         <ValidationProvider
           v-slot="{ errors }"
         >
-          <v-text-field
-            v-model="formReferral"
+          <v-autocomplete
+            v-model="formReferral.case_id"
+            :items="caseList"
             :error-messages="errors"
-            solo-inverted
-          />
+            :loading="isCaseLoading"
+            :search-input.sync="searchCase"
+            menu-props="auto"
+            item-text="name"
+            item-value="_id"
+            single-line
+            solo
+            autocomplete
+          >
+            <template v-slot:selection="data">
+              {{ getNameCase(data.item.nik, data.item.name, data.item.phone_number) }}
+            </template>
+            <template v-slot:item="data">
+              {{ getNameCase(data.item.nik, data.item.name, data.item.phone_number) }}
+            </template>
+          </v-autocomplete>
         </ValidationProvider>
       </v-col>
     </v-row>
@@ -23,10 +38,19 @@
         <ValidationProvider
           v-slot="{ errors }"
         >
-          <v-text-field
-            v-model="formReferral"
+          <v-autocomplete
+            v-model="formReferral.transfer_to_unit"
+            :items="unitList"
             :error-messages="errors"
-            solo-inverted
+            :loading="isUnitLoading"
+            :search-input.sync="searchUnit"
+            :return-object="true"
+            menu-props="auto"
+            item-text="name"
+            item-value="_id"
+            single-line
+            solo
+            autocomplete
           />
         </ValidationProvider>
       </v-col>
@@ -44,8 +68,57 @@ export default {
   },
   props: {
     formReferral: {
-      type: Array,
+      type: Object,
       default: null
+    }
+  },
+  data() {
+    return {
+      isUnitLoading: false,
+      isCaseLoading: false,
+      caseList: [],
+      unitList: [],
+      searchCase: null,
+      searchUnit: null,
+      queryUnit: {
+        search: '',
+        unit_type: 'rumahsakit'
+      },
+      queryCase: {
+        search: ''
+      }
+    }
+  },
+  watch: {
+    async searchCase(value) {
+      this.isCaseLoading = true
+      this.queryCase.search = value
+      const response = await this.$store.dispatch('reports/listReportCase', this.queryCase)
+      this.caseList = response.data.cases
+      this.isCaseLoading = false
+    },
+    async searchUnit(value) {
+      this.isUnitLoading = true
+      this.queryUnit.search = value
+      const response = await this.$store.dispatch('region/listUnit', this.queryUnit)
+      this.unitList = response.data.itemsList
+      this.isUnitLoading = false
+    }
+  },
+  async mounted() {
+    const responseUnit = await this.$store.dispatch('region/listUnit', this.queryUnit)
+    this.unitList = responseUnit.data.itemsList
+    const responseCase = await this.$store.dispatch('reports/listReportCase', this.queryCase)
+    this.caseList = responseCase.data.cases
+  },
+  methods: {
+    getNameCase(nik, name, phone_number) {
+      // eslint-disable-next-line no-redeclare
+      let nameCase = ''
+      if (nik) nameCase += nik + ' / '
+      if (name) nameCase += name
+      if (phone_number) nameCase += ' / ' + phone_number
+      return nameCase
     }
   }
 }

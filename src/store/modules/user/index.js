@@ -10,6 +10,8 @@ const state = {
   district_user: '',
   user_district_name: '',
   fullName: '',
+  unitName: '',
+  unitType: '',
   totalList: 0,
   userList: [],
   formUser: {

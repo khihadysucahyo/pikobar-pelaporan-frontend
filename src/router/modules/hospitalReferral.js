@@ -7,7 +7,7 @@ const hospitalReferralRouter = {
   meta: {
     title: 'refer_patient',
     icon: 'mdi-account-switch',
-    roles: ['superadmin', 'dinkesprov', 'dinkeskota', 'faskes']
+    roles: ['superadmin', 'faskes']
   },
   active: false,
   children: [
@@ -19,7 +19,7 @@ const hospitalReferralRouter = {
         icon: 'mdi-account-switch',
         child: true,
         noCache: true,
-        roles: ['superadmin', 'dinkeskota', 'faskes']
+        roles: ['superadmin', 'faskes']
       }
     },
     {
@@ -30,7 +30,7 @@ const hospitalReferralRouter = {
         icon: 'mdi-account-switch',
         child: true,
         noCache: true,
-        roles: ['superadmin', 'dinkesprov', 'dinkeskota', 'faskes']
+        roles: ['superadmin', 'faskes']
       }
     }
   ]
