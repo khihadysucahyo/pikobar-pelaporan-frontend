@@ -103,13 +103,22 @@
                 </v-radio-group>
               </ValidationProvider>
               <ValidationProvider
+                v-if="formRapid.tool_tester"
                 v-slot="{ errors }"
                 rules="required|numeric"
                 class="full-width"
               >
-                <label class="required">{{ $t('label.swab_count') }}</label>
+                <label class="required">{{ formRapid.tool_tester === 'PCR' ? $t('label.swab_count') : $t('label.rdt_count') }}</label>
                 <v-text-field
-                  v-model="formRapid.swab_count"
+                  v-if="formRapid.tool_tester === 'PCR'"
+                  v-model="formRapid.swab_to"
+                  :error-messages="errors"
+                  solo-inverted
+                  type="number"
+                />
+                <v-text-field
+                  v-else
+                  v-model="formRapid.rdt_to"
                   :error-messages="errors"
                   solo-inverted
                   type="number"
@@ -292,7 +301,8 @@ export default {
         tool_tester: '',
         test_location_type: ''
       },
-      listLab: []
+      listLab: [],
+      isInitialState: true
     }
   },
   computed: {
@@ -307,6 +317,8 @@ export default {
     'formRapid.tool_tester'(value) {
       if (this.formRapid) {
         if (value === 'PCR') this.formRapid.sampling_type = null
+        if (!this.isInitialState) this.formRapid.final_result = null
+        this.isInitialState = false
       }
     }
   },
@@ -332,6 +344,12 @@ export default {
         return
       }
       this.loading = true
+      delete this.formRapid._id
+      if (this.formRapid.tool_tester === 'PCR') {
+        this.formRapid.rdt_to = null
+      } else {
+        this.formRapid.swab_to = null
+      }
       const updateFinalRDT = {
         id: this.idResult,
         data: this.formRapid
