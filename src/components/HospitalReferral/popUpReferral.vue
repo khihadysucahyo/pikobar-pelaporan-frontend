@@ -56,7 +56,7 @@
     <dialog-refferal
       :show-dialog="dialogReferral"
       :show.sync="dialogReferral"
-      :title-detail="$t('label.detail_case')"
+      :message="$t('label.waiting_approve_dinkes')"
     />
   </v-row>
 </template>
@@ -105,9 +105,12 @@ export default {
   methods: {
     async closeData() {
       await this.$emit('update:dialogPopup', false)
-      await this.$emit('update:referralForm', {})
     },
     async onHandleSave() {
+      const valid = await this.$refs.observer.validate()
+      if (!valid) {
+        return
+      }
       if (this.patientRegistered) {
         const data = {
           id: this.formReferral.case_id,
@@ -122,7 +125,19 @@ export default {
           await this.$emit('update:referralForm', {})
         } else {
           await this.$emit('update:dialogPopup', false)
-          await this.$emit('update:referralForm', {})
+          this.dialogReferral = true
+        }
+      } else {
+        const data = {
+          ...this.formReferral,
+          transfer_to_unit_id: this.formReferral.transfer_to_unit._id,
+          transfer_to_unit_name: this.formReferral.transfer_to_unit.name,
+          transfer_comment: null
+        }
+        await delete data['transfer_to_unit']
+        const response = await this.$store.dispatch('reports/hospitalRefferalNewCase', data)
+        if (response) {
+          await this.$emit('update:dialogPopup', false)
           this.dialogReferral = true
         }
       }

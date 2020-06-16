@@ -80,7 +80,6 @@
       :dialog="dialog"
       :dialog-popup.sync="dialog"
       :form-referral="formReferral"
-      :referral-form.sync="formReferral"
       :patient-registered="patientRegistered"
     />
   </div>
@@ -99,16 +98,25 @@ export default {
     }
   },
   computed: {
+    ...mapGetters('reports', [
+      'formPasien'
+    ]),
     ...mapGetters('user', [
-      'fullName'
+      'fullName',
+      'district_user',
+      'district_name_user'
     ])
   },
   methods: {
     async handleReferralCaseRegistered() {
+      this.formReferral = {}
       this.dialog = true
       this.patientRegistered = true
     },
     async handleReferralCaseUnegistered() {
+      this.formReferral = this.formPasien
+      this.formReferral.address_district_code = this.district_user
+      this.formReferral.address_district_name = this.district_name_user
       this.dialog = true
       this.patientRegistered = false
     }

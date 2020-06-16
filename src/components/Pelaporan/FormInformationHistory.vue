@@ -142,7 +142,6 @@
           </v-col>
         </v-row>
         <v-row
-          v-if="!patientReferral"
           align="center"
         >
           <v-col
