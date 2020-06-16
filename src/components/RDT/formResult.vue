@@ -84,7 +84,6 @@
                 </v-row>
                 <v-row
                   v-else
-                  style="margin-top: 1rem;"
                 >
                   <v-radio
                     :label="$t('label.reaktif')"
@@ -102,13 +101,22 @@
               </v-radio-group>
             </ValidationProvider>
             <ValidationProvider
+              v-if="formResult.tool_tester"
               v-slot="{ errors }"
               rules="required|numeric"
               class="full-width"
             >
-              <label class="required">{{ $t('label.swab_count') }}</label>
+              <label class="required">{{ formResult.tool_tester === 'PCR' ? $t('label.swab_count') : $t('label.rdt_count') }}</label>
               <v-text-field
-                v-model="formResult.swab_count"
+                v-if="formResult.tool_tester === 'PCR'"
+                v-model="formResult.swab_to"
+                :error-messages="errors"
+                solo-inverted
+                type="number"
+              />
+              <v-text-field
+                v-else
+                v-model="formResult.rdt_to"
                 :error-messages="errors"
                 solo-inverted
                 type="number"

@@ -483,6 +483,7 @@ export default {
     do_not_have_phone_number: "Tidak ada No Telepon",
     reason_do_not_have_phone_number: "Alasan tidak ada No Telepon",
     swab_count: "Swab Ke",
+    rdt_count: "RDT Ke",
     work_unit: 'Unit Kerja',
     internal_and_external_data_not_found: "Data tidak ditemukan di Laporan Kasus atau Pendaftaran Pikobar. Harap Data diri pasien diinputkan manual",
     test_id: "Id Tes",
