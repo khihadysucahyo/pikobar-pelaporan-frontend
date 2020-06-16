@@ -7,7 +7,7 @@
           <th class="text-left">{{ $t('label.transfer_date').toUpperCase() }}</th>
           <th class="text-left">{{ $t('label.hospital').toUpperCase() }}</th>
           <th class="text-left">{{ $t('label.transfer_status').toUpperCase() }}</th>
-          <th class="text-left">Keterangan</th>
+          <th class="text-left">{{ $t('label.information') }}</th>
         </tr>
       </thead>
       <tbody>
@@ -16,6 +16,7 @@
           <td>{{ formatDatetime(item.createdAt, "DD MMMM YYYY") }}</td>
           <td>{{ item.transfer_to_unit_name }}</td>
           <td><status-referral :status="item.transfer_status" /></td>
+          <td>{{ item.transfer_comment }}</td>
         </tr>
       </tbody>
     </template>
