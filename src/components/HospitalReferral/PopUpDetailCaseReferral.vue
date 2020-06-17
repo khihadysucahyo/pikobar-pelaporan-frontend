@@ -70,7 +70,7 @@
           </v-tabs-items>
         </v-row>
         <v-row
-          v-if="userUnitType === 'rumahsakit' && detailTransfer.transfer_status !== 'approved' && detailTransfer.transfer_status !== 'declined'"
+          v-if="userUnitType === 'rumahsakit'"
           class="ma-2"
         >
           <v-col
@@ -100,16 +100,15 @@
       </v-container>
       <decline-referral
         :dialog-decline="dialogDecline"
+        :show-decline.sync="dialogDecline"
         :detail-case="detailCase"
         :detail-transfer="detailTransfer"
-        :case-detail.sync="detailCase"
-        :transfer-detail.sync="detailTransfer"
-        :show-decline.sync="dialogDecline"
       />
     </v-card>
   </v-dialog>
 </template>
 <script>
+import EventBus from '@/utils/eventBus'
 export default {
   name: 'PopUpDetailCaseReferral',
   props: {
@@ -146,7 +145,8 @@ export default {
     return {
       tab: null,
       show: this.showDialog,
-      dialogDecline: false
+      dialogDecline: false,
+      refreshPageList: false
     }
   },
   watch: {
@@ -172,6 +172,7 @@ export default {
         this.$emit('update:caseDetail', {})
         this.$emit('update:transferDetail', {})
         this.$emit('update:show', false)
+        EventBus.$emit('refreshPageListReferral', true)
         await this.$store.dispatch('toast/successToast', this.$t('success.reference_successfully_verified'))
       }
     },

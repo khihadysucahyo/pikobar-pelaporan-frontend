@@ -123,9 +123,10 @@ export default {
         if (response.status !== ResponseRequest.UNPROCESSABLE) {
           await this.$emit('update:dialogPopup', false)
           await this.$emit('update:referralForm', {})
+          this.dialogReferral = true
         } else {
           await this.$emit('update:dialogPopup', false)
-          this.dialogReferral = true
+          await this.$store.dispatch('toast/successToast', this.$t('label.patient_successfully_referred'))
         }
       } else {
         const data = {
@@ -138,7 +139,7 @@ export default {
         const response = await this.$store.dispatch('reports/hospitalRefferalNewCase', data)
         if (response) {
           await this.$emit('update:dialogPopup', false)
-          this.dialogReferral = true
+          await this.$store.dispatch(this.$t('toast/successToast', 'label.patient_successfully_referred'))
         }
       }
     }

@@ -66,6 +66,7 @@
 
 <script>
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
+import EventBus from '@/utils/eventBus'
 import { mapGetters } from 'vuex'
 export default {
   name: 'DeclineReferral',
@@ -124,10 +125,9 @@ export default {
       }
       const response = await this.$store.dispatch('reports/actionHospitalReferral', data)
       if (response) {
-        this.$emit('update:caseDetail', {})
-        this.$emit('update:transferDetail', {})
         this.$emit('update:showDecline', false)
-        await this.$store.dispatch('toast/successToast', 'Rujukan Ditolak')
+        EventBus.$emit('refreshPageListReferral', true)
+        await this.$store.dispatch('toast/successToast', this.$t('label.reference_rejected'))
       }
       this.formReferral = {}
     }

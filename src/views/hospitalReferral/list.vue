@@ -4,8 +4,8 @@
       <v-row class="mt-2">
         <v-col auto>
           <v-card-text>
-            <div class="header-user-title">{{ $t('label.make_referrals_for_patients') }}</div>
-            <div class="header-user-text">{{ $t('label.choose_one_below') }}</div>
+            <div class="header-user-title">{{ $t('label.total_list_referral_patients') }} : 10</div>
+            <div class="header-user-text">{{ fullName }}</div>
           </v-card-text>
         </v-col>
       </v-row>
@@ -25,27 +25,32 @@
           <v-tab @click="onTabChanges('declined')">{{ tabLabel[2] }}</v-tab>
           <v-tab @click="onTabChanges('approved')">{{ tabLabel[3] }}</v-tab>
           <v-tab-item v-for="(tabItem, index) in tabLabel" :key="index">
-            <v-container>
-              <search
+            <search
+              :list-query="listQuery"
+              :handle-search="handleSearch"
+            />
+            <v-row>
+              <verification-table-referral
+                :list-referral="listReferral"
+                :table-headers="headers"
                 :list-query="listQuery"
-                :handle-search="handleSearch"
               />
-              <v-row>
-                <verification-table-referral
-                  :list-referral="listReferral"
-                  :table-headers="headers"
-                  :list-query="listQuery"
-                />
-              </v-row>
-            </v-container>
+            </v-row>
           </v-tab-item>
         </v-tabs>
       </v-row>
     </v-card>
+    <pagination
+      :total="totalList"
+      :page.sync="listQuery.page"
+      :limit.sync="listQuery.limit"
+      :on-next="onNext"
+    />
   </div>
 </template>
 
 <script>
+import EventBus from '@/utils/eventBus'
 import { mapGetters } from 'vuex'
 export default {
   name: 'ListHospitalReferral',
@@ -57,6 +62,7 @@ export default {
         page: 1,
         limit: 100
       },
+      totalList: 0,
       listReferral: [],
       tab: null,
       tabLabel: [
@@ -81,6 +87,7 @@ export default {
   },
   computed: {
     ...mapGetters('user', [
+      'fullName',
       'unitType'
     ])
   },
@@ -90,6 +97,11 @@ export default {
     }
   },
   async mounted() {
+    EventBus.$on('refreshPageListReferral', (value) => {
+      if (value) {
+        this.handleSearch()
+      }
+    })
     this.handleSearch()
   },
   methods: {
@@ -101,9 +113,13 @@ export default {
         response = await this.$store.dispatch('reports/caseHospitalReferralOut', this.listQuery)
       }
       this.listReferral = response.data.cases
+      this.totalList = response.data._meta.totalPages
     },
     onTabChanges(value) {
       this.listQuery.transfer_status = value
+      this.handleSearch()
+    },
+    async onNext() {
       this.handleSearch()
     }
   }
