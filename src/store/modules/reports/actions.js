@@ -185,6 +185,19 @@ export default {
       return error.response
     }
   },
+  async caseHospitalRefferalRevise({ commit }, params) {
+    const {
+      idCase,
+      idTransfer,
+      data
+    } = params
+    try {
+      const response = await requestServer(`api/cases/${idCase}/transfers/${idTransfer}/revise`, 'POST', data)
+      return response
+    } catch (error) {
+      return error.response
+    }
+  },
   async caseHospitalReferralOut({ commit }, params) {
     try {
       const response = await requestServer(`/api/cases-transfer/out`, 'GET', params)

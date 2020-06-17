@@ -76,7 +76,7 @@
         </v-card>
       </v-col>
     </v-row>
-    <pop-up-referral
+    <dialog-hospital-referral
       :dialog="dialog"
       :dialog-popup.sync="dialog"
       :form-referral="formReferral"
@@ -102,6 +102,7 @@ export default {
       'formPasien'
     ]),
     ...mapGetters('user', [
+      'fullName',
       'district_user',
       'district_name_user'
     ])

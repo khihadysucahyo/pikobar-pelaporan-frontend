@@ -16,8 +16,15 @@
           <td> {{ item.case.name }} </td>
           <td> {{ item.case.age }} </td>
           <td> {{ item.case.gender }} </td>
-          <td> {{ item.case.phone_number }} </td>
-          <td> {{ item.case.status }} </td>
+          <td><status :status="item.case.status" /></td>
+          <td>
+            <div v-if=" item.case.stage === '0'">
+              {{ $t('label.process') }}
+            </div>
+            <div v-else>
+              {{ $t('label.done') }}
+            </div>
+          </td>
           <td> {{ item.transfer_from_unit_name }} </td>
           <td><status-referral :status="item.transfer_status" /></td>
           <td>
@@ -49,9 +56,23 @@
                     <v-list-item @click="handleDetail(item, item.case._id)">
                       {{ $t('label.view_detail') }}
                     </v-list-item>
-                    <v-list-item>
-                      {{ $t('label.remove_reference') }}
+                    <v-list-item
+                      v-if="item.transfer_status === 'declined'"
+                      @click="handleRevise(item, item.case._id)"
+                    >
+                      Perbaiki Data
                     </v-list-item>
+                    <div
+                      v-if="item.transfer_status === 'declined'"
+                    >
+                      <v-divider />
+                      <v-list-item
+                        style="color: #EB5757 !important;"
+                        @click="handleDelete(item, item.case._id)"
+                      >
+                        {{ $t('label.remove_reference') }}
+                      </v-list-item>
+                    </div>
                   </div>
                 </v-card>
               </v-menu>
@@ -60,7 +81,7 @@
         </tr>
       </template>
     </v-data-table>
-    <pop-up-detail-case-referral
+    <dialog-detail-case-referral
       :show-dialog="dialogDetailCase"
       :show.sync="dialogDetailCase"
       :detail-case="detailCase"
@@ -72,11 +93,20 @@
       :user-unit-type="unitType"
       :title-detail="$t('label.detail_case')"
     />
+    <dialog-hospital-referral
+      :dialog="dialog"
+      :dialog-popup.sync="dialog"
+      :form-referral="formReferral"
+      :patient-registered="patientRegistered"
+      :is-edit="isEdit"
+      :id-transfer="idTransfer"
+    />
   </v-col>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
+import EventBus from '@/utils/eventBus'
 export default {
   name: 'VerificationTableReferral',
   props: {
@@ -95,11 +125,16 @@ export default {
   },
   data() {
     return {
+      dialog: false,
+      patientRegistered: false,
+      isEdit: false,
+      formReferral: {},
       dialogDetailCase: false,
       detailCase: {},
       detailTransfer: {},
       listHistoryCase: [],
-      referralHistoryCase: []
+      referralHistoryCase: [],
+      idTransfer: null
     }
   },
   computed: {
@@ -119,6 +154,37 @@ export default {
       this.referralHistoryCase = responseReferralHistory.data
       this.detailTransfer = tranferDetail
       this.dialogDetailCase = true
+    },
+    async handleRevise(tranferDetail, idCase) {
+      const responseHistory = await this.$store.dispatch('reports/detailHistoryCase', idCase)
+      this.formReferral = {
+        ...tranferDetail.case,
+        ...responseHistory,
+        yearsOld: Math.floor(tranferDetail.case.age),
+        monthsOld: Math.ceil((tranferDetail.case.age - Math.floor(tranferDetail.case.age)) * 12),
+        transfer_to_unit: {
+          _id: tranferDetail.transfer_from_unit_id,
+          name: tranferDetail.transfer_from_unit_name
+        }
+      }
+      this.idTransfer = tranferDetail._id
+      this.isEdit = true
+      this.dialog = true
+    },
+    async handleDelete(tranferDetail, idCase) {
+      const data = {
+        idCase: idCase,
+        idTransfer: tranferDetail._id,
+        actions: 'abort',
+        body: {
+          transfer_comment: null
+        }
+      }
+      const response = await this.$store.dispatch('reports/actionHospitalReferral', data)
+      if (response) {
+        EventBus.$emit('refreshPageListReferral', true)
+        await this.$store.dispatch('toast/successToast', this.$t('success.reference_successfully_deleted'))
+      }
     }
   }
 }

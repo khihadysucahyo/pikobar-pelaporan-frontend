@@ -98,7 +98,7 @@
           </v-col>
         </v-row>
       </v-container>
-      <decline-referral
+      <dialog-referral-decline
         :dialog-decline="dialogDecline"
         :show-decline.sync="dialogDecline"
         :detail-case="detailCase"
@@ -110,7 +110,7 @@
 <script>
 import EventBus from '@/utils/eventBus'
 export default {
-  name: 'PopUpDetailCaseReferral',
+  name: 'DialogDetailCaseReferral',
   props: {
     showDialog: {
       type: Boolean,

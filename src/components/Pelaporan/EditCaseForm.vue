@@ -325,10 +325,12 @@ export default {
   },
   watch: {
     'formPasien.birth_date': function(value) {
-      const age = this.getAgeWithMonth(value)
-      this.formPasien.yearsOld = age.year
-      this.formPasien.monthsOld = age.month
-      this.formPasien.age = Number((this.formPasien.yearsOld + (this.formPasien.monthsOld / 12)).toFixed(2))
+      if (value.length > 0) {
+        const age = this.getAgeWithMonth(value)
+        this.formPasien.yearsOld = age.year
+        this.formPasien.monthsOld = age.month
+        this.formPasien.age = Number((this.formPasien.yearsOld + (this.formPasien.monthsOld / 12)).toFixed(2))
+      }
     },
     'formPasien.yearsOld'(value) {
       if (this.formPasien.monthsOld !== '') {
