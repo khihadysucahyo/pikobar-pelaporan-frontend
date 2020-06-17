@@ -17,7 +17,7 @@
           </v-col>
         </v-row>
         <v-row class="filter-row">
-          <v-col cols="12" sm="4">
+          <v-col cols="12" sm="6">
             <v-label class="title">{{ $t('label.test_result') }}:</v-label>
             <v-select
               v-model="listQuery.final_result"
@@ -27,15 +27,16 @@
               item-value="value"
             />
           </v-col>
-          <v-col cols="12" sm="4">
+          <!-- Sementara field mekanisme di hide -->
+          <!-- <v-col cols="12" sm="4">
             <v-label class="title">{{ $t('label.mechanism') }}:</v-label>
             <v-select
               v-model="listQuery.mechanism"
               :items="mechanismOptions"
               solo
             />
-          </v-col>
-          <v-col cols="12" sm="4">
+          </v-col> -->
+          <v-col cols="12" sm="6">
             <v-label class="title">{{ $t('label.method_used') }}:</v-label>
             <v-select
               v-model="listQuery.test_method"
@@ -55,7 +56,8 @@
           </v-col>
         </v-row>
         <v-row>
-          <v-col cols="12" sm="3">
+          <!-- Sementara field kategori di hide -->
+          <!-- <v-col cols="12" sm="3">
             <v-label class="title">{{ $t('label.goal_category') }}:</v-label>
             <v-select
               v-model="listQuery.category"
@@ -64,8 +66,8 @@
               item-text="label"
               item-value="value"
             />
-          </v-col>
-          <v-col cols="12" sm="3">
+          </v-col> -->
+          <v-col cols="12" sm="4">
             <v-label class="title">{{ $t('label.inspection_date') }}:</v-label>
             <input-date-picker
               :format-date="formatDate"
@@ -75,7 +77,7 @@
               @changeDate="listQuery.start_date = $event"
             />
           </v-col>
-          <v-col cols="12" sm="3">
+          <v-col cols="12" sm="4">
             <br>
             <input-date-picker
               :format-date="formatDate"
@@ -85,7 +87,7 @@
               @changeDate="listQuery.end_date = $event"
             />
           </v-col>
-          <v-col cols="12" sm="3">
+          <v-col cols="12" sm="4">
             <br>
             <v-row>
               <v-col class="pt-0">
@@ -138,8 +140,8 @@ export default {
         kota_kode: ''
       },
       methodsOptions: [
-        'HAND PRIX',
-        'FLEBOTOMY'
+        'RDT',
+        'PCR'
       ],
       mechanismOptions: [
         'Door to door',
