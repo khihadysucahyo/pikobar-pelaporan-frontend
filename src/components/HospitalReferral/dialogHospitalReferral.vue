@@ -53,7 +53,7 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <dialog-refferal
+    <dialog-referral
       :show-dialog="dialogReferral"
       :show.sync="dialogReferral"
       :message="$t('label.waiting_approve_dinkes')"
@@ -65,8 +65,9 @@
 import { ValidationObserver } from 'vee-validate'
 import { mapGetters } from 'vuex'
 import { ResponseRequest } from '@/utils/constantVariable'
+import EventBus from '@/utils/eventBus'
 export default {
-  name: 'PopUpReferral',
+  name: 'DialogHospitalReferral',
   components: {
     ValidationObserver
   },
@@ -81,6 +82,14 @@ export default {
     },
     formReferral: {
       type: Object,
+      default: null
+    },
+    isEdit: {
+      type: Boolean,
+      default: false
+    },
+    idTransfer: {
+      type: String,
       default: null
     }
   },
@@ -112,14 +121,14 @@ export default {
         return
       }
       if (this.patientRegistered) {
-        const data = {
+        const rowData = {
           id: this.formReferral.case_id,
           data: {
             transfer_to_unit_id: this.formReferral.transfer_to_unit._id,
             transfer_to_unit_name: this.formReferral.transfer_to_unit.name
           }
         }
-        const response = await this.$store.dispatch('reports/caseHospitalRefferal', data)
+        const response = await this.$store.dispatch('reports/caseHospitalRefferal', rowData)
         if (response.status !== ResponseRequest.UNPROCESSABLE) {
           await this.$emit('update:dialogPopup', false)
           await this.$emit('update:referralForm', {})
@@ -129,17 +138,30 @@ export default {
           await this.$store.dispatch('toast/successToast', this.$t('label.patient_successfully_referred'))
         }
       } else {
-        const data = {
+        let response, rowData
+        rowData = {
           ...this.formReferral,
           transfer_to_unit_id: this.formReferral.transfer_to_unit._id,
           transfer_to_unit_name: this.formReferral.transfer_to_unit.name,
           transfer_comment: null
         }
-        await delete data['transfer_to_unit']
-        const response = await this.$store.dispatch('reports/hospitalRefferalNewCase', data)
+        await delete rowData['transfer_to_unit']
+        if (!this.isEdit) {
+          response = await this.$store.dispatch('reports/hospitalRefferalNewCase', rowData)
+        } else {
+          rowData = {
+            idCase: rowData.case,
+            idTransfer: this.idTransfer,
+            data: rowData
+          }
+          await delete rowData.data['case']
+          await delete rowData.data['_id']
+          response = await this.$store.dispatch('reports/caseHospitalRefferalRevise', rowData)
+        }
         if (response) {
+          EventBus.$emit('refreshPageListReferral', true)
           await this.$emit('update:dialogPopup', false)
-          await this.$store.dispatch(this.$t('toast/successToast', 'label.patient_successfully_referred'))
+          await this.$store.dispatch('toast/successToast', this.$t('label.patient_successfully_referred'))
         }
       }
     }

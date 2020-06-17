@@ -69,7 +69,7 @@ import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import EventBus from '@/utils/eventBus'
 import { mapGetters } from 'vuex'
 export default {
-  name: 'DeclineReferral',
+  name: 'DialogReferralDecline',
   components: {
     ValidationObserver,
     ValidationProvider

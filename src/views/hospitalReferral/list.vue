@@ -25,10 +25,24 @@
           <v-tab @click="onTabChanges('declined')">{{ tabLabel[2] }}</v-tab>
           <v-tab @click="onTabChanges('approved')">{{ tabLabel[3] }}</v-tab>
           <v-tab-item v-for="(tabItem, index) in tabLabel" :key="index">
-            <search
-              :list-query="listQuery"
-              :handle-search="handleSearch"
-            />
+            <v-row>
+              <v-col class="ml-4">
+                <search
+                  :list-query="listQuery"
+                  :handle-search="handleSearch"
+                />
+              </v-col>
+              <v-col class="pb-4">
+                <v-btn
+                  color="primary"
+                  class="mr-4"
+                  style="float: right;"
+                >
+                  {{ $t('label.filter') }}
+                  <v-icon>mdi-chevron-right</v-icon>
+                </v-btn>
+              </v-col>
+            </v-row>
             <v-row>
               <verification-table-referral
                 :list-referral="listReferral"
@@ -44,7 +58,7 @@
       :total="totalList"
       :page.sync="listQuery.page"
       :limit.sync="listQuery.limit"
-      :on-next="onNext"
+      :on-next="handleSearch"
     />
   </div>
 </template>
@@ -77,8 +91,8 @@ export default {
         { text: this.$t('label.name').toUpperCase(), value: 'case.name' },
         { text: this.$t('label.age').toUpperCase(), value: 'case.age' },
         { text: this.$t('label.short_gender_abbreviation'), value: 'case.gender' },
-        { text: this.$t('label.phone_number').toUpperCase(), value: 'case.phone_number' },
-        { text: this.$t('label.stages').toUpperCase(), value: 'case.status' },
+        { text: this.$t('label.status').toUpperCase(), value: 'case.status' },
+        { text: this.$t('label.stages').toUpperCase(), value: 'case.stages' },
         { text: this.$t('label.reference').toUpperCase(), value: 'transfer_from_unit_name' },
         { text: this.$t('label.reference_status').toUpperCase(), value: 'transfer_status' },
         { text: this.$t('label.action').toUpperCase(), value: 'actions', sortable: false }
@@ -117,9 +131,6 @@ export default {
     },
     onTabChanges(value) {
       this.listQuery.transfer_status = value
-      this.handleSearch()
-    },
-    async onNext() {
       this.handleSearch()
     }
   }

@@ -226,6 +226,7 @@ export default {
     user_data: 'Data User',
     name: 'Nama',
     city: 'Kota',
+    filter: 'Filter',
     input_date_filters: 'Filter Tanggal Penginputan',
     district_city: 'Kabupaten/Kota',
     subdistrict: 'Kecamatan',
@@ -514,7 +515,8 @@ export default {
     file_success_upload: 'File Berhasil Diupload',
     verification_success: 'Data berhasil disimpan sebagai kasus baru',
     rejection_success: 'Data berhasil ditolak',
-    update_success: 'Data berhasil diperbarui'
+    update_success: 'Data berhasil diperbarui',
+    reference_successfully_deleted: 'Rujukan berhasil dihapus'
   },
   errors: {
     username_must_be_filled: 'Username harus diisi',

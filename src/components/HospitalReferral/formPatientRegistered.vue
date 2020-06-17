@@ -85,7 +85,8 @@ export default {
         unit_type: 'rumahsakit'
       },
       queryCase: {
-        search: ''
+        search: '',
+        verified_status: 'verified'
       }
     }
   },
