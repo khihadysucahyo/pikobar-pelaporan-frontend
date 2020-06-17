@@ -109,7 +109,9 @@ export default {
     const responseUnit = await this.$store.dispatch('region/listUnit', this.queryUnit)
     this.unitList = responseUnit.data.itemsList
     const responseCase = await this.$store.dispatch('reports/listReportCase', this.queryCase)
-    this.caseList = responseCase.data.cases
+    if (responseCase.data !== null) {
+      this.caseList = responseCase.data.cases
+    }
   },
   methods: {
     getNameCase(nik, name, phone_number) {

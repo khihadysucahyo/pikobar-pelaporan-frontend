@@ -17,9 +17,9 @@
           <v-expansion-panel-header style="color: #27AE60;">
             <img src="@/static/hospital_refferal.svg" style="max-width: 30px;">
             {{ $t('label.choose_referral_hospital') }}
+            <v-divider />
           </v-expansion-panel-header>
           <v-expansion-panel-content>
-
             <v-row>
               <v-col>
                 <label>{{ $t('label.choose_referral_hospital') }}</label>
@@ -27,14 +27,15 @@
                   v-slot="{ errors }"
                 >
                   <v-autocomplete
-                    v-model="formReferral.hospital_referral"
-                    :items="hospitalWestJavaList"
+                    v-model="formReferral.transfer_to_unit"
+                    :items="unitList"
                     :error-messages="errors"
+                    :loading="isUnitLoading"
+                    :search-input.sync="searchUnit"
                     :return-object="true"
-                    :label="$t('label.location_hospital')"
                     menu-props="auto"
                     item-text="name"
-                    item-value="name"
+                    item-value="_id"
                     single-line
                     solo
                     autocomplete
@@ -64,18 +65,30 @@ export default {
   },
   data() {
     return {
-      formPasien: {},
-      hospitalWestJavaList: [],
+      unitList: [],
       panelListRiwayat: [0],
+      isUnitLoading: false,
+      searchUnit: null,
       queryUnit: {
         search: '',
         unit_type: 'rumahsakit'
       }
     }
   },
+  watch: {
+    async searchUnit(value) {
+      this.isUnitLoading = true
+      this.queryUnit.search = value
+      const response = await this.$store.dispatch('region/listUnit', this.queryUnit)
+      if (response.data) {
+        this.unitList = response.data.itemsList
+      }
+      this.isUnitLoading = false
+    }
+  },
   async mounted() {
-    const response = await this.$store.dispatch('region/listUnit', this.queryUnit)
-    this.hospitalWestJavaList = response.data.itemsList
+    const responseUnit = await this.$store.dispatch('region/listUnit', this.queryUnit)
+    this.unitList = responseUnit.data.itemsList
   }
 }
 </script>

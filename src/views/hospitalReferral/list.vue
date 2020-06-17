@@ -26,6 +26,10 @@
           <v-tab @click="onTabChanges('approved')">{{ tabLabel[3] }}</v-tab>
           <v-tab-item v-for="(tabItem, index) in tabLabel" :key="index">
             <v-container>
+              <search
+                :list-query="listQuery"
+                :handle-search="handleSearch"
+              />
               <v-row>
                 <verification-table-referral
                   :list-referral="listReferral"
@@ -48,6 +52,7 @@ export default {
   data() {
     return {
       listQuery: {
+        search: '',
         transfer_status: null,
         page: 1,
         limit: 100
@@ -78,6 +83,11 @@ export default {
     ...mapGetters('user', [
       'unitType'
     ])
+  },
+  watch: {
+    'listQuery.search'() {
+      this.handleSearch()
+    }
   },
   async mounted() {
     this.handleSearch()

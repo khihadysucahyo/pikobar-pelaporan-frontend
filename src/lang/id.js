@@ -495,7 +495,11 @@ export default {
     edit_latest_test_result: "Edit Hasil Tes Terakhir",
     waiting_approve_dinkes: 'Pasien yang Anda cari masih dalam tahap verifikasi oleh Dinas Kesehatan, mohon menunggu (1x24 jam)',
     receive_references: 'Terima Rujukan',
-    reject_reference: 'Tolak Rujukan'
+    reject_reference: 'Tolak Rujukan',
+    patient_rejection_verification: 'Verifikasi Penolakan Pasien',
+    give_reason_for_rejection: 'Berikan Alasan Penolakan',
+    reference_rejected_because: 'Rujukan ditolak karena ...'
+
   },
   success: {
     login_success: 'Login Berhasil',
