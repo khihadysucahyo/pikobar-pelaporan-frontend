@@ -299,8 +299,10 @@ export default {
     handleChangeLocationNow(value) {
       if (value === 'LAINNYA') {
         this.formResult.test_location = null
+        this.formResult.lab = null
         this.getCity()
       } else {
+        if (value !== 'LAB') this.formResult.lab = null
         this.formResult.test_address_district_code = ''
         this.formResult.test_address_district_name = ''
         this.formResult.test_address_subdistrict_code = ''
