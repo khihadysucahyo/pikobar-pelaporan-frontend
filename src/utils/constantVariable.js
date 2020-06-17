@@ -55,7 +55,7 @@ export function getAgeWithMonth(dob) {
 export function listYear() {
   var currentYear = new Date().getFullYear()
   const list = []
-  for (var y = 0; y < 80; y++) {
+  for (var y = 0; y < 100; y++) {
     list.push(currentYear)
     currentYear--
   }

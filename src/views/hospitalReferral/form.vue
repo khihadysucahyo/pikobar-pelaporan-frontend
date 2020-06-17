@@ -4,8 +4,8 @@
       <v-row class="mt-2">
         <v-col auto>
           <v-card-text>
-            <div class="header-user-title">{{ $t('label.total_list_referral_patients') }} : 10</div>
-            <div class="header-user-text">{{ fullName }}</div>
+            <div class="header-user-title">{{ $t('label.make_referrals_for_patients') }}</div>
+            <div class="header-user-text">{{ $t('label.choose_one_below') }}</div>
           </v-card-text>
         </v-col>
       </v-row>
@@ -102,7 +102,6 @@ export default {
       'formPasien'
     ]),
     ...mapGetters('user', [
-      'fullName',
       'district_user',
       'district_name_user'
     ])

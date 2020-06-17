@@ -498,7 +498,9 @@ export default {
     reject_reference: 'Tolak Rujukan',
     patient_rejection_verification: 'Verifikasi Penolakan Pasien',
     give_reason_for_rejection: 'Berikan Alasan Penolakan',
-    reference_rejected_because: 'Rujukan ditolak karena ...'
+    reference_rejected_because: 'Rujukan ditolak karena ...',
+    patient_successfully_referred: 'Pasien berhasil dirujuk',
+    reference_rejected: 'Rujukan Ditolak'
 
   },
   success: {
