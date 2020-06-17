@@ -129,7 +129,7 @@ export default {
           }
         }
         const response = await this.$store.dispatch('reports/caseHospitalRefferal', rowData)
-        if (response.status !== ResponseRequest.UNPROCESSABLE) {
+        if (response.status === ResponseRequest.UNPROCESSABLE) {
           await this.$emit('update:dialogPopup', false)
           await this.$emit('update:referralForm', {})
           this.dialogReferral = true
