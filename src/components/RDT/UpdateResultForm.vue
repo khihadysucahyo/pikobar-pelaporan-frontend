@@ -302,7 +302,9 @@ export default {
         test_location_type: ''
       },
       listLab: [],
-      isInitialState: true
+      isInitialState: true,
+      districtCode: null,
+      districtName: null
     }
   },
   computed: {
@@ -333,6 +335,8 @@ export default {
     this.listLab = responseLab.data
     const paramHospitalWestJava = { 'rs_jabar': true }
     await this.$store.dispatch('region/getListHospital', paramHospitalWestJava)
+    this.districtCode = this.formRapid.test_address_district_code
+    this.districtName = this.formRapid.test_address_district_name
   },
   methods: {
     handleBack() {
@@ -368,7 +372,8 @@ export default {
       if (value === 'LAINNYA') {
         this.formRapid.test_location = null
         this.formRapid.lab = null
-        this.getCity()
+        this.formRapid.test_address_district_code = this.districtCode
+        this.formRapid.test_address_district_name = this.districtName
       } else {
         if (value !== 'LAB') this.formRapid.lab = null
         this.formRapid.test_address_district_code = ''
@@ -384,13 +389,6 @@ export default {
     },
     onSelectHospital(value) {
       this.formRapid.test_location = value
-    },
-    async getCity() {
-      const responseDetails = await this.$store.dispatch('region/getDetailDistrict', this.district_user)
-      if (responseDetails.data[0]) {
-        this.formRapid.test_address_district_name = responseDetails.data[0].kota_nama
-        this.formRapid.test_address_district_code = responseDetails.data[0].kota_kode
-      }
     }
   }
 }
