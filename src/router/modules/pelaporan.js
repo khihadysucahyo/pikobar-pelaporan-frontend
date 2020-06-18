@@ -56,17 +56,6 @@ const surveyRouter = {
       }
     },
     {
-      path: 'detail/:id',
-      component: () => import('@/views/laporan/detail'),
-      hidden: true,
-      meta: {
-        title: 'laporan_detail',
-        icon: 'library_books',
-        noCache: true,
-        roles: ['superadmin', 'dinkesprov', 'dinkeskota', 'faskes']
-      }
-    },
-    {
       path: 'edit-case/:id',
       component: () => import('@/views/laporan/editCase'),
       hidden: true,

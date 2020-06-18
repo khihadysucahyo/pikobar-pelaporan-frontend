@@ -81,7 +81,7 @@
         </tr>
       </template>
     </v-data-table>
-    <dialog-detail-case-referral
+    <dialog-detail-case
       :show-dialog="dialogDetailCase"
       :show.sync="dialogDetailCase"
       :detail-case="detailCase"
@@ -99,6 +99,7 @@
       :form-referral="formReferral"
       :patient-registered="patientRegistered"
       :is-edit="isEdit"
+      :message-rejection="messageRejection"
       :id-transfer="idTransfer"
     />
   </v-col>
@@ -134,7 +135,8 @@ export default {
       detailTransfer: {},
       listHistoryCase: [],
       referralHistoryCase: [],
-      idTransfer: null
+      idTransfer: null,
+      messageRejection: null
     }
   },
   computed: {
@@ -168,6 +170,7 @@ export default {
         }
       }
       this.idTransfer = tranferDetail._id
+      this.messageRejection = tranferDetail.transfer_comment
       this.isEdit = true
       this.dialog = true
     },

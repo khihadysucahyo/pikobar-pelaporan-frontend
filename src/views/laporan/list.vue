@@ -214,7 +214,7 @@
                         </v-btn>
                       </template>
                       <v-card>
-                        <v-list-item @click="handleDetail(item._id)">
+                        <v-list-item @click="handleDetail(item, item._id)">
                           {{ $t('label.view_detail') }}
                         </v-list-item>
                         <div v-if="rolesWidget['dinkesKotaAndFaskes'].includes(roles[0])">
@@ -258,6 +258,15 @@
       :store-path-delete="`reports/deleteReportCase`"
       :store-path-get-list="`reports/listReportCase`"
       :list-query="listQuery"
+    />
+    <dialog-detail-case
+      :show-dialog="dialogDetailCase"
+      :show.sync="dialogDetailCase"
+      :detail-case="detailCase"
+      :case-detail.sync="detailCase"
+      :list-history-case="listHistoryCase"
+      :referral-history-case="referralHistoryCase"
+      :title-detail="$t('label.detail_case')"
     />
     <v-dialog v-model="failedDialog" persistent max-width="30%">
       <v-card>
@@ -356,7 +365,11 @@ export default {
       failedDialog: false,
       showImportForm: false,
       errorMessage: null,
-      successDialog: false
+      successDialog: false,
+      detailCase: {},
+      listHistoryCase: [],
+      referralHistoryCase: [],
+      dialogDetailCase: false
     }
   },
   computed: {
@@ -420,8 +433,13 @@ export default {
   },
   methods: {
     formatDatetime,
-    async handleDetail(id) {
-      await this.$router.push(`/laporan/detail/${id}`)
+    async handleDetail(item, id) {
+      const responseHistory = await this.$store.dispatch('reports/listHistoryCase', id)
+      const responseReferralHistory = await this.$store.dispatch('reports/caseHospitalReferralHistory', id)
+      this.detailCase = item
+      this.listHistoryCase = responseHistory.data
+      this.referralHistoryCase = responseReferralHistory.data
+      this.dialogDetailCase = true
     },
     async handleEditCase(id) {
       await this.$router.push(`/laporan/edit-case/${id}`)
