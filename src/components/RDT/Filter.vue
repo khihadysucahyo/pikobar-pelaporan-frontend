@@ -39,7 +39,7 @@
           <v-col cols="12" sm="6">
             <v-label class="title">{{ $t('label.method_used') }}:</v-label>
             <v-select
-              v-model="listQuery.test_method"
+              v-model="listQuery.tool_tester"
               :items="methodsOptions"
               solo
               item-text="label"
@@ -176,7 +176,7 @@ export default {
       this.listQuery.search = ''
       this.listQuery.final_result = ''
       this.listQuery.mechanism = ''
-      this.listQuery.test_method = ''
+      this.listQuery.tool_tester = ''
       this.listQuery.category = ''
       this.listQuery.address_district_code = ''
       this.listQuery.start_date = ''

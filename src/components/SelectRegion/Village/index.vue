@@ -11,6 +11,7 @@
       :disabled="disable"
       :return-object="true"
       menu-props="auto"
+      item-value="desa_kode"
       item-text="desa_nama"
       single-line
       solo

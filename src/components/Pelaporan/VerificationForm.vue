@@ -250,6 +250,7 @@
                 class="full-width"
               >
                 <v-autocomplete
+                  v-model="relatedCaseObject"
                   :no-data-text="$t('label.no_data_autocomplete_related_case')"
                   :error-messages="errors"
                   :items="listNameCases"
@@ -521,9 +522,7 @@
                 :sub-district-code="caseDetail.last_history.current_location_subdistrict_code"
                 :code-sub-district.sync="caseDetail.last_history.current_location_subdistrict_code"
                 :village-code="caseDetail.last_history.current_location_village_code"
-                :village-name="caseDetail.last_history.current_location_village_name"
                 :code-village.sync="caseDetail.last_history.current_location_village_code"
-                :name-village.sync="caseDetail.last_history.current_location_village_name"
                 :disabled-address="false"
                 :required-address="true"
               />
@@ -864,7 +863,8 @@ export default {
       searchRelatedCase: null,
       listQuery: {
         'name': ''
-      }
+      },
+      relatedCaseObject: null
     }
   },
   computed: {
@@ -974,7 +974,15 @@ export default {
             this.caseDetail.last_history.historyList.push(this.$t('label.contact_with_positive_patients'))
           }
           this.caseDetail.new_address = `${this.caseDetail.address_village_name}, ${this.caseDetail.address_subdistrict_name}, ${this.caseDetail.address_district_name}`
+          // Sementara di pending, menunggu API nama kecamatan dan kelurahan dari BE
+          // if (this.caseDetail.last_history.current_location_type === 'RUMAH') {
+          //   this.caseDetail.last_history.current_location_address = `${this.caseDetail.last_history.current_location_address}, `
+          // }
         } else {
+          this.relatedCaseObject = {
+            'relateds': `${this.caseDetail.name_case_related} (${this.caseDetail.id_case_related})`
+          }
+          this.listNameCases.push(this.relatedCaseObject)
           const response = await this.$store.dispatch('region/listCountry')
           this.listCountry = response.data
           const paramHospitalWestJava = { 'rs_jabar': true }
@@ -1025,9 +1033,6 @@ export default {
       } else {
         this.listNameCases = []
       }
-    },
-    'caseDetail.last_history.current_location_type'(value) {
-      if (value === 'RUMAH') this.caseDetail.last_history.current_location_address = ''
     }
   },
   methods: {
@@ -1093,7 +1098,10 @@ export default {
         'diseases_other': this.caseDetail.last_history.diseases_other,
         'diagnosis_other': this.caseDetail.last_history.diagnosis_other,
         'diseases': this.caseDetail.last_history.diseases,
-        'report_source': this.caseDetail.last_history.report_source
+        'report_source': this.caseDetail.last_history.report_source,
+        'current_location_district_code': this.caseDetail.last_history.current_location_district_code,
+        'current_location_subdistrict_code': this.caseDetail.last_history.current_location_subdistrict_code,
+        'current_location_village_code': this.caseDetail.last_history.current_location_village_code
       }
       const verificationData = {
         'id': this.caseDetail._id,
@@ -1121,14 +1129,12 @@ export default {
       this.caseDetail.last_history.current_location_address = value.name
     },
     handleChangeLocationNow(value) {
-      if (value === 'RUMAH') {
-        this.caseDetail.current_location_address = ''
-      } else {
-        this.caseDetail.current_hospital_id = ''
-        this.caseDetail.current_location_address = ''
-        this.caseDetail.current_location_district = ''
-        this.caseDetail.current_location_subdistrict = ''
-        this.caseDetail.current_location_village = ''
+      if (value !== 'RUMAH') {
+        this.caseDetail.last_history.current_hospital_id = ''
+        this.caseDetail.last_history.current_location_address = ''
+        this.caseDetail.last_history.current_location_district_code = ''
+        this.caseDetail.last_history.current_location_subdistrict_code = ''
+        this.caseDetail.last_history.current_location_village_code = ''
       }
     }
   }
