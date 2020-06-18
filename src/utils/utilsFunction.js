@@ -17,7 +17,6 @@ export function completeAddress(districtCity, subDistrict, village, nameStreet) 
 
 export function groupAge(type, group) {
   const result = []
-
   const temp = []
   temp.push(group.find(x => x._id === 'bawah_5'))
   temp.push(group.find(x => x._id === '6_19'))

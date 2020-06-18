@@ -18,6 +18,7 @@
             v-model="tab"
             background-color="#F5F5F5"
             centered
+            hide-slider
             style="margin-left: 1.5rem;margin-right: 1.5rem;"
           >
             <v-tab href="#tab-1">

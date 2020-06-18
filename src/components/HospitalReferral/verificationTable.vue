@@ -57,10 +57,10 @@
                       {{ $t('label.view_detail') }}
                     </v-list-item>
                     <v-list-item
-                      v-if="item.transfer_status === 'declined'"
+                      v-if="unitType !== 'rumahsakit' && item.transfer_status === 'declined'"
                       @click="handleRevise(item, item.case._id)"
                     >
-                      Perbaiki Data
+                      {{ $t('label.fix_data') }}
                     </v-list-item>
                     <div
                       v-if="item.transfer_status === 'declined'"
