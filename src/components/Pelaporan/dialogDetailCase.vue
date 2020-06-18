@@ -29,7 +29,7 @@
               {{ $t('label.case_history') }}
             </v-tab>
 
-            <v-tab href="#tab-3">
+            <v-tab v-if="userUnitType !== null" href="#tab-3">
               {{ $t('label.referral_history') }}
             </v-tab>
           </v-tabs>
@@ -189,7 +189,7 @@ export default {
       min-width: 100%;
     }
     .v-tab {
-        width: 35% !important;
+        width: 50% !important;
         color: #828282 !important;
     }
     .v-tab--active {
