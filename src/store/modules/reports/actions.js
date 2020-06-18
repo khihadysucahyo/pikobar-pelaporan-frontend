@@ -198,17 +198,24 @@ export default {
       return error.response
     }
   },
-  async caseHospitalReferralOut({ commit }, params) {
+  async caseHospitalReferralInOut({ commit }, data) {
+    const {
+      type,
+      params
+    } = data
     try {
-      const response = await requestServer(`/api/cases-transfer/out`, 'GET', params)
+      const response = await requestServer(`/api/cases-transfer/${type}`, 'GET', params)
       return response
     } catch (error) {
       return error.response
     }
   },
-  async caseHospitalReferralIn({ commit }, params) {
+  async caseHospitalReferralSummary({ commit }, data) {
+    const {
+      type
+    } = data
     try {
-      const response = await requestServer(`/api/cases-transfer/in`, 'GET', params)
+      const response = await requestServer(`/api/cases-transfer-summary/${type}`, 'GET')
       return response
     } catch (error) {
       return error.response

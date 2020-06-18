@@ -4,7 +4,7 @@
       <v-row class="mt-2">
         <v-col auto>
           <v-card-text>
-            <div class="header-user-title">{{ $t('label.total_list_referral_patients') }} : 10</div>
+            <div class="header-user-title">{{ $t('label.total_list_referral_patients') }} : {{ totalList }}</div>
             <div class="header-user-text">{{ fullName }}</div>
           </v-card-text>
         </v-col>
@@ -117,17 +117,42 @@ export default {
       }
     })
     this.handleSearch()
+    this.handleSummary()
   },
   methods: {
     async handleSearch() {
-      let response
+      let data
       if (this.unitType === 'rumahsakit') {
-        response = await this.$store.dispatch('reports/caseHospitalReferralIn', this.listQuery)
+        data = {
+          type: 'in',
+          params: this.listQuery
+        }
       } else {
-        response = await this.$store.dispatch('reports/caseHospitalReferralOut', this.listQuery)
+        data = {
+          type: 'out',
+          params: this.listQuery
+        }
       }
+      const response = await this.$store.dispatch('reports/caseHospitalReferralInOut', data)
+
       this.listReferral = response.data.cases
       this.totalList = response.data._meta.totalPages
+    },
+    async handleSummary() {
+      let data
+      if (this.unitType === 'rumahsakit') {
+        data = {
+          type: 'in'
+        }
+      } else {
+        data = {
+          type: 'out'
+        }
+      }
+      const response = await this.$store.dispatch('reports/caseHospitalReferralSummary', data)
+      if (response) {
+        this.totalList = response.data.PENDING + response.data.DECLINED + response.data.APPROVED
+      }
     },
     onTabChanges(value) {
       this.listQuery.transfer_status = value

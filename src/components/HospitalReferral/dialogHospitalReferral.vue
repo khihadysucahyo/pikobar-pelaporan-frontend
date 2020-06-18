@@ -6,14 +6,38 @@
       :max-width="patientRegistered ? '380px':'980px'"
     >
       <v-card>
-        <v-card-title class="justify-center">
-          <img src="@/static/hospital_reference_1.svg">
-        </v-card-title>
-        <v-card-title class="justify-center">
-          <div class="font-weight-bold" style="font-size: 16px">
-            {{ patientRegistered ? `${ $t('label.patients_recorded_at') } ${fullName}`:`${ $t('label.patients_not_yet_recorded_in') } ${fullName}` }}
-          </div>
-        </v-card-title>
+        <div
+          v-if="!isEdit"
+        >
+          <v-card-title class="justify-center">
+            <img src="@/static/hospital_reference_1.svg">
+          </v-card-title>
+          <v-card-title class="justify-center">
+            <div class="font-weight-bold" style="font-size: 16px">
+              {{ patientRegistered ? `${ $t('label.patients_recorded_at') } ${fullName}`:`${ $t('label.patients_not_yet_recorded_in') } ${fullName}` }}
+            </div>
+          </v-card-title>
+        </div>
+        <div v-else>
+          <v-card
+            color="#FDEDED"
+            class="warning-background ma-4"
+            outlined
+            min-height="90px"
+          >
+            <div
+              class="ml-10 mt-6"
+              style="color: #EB5757;"
+            >
+              <div style="font-weight: bold;font-size: 16px;">
+                {{ $t('label.rejection_note') }}
+              </div>
+              <div>
+                {{ messageRejection }}
+              </div>
+            </div>
+          </v-card>
+        </div>
         <v-container>
           <ValidationObserver ref="observer">
             <v-form
@@ -87,6 +111,10 @@ export default {
     isEdit: {
       type: Boolean,
       default: false
+    },
+    messageRejection: {
+      type: String,
+      default: null
     },
     idTransfer: {
       type: String,
@@ -170,5 +198,7 @@ export default {
 </script>
 
 <style scoped>
-
+ .warning-background {
+   background-image: url('../../static/warning_icon.svg')
+ }
 </style>

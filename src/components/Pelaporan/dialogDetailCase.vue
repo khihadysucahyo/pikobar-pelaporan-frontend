@@ -110,7 +110,7 @@
 <script>
 import EventBus from '@/utils/eventBus'
 export default {
-  name: 'DialogDetailCaseReferral',
+  name: 'DialogDetailCase',
   props: {
     showDialog: {
       type: Boolean,
