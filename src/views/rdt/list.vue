@@ -154,13 +154,13 @@ export default {
         start_date: '',
         end_date: '',
         mechanism: '',
-        test_method: '',
+        tool_tester: '',
         final_result: '',
         category: '',
         page: 1,
         limit: 30,
         search: '',
-        sort: {}
+        sort: 'desc'
       },
       dialog: false,
       dataDelete: null
@@ -199,11 +199,11 @@ export default {
       handler: function(value) {
         if (value.sortBy !== undefined) {
           if ((value.sortBy[0] !== undefined) && (value.sortDesc[0])) {
-            this.listQuery.sort[value.sortBy[0]] = 'desc'
+            this.listQuery.sort = 'desc'
           } else if ((value.sortBy[0] !== undefined) && (!value.sortDesc[0])) {
-            this.listQuery.sort[value.sortBy[0]] = 'asc'
+            this.listQuery.sort = 'asc'
           } else {
-            this.listQuery.sort['createdAt'] = 'desc'
+            this.listQuery.sort = 'desc'
           }
 
           if (Object.keys(this.listQuery.sort).length > 0) {
