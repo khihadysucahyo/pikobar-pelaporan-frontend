@@ -130,9 +130,9 @@
               <input-date-picker
                 :label="$t('label.testing_date')"
                 :format-date="'YYYY/MM/DD'"
-                :date-value="formRapid.test_date"
-                :value-date.sync="formRapid.test_date"
-                @changeDate="formRapid.test_date = $event"
+                :date-value="testDate"
+                :value-date.sync="testDate"
+                @changeDate="handleChangeDate"
               />
               <ValidationProvider
                 v-slot="{ errors }"
@@ -304,7 +304,8 @@ export default {
       listLab: [],
       isInitialState: true,
       districtCode: null,
-      districtName: null
+      districtName: null,
+      testDate: null
     }
   },
   computed: {
@@ -327,6 +328,7 @@ export default {
   async mounted() {
     const response = await this.$store.dispatch('rdt/detailParticipant', this.idResult)
     Object.assign(this.formRapid, response.data)
+    this.testDate = this.formRapid.test_date
     const listQuery = {
       city_code: this.district_user
     }
@@ -389,6 +391,10 @@ export default {
     },
     onSelectHospital(value) {
       this.formRapid.test_location = value
+    },
+    handleChangeDate(value) {
+      this.testDate = value
+      this.formRapid.test_date = value
     }
   }
 }
