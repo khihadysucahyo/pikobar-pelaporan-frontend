@@ -974,10 +974,12 @@ export default {
             this.caseDetail.last_history.historyList.push(this.$t('label.contact_with_positive_patients'))
           }
           this.caseDetail.new_address = `${this.caseDetail.address_village_name}, ${this.caseDetail.address_subdistrict_name}, ${this.caseDetail.address_district_name}`
-          // Sementara di pending, menunggu API nama kecamatan dan kelurahan dari BE
-          // if (this.caseDetail.last_history.current_location_type === 'RUMAH') {
-          //   this.caseDetail.last_history.current_location_address = `${this.caseDetail.last_history.current_location_address}, `
-          // }
+          if (this.caseDetail.last_history.current_location_type === 'Rumah') {
+            const responseDistrict = await this.$store.dispatch('region/getDetailDistrict', this.caseDetail.last_history.current_location_district_code)
+            const responseSubDistrict = await this.$store.dispatch('region/getDetailSubDistrict', this.caseDetail.last_history.current_location_subdistrict_code)
+            const responseVillage = await this.$store.dispatch('region/getDetailVillage', this.caseDetail.last_history.current_location_village_code)
+            this.caseDetail.last_history.current_location_address = `${this.caseDetail.last_history.current_location_address}, ${responseVillage.data[0].desa_nama}, ${responseSubDistrict.data[0].kecamatan_nama}, ${responseDistrict.data[0].kota_nama}`
+          }
         } else {
           this.relatedCaseObject = {
             'relateds': `${this.caseDetail.name_case_related} (${this.caseDetail.id_case_related})`
