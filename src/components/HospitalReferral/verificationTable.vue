@@ -84,9 +84,9 @@
     <dialog-detail-case
       :show-dialog="dialogDetailCase"
       :show.sync="dialogDetailCase"
-      :detail-case="detailCase"
+      :detail-case="detailTransfer.case"
+      :case-detail.sync="detailTransfer.case"
       :detail-transfer="detailTransfer"
-      :case-detail.sync="detailCase"
       :transfer-detail.sync="detailTransfer"
       :list-history-case="listHistoryCase"
       :referral-history-case="referralHistoryCase"
@@ -131,7 +131,6 @@ export default {
       isEdit: false,
       formReferral: {},
       dialogDetailCase: false,
-      detailCase: {},
       detailTransfer: {},
       listHistoryCase: [],
       referralHistoryCase: [],
@@ -149,12 +148,12 @@ export default {
       return ((this.listQuery.page - 1) * this.listQuery.limit) + (index + 1)
     },
     async handleDetail(tranferDetail, idCase) {
+      this.detailTransfer = {}
+      this.detailTransfer = tranferDetail
       const responseHistory = await this.$store.dispatch('reports/listHistoryCase', idCase)
       const responseReferralHistory = await this.$store.dispatch('reports/caseHospitalReferralHistory', idCase)
-      this.detailCase = tranferDetail.case
       this.listHistoryCase = responseHistory.data
       this.referralHistoryCase = responseReferralHistory.data
-      this.detailTransfer = tranferDetail
       this.dialogDetailCase = true
     },
     async handleRevise(tranferDetail, idCase) {

@@ -508,7 +508,8 @@ export default {
     results: 'Hasil',
     choose_results: 'Pilih Hasil',
     referral_date: 'Tanggal Rujuk',
-    choose_date: 'Pilih Tanggal'
+    choose_date: 'Pilih Tanggal',
+    patient_residential_address: 'Alamat Tempat Tinggal Pasien'
 
   },
   success: {
@@ -531,7 +532,7 @@ export default {
     new_password_must_be_filled: 'Password baru harus diisi',
     password_must_be_more_than_characters: 'Password harus lebih dari 5 karakter',
     new_password_must_be_more_than_characters: 'Password baru harus lebih dari 5 karakter',
-    confirm_new_passwJKord_must_be_filled: 'Konfirmasi password baru harus diisi',
+    confirm_new_password_must_be_filled: 'Konfirmasi password baru harus diisi',
     confirm_new_password_must_be_more_than_characters: 'Konfirmasi password baru harus lebih dari 5 karakter',
     confirm_new_password_not_same: 'Konfirmasi password tidak sama',
     field_must_be_valid_email: 'Masukkan email yang valid',

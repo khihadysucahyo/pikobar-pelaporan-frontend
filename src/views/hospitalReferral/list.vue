@@ -83,10 +83,13 @@ export default {
     return {
       listQuery: {
         search: '',
+        transfer_from_unit_id: '',
         address_district_code: '',
         address_subdistrict_code: '',
         address_village_code: '',
-        start_date: '',
+        status: '',
+        final_result: '',
+        createdAt: '',
         transfer_status: null,
         page: 1,
         limit: 100

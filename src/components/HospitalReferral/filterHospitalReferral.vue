@@ -7,20 +7,25 @@
       <v-row class="filter-row">
         <v-col cols="12" sm="3">
           <v-label class="title">{{ $t('label.reference_place') }}:</v-label>
-          <v-select
-            v-model="listQuery.final_result"
-            :items="resultCheckList"
-            :placeholder="$t('label.choose_place')"
+          <v-autocomplete
+            v-model="listQuery.transfer_from_unit_id"
+            :items="unitList"
+            :loading="isUnitLoading"
+            :search-input.sync="searchUnit"
+            :return-object="false"
+            menu-props="auto"
+            item-text="name"
+            item-value="_id"
+            single-line
             solo
-            item-text="label"
-            item-value="value"
+            autocomplete
           />
         </v-col>
         <v-col cols="12" sm="3">
           <v-label class="title">{{ $t('label.criteria') }}:</v-label>
           <v-select
-            v-model="listQuery.mechanism"
-            :items="mechanismOptions"
+            v-model="listQuery.status"
+            :items="stagesList"
             :placeholder="$t('label.choose_criteria')"
             solo
           />
@@ -28,8 +33,8 @@
         <v-col cols="12" sm="3">
           <v-label class="title">{{ $t('label.results') }}:</v-label>
           <v-select
-            v-model="listQuery.test_method"
-            :items="methodsOptions"
+            v-model="listQuery.final_result"
+            :items="resultList"
             :placeholder="$t('label.choose_results')"
             solo
             item-text="label"
@@ -41,14 +46,15 @@
           <input-date-picker
             :format-date="formatDate"
             :label="$t('label.choose_date')"
-            :date-value="listQuery.start_date"
-            :value-date.sync="listQuery.start_date"
-            @changeDate="listQuery.start_date = $event"
+            :date-value="listQuery.createdAt"
+            :value-date.sync="listQuery.createdAt"
+            @changeDate="listQuery.createdAt = $event"
           />
         </v-col>
       </v-row>
       <v-row class="filter-row">
         <v-col cols="12" sm="9" class="reduce-padding-top">
+          <v-label>{{ $t('label.patient_residential_address') }}</v-label>
           <address-region
             :disabled-district="disabledDistrict"
             :district-code="listQuery.address_district_code"
@@ -62,7 +68,7 @@
             :name-village.sync="nameVillage"
             :disabled-address="false"
             :required-address="false"
-            :is-label="true"
+            :is-label="false"
           />
         </v-col>
         <v-col cols="12" sm="3">
@@ -97,6 +103,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import EventBus from '@/utils/eventBus'
 
 export default {
   name: 'FilterHospitalReferral',
@@ -113,30 +120,34 @@ export default {
   data() {
     return {
       formatDate: 'YYYY-MM-DD',
-      disabledDistrict: true,
+      disabledDistrict: false,
       codeDistrict: '',
       nameVillage: '',
-      methodsOptions: [
-        'HAND PRIX',
-        'FLEBOTOMY'
+      unitList: [],
+      searchUnit: null,
+      queryUnit: {
+        search: ''
+      },
+      isUnitLoading: false,
+      stagesList: [
+        'OTG',
+        'ODP',
+        'PDP',
+        'POSITIF'
       ],
-      mechanismOptions: [
-        'Door to door',
-        'Faskes',
-        'Drive-Thru'
-      ],
-      categoryList: [
-        { label: 'Kategori A', value: 'A' },
-        { label: 'Kategori B', value: 'B' },
-        { label: 'Kategori C', value: 'C' }
-      ],
-      resultCheckList: [
-        { label: 'Negatif', value: 'NEGATIF' },
-        { label: 'Positif', value: 'POSITIF' },
-        { label: 'Invalid', value: 'INVALID' },
-        { label: 'Inkonklusif', value: 'INKONKLUSIF' },
-        { label: 'Reaktif', value: 'REAKTIF' },
-        { label: 'Non Reaktif', value: 'NON REAKTIF' }
+      resultList: [
+        {
+          label: 'Negatif',
+          value: 0
+        },
+        {
+          label: 'Sembuh',
+          value: 1
+        },
+        {
+          label: 'Meninggal',
+          value: 2
+        }
       ]
     }
   },
@@ -147,24 +158,26 @@ export default {
       'district_name_user'
     ])
   },
-  async beforeMount() {
-    this.disabledDistrict = await this.roles[0] === 'dinkeskota'
+  watch: {
+    async searchCase(value) {
+      this.isCaseLoading = true
+      this.queryCase.search = value
+      const response = await this.$store.dispatch('reports/listReportCase', this.queryCase)
+      this.caseList = response.data.cases
+      this.isCaseLoading = false
+    }
+  },
+  async mounted() {
+    const responseUnit = await this.$store.dispatch('region/listUnit', this.queryUnit)
+    this.unitList = responseUnit.data.itemsList
   },
   methods: {
-    onSelectDistrict(value) {
-      this.listQuery.address_district_code = value.kota_kode
-    },
     onReset() {
-      this.listQuery.search = ''
-      this.listQuery.final_result = ''
-      this.listQuery.mechanism = ''
-      this.listQuery.test_method = ''
-      this.listQuery.category = ''
       this.listQuery.address_district_code = ''
-      this.listQuery.start_date = ''
-      this.listQuery.end_date = ''
+      this.listQuery.address_subdistrict_code = ''
+      this.listQuery.address_village_code = ''
       this.$refs.form.reset()
-      this.$store.dispatch('rdt/getListRDT', this.listQuery)
+      EventBus.$emit('refreshPageListReferral', true)
     }
   }
 }
