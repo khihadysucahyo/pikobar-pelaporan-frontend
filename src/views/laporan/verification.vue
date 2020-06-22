@@ -6,7 +6,7 @@
           {{ $t('label.total_new_cases') }} : {{ totalItem }}
         </div>
       </v-row>
-      <v-row class="mx-0">
+      <v-row class="mx-0 mb-0">
         <span class="font-white">
           {{ roles[0] === 'faskes' ? $t('label.medical_facility_verification_info_1') : $t('label.verification_info') }}
         </span>

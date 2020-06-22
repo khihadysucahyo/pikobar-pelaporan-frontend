@@ -807,3 +807,8 @@ export default {
   }
 }
 </script>
+<style scoped>
+.row {
+  margin-bottom: 0px;
+}
+</style>
