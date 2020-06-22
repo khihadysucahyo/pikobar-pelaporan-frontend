@@ -735,14 +735,10 @@ export default {
         this.caseDetail.age = Number((this.caseDetail.yearsOld + (this.caseDetail.monthsOld / 12)).toFixed(2))
       }
     },
-    'caseDetail.yearsOld'(value) {
-      if (this.caseDetail.monthsOld !== '') {
-        this.caseDetail.age = Number((Number(this.caseDetail.yearsOld) + (Number(this.caseDetail.monthsOld) / 12)).toFixed(2))
-      } else {
-        this.caseDetail.age = Number(this.caseDetail.yearsOld)
-      }
+    'caseDetail.yearsOld'() {
+      this.caseDetail.age = this.caseDetail.monthsOld !== '' ? Number((Number(this.caseDetail.yearsOld) + (Number(this.caseDetail.monthsOld) / 12)).toFixed(2)) : Number(this.caseDetail.yearsOld)
     },
-    'caseDetail.monthsOld'(value) {
+    'caseDetail.monthsOld'() {
       if (this.caseDetail.yearsOld !== '') {
         this.caseDetail.age = Number((Number(this.caseDetail.yearsOld) + (Number(this.caseDetail.monthsOld) / 12)).toFixed(2))
       }
