@@ -24,7 +24,7 @@
             </ValidationProvider>
             <ValidationProvider
               v-slot="{ errors }"
-              rules="required|email|isEmailUsed"
+              :rules="isEdit ? 'required|email':'required|email|isEmailUsed'"
             >
               <label class="required">{{ $t('label.email') }}</label>
               <v-text-field
@@ -79,7 +79,7 @@
           >
             <ValidationProvider
               v-slot="{ errors }"
-              rules="required|isHtml|isWhiteSpaces"
+              :rules="isEdit ? 'required|isHtml|isWhiteSpaces':'required|isHtml|isWhiteSpaces|isUsernameUsed'"
             >
               <label class="required">{{ $t('label.username') }}</label>
               <v-text-field
@@ -102,6 +102,7 @@
               />
             </ValidationProvider>
             <ValidationProvider
+              v-if="formUser.role !== 'dinkeskota'"
               v-slot="{ errors }"
               rules="required"
             >
@@ -268,9 +269,6 @@ export default {
   methods: {
     async handleCreate() {
       const valid = await this.$refs.observer.validate()
-      // if (this.isEdit && this.formUser.username.length > 0) {
-      //   valid = true
-      // }
       if (!valid) {
         return
       } else if (this.$refs.form.validate()) {

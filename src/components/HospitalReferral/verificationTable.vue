@@ -28,7 +28,9 @@
           <td> {{ item.transfer_from_unit_name }} </td>
           <td><status-referral :status="item.transfer_status" /></td>
           <td>
-            <v-card-actions>
+            <v-card-actions
+              v-if="unitType === 'rumahsakit' && item.transfer_status !== 'declined'"
+            >
               <v-menu
                 :close-on-content-click="false"
                 :nudge-width="100"
@@ -56,15 +58,14 @@
                     <v-list-item @click="handleDetail(item, item.case._id)">
                       {{ $t('label.view_detail') }}
                     </v-list-item>
-                    <v-list-item
-                      v-if="unitType !== 'rumahsakit' && item.transfer_status === 'declined'"
-                      @click="handleRevise(item, item.case._id)"
-                    >
-                      {{ $t('label.fix_data') }}
-                    </v-list-item>
                     <div
-                      v-if="item.transfer_status === 'declined'"
+                      v-if="unitType !== 'rumahsakit' && item.transfer_status === 'declined'"
                     >
+                      <v-list-item
+                        @click="handleRevise(item, item.case._id)"
+                      >
+                        {{ $t('label.fix_data') }}
+                      </v-list-item>
                       <v-divider />
                       <v-list-item
                         style="color: #EB5757 !important;"
