@@ -22,6 +22,7 @@
                   :type="typePassword ? 'password' : 'text'"
                   label="Password baru"
                   name="password"
+                  solo
                   @click:append="() => (typePassword = !typePassword)"
                 />
                 <v-text-field
@@ -31,6 +32,7 @@
                   :type="typeRepeatPassword ? 'password' : 'text'"
                   label="Konfirmasi password baru"
                   name="repeat_password"
+                  solo
                   @click:append="() => (typeRepeatPassword = !typeRepeatPassword)"
                   @keyup.enter.native="handleChangePassword"
                 />

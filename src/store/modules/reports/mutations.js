@@ -1,9 +1,8 @@
-
 export default {
   SET_LIST_PASIEN: (state, data) => {
     state.listKasus = data
   },
-  RESET_LIST_CASE: (state, data) => {
+  RESET_LIST_CASE: (state) => {
     state.listKasus = []
   },
   SET_TOTAL_LIST_PASIEN: (state, data) => {

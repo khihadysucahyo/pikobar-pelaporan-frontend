@@ -18,17 +18,21 @@
             v-model="tab"
             background-color="#F5F5F5"
             centered
-            style="margin-left: 1.5rem;margin-right: 1.5rem;"
+            hide-slider
+            class="tab-detail-case"
           >
             <v-tab href="#tab-1">
+              <v-icon class="mr-2">mdi-account</v-icon>
               {{ $t('label.detail_profile_history') }}
             </v-tab>
 
             <v-tab href="#tab-2">
+              <v-icon class="mr-2">library_books</v-icon>
               {{ $t('label.case_history') }}
             </v-tab>
 
             <v-tab href="#tab-3">
+              <v-icon class="mr-2">mdi-account-switch</v-icon>
               {{ $t('label.referral_history') }}
             </v-tab>
           </v-tabs>
@@ -187,8 +191,13 @@ export default {
     .v-window.v-item-group.v-tabs-items {
       min-width: 100%;
     }
+    .tab-detail-case {
+      margin-left: 1.5rem;
+      margin-right: 1.5rem;
+      border-radius: 8px;
+    }
     .v-tab {
-        width: 35% !important;
+        width: 50% !important;
         color: #828282 !important;
     }
     .v-tab--active {

@@ -27,7 +27,8 @@ const state = {
     address_village_name: '',
     address_street: '',
     fullname: '',
-    phone_number: ''
+    phone_number: '',
+    unit_id: ''
   }
 }
 

@@ -143,6 +143,7 @@ export default {
     update_history: 'Update Riwayat',
     detail_profile_history: 'Detail Profil Kasus',
     criteria: 'Kriteria',
+    choose_criteria: 'Pilih Kriteria',
     stages: 'Tahapan',
     OTG: 'OTG',
     ODP: 'ODP',
@@ -413,6 +414,7 @@ export default {
     medical_facility_verification_info_1: 'Data yang berhasil diverifikasi akan hilang otomatis setelah 24 jam.',
     medical_facility_verification_info_2: 'Anda dapat melihat data yang terverifikasi pada "List Kasus".',
     fix_case: 'Perbaiki Data Kasus',
+    fix_data: 'Perbaiki Data',
     verification_process: 'Proses Verifikasi',
     total_case: 'Jumlah Kasus',
     label: 'Label',
@@ -501,7 +503,14 @@ export default {
     give_reason_for_rejection: 'Berikan Alasan Penolakan',
     reference_rejected_because: 'Rujukan ditolak karena ...',
     patient_successfully_referred: 'Pasien berhasil dirujuk',
-    reference_rejected: 'Rujukan Ditolak'
+    reference_rejected: 'Rujukan Ditolak',
+    reference_place: 'Tempat Rujukan',
+    choose_place: 'Pilih Tempat',
+    results: 'Hasil',
+    choose_results: 'Pilih Hasil',
+    referral_date: 'Tanggal Rujuk',
+    choose_date: 'Pilih Tanggal',
+    patient_residential_address: 'Alamat Tempat Tinggal Pasien'
 
   },
   success: {
@@ -524,7 +533,7 @@ export default {
     new_password_must_be_filled: 'Password baru harus diisi',
     password_must_be_more_than_characters: 'Password harus lebih dari 5 karakter',
     new_password_must_be_more_than_characters: 'Password baru harus lebih dari 5 karakter',
-    confirm_new_passwJKord_must_be_filled: 'Konfirmasi password baru harus diisi',
+    confirm_new_password_must_be_filled: 'Konfirmasi password baru harus diisi',
     confirm_new_password_must_be_more_than_characters: 'Konfirmasi password baru harus lebih dari 5 karakter',
     confirm_new_password_not_same: 'Konfirmasi password tidak sama',
     field_must_be_valid_email: 'Masukkan email yang valid',
