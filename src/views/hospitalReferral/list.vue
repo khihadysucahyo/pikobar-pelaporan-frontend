@@ -179,6 +179,14 @@ export default {
     },
     onTabChanges(value) {
       this.showFilter = false
+      const ids = this.headers.length
+      if (this.unitType === 'rumahsakit' && value === 'declined') {
+        this.headers.splice(9, 1)
+      } else if (ids === 9) {
+        this.headers.push(
+          { text: this.$t('label.action').toUpperCase(), value: 'actions', sortable: false }
+        )
+      }
       this.listQuery.transfer_status = value
       this.handleSearch()
     }
