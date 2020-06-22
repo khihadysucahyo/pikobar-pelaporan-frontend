@@ -230,6 +230,7 @@
           >
             <ValidationProvider
               v-slot="{ errors }"
+              rules="required"
             >
               <v-text-field
                 v-model="formPasien.current_location_address"

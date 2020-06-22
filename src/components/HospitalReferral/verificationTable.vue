@@ -29,7 +29,7 @@
           <td><status-referral :status="item.transfer_status" /></td>
           <td>
             <v-card-actions
-              v-if="unitType === 'rumahsakit' && item.transfer_status !== 'declined'"
+              v-if="unitType !== 'rumahsakit' || item.transfer_status !== 'declined'"
             >
               <v-menu
                 :close-on-content-click="false"
