@@ -4,7 +4,7 @@
       <v-row class="mt-2">
         <v-col auto>
           <v-card-text>
-            <div class="header-user-title">{{ $t('label.total_list_referral_patients') }} : {{ totalList }}</div>
+            <div class="header-user-title">{{ $t('label.total_list_referral_patients') }} : {{ summaryReferral }}</div>
             <div class="header-user-text">{{ fullName }}</div>
           </v-card-text>
         </v-col>
@@ -37,11 +37,22 @@
                   color="primary"
                   class="mr-4"
                   style="float: right;"
+                  @click="handleFilter"
                 >
                   {{ $t('label.filter') }}
-                  <v-icon>mdi-chevron-right</v-icon>
+                  <v-icon v-if="!showFilter">mdi-chevron-right</v-icon>
+                  <v-icon v-else>mdi-chevron-down</v-icon>
                 </v-btn>
               </v-col>
+            </v-row>
+            <v-row
+              v-if="showFilter"
+              class="ma-2"
+            >
+              <filter-hospital-referral
+                :list-query="listQuery"
+                :on-search="handleSearch"
+              />
             </v-row>
             <v-row>
               <verification-table-referral
@@ -72,11 +83,20 @@ export default {
     return {
       listQuery: {
         search: '',
+        transfer_from_unit_id: '',
+        address_district_code: '',
+        address_subdistrict_code: '',
+        address_village_code: '',
+        status: '',
+        final_result: '',
+        createdAt: '',
         transfer_status: null,
         page: 1,
         limit: 100
       },
       totalList: 0,
+      showFilter: false,
+      summaryReferral: 0,
       listReferral: [],
       tab: null,
       tabLabel: [
@@ -151,10 +171,14 @@ export default {
       }
       const response = await this.$store.dispatch('reports/caseHospitalReferralSummary', data)
       if (response) {
-        this.totalList = response.data.PENDING + response.data.DECLINED + response.data.APPROVED
+        this.summaryReferral = response.data.PENDING + response.data.DECLINED + response.data.APPROVED
       }
     },
+    handleFilter() {
+      this.showFilter = !this.showFilter
+    },
     onTabChanges(value) {
+      this.showFilter = false
       this.listQuery.transfer_status = value
       this.handleSearch()
     }

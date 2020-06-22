@@ -79,7 +79,7 @@
           >
             <ValidationProvider
               v-slot="{ errors }"
-              rules="required|isUsernameUsed|isHtml|isWhiteSpaces"
+              rules="required|isHtml|isWhiteSpaces"
             >
               <label class="required">{{ $t('label.username') }}</label>
               <v-text-field
@@ -104,8 +104,9 @@
             <ValidationProvider
               v-if="formUser.role !== 'dinkeskota'"
               v-slot="{ errors }"
+              rules="required"
             >
-              <label>{{ $t('label.work_unit') }}</label>
+              <label class="required">{{ $t('label.work_unit') }}</label>
               <v-autocomplete
                 v-model="formUser.unit_id"
                 :items="unitList"
@@ -267,10 +268,10 @@ export default {
   },
   methods: {
     async handleCreate() {
-      let valid = await this.$refs.observer.validate()
-      if (this.isEdit && this.formUser.username.length > 0) {
-        valid = true
-      }
+      const valid = await this.$refs.observer.validate()
+      // if (this.isEdit && this.formUser.username.length > 0) {
+      //   valid = true
+      // }
       if (!valid) {
         return
       } else if (this.$refs.form.validate()) {

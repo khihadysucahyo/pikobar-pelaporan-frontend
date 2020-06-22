@@ -474,7 +474,7 @@
             </ValidationProvider>
           </v-col>
         </v-row>
-        <v-row align="start">
+        <v-row align="start" class="mt-4">
           <v-col
             cols="12"
             md="3"
@@ -532,7 +532,7 @@
             </ValidationProvider>
           </v-col>
         </v-row>
-        <v-row align="start">
+        <v-row align="start" class="mt-4">
           <v-col
             cols="12"
             md="3"
