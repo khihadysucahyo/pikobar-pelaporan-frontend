@@ -5,9 +5,10 @@
   >
     <v-row>
       <v-col>
-        <label>{{ $t('label.search_patient_by_name_nik') }}</label>
+        <label class="required">{{ $t('label.search_patient_by_name_nik') }}</label>
         <ValidationProvider
           v-slot="{ errors }"
+          rules="required"
         >
           <v-autocomplete
             v-model="formReferral.case_id"
@@ -34,9 +35,10 @@
     </v-row>
     <v-row>
       <v-col>
-        <label>{{ $t('label.referral_hospital') }}</label>
+        <label class="required">{{ $t('label.referral_hospital') }}</label>
         <ValidationProvider
           v-slot="{ errors }"
+          rules="required"
         >
           <v-autocomplete
             v-model="formReferral.transfer_to_unit"
