@@ -225,7 +225,7 @@
                 :village-name="formResult.test_address_village_name"
                 :code-village.sync="formResult.test_address_village_code"
                 :name-village.sync="formResult.test_address_village_name"
-                :disabled-address="true"
+                :disabled-address="false"
                 :required-address="true"
               />
             </div>
