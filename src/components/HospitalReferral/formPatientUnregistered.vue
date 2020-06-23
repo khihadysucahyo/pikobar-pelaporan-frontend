@@ -22,9 +22,10 @@
           <v-expansion-panel-content>
             <v-row>
               <v-col>
-                <label>{{ $t('label.choose_referral_hospital') }}</label>
+                <label class="required">{{ $t('label.choose_referral_hospital') }}</label>
                 <ValidationProvider
                   v-slot="{ errors }"
+                  rules="required"
                 >
                   <v-autocomplete
                     v-model="formReferral.transfer_to_unit"

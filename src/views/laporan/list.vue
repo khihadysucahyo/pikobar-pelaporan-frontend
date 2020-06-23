@@ -437,7 +437,7 @@ export default {
       const responseHistory = await this.$store.dispatch('reports/listHistoryCase', id)
       const responseReferralHistory = await this.$store.dispatch('reports/caseHospitalReferralHistory', id)
       this.detailCase = item
-      this.listHistoryCase = responseHistory.data
+      this.listHistoryCase = responseHistory
       this.referralHistoryCase = responseReferralHistory.data
       this.dialogDetailCase = true
     },

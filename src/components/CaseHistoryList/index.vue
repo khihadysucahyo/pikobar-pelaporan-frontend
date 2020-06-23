@@ -17,27 +17,34 @@
           <td><status :status="item.status" /></td>
           <td>
             <div v-if="item.stage === '0'">
-              Proses
+              {{ $t('label.process') }}
             </div>
             <div v-else>
-              Selesai
+              {{ $t('label.done') }}
             </div>
           </td>
           <td>
             <div v-if=" item.final_result =='0'">
-              Negatif
+              {{ $t('label.negatif') }}
             </div>
             <div v-else-if=" item.final_result =='1'">
-              Sembuh
+              {{ $t('label.recovery') }}
             </div>
             <div v-else-if=" item.final_result =='2'">
-              Meninggal
+              {{ $t('label.dead') }}
             </div>
             <div v-else>
               -
             </div>
           </td>
-          <td>{{ item.current_location_address }}</td>
+          <td>
+            <div v-if="item.current_location_type === 'RUMAH'">
+              {{ item.homeAddress }}
+            </div>
+            <div v-else>
+              {{ item.current_location_address }}
+            </div>
+          </td>
           <td>{{ formatDatetime(item.last_changed, "DD MMMM YYYY") }}</td>
         </tr>
       </tbody>
