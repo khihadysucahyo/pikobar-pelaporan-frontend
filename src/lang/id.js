@@ -486,6 +486,7 @@ export default {
     do_not_have_phone_number: "Tidak ada No Telepon",
     reason_do_not_have_phone_number: "Alasan tidak ada No Telepon",
     swab_count: "Swab Ke",
+    rdt_count: "RDT Ke",
     work_unit: 'Unit Kerja',
     internal_and_external_data_not_found: "Data tidak ditemukan di Laporan Kasus atau Pendaftaran Pikobar. Harap Data diri pasien diinputkan manual",
     test_id: "Id Tes",
@@ -550,6 +551,7 @@ export default {
     field_must_contains_sixteen_digits: 'Kolom harus mempunyai 16 digit',
     duplicated_nik: 'NIK telah terdaftar di sistem',
     not_minus: 'Nilai tidak boleh 0 atau kurang',
-    field_only_accepts_xlsx: 'Sistem hanya dapat menerima file dengan format ".xlsx"'
+    field_only_accepts_xlsx: 'Sistem hanya dapat menerima file dengan format ".xlsx"',
+    data_failed_edit: 'Data Gagal Diubah',
   },
 }

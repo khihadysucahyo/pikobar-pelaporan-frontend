@@ -58,7 +58,6 @@
                     {{ $t('label.male_initials') }}
                   </div>
                 </td>
-                <td>{{ item.category }}</td>
                 <td>{{ item.rdt_count }}x</td>
                 <td>{{ item.pcr_count }}x</td>
                 <td>{{ item.test_date ? formatDatetime(item.test_date, 'DD MMMM YYYY') : '-' }}</td>
@@ -139,7 +138,6 @@ export default {
         { text: this.$t('label.name').toUpperCase(), value: 'name' },
         { text: this.$t('label.age').toUpperCase(), value: 'age' },
         { text: this.$t('label.short_gender_abbreviation').toUpperCase(), value: 'gender' },
-        { text: this.$t('label.category').toUpperCase(), value: 'category' },
         { text: this.$t('label.rdt').toUpperCase(), value: 'rdt' },
         { text: this.$t('label.pcr').toUpperCase(), value: 'pcr' },
         { text: this.$t('label.latest_test_date').toUpperCase(), value: 'test_date' },
@@ -156,12 +154,13 @@ export default {
         start_date: '',
         end_date: '',
         mechanism: '',
-        test_method: '',
+        tool_tester: '',
         final_result: '',
         category: '',
         page: 1,
         limit: 30,
-        search: ''
+        search: '',
+        sort: 'desc'
       },
       dialog: false,
       dataDelete: null
@@ -200,11 +199,11 @@ export default {
       handler: function(value) {
         if (value.sortBy !== undefined) {
           if ((value.sortBy[0] !== undefined) && (value.sortDesc[0])) {
-            this.listQuery.sort[value.sortBy[0]] = 'desc'
+            this.listQuery.sort = 'desc'
           } else if ((value.sortBy[0] !== undefined) && (!value.sortDesc[0])) {
-            this.listQuery.sort[value.sortBy[0]] = 'asc'
+            this.listQuery.sort = 'asc'
           } else {
-            this.listQuery.sort['createdAt'] = 'desc'
+            this.listQuery.sort = 'desc'
           }
 
           if (Object.keys(this.listQuery.sort).length > 0) {

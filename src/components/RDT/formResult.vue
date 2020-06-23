@@ -34,7 +34,7 @@
               </v-radio-group>
             </ValidationProvider>
             <ValidationProvider
-              v-if="formResult.tool_tester === 'RAPID TEST'"
+              v-if="formResult.tool_tester === 'RDT'"
               v-slot="{ errors }"
               rules="required"
             >
@@ -84,7 +84,6 @@
                 </v-row>
                 <v-row
                   v-else
-                  style="margin-top: 1rem;"
                 >
                   <v-radio
                     :label="$t('label.reaktif')"
@@ -102,13 +101,22 @@
               </v-radio-group>
             </ValidationProvider>
             <ValidationProvider
+              v-if="formResult.tool_tester"
               v-slot="{ errors }"
               rules="required|numeric"
               class="full-width"
             >
-              <label class="required">{{ $t('label.swab_count') }}</label>
+              <label class="required">{{ formResult.tool_tester === 'PCR' ? $t('label.swab_count') : $t('label.rdt_count') }}</label>
               <v-text-field
-                v-model="formResult.swab_count"
+                v-if="formResult.tool_tester === 'PCR'"
+                v-model="formResult.swab_to"
+                :error-messages="errors"
+                solo-inverted
+                type="number"
+              />
+              <v-text-field
+                v-else
+                v-model="formResult.rdt_to"
                 :error-messages="errors"
                 solo-inverted
                 type="number"
@@ -269,6 +277,14 @@ export default {
       'district_user'
     ])
   },
+  watch: {
+    'formResult.tool_tester'(value) {
+      if (this.formResult) {
+        if (value === 'PCR') this.formResult.sampling_type = null
+        this.formResult.final_result = null
+      }
+    }
+  },
   async mounted() {
     const listQuery = {
       city_code: this.district_user
@@ -283,8 +299,10 @@ export default {
     handleChangeLocationNow(value) {
       if (value === 'LAINNYA') {
         this.formResult.test_location = null
+        this.formResult.lab = null
         this.getCity()
       } else {
+        if (value !== 'LAB') this.formResult.lab = null
         this.formResult.test_address_district_code = ''
         this.formResult.test_address_district_name = ''
         this.formResult.test_address_subdistrict_code = ''

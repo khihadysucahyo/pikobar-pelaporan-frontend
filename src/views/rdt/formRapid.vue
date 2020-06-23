@@ -34,7 +34,6 @@
             <v-col cols="12" md="5" sm="12">
               <v-btn
                 color="success"
-                :disabled="formResult.final_result === 'POSITIF'"
                 :loading="loading"
                 bottom
                 style="float: right; color: white"
@@ -101,12 +100,13 @@ export default {
         test_address_village_code: '',
         test_address_village_name: '',
         test_address_detail: '',
-        tool_tester: 'RAPID TEST',
+        tool_tester: null,
         sampling_type: '',
         test_method: null,
         test_date: null,
         test_note: null,
-        swab_count: 1
+        swab_to: 1,
+        rdt_to: 1
       }
     }
   },
@@ -151,6 +151,11 @@ export default {
         this.loading = true
         Object.assign(this.formRapid, this.formResult)
         delete this.formRapid._id
+        if (this.formRapid.tool_tester === 'PCR') {
+          this.formRapid.rdt_to = null
+        } else {
+          this.formRapid.swab_to = null
+        }
 
         if (this.isEdit) {
           const id = this.$route.params && this.$route.params.id

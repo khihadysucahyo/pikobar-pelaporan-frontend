@@ -16,7 +16,7 @@
           <td><status :status="item.final_result" /></td>
           <td>{{ item.tool_tester }}</td>
           <td>{{ item.sampling_type }}</td>
-          <td>{{ item.test_location }}</td>
+          <td>{{ item.test_location ? item.test_location : item.test_other_location }}</td>
           <td>{{ formatDatetime(item.test_date, "DD MMMM YYYY") }}</td>
           <td>{{ formatDatetime(item.updatedAt, "DD MMMM YYYY") }}</td>
         </tr>
