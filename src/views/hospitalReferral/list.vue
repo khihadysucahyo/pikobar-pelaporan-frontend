@@ -21,7 +21,7 @@
           hide-slider
         >
           <v-tab @click="onTabChanges('')">{{ tabLabel[0] }}</v-tab>
-          <v-tab @click="onTabChanges('pending')">{{ tabLabel[1] }}</v-tab>
+          <v-tab v-if="unitType !== 'rumahsakit'" @click="onTabChanges('pending')">{{ tabLabel[1] }}</v-tab>
           <v-tab @click="onTabChanges('declined')">{{ tabLabel[2] }}</v-tab>
           <v-tab @click="onTabChanges('approved')">{{ tabLabel[3] }}</v-tab>
           <v-tab-item v-for="(tabItem, index) in tabLabel" :key="index">
@@ -102,7 +102,7 @@ export default {
       tabLabel: [
         this.$t('label.all'),
         this.$t('label.waiting_for_verification'),
-        this.$t('label.patient_rejected'),
+        this.$t('label.reference_rejected'),
         this.$t('label.reference_received')
       ],
       headers: [
@@ -154,7 +154,6 @@ export default {
         }
       }
       const response = await this.$store.dispatch('reports/caseHospitalReferralInOut', data)
-
       this.listReferral = response.data.cases
       this.totalList = response.data._meta.totalPages
     },

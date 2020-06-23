@@ -268,6 +268,11 @@
       :referral-history-case="referralHistoryCase"
       :title-detail="$t('label.detail_case')"
     />
+    <dialog-update-history-case
+      :show-dialog="dialogHistoryCase"
+      :show.sync="dialogHistoryCase"
+      :form-riwayat-pasien="formRiwayatPasien"
+    />
     <v-dialog v-model="failedDialog" persistent max-width="30%">
       <v-card>
         <v-card-title class="headline"><v-icon x-large color="red" left>mdi-close-circle</v-icon>{{ $t('errors.file_failed_upload') }}</v-card-title>
@@ -367,9 +372,11 @@ export default {
       errorMessage: null,
       successDialog: false,
       detailCase: {},
+      formRiwayatPasien: {},
       listHistoryCase: [],
       referralHistoryCase: [],
-      dialogDetailCase: false
+      dialogDetailCase: false,
+      dialogHistoryCase: false
     }
   },
   computed: {
@@ -445,7 +452,19 @@ export default {
       await this.$router.push(`/laporan/edit-case/${id}`)
     },
     async handleEditHistoryCase(id) {
-      await this.$router.push(`/laporan/edit-history-case/${id}`)
+      this.detail = await this.$store.dispatch('reports/detailHistoryCase', id)
+      await Object.assign(this.formRiwayatPasien, this.detail)
+      this.formRiwayatPasien.case = this.detail.case
+      if ((this.detail.first_symptom_date !== null) && (this.detail.first_symptom_date !== 'Invalid date')) {
+        this.formRiwayatPasien.first_symptom_date = await this.formatDatetime(this.detail.first_symptom_date, this.formatDate)
+      } else {
+        this.formRiwayatPasien.first_symptom_date = ''
+      }
+      if (this.formRiwayatPasien.case) {
+        delete this.formRiwayatPasien['createdAt']
+        delete this.formRiwayatPasien['updatedAt']
+      }
+      this.dialogHistoryCase = true
     },
     async handlePrintPEForm(id, caseCode) {
       const response = await this.$store.dispatch('reports/printPEForm', id)

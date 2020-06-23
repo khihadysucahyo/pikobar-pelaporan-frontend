@@ -8,7 +8,7 @@
         <v-col cols="12" sm="3">
           <v-label class="title">{{ $t('label.reference_place') }}:</v-label>
           <v-autocomplete
-            v-model="listQuery.transfer_from_unit_id"
+            v-model="listQuery.transfer_to_unit_id"
             :items="unitList"
             :loading="isUnitLoading"
             :search-input.sync="searchUnit"

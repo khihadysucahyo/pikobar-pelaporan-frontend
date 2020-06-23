@@ -8,7 +8,7 @@ import Layout from '@/layout'
 
 /* Router Modules */
 import dashboardRouter from './modules/dashboard'
-import Pelaporan from './modules/pelaporan'
+import reportRouter from './modules/pelaporan'
 import rdtRouter from './modules/rdt'
 import settingRouter from './modules/setting'
 import distributionCaseRouter from './modules/distributionCase'
@@ -71,7 +71,7 @@ export const asyncRoutes = [
   dashboardRouter,
   distributionCaseRouter,
   dailyReportRouter,
-  Pelaporan,
+  reportRouter,
   rdtRouter,
   submissionLogistikRouter,
   hospitalReferralRouter,

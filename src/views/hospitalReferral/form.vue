@@ -18,6 +18,7 @@
       >
         <v-card
           outlined
+          class="card-action"
         >
           <div class="d-flex">
             <v-avatar
@@ -50,6 +51,7 @@
       >
         <v-card
           outlined
+          class="card-action"
         >
           <div class="d-flex">
             <v-avatar
@@ -136,5 +138,8 @@ export default {
     font-size: 26px;
     color: #FFFFFF;
     margin-bottom: 10px;
+  }
+  .card-action {
+    cursor: grab;
   }
 </style>
