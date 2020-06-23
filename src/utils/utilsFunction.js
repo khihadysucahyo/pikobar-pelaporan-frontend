@@ -1,3 +1,5 @@
+import store from '@/store'
+
 export function completeAddress(districtCity, subDistrict, village, nameStreet) {
   let address = ''
   if (nameStreet) {
@@ -13,6 +15,12 @@ export function completeAddress(districtCity, subDistrict, village, nameStreet) 
     address += `${districtCity}`
   }
   return address
+}
+
+export async function getRequestDetailHomeAdress(villageCode, address) {
+  const responseVillage = await store.dispatch('region/getDetailVillage', villageCode)
+  const desa = responseVillage.data[0]
+  return desa.kota_nama + ', ' + desa.kecamatan_nama + ', ' + desa.desa_nama + ', ' + address
 }
 
 export function groupAge(type, group) {

@@ -25,7 +25,7 @@
               {{ $t('label.done') }}
             </div>
           </td>
-          <td> {{ item.transfer_from_unit_name }} </td>
+          <td> {{ item.transfer_to_unit_name }} </td>
           <td><status-referral :status="item.transfer_status" /></td>
           <td>
             <v-card-actions
@@ -153,7 +153,7 @@ export default {
       this.detailTransfer = tranferDetail
       const responseHistory = await this.$store.dispatch('reports/listHistoryCase', idCase)
       const responseReferralHistory = await this.$store.dispatch('reports/caseHospitalReferralHistory', idCase)
-      this.listHistoryCase = responseHistory.data
+      this.listHistoryCase = responseHistory
       this.referralHistoryCase = responseReferralHistory.data
       this.dialogDetailCase = true
     },
