@@ -176,6 +176,11 @@ export default {
       this.listQuery.address_district_code = ''
       this.listQuery.address_subdistrict_code = ''
       this.listQuery.address_village_code = ''
+      this.listQuery.search = ''
+      this.listQuery.transfer_from_unit_id = ''
+      this.listQuery.status = ''
+      this.listQuery.final_result = ''
+      this.listQuery.createdAt = ''
       this.$refs.form.reset()
       EventBus.$emit('refreshPageListReferral', true)
     }
