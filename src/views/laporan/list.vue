@@ -98,14 +98,40 @@
     </v-row>
     <v-card
       outlined
+      class="mt-2"
     >
-      <v-container>
-        <case-filter
-          :list-query="listQuery"
-          :query-list.sync="listQuery"
-          :on-search="handleSearch"
-        />
-      </v-container>
+      <v-row>
+        <v-col class="ml-4">
+          <search
+            :list-query="listQuery"
+            :handle-search="handleSearch"
+          />
+        </v-col>
+        <v-col class="pb-4">
+          <v-btn
+            color="primary"
+            class="mr-4"
+            style="float: right;"
+            @click="handleFilter"
+          >
+            {{ $t('label.filter') }}
+            <v-icon v-if="!showFilter">mdi-chevron-right</v-icon>
+            <v-icon v-else>mdi-chevron-down</v-icon>
+          </v-btn>
+        </v-col>
+      </v-row>
+      <div
+        v-if="showFilter"
+        class="ma-2"
+      >
+        <v-container>
+          <case-filter
+            :list-query="listQuery"
+            :query-list.sync="listQuery"
+            :on-search="handleSearch"
+          />
+        </v-container>
+      </div>
       <hr>
       <v-row align="center" justify="space-between">
         <v-col>
@@ -367,6 +393,7 @@ export default {
       },
       countingReports: null,
       dialog: false,
+      showFilter: false,
       dataDelete: null,
       formatDate: 'YYYY/MM/DD',
       failedDialog: false,
@@ -472,6 +499,9 @@ export default {
         delete this.formRiwayatPasien['updatedAt']
       }
       this.dialogHistoryCase = true
+    },
+    handleFilter() {
+      this.showFilter = !this.showFilter
     },
     async handlePrintPEForm(id, caseCode) {
       const response = await this.$store.dispatch('reports/printPEForm', id)
