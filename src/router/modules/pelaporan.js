@@ -1,6 +1,6 @@
 import Layout from '@/layout'
 
-const surveyRouter = {
+const reportRouter = {
   path: '/laporan',
   component: Layout,
   redirect: '/laporan/list',
@@ -65,19 +65,8 @@ const surveyRouter = {
         noCache: true,
         roles: ['superadmin', 'dinkeskota', 'faskes']
       }
-    },
-    {
-      path: 'edit-history-case/:id',
-      component: () => import('@/views/laporan/editHistoryCase'),
-      hidden: true,
-      meta: {
-        title: 'laporan_edit',
-        icon: 'library_books',
-        noCache: true,
-        roles: ['superadmin', 'dinkeskota', 'faskes']
-      }
     }
   ]
 }
 
-export default surveyRouter
+export default reportRouter

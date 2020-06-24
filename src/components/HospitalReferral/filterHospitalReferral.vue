@@ -8,7 +8,7 @@
         <v-col cols="12" sm="3">
           <v-label class="title">{{ $t('label.reference_place') }}:</v-label>
           <v-autocomplete
-            v-model="listQuery.transfer_from_unit_id"
+            v-model="listQuery.transfer_to_unit_id"
             :items="unitList"
             :loading="isUnitLoading"
             :search-input.sync="searchUnit"
@@ -159,12 +159,12 @@ export default {
     ])
   },
   watch: {
-    async searchCase(value) {
-      this.isCaseLoading = true
-      this.queryCase.search = value
-      const response = await this.$store.dispatch('reports/listReportCase', this.queryCase)
-      this.caseList = response.data.cases
-      this.isCaseLoading = false
+    async searchUnit(value) {
+      this.isUnitLoading = true
+      this.queryUnit.search = value
+      const response = await this.$store.dispatch('region/listUnit', this.queryUnit)
+      this.unitList = response.data.itemsList
+      this.isUnitLoading = false
     }
   },
   async mounted() {

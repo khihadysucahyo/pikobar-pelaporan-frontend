@@ -468,7 +468,7 @@ export default {
     make_referrals_for_patients: 'Buat Rujukan Untuk Pasien',
     total_list_referral_patients: 'Total List Pasien Rujukan',
     choose_one_below: 'Pilih salah satu dibawah ini',
-    patient_rejected: 'Pasien Ditolak',
+    reference_rejected: 'Rujukan Ditolak',
     reference_received: 'Rujukan Diterima',
     received: 'Diterima',
     waiting: 'Menunggu',
