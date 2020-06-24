@@ -317,6 +317,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import EventBus from '@/utils/eventBus'
 import FileSaver from 'file-saver'
 import { rolesWidget } from '@/utils/constantVariable'
 import { formatDatetime } from '@/utils/parseDatetime'
@@ -430,6 +431,9 @@ export default {
     }
   },
   async mounted() {
+    EventBus.$on('refreshPageListReport', (value) => {
+      this.handleSearch()
+    })
     if (this.roles[0] === 'dinkeskota') this.listQuery.address_district_code = this.district_user
     this.queryReportCase.address_district_code = this.district_user
     await this.$store.dispatch('reports/listReportCase', this.listQuery)

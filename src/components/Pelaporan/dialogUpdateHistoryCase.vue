@@ -613,6 +613,7 @@
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import { symptomOptions, additionalConditionOptions } from '@/utils/constantVariable'
 import { mapGetters } from 'vuex'
+import EventBus from '@/utils/eventBus'
 
 export default {
   name: 'DialogUpdateHistoryCase',
@@ -689,6 +690,7 @@ export default {
       await this.$store.dispatch('reports/resetRiwayatFormPasien')
       this.loading = false
       this.$emit('update:show', false)
+      EventBus.$emit('refreshPageListReport', true)
     },
     handleCancel() {
       this.$emit('update:show', false)
