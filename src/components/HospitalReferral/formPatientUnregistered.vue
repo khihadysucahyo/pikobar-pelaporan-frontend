@@ -53,6 +53,7 @@
 
 <script>
 import { ValidationProvider } from 'vee-validate'
+
 export default {
   name: 'FormPatientUnregistered',
   components: {

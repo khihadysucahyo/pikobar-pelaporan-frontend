@@ -367,12 +367,12 @@ export default {
       countingReports: null,
       dialog: false,
       dataDelete: null,
+      formatDate: 'YYYY/MM/DD',
       failedDialog: false,
       showImportForm: false,
       errorMessage: null,
       successDialog: false,
       detailCase: {},
-      formRiwayatPasien: {},
       listHistoryCase: [],
       referralHistoryCase: [],
       dialogDetailCase: false,
@@ -388,6 +388,9 @@ export default {
       'roles',
       'fullName',
       'district_user'
+    ]),
+    ...mapGetters('reports', [
+      'formRiwayatPasien'
     ])
   },
   watch: {

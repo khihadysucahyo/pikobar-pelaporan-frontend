@@ -132,9 +132,7 @@ export default {
   },
   async mounted() {
     EventBus.$on('refreshPageListReferral', (value) => {
-      if (value) {
-        this.handleSearch()
-      }
+      this.handleSearch()
     })
     this.handleSearch()
     this.handleSummary()
