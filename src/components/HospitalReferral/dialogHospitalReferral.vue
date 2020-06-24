@@ -89,6 +89,8 @@
 import { ValidationObserver } from 'vee-validate'
 import { mapGetters } from 'vuex'
 import EventBus from '@/utils/eventBus'
+import { ResponseRequest } from '@/utils/constantVariable'
+
 export default {
   name: 'DialogHospitalReferral',
   components: {
@@ -155,10 +157,16 @@ export default {
             transfer_to_unit_name: this.formReferral.transfer_to_unit.name
           }
         }
-        await this.$store.dispatch('reports/caseHospitalRefferal', rowData)
-        await this.$emit('update:dialogPopup', false)
-        await this.$emit('update:referralForm', {})
-        await this.$store.dispatch('toast/successToast', this.$t('label.patient_successfully_referred'))
+        const response = await this.$store.dispatch('reports/caseHospitalRefferal', rowData)
+        if (response.status === ResponseRequest.UNPROCESSABLE) {
+          await this.$emit('update:dialogPopup', false)
+          await this.$emit('update:referralForm', {})
+          await this.$store.dispatch('toast/errorToast', response.data.message)
+        } else {
+          await this.$emit('update:dialogPopup', false)
+          await this.$emit('update:referralForm', {})
+          await this.$store.dispatch('toast/successToast', this.$t('label.patient_successfully_referred'))
+        }
       } else {
         let response, rowData
         rowData = {

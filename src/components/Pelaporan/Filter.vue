@@ -1,106 +1,93 @@
 <template>
-  <div class="main-div">
-    <v-form
-      ref="form"
-      lazy-validation
-    >
-      <v-row class="filter-row" style="margin-top: -40px;">
-        <v-col cols="12" sm="12">
-          <br>
-          <v-text-field
-            v-model="listQuery.search"
-            solo
-            label="Search"
-            prepend-inner-icon="search"
-          />
-        </v-col>
-      </v-row>
-      <v-row class="filter-row">
-        <v-col cols="12" sm="3">
-          <v-label class="title">{{ $t('label.results') }}:</v-label>
-          <v-select
-            v-model="listQuery.final_result"
-            :items="resultList"
-            solo
-            item-text="label"
-            item-value="value"
-          />
-        </v-col>
-        <v-col cols="12" sm="9" class="reduce-padding-top">
-          <address-region
-            :disabled-district="disabledDistrict"
-            :district-code="listQuery.address_district_code"
-            :district-name="district_name_user"
-            :code-district.sync="listQuery.address_district_code"
-            :sub-district-code="listQuery.address_subdistrict_code"
-            :code-sub-district.sync="listQuery.address_subdistrict_code"
-            :village-code="listQuery.address_village_code"
-            :code-village.sync="listQuery.address_village_code"
-            :village-name="nameVillage"
-            :name-village.sync="nameVillage"
-            :disabled-address="false"
-            :required-address="false"
-            :is-label="true"
-          />
-        </v-col>
-      </v-row>
-      <v-row class="filter-row">
-        <v-col cols="12" sm="3">
-          <v-label class="title">{{ $t('label.criteria') }}:</v-label>
-          <v-select
-            v-model="listQuery.status"
-            :items="stagesList"
-            solo
-          />
-        </v-col>
-        <v-col cols="12" sm="3">
-          <v-label class="title">{{ $t('label.input_date') }}:</v-label>
-          <input-date-picker
-            :format-date="formatDate"
-            :label="'Tanggal Awal'"
-            :date-value="listQuery.start_date"
-            :value-date.sync="listQuery.start_date"
-            @changeDate="listQuery.start_date = $event"
-          />
-        </v-col>
-        <v-col cols="12" sm="3">
-          <br>
-          <input-date-picker
-            :format-date="formatDate"
-            :label="'Tanggal Akhir'"
-            :date-value="listQuery.end_date"
-            :value-date.sync="listQuery.end_date"
-            @changeDate="listQuery.end_date = $event"
-          />
-        </v-col>
-        <v-col cols="12" sm="3">
-          <br>
-          <v-row>
-            <v-col class="reduce-padding-top">
-              <v-btn
-                block
-                color="#4f4f4f"
-                class="btn-reset"
-                @click="onReset"
-              >
-                {{ $t('label.reset') }}
-              </v-btn>
-            </v-col>
-            <v-col class="reduce-padding-top">
-              <v-btn
-                block
-                color="success"
-                class="btn-cari"
-                @click="onSearch"
-              >
-                {{ $t('label.look_for_it') }}
-              </v-btn>
-            </v-col>
-          </v-row>
-        </v-col>
-      </v-row>
-    </v-form>
-  </div>
+  <v-form
+    ref="form"
+    lazy-validation
+  >
+    <v-row class="filter-row">
+      <v-col cols="12" sm="3">
+        <v-label class="title">{{ $t('label.results') }}:</v-label>
+        <v-select
+          v-model="listQuery.final_result"
+          :items="resultList"
+          solo
+          item-text="label"
+          item-value="value"
+        />
+      </v-col>
+      <v-col cols="12" sm="9" class="reduce-padding-top">
+        <address-region
+          :disabled-district="disabledDistrict"
+          :district-code="listQuery.address_district_code"
+          :district-name="district_name_user"
+          :code-district.sync="listQuery.address_district_code"
+          :sub-district-code="listQuery.address_subdistrict_code"
+          :code-sub-district.sync="listQuery.address_subdistrict_code"
+          :village-code="listQuery.address_village_code"
+          :code-village.sync="listQuery.address_village_code"
+          :village-name="nameVillage"
+          :name-village.sync="nameVillage"
+          :disabled-address="false"
+          :required-address="false"
+          :is-label="true"
+        />
+      </v-col>
+    </v-row>
+    <v-row class="filter-row">
+      <v-col cols="12" sm="3">
+        <v-label class="title">{{ $t('label.criteria') }}:</v-label>
+        <v-select
+          v-model="listQuery.status"
+          :items="stagesList"
+          solo
+        />
+      </v-col>
+      <v-col cols="12" sm="3">
+        <v-label class="title">{{ $t('label.input_date') }}:</v-label>
+        <input-date-picker
+          :format-date="formatDate"
+          :label="'Tanggal Awal'"
+          :date-value="listQuery.start_date"
+          :value-date.sync="listQuery.start_date"
+          @changeDate="listQuery.start_date = $event"
+        />
+      </v-col>
+      <v-col cols="12" sm="3">
+        <br>
+        <input-date-picker
+          :format-date="formatDate"
+          :label="'Tanggal Akhir'"
+          :date-value="listQuery.end_date"
+          :value-date.sync="listQuery.end_date"
+          @changeDate="listQuery.end_date = $event"
+        />
+      </v-col>
+      <v-col cols="12" sm="3">
+        <br>
+        <v-row>
+          <v-col class="reduce-padding-top">
+            <v-btn
+              block
+              color="#4f4f4f"
+              class="btn-reset"
+              @click="onReset"
+            >
+              {{ $t('label.reset') }}
+            </v-btn>
+          </v-col>
+          <v-col class="reduce-padding-top">
+            <v-btn
+              block
+              color="success"
+              class="btn-cari"
+              @click="onSearch"
+            >
+              {{ $t('label.look_for_it') }}
+            </v-btn>
+          </v-col>
+        </v-row>
+      </v-col>
+    </v-row>
+  </v-form>
 </template>
 
 <script>
