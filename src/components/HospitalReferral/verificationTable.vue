@@ -109,6 +109,8 @@
 <script>
 import { mapGetters } from 'vuex'
 import EventBus from '@/utils/eventBus'
+import { formatDatetime } from '@/utils/parseDatetime'
+
 export default {
   name: 'VerificationTableReferral',
   props: {
@@ -130,6 +132,7 @@ export default {
       dialog: false,
       patientRegistered: false,
       isEdit: false,
+      formatDate: 'YYYY/MM/DD',
       formReferral: {},
       dialogDetailCase: false,
       detailTransfer: {},
@@ -145,6 +148,7 @@ export default {
     ])
   },
   methods: {
+    formatDatetime,
     getTableRowNumbering(index) {
       return ((this.listQuery.page - 1) * this.listQuery.limit) + (index + 1)
     },
@@ -163,12 +167,10 @@ export default {
         ...tranferDetail.case,
         ...responseHistory,
         yearsOld: Math.floor(tranferDetail.case.age),
-        monthsOld: Math.ceil((tranferDetail.case.age - Math.floor(tranferDetail.case.age)) * 12),
-        transfer_to_unit: {
-          _id: tranferDetail.transfer_from_unit_id,
-          name: tranferDetail.transfer_from_unit_name
-        }
+        monthsOld: Math.ceil((tranferDetail.case.age - Math.floor(tranferDetail.case.age)) * 12)
       }
+      this.formReferral.birth_date = await this.formatDatetime(this.formReferral.birth_date, this.formatDate)
+      this.formReferral.first_symptom_date = await this.formatDatetime(this.formReferral.first_symptom_date, this.formatDate)
       this.idTransfer = tranferDetail._id
       this.messageRejection = tranferDetail.transfer_comment
       this.isEdit = true

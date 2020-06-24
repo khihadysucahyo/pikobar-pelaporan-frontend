@@ -654,8 +654,8 @@ export default {
     ])
   },
   async mounted() {
-    var paramHospitalWestJava = { 'rs_jabar': true }
-    var paramHospitalNonWestJava = { 'rs_jabar': false }
+    const paramHospitalWestJava = { 'rs_jabar': true }
+    const paramHospitalNonWestJava = { 'rs_jabar': false }
     const responseWestJava = await this.$store.dispatch('region/getListHospital', paramHospitalWestJava)
     this.hospitalWestJavaList = responseWestJava.data
     const responseNonWestJava = await this.$store.dispatch('region/getListHospital', paramHospitalNonWestJava)

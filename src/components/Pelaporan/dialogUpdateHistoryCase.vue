@@ -2,17 +2,6 @@
   <v-dialog v-model="show" max-width="70%">
     <v-card>
       <v-container>
-        <v-row>
-          <v-col
-            cols="12"
-            md="6"
-            sm="12"
-          >
-            <div class="ml-2">
-              {{ $t('label.update_case_history') }}
-            </div>
-          </v-col>
-        </v-row>
         <ValidationObserver ref="observer">
           <v-form
             ref="form"
@@ -21,9 +10,20 @@
             <v-row>
               <v-col
                 cols="12"
+                md="5"
+                sm="12"
+                :class="{'mb-3': $vuetify.breakpoint. smAndDown}"
+              >
+                <v-icon class="rotate" color="#27AE60" left>mdi-color-helper</v-icon>
+                <label class="subtitle text-uppercase">{{ $t('label.update_case_history') }}</label>
+              </v-col>
+            </v-row>
+            <v-row align="center">
+              <v-col
+                cols="12"
                 md="3"
                 sm="12"
-                class="mt-4"
+                :class="{'py-0': $vuetify.breakpoint. smAndDown}"
               >
                 <label class="required">{{ $t('label.criteria') }}</label>
               </v-col>
@@ -62,13 +62,96 @@
                 </ValidationProvider>
               </v-col>
             </v-row>
-            <v-row>
+            <v-row align="center">
               <v-col
                 cols="12"
                 md="3"
                 sm="12"
-                class="mt-4"
-                justify="center"
+                :class="{'py-0': $vuetify.breakpoint. smAndDown}"
+              >
+                <label class="required">{{ $t('label.stages') }}</label>
+              </v-col>
+              <v-col
+                cols="12"
+                md="9"
+                sm="12"
+                :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
+              >
+                <ValidationProvider
+                  v-slot="{ errors }"
+                  rules="required"
+                >
+                  <v-radio-group
+                    v-model="formRiwayatPasien.stage"
+                    :error-messages="errors"
+                    row
+                  >
+                    <v-radio
+                      :label="$t('label.process')"
+                      value="0"
+                    />
+                    <v-radio
+                      :label="$t('label.done')"
+                      value="1"
+                    />
+                  </v-radio-group>
+                </ValidationProvider>
+              </v-col>
+            </v-row>
+            <v-row
+              v-if="formRiwayatPasien.status !== 'OTG' && formRiwayatPasien.status !== 'ODP' && formRiwayatPasien.stage === '1'"
+              align="center"
+            >
+              <v-col
+                cols="12"
+                md="3"
+                sm="12"
+                :class="{'py-0': $vuetify.breakpoint. smAndDown}"
+              >
+                <label>{{ $t('label.results') }}</label>
+              </v-col>
+              <v-col
+                cols="12"
+                md="9"
+                sm="12"
+                :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
+              >
+                <ValidationProvider
+                  v-slot="{ errors }"
+                >
+                  <v-radio-group
+                    v-model="formRiwayatPasien.final_result"
+                    :error-messages="errors"
+                    row
+                  >
+                    <v-radio
+                      v-if="formRiwayatPasien.status !== 'POSITIF'"
+                      :label="$t('label.negatif')"
+                      value="0"
+                      @click.prevent="uncheck('0')"
+                    />
+                    <v-radio
+                      :label="$t('label.recovery')"
+                      value="1"
+                      @click.prevent="uncheck('1')"
+                    />
+                    <v-radio
+                      :label="$t('label.dead')"
+                      value="2"
+                      @click.prevent="uncheck('2')"
+                    />
+                  </v-radio-group>
+                </ValidationProvider>
+              </v-col>
+            </v-row>
+            <v-row
+              align="center"
+            >
+              <v-col
+                cols="12"
+                md="3"
+                sm="12"
+                :class="{'py-0': $vuetify.breakpoint. smAndDown}"
               >
                 <label class="required">{{ $t('label.current_location') }}</label>
               </v-col>
@@ -96,20 +179,23 @@
                       :label="$t('label.hospital')"
                       value="RS"
                     />
+                    <v-radio
+                      :label="$t('label.other_places')"
+                      value="others"
+                    />
                   </v-radio-group>
                 </ValidationProvider>
               </v-col>
             </v-row>
-            <v-row
-              v-if="formRiwayatPasien.current_location_type === 'RUMAH'"
-            >
+            <v-row v-if="formRiwayatPasien.current_location_type === 'RUMAH'" align="center">
               <v-col
                 cols="12"
                 md="3"
                 sm="12"
-                class="mt-4"
-                justify="center"
-              />
+                :class="{'py-0': $vuetify.breakpoint. smAndDown}"
+              >
+                <label class="additional-label">({{ $t('label.house_address') }})</label>
+              </v-col>
               <v-col
                 cols="12"
                 md="9"
@@ -122,22 +208,23 @@
                   :sub-district-code="formRiwayatPasien.current_location_subdistrict_code"
                   :code-sub-district.sync="formRiwayatPasien.current_location_subdistrict_code"
                   :village-code="formRiwayatPasien.current_location_village_code"
+                  :village-name="formRiwayatPasien.current_location_village_name"
                   :code-village.sync="formRiwayatPasien.current_location_village_code"
+                  :name-village.sync="formRiwayatPasien.current_location_village_name"
                   :disabled-address="false"
                   :required-address="true"
                 />
               </v-col>
             </v-row>
-            <v-row
-              v-if="formRiwayatPasien.current_location_type === 'RUMAH'"
-            >
+            <v-row v-if="formRiwayatPasien.current_location_type === 'RUMAH'" align="center">
               <v-col
                 cols="12"
                 md="3"
                 sm="12"
-                class="mt-4"
-                justify="center"
-              />
+                :class="{'py-0': $vuetify.breakpoint. smAndDown}"
+              >
+                <label class="additional-label">({{ $t('label.complete_house_address') }})</label>
+              </v-col>
               <v-col
                 cols="12"
                 md="9"
@@ -146,8 +233,8 @@
               >
                 <ValidationProvider
                   v-slot="{ errors }"
+                  rules="required"
                 >
-                  <v-label>{{ $t('label.address_complete_this_time') }}</v-label>
                   <v-text-field
                     v-model="formRiwayatPasien.current_location_address"
                     :error-messages="errors"
@@ -156,16 +243,15 @@
                 </ValidationProvider>
               </v-col>
             </v-row>
-            <v-row
-              v-if="formRiwayatPasien.current_location_type === 'RS'"
-            >
+            <v-row v-if="formRiwayatPasien.current_location_type === 'RS'" align="center">
               <v-col
                 cols="12"
                 md="3"
                 sm="12"
-                class="mt-4"
-                justify="center"
-              />
+                :class="{'py-0': $vuetify.breakpoint. smAndDown}"
+              >
+                <label class="additional-label">({{ $t('label.location_hospital') }})</label>
+              </v-col>
               <v-col
                 cols="12"
                 md="9"
@@ -178,7 +264,7 @@
                 >
                   <v-autocomplete
                     v-model="formRiwayatPasien.current_location_address"
-                    :items="hospitalList"
+                    :items="hospitalWestJavaList"
                     :error-messages="errors"
                     :return-object="true"
                     :label="$t('label.location_hospital')"
@@ -193,14 +279,51 @@
                 </ValidationProvider>
               </v-col>
             </v-row>
-            <v-row>
+            <v-row v-if="formRiwayatPasien.current_location_type === 'others'" align="center">
               <v-col
                 cols="12"
                 md="3"
                 sm="12"
-                class="mt-4"
+                :class="{'py-0': $vuetify.breakpoint. smAndDown}"
               >
-                <v-label>{{ $t('label.reporting_sources') }}</v-label>
+                <label class="additional-label">({{ $t('label.other_places') }})</label>
+              </v-col>
+              <v-col
+                cols="12"
+                md="9"
+                sm="12"
+                :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
+              >
+                <ValidationProvider
+                  v-if="formRiwayatPasien.current_location_type === 'others'"
+                  v-slot="{ errors }"
+                  rules="required"
+                >
+                  <v-autocomplete
+                    v-model="formRiwayatPasien.current_location_address"
+                    :items="hospitalNonWestJavaList"
+                    :error-messages="errors"
+                    :return-object="true"
+                    :label="$t('label.others')"
+                    menu-props="auto"
+                    item-text="name"
+                    item-value="name"
+                    single-line
+                    solo
+                    autocomplete
+                    @change="onSelectHospital"
+                  />
+                </ValidationProvider>
+              </v-col>
+            </v-row>
+            <v-row align="start">
+              <v-col
+                cols="12"
+                md="3"
+                sm="12"
+                :class="{'py-0': $vuetify.breakpoint. smAndDown}"
+              >
+                <label>{{ $t('label.reporting_sources') }}</label>
               </v-col>
               <v-col
                 cols="12"
@@ -214,100 +337,31 @@
                   <v-text-field
                     v-model="formRiwayatPasien.report_source"
                     :error-messages="errors"
+                    :disabled="disabledReportResource"
                     solo-inverted
                   />
                 </ValidationProvider>
               </v-col>
             </v-row>
+            <hr>
             <v-row>
               <v-col
                 cols="12"
                 md="3"
                 sm="12"
-                class="mt-4"
+                :class="{'mb-3': $vuetify.breakpoint. smAndDown}"
               >
-                <label>{{ $t('label.additional_condition') }}</label>
-              </v-col>
-              <v-col
-                cols="12"
-                md="9"
-                sm="12"
-                :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
-              >
-                <ValidationProvider v-slot="{ errors }">
-                  <v-row>
-                    <v-col v-for="item in additionalConditionOptions" :key="item" sm="4" md="4">
-                      <label class="material-checkbox-custom">
-                        <input
-                          v-model="formRiwayatPasien.diseases"
-                          :value="item"
-                          type="checkbox"
-                        >
-                        <span v-if="errors.length" class="error--text">{{ item }}</span>
-                        <span v-else>{{ item }}</span>
-                      </label>
-                      <span
-                        v-if="errors.length"
-                        class="v-messages error--text"
-                      >{{ errors[0] }}</span>
-                    </v-col>
-                  </v-row>
-                </ValidationProvider>
+                <v-icon class="rotate" color="#27AE60" left>mdi-color-helper</v-icon><label class="subtitle text-uppercase">{{ $t('label.history_and_symptoms') }}</label>
               </v-col>
             </v-row>
-            <v-row>
+            <v-row align="start">
               <v-col
                 cols="12"
                 md="3"
                 sm="12"
-                class="mt-4"
-                justify="center"
-              />
-              <v-col
-                cols="12"
-                md="9"
-                sm="12"
-                :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
+                :class="{'py-0': $vuetify.breakpoint. smAndDown}"
               >
-                <ValidationProvider>
-                  <v-text-field
-                    v-model="formRiwayatPasien.diseases_other"
-                    :placeholder="$t('label.mention_other_additional_condition')"
-                    solo-inverted
-                  />
-                </ValidationProvider>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col
-                cols="12"
-                md="3"
-                sm="12"
-              >
-                <v-label>{{ $t('label.postscript') }}</v-label>
-              </v-col>
-              <v-col
-                cols="12"
-                md="9"
-                sm="12"
-                :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
-              >
-                <ValidationProvider>
-                  <v-textarea
-                    v-model="formRiwayatPasien.other_notes"
-                    solo
-                  />
-                </ValidationProvider>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col
-                cols="12"
-                md="3"
-                sm="12"
-                class="mt-4"
-              >
-                <v-label>{{ $t('label.history') }}</v-label>
+                <label>{{ $t('label.history') }}</label>
               </v-col>
               <v-col
                 cols="12"
@@ -318,27 +372,11 @@
                 <ValidationProvider>
                   <v-checkbox
                     v-model="formRiwayatPasien.is_went_abroad"
-                    :label="$t('label.from_abroad')"
+                    label="Dari Luar Negeri"
                   />
                 </ValidationProvider>
-              </v-col>
-            </v-row>
-            <v-row
-              v-if="formRiwayatPasien.is_went_abroad === true"
-            >
-              <v-col
-                cols="12"
-                md="3"
-                sm="12"
-                class="mt-4"
-              />
-              <v-col
-                cols="12"
-                md="9"
-                sm="12"
-                :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
-              >
                 <ValidationProvider
+                  v-if="formRiwayatPasien.is_went_abroad === true"
                   v-slot="{ errors }"
                   rules="required"
                 >
@@ -349,45 +387,14 @@
                     solo-inverted
                   />
                 </ValidationProvider>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col
-                cols="12"
-                md="3"
-                sm="12"
-                class="mt-4"
-              />
-              <v-col
-                cols="12"
-                md="9"
-                sm="12"
-                :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
-              >
                 <ValidationProvider>
                   <v-checkbox
                     v-model="formRiwayatPasien.is_went_other_city"
                     :label="$t('label.trip_outside_the_city')"
                   />
                 </ValidationProvider>
-              </v-col>
-            </v-row>
-            <v-row
-              v-if="formRiwayatPasien.is_went_other_city === true"
-            >
-              <v-col
-                cols="12"
-                md="3"
-                sm="12"
-                class="mt-4"
-              />
-              <v-col
-                cols="12"
-                md="9"
-                sm="12"
-                :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
-              >
                 <ValidationProvider
+                  v-if="formRiwayatPasien.is_went_other_city === true"
                   v-slot="{ errors }"
                   rules="required"
                 >
@@ -398,42 +405,12 @@
                     solo-inverted
                   />
                 </ValidationProvider>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col
-                cols="12"
-                md="3"
-                sm="12"
-                class="mt-4"
-              />
-              <v-col
-                cols="12"
-                md="9"
-                sm="12"
-                :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
-              >
                 <ValidationProvider>
                   <v-checkbox
                     v-model="formRiwayatPasien.is_contact_with_positive"
                     :label="$t('label.contact_with_positive_patients')"
                   />
                 </ValidationProvider>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col
-                cols="12"
-                md="3"
-                sm="12"
-                class="mt-4"
-              />
-              <v-col
-                cols="12"
-                md="9"
-                sm="12"
-                :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
-              >
                 <ValidationProvider>
                   <v-text-field
                     v-model="formRiwayatPasien.history_notes"
@@ -443,12 +420,12 @@
                 </ValidationProvider>
               </v-col>
             </v-row>
-            <v-row>
+            <v-row align="start">
               <v-col
                 cols="12"
                 md="3"
                 sm="12"
-                class="mt-4"
+                :class="{'py-0': $vuetify.breakpoint. smAndDown}"
               >
                 <label>{{ $t('label.date_symptoms') }}</label>
               </v-col>
@@ -465,12 +442,12 @@
                 />
               </v-col>
             </v-row>
-            <v-row>
+            <v-row align="start">
               <v-col
                 cols="12"
                 md="3"
                 sm="12"
-                class="mt-4"
+                :class="{'py-0': $vuetify.breakpoint. smAndDown}"
               >
                 <label>{{ $t('label.symptoms') }}</label>
               </v-col>
@@ -501,12 +478,12 @@
                 </ValidationProvider>
               </v-col>
             </v-row>
-            <v-row>
+            <v-row align="start" class="mt-4">
               <v-col
                 cols="12"
                 md="3"
                 sm="12"
-                class="mt-4"
+                :class="{'py-0': $vuetify.breakpoint. smAndDown}"
               />
               <v-col
                 cols="12"
@@ -519,6 +496,87 @@
                     v-model="formRiwayatPasien.diagnosis_other"
                     :placeholder="$t('label.mention_other_symptoms')"
                     solo-inverted
+                  />
+                </ValidationProvider>
+              </v-col>
+            </v-row>
+            <v-row align="start">
+              <v-col
+                cols="12"
+                md="3"
+                sm="12"
+                :class="{'py-0': $vuetify.breakpoint. smAndDown}"
+              >
+                <label>{{ $t('label.additional_condition') }}</label>
+              </v-col>
+              <v-col
+                cols="12"
+                md="9"
+                sm="12"
+                :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
+              >
+                <ValidationProvider v-slot="{ errors }">
+                  <v-row>
+                    <v-col v-for="item in additionalConditionOptions" :key="item" sm="4" md="4">
+                      <label class="material-checkbox-custom">
+                        <input
+                          v-model="formRiwayatPasien.diseases"
+                          :value="item"
+                          type="checkbox"
+                        >
+                        <span v-if="errors.length" class="error--text">{{ item }}</span>
+                        <span v-else>{{ item }}</span>
+                      </label>
+                      <span
+                        v-if="errors.length"
+                        class="v-messages error--text"
+                      >{{ errors[0] }}</span>
+                    </v-col>
+                  </v-row>
+                </ValidationProvider>
+              </v-col>
+            </v-row>
+            <v-row align="start" class="mt-4">
+              <v-col
+                cols="12"
+                md="3"
+                sm="12"
+                :class="{'py-0': $vuetify.breakpoint. smAndDown}"
+              />
+              <v-col
+                cols="12"
+                md="9"
+                sm="12"
+                :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
+              >
+                <ValidationProvider>
+                  <v-text-field
+                    v-model="formRiwayatPasien.diseases_other"
+                    :placeholder="$t('label.mention_other_additional_condition')"
+                    solo-inverted
+                  />
+                </ValidationProvider>
+              </v-col>
+            </v-row>
+            <v-row align="start">
+              <v-col
+                cols="12"
+                md="3"
+                sm="12"
+                :class="{'py-0': $vuetify.breakpoint. smAndDown}"
+              >
+                <label>{{ $t('label.postscript') }}</label>
+              </v-col>
+              <v-col
+                cols="12"
+                md="9"
+                sm="12"
+                :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
+              >
+                <ValidationProvider>
+                  <v-textarea
+                    v-model="formRiwayatPasien.other_notes"
+                    solo
                   />
                 </ValidationProvider>
               </v-col>
@@ -576,10 +634,13 @@ export default {
     return {
       loading: false,
       show: this.showDialog,
+      hospitalWestJavaList: [],
+      hospitalNonWestJavaList: [],
       formatDate: 'YYYY/MM/DD',
       panelRiwayat: [0],
       panelListRiwayat: [0],
       symptomOptions: symptomOptions,
+      disabledReportResource: false,
       arrayRegion: null,
       additionalConditionOptions: additionalConditionOptions
     }
@@ -587,6 +648,10 @@ export default {
   computed: {
     ...mapGetters('region', [
       'hospitalList'
+    ]),
+    ...mapGetters('user', [
+      'roles',
+      'fullName'
     ])
   },
   watch: {
@@ -595,6 +660,18 @@ export default {
     },
     show(value) {
       this.$emit('update:show', value)
+    }
+  },
+  async mounted() {
+    const paramHospitalWestJava = { 'rs_jabar': true }
+    const paramHospitalNonWestJava = { 'rs_jabar': false }
+    const responseWestJava = await this.$store.dispatch('region/getListHospital', paramHospitalWestJava)
+    this.hospitalWestJavaList = responseWestJava.data
+    const responseNonWestJava = await this.$store.dispatch('region/getListHospital', paramHospitalNonWestJava)
+    this.hospitalNonWestJavaList = responseNonWestJava.data
+    if (this.roles[0] === 'faskes') {
+      this.formRiwayatPasien.report_source = this.fullName
+      this.disabledReportResource = true
     }
   },
   methods: {
@@ -612,7 +689,6 @@ export default {
       await this.$store.dispatch('reports/resetRiwayatFormPasien')
       this.loading = false
       this.$emit('update:show', false)
-      await this.$router.push('/laporan/list')
     },
     handleCancel() {
       this.$emit('update:show', false)
