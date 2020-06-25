@@ -142,7 +142,6 @@
           </v-col>
         </v-row>
         <v-row
-          v-if="!patientReferral"
           align="center"
         >
           <v-col
@@ -231,6 +230,7 @@
           >
             <ValidationProvider
               v-slot="{ errors }"
+              rules="required"
             >
               <v-text-field
                 v-model="formPasien.current_location_address"
@@ -475,7 +475,7 @@
             </ValidationProvider>
           </v-col>
         </v-row>
-        <v-row align="start">
+        <v-row align="start" class="mt-4">
           <v-col
             cols="12"
             md="3"
@@ -533,7 +533,7 @@
             </ValidationProvider>
           </v-col>
         </v-row>
-        <v-row align="start">
+        <v-row align="start" class="mt-4">
           <v-col
             cols="12"
             md="3"
@@ -654,8 +654,8 @@ export default {
     ])
   },
   async mounted() {
-    var paramHospitalWestJava = { 'rs_jabar': true }
-    var paramHospitalNonWestJava = { 'rs_jabar': false }
+    const paramHospitalWestJava = { 'rs_jabar': true }
+    const paramHospitalNonWestJava = { 'rs_jabar': false }
     const responseWestJava = await this.$store.dispatch('region/getListHospital', paramHospitalWestJava)
     this.hospitalWestJavaList = responseWestJava.data
     const responseNonWestJava = await this.$store.dispatch('region/getListHospital', paramHospitalNonWestJava)

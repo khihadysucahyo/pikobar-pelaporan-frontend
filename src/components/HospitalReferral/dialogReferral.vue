@@ -21,7 +21,7 @@
 </template>
 <script>
 export default {
-  name: 'DialogRefferal',
+  name: 'DialogReferral',
   props: {
     showDialog: {
       type: Boolean,

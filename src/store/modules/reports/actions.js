@@ -1,5 +1,8 @@
 import requestServer from '@/api'
 import request from '@/utils/request'
+import {
+  getRequestDetailHomeAdress
+} from '@/utils/utilsFunction'
 
 export default {
   async listReportCase({ commit }, params) {
@@ -78,7 +81,16 @@ export default {
   async listHistoryCase({ commit }, id) {
     try {
       const response = await requestServer(`/api/cases/${id}/history`, 'GET')
-      return response
+      const afterResponse = response.data.filter(async(item) => {
+        if (item.current_location_type === 'RUMAH') {
+          const address = await getRequestDetailHomeAdress(
+            item.current_location_village_code,
+            item.current_location_address
+          )
+          item['homeAddress'] = address
+        }
+      })
+      return afterResponse
     } catch (error) {
       return error.response
     }
@@ -167,6 +179,14 @@ export default {
       return e
     }
   },
+  async hospitalRefferalNewCase({ commit }, data) {
+    try {
+      const response = await requestServer(`/api/cases-transfer`, 'POST', data)
+      return response
+    } catch (error) {
+      return error.response
+    }
+  },
   async caseHospitalRefferal({ commit }, params) {
     const id = params.id
     const data = params.data
@@ -177,17 +197,37 @@ export default {
       return error.response
     }
   },
-  async caseHospitalReferralOut({ commit }, params) {
+  async caseHospitalRefferalRevise({ commit }, params) {
+    const {
+      idCase,
+      idTransfer,
+      data
+    } = params
     try {
-      const response = await requestServer(`/api/cases-transfer/out`, 'GET', params)
+      const response = await requestServer(`api/cases/${idCase}/transfers/${idTransfer}/revise`, 'POST', data)
       return response
     } catch (error) {
       return error.response
     }
   },
-  async caseHospitalReferralIn({ commit }, params) {
+  async caseHospitalReferralInOut({ commit }, data) {
+    const {
+      type,
+      params
+    } = data
     try {
-      const response = await requestServer(`/api/cases-transfer/in`, 'GET', params)
+      const response = await requestServer(`/api/cases-transfer/${type}`, 'GET', params)
+      return response
+    } catch (error) {
+      return error.response
+    }
+  },
+  async caseHospitalReferralSummary({ commit }, data) {
+    const {
+      type
+    } = data
+    try {
+      const response = await requestServer(`/api/cases-transfer-summary/${type}`, 'GET')
       return response
     } catch (error) {
       return error.response

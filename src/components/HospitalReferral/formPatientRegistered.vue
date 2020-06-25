@@ -5,9 +5,10 @@
   >
     <v-row>
       <v-col>
-        <label>{{ $t('label.search_patient_by_name_nik') }}</label>
+        <label class="required">{{ $t('label.search_patient_by_name_nik') }}</label>
         <ValidationProvider
           v-slot="{ errors }"
+          rules="required"
         >
           <v-autocomplete
             v-model="formReferral.case_id"
@@ -34,9 +35,10 @@
     </v-row>
     <v-row>
       <v-col>
-        <label>{{ $t('label.referral_hospital') }}</label>
+        <label class="required">{{ $t('label.referral_hospital') }}</label>
         <ValidationProvider
           v-slot="{ errors }"
+          rules="required"
         >
           <v-autocomplete
             v-model="formReferral.transfer_to_unit"
@@ -85,7 +87,8 @@ export default {
         unit_type: 'rumahsakit'
       },
       queryCase: {
-        search: ''
+        search: '',
+        verified_status: 'verified'
       }
     }
   },
@@ -109,7 +112,9 @@ export default {
     const responseUnit = await this.$store.dispatch('region/listUnit', this.queryUnit)
     this.unitList = responseUnit.data.itemsList
     const responseCase = await this.$store.dispatch('reports/listReportCase', this.queryCase)
-    this.caseList = responseCase.data.cases
+    if (responseCase.data !== null) {
+      this.caseList = responseCase.data.cases
+    }
   },
   methods: {
     getNameCase(nik, name, phone_number) {

@@ -1,5 +1,5 @@
 <template>
-  <v-row v-if="total > 0" justify="space-between">
+  <v-row v-if="total > 0" class="mt-6" justify="space-between">
     <v-col cols="12" md="2" sm="2">
       <v-select
         v-model="pageSize"

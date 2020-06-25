@@ -221,7 +221,7 @@
           </v-col>
           <v-col auto>
             <v-text-field
-              v-model="detailData.nationality_name"
+              v-model="detailCase.nationality_name"
               disabled
               hide-details
               solo-inverted
@@ -296,7 +296,8 @@ export default {
     return {
       birthDate: '',
       detailGender: '',
-      detailAddres: ''
+      detailAddres: '',
+      nationalityName: ''
     }
   },
   async mounted() {

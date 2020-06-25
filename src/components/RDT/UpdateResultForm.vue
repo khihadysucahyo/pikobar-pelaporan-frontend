@@ -103,13 +103,22 @@
                 </v-radio-group>
               </ValidationProvider>
               <ValidationProvider
+                v-if="formRapid.tool_tester"
                 v-slot="{ errors }"
                 rules="required|numeric"
                 class="full-width"
               >
-                <label class="required">{{ $t('label.swab_count') }}</label>
+                <label class="required">{{ formRapid.tool_tester === 'PCR' ? $t('label.swab_count') : $t('label.rdt_count') }}</label>
                 <v-text-field
-                  v-model="formRapid.swab_count"
+                  v-if="formRapid.tool_tester === 'PCR'"
+                  v-model="formRapid.swab_to"
+                  :error-messages="errors"
+                  solo-inverted
+                  type="number"
+                />
+                <v-text-field
+                  v-else
+                  v-model="formRapid.rdt_to"
                   :error-messages="errors"
                   solo-inverted
                   type="number"
@@ -121,9 +130,9 @@
               <input-date-picker
                 :label="$t('label.testing_date')"
                 :format-date="'YYYY/MM/DD'"
-                :date-value="formRapid.test_date"
-                :value-date.sync="formRapid.test_date"
-                @changeDate="formRapid.test_date = $event"
+                :date-value="testDate"
+                :value-date.sync="testDate"
+                @changeDate="handleChangeDate"
               />
               <ValidationProvider
                 v-slot="{ errors }"
@@ -292,7 +301,11 @@ export default {
         tool_tester: '',
         test_location_type: ''
       },
-      listLab: []
+      listLab: [],
+      isInitialState: true,
+      districtCode: null,
+      districtName: null,
+      testDate: null
     }
   },
   computed: {
@@ -307,12 +320,15 @@ export default {
     'formRapid.tool_tester'(value) {
       if (this.formRapid) {
         if (value === 'PCR') this.formRapid.sampling_type = null
+        if (!this.isInitialState) this.formRapid.final_result = null
+        this.isInitialState = false
       }
     }
   },
   async mounted() {
     const response = await this.$store.dispatch('rdt/detailParticipant', this.idResult)
     Object.assign(this.formRapid, response.data)
+    this.testDate = this.formRapid.test_date
     const listQuery = {
       city_code: this.district_user
     }
@@ -321,6 +337,8 @@ export default {
     this.listLab = responseLab.data
     const paramHospitalWestJava = { 'rs_jabar': true }
     await this.$store.dispatch('region/getListHospital', paramHospitalWestJava)
+    this.districtCode = this.formRapid.test_address_district_code
+    this.districtName = this.formRapid.test_address_district_name
   },
   methods: {
     handleBack() {
@@ -332,6 +350,12 @@ export default {
         return
       }
       this.loading = true
+      delete this.formRapid._id
+      if (this.formRapid.tool_tester === 'PCR') {
+        this.formRapid.rdt_to = null
+      } else {
+        this.formRapid.swab_to = null
+      }
       const updateFinalRDT = {
         id: this.idResult,
         data: this.formRapid
@@ -339,7 +363,7 @@ export default {
 
       const response = await this.$store.dispatch('rdt/updateRDT', updateFinalRDT)
       this.loading = false
-      if (response.status === 200 || response.status === 201) {
+      if (response && (response.status === 200 || response.status === 201)) {
         await this.$store.dispatch('toast/successToast', this.$t('success.data_success_edit'))
       } else {
         await this.$store.dispatch('toast/errorToast', this.$t('error.data_failed_edit'))
@@ -350,7 +374,8 @@ export default {
       if (value === 'LAINNYA') {
         this.formRapid.test_location = null
         this.formRapid.lab = null
-        this.getCity()
+        this.formRapid.test_address_district_code = this.districtCode
+        this.formRapid.test_address_district_name = this.districtName
       } else {
         if (value !== 'LAB') this.formRapid.lab = null
         this.formRapid.test_address_district_code = ''
@@ -367,12 +392,9 @@ export default {
     onSelectHospital(value) {
       this.formRapid.test_location = value
     },
-    async getCity() {
-      const responseDetails = await this.$store.dispatch('region/getDetailDistrict', this.district_user)
-      if (responseDetails.data[0]) {
-        this.formRapid.test_address_district_name = responseDetails.data[0].kota_nama
-        this.formRapid.test_address_district_code = responseDetails.data[0].kota_kode
-      }
+    handleChangeDate(value) {
+      this.testDate = value
+      this.formRapid.test_date = value
     }
   }
 }

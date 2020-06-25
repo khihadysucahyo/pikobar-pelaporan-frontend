@@ -18,6 +18,22 @@ export default {
       return e
     }
   },
+  async getDetailSubDistrict({ commit }, codeSubDistrict) {
+    try {
+      const response = await requestServer(`/api/areas/sub-district-detail/${codeSubDistrict}`, 'GET')
+      return response
+    } catch (e) {
+      return e
+    }
+  },
+  async getDetailVillage({ commit }, codeVillage) {
+    try {
+      const response = await requestServer(`/api/areas/village-detail/${codeVillage}`, 'GET')
+      return response
+    } catch (e) {
+      return e
+    }
+  },
   async getListSubDistrict({ commit }, codeDistrict) {
     try {
       const response = await requestServer(`/api/areas/sub-district/${codeDistrict}`, 'GET')

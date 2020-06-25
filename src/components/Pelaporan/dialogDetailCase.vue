@@ -18,17 +18,21 @@
             v-model="tab"
             background-color="#F5F5F5"
             centered
-            style="margin-left: 1.5rem;margin-right: 1.5rem;"
+            hide-slider
+            class="tab-detail-case"
           >
             <v-tab href="#tab-1">
+              <v-icon class="mr-2">mdi-account</v-icon>
               {{ $t('label.detail_profile_history') }}
             </v-tab>
 
             <v-tab href="#tab-2">
+              <v-icon class="mr-2">library_books</v-icon>
               {{ $t('label.case_history') }}
             </v-tab>
 
             <v-tab href="#tab-3">
+              <v-icon class="mr-2">mdi-account-switch</v-icon>
               {{ $t('label.referral_history') }}
             </v-tab>
           </v-tabs>
@@ -70,7 +74,7 @@
           </v-tabs-items>
         </v-row>
         <v-row
-          v-if="userUnitType === 'rumahsakit' && detailTransfer.transfer_status !== 'approved'"
+          v-if="userUnitType === 'rumahsakit' && detailTransfer.transfer_status !== 'approved' && detailTransfer.transfer_status !== 'declined'"
           class="ma-2"
         >
           <v-col
@@ -98,12 +102,19 @@
           </v-col>
         </v-row>
       </v-container>
+      <dialog-referral-decline
+        :dialog-decline="dialogDecline"
+        :show-decline.sync="dialogDecline"
+        :detail-case="detailCase"
+        :detail-transfer="detailTransfer"
+      />
     </v-card>
   </v-dialog>
 </template>
 <script>
+import EventBus from '@/utils/eventBus'
 export default {
-  name: 'PopUpDetailCaseReferral',
+  name: 'DialogDetailCase',
   props: {
     showDialog: {
       type: Boolean,
@@ -137,7 +148,9 @@ export default {
   data() {
     return {
       tab: null,
-      show: this.showDialog
+      show: this.showDialog,
+      dialogDecline: false,
+      refreshPageList: false
     }
   },
   watch: {
@@ -147,9 +160,6 @@ export default {
     show(value) {
       this.$emit('update:show', value)
     }
-  },
-  mounted() {
-    console.log(this.detailTransfer)
   },
   methods: {
     async handleApprove() {
@@ -166,25 +176,13 @@ export default {
         this.$emit('update:caseDetail', {})
         this.$emit('update:transferDetail', {})
         this.$emit('update:show', false)
+        EventBus.$emit('refreshPageListReferral', true)
         await this.$store.dispatch('toast/successToast', this.$t('success.reference_successfully_verified'))
       }
     },
     async handleDecline() {
-      const data = {
-        idCase: this.detailCase._id,
-        idTransfer: this.detailTransfer._id,
-        actions: 'decline',
-        body: {
-          transfer_comment: null
-        }
-      }
-      const response = await this.$store.dispatch('reports/actionHospitalReferral', data)
-      if (response) {
-        this.$emit('update:caseDetail', {})
-        this.$emit('update:transferDetail', {})
-        this.$emit('update:show', false)
-        await this.$store.dispatch('toast/successToast', this.$t('success.reference_successfully_verified'))
-      }
+      this.dialogDecline = true
+      this.$emit('update:show', false)
     }
   }
 }
@@ -193,8 +191,13 @@ export default {
     .v-window.v-item-group.v-tabs-items {
       min-width: 100%;
     }
+    .tab-detail-case {
+      margin-left: 1.5rem;
+      margin-right: 1.5rem;
+      border-radius: 8px;
+    }
     .v-tab {
-        width: 35% !important;
+        width: 50% !important;
         color: #828282 !important;
     }
     .v-tab--active {

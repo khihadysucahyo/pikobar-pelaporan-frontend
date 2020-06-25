@@ -98,14 +98,40 @@
     </v-row>
     <v-card
       outlined
+      class="mt-2"
     >
-      <v-container>
-        <case-filter
-          :list-query="listQuery"
-          :query-list.sync="listQuery"
-          :on-search="handleSearch"
-        />
-      </v-container>
+      <v-row>
+        <v-col class="ml-4">
+          <search
+            :list-query="listQuery"
+            :handle-search="handleSearch"
+          />
+        </v-col>
+        <v-col class="pb-4">
+          <v-btn
+            color="primary"
+            class="mr-4"
+            style="float: right;"
+            @click="handleFilter"
+          >
+            {{ $t('label.filter') }}
+            <v-icon v-if="!showFilter">mdi-chevron-right</v-icon>
+            <v-icon v-else>mdi-chevron-down</v-icon>
+          </v-btn>
+        </v-col>
+      </v-row>
+      <div
+        v-if="showFilter"
+        class="ma-2"
+      >
+        <v-container>
+          <case-filter
+            :list-query="listQuery"
+            :query-list.sync="listQuery"
+            :on-search="handleSearch"
+          />
+        </v-container>
+      </div>
       <hr>
       <v-row align="center" justify="space-between">
         <v-col>
@@ -214,7 +240,7 @@
                         </v-btn>
                       </template>
                       <v-card>
-                        <v-list-item @click="handleDetail(item._id)">
+                        <v-list-item @click="handleDetail(item, item._id)">
                           {{ $t('label.view_detail') }}
                         </v-list-item>
                         <div v-if="rolesWidget['dinkesKotaAndFaskes'].includes(roles[0])">
@@ -258,6 +284,20 @@
       :store-path-delete="`reports/deleteReportCase`"
       :store-path-get-list="`reports/listReportCase`"
       :list-query="listQuery"
+    />
+    <dialog-detail-case
+      :show-dialog="dialogDetailCase"
+      :show.sync="dialogDetailCase"
+      :detail-case="detailCase"
+      :case-detail.sync="detailCase"
+      :list-history-case="listHistoryCase"
+      :referral-history-case="referralHistoryCase"
+      :title-detail="$t('label.detail_case')"
+    />
+    <dialog-update-history-case
+      :show-dialog="dialogHistoryCase"
+      :show.sync="dialogHistoryCase"
+      :form-riwayat-pasien="formRiwayatPasien"
     />
     <v-dialog v-model="failedDialog" persistent max-width="30%">
       <v-card>
@@ -303,6 +343,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import EventBus from '@/utils/eventBus'
 import FileSaver from 'file-saver'
 import { rolesWidget } from '@/utils/constantVariable'
 import { formatDatetime } from '@/utils/parseDatetime'
@@ -352,11 +393,18 @@ export default {
       },
       countingReports: null,
       dialog: false,
+      showFilter: false,
       dataDelete: null,
+      formatDate: 'YYYY/MM/DD',
       failedDialog: false,
       showImportForm: false,
       errorMessage: null,
-      successDialog: false
+      successDialog: false,
+      detailCase: {},
+      listHistoryCase: [],
+      referralHistoryCase: [],
+      dialogDetailCase: false,
+      dialogHistoryCase: false
     }
   },
   computed: {
@@ -368,6 +416,9 @@ export default {
       'roles',
       'fullName',
       'district_user'
+    ]),
+    ...mapGetters('reports', [
+      'formRiwayatPasien'
     ])
   },
   watch: {
@@ -407,6 +458,9 @@ export default {
     }
   },
   async mounted() {
+    EventBus.$on('refreshPageListReport', (value) => {
+      this.handleSearch()
+    })
     if (this.roles[0] === 'dinkeskota') this.listQuery.address_district_code = this.district_user
     this.queryReportCase.address_district_code = this.district_user
     await this.$store.dispatch('reports/listReportCase', this.listQuery)
@@ -420,14 +474,34 @@ export default {
   },
   methods: {
     formatDatetime,
-    async handleDetail(id) {
-      await this.$router.push(`/laporan/detail/${id}`)
+    async handleDetail(item, id) {
+      const responseHistory = await this.$store.dispatch('reports/listHistoryCase', id)
+      const responseReferralHistory = await this.$store.dispatch('reports/caseHospitalReferralHistory', id)
+      this.detailCase = item
+      this.listHistoryCase = responseHistory
+      this.referralHistoryCase = responseReferralHistory.data
+      this.dialogDetailCase = true
     },
     async handleEditCase(id) {
       await this.$router.push(`/laporan/edit-case/${id}`)
     },
     async handleEditHistoryCase(id) {
-      await this.$router.push(`/laporan/edit-history-case/${id}`)
+      this.detail = await this.$store.dispatch('reports/detailHistoryCase', id)
+      await Object.assign(this.formRiwayatPasien, this.detail)
+      this.formRiwayatPasien.case = this.detail.case
+      if ((this.detail.first_symptom_date !== null) && (this.detail.first_symptom_date !== 'Invalid date')) {
+        this.formRiwayatPasien.first_symptom_date = await this.formatDatetime(this.detail.first_symptom_date, this.formatDate)
+      } else {
+        this.formRiwayatPasien.first_symptom_date = ''
+      }
+      if (this.formRiwayatPasien.case) {
+        delete this.formRiwayatPasien['createdAt']
+        delete this.formRiwayatPasien['updatedAt']
+      }
+      this.dialogHistoryCase = true
+    },
+    handleFilter() {
+      this.showFilter = !this.showFilter
     },
     async handlePrintPEForm(id, caseCode) {
       const response = await this.$store.dispatch('reports/printPEForm', id)

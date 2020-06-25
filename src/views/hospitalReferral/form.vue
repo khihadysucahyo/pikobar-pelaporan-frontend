@@ -4,8 +4,8 @@
       <v-row class="mt-2">
         <v-col auto>
           <v-card-text>
-            <div class="header-user-title">{{ $t('label.total_list_referral_patients') }} : 10</div>
-            <div class="header-user-text">{{ fullName }}</div>
+            <div class="header-user-title">{{ $t('label.make_referrals_for_patients') }}</div>
+            <div class="header-user-text">{{ $t('label.choose_one_below') }}</div>
           </v-card-text>
         </v-col>
       </v-row>
@@ -18,6 +18,7 @@
       >
         <v-card
           outlined
+          class="card-action"
         >
           <div class="d-flex">
             <v-avatar
@@ -50,6 +51,7 @@
       >
         <v-card
           outlined
+          class="card-action"
         >
           <div class="d-flex">
             <v-avatar
@@ -76,11 +78,10 @@
         </v-card>
       </v-col>
     </v-row>
-    <pop-up-referral
+    <dialog-hospital-referral
       :dialog="dialog"
       :dialog-popup.sync="dialog"
       :form-referral="formReferral"
-      :referral-form.sync="formReferral"
       :patient-registered="patientRegistered"
     />
   </div>
@@ -99,16 +100,25 @@ export default {
     }
   },
   computed: {
+    ...mapGetters('reports', [
+      'formPasien'
+    ]),
     ...mapGetters('user', [
-      'fullName'
+      'fullName',
+      'district_user',
+      'district_name_user'
     ])
   },
   methods: {
     async handleReferralCaseRegistered() {
+      this.formReferral = {}
       this.dialog = true
       this.patientRegistered = true
     },
     async handleReferralCaseUnegistered() {
+      this.formReferral = this.formPasien
+      this.formReferral.address_district_code = this.district_user
+      this.formReferral.address_district_name = this.district_name_user
       this.dialog = true
       this.patientRegistered = false
     }
@@ -128,5 +138,8 @@ export default {
     font-size: 26px;
     color: #FFFFFF;
     margin-bottom: 10px;
+  }
+  .card-action {
+    cursor: grab;
   }
 </style>
