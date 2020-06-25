@@ -189,45 +189,54 @@ export default {
       testAddres: ''
     }
   },
-  async mounted() {
-    const response = await this.$store.dispatch(
-      'rdt/detailParticipant',
-      this.idData
-    )
-    this.detailData = await response.data
-    this.detailCase = (await response.data.id_case)
-      ? response.data.id_case.toUpperCase()
-      : ''
-    if (this.detailData) {
-      if (this.detailData.birth_date) {
-        this.birthDate = await formatDatetime(
-          this.detailData.birth_date,
-          'DD MMMM YYYY'
-        )
-      }
-      if (this.detailData.test_date) {
-        this.testDate = await formatDatetime(
-          this.detailData.test_date,
-          'DD MMMM YYYY'
-        )
-      }
-      this.detailGender =
-        (await this.detailData.gender) === 'L' ? 'Laki-Laki' : 'Perempuan'
-      this.detailAddres = this.completeAddress(
-        this.detailData.address_district_name,
-        this.detailData.address_subdistrict_name,
-        this.detailData.address_village_name,
-        this.detailData.address_street
-      )
-      this.testAddres = this.completeAddress(
-        this.detailData.test_address_district_name,
-        this.detailData.test_address_subdistrict_name,
-        this.detailData.test_address_village_name,
-        this.detailData.test_address_detail
-      )
+  watch: {
+    idData(value) {
+      this.idData = value
+      this.getParticipantDetail()
     }
   },
+  created() {
+    this.getParticipantDetail()
+  },
   methods: {
+    async getParticipantDetail() {
+      const response = await this.$store.dispatch(
+        'rdt/detailParticipant',
+        this.idData
+      )
+      this.detailData = await response.data
+      this.detailCase = (await response.data.id_case)
+        ? response.data.id_case.toUpperCase()
+        : ''
+      if (this.detailData) {
+        if (this.detailData.birth_date) {
+          this.birthDate = await formatDatetime(
+            this.detailData.birth_date,
+            'DD MMMM YYYY'
+          )
+        }
+        if (this.detailData.test_date) {
+          this.testDate = await formatDatetime(
+            this.detailData.test_date,
+            'DD MMMM YYYY'
+          )
+        }
+        this.detailGender =
+          (await this.detailData.gender) === 'L' ? 'Laki-Laki' : 'Perempuan'
+        this.detailAddres = this.completeAddress(
+          this.detailData.address_district_name,
+          this.detailData.address_subdistrict_name,
+          this.detailData.address_village_name,
+          this.detailData.address_street
+        )
+        this.testAddres = this.completeAddress(
+          this.detailData.test_address_district_name,
+          this.detailData.test_address_subdistrict_name,
+          this.detailData.test_address_village_name,
+          this.detailData.test_address_detail
+        )
+      }
+    },
     formatDatetime,
     completeAddress,
     getTableRowNumbering(index) {

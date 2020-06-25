@@ -68,7 +68,7 @@ export default {
   },
   data() {
     return {
-      title: 'Daftar Peserta',
+      title: this.$t('label.rdt_participant'),
       tab: null,
       show: this.showDialogDetailTest
     }
