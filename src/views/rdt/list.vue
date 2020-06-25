@@ -12,15 +12,11 @@
         </v-row>
       </v-container>
     </v-card>
-    <v-card
-      outlined
-    >
+    <v-card outlined>
       <v-row>
         <v-col>
           <v-card-text>
-            <div style="font-size: 1.5rem;">
-              {{ $t('label.results_test_data') }}
-            </div>
+            <div style="font-size: 1.5rem;">{{ $t('label.results_test_data') }}</div>
           </v-card-text>
         </v-col>
         <v-col />
@@ -51,17 +47,13 @@
                 <td>{{ item.name }}</td>
                 <td>{{ item.age }} Th</td>
                 <td>
-                  <div v-if="item.gender === 'P'">
-                    {{ $t('label.female_initials') }}
-                  </div>
-                  <div v-else>
-                    {{ $t('label.male_initials') }}
-                  </div>
+                  <div v-if="item.gender === 'P'">{{ $t('label.female_initials') }}</div>
+                  <div v-else>{{ $t('label.male_initials') }}</div>
                 </td>
                 <td>{{ item.rdt_count }}x</td>
                 <td>{{ item.pcr_count }}x</td>
                 <td>{{ item.test_date ? formatDatetime(item.test_date, 'DD MMMM YYYY') : '-' }}</td>
-                <td>{{ item.final_result }} </td>
+                <td>{{ item.final_result }}</td>
                 <td>
                   <v-card-actions>
                     <v-menu
@@ -81,21 +73,22 @@
                           v-on="on"
                         >
                           {{ $t('label.choose_action') }}
-                          <v-icon style="color: #009D57;font-size: 2rem;" right>
-                            mdi-menu-down
-                          </v-icon>
+                          <v-icon style="color: #009D57;font-size: 2rem;" right>mdi-menu-down</v-icon>
                         </v-btn>
                       </template>
                       <v-card>
-                        <v-list-item v-if="roles[0] === 'dinkeskota' || 'dinkesprov'" @click="handleDetail(item._id)">
-                          {{ $t('label.view_detail') }}
-                        </v-list-item>
-                        <v-list-item v-if="roles[0] === 'dinkeskota' && item.final_result && item.final_result.length > 0 " @click="handleUpdateResults(item._id)">
-                          {{ $t('label.edit_latest_test_result') }}
-                        </v-list-item>
-                        <v-list-item v-if="roles[0] === 'dinkeskota'" @click="handleDeleteRDT(item._id)">
-                          {{ $t('label.delete_data') }}
-                        </v-list-item>
+                        <v-list-item
+                          v-if="roles[0] === 'dinkeskota' || 'dinkesprov'"
+                          @click="handleDetail(item, item._id)"
+                        >{{ $t('label.view_detail') }}</v-list-item>
+                        <v-list-item
+                          v-if="roles[0] === 'dinkeskota' && item.final_result && item.final_result.length > 0 "
+                          @click="handleUpdateResults(item._id)"
+                        >{{ $t('label.edit_latest_test_result') }}</v-list-item>
+                        <v-list-item
+                          v-if="roles[0] === 'dinkeskota'"
+                          @click="handleDeleteRDT(item._id)"
+                        >{{ $t('label.delete_data') }}</v-list-item>
                       </v-card>
                     </v-menu>
                   </v-card-actions>
@@ -121,6 +114,13 @@
       :store-path-get-list="`rdt/getListRDT`"
       :list-query="listQuery"
     />
+    <dialog-detail-test
+      :show-dialog-detail-test="showDialogDetailTest"
+      :show.sync="showDialogDetailTest"
+      :detail-test="detailTest"
+      :list-history-test="listHistoryTest"
+      :title-detail="$t('label.rdt_detail')"
+    />
   </div>
 </template>
 
@@ -137,11 +137,20 @@ export default {
         { text: this.$t('label.test_id').toUpperCase(), value: 'code_test' },
         { text: this.$t('label.name').toUpperCase(), value: 'name' },
         { text: this.$t('label.age').toUpperCase(), value: 'age' },
-        { text: this.$t('label.short_gender_abbreviation').toUpperCase(), value: 'gender' },
+        {
+          text: this.$t('label.short_gender_abbreviation').toUpperCase(),
+          value: 'gender'
+        },
         { text: this.$t('label.rdt').toUpperCase(), value: 'rdt' },
         { text: this.$t('label.pcr').toUpperCase(), value: 'pcr' },
-        { text: this.$t('label.latest_test_date').toUpperCase(), value: 'test_date' },
-        { text: this.$t('label.latest_test_result').toUpperCase(), value: 'final_result' },
+        {
+          text: this.$t('label.latest_test_date').toUpperCase(),
+          value: 'test_date'
+        },
+        {
+          text: this.$t('label.latest_test_result').toUpperCase(),
+          value: 'final_result'
+        },
         { text: this.$t('label.action'), value: 'actions', sortable: false }
       ],
       loadingTable: false,
@@ -163,25 +172,20 @@ export default {
         sort: 'desc'
       },
       dialog: false,
-      dataDelete: null
+      dataDelete: null,
+      showDialogDetailTest: false,
+      detailTest: {},
+      listHistoryTest: []
     }
   },
   computed: {
-    ...mapGetters('rdt', [
-      'rdtList',
-      'totalDataRDT',
-      'totalList'
-    ]),
-    ...mapGetters('user', [
-      'roles',
-      'fullName',
-      'district_user'
-    ])
+    ...mapGetters('rdt', ['rdtList', 'totalDataRDT', 'totalList']),
+    ...mapGetters('user', ['roles', 'fullName', 'district_user'])
   },
   watch: {
     'listQuery.search': {
       handler: function(value) {
-        if ((value !== undefined) && (value.length >= 2)) {
+        if (value !== undefined && value.length >= 2) {
           this.loadingTable = true
           this.listQuery.page = 1
           this.handleSearch()
@@ -195,12 +199,12 @@ export default {
       },
       immediate: true
     },
-    'optionsDataTable': {
+    optionsDataTable: {
       handler: function(value) {
         if (value.sortBy !== undefined) {
-          if ((value.sortBy[0] !== undefined) && (value.sortDesc[0])) {
+          if (value.sortBy[0] !== undefined && value.sortDesc[0]) {
             this.listQuery.sort = 'desc'
-          } else if ((value.sortBy[0] !== undefined) && (!value.sortDesc[0])) {
+          } else if (value.sortBy[0] !== undefined && !value.sortDesc[0]) {
             this.listQuery.sort = 'asc'
           } else {
             this.listQuery.sort = 'desc'
@@ -219,8 +223,14 @@ export default {
   },
   methods: {
     formatDatetime,
-    async handleDetail(id) {
-      await this.$router.push(`/rdt/detail/${id}`)
+    async handleDetail(item, id) {
+      const responseHistory = await this.$store.dispatch(
+        'rdt/listHistoryRDT',
+        id
+      )
+      this.detailTest = item
+      this.listHistoryTest = responseHistory.data
+      this.showDialogDetailTest = true
     },
     async handleEditRDT(id) {
       await this.$router.push(`/rdt/update/${id}`)
@@ -237,7 +247,7 @@ export default {
       await this.$store.dispatch('rdt/getListRDT', this.listQuery)
     },
     getTableRowNumbering(index) {
-      return ((this.listQuery.page - 1) * this.listQuery.limit) + (index + 1)
+      return (this.listQuery.page - 1) * this.listQuery.limit + (index + 1)
     },
     async onNext() {
       await this.$store.dispatch('rdt/getListRDT', this.listQuery)
@@ -246,28 +256,28 @@ export default {
 }
 </script>
 <style scoped>
-  th.active .arrow {
-    opacity: 1;
-  }
+th.active .arrow {
+  opacity: 1;
+}
 
-  .arrow {
-    display: inline-block;
-    vertical-align: middle;
-    width: 0;
-    height: 0;
-    margin-left: 5px;
-    opacity: 0.66;
-  }
+.arrow {
+  display: inline-block;
+  vertical-align: middle;
+  width: 0;
+  height: 0;
+  margin-left: 5px;
+  opacity: 0.66;
+}
 
-  .arrow.asc {
-    border-left: 4px solid transparent;
-    border-right: 4px solid transparent;
-    border-bottom: 4px solid #42b983;
-  }
+.arrow.asc {
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-bottom: 4px solid #42b983;
+}
 
-  .arrow.dsc {
-    border-left: 4px solid transparent;
-    border-right: 4px solid transparent;
-    border-top: 4px solid #42b983;
-  }
+.arrow.dsc {
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 4px solid #42b983;
+}
 </style>
