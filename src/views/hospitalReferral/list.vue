@@ -20,10 +20,12 @@
           color="red"
           hide-slider
         >
-          <v-tab @click="onTabChanges('')">{{ tabLabel[0] }}</v-tab>
-          <v-tab v-if="unitType !== 'rumahsakit'" @click="onTabChanges('pending')">{{ tabLabel[1] }}</v-tab>
-          <v-tab @click="onTabChanges('declined')">{{ tabLabel[2] }}</v-tab>
-          <v-tab @click="onTabChanges('approved')">{{ tabLabel[3] }}</v-tab>
+          <v-tab v-if="unitType === 'puskesmas'" @click="onTabChanges('')">{{ tabLabel[0] }}</v-tab>
+          <v-tab v-if="unitType === 'puskesmas'" @click="onTabChanges('pending')">{{ tabLabel[1] }}</v-tab>
+          <v-tab v-if="unitType === 'puskesmas'" @click="onTabChanges('declined')">{{ tabLabel[2] }}</v-tab>
+          <v-tab v-if="unitType === 'puskesmas'" @click="onTabChanges('approved')">{{ tabLabel[3] }}</v-tab>
+          <v-tab v-if="unitType === 'rumahsakit'" @click="onTabChanges('in')">{{ tabLabel[4] }}</v-tab>
+          <v-tab v-if="unitType === 'rumahsakit'" @click="onTabChanges('out')">{{ tabLabel[5] }}</v-tab>
           <v-tab-item v-for="(tabItem, index) in tabLabel" :key="index">
             <v-row>
               <v-col class="ml-4">
@@ -52,6 +54,7 @@
               <filter-hospital-referral
                 :list-query="listQuery"
                 :on-search="handleSearch"
+                :type-referral="typeReferral"
               />
             </v-row>
             <v-row>
@@ -84,6 +87,7 @@ export default {
       listQuery: {
         search: '',
         transfer_from_unit_id: '',
+        transfer_to_unit_id: '',
         address_district_code: '',
         address_subdistrict_code: '',
         address_village_code: '',
@@ -95,6 +99,7 @@ export default {
         limit: 100
       },
       totalList: 0,
+      typeReferral: 'in',
       showFilter: false,
       summaryReferral: 0,
       listReferral: [],
@@ -103,7 +108,9 @@ export default {
         this.$t('label.all'),
         this.$t('label.waiting_for_verification'),
         this.$t('label.reference_rejected'),
-        this.$t('label.reference_received')
+        this.$t('label.reference_received'),
+        this.$t('label.reference_in'),
+        this.$t('label.reference_out')
       ],
       headers: [
         { text: this.$t('label.number').toUpperCase(), value: '_id', sortable: false },
@@ -113,7 +120,7 @@ export default {
         { text: this.$t('label.short_gender_abbreviation'), value: 'case.gender' },
         { text: this.$t('label.status').toUpperCase(), value: 'case.status' },
         { text: this.$t('label.stages').toUpperCase(), value: 'case.stages' },
-        { text: this.$t('label.reference').toUpperCase(), value: 'transfer_from_unit_name' },
+        { text: this.$t('label.reference_place').toUpperCase(), value: 'transfer_from_unit_name' },
         { text: this.$t('label.reference_status').toUpperCase(), value: 'transfer_status' },
         { text: this.$t('label.action').toUpperCase(), value: 'actions', sortable: false }
       ]
@@ -134,20 +141,31 @@ export default {
     EventBus.$on('refreshPageListReferral', (value) => {
       this.handleSearch()
     })
+    if (this.unitType === 'rumahsakit' && this.typeReferral === 'in') {
+      this.headers.splice(7, 3)
+      const ids = this.headers.length
+      if (ids === 7) {
+        this.headers.push(
+          { text: this.$t('label.origin_reference').toUpperCase(), value: 'transfer_from_unit_name' },
+          { text: this.$t('label.reference_status').toUpperCase(), value: 'transfer_status' },
+          { text: this.$t('label.action').toUpperCase(), value: 'actions', sortable: false }
+        )
+      }
+    }
     this.handleSearch()
     this.handleSummary()
   },
   methods: {
     async handleSearch() {
       let data
-      if (this.unitType === 'rumahsakit') {
+      if (this.unitType === 'puskesmas') {
         data = {
-          type: 'in',
+          type: 'out',
           params: this.listQuery
         }
       } else {
         data = {
-          type: 'out',
+          type: this.typeReferral,
           params: this.listQuery
         }
       }
@@ -157,13 +175,13 @@ export default {
     },
     async handleSummary() {
       let data
-      if (this.unitType === 'rumahsakit') {
+      if (this.unitType === 'puskesmas') {
         data = {
-          type: 'in'
+          type: 'out'
         }
       } else {
         data = {
-          type: 'out'
+          type: this.typeReferral
         }
       }
       const response = await this.$store.dispatch('reports/caseHospitalReferralSummary', data)
@@ -176,16 +194,35 @@ export default {
     },
     onTabChanges(value) {
       this.showFilter = false
-      const ids = this.headers.length
-      if (this.unitType === 'rumahsakit' && value === 'declined') {
-        this.headers.splice(9, 1)
-      } else if (ids === 9) {
-        this.headers.push(
-          { text: this.$t('label.action').toUpperCase(), value: 'actions', sortable: false }
-        )
+      if ((value === 'in') || (value === 'out')) {
+        this.typeReferral = value
+      } else {
+        this.listQuery.transfer_status = value
       }
-      this.listQuery.transfer_status = value
+      let ids = 10
+      if (this.unitType === 'rumahsakit' && value === 'in') {
+        this.headers.splice(7, 3)
+        ids = this.headers.length
+        if (ids === 7) {
+          this.headers.push(
+            { text: this.$t('label.origin_reference').toUpperCase(), value: 'transfer_from_unit_name' },
+            { text: this.$t('label.reference_status').toUpperCase(), value: 'transfer_status' },
+            { text: this.$t('label.action').toUpperCase(), value: 'actions', sortable: false }
+          )
+        }
+      } else if (this.unitType === 'rumahsakit' && value === 'out') {
+        this.headers.splice(7, 3)
+        ids = this.headers.length
+        if (ids === 7) {
+          this.headers.push(
+            { text: this.$t('label.reference_place').toUpperCase(), value: 'transfer_from_unit_name' },
+            { text: this.$t('label.reference_status').toUpperCase(), value: 'transfer_status' },
+            { text: this.$t('label.action').toUpperCase(), value: 'actions', sortable: false }
+          )
+        }
+      }
       this.handleSearch()
+      this.handleSummary()
     }
   }
 }
