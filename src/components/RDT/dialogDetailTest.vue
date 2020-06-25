@@ -34,7 +34,7 @@
               </v-card>
               <v-card v-if="tab === 'tab-2'">
                 <v-container>
-                  <v-card outlined>tab 2</v-card>
+                  <test-history-list :list-history-test="listHistoryTest" />
                 </v-container>
               </v-card>
             </v-tab-item>
