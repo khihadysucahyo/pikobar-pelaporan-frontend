@@ -15,9 +15,7 @@
     <v-card outlined>
       <v-row>
         <v-col>
-          <v-card-text>
-            <div style="font-size: 1.5rem;">{{ $t('label.results_test_data') }}</div>
-          </v-card-text>
+          <div class="title ml-4">{{ $t('label.results_test_data') }}</div>
         </v-col>
         <v-col />
       </v-row>
@@ -65,15 +63,14 @@
                     >
                       <template v-slot:activator="{ on }">
                         <v-btn
-                          class="ma-1"
+                          class="ma-1 btn-choose-action"
                           color="#828282"
-                          style="text-transform: none;height: 30px;min-width: 80px;"
                           tile
                           outlined
                           v-on="on"
                         >
                           {{ $t('label.choose_action') }}
-                          <v-icon style="color: #009D57;font-size: 2rem;" right>mdi-menu-down</v-icon>
+                          <v-icon medium color="#009D57" right>mdi-menu-down</v-icon>
                         </v-btn>
                       </template>
                       <v-card>
@@ -279,5 +276,11 @@ th.active .arrow {
   border-left: 4px solid transparent;
   border-right: 4px solid transparent;
   border-top: 4px solid #42b983;
+}
+
+.btn-choose-action {
+  text-transform: none !important;
+  height: 30px !important;
+  min-width: 80px !important;
 }
 </style>

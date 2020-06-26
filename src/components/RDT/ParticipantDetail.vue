@@ -4,9 +4,7 @@
       <v-col cols="12" md="12" sm="12">
         <v-row class="row-detail">
           <v-col cols="12" md="6" sm="12" class="row-detail-label">
-            <label
-              style="font-weight: bold;font-size: 20px;line-height: 20px;"
-            >{{ $t('label.case_id') }}</label>
+            <div class="title">{{ $t('label.case_id') }}</div>
           </v-col>
           <v-col auto />
         </v-row>
@@ -28,9 +26,7 @@
         </v-row>
         <v-row class="row-detail">
           <v-col cols="12" md="6" sm="12" class="row-detail-label">
-            <label
-              style="font-weight: bold;font-size: 20px;line-height: 20px;"
-            >{{ $t('label.category_or_target') }}</label>
+            <div class="title">{{ $t('label.category_or_target') }}</div>
           </v-col>
           <v-col auto />
         </v-row>
@@ -67,9 +63,7 @@
       <v-col cols="12" md="12" sm="12">
         <v-row class="row-detail">
           <v-col cols="12" md="6" sm="12" class="row-detail-label">
-            <label
-              style="font-weight: bold;font-size: 20px;line-height: 20px;"
-            >{{ $t('label.identity') }}</label>
+            <div class="title">{{ $t('label.identity') }}</div>
           </v-col>
           <v-col auto />
         </v-row>
