@@ -294,6 +294,11 @@
       :referral-history-case="referralHistoryCase"
       :title-detail="$t('label.detail_case')"
     />
+    <dialog-update-case
+      :show-dialog="dialogUpdateCase"
+      :show.sync="dialogUpdateCase"
+      :form-pasien="formPasien"
+    />
     <dialog-update-history-case
       :show-dialog="dialogHistoryCase"
       :show.sync="dialogHistoryCase"
@@ -404,7 +409,8 @@ export default {
       listHistoryCase: [],
       referralHistoryCase: [],
       dialogDetailCase: false,
-      dialogHistoryCase: false
+      dialogHistoryCase: false,
+      dialogUpdateCase: false
     }
   },
   computed: {
@@ -418,6 +424,7 @@ export default {
       'district_user'
     ]),
     ...mapGetters('reports', [
+      'formPasien',
       'formRiwayatPasien'
     ])
   },
@@ -483,7 +490,20 @@ export default {
       this.dialogDetailCase = true
     },
     async handleEditCase(id) {
-      await this.$router.push(`/laporan/edit-case/${id}`)
+      this.detail = await this.$store.dispatch('reports/detailReportCase', id)
+      await Object.assign(this.formPasien, this.detail.data)
+      if (this.detail.data.birth_date) {
+        this.formPasien.birth_date = await this.formatDatetime(this.detail.data.birth_date, this.formatDate)
+      } else {
+        this.formPasien.birth_date = ''
+      }
+      if (this.formPasien._id) {
+        delete this.formPasien['author']
+        delete this.formPasien['createdAt']
+        delete this.formPasien['updatedAt']
+        delete this.formPasien['last_history']
+      }
+      this.dialogUpdateCase = true
     },
     async handleEditHistoryCase(id) {
       this.detail = await this.$store.dispatch('reports/detailHistoryCase', id)
