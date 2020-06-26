@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="show" max-width="60%">
+  <v-dialog v-model="show" max-width="70%">
     <v-card>
       <v-container>
         <v-row>
@@ -34,7 +34,7 @@
               </v-card>
               <v-card v-if="tab === 'tab-2'">
                 <v-container>
-                  <test-history-list :list-history-test="listHistoryTest" />
+                  <stepper-history-list :list-history-test="listHistoryTest" />
                 </v-container>
               </v-card>
             </v-tab-item>
@@ -46,6 +46,7 @@
 </template>
 
 <script>
+import { formatDatetime } from '@/utils/parseDatetime'
 export default {
   name: 'DialogDetailTest',
   props: {
@@ -70,7 +71,10 @@ export default {
     return {
       title: this.$t('label.rdt_participant'),
       tab: null,
-      show: this.showDialogDetailTest
+      show: this.showDialogDetailTest,
+      step: 0,
+      altLabels: false,
+      editable: false
     }
   },
   watch: {
@@ -80,10 +84,16 @@ export default {
     show(value) {
       this.$emit('update:show', value)
     }
+  },
+  methods: {
+    formatDatetime
   }
 }
 </script>
 <style scoped>
+.v-stepper__wrapper {
+  height: auto !important;
+}
 .v-window.v-item-group.v-tabs-items {
   min-width: 100%;
 }
