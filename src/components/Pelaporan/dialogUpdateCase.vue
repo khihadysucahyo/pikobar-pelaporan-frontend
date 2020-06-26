@@ -505,6 +505,7 @@ export default {
     }
   },
   async mounted() {
+    await this.$store.dispatch('occupation/getListOccuption')
     const response = await this.$store.dispatch('region/listCountry')
     this.listCountry = response.data
     this.formPasien.yearsOld = Math.floor(this.formPasien.age)
