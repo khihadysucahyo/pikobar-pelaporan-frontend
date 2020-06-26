@@ -5,7 +5,31 @@
       lazy-validation
     >
       <v-row class="filter-row">
-        <v-col cols="12" sm="3">
+        <v-col
+          v-if="unitType === 'rumahsakit' && typeReferral === 'in'"
+          cols="12"
+          sm="3"
+        >
+          <v-label class="title">{{ $t('label.origin_reference') }}:</v-label>
+          <v-autocomplete
+            v-model="listQuery.transfer_from_unit_id"
+            :items="unitList"
+            :loading="isUnitLoading"
+            :search-input.sync="searchUnit"
+            :return-object="false"
+            menu-props="auto"
+            item-text="name"
+            item-value="_id"
+            single-line
+            solo
+            autocomplete
+          />
+        </v-col>
+        <v-col
+          v-if="unitType === 'puskesmas' || typeReferral === 'out'"
+          cols="12"
+          sm="3"
+        >
           <v-label class="title">{{ $t('label.reference_place') }}:</v-label>
           <v-autocomplete
             v-model="listQuery.transfer_to_unit_id"
@@ -71,30 +95,42 @@
             :is-label="false"
           />
         </v-col>
-        <v-col cols="12" sm="3">
-          <br>
-          <v-row>
-            <v-col class="pt-0">
-              <v-btn
-                block
-                color="#4f4f4f"
-                class="btn-reset"
-                @click="onReset"
-              >
-                {{ $t('label.reset') }}
-              </v-btn>
-            </v-col>
-            <v-col class="pt-0">
-              <v-btn
-                block
-                color="success"
-                class="btn-search"
-                @click="onSearch"
-              >
-                {{ $t('label.look_for_it') }}
-              </v-btn>
-            </v-col>
-          </v-row>
+        <v-col
+          v-if="unitType === 'rumahsakit'"
+          cols="12"
+          sm="3"
+        >
+          <v-label class="title">{{ $t('label.reference_status') }}:</v-label>
+          <v-select
+            v-model="listQuery.transfer_status"
+            :items="statusList"
+            :placeholder="$t('label.reference_status')"
+            solo
+            item-text="label"
+            item-value="value"
+          />
+        </v-col>
+      </v-row>
+      <v-row style="float: rigth;">
+        <v-col class="pt-0">
+          <v-btn
+            block
+            color="#4f4f4f"
+            class="btn-reset"
+            @click="onReset"
+          >
+            {{ $t('label.reset') }}
+          </v-btn>
+        </v-col>
+        <v-col class="pt-0">
+          <v-btn
+            block
+            color="success"
+            class="btn-search"
+            @click="onSearch"
+          >
+            {{ $t('label.look_for_it') }}
+          </v-btn>
         </v-col>
       </v-row>
     </v-form>
@@ -111,6 +147,10 @@ export default {
     listQuery: {
       type: Object,
       default: null
+    },
+    typeReferral: {
+      type: String,
+      default: ''
     },
     onSearch: {
       type: Function,
@@ -135,17 +175,31 @@ export default {
         'PDP',
         'POSITIF'
       ],
+      statusList: [
+        {
+          label: this.$t('label.received'),
+          value: 'approved'
+        },
+        {
+          label: this.$t('label.rejected'),
+          value: 'declined'
+        },
+        {
+          label: this.$t('label.waiting'),
+          value: 'pending'
+        }
+      ],
       resultList: [
         {
-          label: 'Negatif',
+          label: this.$t('label.negatif'),
           value: 0
         },
         {
-          label: 'Sembuh',
+          label: this.$t('label.recovery'),
           value: 1
         },
         {
-          label: 'Meninggal',
+          label: this.$t('label.dead'),
           value: 2
         }
       ]
@@ -155,7 +209,8 @@ export default {
     ...mapGetters('user', [
       'roles',
       'district_user',
-      'district_name_user'
+      'district_name_user',
+      'unitType'
     ])
   },
   watch: {
@@ -177,6 +232,7 @@ export default {
       this.listQuery.address_subdistrict_code = ''
       this.listQuery.address_village_code = ''
       this.listQuery.search = ''
+      this.listQuery.transfer_to_unit_id = ''
       this.listQuery.transfer_from_unit_id = ''
       this.listQuery.status = ''
       this.listQuery.final_result = ''

@@ -16,6 +16,21 @@ moment.locale('id')
 import vuetify from './plugins/vuetify'
 Vue.config.performance = process.env.NODE_ENV === 'development'
 
+import * as Sentry from '@sentry/browser'
+import * as Integrations from '@sentry/integrations'
+
+if (process.env.VUE_APP_NODE_ENV === 'production') {
+  Sentry.init({
+    environment: process.env.VUE_APP_ERROR_ENVIRONMENT,
+    dsn: process.env.VUE_APP_SENTRY_DSN,
+    release: process.env.VUE_APP_VERSION,
+    integrations: [new Integrations.Vue({
+      Vue,
+      attachProps: true
+    })]
+  })
+}
+
 import App from './App'
 import store from './store'
 import router from './router'

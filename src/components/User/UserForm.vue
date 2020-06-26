@@ -15,7 +15,7 @@
               v-slot="{ errors }"
               rules="required"
             >
-              <label class="required">{{ $t('label.name_instansi') }}</label>
+              <label class="required">{{ $t('label.user_name') }}</label>
               <v-text-field
                 v-model="formUser.fullname"
                 :error-messages="errors"
