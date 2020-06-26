@@ -5,8 +5,8 @@
         <tr>
           <th class="text-left">#</th>
           <th class="text-left">{{ $t('label.transfer_date').toUpperCase() }}</th>
-          <th class="text-left">Kriteria</th>
-          <th class="text-left">Tahapan</th>
+          <th class="text-left">{{ $t('label.criteria') }}</th>
+          <th class="text-left">{{ $t('label.stages') }}</th>
           <th class="text-left">{{ $t('label.hospital').toUpperCase() }}</th>
           <th class="text-left">{{ $t('label.transfer_status').toUpperCase() }}</th>
           <th class="text-left">{{ $t('label.information') }}</th>

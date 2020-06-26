@@ -112,6 +112,7 @@
         </v-col>
       </v-row>
       <v-row style="float: rigth;">
+        <v-col cols="12" sm="8" />
         <v-col class="pt-0">
           <v-btn
             block
@@ -150,7 +151,7 @@ export default {
     },
     typeReferral: {
       type: String,
-      default: ''
+      default: null
     },
     onSearch: {
       type: Function,
