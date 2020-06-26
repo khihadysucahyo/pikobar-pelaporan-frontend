@@ -54,17 +54,6 @@ const reportRouter = {
         noCache: true,
         roles: ['superadmin', 'dinkesprov', 'dinkeskota', 'faskes']
       }
-    },
-    {
-      path: 'edit-case/:id',
-      component: () => import('@/views/laporan/editCase'),
-      hidden: true,
-      meta: {
-        title: 'laporan_edit',
-        icon: 'library_books',
-        noCache: true,
-        roles: ['superadmin', 'dinkeskota', 'faskes']
-      }
     }
   ]
 }
