@@ -188,7 +188,11 @@ export default {
           await delete rowData.data['_id']
           response = await this.$store.dispatch('reports/caseHospitalRefferalRevise', rowData)
         }
-        if (response) {
+        if (response.status === ResponseRequest.UNPROCESSABLE) {
+          EventBus.$emit('refreshPageListReferral', true)
+          await this.$emit('update:dialogPopup', false)
+          await this.$store.dispatch('toast/errorToast', response.data.message)
+        } else {
           EventBus.$emit('refreshPageListReferral', true)
           await this.$emit('update:dialogPopup', false)
           await this.$store.dispatch('toast/successToast', this.$t('label.patient_successfully_referred'))

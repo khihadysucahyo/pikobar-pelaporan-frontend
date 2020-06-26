@@ -54,7 +54,7 @@
               <filter-hospital-referral
                 :list-query="listQuery"
                 :on-search="handleSearch"
-                :type-referral="typeReferral"
+                :type-referral.sync="typeReferral"
               />
             </v-row>
             <v-row>
@@ -62,6 +62,7 @@
                 :list-referral="listReferral"
                 :table-headers="headers"
                 :list-query="listQuery"
+                :type-referral.sync="typeReferral"
               />
             </v-row>
           </v-tab-item>
