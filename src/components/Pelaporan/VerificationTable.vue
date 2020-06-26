@@ -122,6 +122,16 @@
       :store-path-get-list="`reports/listReportCase`"
       :list-query="listQuery"
     />
+    <dialog-update-case
+      :show-dialog="dialogUpdateCase"
+      :show.sync="dialogUpdateCase"
+      :form-pasien="formPasien"
+    />
+    <dialog-update-history-case
+      :show-dialog="dialogHistoryCase"
+      :show.sync="dialogHistoryCase"
+      :form-riwayat-pasien="formRiwayatPasien"
+    />
   </v-col>
 </template>
 <script>
@@ -157,12 +167,18 @@ export default {
           'verified_status': '',
           'verified_comment': ''
         }
-      }
+      },
+      dialogHistoryCase: false,
+      dialogUpdateCase: false
     }
   },
   computed: {
     ...mapGetters('user', [
       'roles'
+    ]),
+    ...mapGetters('reports', [
+      'formPasien',
+      'formRiwayatPasien'
     ])
   },
   watch: {
@@ -174,6 +190,16 @@ export default {
     },
     query(value) {
       this.listQuery = value
+    },
+    dialogHistoryCase(value) {
+      if (!value) {
+        this.$emit('update:refreshPage', true)
+      }
+    },
+    dialogUpdateCase(value) {
+      if (!value) {
+        this.$emit('update:refreshPage', true)
+      }
     }
   },
   methods: {
@@ -199,10 +225,35 @@ export default {
       }
     },
     async handleEditCase(id) {
-      await this.$router.push(`/laporan/edit-case/${id}`)
+      this.detail = await this.$store.dispatch('reports/detailReportCase', id)
+      await Object.assign(this.formPasien, this.detail.data)
+      if (this.detail.data.birth_date) {
+        this.formPasien.birth_date = await this.formatDatetime(this.detail.data.birth_date, this.formatDate)
+      } else {
+        this.formPasien.birth_date = ''
+      }
+      if (this.formPasien._id) {
+        delete this.formPasien['author']
+        delete this.formPasien['createdAt']
+        delete this.formPasien['updatedAt']
+        delete this.formPasien['last_history']
+      }
+      this.dialogUpdateCase = true
     },
     async handleEditHistoryCase(id) {
-      await this.$router.push(`/laporan/edit-history-case/${id}`)
+      this.detail = await this.$store.dispatch('reports/detailHistoryCase', id)
+      await Object.assign(this.formRiwayatPasien, this.detail)
+      this.formRiwayatPasien.case = this.detail.case
+      if ((this.detail.first_symptom_date !== null) && (this.detail.first_symptom_date !== 'Invalid date')) {
+        this.formRiwayatPasien.first_symptom_date = await this.formatDatetime(this.detail.first_symptom_date, this.formatDate)
+      } else {
+        this.formRiwayatPasien.first_symptom_date = ''
+      }
+      if (this.formRiwayatPasien.case) {
+        delete this.formRiwayatPasien['createdAt']
+        delete this.formRiwayatPasien['updatedAt']
+      }
+      this.dialogHistoryCase = true
     },
     async handleDeleteCase(item) {
       this.dialog = true
