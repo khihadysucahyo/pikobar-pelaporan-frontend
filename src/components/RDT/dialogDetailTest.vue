@@ -26,7 +26,7 @@
             </v-tab>
           </v-tabs>
           <v-tabs-items v-model="tab">
-            <v-tab-item v-for="i in 2" :key="i" :value="'tab-' + i" style="min-width: 100%">
+            <v-tab-item v-for="i in 2" :key="i" :value="'tab-' + i" class="tab-item">
               <v-card v-if="tab === 'tab-1'">
                 <v-container>
                   <participant-detail :title-detail="title" :id-data="detailTest._id" />
@@ -115,5 +115,8 @@ export default {
   font-weight: bold;
   font-size: 16px;
   color: #333333;
+}
+.tab-item {
+  min-width: 100%;
 }
 </style>

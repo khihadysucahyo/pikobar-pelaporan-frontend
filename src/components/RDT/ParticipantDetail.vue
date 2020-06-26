@@ -117,12 +117,6 @@
         </v-row>
         <v-row class="row-detail">
           <v-col cols="12" md="3" sm="12" class="row-detail-label">
-            <label style="line-height: 20px;">&nbsp;</label>
-          </v-col>
-          <v-col auto />
-        </v-row>
-        <v-row class="row-detail">
-          <v-col cols="12" md="3" sm="12" class="row-detail-label">
             <label>{{ $t('label.address') }}</label>
           </v-col>
           <v-col auto>
