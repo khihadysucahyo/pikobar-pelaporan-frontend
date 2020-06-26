@@ -222,7 +222,9 @@ export default {
           )
         }
         this.detailGender =
-          (await this.detailData.gender) === 'L' ? 'Laki-Laki' : 'Perempuan'
+          (await this.detailData.gender) === 'L'
+            ? this.$t('label.male')
+            : this.$t('label.female')
         this.detailAddres = this.completeAddress(
           this.detailData.address_district_name,
           this.detailData.address_subdistrict_name,
