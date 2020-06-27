@@ -177,6 +177,7 @@ export default {
   },
   computed: {
     ...mapGetters('rdt', ['rdtList', 'totalDataRDT', 'totalList']),
+    // TODO: ubah getters name district_user to camel case, rubah juga di komponen lainnya
     ...mapGetters('user', ['roles', 'fullName', 'district_user'])
   },
   watch: {
