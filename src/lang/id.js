@@ -514,7 +514,11 @@ export default {
     choose_results: 'Pilih Hasil',
     referral_date: 'Tanggal Rujuk',
     choose_date: 'Pilih Tanggal',
-    patient_residential_address: 'Alamat Tempat Tinggal Pasien'
+    patient_residential_address: 'Alamat Tempat Tinggal Pasien',
+    rdt_detail: 'Detail Hasil Test',
+    rdt_participant_detail: 'Detail Peserta',
+    rdt_participant: 'Daftar Peserta',
+    rdt_history_test: 'Riwayat Test'
 
   },
   success: {
