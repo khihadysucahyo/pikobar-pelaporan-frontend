@@ -4,7 +4,7 @@
       <v-container>
         <v-row>
           <v-col cols="12" md="6" sm="12">
-            <div class="popup-detail-case-title ml-2">{{ titleDetail }}</div>
+            <div class="title ml-2">{{ titleDetail }}</div>
           </v-col>
         </v-row>
         <v-row>
@@ -110,11 +110,6 @@ export default {
   background: #27ae60 !important;
   border-radius: 8px !important;
   color: #ffffff !important;
-}
-.popup-detail-case-title {
-  font-weight: bold;
-  font-size: 16px;
-  color: #333333;
 }
 .tab-item {
   min-width: 100%;
