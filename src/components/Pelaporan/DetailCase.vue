@@ -163,7 +163,7 @@
       </v-col>
       <v-col auto>
         <v-textarea
-          v-model="detailAddres"
+          v-model="detailAddress"
           disabled
           hide-details
           solo-inverted
@@ -282,36 +282,25 @@
   </v-container>
 </template>
 <script>
-import { formatDatetime } from '@/utils/parseDatetime'
-import { completeAddress } from '@/utils/utilsFunction'
+
 export default {
   name: 'DetailCase',
   props: {
     detailCase: {
       type: Object,
       default: null
-    }
-  },
-  data() {
-    return {
-      birthDate: '',
-      detailGender: '',
-      detailAddres: '',
-      nationalityName: ''
-    }
-  },
-  async mounted() {
-    if (this.detailCase) {
-      if (this.detailCase.birth_date) {
-        this.birthDate = await formatDatetime(this.detailCase.birth_date, 'DD-MM-YYYY')
-      }
-      this.detailGender = await this.detailCase.gender === 'L' ? 'Laki-Laki' : 'Perempuan'
-      this.detailAddres = completeAddress(
-        this.detailCase.address_district_name,
-        this.detailCase.address_subdistrict_name,
-        this.detailCase.address_village_name,
-        this.detailCase.address_street
-      )
+    },
+    birthDate: {
+      type: String,
+      default: ''
+    },
+    detailGender: {
+      type: String,
+      default: ''
+    },
+    detailAddress: {
+      type: String,
+      default: ''
     }
   }
 }

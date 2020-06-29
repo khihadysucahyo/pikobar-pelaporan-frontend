@@ -46,6 +46,9 @@
               <v-card v-if="tab === 'tab-1'">
                 <detail-case
                   :detail-case="detailCase"
+                  :birth-date.sync="birthDate"
+                  :detail-gender.sync="detailGender"
+                  :detail-address.sync="detailAddress"
                 />
               </v-card>
               <v-card v-if="tab === 'tab-2'">
@@ -113,6 +116,8 @@
 </template>
 <script>
 import EventBus from '@/utils/eventBus'
+import { formatDatetime } from '@/utils/parseDatetime'
+import { completeAddress } from '@/utils/utilsFunction'
 export default {
   name: 'DialogDetailCase',
   props: {
@@ -150,7 +155,10 @@ export default {
       tab: null,
       show: this.showDialog,
       dialogDecline: false,
-      refreshPageList: false
+      refreshPageList: false,
+      birthDate: '',
+      detailGender: '',
+      detailAddress: ''
     }
   },
   watch: {
@@ -159,6 +167,18 @@ export default {
     },
     show(value) {
       this.$emit('update:show', value)
+    },
+    async detailCase(value) {
+      if (value.birth_date) {
+        this.birthDate = await formatDatetime(this.detailCase.birth_date, 'DD-MM-YYYY')
+      }
+      this.detailGender = await value.gender === 'L' ? 'Laki-Laki' : 'Perempuan'
+      this.detailAddress = completeAddress(
+        value.address_district_name,
+        value.address_subdistrict_name,
+        value.address_village_name,
+        value.address_street
+      )
     }
   },
   methods: {
