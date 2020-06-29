@@ -37,8 +37,18 @@
         <v-label class="title">{{ $t('label.criteria') }}:</v-label>
         <v-select
           v-model="listQuery.status"
-          :items="stagesList"
+          :items="statusList"
           solo
+        />
+      </v-col>
+      <v-col cols="12" sm="3">
+        <v-label class="title">{{ $t('label.stages') }}:</v-label>
+        <v-select
+          v-model="listQuery.stages"
+          :items="stageList"
+          solo
+          item-text="label"
+          item-value="value"
         />
       </v-col>
       <v-col cols="12" sm="3">
@@ -61,30 +71,28 @@
           @changeDate="listQuery.end_date = $event"
         />
       </v-col>
-      <v-col cols="12" sm="3">
-        <br>
-        <v-row>
-          <v-col class="reduce-padding-top">
-            <v-btn
-              block
-              color="#4f4f4f"
-              class="btn-reset"
-              @click="onReset"
-            >
-              {{ $t('label.reset') }}
-            </v-btn>
-          </v-col>
-          <v-col class="reduce-padding-top">
-            <v-btn
-              block
-              color="success"
-              class="btn-cari"
-              @click="onSearch"
-            >
-              {{ $t('label.look_for_it') }}
-            </v-btn>
-          </v-col>
-        </v-row>
+    </v-row>
+    <v-row style="float: rigth;">
+      <v-col cols="12" sm="8" />
+      <v-col class="pt-0">
+        <v-btn
+          block
+          color="#4f4f4f"
+          class="btn-reset"
+          @click="onReset"
+        >
+          {{ $t('label.reset') }}
+        </v-btn>
+      </v-col>
+      <v-col class="pt-0">
+        <v-btn
+          block
+          color="success"
+          class="btn-cari"
+          @click="onSearch"
+        >
+          {{ $t('label.look_for_it') }}
+        </v-btn>
       </v-col>
     </v-row>
   </v-form>
@@ -110,23 +118,33 @@ export default {
       disabledDistrict: true,
       codeDistrict: '',
       nameVillage: '',
-      stagesList: [
+      statusList: [
         'OTG',
         'ODP',
         'PDP',
         'POSITIF'
       ],
-      resultList: [
+      stageList: [
         {
-          label: 'Negatif',
+          label: this.$t('label.process'),
           value: 0
         },
         {
-          label: 'Sembuh',
+          label: this.$t('label.done'),
+          value: 1
+        }
+      ],
+      resultList: [
+        {
+          label: this.$t('label.negatif'),
+          value: 0
+        },
+        {
+          label: this.$t('label.recovery'),
           value: 1
         },
         {
-          label: 'Meninggal',
+          label: this.$t('label.dead'),
           value: 2
         }
       ]
@@ -151,6 +169,7 @@ export default {
       this.listQuery.search = ''
       this.listQuery.final_result = ''
       this.listQuery.status = ''
+      this.listQuery.stages = ''
       this.listQuery.address_subdistrict_code = ''
       this.listQuery.address_village_code = ''
       this.listQuery.start_date = ''
