@@ -57,7 +57,7 @@
 import { formatDatetime } from '@/utils/parseDatetime'
 import { completeAddress } from '@/utils/utilsFunction'
 export default {
-  name: 'DialogDetailTest',
+  name: 'DialogDetailHistoryTest',
   props: {
     showDialogDetailTest: {
       type: Boolean,

@@ -111,17 +111,18 @@
       :store-path-get-list="`rdt/getListRDT`"
       :list-query="listQuery"
     />
-    <dialog-detail-test
+    <dialog-detail-history-test
       :show-dialog-detail-test="showDialogDetailTest"
       :show.sync="showDialogDetailTest"
       :detail-test="detailTest"
       :list-history-test="listHistoryTest"
       :title-detail="$t('label.rdt_detail')"
     />
-    <dialog-update-test
+    <dialog-update-history-test
       :show-dialog-update-test="showDialogUpdateTest"
       :show.sync="showDialogUpdateTest"
-      :id-history-test="idHistoryTest"
+      :detail-test="detailTest"
+      :form-history-test="formHistoryTest"
       :title-detail="$t('label.rdt_update_history_test')"
     />
   </div>
@@ -180,12 +181,11 @@ export default {
       showDialogDetailTest: false,
       detailTest: {},
       listHistoryTest: [],
-      showDialogUpdateTest: false,
-      idHistoryTest: null
+      showDialogUpdateTest: false
     }
   },
   computed: {
-    ...mapGetters('rdt', ['rdtList', 'totalDataRDT', 'totalList']),
+    ...mapGetters('rdt', ['rdtList', 'totalDataRDT', 'totalList', 'formHistoryTest']),
     // TODO: ubah getters name district_user to camel case, rubah juga di komponen lainnya
     ...mapGetters('user', ['roles', 'fullName', 'district_user'])
   },
@@ -253,9 +253,14 @@ export default {
       this.dialog = true
       this.dataDelete = await { _id: id }
     },
-    handleUpdateResults(id) {
+    async handleUpdateResults(id) {
+      const participant = await this.$store.dispatch(
+        'rdt/detailParticipant',
+        id
+      )
+      Object.assign(this.formHistoryTest, participant.data)
+      this.detailTest = participant.data
       this.showDialogUpdateTest = true
-      this.idHistoryTest = id
     },
     async handleSearch() {
       this.listQuery.page = 1
