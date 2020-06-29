@@ -118,12 +118,19 @@
       :list-history-test="listHistoryTest"
       :title-detail="$t('label.rdt_detail')"
     />
+    <dialog-update-test
+      :show-dialog-update-test="showDialogUpdateTest"
+      :show.sync="showDialogUpdateTest"
+      :id-history-test="idHistoryTest"
+      :title-detail="$t('label.rdt_update_history_test')"
+    />
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 import { formatDatetime } from '@/utils/parseDatetime'
+import EventBus from '@/utils/eventBus'
 export default {
   name: 'RDTList',
   data() {
@@ -172,7 +179,9 @@ export default {
       dataDelete: null,
       showDialogDetailTest: false,
       detailTest: {},
-      listHistoryTest: []
+      listHistoryTest: [],
+      showDialogUpdateTest: false,
+      idHistoryTest: null
     }
   },
   computed: {
@@ -217,6 +226,9 @@ export default {
     }
   },
   async mounted() {
+    EventBus.$on('refreshPageListTest', value => {
+      this.handleSearch()
+    })
     this.listQuery.address_district_code = this.district_user
   },
   methods: {
@@ -237,8 +249,9 @@ export default {
       this.dialog = true
       this.dataDelete = await { _id: id }
     },
-    async handleUpdateResults(id) {
-      await this.$router.push(`/rdt/update-result/${id}`)
+    handleUpdateResults(id) {
+      this.showDialogUpdateTest = true
+      this.idHistoryTest = id
     },
     async handleSearch() {
       this.listQuery.page = 1
