@@ -76,7 +76,7 @@
                       <v-card>
                         <v-list-item
                           v-if="roles[0] === 'dinkeskota' || 'dinkesprov'"
-                          @click="handleDetail(item, item._id)"
+                          @click="handleDetail(item._id)"
                         >{{ $t('label.view_detail') }}</v-list-item>
                         <v-list-item
                           v-if="roles[0] === 'dinkeskota' && item.final_result && item.final_result.length > 0 "
@@ -233,12 +233,16 @@ export default {
   },
   methods: {
     formatDatetime,
-    async handleDetail(item, id) {
+    async handleDetail(id) {
       const responseHistory = await this.$store.dispatch(
         'rdt/listHistoryRDT',
         id
       )
-      this.detailTest = item
+      const participant = await this.$store.dispatch(
+        'rdt/detailParticipant',
+        id
+      )
+      this.detailTest = participant.data
       this.listHistoryTest = responseHistory.data
       this.showDialogDetailTest = true
     },
