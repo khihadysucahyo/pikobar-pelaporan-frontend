@@ -26,7 +26,10 @@
             </div>
           </td>
           <td>
-            <div v-if="typeReferral === 'out' || unitType === 'puskemas'">
+            <div v-if="unitType === 'puskesmas'">
+              {{ item.transfer_to_unit_name }}
+            </div>
+            <div v-else-if="typeReferral === 'out'">
               {{ item.transfer_to_unit_name }}
             </div>
             <div v-else>
