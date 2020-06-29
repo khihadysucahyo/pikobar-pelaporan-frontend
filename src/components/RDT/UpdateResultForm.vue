@@ -243,28 +243,28 @@
             />
           </v-col>
         </v-row>
-        <v-row class="survey-bottom-form">
-          <v-col>
-            <v-btn
-              color="success"
-              bottom
-              style="float: right;"
-              @click="handleSave"
-            >
-              {{ $t('label.save') }}
-            </v-btn>
-            <v-btn
-              :loading="loading"
-              color="grey"
-              bottom
-              outlined
-              style="float: right;margin-right: 12px;"
-              @click="handleBack"
-            >
-              {{ $t('label.cancel') }}
-            </v-btn>
-          </v-col>
-        </v-row>
+        <v-container fluid>
+          <v-row>
+            <v-col class="text-right">
+              <v-btn
+                :loading="loading"
+                bottom
+                @click="handleBack"
+              >
+                {{ $t('label.cancel') }}
+              </v-btn>
+              <v-btn
+                :loading="loading"
+                class="ml-2"
+                color="success"
+                bottom
+                @click="handleSave"
+              >
+                {{ $t('label.save') }}
+              </v-btn>
+            </v-col>
+          </v-row>
+        </v-container>
       </v-form>
     </ValidationObserver>
   </div>
@@ -372,6 +372,8 @@ export default {
       } else {
         await this.$store.dispatch('toast/errorToast', this.$t('error.data_failed_edit'))
       }
+      this.formRapid.tool_tester = ''
+      this.formRapid.test_result = ''
       this.$emit('closeDialog', true)
     },
     handleChangeLocationNow(value) {
