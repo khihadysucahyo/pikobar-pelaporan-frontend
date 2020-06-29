@@ -185,13 +185,4 @@ export default {
 }
 </script>
 
-<style scoped>
-.row-detail {
-  padding-left: 2rem;
-  padding-right: 2rem;
-}
-.row-detail-label {
-  margin: auto;
-}
-</style>
 
