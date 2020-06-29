@@ -13,7 +13,7 @@ const distributionCaseRouter = {
   children: [
     {
       path: '/distribution-case/map',
-      component: () => import('@/views/distributionCase/map'),
+      component: () => import('@/views/distributionCase/mapv2'),
       meta: {
         title: 'distribution_case_map',
         icon: 'mdi-map-marker-radius',
