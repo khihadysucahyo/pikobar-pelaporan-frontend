@@ -261,7 +261,7 @@
               style="float: right;margin-right: 12px;"
               @click="handleBack"
             >
-              {{ $t('label.back') }}
+              {{ $t('label.cancel') }}
             </v-btn>
           </v-col>
         </v-row>
@@ -308,6 +308,7 @@ export default {
     ...mapGetters('region', [
       'hospitalList'
     ]),
+    // TODO: ubah getters name district_user to camel case, rubah juga di komponen lainnya
     ...mapGetters('user', [
       'district_user'
     ])
@@ -343,6 +344,8 @@ export default {
       this.districtName = this.formRapid.test_address_district_name
     },
     handleBack() {
+      this.formRapid.tool_tester = ''
+      this.formRapid.test_result = ''
       this.$emit('closeDialog', true)
     },
     async handleSave() {
