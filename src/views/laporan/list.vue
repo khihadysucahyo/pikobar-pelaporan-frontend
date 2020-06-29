@@ -482,9 +482,10 @@ export default {
   methods: {
     formatDatetime,
     async handleDetail(item, id) {
+      const detail = await this.$store.dispatch('reports/detailReportCase', id)
       const responseHistory = await this.$store.dispatch('reports/listHistoryCase', id)
       const responseReferralHistory = await this.$store.dispatch('reports/caseHospitalReferralHistory', id)
-      this.detailCase = item
+      this.detailCase = detail.data
       this.listHistoryCase = responseHistory
       this.referralHistoryCase = responseReferralHistory.data
       this.dialogDetailCase = true
