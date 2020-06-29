@@ -172,7 +172,7 @@ export default {
       if (value.birth_date) {
         this.birthDate = await formatDatetime(this.detailCase.birth_date, 'DD-MM-YYYY')
       }
-      this.detailGender = await value.gender === 'L' ? 'Laki-Laki' : 'Perempuan'
+      this.detailGender = value.gender === 'L' ? this.$t('label.male') : this.$t('label.female')
       this.detailAddress = completeAddress(
         value.address_district_name,
         value.address_subdistrict_name,
