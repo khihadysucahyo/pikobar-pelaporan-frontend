@@ -251,9 +251,7 @@ export default {
     },
     handleUpdateResults(id) {
       this.showDialogUpdateTest = true
-
       this.idHistoryTest = id
-      // await this.$router.push(`/rdt/update-result/${id}`);
     },
     async handleSearch() {
       this.listQuery.page = 1
