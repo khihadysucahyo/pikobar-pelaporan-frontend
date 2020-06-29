@@ -29,7 +29,15 @@
             <v-tab-item v-for="i in 2" :key="i" :value="'tab-' + i" class="tab-item">
               <v-card v-if="tab === 'tab-1'">
                 <v-container>
-                  <participant-detail :title-detail="title" :id-data="detailTest._id" />
+                  <detail-test
+                    :detail-test="detailTest"
+                    :birth-date.sync="birthDate"
+                    :test-date.sync="testDate"
+                    :detail-gender.sync="detailGender"
+                    :detail-case.sync="detailCase"
+                    :detail-addres.sync="detailAddres"
+                    :test-addres.sync="testAddres"
+                  />
                 </v-container>
               </v-card>
               <v-card v-if="tab === 'tab-2'">
@@ -47,8 +55,9 @@
 
 <script>
 import { formatDatetime } from '@/utils/parseDatetime'
+import { completeAddress } from '@/utils/utilsFunction'
 export default {
-  name: 'DialogDetailTest',
+  name: 'DialogDetailHistoryTest',
   props: {
     showDialogDetailTest: {
       type: Boolean,
@@ -74,7 +83,13 @@ export default {
       show: this.showDialogDetailTest,
       step: 0,
       altLabels: false,
-      editable: false
+      editable: false,
+      birthDate: '',
+      testDate: '',
+      detailGender: '',
+      detailCase: '',
+      detailAddres: '',
+      testAddres: ''
     }
   },
   watch: {
@@ -83,10 +98,44 @@ export default {
     },
     show(value) {
       this.$emit('update:show', value)
+    },
+    async detailTest(value) {
+      this.detailCase = (await value.id_case)
+        ? value.id_case.toUpperCase()
+        : ''
+      if (value.birth_date) {
+        this.birthDate = await formatDatetime(
+          value.birth_date,
+          'DD MMMM YYYY'
+        )
+      }
+      if (value.test_date) {
+        this.testDate = await formatDatetime(
+          value.test_date,
+          'DD MMMM YYYY'
+        )
+      }
+      this.detailGender =
+        (await value.gender) === 'L'
+          ? this.$t('label.male')
+          : this.$t('label.female')
+      this.detailAddres = this.completeAddress(
+        value.address_district_name,
+        value.address_subdistrict_name,
+        value.address_village_name,
+        value.address_street
+      )
+      this.testAddres = this.completeAddress(
+        value.test_address_district_name,
+        value.test_address_subdistrict_name,
+        value.test_address_village_name,
+        value.test_address_detail
+      )
     }
   },
   methods: {
-    formatDatetime
+    formatDatetime,
+    completeAddress
   }
 }
 </script>

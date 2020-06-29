@@ -188,7 +188,7 @@ export default {
     test_result: 'Hasil Test',
     mechanism: 'Mekanisme',
     method: 'Metode',
-    sampling: 'Pengambilan Sampel',
+    sampling: 'Sampel',
     choose_place_test: 'Pilih tempat pemeriksaan',
     method_used: 'Metode Yang Digunakan',
     test_place: 'Tempat Tes',
