@@ -44,7 +44,7 @@
       <v-col cols="12" sm="3">
         <v-label class="title">{{ $t('label.stages') }}:</v-label>
         <v-select
-          v-model="listQuery.stages"
+          v-model="listQuery.stage"
           :items="stageList"
           solo
           item-text="label"
@@ -169,7 +169,7 @@ export default {
       this.listQuery.search = ''
       this.listQuery.final_result = ''
       this.listQuery.status = ''
-      this.listQuery.stages = ''
+      this.listQuery.stage = ''
       this.listQuery.address_subdistrict_code = ''
       this.listQuery.address_village_code = ''
       this.listQuery.start_date = ''

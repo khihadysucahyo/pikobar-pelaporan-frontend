@@ -388,7 +388,7 @@ export default {
         address_village_code: '',
         status: '',
         final_result: '',
-        stages: '',
+        stage: '',
         page: 1,
         limit: 100,
         search: '',
