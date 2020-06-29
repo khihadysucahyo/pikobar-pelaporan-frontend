@@ -262,8 +262,10 @@ export default {
       await delete response.data['hash']
       await delete response.data['salt']
       await Object.assign(this.formUser, response.data)
-      const detailUnit = await this.$store.dispatch('region/detailUnit', this.formUser.unit_id)
-      this.unitList.push(detailUnit.data)
+      if (this.formUser.unit_id !== null) {
+        const detailUnit = await this.$store.dispatch('region/detailUnit', this.formUser.unit_id)
+        this.unitList.push(detailUnit.data)
+      }
     }
   },
   methods: {

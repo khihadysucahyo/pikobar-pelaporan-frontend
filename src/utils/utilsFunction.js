@@ -20,7 +20,7 @@ export function completeAddress(districtCity, subDistrict, village, nameStreet) 
 export async function getRequestDetailHomeAdress(villageCode, address) {
   const responseVillage = await store.dispatch('region/getDetailVillage', villageCode)
   const desa = responseVillage.data[0]
-  return desa.kota_nama + ', ' + desa.kecamatan_nama + ', ' + desa.desa_nama + ', ' + address
+  return `${address}, ${desa.desa_nama}, ${desa.kecamatan_nama}, ${desa.kota_nama}`
 }
 
 export function groupAge(type, group) {
