@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-container>
     <ValidationObserver ref="observer">
       <v-form
         ref="form"
@@ -267,7 +267,7 @@
         </v-container>
       </v-form>
     </ValidationObserver>
-  </div>
+  </v-container>
 </template>
 
 <script>

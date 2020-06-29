@@ -8,7 +8,7 @@
         :editable="editable"
       >{{ formatDatetime(item.test_date, "DD MMMM YYYY") }}</v-stepper-step>
       <v-stepper-content :key="`${index}-content`" :step="index">
-        <v-card class="statistic mx-auto" outlined>
+        <v-card class="mx-auto" outlined>
           <v-card-text>
             <v-row>
               <v-col cols="12" md="2" sm="6">

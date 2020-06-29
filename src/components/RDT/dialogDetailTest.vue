@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="show" max-width="70%">
+  <v-dialog v-model="show" max-width="60%">
     <v-card>
       <v-container>
         <v-row>
