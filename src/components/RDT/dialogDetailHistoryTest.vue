@@ -154,6 +154,7 @@ export default {
 .v-tab {
   width: 50% !important;
   color: #828282 !important;
+  max-width: 100% !important;
 }
 .v-tab--active {
   background: #27ae60 !important;
