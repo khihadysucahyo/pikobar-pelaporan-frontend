@@ -242,6 +242,9 @@ export default {
         'rdt/detailParticipant',
         id
       )
+      responseHistory.data.map(item => {
+        item.sampling_type = item.tool_tester !== 'PCR' ? item.sampling_type : '-'
+      })
       this.detailTest = participant.data
       this.listHistoryTest = responseHistory.data
       this.showDialogDetailTest = true
