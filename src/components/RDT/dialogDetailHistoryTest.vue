@@ -56,6 +56,7 @@
 <script>
 import { formatDatetime } from '@/utils/parseDatetime'
 import { completeAddress } from '@/utils/utilsFunction'
+
 export default {
   name: 'DialogDetailHistoryTest',
   props: {

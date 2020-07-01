@@ -237,7 +237,7 @@
                       <div v-if="formHistoryTest.test_location_type === 'LAINNYA'">
                         <address-region
                           v-model="formHistoryTest.test_address_district_name"
-                          :disabled-district="true"
+                          :disabled-district="false"
                           :district-code="formHistoryTest.test_address_district_code"
                           :district-name="formHistoryTest.test_address_district_name"
                           :code-district.sync="formHistoryTest.test_address_district_code"
