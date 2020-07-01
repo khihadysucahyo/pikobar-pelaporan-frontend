@@ -28,6 +28,7 @@ export default {
     user_create: 'Tambah Pengguna',
     user_detail: 'Detail Pengguna',
     user_edit: 'Ubah Pengguna',
+    update_profile: 'Perbaharui Profil',
     distribution_case: 'Peta Penyebaran',
     distribution_case_map: 'Lokasi Sebaran',
     distribution_case_network: 'Kasus Keterkaitan',
@@ -519,7 +520,10 @@ export default {
     rdt_participant_detail: 'Detail Peserta',
     rdt_participant: 'Daftar Peserta',
     rdt_history_test: 'Riwayat Test',
-    rdt_update_history_test: 'Update Hasil Peserta'
+    rdt_update_history_test: 'Update Hasil Peserta',
+    change_account: 'Ubah Akun',
+    change_password: 'Ganti Password',
+    log_out: 'Keluar'
   },
   success: {
     login_success: 'Login Berhasil',

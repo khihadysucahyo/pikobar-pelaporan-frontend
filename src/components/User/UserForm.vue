@@ -255,13 +255,6 @@ export default {
     const response = await this.$store.dispatch('region/listUnit', this.queryUnit)
     this.unitList = response.data.itemsList
     if (this.isEdit) {
-      const response = await this.$store.dispatch('user/detailUser', this.idData)
-      await delete response.data['__v']
-      await delete response.data['updatedAt']
-      await delete response.data['createdAt']
-      await delete response.data['hash']
-      await delete response.data['salt']
-      await Object.assign(this.formUser, response.data)
       if (this.formUser.unit_id !== null) {
         const detailUnit = await this.$store.dispatch('region/detailUnit', this.formUser.unit_id)
         this.unitList.push(detailUnit.data)
@@ -284,7 +277,7 @@ export default {
         } else {
           await this.$store.dispatch('user/createUser', this.formUser)
         }
-        await this.$router.push(`/user/list`)
+        await this.$router.go(-1)
       }
     }
   }
