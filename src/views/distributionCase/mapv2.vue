@@ -346,7 +346,7 @@ import 'leaflet.markercluster'
 import 'leaflet-sidebar'
 import 'leaflet-spin'
 import * as turf from '@turf/turf'
-import axios from 'axios'
+// import axios from 'axios'
 import jsonCity from '../../json/kota.json'
 import jsonDistrict from '../../json/kecamatan.json'
 import jsonVillage from '../../json/kelurahan.json'
@@ -619,64 +619,75 @@ export default {
     async getData(type) {
       this.map.spin(true)
       try {
-        let paramFilter = ''
+        let paramStatus = null
+        let paramStage = null
         if (this.filterActive === 'positive_active') {
-          paramFilter = 'status=Positif&stage=Proses'
+          paramStatus = 'POSITIF'
+          paramStage = 'Proses'
         } else if (this.filterActive === 'positive_recovery') {
-          paramFilter = 'status=Positif&stage=Sembuh'
+          paramStatus = 'POSITIF'
+          paramStage = 'Sembuh'
         } else if (this.filterActive === 'positive_dead') {
-          paramFilter = 'status=Positif&stage=Meninggal'
+          paramStatus = 'POSITIF'
+          paramStage = 'Meninggal'
         } else if (this.filterActive === 'pdp_process') {
-          paramFilter = 'status=PDP&stage=Proses'
+          paramStatus = 'PDP'
+          paramStage = 'Proses'
         } else if (this.filterActive === 'pdp_done') {
-          paramFilter = 'status=PDP&stage=Selesai'
+          paramStatus = 'PDP'
+          paramStage = 'Selesai'
         } else if (this.filterActive === 'odp_process') {
-          paramFilter = 'status=ODP&stage=Proses'
+          paramStatus = 'ODP'
+          paramStage = 'Proses'
         } else if (this.filterActive === 'odp_done') {
-          paramFilter = 'status=ODP&stage=Selesai'
+          paramStatus = 'ODP'
+          paramStage = 'Selesai'
         } else if (this.filterActive === 'otg_process') {
-          paramFilter = 'status=OTG&stage=Proses'
+          paramStatus = 'OTG'
+          paramStage = 'Proses'
         } else if (this.filterActive === 'otg_done') {
-          paramFilter = 'status=OTG&stage=Selesai'
+          paramStatus = 'OTG'
+          paramStage = 'Selesai'
         }
 
-        let paramSelectDistrict = ''
+        let paramDistrict = null
         if (this.roles[0] === 'dinkeskota') {
-          const district = this.district_user.split('.').join('')
-          paramSelectDistrict = `&kode_kab=${district}`
+          paramDistrict = this.district_user
         }
 
-        const params = `?${paramFilter}${paramSelectDistrict}`
+        const params = {
+          status: paramStatus,
+          stage: paramStage,
+          kode_kab: paramDistrict
+        }
 
-        await axios.get('https://covid19-public.digitalservice.id/api/v1/sebaran_app/jabar' + params)
-          .then((res) => {
-            this.stage[this.filterActive].data = res.data.data.content
+        const res = await this.$store.dispatch('statistic/distributionCase', params)
+        this.stage[this.filterActive].data = res.data
 
-            if (type === 'init') {
-              if (this.roles[0] === 'dinkesprov' || this.roles[0] === 'superadmin') {
-                this.zoomOld = 1
-                this.zoomNew = 1
-                this.createLayerCity()
-                this.createMarker()
-              } else if (this.roles[0] === 'dinkeskota') {
-                this.zoomOld = 2
-                this.zoomNew = 2
-                this.createLayerDistrict(this.district_user)
-                this.createMarker(this.district_user)
-              }
-            } else if (type === 'filter') {
-              if (this.zoomNew === 1) {
-                this.createMarker()
-              } else if (this.zoomNew === 2) {
-                this.createMarker(this.filterLayer.city)
-              } else if (this.zoomNew === 3) {
-                this.createMarker(this.filterLayer.district)
-              } else if (this.zoomNew === 4) {
-                this.createMarker(this.filterLayer.village)
-              }
-            }
-            this.map.spin(false)
-          })
+        if (type === 'init') {
+          if (this.roles[0] === 'dinkesprov' || this.roles[0] === 'superadmin') {
+            this.zoomOld = 1
+            this.zoomNew = 1
+            this.createLayerCity()
+            this.createMarker()
+          } else if (this.roles[0] === 'dinkeskota') {
+            this.zoomOld = 2
+            this.zoomNew = 2
+            this.createLayerDistrict(this.district_user)
+            this.createMarker(this.district_user)
+          }
+        } else if (type === 'filter') {
+          if (this.zoomNew === 1) {
+            this.createMarker()
+          } else if (this.zoomNew === 2) {
+            this.createMarker(this.filterLayer.city)
+          } else if (this.zoomNew === 3) {
+            this.createMarker(this.filterLayer.district)
+          } else if (this.zoomNew === 4) {
+            this.createMarker(this.filterLayer.village)
+          }
+        }
+        this.map.spin(false)
       } catch (error) {
         console.error(error)
       }
@@ -797,14 +808,18 @@ export default {
       if (this.zoomNew === 1) {
         geojsonLayer = L.geoJSON(this.jsonCity).eachLayer((element) => {
           if (this.map.getBounds().intersects(element._bounds)) {
-            this.clusterCity[element.feature.properties.bps_kabupaten_kode] = this.paramMarkerCluster()
+            this.clusterCity[element.feature.properties.kemendagri_kabupaten_kode] = this.paramMarkerCluster()
 
             this.jsonAll.map((elPasien) => {
-              if (elPasien.latitude !== null) {
-                const point = turf.point([elPasien.longitude, elPasien.latitude])
-                const isInside = turf.inside(point, element.feature)
-                if (isInside) {
-                  this.addMarkerLayer(this.clusterCity, element, elPasien)
+              if ('longitude' in elPasien && 'latitude' in elPasien) {
+                const longitude = Number(elPasien.longitude)
+                const latitude = Number(elPasien.latitude)
+                if (longitude !== null && latitude !== null) {
+                  const point = turf.point([longitude, latitude])
+                  const isInside = turf.inside(point, element.feature)
+                  if (isInside) {
+                    this.addMarkerLayer(this.clusterCity, element, elPasien)
+                  }
                 }
               }
             })
@@ -822,14 +837,18 @@ export default {
           }
         }).eachLayer((element) => {
           if (this.map.getBounds().intersects(element._bounds)) {
-            this.clusterDistrict[element.feature.properties.bps_kecamatan_kode] = this.paramMarkerCluster()
+            this.clusterDistrict[element.feature.properties.kemendagri_kecamatan_kode] = this.paramMarkerCluster()
 
             this.jsonAll.map((elPasien) => {
-              if (elPasien.latitude !== null) {
-                const point = turf.point([elPasien.longitude, elPasien.latitude])
-                const isInside = turf.inside(point, element.feature)
-                if (isInside) {
-                  this.addMarkerLayer(this.clusterDistrict, element, elPasien)
+              if ('longitude' in elPasien && 'latitude' in elPasien) {
+                const longitude = Number(elPasien.longitude)
+                const latitude = Number(elPasien.latitude)
+                if (longitude !== null && latitude !== null) {
+                  const point = turf.point([longitude, latitude])
+                  const isInside = turf.inside(point, element.feature)
+                  if (isInside) {
+                    this.addMarkerLayer(this.clusterDistrict, element, elPasien)
+                  }
                 }
               }
             })
@@ -847,14 +866,18 @@ export default {
           }
         }).eachLayer((element) => {
           if (this.map.getBounds().intersects(element._bounds)) {
-            this.clusterVillage[element.feature.properties.bps_desa_kode] = this.paramMarkerCluster()
+            this.clusterVillage[element.feature.properties.kemendagri_desa_kode] = this.paramMarkerCluster()
 
             this.jsonAll.map((elPasien) => {
-              if (elPasien.latitude !== null) {
-                const point = turf.point([elPasien.longitude, elPasien.latitude])
-                const isInside = turf.inside(point, element.feature)
-                if (isInside) {
-                  this.addMarkerLayer(this.clusterVillage, element, elPasien)
+              if ('longitude' in elPasien && 'latitude' in elPasien) {
+                const longitude = Number(elPasien.longitude)
+                const latitude = Number(elPasien.latitude)
+                if (longitude !== null && latitude !== null) {
+                  const point = turf.point([longitude, latitude])
+                  const isInside = turf.inside(point, element.feature)
+                  if (isInside) {
+                    this.addMarkerLayer(this.clusterVillage, element, elPasien)
+                  }
                 }
               }
             })
@@ -875,11 +898,15 @@ export default {
             this.clusterVillageSingle = this.paramMarkerCluster()
 
             this.jsonAll.map((elPasien) => {
-              if (elPasien.latitude !== null) {
-                const point = turf.point([elPasien.longitude, elPasien.latitude])
-                const isInside = turf.inside(point, element.feature)
-                if (isInside) {
-                  this.addMarkerLayer(this.clusterVillageSingle, element, elPasien)
+              if ('longitude' in elPasien && 'latitude' in elPasien) {
+                const longitude = Number(elPasien.longitude)
+                const latitude = Number(elPasien.latitude)
+                if (longitude !== null && latitude !== null) {
+                  const point = turf.point([longitude, latitude])
+                  const isInside = turf.inside(point, element.feature)
+                  if (isInside) {
+                    this.addMarkerLayer(this.clusterVillageSingle, element, elPasien)
+                  }
                 }
               }
             })
@@ -893,11 +920,13 @@ export default {
       }
     },
     addMarkerLayer(cluster, element, elPasien) {
-      const m = L.marker([elPasien.latitude, elPasien.longitude]).on('click', (e) => {
+      const latitude = Number(elPasien.latitude)
+      const longitude = Number(elPasien.longitude)
+      const m = L.marker([latitude, longitude]).on('click', (e) => {
         this.isFilter = false
         this.sidebar.show()
 
-        let stage = elPasien.status + ' - ' + elPasien.stage
+        let stage = this.capitalize(elPasien.status) + ' - ' + elPasien.stage
         if (stage === 'Positif - Proses') {
           stage = 'Positif - Aktif'
         }
@@ -932,22 +961,22 @@ export default {
       let area
       if (this.zoomNew === 1) {
         areaStatus = true
-        area = element.feature.properties.bps_kabupaten_kode
+        area = element.feature.properties.kemendagri_kabupaten_kode
       } else if (this.zoomNew === 2) {
         areaStatus = true
-        area = element.feature.properties.bps_kecamatan_kode
+        area = element.feature.properties.kemendagri_kecamatan_kode
       } else if (this.zoomNew === 3) {
         areaStatus = true
-        area = element.feature.properties.bps_desa_kode
+        area = element.feature.properties.kemendagri_desa_kode
       } else if (this.zoomNew === 4) {
         areaStatus = false
       }
 
-      if (elPasien.status === 'Positif' && elPasien.stage === 'Proses') {
+      if (elPasien.status === 'POSITIF' && elPasien.stage === 'Proses') {
         areaStatus ? cluster[area].positive_active.addLayer(m) : cluster.positive_active.addLayer(m)
-      } else if (elPasien.status === 'Positif' && elPasien.stage === 'Sembuh') {
+      } else if (elPasien.status === 'POSITIF' && elPasien.stage === 'Sembuh') {
         areaStatus ? cluster[area].positive_recovery.addLayer(m) : cluster.positive_recovery.addLayer(m)
-      } else if (elPasien.status === 'Positif' && elPasien.stage === 'Meninggal') {
+      } else if (elPasien.status === 'POSITIF' && elPasien.stage === 'Meninggal') {
         areaStatus ? cluster[area].positive_dead.addLayer(m) : cluster.positive_dead.addLayer(m)
       } else if (elPasien.status === 'PDP' && elPasien.stage === 'Proses') {
         areaStatus ? cluster[area].pdp_process.addLayer(m) : cluster.pdp_process.addLayer(m)
@@ -971,11 +1000,11 @@ export default {
     },
     addMarkerClusterLayer(cluster, element) {
       if (this.zoomNew === 1) {
-        Object.keys(cluster[element.feature.properties.bps_kabupaten_kode]).map((key) => {
-          const newLayer = cluster[element.feature.properties.bps_kabupaten_kode][key].addTo(this.map)
+        Object.keys(cluster[element.feature.properties.kemendagri_kabupaten_kode]).map((key) => {
+          const newLayer = cluster[element.feature.properties.kemendagri_kabupaten_kode][key].addTo(this.map)
           this.dataMarker.push(newLayer)
 
-          cluster[element.feature.properties.bps_kabupaten_kode][key].on('clusterclick', (c) => {
+          cluster[element.feature.properties.kemendagri_kabupaten_kode][key].on('clusterclick', (c) => {
             this.isFilter = false
             this.sidebar.show()
 
@@ -1001,11 +1030,11 @@ export default {
           })
         })
       } else if (this.zoomNew === 2) {
-        Object.keys(cluster[element.feature.properties.bps_kecamatan_kode]).map((key) => {
-          const newLayer = cluster[element.feature.properties.bps_kecamatan_kode][key].addTo(this.map)
+        Object.keys(cluster[element.feature.properties.kemendagri_kecamatan_kode]).map((key) => {
+          const newLayer = cluster[element.feature.properties.kemendagri_kecamatan_kode][key].addTo(this.map)
           this.dataMarker.push(newLayer)
 
-          cluster[element.feature.properties.bps_kecamatan_kode][key].on('clusterclick', (c) => {
+          cluster[element.feature.properties.kemendagri_kecamatan_kode][key].on('clusterclick', (c) => {
             this.isFilter = false
             this.sidebar.show()
 
@@ -1035,8 +1064,8 @@ export default {
           })
         })
       } else if (this.zoomNew === 3) {
-        Object.keys(cluster[element.feature.properties.bps_desa_kode]).map((key) => {
-          const newLayer = cluster[element.feature.properties.bps_desa_kode][key].addTo(this.map)
+        Object.keys(cluster[element.feature.properties.kemendagri_desa_kode]).map((key) => {
+          const newLayer = cluster[element.feature.properties.kemendagri_desa_kode][key].addTo(this.map)
           this.dataMarker.push(newLayer)
         })
       } else if (this.zoomNew === 4) {
@@ -1088,6 +1117,9 @@ export default {
           })
         }
       }
+    },
+    capitalize(sentence) {
+      return sentence.charAt(0).toUpperCase() + sentence.slice(1).toLowerCase()
     },
     titleize(sentence) {
       if (!sentence.split) {
