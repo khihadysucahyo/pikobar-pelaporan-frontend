@@ -124,5 +124,8 @@ export default {
   },
   resetListRDT({ commit }) {
     commit('RESET_LIST_RDT')
+  },
+  resetFormHistoryTest({ commit }) {
+    commit('RESET_FORM_HISTORY_TEST')
   }
 }

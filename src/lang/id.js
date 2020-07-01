@@ -188,7 +188,7 @@ export default {
     test_result: 'Hasil Test',
     mechanism: 'Mekanisme',
     method: 'Metode',
-    sampling: 'Pengambilan Sampel',
+    sampling: 'Sampel',
     choose_place_test: 'Pilih tempat pemeriksaan',
     method_used: 'Metode Yang Digunakan',
     test_place: 'Tempat Tes',
@@ -519,6 +519,7 @@ export default {
     rdt_participant_detail: 'Detail Peserta',
     rdt_participant: 'Daftar Peserta',
     rdt_history_test: 'Riwayat Test',
+    rdt_update_history_test: 'Update Hasil Peserta'
     distribution_case_network: 'Kasus Keterkaitan'
   },
   success: {

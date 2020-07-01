@@ -76,7 +76,7 @@
                       <v-card>
                         <v-list-item
                           v-if="roles[0] === 'dinkeskota' || 'dinkesprov'"
-                          @click="handleDetail(item, item._id)"
+                          @click="handleDetail(item._id)"
                         >{{ $t('label.view_detail') }}</v-list-item>
                         <v-list-item
                           v-if="roles[0] === 'dinkeskota' && item.final_result && item.final_result.length > 0 "
@@ -111,12 +111,19 @@
       :store-path-get-list="`rdt/getListRDT`"
       :list-query="listQuery"
     />
-    <dialog-detail-test
+    <dialog-detail-history-test
       :show-dialog-detail-test="showDialogDetailTest"
       :show.sync="showDialogDetailTest"
       :detail-test="detailTest"
       :list-history-test="listHistoryTest"
       :title-detail="$t('label.rdt_detail')"
+    />
+    <dialog-update-history-test
+      :show-dialog-update-test="showDialogUpdateTest"
+      :show.sync="showDialogUpdateTest"
+      :detail-test="detailTest"
+      :form-history-test="formHistoryTest"
+      :title-detail="$t('label.rdt_update_history_test')"
     />
   </div>
 </template>
@@ -124,6 +131,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import { formatDatetime } from '@/utils/parseDatetime'
+import EventBus from '@/utils/eventBus'
 export default {
   name: 'RDTList',
   data() {
@@ -172,11 +180,12 @@ export default {
       dataDelete: null,
       showDialogDetailTest: false,
       detailTest: {},
-      listHistoryTest: []
+      listHistoryTest: [],
+      showDialogUpdateTest: false
     }
   },
   computed: {
-    ...mapGetters('rdt', ['rdtList', 'totalDataRDT', 'totalList']),
+    ...mapGetters('rdt', ['rdtList', 'totalDataRDT', 'totalList', 'formHistoryTest']),
     // TODO: ubah getters name district_user to camel case, rubah juga di komponen lainnya
     ...mapGetters('user', ['roles', 'fullName', 'district_user'])
   },
@@ -217,16 +226,26 @@ export default {
     }
   },
   async mounted() {
+    EventBus.$on('refreshPageListTest', value => {
+      this.handleSearch()
+    })
     this.listQuery.address_district_code = this.district_user
   },
   methods: {
     formatDatetime,
-    async handleDetail(item, id) {
+    async handleDetail(id) {
       const responseHistory = await this.$store.dispatch(
         'rdt/listHistoryRDT',
         id
       )
-      this.detailTest = item
+      const participant = await this.$store.dispatch(
+        'rdt/detailParticipant',
+        id
+      )
+      responseHistory.data.map(item => {
+        item.sampling_type = item.tool_tester !== 'PCR' ? item.sampling_type : '-'
+      })
+      this.detailTest = participant.data
       this.listHistoryTest = responseHistory.data
       this.showDialogDetailTest = true
     },
@@ -238,7 +257,13 @@ export default {
       this.dataDelete = await { _id: id }
     },
     async handleUpdateResults(id) {
-      await this.$router.push(`/rdt/update-result/${id}`)
+      const participant = await this.$store.dispatch(
+        'rdt/detailParticipant',
+        id
+      )
+      Object.assign(this.formHistoryTest, participant.data)
+      this.detailTest = participant.data
+      this.showDialogUpdateTest = true
     },
     async handleSearch() {
       this.listQuery.page = 1

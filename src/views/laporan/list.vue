@@ -388,6 +388,7 @@ export default {
         address_village_code: '',
         status: '',
         final_result: '',
+        stage: '',
         page: 1,
         limit: 100,
         search: '',
@@ -552,7 +553,7 @@ export default {
   }
 }
 </script>
-<style>
+<style scoped>
   .title {
     font-size: 1.5rem;
     text-transform: uppercase;
