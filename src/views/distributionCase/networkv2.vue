@@ -180,14 +180,14 @@ export default {
   methods: {
     async getData() {
       this.nodes = [
-        { id: 1, label: '1025200329', shape: 'image', image: 'avatar/newborn-male-normal.svg' },
+        { id: 1, label: '1025200329', shape: 'image', image: 'avatar/teen-male-normal.svg' },
         { id: 2, label: '1025200329', shape: 'image', image: 'avatar/adult-female-positive_active.svg', size: 50 },
         { id: 3, label: '1025200329', shape: 'image', image: 'avatar/child-male-normal.svg' },
         { id: 4, label: '1025200329', shape: 'image', image: 'avatar/adult-male-normal.svg' },
         { id: 5, label: '1025200329', shape: 'image', image: 'avatar/adult-male-positive_dead.svg', size: 50 },
         { id: 6, label: '1025200329', shape: 'image', image: 'avatar/elderly-female-positive_recovery.svg', size: 50 },
-        { id: 7, label: '1025200329', shape: 'image', image: 'avatar/elderly-male-normal.svg' },
-        { id: 8, label: '1025200329', shape: 'image', image: 'avatar/elderly-female-normal.svg' },
+        { id: 7, label: '1025200329', shape: 'image', image: 'avatar/baby-male-normal.svg' },
+        { id: 8, label: '1025200329', shape: 'image', image: 'avatar/baby-female-normal.svg' },
         { id: 9, label: '1025200329', shape: 'image', image: 'avatar/elderly-male-normal.svg' },
         { id: 10, label: '1025200329', shape: 'image', image: 'avatar/child-female-normal.svg' },
         { id: 11, label: '1025200329', shape: 'image', image: 'avatar/child-male-normal.svg' },
