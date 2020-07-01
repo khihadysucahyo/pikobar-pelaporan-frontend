@@ -518,8 +518,8 @@ export default {
     rdt_detail: 'Detail Hasil Test',
     rdt_participant_detail: 'Detail Peserta',
     rdt_participant: 'Daftar Peserta',
-    rdt_history_test: 'Riwayat Test'
-
+    rdt_history_test: 'Riwayat Test',
+    distribution_case_network: 'Kasus Keterkaitan'
   },
   success: {
     login_success: 'Login Berhasil',
