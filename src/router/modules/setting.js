@@ -40,6 +40,7 @@ const settingRouter = {
       hidden: true,
       meta: {
         title: 'user_detail',
+        child: true,
         noCache: true,
         roles: ['superadmin', 'dinkesprov', 'dinkeskota']
       }
@@ -50,17 +51,9 @@ const settingRouter = {
       hidden: true,
       meta: {
         title: 'user_edit',
+        child: true,
         noCache: true,
         roles: ['superadmin', 'dinkesprov', 'dinkeskota']
-      }
-    },
-    {
-      path: '/change-password',
-      component: () => import('@/views/changePassword/index'),
-      hidden: true,
-      meta: {
-        title: 'change_password',
-        roles: ['superadmin', 'dinkesprov', 'dinkeskota', 'faskes']
       }
     },
     {
@@ -69,6 +62,8 @@ const settingRouter = {
       hidden: true,
       meta: {
         title: 'change_password',
+        child: true,
+        noCache: true,
         roles: ['superadmin']
       }
     }

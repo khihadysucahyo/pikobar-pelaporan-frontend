@@ -33,10 +33,6 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col cols="12">
-        <h4>{{ $t('label.look_for_it') }} {{ $t('label.based') }}:</h4>
-        <v-divider class="mb-0" />
-      </v-col>
       <v-col cols="8">
         <v-row>
           <v-col
@@ -208,6 +204,17 @@
       >
         {{ $t('label.cumulative') }}
       </v-tab>
+      <div class="ml-auto">
+        <v-select
+          v-model="selectedTimeSeries"
+          :items="listTimeSeries"
+          item-value="id"
+          item-text="name"
+          label="Waktu"
+          solo
+          @change="onSelectTimeSeries"
+        />
+      </div>
       <v-tab-item
         :key="'daily'"
         :value="'tab-daily'"
@@ -309,19 +316,13 @@
         cols="12"
         md="4"
       >
-        <chart-gender
-          :loading="loadingAgeGender"
-          :data-gender="statistic.gender"
-        />
+        <chart-gender :list-query="listQuery" />
       </v-col>
       <v-col
         cols="12"
         md="8"
       >
-        <chart-age
-          :loading="loadingAgeGender"
-          :data-age="statistic.age"
-        />
+        <chart-age :list-query="listQuery" />
       </v-col>
     </v-row>
   </v-container>
@@ -366,7 +367,6 @@ export default {
       loadingODP: true,
       loadingPDP: true,
       loadingPositive: true,
-      loadingAgeGender: true,
       display: true,
       districtCity: {
         kota_kode: this.districtCode,
@@ -476,7 +476,26 @@ export default {
       listQueryDate: {
         min_date: null,
         max_date: null
-      }
+      },
+      selectedTimeSeries: 'two_week',
+      listTimeSeries: [
+        {
+          id: 'all',
+          name: 'Semua Waktu'
+        },
+        {
+          id: 'one_week',
+          name: '1 Minggu Terakhir'
+        },
+        {
+          id: 'two_week',
+          name: '2 Minggu Terakhir'
+        },
+        {
+          id: 'one_month',
+          name: '1 Bulan Terakhir'
+        }
+      ]
     }
   },
   computed: {
@@ -528,22 +547,13 @@ export default {
       kota_nama: this.district_name_user
     }
 
-    const today = new Date()
-    const max = today.getTime()
-    const min = today.getTime() - ((24 * 60 * 60 * 1000) * 13)
-
-    this.listQueryDate = {
-      min_date: this.$moment(min).format('YYYY/MM/DD'),
-      max_date: this.$moment(max).format('YYYY/MM/DD')
-    }
-
+    await this.filterTimeSeries()
     this.getStatisticConfirmed()
     this.getStatisticNotConfirmed()
     this.getStatisticOTG()
     this.getStatisticODP()
     this.getStatisticPDP()
     this.getStatisticPositive()
-    this.getStatisticAgeGender()
   },
   beforeDestroy() {
     this.clearCity()
@@ -570,8 +580,8 @@ export default {
       this.$emit('update:codeVillage', value.desa_kode)
       this.$emit('update:nameVillage', value.desa_nama)
     },
-    onReset() {
-      if (this.roles[0] === 'dinkesprov') {
+    async onReset() {
+      if (this.roles[0] === 'dinkesprov' || this.roles[0] === 'superadmin') {
         this.clearCity()
         this.filter.isCity = false
         this.filter.city = null
@@ -584,15 +594,15 @@ export default {
       this.filter.district = null
       this.filter.village = null
 
+      await this.filterTimeSeries()
       this.getStatisticConfirmed()
       this.getStatisticNotConfirmed()
       this.getStatisticOTG()
       this.getStatisticODP()
       this.getStatisticPDP()
       this.getStatisticPositive()
-      this.getStatisticAgeGender()
     },
-    onSearch() {
+    async onSearch() {
       this.filter.city = this.districtCity.kota_kode
       this.filter.district = this.subDistrict.kecamatan_kode
       this.filter.village = this.village.desa_kode
@@ -606,13 +616,13 @@ export default {
         address_village_code: this.village.desa_kode
       }
 
+      await this.filterTimeSeries()
       this.getStatisticConfirmed()
       this.getStatisticNotConfirmed()
       this.getStatisticOTG()
       this.getStatisticODP()
       this.getStatisticPDP()
       this.getStatisticPositive()
-      this.getStatisticAgeGender()
     },
     clearCity() {
       this.districtCity = {
@@ -867,77 +877,42 @@ export default {
       // console.log(this.statistic.positiveDaily)
       // console.log(this.statistic.positiveCumulative)
     },
-    async getStatisticAgeGender() {
-      this.loadingAgeGender = true
-      const res = await this.$store.dispatch('statistic/countAgeGender', this.listQuery)
+    async onSelectTimeSeries(value) {
+      this.selectedTimeSeries = value
 
-      if (res) this.loadingAgeGender = false
-
-      const male = res.data.chart_by_gender.L
-      const female = res.data.chart_by_gender.P
-
-      this.statistic.gender = {
-        male,
-        female
+      await this.filterTimeSeries()
+      this.getStatisticOTG()
+      this.getStatisticODP()
+      this.getStatisticPDP()
+      this.getStatisticPositive()
+    },
+    filterTimeSeries() {
+      const today = new Date()
+      const max = today.getTime()
+      if (this.selectedTimeSeries === 'all') {
+        this.listQueryDate = {
+          min_date: null,
+          max_date: null
+        }
+      } else if (this.selectedTimeSeries === 'one_week') {
+        this.listQueryDate = {
+          min_date: this.$moment(max).subtract(6, 'days').format('YYYY/MM/DD'),
+          max_date: this.$moment(max).format('YYYY/MM/DD')
+        }
+      } else if (this.selectedTimeSeries === 'two_week') {
+        this.listQueryDate = {
+          min_date: this.$moment(max).subtract(13, 'days').format('YYYY/MM/DD'),
+          max_date: this.$moment(max).format('YYYY/MM/DD')
+        }
+      } else if (this.selectedTimeSeries === 'one_month') {
+        this.listQueryDate = {
+          min_date: this.$moment(max).subtract(1, 'months').format('YYYY/MM/DD'),
+          max_date: this.$moment(max).format('YYYY/MM/DD')
+        }
       }
-      // console.log(this.statistic.gender)
-
-      const male_age = []
-      const female_age = []
-      const groupMale = res.data.ageGroupMale
-      const groupFemale = res.data.ageGroupFemale
-      const m1 = groupMale.find(x => x._id === 'bawah_5')
-      const m2 = groupMale.find(x => x._id === '6_19')
-      const m3 = groupMale.find(x => x._id === '20_29')
-      const m4 = groupMale.find(x => x._id === '30_39')
-      const m5 = groupMale.find(x => x._id === '40_49')
-      const m6 = groupMale.find(x => x._id === '50_59')
-      const m7 = groupMale.find(x => x._id === '60_69')
-      const m8 = groupMale.find(x => x._id === '70_79')
-      const m9 = groupMale.find(x => x._id === 'atas_80')
-      const f1 = groupFemale.find(x => x._id === 'bawah_5')
-      const f2 = groupFemale.find(x => x._id === '6_19')
-      const f3 = groupFemale.find(x => x._id === '20_29')
-      const f4 = groupFemale.find(x => x._id === '30_39')
-      const f5 = groupFemale.find(x => x._id === '40_49')
-      const f6 = groupFemale.find(x => x._id === '50_59')
-      const f7 = groupFemale.find(x => x._id === '60_69')
-      const f8 = groupFemale.find(x => x._id === '70_79')
-      const f9 = groupFemale.find(x => x._id === 'atas_80')
-
-      male_age.push(-Math.abs(this.checkVariable(m1)))
-      male_age.push(-Math.abs(this.checkVariable(m2)))
-      male_age.push(-Math.abs(this.checkVariable(m3)))
-      male_age.push(-Math.abs(this.checkVariable(m4)))
-      male_age.push(-Math.abs(this.checkVariable(m5)))
-      male_age.push(-Math.abs(this.checkVariable(m6)))
-      male_age.push(-Math.abs(this.checkVariable(m7)))
-      male_age.push(-Math.abs(this.checkVariable(m8)))
-      male_age.push(-Math.abs(this.checkVariable(m9)))
-      female_age.push(this.checkVariable(f1))
-      female_age.push(this.checkVariable(f2))
-      female_age.push(this.checkVariable(f3))
-      female_age.push(this.checkVariable(f4))
-      female_age.push(this.checkVariable(f5))
-      female_age.push(this.checkVariable(f6))
-      female_age.push(this.checkVariable(f7))
-      female_age.push(this.checkVariable(f8))
-      female_age.push(this.checkVariable(f9))
-
-      this.statistic.age = {
-        male: male_age,
-        female: female_age
-      }
-      // console.log(this.statistic.age)
     },
     handleHelp() {
       window.open('https://s.id/panduan_laporcovid19', '_blank')
-    },
-    checkVariable(variable) {
-      if (typeof variable === 'undefined' || variable === null) {
-        return 0
-      }
-      return Number(variable.count)
     }
   }
 }
@@ -961,5 +936,11 @@ export default {
 .disclaimer .help {
   font-size: 16px;
   text-decoration: underline;
+}
+.v-input__slot {
+  width: 250px;
+}
+.v-tabs-bar__content {
+  display: flex;
 }
 </style>

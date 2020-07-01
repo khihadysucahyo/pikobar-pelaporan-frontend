@@ -15,7 +15,7 @@
               v-slot="{ errors }"
               rules="required"
             >
-              <label class="required">{{ $t('label.name_instansi') }}</label>
+              <label class="required">{{ $t('label.user_name') }}</label>
               <v-text-field
                 v-model="formUser.fullname"
                 :error-messages="errors"
@@ -24,7 +24,7 @@
             </ValidationProvider>
             <ValidationProvider
               v-slot="{ errors }"
-              rules="required|email|isEmailUsed"
+              :rules="isEdit ? 'required|email':'required|email|isEmailUsed'"
             >
               <label class="required">{{ $t('label.email') }}</label>
               <v-text-field
@@ -79,7 +79,7 @@
           >
             <ValidationProvider
               v-slot="{ errors }"
-              rules="required|isUsernameUsed|isHtml|isWhiteSpaces"
+              :rules="isEdit ? 'required|isHtml|isWhiteSpaces':'required|isHtml|isWhiteSpaces|isUsernameUsed'"
             >
               <label class="required">{{ $t('label.username') }}</label>
               <v-text-field
@@ -99,6 +99,27 @@
                 :items="listRoles"
                 :error-messages="errors"
                 solo
+              />
+            </ValidationProvider>
+            <ValidationProvider
+              v-if="formUser.role !== 'dinkeskota'"
+              v-slot="{ errors }"
+              rules="required"
+            >
+              <label class="required">{{ $t('label.work_unit') }}</label>
+              <v-autocomplete
+                v-model="formUser.unit_id"
+                :items="unitList"
+                :error-messages="errors"
+                :loading="isUnitLoading"
+                :search-input.sync="searchUnit"
+                :label="$t('label.work_unit')"
+                menu-props="auto"
+                item-text="name"
+                item-value="_id"
+                single-line
+                solo
+                autocomplete
               />
             </ValidationProvider>
             <div v-if="!isEdit">
@@ -192,10 +213,16 @@ export default {
     return {
       date: '',
       disabledDistrict: true,
+      unitList: [],
       listRoles: [
         'dinkeskota',
         'faskes'
       ],
+      queryUnit: {
+        search: ''
+      },
+      searchUnit: null,
+      isUnitLoading: false,
       typePassword: String,
       typeRepeatPassword: String,
       passwordRules: [
@@ -214,26 +241,41 @@ export default {
       'roles'
     ])
   },
+  watch: {
+    async searchUnit(value) {
+      this.isUnitLoading = true
+      this.queryUnit.search = value
+      const response = await this.$store.dispatch('region/listUnit', this.queryUnit)
+      this.unitList = response.data.itemsList
+      this.isUnitLoading = false
+    }
+  },
   async mounted() {
     this.disabledDistrict = await this.roles[0] === 'dinkeskota'
+    const response = await this.$store.dispatch('region/listUnit', this.queryUnit)
+    this.unitList = response.data.itemsList
     if (this.isEdit) {
       const response = await this.$store.dispatch('user/detailUser', this.idData)
       await delete response.data['__v']
       await delete response.data['updatedAt']
       await delete response.data['createdAt']
+      await delete response.data['hash']
+      await delete response.data['salt']
       await Object.assign(this.formUser, response.data)
+      if (this.formUser.unit_id !== null) {
+        const detailUnit = await this.$store.dispatch('region/detailUnit', this.formUser.unit_id)
+        this.unitList.push(detailUnit.data)
+      }
     }
   },
   methods: {
     async handleCreate() {
-      let valid = await this.$refs.observer.validate()
-      if (this.isEdit && this.formUser.username.length > 0) {
-        valid = true
-      }
+      const valid = await this.$refs.observer.validate()
       if (!valid) {
         return
       } else if (this.$refs.form.validate()) {
         if (this.isEdit) {
+          await delete this.formUser['password']
           const update = {
             id: this.idData,
             data: this.formUser

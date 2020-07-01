@@ -1,5 +1,15 @@
 import i18n from '@/lang'
 
+import { format } from 'date-fns'
+import moment from 'moment'
+export const ISO_FORMAT = 'yyyy-MM-dd'
+export const DEFAULT_DATE = format(new Date(), ISO_FORMAT)
+export const DEFAULT_ACTION_LABELS = {
+  apply: 'Apply',
+  cancel: 'Cancel',
+  reset: 'Reset'
+}
+
 export const ResponseRequest = {
   TIMEOUT: 'ECONNABORTED',
   NETWORKERROR: 'Network Error',
@@ -29,10 +39,23 @@ export function getAge(DOB) {
   return age
 }
 
+export function getAgeWithMonth(dob) {
+  const today = moment()
+  const birthDate = moment(dob, 'YYYY/MM/DD')
+  let age = moment.duration(today.diff(birthDate))
+  const year = age.years()
+  const month = age.months()
+  age = {
+    'year': year,
+    'month': month
+  }
+  return age
+}
+
 export function listYear() {
   var currentYear = new Date().getFullYear()
   const list = []
-  for (var y = 0; y < 80; y++) {
+  for (var y = 0; y < 100; y++) {
     list.push(currentYear)
     currentYear--
   }

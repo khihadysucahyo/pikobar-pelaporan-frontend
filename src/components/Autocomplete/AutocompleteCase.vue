@@ -4,7 +4,8 @@
       v-slot="{ errors }"
     >
       <v-autocomplete
-        :no-data-text="$t('label.no_data_autocomplete_case')"
+        :no-data-text="$t('label.internal_and_external_data_not_found')"
+        :placeholder="$t('label.no_data_autocomplete_case')"
         :search-input.sync="search"
         :disabled="disabledCase"
         :error-messages="errors"

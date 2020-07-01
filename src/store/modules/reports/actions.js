@@ -1,5 +1,8 @@
 import requestServer from '@/api'
 import request from '@/utils/request'
+import {
+  getRequestDetailHomeAdress
+} from '@/utils/utilsFunction'
 
 export default {
   async listReportCase({ commit }, params) {
@@ -78,7 +81,16 @@ export default {
   async listHistoryCase({ commit }, id) {
     try {
       const response = await requestServer(`/api/cases/${id}/history`, 'GET')
-      return response
+      const afterResponse = response.data.filter(async(item) => {
+        if (item.current_location_type === 'RUMAH') {
+          const address = await getRequestDetailHomeAdress(
+            item.current_location_village_code,
+            item.current_location_address
+          )
+          item['homeAddress'] = address
+        }
+      })
+      return afterResponse
     } catch (error) {
       return error.response
     }
@@ -153,6 +165,94 @@ export default {
       return response
     } catch (e) {
       return e
+    }
+  },
+  async printPEForm({ commit }, id) {
+    try {
+      const response = await request({
+        url: `/api/cases/${id}/export-to-pe-form`,
+        method: 'GET',
+        responseType: 'blob'
+      })
+      return response
+    } catch (e) {
+      return e
+    }
+  },
+  async hospitalRefferalNewCase({ commit }, data) {
+    try {
+      const response = await requestServer(`/api/cases-transfer`, 'POST', data)
+      return response
+    } catch (error) {
+      return error.response
+    }
+  },
+  async caseHospitalRefferal({ commit }, params) {
+    const id = params.id
+    const data = params.data
+    try {
+      const response = await requestServer(`/api/cases/${id}/transfers`, 'POST', data)
+      return response
+    } catch (error) {
+      return error.response
+    }
+  },
+  async caseHospitalRefferalRevise({ commit }, params) {
+    const {
+      idCase,
+      idTransfer,
+      data
+    } = params
+    try {
+      const response = await requestServer(`api/cases/${idCase}/transfers/${idTransfer}/revise`, 'POST', data)
+      return response
+    } catch (error) {
+      return error.response
+    }
+  },
+  async caseHospitalReferralInOut({ commit }, data) {
+    const {
+      type,
+      params
+    } = data
+    try {
+      const response = await requestServer(`/api/cases-transfer/${type}`, 'GET', params)
+      return response
+    } catch (error) {
+      return error.response
+    }
+  },
+  async caseHospitalReferralSummary({ commit }, data) {
+    const {
+      type
+    } = data
+    try {
+      const response = await requestServer(`/api/cases-transfer-summary/${type}`, 'GET')
+      return response
+    } catch (error) {
+      return error.response
+    }
+  },
+  async actionHospitalReferral({ commit }, params) {
+    const {
+      idCase,
+      idTransfer,
+      actions,
+      body
+    } = params
+    try {
+      const response = await requestServer(`api/cases/${idCase}/transfers/${idTransfer}/${actions}`, 'POST', body)
+      return response
+    } catch (error) {
+      return error.response
+    }
+  },
+  async caseHospitalReferralHistory({ commit }, id) {
+    try {
+      const response = await requestServer(`/api/cases/${id}/transfers`, 'GET')
+      return response
+    } catch (error) {
+      return error.response
     }
   },
   resetListCase({ commit }) {

@@ -1,8 +1,8 @@
 <template>
-  <v-dialog v-model="show" max-width="20%">
+  <v-dialog v-model="show" :max-width="maxWidthDialog">
     <v-card class="pa-7">
       <v-row class="mx-0 mb-6" justify="center">
-        <img src="../../static/confirmation-logo.svg">
+        <img src="@/static/confirmation-logo.svg">
       </v-row>
       <v-row v-if="query && query.data.verified_status === 'verified'" class="mx-0 mb-6 text-center" justify="center">
         {{ $t('label.verification_confirmation_message') }}
@@ -84,6 +84,11 @@ export default {
     return {
       show: false,
       query: null
+    }
+  },
+  computed: {
+    maxWidthDialog() {
+      return this.$vuetify.breakpoint.xl ? '20%' : '30%'
     }
   },
   watch: {

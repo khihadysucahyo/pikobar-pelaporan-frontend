@@ -1,635 +1,51 @@
 <template>
-  <v-dialog v-model="show" max-width="50%">
+  <v-dialog v-model="show" :max-width="maxWidthDialog">
     <v-card class="pa-7">
-      <ValidationObserver ref="observer">
-        <v-row class="mx-0 font-weight-bold headline mb-5">
-          {{ $t('label.detail_case') }}
-        </v-row>
-        <v-row v-if="caseDetail && caseDetail.verified_status === 'declined'" class="mx-0">
-          <div class="rejection py-2 px-7">
-            <v-row justify="start">
-              <v-col class="icon-warning">
-                <v-icon x-large color="#EB5757">mdi-alert-circle</v-icon>
-              </v-col>
-              <v-col>
-                <v-row>
-                  <span class="font-weight-bold">{{ $t('label.rejection_note') }}</span>
-                </v-row>
-                <v-row>
-                  <span>"{{ caseDetail.verified_comment }}"</span>
-                </v-row>
-              </v-col>
-            </v-row>
-          </div>
-        </v-row>
-        <v-row class="mx-0">
-          <v-col class="mr-5 pb-0">
-            <v-row class="font-weight-bold subtitle">
-              {{ $t('label.identity') }}
-            </v-row>
-            <v-row class="input-label" :class="required">
-              {{ $t('label.name') }}
-            </v-row>
-            <v-row>
-              <ValidationProvider
-                v-slot="{ errors }"
-                rules="required"
-                class="full-width"
-              >
-                <v-text-field
-                  v-if="caseDetail"
-                  v-model="caseDetail.name"
-                  solo-inverted
-                  :error-messages="errors"
-                  :disabled="caseDetail.verified_status !== 'declined'"
-                />
-              </ValidationProvider>
-            </v-row>
-            <v-row class="input-label">
-              {{ $t('label.birth_date') }}
-            </v-row>
-            <v-row>
-              <v-text-field
-                v-if="caseDetail && caseDetail.verified_status !== 'declined'"
-                v-model="caseDetail.birth_date"
-                solo-inverted
-                disabled
-              />
-              <select-datetime
-                v-else-if="caseDetail"
-                :datetime="caseDetail.birth_date"
-                :date-time.sync="caseDetail.birth_date"
-                :formate-date="'YYYY/MM/DD'"
-              />
-            </v-row>
-            <v-row class="input-label" :class="required">
-              {{ $t('label.age') }}
-            </v-row>
-            <v-row>
-              <ValidationProvider
-                v-slot="{ errors }"
-                rules="required"
-                class="full-width"
-              >
-                <v-text-field
-                  v-if="caseDetail"
-                  v-model="caseDetail.age"
-                  solo-inverted
-                  :error-messages="errors"
-                  :disabled="caseDetail.verified_status !== 'declined'"
-                />
-              </ValidationProvider>
-            </v-row>
-            <v-row class="input-label" :class="required">
-              {{ $t('label.gender') }}
-            </v-row>
-            <v-row>
-              <ValidationProvider
-                v-slot="{ errors }"
-                rules="required"
-                class="full-width"
-              >
-                <v-text-field
-                  v-if="caseDetail && caseDetail.verified_status !== 'declined'"
-                  v-model="caseDetail.gender"
-                  solo-inverted
-                  disabled
-                />
-                <v-radio-group
-                  v-else-if="caseDetail"
-                  v-model="caseDetail.gender"
-                  :error-messages="errors"
-                  row
-                >
-                  <v-radio
-                    :label="$t('label.male')"
-                    value="L"
-                  />
-                  <v-radio
-                    :label="$t('label.female')"
-                    value="P"
-                  />
-                </v-radio-group>
-              </ValidationProvider>
-            </v-row>
-            <v-row class="input-label">
-              {{ $t('label.phone_number') }}
-            </v-row>
-            <v-row>
-              <v-text-field
-                v-if="caseDetail"
-                v-model="caseDetail.phone_number"
-                solo-inverted
-                :disabled="caseDetail.verified_status !== 'declined'"
-              />
-            </v-row>
-            <v-row class="input-label">
-              {{ $t('label.address') }}
-            </v-row>
-            <v-row>
-              <v-text-field
-                v-if="caseDetail"
-                v-model="caseDetail.address_street"
-                solo-inverted
-                :disabled="caseDetail.verified_status !== 'declined'"
-              />
-            </v-row>
-          </v-col>
-          <v-col class="pb-0">
-            <v-row class="font-weight-bold subtitle">
-              {{ $t('label.case_id') }}
-            </v-row>
-            <v-row class="input-label">
-              {{ $t('label.center_case_id') }}
-            </v-row>
-            <v-row>
-              <v-text-field
-                v-if="caseDetail"
-                v-model="caseDetail.id_case_national"
-                solo-inverted
-                :disabled="caseDetail.verified_status !== 'declined'"
-              />
-            </v-row>
-            <v-row class="input-label">
-              {{ $t('label.related_case_id') }}
-            </v-row>
-            <v-row>
-              <v-text-field
-                v-if="caseDetail"
-                v-model="caseDetail.id_case_related"
-                solo-inverted
-                :disabled="caseDetail.verified_status !== 'declined'"
-              />
-            </v-row>
-            <v-row class="font-weight-bold subtitle extra-margin-top">
-              {{ $t('label.profession') }}
-            </v-row>
-            <v-row class="input-label">
-              {{ $t('label.profession') }}
-            </v-row>
-            <v-row>
-              <v-text-field
-                v-if="caseDetail"
-                v-model="caseDetail.occupation"
-                solo-inverted
-                :disabled="caseDetail.verified_status !== 'declined'"
-              />
-            </v-row>
-            <v-row class="input-label">
-              {{ $t('label.office_address') }}
-            </v-row>
-            <v-row>
-              <v-text-field
-                v-if="caseDetail"
-                v-model="caseDetail.office_address"
-                solo-inverted
-                :disabled="caseDetail.verified_status !== 'declined'"
-              />
-            </v-row>
-          </v-col>
-        </v-row>
-        <v-row class="mx-0 mt-0">
-          <v-col class="mr-5 pt-0">
-            <v-row class="input-label" :class="required">
-              {{ $t('label.citizenship') }}
-            </v-row>
-            <v-row>
-              <ValidationProvider
-                v-slot="{ errors }"
-                rules="required"
-                class="full-width"
-              >
-                <v-text-field
-                  v-if="caseDetail && caseDetail.verified_status !== 'declined'"
-                  v-model="caseDetail.nationality"
-                  solo-inverted
-                  disabled
-                />
-                <v-radio-group
-                  v-else-if="caseDetail"
-                  v-model="caseDetail.nationality"
-                  row
-                  :error-messages="errors"
-                >
-                  <v-radio
-                    :label="$t('label.wni')"
-                    value="WNI"
-                  />
-                  <v-radio
-                    :label="$t('label.wna')"
-                    value="WNA"
-                  />
-                </v-radio-group>
-              </ValidationProvider>
-            </v-row>
-          </v-col>
-          <v-col class="pt-0">
-            <v-row class="input-label">
-              {{ $t('label.country') }}
-            </v-row>
-            <v-row>
-              <v-text-field
-                v-if="caseDetail"
-                v-model="caseDetail.nationality_name"
-                solo-inverted
-                :disabled="caseDetail.verified_status !== 'declined' || caseDetail.nationality === 'WNI'"
-              />
-            </v-row>
-          </v-col>
-        </v-row>
-        <hr>
-        <v-row v-if="caseDetail && caseDetail.verified_status !== 'declined'" class="mx-0">
-          <v-col>
-            <v-row class="input-label">
-              {{ $t('label.status') }}
-            </v-row>
-            <v-row>
-              <div
-                v-if="caseDetail"
-                :class="statusLabel"
-                class="status-label"
-              >
-                {{ caseDetail.status }}
-              </div>
-            </v-row>
-          </v-col>
-          <v-col class="mx-5">
-            <v-row class="input-label">
-              {{ $t('label.stages') }}
-            </v-row>
-            <v-row>
-              <v-text-field
-                v-if="caseDetail"
-                v-model="caseDetail.stage"
-                solo-inverted
-                disabled
-              />
-            </v-row>
-          </v-col>
-          <v-col>
-            <v-row class="input-label">
-              {{ $t('label.results') }}
-            </v-row>
-            <v-row>
-              <v-text-field
-                v-if="caseDetail"
-                v-model="caseDetail.final_result"
-                solo-inverted
-                disabled
-              />
-            </v-row>
-          </v-col>
-        </v-row>
-        <v-row v-else-if="caseDetail" class="mx-0">
-          <v-col class="mr-5">
-            <v-row class="input-label" :class="required">
-              {{ $t('label.stages') }}
-            </v-row>
-            <v-row>
-              <ValidationProvider
-                v-slot="{ errors }"
-                rules="required"
-                class="full-width"
-              >
-                <v-radio-group
-                  v-model="caseDetail.stage"
-                  row
-                  :error-messages="errors"
-                >
-                  <v-radio
-                    :label="$t('label.process')"
-                    value="0"
-                  />
-                  <v-radio
-                    :label="$t('label.done')"
-                    value="1"
-                  />
-                </v-radio-group>
-              </ValidationProvider>
-            </v-row>
-            <v-row class="input-label">
-              {{ $t('label.results') }}
-            </v-row>
-            <v-row>
-              <v-radio-group
-                v-model="caseDetail.final_result"
-                row
-              >
-                <v-radio
-                  v-if="caseDetail.status !== 'POSITIF'"
-                  :label="$t('label.negatif')"
-                  value="0"
-                />
-                <v-radio
-                  :label="$t('label.recovery')"
-                  value="1"
-                />
-                <v-radio
-                  :label="$t('label.dead')"
-                  value="2"
-                />
-              </v-radio-group>
-            </v-row>
-          </v-col>
-          <v-col>
-            <v-row class="input-label" :class="required">
-              {{ $t('label.status') }}
-            </v-row>
-            <v-row>
-              <ValidationProvider
-                v-slot="{ errors }"
-                rules="required"
-                class="full-width"
-              >
-                <v-radio-group
-                  v-model="caseDetail.status"
-                  row
-                  :error-messages="errors"
-                >
-                  <v-radio
-                    :label="$t('label.OTG')"
-                    value="OTG"
-                  />
-                  <v-radio
-                    :label="$t('label.ODP')"
-                    value="ODP"
-                  />
-                  <v-radio
-                    :label="$t('label.PDP')"
-                    value="PDP"
-                  />
-                  <v-radio
-                    :label="$t('label.positif').toUpperCase()"
-                    value="POSITIF"
-                  />
-                </v-radio-group>
-              </ValidationProvider>
-            </v-row>
-            <v-row class="input-label" :class="required">
-              {{ $t('label.current_location') }}
-            </v-row>
-            <v-row>
-              <ValidationProvider
-                v-slot="{ errors }"
-                rules="required"
-                class="full-width"
-              >
-                <v-radio-group
-                  v-model="caseDetail.last_history.current_location_type"
-                  row
-                  :error-messages="errors"
-                >
-                  <v-radio
-                    :label="$t('label.home')"
-                    value="RUMAH"
-                  />
-                  <v-radio
-                    :label="$t('label.hospital')"
-                    value="RS"
-                  />
-                  <v-radio
-                    :label="$t('label.other_places')"
-                    value="others"
-                  />
-                </v-radio-group>
-              </ValidationProvider>
-            </v-row>
-            <v-row class="input-label">
-              {{ $t('label.address') }}
-            </v-row>
-            <v-row>
-              <v-text-field
-                v-if="caseDetail"
-                v-model="caseDetail.last_history.current_location_address"
-                solo-inverted
-                :disabled="caseDetail.verified_status !== 'declined'"
-              />
-            </v-row>
-          </v-col>
-        </v-row>
-        <hr v-if="caseDetail && caseDetail.verified_status === 'declined'">
-        <v-row class="mx-0">
-          <v-col class="mr-5">
-            <v-row v-if="caseDetail && caseDetail.verified_status !== 'declined'" class="input-label">
-              {{ $t('label.current_location') }}
-            </v-row>
-            <v-row>
-              <v-text-field
-                v-if="caseDetail && caseDetail.verified_status !== 'declined'"
-                v-model="caseDetail.last_history.current_location_type"
-                solo-inverted
-                disabled
-              />
-            </v-row>
-            <v-row v-if="caseDetail && caseDetail.verified_status !== 'declined'" class="input-label">
-              {{ $t('label.address') }}
-            </v-row>
-            <v-row>
-              <v-text-field
-                v-if="caseDetail && caseDetail.verified_status !== 'declined'"
-                v-model="caseDetail.last_history.current_location_address"
-                solo-inverted
-                :disabled="caseDetail.verified_status !== 'declined'"
-              />
-            </v-row>
-            <v-row class="input-label">
-              {{ $t('label.history') }}
-            </v-row>
-            <v-row>
-              <v-text-field
-                v-if="caseDetail && caseDetail.verified_status !== 'declined'"
-                v-model="caseDetail.last_history.historyList"
-                solo-inverted
-                disabled
-              />
-              <div v-else-if="caseDetail">
-                <v-checkbox
-                  v-model="caseDetail.last_history.is_went_abroad"
-                  :label="$t('label.from_abroad')"
-                  class="mt-0 pt-0"
-                />
-                <v-checkbox
-                  v-model="caseDetail.last_history.is_went_other_city"
-                  :label="$t('label.trip_outside_the_city')"
-                  class="mt-0 pt-0"
-                />
-                <v-checkbox
-                  v-model="caseDetail.last_history.is_contact_with_positive"
-                  :label="$t('label.contact_with_positive_patients')"
-                  class="mt-0 pt-0"
-                />
-              </div>
-            </v-row>
-            <v-row v-if="caseDetail && caseDetail.last_history.is_went_abroad" class="input-label">
-              {{ $t('label.country_visited') }}
-            </v-row>
-            <v-row>
-              <v-text-field
-                v-if="caseDetail && caseDetail.last_history.is_went_abroad"
-                v-model="caseDetail.last_history.visited_country"
-                solo-inverted
-                :disabled="caseDetail.verified_status !== 'declined'"
-              />
-            </v-row>
-            <v-row v-if="caseDetail && caseDetail.last_history.is_went_other_city" class="input-label">
-              {{ $t('label.city_visited') }}
-            </v-row>
-            <v-row>
-              <v-text-field
-                v-if="caseDetail && caseDetail.last_history.is_went_other_city"
-                v-model="caseDetail.last_history.visited_city"
-                solo-inverted
-                :disabled="caseDetail.verified_status !== 'declined'"
-              />
-            </v-row>
-            <v-row v-if="caseDetail && caseDetail.verified_status === 'declined'" class="input-label">
-              {{ $t('label.additional_condition') }}
-            </v-row>
-            <v-row v-if="caseDetail && caseDetail.verified_status === 'declined'">
-              <v-col v-for="item in additionalConditionOptions" :key="item" sm="6" md="6" class="pa-0">
-                <v-checkbox
-                  v-model="caseDetail.last_history.diseases"
-                  :label="item"
-                  :value="item"
-                  class="mt-0 pt-0"
-                />
-              </v-col>
-            </v-row>
-            <v-row v-if="caseDetail && caseDetail.verified_status !== 'declined'" class="input-label">
-              {{ $t('label.reporting_sources') }}
-            </v-row>
-            <v-row v-if="caseDetail && caseDetail.verified_status !== 'declined'">
-              <v-text-field
-                v-if="caseDetail"
-                v-model="caseDetail.last_history.report_source"
-                solo-inverted
-                disabled
-              />
-            </v-row>
-          </v-col>
-          <v-col>
-            <v-row class="input-label">
-              {{ $t('label.date_of_beginning_symptoms') }}
-            </v-row>
-            <v-row>
-              <v-text-field
-                v-if="caseDetail && caseDetail.verified_status !== 'declined'"
-                v-model="caseDetail.last_history.first_symptom_date"
-                solo-inverted
-                disabled
-              />
-              <select-datetime
-                v-else-if="caseDetail"
-                :datetime="caseDetail.last_history.first_symptom_date"
-                :date-time.sync="caseDetail.last_history.first_symptom_date"
-                :formate-date="'YYYY/MM/DD'"
-              />
-            </v-row>
-            <v-row class="input-label">
-              {{ $t('label.symptoms') }}
-            </v-row>
-            <v-row v-if="caseDetail && caseDetail.verified_status !== 'declined'">
-              <v-text-field
-                v-model="caseDetail.last_history.diagnosis"
-                solo-inverted
-                disabled
-              />
-            </v-row>
-            <v-row v-else-if="caseDetail">
-              <v-col v-for="item in symptomOptions" :key="item" sm="6" md="6" class="pa-0">
-                <v-checkbox
-                  v-model="caseDetail.last_history.diagnosis"
-                  :label="item"
-                  :value="item"
-                  class="mt-0 pt-0"
-                />
-              </v-col>
-            </v-row>
-            <v-row v-if="caseDetail && caseDetail.verified_status !== 'declined'" class="input-label">
-              {{ $t('label.additional_condition') }}
-            </v-row>
-            <v-row v-if="caseDetail && caseDetail.verified_status !== 'declined'">
-              <v-text-field
-                v-model="caseDetail.last_history.diseases"
-                solo-inverted
-                disabled
-              />
-            </v-row>
-            <v-row v-if="caseDetail && caseDetail.verified_status !== 'declined'" class="input-label">
-              {{ $t('label.postscript') }}
-            </v-row>
-            <v-row v-if="caseDetail && caseDetail.verified_status !== 'declined'">
-              <v-text-field
-                v-model="caseDetail.last_history.other_notes"
-                solo-inverted
-                :disabled="caseDetail.verified_status !== 'declined'"
-              />
-            </v-row>
-          </v-col>
-        </v-row>
-        <v-row v-if="caseDetail && caseDetail.verified_status === 'declined'" class="mx-0">
-          <v-col class="mr-5">
-            <v-row class="input-label">
-              {{ $t('label.reporting_sources') }}
-            </v-row>
-            <v-row>
-              <v-text-field
-                v-if="caseDetail"
-                v-model="caseDetail.last_history.report_source"
-                solo-inverted
-                disabled
-              />
-            </v-row>
-          </v-col>
-          <v-col>
-            <v-row class="input-label">
-              {{ $t('label.postscript') }}
-            </v-row>
-            <v-row>
-              <v-text-field
-                v-model="caseDetail.last_history.other_notes"
-                solo-inverted
-              />
-            </v-row>
-          </v-col>
-        </v-row>
-        <v-row v-if="showActionButton" class="mx-0">
-          <v-col class="pa-0 mr-6">
-            <v-btn
-              color="grey"
-              width="100%"
-              outlined
-              @click="onClose(false)"
-            >
-              <span class="input-label text-capitalize decline">{{ roles[0] === 'faskes' ? $t('label.canceled') : $t('label.decline') }}</span>
-            </v-btn>
-          </v-col>
-          <v-col class="pa-0">
-            <v-btn
-              color="#2ead64"
-              width="100%"
-              @click="onClose(true)"
-            >
-              <span class="text-capitalize verify">{{ roles[0] === 'faskes' ? $t('label.update_case') : $t('label.verify_case') }}</span>
-            </v-btn>
-          </v-col>
-        </v-row>
-      </ValidationObserver>
+      <view-verification
+        v-if="caseDetail && caseDetail.verified_status !== 'declined'"
+        :case-data="caseDetail"
+      />
+      <edit-verification
+        v-else
+        :case-data="caseDetail"
+        :data-case.sync="caseDetail"
+        :related-case-object="relatedCaseObject"
+        :hospital-west-java-list="hospitalWestJavaList"
+        :hospital-non-west-java-list="hospitalNonWestJavaList"
+        :list-country="listCountry"
+        :list-cases="listNameCases"
+        :update-case="updateCase"
+        :show.sync="show"
+      />
+      <v-row v-if="showActionButton && caseDetail && caseDetail.verified_status !== 'declined'" class="mx-0">
+        <v-col class="pa-0 mr-6">
+          <v-btn
+            color="grey"
+            width="100%"
+            outlined
+            @click="onClose(false)"
+          >
+            <span class="input-label text-capitalize decline">{{ roles[0] === 'faskes' ? $t('label.canceled') : $t('label.decline') }}</span>
+          </v-btn>
+        </v-col>
+        <v-col class="pa-0">
+          <v-btn
+            color="#2ead64"
+            width="100%"
+            @click="onClose(true)"
+          >
+            <span class="text-capitalize verify">{{ roles[0] === 'faskes' ? $t('label.update_case') : $t('label.verify_case') }}</span>
+          </v-btn>
+        </v-col>
+      </v-row>
     </v-card>
   </v-dialog>
 </template>
 <script>
 import { formatDatetime } from '@/utils/parseDatetime'
-import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import { mapGetters } from 'vuex'
-import { getAge } from '@/utils/constantVariable'
-import { symptomOptions, additionalConditionOptions } from '@/utils/constantVariable'
 export default {
   name: 'VerificationForm',
-  components: {
-    ValidationProvider,
-    ValidationObserver
-  },
   props: {
     showForm: {
       type: Boolean,
@@ -649,22 +65,17 @@ export default {
       caseDetail: null,
       query: null,
       show: false,
-      symptomOptions: symptomOptions,
-      additionalConditionOptions: additionalConditionOptions
+      listNameCases: [],
+      listCountry: [],
+      hospitalWestJavaList: [],
+      hospitalNonWestJavaList: [],
+      relatedCaseObject: null
     }
   },
   computed: {
     ...mapGetters('user', [
       'roles'
     ]),
-    statusLabel() {
-      return {
-        'positif': this.caseDetail.status === 'POSITIF',
-        'pdp': this.caseDetail.status === 'PDP',
-        'odp': this.caseDetail.status === 'ODP',
-        'otg': this.caseDetail.status === 'OTG'
-      }
-    },
     showActionButton() {
       if (this.roles[0] !== 'faskes') {
         return true
@@ -676,13 +87,18 @@ export default {
       return {
         'required': this.caseDetail && this.caseDetail.verified_status === 'declined'
       }
+    },
+    maxWidthDialog() {
+      return this.$vuetify.breakpoint.xl ? '50%' : '70%'
     }
   },
   watch: {
-    showForm(value) {
+    async showForm(value) {
       this.show = value
       if (value) {
         this.caseDetail = this.caseData
+        this.caseDetail.yearsOld = Math.floor(this.caseDetail.age)
+        this.caseDetail.monthsOld = Math.ceil((this.caseDetail.age - Math.floor(this.caseDetail.age)) * 12)
         if (this.caseDetail.birth_date) {
           if (this.caseDetail.verified_status !== 'declined') {
             this.caseDetail.birth_date = formatDatetime(this.caseDetail.birth_date, 'DD MMMM YYYY')
@@ -728,34 +144,42 @@ export default {
           if (this.caseDetail.last_history.is_contact_with_positive) {
             this.caseDetail.last_history.historyList.push(this.$t('label.contact_with_positive_patients'))
           }
+          this.caseDetail.new_address = `${this.caseDetail.address_village_name}, ${this.caseDetail.address_subdistrict_name}, ${this.caseDetail.address_district_name}`
+          if (this.caseDetail.last_history.current_location_type === 'Rumah') {
+            const responseDistrict = await this.$store.dispatch('region/getDetailDistrict', this.caseDetail.last_history.current_location_district_code)
+            const responseSubDistrict = await this.$store.dispatch('region/getDetailSubDistrict', this.caseDetail.last_history.current_location_subdistrict_code)
+            const responseVillage = await this.$store.dispatch('region/getDetailVillage', this.caseDetail.last_history.current_location_village_code)
+            this.caseDetail.last_history.current_location_address = `${this.caseDetail.last_history.current_location_address}, ${responseVillage.data[0].desa_nama}, ${responseSubDistrict.data[0].kecamatan_nama}, ${responseDistrict.data[0].kota_nama}`
+          }
+        } else {
+          this.relatedCaseObject = {
+            'relateds': `${this.caseDetail.name_case_related} (${this.caseDetail.id_case_related})`
+          }
+          this.listNameCases.push(this.relatedCaseObject)
+          const response = await this.$store.dispatch('region/listCountry')
+          this.listCountry = response.data
+          const paramHospitalWestJava = { 'rs_jabar': true }
+          const paramHospitalNonWestJava = { 'rs_jabar': false }
+          const responseWestJava = await this.$store.dispatch('region/getListHospital', paramHospitalWestJava)
+          this.hospitalWestJavaList = responseWestJava.data
+          const responseNonWestJava = await this.$store.dispatch('region/getListHospital', paramHospitalNonWestJava)
+          this.hospitalNonWestJavaList = responseNonWestJava.data
         }
         this.query = this.queryData
       }
     },
     show(value) {
       this.$emit('update:show', value)
-    },
-    'caseDetail.birth_date'(value) {
-      if (this.caseDetail.verified_status === 'declined') {
-        this.caseDetail.age = this.getAge(value)
-      }
     }
   },
   methods: {
     formatDatetime,
-    getAge,
     async onClose(isVerified) {
       if (this.roles[0] !== 'faskes') {
         this.query.id = this.caseDetail._id
         this.query.data.verified_status = isVerified ? 'verified' : 'declined'
         this.$emit('update:query', this.query)
         this.$emit('update:showConfirmation', true)
-      } else if (isVerified) {
-        const valid = await this.$refs.observer.validate()
-        if (!valid) {
-          return
-        }
-        this.updateCase()
       }
       this.show = false
     },
@@ -763,7 +187,9 @@ export default {
       const reportData = {
         'id': this.caseDetail._id,
         'data': {
+          'nik': this.caseDetail.nik,
           'name': this.caseDetail.name,
+          'birth_date': this.caseDetail.birth_date,
           'age': this.caseDetail.age,
           'gender': this.caseDetail.gender,
           'phone_number': this.caseDetail.phone_number,
@@ -772,8 +198,15 @@ export default {
           'nationality_name': this.caseDetail.nationality_name,
           'id_case_national': this.caseDetail.id_case_national,
           'id_case_related': this.caseDetail.id_case_related,
+          'name_case_related': this.caseDetail.name_case_related,
           'occupation': this.caseDetail.occupation,
-          'office_address': this.caseDetail.office_address
+          'office_address': this.caseDetail.office_address,
+          'address_district_code': this.caseDetail.address_district_code,
+          'address_district_name': this.caseDetail.address_district_name,
+          'address_subdistrict_code': this.caseDetail.address_subdistrict_code,
+          'address_subdistrict_name': this.caseDetail.address_subdistrict_name,
+          'address_village_code': this.caseDetail.address_village_code,
+          'address_village_name': this.caseDetail.address_village_name
         }
       }
       const historyData = {
@@ -790,7 +223,16 @@ export default {
         'is_contact_with_positive': this.caseDetail.last_history.is_contact_with_positive,
         'other_notes': this.caseDetail.last_history.other_notes,
         'first_symptom_date': this.caseDetail.last_history.first_symptom_date,
-        'diagnosis': this.caseDetail.last_history.diagnosis
+        'diagnosis': this.caseDetail.last_history.diagnosis,
+        'current_hospital_id': this.caseDetail.last_history.current_hospital_id,
+        'history_notes': this.caseDetail.last_history.history_notes,
+        'diseases_other': this.caseDetail.last_history.diseases_other,
+        'diagnosis_other': this.caseDetail.last_history.diagnosis_other,
+        'diseases': this.caseDetail.last_history.diseases,
+        'report_source': this.caseDetail.last_history.report_source,
+        'current_location_district_code': this.caseDetail.last_history.current_location_district_code,
+        'current_location_subdistrict_code': this.caseDetail.last_history.current_location_subdistrict_code,
+        'current_location_village_code': this.caseDetail.last_history.current_location_village_code
       }
       const verificationData = {
         'id': this.caseDetail._id,
@@ -869,8 +311,5 @@ export default {
   width: 100%;
   border-radius: 10px;
   color: #EB5757;
-}
-.icon-warning {
-  max-width: 8% !important;
 }
 </style>

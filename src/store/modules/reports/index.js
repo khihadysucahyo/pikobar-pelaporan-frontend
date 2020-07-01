@@ -17,6 +17,8 @@ function initialState() {
       nik: '',
       birth_date: '',
       age: '',
+      yearsOld: '',
+      monthsOld: '',
       gender: null,
       phone_number: null,
       address_street: '',

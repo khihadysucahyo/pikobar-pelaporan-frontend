@@ -25,7 +25,7 @@
               >
                 <v-radio
                   :label="$t('label.rapid_test')"
-                  value="RAPID TEST"
+                  value="RDT"
                 />
                 <v-radio
                   :label="$t('label.pcr')"
@@ -34,7 +34,7 @@
               </v-radio-group>
             </ValidationProvider>
             <ValidationProvider
-              v-if="formResult.tool_tester === 'RAPID TEST'"
+              v-if="formResult.tool_tester === 'RDT'"
               v-slot="{ errors }"
               rules="required"
             >
@@ -84,7 +84,6 @@
                 </v-row>
                 <v-row
                   v-else
-                  style="margin-top: 1rem;"
                 >
                   <v-radio
                     :label="$t('label.reaktif')"
@@ -100,6 +99,28 @@
                   />
                 </v-row>
               </v-radio-group>
+            </ValidationProvider>
+            <ValidationProvider
+              v-if="formResult.tool_tester"
+              v-slot="{ errors }"
+              rules="required|numeric"
+              class="full-width"
+            >
+              <label class="required">{{ formResult.tool_tester === 'PCR' ? $t('label.swab_count') : $t('label.rdt_count') }}</label>
+              <v-text-field
+                v-if="formResult.tool_tester === 'PCR'"
+                v-model="formResult.swab_to"
+                :error-messages="errors"
+                solo-inverted
+                type="number"
+              />
+              <v-text-field
+                v-else
+                v-model="formResult.rdt_to"
+                :error-messages="errors"
+                solo-inverted
+                type="number"
+              />
             </ValidationProvider>
           </v-col>
           <v-col>
@@ -127,6 +148,10 @@
                   value="RS"
                 />
                 <v-radio
+                  :label="$t('label.lab')"
+                  value="LAB"
+                />
+                <v-radio
                   :label="$t('label.other')"
                   value="LAINNYA"
                 />
@@ -139,7 +164,7 @@
             >
               <v-autocomplete
                 v-model="formResult.test_location"
-                no-data-text="Data tidak tersedia"
+                :no-data-text="$t('label.data_not_available')"
                 :items="hospitalList"
                 :return-object="false"
                 :error-messages="errors"
@@ -147,6 +172,27 @@
                 menu-props="auto"
                 item-text="name"
                 item-value="name"
+                single-line
+                solo
+                autocomplete
+                @change="onSelectHospital"
+              />
+            </ValidationProvider>
+            <ValidationProvider
+              v-if="formResult.test_location_type === 'LAB'"
+              v-slot="{ errors }"
+              rules="required"
+            >
+              <v-autocomplete
+                v-model="formResult.lab"
+                :no-data-text="$t('label.data_not_available')"
+                :return-object="false"
+                :error-messages="errors"
+                :label="$t('label.choose_place_test')"
+                :items="listLab"
+                menu-props="auto"
+                item-text="lab_name"
+                item-value="lab_name"
                 single-line
                 solo
                 autocomplete
@@ -179,7 +225,7 @@
                 :village-name="formResult.test_address_village_name"
                 :code-village.sync="formResult.test_address_village_code"
                 :name-village.sync="formResult.test_address_village_name"
-                :disabled-address="true"
+                :disabled-address="false"
                 :required-address="true"
               />
             </div>
@@ -218,6 +264,11 @@ export default {
       default: null
     }
   },
+  data() {
+    return {
+      listLab: []
+    }
+  },
   computed: {
     ...mapGetters('region', [
       'hospitalList'
@@ -226,18 +277,32 @@ export default {
       'district_user'
     ])
   },
+  watch: {
+    'formResult.tool_tester'(value) {
+      if (this.formResult) {
+        if (value === 'PCR') this.formResult.sampling_type = null
+        this.formResult.final_result = null
+      }
+    }
+  },
   async mounted() {
     const listQuery = {
       city_code: this.district_user
     }
     await this.$store.dispatch('region/getListHospital', listQuery)
+    const response = await this.$store.dispatch('rdt/getLabList')
+    this.listLab = response.data
+    var paramHospitalWestJava = { 'rs_jabar': true }
+    await this.$store.dispatch('region/getListHospital', paramHospitalWestJava)
   },
   methods: {
     handleChangeLocationNow(value) {
       if (value === 'LAINNYA') {
         this.formResult.test_location = null
+        this.formResult.lab = null
         this.getCity()
       } else {
+        if (value !== 'LAB') this.formResult.lab = null
         this.formResult.test_address_district_code = ''
         this.formResult.test_address_district_name = ''
         this.formResult.test_address_subdistrict_code = ''

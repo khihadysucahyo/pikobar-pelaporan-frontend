@@ -6,7 +6,7 @@
           {{ $t('label.total_new_cases') }} : {{ totalItem }}
         </div>
       </v-row>
-      <v-row class="mx-0">
+      <v-row class="mx-0 mb-0">
         <span class="font-white">
           {{ roles[0] === 'faskes' ? $t('label.medical_facility_verification_info_1') : $t('label.verification_info') }}
         </span>
@@ -125,6 +125,7 @@
                 :show-failed-dialog.sync="showFailedDialog"
                 :show-verification-form.sync="showVerificationForm"
                 :case-detail.sync="caseDetail"
+                :refresh-page.sync="isRefresh"
                 :verification-query="verificationQuery"
               />
             </v-row>
@@ -233,7 +234,6 @@ export default {
     ...mapGetters('user', [
       'roles',
       'district_user',
-      'fullName',
       'district_name_user'
     ])
   },
@@ -271,7 +271,6 @@ export default {
         { text: this.$t('label.status').toUpperCase(), value: 'status' },
         { text: this.$t('label.action').toUpperCase(), value: 'action', sortable: false }
       )
-      this.listQuery.author = this.fullName
       this.listQuery.verified_status = 'pending,declined'
     } else {
       this.headers.push(

@@ -98,14 +98,40 @@
     </v-row>
     <v-card
       outlined
+      class="mt-2"
     >
-      <v-container>
-        <case-filter
-          :list-query="listQuery"
-          :query-list.sync="listQuery"
-          :on-search="handleSearch"
-        />
-      </v-container>
+      <v-row>
+        <v-col class="ml-4">
+          <search
+            :list-query="listQuery"
+            :handle-search="handleSearch"
+          />
+        </v-col>
+        <v-col class="pb-4">
+          <v-btn
+            color="primary"
+            class="mr-4"
+            style="float: right;"
+            @click="handleFilter"
+          >
+            {{ $t('label.filter') }}
+            <v-icon v-if="!showFilter">mdi-chevron-right</v-icon>
+            <v-icon v-else>mdi-chevron-down</v-icon>
+          </v-btn>
+        </v-col>
+      </v-row>
+      <div
+        v-if="showFilter"
+        class="ma-2"
+      >
+        <v-container>
+          <case-filter
+            :list-query="listQuery"
+            :query-list.sync="listQuery"
+            :on-search="handleSearch"
+          />
+        </v-container>
+      </div>
       <hr>
       <v-row align="center" justify="space-between">
         <v-col>
@@ -214,7 +240,7 @@
                         </v-btn>
                       </template>
                       <v-card>
-                        <v-list-item @click="handleDetail(item._id)">
+                        <v-list-item @click="handleDetail(item, item._id)">
                           {{ $t('label.view_detail') }}
                         </v-list-item>
                         <div v-if="rolesWidget['dinkesKotaAndFaskes'].includes(roles[0])">
@@ -223,6 +249,9 @@
                           </v-list-item>
                           <v-list-item @click="handleEditHistoryCase(item._id)">
                             {{ $t('label.update_history') }}
+                          </v-list-item>
+                          <v-list-item @click="handlePrintPEForm(item._id, item.id_case)">
+                            {{ $t('label.print_pe_form') }}
                           </v-list-item>
                           <v-list-item
                             v-if="rolesWidget['dinkeskota'].includes(roles[0])"
@@ -255,6 +284,25 @@
       :store-path-delete="`reports/deleteReportCase`"
       :store-path-get-list="`reports/listReportCase`"
       :list-query="listQuery"
+    />
+    <dialog-detail-case
+      :show-dialog="dialogDetailCase"
+      :show.sync="dialogDetailCase"
+      :detail-case="detailCase"
+      :case-detail.sync="detailCase"
+      :list-history-case="listHistoryCase"
+      :referral-history-case="referralHistoryCase"
+      :title-detail="$t('label.detail_case')"
+    />
+    <dialog-update-case
+      :show-dialog="dialogUpdateCase"
+      :show.sync="dialogUpdateCase"
+      :form-pasien="formPasien"
+    />
+    <dialog-update-history-case
+      :show-dialog="dialogHistoryCase"
+      :show.sync="dialogHistoryCase"
+      :form-riwayat-pasien="formRiwayatPasien"
     />
     <v-dialog v-model="failedDialog" persistent max-width="30%">
       <v-card>
@@ -300,6 +348,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import EventBus from '@/utils/eventBus'
 import FileSaver from 'file-saver'
 import { rolesWidget } from '@/utils/constantVariable'
 import { formatDatetime } from '@/utils/parseDatetime'
@@ -309,17 +358,17 @@ export default {
     return {
       headers: [
         { text: '#', value: '_id', sortable: false },
-        { text: 'KODE KASUS', value: 'id_case' },
-        { text: 'NAMA', value: 'name' },
-        { text: 'USIA', value: 'age' },
-        { text: 'JK', value: 'gender' },
-        { text: 'NO TELEPON', value: 'phone_number' },
-        { text: 'STATUS', value: 'status' },
-        { text: 'TAHAPAN', value: 'stage' },
-        { text: 'HASIL', value: 'final_result' },
-        { text: 'AUTHOR', value: 'author' },
-        { text: 'TANGGAL INPUT', value: 'createdAt' },
-        { text: 'Aksi', value: 'actions', sortable: false }
+        { text: this.$t('label.case_code').toUpperCase(), value: 'id_case' },
+        { text: this.$t('label.name').toUpperCase(), value: 'name' },
+        { text: this.$t('label.age').toUpperCase(), value: 'age' },
+        { text: this.$t('label.gender_abbreviation').toUpperCase(), value: 'gender' },
+        { text: this.$t('label.short_phone_number').toUpperCase(), value: 'phone_number' },
+        { text: this.$t('label.status').toUpperCase(), value: 'status' },
+        { text: this.$t('label.stages').toUpperCase(), value: 'stage' },
+        { text: this.$t('label.results').toUpperCase(), value: 'final_result' },
+        { text: this.$t('label.author').toUpperCase(), value: 'author' },
+        { text: this.$t('label.input_date').toUpperCase(), value: 'createdAt' },
+        { text: this.$t('label.action'), value: 'actions', sortable: false }
       ],
       loading: true,
       loadingTable: false,
@@ -339,6 +388,7 @@ export default {
         address_village_code: '',
         status: '',
         final_result: '',
+        stage: '',
         page: 1,
         limit: 100,
         search: '',
@@ -349,11 +399,19 @@ export default {
       },
       countingReports: null,
       dialog: false,
+      showFilter: false,
       dataDelete: null,
+      formatDate: 'YYYY/MM/DD',
       failedDialog: false,
       showImportForm: false,
       errorMessage: null,
-      successDialog: false
+      successDialog: false,
+      detailCase: {},
+      listHistoryCase: [],
+      referralHistoryCase: [],
+      dialogDetailCase: false,
+      dialogHistoryCase: false,
+      dialogUpdateCase: false
     }
   },
   computed: {
@@ -365,6 +423,10 @@ export default {
       'roles',
       'fullName',
       'district_user'
+    ]),
+    ...mapGetters('reports', [
+      'formPasien',
+      'formRiwayatPasien'
     ])
   },
   watch: {
@@ -392,7 +454,7 @@ export default {
           } else if ((value.sortBy[0] !== undefined) && (!value.sortDesc[0])) {
             this.listQuery.sort[value.sortBy[0]] = 'asc'
           } else {
-            this.listQuery.sort = {}
+            this.listQuery.sort['createdAt'] = 'desc'
           }
 
           if (Object.keys(this.listQuery.sort).length > 0) {
@@ -404,8 +466,12 @@ export default {
     }
   },
   async mounted() {
+    EventBus.$on('refreshPageListReport', (value) => {
+      this.handleSearch()
+    })
     if (this.roles[0] === 'dinkeskota') this.listQuery.address_district_code = this.district_user
     this.queryReportCase.address_district_code = this.district_user
+    await this.$store.dispatch('reports/listReportCase', this.listQuery)
     const response = await this.$store.dispatch('reports/countReportCase', this.queryReportCase)
     if (response) this.loading = false
     this.totalOTG = response.data.OTG
@@ -416,14 +482,53 @@ export default {
   },
   methods: {
     formatDatetime,
-    async handleDetail(id) {
-      await this.$router.push(`/laporan/detail/${id}`)
+    async handleDetail(item, id) {
+      const detail = await this.$store.dispatch('reports/detailReportCase', id)
+      const responseHistory = await this.$store.dispatch('reports/listHistoryCase', id)
+      const responseReferralHistory = await this.$store.dispatch('reports/caseHospitalReferralHistory', id)
+      this.detailCase = detail.data
+      this.listHistoryCase = responseHistory
+      this.referralHistoryCase = responseReferralHistory.data
+      this.dialogDetailCase = true
     },
     async handleEditCase(id) {
-      await this.$router.push(`/laporan/edit-case/${id}`)
+      this.detail = await this.$store.dispatch('reports/detailReportCase', id)
+      await Object.assign(this.formPasien, this.detail.data)
+      if (this.detail.data.birth_date) {
+        this.formPasien.birth_date = await this.formatDatetime(this.detail.data.birth_date, this.formatDate)
+      } else {
+        this.formPasien.birth_date = ''
+      }
+      if (this.formPasien._id) {
+        delete this.formPasien['author']
+        delete this.formPasien['createdAt']
+        delete this.formPasien['updatedAt']
+        delete this.formPasien['last_history']
+      }
+      this.dialogUpdateCase = true
     },
     async handleEditHistoryCase(id) {
-      await this.$router.push(`/laporan/edit-history-case/${id}`)
+      this.detail = await this.$store.dispatch('reports/detailHistoryCase', id)
+      await Object.assign(this.formRiwayatPasien, this.detail)
+      this.formRiwayatPasien.case = this.detail.case
+      if ((this.detail.first_symptom_date !== null) && (this.detail.first_symptom_date !== 'Invalid date')) {
+        this.formRiwayatPasien.first_symptom_date = await this.formatDatetime(this.detail.first_symptom_date, this.formatDate)
+      } else {
+        this.formRiwayatPasien.first_symptom_date = ''
+      }
+      if (this.formRiwayatPasien.case) {
+        delete this.formRiwayatPasien['createdAt']
+        delete this.formRiwayatPasien['updatedAt']
+      }
+      this.dialogHistoryCase = true
+    },
+    handleFilter() {
+      this.showFilter = !this.showFilter
+    },
+    async handlePrintPEForm(id, caseCode) {
+      const response = await this.$store.dispatch('reports/printPEForm', id)
+      const fileName = `${this.$t('label.pe_report')} - ${caseCode}.pdf`
+      FileSaver.saveAs(response, fileName)
     },
     async handleDeleteCase(item) {
       this.dialog = true
@@ -448,7 +553,7 @@ export default {
   }
 }
 </script>
-<style>
+<style scoped>
   .title {
     font-size: 1.5rem;
     text-transform: uppercase;

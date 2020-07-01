@@ -10,6 +10,8 @@ const state = {
   district_user: '',
   user_district_name: '',
   fullName: '',
+  unitName: '',
+  unitType: '',
   totalList: 0,
   userList: [],
   formUser: {
@@ -25,7 +27,8 @@ const state = {
     address_village_name: '',
     address_street: '',
     fullname: '',
-    phone_number: ''
+    phone_number: '',
+    unit_id: ''
   }
 }
 

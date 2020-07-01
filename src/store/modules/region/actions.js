@@ -18,6 +18,22 @@ export default {
       return e
     }
   },
+  async getDetailSubDistrict({ commit }, codeSubDistrict) {
+    try {
+      const response = await requestServer(`/api/areas/sub-district-detail/${codeSubDistrict}`, 'GET')
+      return response
+    } catch (e) {
+      return e
+    }
+  },
+  async getDetailVillage({ commit }, codeVillage) {
+    try {
+      const response = await requestServer(`/api/areas/village-detail/${codeVillage}`, 'GET')
+      return response
+    } catch (e) {
+      return e
+    }
+  },
   async getListSubDistrict({ commit }, codeDistrict) {
     try {
       const response = await requestServer(`/api/areas/sub-district/${codeDistrict}`, 'GET')
@@ -47,8 +63,24 @@ export default {
     try {
       const response = await requestServer(`/api/country`, 'GET')
       return response
-    } catch (error) {
-      return error.response
+    } catch (e) {
+      return e
+    }
+  },
+  async listUnit({ commit }, params) {
+    try {
+      const response = await requestServer(`/api/unit`, 'GET', params)
+      return response
+    } catch (e) {
+      return e
+    }
+  },
+  async detailUnit({ commit }, id) {
+    try {
+      const response = await requestServer(`/api/unit/${id}`, 'GET')
+      return response
+    } catch (e) {
+      return e
     }
   }
 }

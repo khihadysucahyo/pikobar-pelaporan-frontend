@@ -14,6 +14,12 @@ export default {
   fullName: (state, getters) => {
     return state.fullName
   },
+  unitName: (state, getters) => {
+    return state.unitName
+  },
+  unitType: (state, getters) => {
+    return state.unitType
+  },
   formUser: (state, getters) => {
     return state.formUser
   },

@@ -3,6 +3,10 @@
   font-family: $font-family-base;
 }
 
+.v-application .align-start {
+  margin-bottom: -30px;
+}
+
 .v-expansion-panels .v-expansion-panel-header .v-expansion-panel-header__icon .v-icon {
   color: #009D57 !important;
   font-size: 2.5rem;
@@ -107,7 +111,6 @@
 }
 
 .jabarsurvey-breadcrumb, ul, li, a {
-  font-weight: bold;
   font-size: 14px;
   line-height: 17px;
   color: #27AE60 !important;
@@ -129,6 +132,7 @@
 }
 
 .vm-back-top-inner {
+  background: linear-gradient(0deg, #11b1cb 0%, #25fc25 100%) !important;
   width: 40px !important;
   height: 40px !important;
 }
@@ -168,6 +172,9 @@
   color: red;
 }
 
+.row {
+  margin-bottom: -12px; 
+}
 .material-checkbox-custom {
   z-index: 0;
   position: relative;
