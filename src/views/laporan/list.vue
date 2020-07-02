@@ -553,7 +553,7 @@ export default {
   }
 }
 </script>
-<style>
+<style scoped>
   .title {
     font-size: 1.5rem;
     text-transform: uppercase;

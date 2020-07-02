@@ -24,7 +24,7 @@ const distributionCaseRouter = {
     },
     {
       path: '/distribution-case/network',
-      component: () => import('@/views/distributionCase/network'),
+      component: () => import('@/views/distributionCase/networkv2'),
       meta: {
         title: 'distribution_case_network',
         icon: 'location_on',

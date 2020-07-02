@@ -10,5 +10,8 @@ export default {
   },
   totalDataRDT: (state, getters) => {
     return state.totalDataRDT
+  },
+  formHistoryTest: (state, getters) => {
+    return state.formHistoryTest
   }
 }
