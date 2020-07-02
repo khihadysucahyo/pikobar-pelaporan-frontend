@@ -185,6 +185,7 @@
 <script>
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import { mapGetters } from 'vuex'
+import { ResponseRequest } from '@/utils/constantVariable'
 export default {
   name: 'UserForm',
   components: {
@@ -251,7 +252,6 @@ export default {
     }
   },
   async mounted() {
-    this.disabledDistrict = await this.roles[0] === 'dinkeskota'
     const response = await this.$store.dispatch('region/listUnit', this.queryUnit)
     this.unitList = response.data.itemsList
     if (this.isEdit) {
@@ -264,6 +264,7 @@ export default {
   methods: {
     async handleCreate() {
       const valid = await this.$refs.observer.validate()
+      let response
       if (!valid) {
         return
       } else if (this.$refs.form.validate()) {
@@ -273,9 +274,19 @@ export default {
             id: this.idData,
             data: this.formUser
           }
-          await this.$store.dispatch('user/editUser', update)
+          response = await this.$store.dispatch('user/editUser', update)
+          if (response.status === ResponseRequest.UNPROCESSABLE) {
+            await this.$store.dispatch('toast/errorToast', response.data.message)
+          } else {
+            await this.$store.dispatch('toast/successToast', this.$t('success.data_success_edit'))
+          }
         } else {
-          await this.$store.dispatch('user/createUser', this.formUser)
+          response = await this.$store.dispatch('user/createUser', this.formUser)
+          if (response.status === ResponseRequest.UNPROCESSABLE) {
+            await this.$store.dispatch('toast/errorToast', response.data.message)
+          } else {
+            await this.$store.dispatch('toast/successToast', this.$t('success.create_date_success'))
+          }
         }
         await this.$router.go(-1)
       }
