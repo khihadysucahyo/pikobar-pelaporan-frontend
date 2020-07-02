@@ -520,6 +520,7 @@ export default {
     rdt_participant: 'Daftar Peserta',
     rdt_history_test: 'Riwayat Test',
     rdt_update_history_test: 'Update Hasil Peserta',
+    distribution_case_network: 'Kasus Keterkaitan',
     rdt_source_data_participant: 'Data profil pasien diambil dari sumber data',
     rdt_case_report: 'Laporan Kasus',
     rdt_pikobar_registration: 'Pendaftar Pikobar'
