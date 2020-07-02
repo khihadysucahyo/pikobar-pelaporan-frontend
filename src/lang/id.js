@@ -189,7 +189,7 @@ export default {
     test_result: 'Hasil Test',
     mechanism: 'Mekanisme',
     method: 'Metode',
-    sampling: 'Pengambilan Sampel',
+    sampling: 'Sampel',
     choose_place_test: 'Pilih tempat pemeriksaan',
     method_used: 'Metode Yang Digunakan',
     test_place: 'Tempat Tes',
@@ -523,7 +523,8 @@ export default {
     rdt_update_history_test: 'Update Hasil Peserta',
     change_account: 'Ubah Akun',
     change_password: 'Ganti Password',
-    log_out: 'Keluar'
+    log_out: 'Keluar',
+    distribution_case_network: 'Kasus Keterkaitan'
   },
   success: {
     login_success: 'Login Berhasil',
