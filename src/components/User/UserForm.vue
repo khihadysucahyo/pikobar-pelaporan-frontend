@@ -262,14 +262,6 @@ export default {
     }
   },
   methods: {
-    async validateUsername() {
-      let isUsed = true
-      const response = await this.$store.dispatch('user/checkUsernameEmail', {
-        params: this.formUser.username
-      })
-      isUsed = response.data
-      return !isUsed
-    },
     async handleCreate() {
       const valid = await this.$refs.observer.validate()
       let response
