@@ -10,6 +10,7 @@ export const DEFAULT_ACTION_LABELS = {
   reset: 'Reset'
 }
 
+export const guidePath = 'https://s.id/panduan_laporcovid19'
 export const ResponseRequest = {
   TIMEOUT: 'ECONNABORTED',
   NETWORKERROR: 'Network Error',

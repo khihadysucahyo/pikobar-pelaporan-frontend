@@ -57,6 +57,17 @@ const settingRouter = {
       }
     },
     {
+      path: '/user/update',
+      component: () => import('@/views/user/editUser'),
+      hidden: true,
+      meta: {
+        title: 'user_edit',
+        child: true,
+        noCache: true,
+        roles: ['superadmin', 'dinkesprov', 'dinkeskota', 'faskes']
+      }
+    },
+    {
       path: '/change-password/:id',
       component: () => import('@/views/changePassword/index'),
       hidden: true,
