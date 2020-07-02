@@ -27,7 +27,9 @@ export default {
     } else {
       response = await this.$store.dispatch('user/infoCurrentUser')
       this.idData = response.data.id
-      response.data['unit_id'] = response.data.unit_id._id
+      if (response.data.unit_id) {
+        response.data['unit_id'] = response.data.unit_id._id
+      }
     }
     await delete response.data['__v']
     await delete response.data['updatedAt']
