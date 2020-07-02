@@ -1,4 +1,7 @@
 import Layout from '@/layout'
+import {
+  rolesPerm
+} from '@/utils/constantVariable'
 
 const rdtRouter = {
   path: '/rdt',
@@ -7,7 +10,7 @@ const rdtRouter = {
   meta: {
     title: 'rdt',
     icon: 'mdi-book-plus',
-    roles: ['superadmin', 'dinkesprov', 'dinkeskota', 'faskes']
+    roles: [rolesPerm.ADMIN, rolesPerm.DINKESPROV, rolesPerm.DINKESKOTA, rolesPerm.FASKES]
   },
   active: false,
   children: [
@@ -19,7 +22,7 @@ const rdtRouter = {
         icon: 'mdi-book-plus',
         child: true,
         noCache: true,
-        roles: ['superadmin', 'dinkeskota', 'faskes']
+        roles: [rolesPerm.ADMIN, rolesPerm.DINKESKOTA, rolesPerm.FASKES]
       }
     },
     {
@@ -30,7 +33,7 @@ const rdtRouter = {
         icon: 'mdi-book-plus',
         child: true,
         noCache: true,
-        roles: ['superadmin', 'dinkesprov', 'dinkeskota', 'faskes']
+        roles: [rolesPerm.ADMIN, rolesPerm.DINKESPROV, rolesPerm.DINKESKOTA, rolesPerm.FASKES]
       }
     },
     {
@@ -40,7 +43,7 @@ const rdtRouter = {
       meta: {
         title: 'create_rdt',
         noCache: true,
-        roles: ['superadmin', 'dinkeskota', 'faskes']
+        roles: [rolesPerm.ADMIN, rolesPerm.DINKESKOTA, rolesPerm.FASKES]
       }
     }
   ]
