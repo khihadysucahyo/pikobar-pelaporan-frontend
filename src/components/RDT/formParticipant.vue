@@ -339,9 +339,7 @@ export default {
           search: getName
         }
         const response = await this.$store.dispatch('rdt/getDetailRegister', listQuery)
-        if (response.data.source_data === 'internal') {
-          this.formRapid.target = response.data.status
-        }
+        this.formRapid.target = (response.data.source_data === 'internal') ? response.data.status : null
         this.isSearchParticipant = true
         this.sourceData = response.data.source_data === 'internal' ? this.$t('label.rdt_case_report') : response.data.source_data === 'external' ? this.$t('label.rdt_pikobar_registration') : ''
         await Object.assign(this.formRapid, response.data)
