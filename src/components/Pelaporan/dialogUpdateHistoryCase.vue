@@ -99,7 +99,7 @@
               </v-col>
             </v-row>
             <v-row
-              v-if="formRiwayatPasien.status !== 'OTG' && formRiwayatPasien.status !== 'ODP' && formRiwayatPasien.stage === '1'"
+              v-if="formRiwayatPasien.stage === '1'"
               align="center"
             >
               <v-col

@@ -74,5 +74,15 @@ export default {
     } catch (error) {
       return error.response
     }
+  },
+  async distributionCase({
+    commit
+  }, params) {
+    try {
+      const response = await requestServer('/api/map', 'GET', params)
+      return response
+    } catch (error) {
+      return error.response
+    }
   }
 }

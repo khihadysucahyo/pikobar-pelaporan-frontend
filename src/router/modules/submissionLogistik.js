@@ -1,4 +1,7 @@
 import Layout from '@/layout'
+import {
+  rolesPerm
+} from '@/utils/constantVariable'
 
 const submissionLogistikRouter = {
   path: '/submission-logistik',
@@ -7,7 +10,7 @@ const submissionLogistikRouter = {
   meta: {
     title: 'submission_Logistics',
     icon: 'mdi-clipboard-plus',
-    roles: ['superadmin', 'faskes']
+    roles: [rolesPerm.ADMIN, rolesPerm.FASKES]
   },
   active: false,
   children: [
@@ -19,20 +22,9 @@ const submissionLogistikRouter = {
         icon: 'mdi-clipboard-plus',
         child: true,
         noCache: true,
-        roles: ['superadmin', 'dinkesprov', 'dinkeskota', 'faskes']
+        roles: [rolesPerm.ADMIN, rolesPerm.DINKESPROV, rolesPerm.DINKESKOTA, rolesPerm.FASKES]
       }
     }
-    // {
-    //   path: '/submission-logistik/list',
-    //   component: () => import('@/views/logistik/submissionLogistikList'),
-    //   meta: {
-    //     title: 'application_list',
-    //     icon: 'library_books',
-    //     child: true,
-    //     noCache: true,
-    //     roles: ['superadmin', 'dinkesprov', 'dinkeskota', 'faskes']
-    //   }
-    // }
   ]
 }
 
