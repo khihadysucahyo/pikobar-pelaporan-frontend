@@ -524,7 +524,10 @@ export default {
     change_account: 'Ubah Akun',
     change_password: 'Ganti Password',
     log_out: 'Keluar',
-    distribution_case_network: 'Kasus Keterkaitan'
+    distribution_case_network: 'Kasus Keterkaitan',
+    rdt_source_data_participant: 'Data profil pasien diambil dari sumber data',
+    rdt_case_report: 'Laporan Kasus',
+    rdt_pikobar_registration: 'Pendaftar Pikobar'
   },
   success: {
     login_success: 'Login Berhasil',
