@@ -250,11 +250,16 @@
                           <v-list-item @click="handleEditHistoryCase(item._id)">
                             {{ $t('label.update_history') }}
                           </v-list-item>
+                          <v-list-item @click="handleCloseContact(item._id)">
+                            Lihat Kontak Erat
+                          </v-list-item>
                           <v-list-item @click="handlePrintPEForm(item._id, item.id_case)">
                             {{ $t('label.print_pe_form') }}
                           </v-list-item>
+                          <v-divider class="mt-0 mb-0" />
                           <v-list-item
                             v-if="rolesWidget['dinkeskota'].includes(roles[0])"
+                            style="color: #EB5757 !important;"
                             @click="handleDeleteCase(item)"
                           >
                             {{ $t('label.deleted_case') }}
@@ -335,6 +340,11 @@
         </v-row>
       </v-card>
     </v-dialog>
+    <dialog-close-contact
+      :show-dialog="dialogCloseContact"
+      :show.sync="dialogCloseContact"
+      :title-detail="'List Kontak Erat'"
+    />
     <import-form
       :show-import-form="showImportForm"
       :refresh-page="handleSearch"
@@ -411,7 +421,8 @@ export default {
       referralHistoryCase: [],
       dialogDetailCase: false,
       dialogHistoryCase: false,
-      dialogUpdateCase: false
+      dialogUpdateCase: false,
+      dialogCloseContact: false
     }
   },
   computed: {
@@ -532,7 +543,10 @@ export default {
     },
     async handleDeleteCase(item) {
       this.dialog = true
-      this.dataDelete = await item
+      this.dataDelete = item
+    },
+    handleCloseContact() {
+      this.dialogCloseContact = true
     },
     async handleSearch() {
       this.listQuery.page = 1
