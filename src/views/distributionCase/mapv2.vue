@@ -1,22 +1,18 @@
 <template>
   <div>
-    <div style="border-bottom: 1px solid rgba(0, 0, 0, 0.12)">
+    <div class="border-bottom">
       <v-row class="filter-layer mx-2 mt-2">
         <v-col
           cols="12"
           md="3"
-          class="pb-0"
         >
           <div class="d-flex mb-1">
-            <div
-              class="legend-color-title legend-description"
-              style="margin-top: 3px;"
-            />
+            <div class="legend-color-title legend-description margin-top-3" />
             <div class="legend-text-title">{{ $t('label.look_for_it') }} {{ $t('label.based') }}</div>
           </div>
         </v-col>
       </v-row>
-      <v-row class="filter-layer mx-2">
+      <v-row class="filter-layer mx-2 mb-1">
         <v-col cols="10">
           <v-row>
             <v-col
@@ -85,7 +81,6 @@
       <div
         id="map"
         class="map-wrapper bg-aqua"
-        style="z-index: 0;"
       />
       <div
         v-if="isFilter"
@@ -178,17 +173,14 @@
         </div>
       </div>
     </div>
-    <div style="border-top: 1px solid rgba(0, 0, 0, 0.12)">
-      <v-row class="mx-2 mt-1">
+    <div class="border-top">
+      <v-row class="mx-2 mt-1 mb-2">
         <v-col
           cols="12"
           md="6"
         >
           <div class="d-flex mb-1">
-            <div
-              class="legend-color-title legend-description"
-              style="margin-top: 3px;"
-            />
+            <div class="legend-color-title legend-description margin-top-3" />
             <div class="legend-text-title">{{ $t('label.information') }}</div>
           </div>
           <ol class="text-description">
@@ -207,10 +199,7 @@
               class="py-0"
             >
               <div class="d-flex mb-1">
-                <div
-                  class="legend-color-title legend-description"
-                  style="margin-top: 3px;"
-                />
+                <div class="legend-color-title legend-description margin-top-3" />
                 <div class="legend-text-title">{{ `${$t('label.information')} ${$t('label.label')}` }}</div>
               </div>
             </v-col>
@@ -220,24 +209,15 @@
               class="py-0"
             >
               <div class="d-flex mb-1">
-                <div
-                  class="legend-color cluster-otg-process"
-                  style="margin-top: 3px;"
-                />
+                <div class="legend-color cluster-otg-process margin-top-3" />
                 <div class="legend-text">{{ `${$t('label.otg')} ${$t('label.process')}` }}</div>
               </div>
               <div class="d-flex mb-1">
-                <div
-                  class="legend-color cluster-otg-done"
-                  style="margin-top: 3px;"
-                />
+                <div class="legend-color cluster-otg-done margin-top-3" />
                 <div class="legend-text">{{ `${$t('label.otg')} ${$t('label.done')}` }}</div>
               </div>
               <div class="d-flex mb-1">
-                <div
-                  class="legend-color cluster-odp-process"
-                  style="margin-top: 3px;"
-                />
+                <div class="legend-color cluster-odp-process margin-top-3" />
                 <div class="legend-text">{{ `${$t('label.odp')} ${$t('label.process')}` }}</div>
               </div>
             </v-col>
@@ -247,24 +227,15 @@
               class="py-0"
             >
               <div class="d-flex mb-1">
-                <div
-                  class="legend-color cluster-odp-done"
-                  style="margin-top: 3px;"
-                />
+                <div class="legend-color cluster-odp-done margin-top-3" />
                 <div class="legend-text">{{ `${$t('label.odp')} ${$t('label.done')}` }}</div>
               </div>
               <div class="d-flex mb-1">
-                <div
-                  class="legend-color cluster-pdp-process"
-                  style="margin-top: 3px;"
-                />
+                <div class="legend-color cluster-pdp-process margin-top-3" />
                 <div class="legend-text">{{ `${$t('label.pdp')} ${$t('label.process')}` }}</div>
               </div>
               <div class="d-flex mb-1">
-                <div
-                  class="legend-color cluster-pdp-done"
-                  style="margin-top: 3px;"
-                />
+                <div class="legend-color cluster-pdp-done margin-top-3" />
                 <div class="legend-text">{{ `${$t('label.pdp')} ${$t('label.done')}` }}</div>
               </div>
             </v-col>
@@ -274,24 +245,15 @@
               class="py-0"
             >
               <div class="d-flex mb-1">
-                <div
-                  class="legend-color cluster-positive-active"
-                  style="margin-top: 3px;"
-                />
+                <div class="legend-color cluster-positive-active margin-top-3" />
                 <div class="legend-text">{{ `${$t('label.positive')} ${$t('label.active')}` }}</div>
               </div>
               <div class="d-flex mb-1">
-                <div
-                  class="legend-color cluster-positive-recovery"
-                  style="margin-top: 3px;"
-                />
+                <div class="legend-color cluster-positive-recovery margin-top-3" />
                 <div class="legend-text">{{ `${$t('label.positive')} ${$t('label.recovery')}` }}</div>
               </div>
               <div class="d-flex mb-1">
-                <div
-                  class="legend-color cluster-positive-dead"
-                  style="margin-top: 3px;"
-                />
+                <div class="legend-color cluster-positive-dead margin-top-3" />
                 <div class="legend-text">{{ `${$t('label.positive')} ${$t('label.dead')}` }}</div>
               </div>
             </v-col>
@@ -313,10 +275,7 @@
           />
         </div>
         <div class="d-flex mb-1">
-          <div
-            class="legend-color-title legend-description"
-            style="margin-top: 3px;"
-          />
+          <div class="legend-color-title legend-description" />
           <div class="legend-text-title">{{ $t('label.disclaimer') }}</div>
         </div>
         <ol class="text-description">
@@ -346,7 +305,6 @@ import 'leaflet.markercluster'
 import 'leaflet-sidebar'
 import 'leaflet-spin'
 import * as turf from '@turf/turf'
-import axios from 'axios'
 import jsonCity from '../../json/kota.json'
 import jsonDistrict from '../../json/kecamatan.json'
 import jsonVillage from '../../json/kelurahan.json'
@@ -385,7 +343,7 @@ export default {
       jsonCity,
       jsonDistrict,
       jsonVillage,
-      disclaimer: 'block',
+      disclaimer: 'none',
       disabledDistrict: false,
       districtCity: {
         kota_kode: this.districtCode,
@@ -541,6 +499,10 @@ export default {
       kota_nama: this.district_name_user
     }
   },
+  mounted() {
+    this.initMap()
+    this.getData('init')
+  },
   beforeDestroy() {
     this.clearCity()
     this.clearDistrict()
@@ -619,64 +581,80 @@ export default {
     async getData(type) {
       this.map.spin(true)
       try {
-        let paramFilter = ''
+        let paramStatusPatient = null
         if (this.filterActive === 'positive_active') {
-          paramFilter = 'status=Positif&stage=Proses'
+          paramStatusPatient = null
         } else if (this.filterActive === 'positive_recovery') {
-          paramFilter = 'status=Positif&stage=Sembuh'
+          paramStatusPatient = 'POSITIF-1'
         } else if (this.filterActive === 'positive_dead') {
-          paramFilter = 'status=Positif&stage=Meninggal'
+          paramStatusPatient = 'POSITIF-2'
         } else if (this.filterActive === 'pdp_process') {
-          paramFilter = 'status=PDP&stage=Proses'
+          paramStatusPatient = 'PDP-0'
         } else if (this.filterActive === 'pdp_done') {
-          paramFilter = 'status=PDP&stage=Selesai'
+          paramStatusPatient = 'PDP-1'
         } else if (this.filterActive === 'odp_process') {
-          paramFilter = 'status=ODP&stage=Proses'
+          paramStatusPatient = 'ODP-0'
         } else if (this.filterActive === 'odp_done') {
-          paramFilter = 'status=ODP&stage=Selesai'
+          paramStatusPatient = 'ODP-1'
         } else if (this.filterActive === 'otg_process') {
-          paramFilter = 'status=OTG&stage=Proses'
+          paramStatusPatient = 'OTG-0'
         } else if (this.filterActive === 'otg_done') {
-          paramFilter = 'status=OTG&stage=Selesai'
+          paramStatusPatient = 'OTG-1'
         }
 
-        let paramSelectDistrict = ''
-        if (this.roles[0] === 'dinkeskota') {
-          const district = this.district_user.split('.').join('')
-          paramSelectDistrict = `&kode_kab=${district}`
+        let paramCity = null
+        if (this.filterLayer.isCity) {
+          if (this.roles[0] === 'dinkeskota') {
+            paramCity = this.district_user
+          } else {
+            paramCity = this.filterLayer.city
+          }
         }
 
-        const params = `?${paramFilter}${paramSelectDistrict}`
+        let paramDistrict = null
+        if (this.filterLayer.isDistrict) {
+          paramDistrict = this.filterLayer.district
+        }
 
-        await axios.get('https://covid19-public.digitalservice.id/api/v1/sebaran_app/jabar' + params)
-          .then((res) => {
-            this.stage[this.filterActive].data = res.data.data.content
+        let paramVillage = null
+        if (this.filterLayer.isDistrict) {
+          paramVillage = this.filterLayer.village
+        }
 
-            if (type === 'init') {
-              if (this.roles[0] === 'dinkesprov' || this.roles[0] === 'superadmin') {
-                this.zoomOld = 1
-                this.zoomNew = 1
-                this.createLayerCity()
-                this.createMarker()
-              } else if (this.roles[0] === 'dinkeskota') {
-                this.zoomOld = 2
-                this.zoomNew = 2
-                this.createLayerDistrict(this.district_user)
-                this.createMarker(this.district_user)
-              }
-            } else if (type === 'filter') {
-              if (this.zoomNew === 1) {
-                this.createMarker()
-              } else if (this.zoomNew === 2) {
-                this.createMarker(this.filterLayer.city)
-              } else if (this.zoomNew === 3) {
-                this.createMarker(this.filterLayer.district)
-              } else if (this.zoomNew === 4) {
-                this.createMarker(this.filterLayer.village)
-              }
-            }
-            this.map.spin(false)
-          })
+        const params = {
+          status_patient: paramStatusPatient,
+          kode_kab: paramCity,
+          kode_kec: paramDistrict,
+          kode_kel: paramVillage
+        }
+
+        const res = await this.$store.dispatch('statistic/distributionCase', params)
+        this.stage[this.filterActive].data = res.data
+
+        if (type === 'init') {
+          if (this.roles[0] === 'dinkesprov' || this.roles[0] === 'superadmin') {
+            this.zoomOld = 1
+            this.zoomNew = 1
+            this.createLayerCity()
+            this.createMarker()
+          } else if (this.roles[0] === 'dinkeskota') {
+            this.zoomOld = 2
+            this.zoomNew = 2
+            this.createLayerDistrict(this.district_user)
+            this.createMarker(this.district_user)
+          }
+        } else if (type === 'filter' || type === 'select') {
+          if (this.zoomNew === 1) {
+            this.createMarker()
+          } else if (this.zoomNew === 2) {
+            this.createMarker(this.filterLayer.city)
+          } else if (this.zoomNew === 3) {
+            this.createMarker(this.filterLayer.district)
+          } else if (this.zoomNew === 4) {
+            this.createMarker(this.filterLayer.village)
+          }
+        }
+        this.map.spin(false)
       } catch (error) {
         console.error(error)
       }
@@ -797,14 +775,18 @@ export default {
       if (this.zoomNew === 1) {
         geojsonLayer = L.geoJSON(this.jsonCity).eachLayer((element) => {
           if (this.map.getBounds().intersects(element._bounds)) {
-            this.clusterCity[element.feature.properties.bps_kabupaten_kode] = this.paramMarkerCluster()
+            this.clusterCity[element.feature.properties.kemendagri_kabupaten_kode] = this.paramMarkerCluster()
 
             this.jsonAll.map((elPasien) => {
-              if (elPasien.latitude !== null) {
-                const point = turf.point([elPasien.longitude, elPasien.latitude])
-                const isInside = turf.inside(point, element.feature)
-                if (isInside) {
-                  this.addMarkerLayer(this.clusterCity, element, elPasien)
+              if ('longitude' in elPasien && 'latitude' in elPasien) {
+                const longitude = Number(elPasien.longitude)
+                const latitude = Number(elPasien.latitude)
+                if (longitude !== null && latitude !== null) {
+                  const point = turf.point([longitude, latitude])
+                  const isInside = turf.inside(point, element.feature)
+                  if (isInside) {
+                    this.addMarkerLayer(this.clusterCity, element, elPasien)
+                  }
                 }
               }
             })
@@ -822,14 +804,18 @@ export default {
           }
         }).eachLayer((element) => {
           if (this.map.getBounds().intersects(element._bounds)) {
-            this.clusterDistrict[element.feature.properties.bps_kecamatan_kode] = this.paramMarkerCluster()
+            this.clusterDistrict[element.feature.properties.kemendagri_kecamatan_kode] = this.paramMarkerCluster()
 
             this.jsonAll.map((elPasien) => {
-              if (elPasien.latitude !== null) {
-                const point = turf.point([elPasien.longitude, elPasien.latitude])
-                const isInside = turf.inside(point, element.feature)
-                if (isInside) {
-                  this.addMarkerLayer(this.clusterDistrict, element, elPasien)
+              if ('longitude' in elPasien && 'latitude' in elPasien) {
+                const longitude = Number(elPasien.longitude)
+                const latitude = Number(elPasien.latitude)
+                if (longitude !== null && latitude !== null) {
+                  const point = turf.point([longitude, latitude])
+                  const isInside = turf.inside(point, element.feature)
+                  if (isInside) {
+                    this.addMarkerLayer(this.clusterDistrict, element, elPasien)
+                  }
                 }
               }
             })
@@ -847,14 +833,18 @@ export default {
           }
         }).eachLayer((element) => {
           if (this.map.getBounds().intersects(element._bounds)) {
-            this.clusterVillage[element.feature.properties.bps_desa_kode] = this.paramMarkerCluster()
+            this.clusterVillage[element.feature.properties.kemendagri_desa_kode] = this.paramMarkerCluster()
 
             this.jsonAll.map((elPasien) => {
-              if (elPasien.latitude !== null) {
-                const point = turf.point([elPasien.longitude, elPasien.latitude])
-                const isInside = turf.inside(point, element.feature)
-                if (isInside) {
-                  this.addMarkerLayer(this.clusterVillage, element, elPasien)
+              if ('longitude' in elPasien && 'latitude' in elPasien) {
+                const longitude = Number(elPasien.longitude)
+                const latitude = Number(elPasien.latitude)
+                if (longitude !== null && latitude !== null) {
+                  const point = turf.point([longitude, latitude])
+                  const isInside = turf.inside(point, element.feature)
+                  if (isInside) {
+                    this.addMarkerLayer(this.clusterVillage, element, elPasien)
+                  }
                 }
               }
             })
@@ -875,11 +865,15 @@ export default {
             this.clusterVillageSingle = this.paramMarkerCluster()
 
             this.jsonAll.map((elPasien) => {
-              if (elPasien.latitude !== null) {
-                const point = turf.point([elPasien.longitude, elPasien.latitude])
-                const isInside = turf.inside(point, element.feature)
-                if (isInside) {
-                  this.addMarkerLayer(this.clusterVillageSingle, element, elPasien)
+              if ('longitude' in elPasien && 'latitude' in elPasien) {
+                const longitude = Number(elPasien.longitude)
+                const latitude = Number(elPasien.latitude)
+                if (longitude !== null && latitude !== null) {
+                  const point = turf.point([longitude, latitude])
+                  const isInside = turf.inside(point, element.feature)
+                  if (isInside) {
+                    this.addMarkerLayer(this.clusterVillageSingle, element, elPasien)
+                  }
                 }
               }
             })
@@ -893,18 +887,24 @@ export default {
       }
     },
     addMarkerLayer(cluster, element, elPasien) {
-      const m = L.marker([elPasien.latitude, elPasien.longitude]).on('click', (e) => {
+      const latitude = Number(elPasien.latitude)
+      const longitude = Number(elPasien.longitude)
+      const m = L.marker([latitude, longitude]).on('click', (e) => {
         this.isFilter = false
         this.sidebar.show()
 
-        let stage = elPasien.status + ' - ' + elPasien.stage
-        if (stage === 'Positif - Proses') {
-          stage = 'Positif - Aktif'
+        let stageFinal = null
+        if (elPasien.status === 'POSITIF') {
+          stageFinal = elPasien.final_result
+        } else {
+          stageFinal = elPasien.stage
         }
+
+        const stage = elPasien.status + ' - ' + stageFinal
 
         this.sidebarContent = `
           <div class="d-flex mb-4">
-            <div class="legend-color-title legend-description" style="margin-top: 3px;"></div>
+            <div class="legend-color-title legend-description margin-top-3"></div>
             <div class="legend-text-title">Detail Pasien</div>
           </div>
           <div class="mb-2">
@@ -932,50 +932,44 @@ export default {
       let area
       if (this.zoomNew === 1) {
         areaStatus = true
-        area = element.feature.properties.bps_kabupaten_kode
+        area = element.feature.properties.kemendagri_kabupaten_kode
       } else if (this.zoomNew === 2) {
         areaStatus = true
-        area = element.feature.properties.bps_kecamatan_kode
+        area = element.feature.properties.kemendagri_kecamatan_kode
       } else if (this.zoomNew === 3) {
         areaStatus = true
-        area = element.feature.properties.bps_desa_kode
+        area = element.feature.properties.kemendagri_desa_kode
       } else if (this.zoomNew === 4) {
         areaStatus = false
       }
 
-      if (elPasien.status === 'Positif' && elPasien.stage === 'Proses') {
+      if (elPasien.status === 'POSITIF' && elPasien.stage === 'Proses' && elPasien.final_result === 'Aktif') {
         areaStatus ? cluster[area].positive_active.addLayer(m) : cluster.positive_active.addLayer(m)
-      } else if (elPasien.status === 'Positif' && elPasien.stage === 'Sembuh') {
+      } else if (elPasien.status === 'POSITIF' && elPasien.stage === 'Selesai' && elPasien.final_result === 'Sembuh') {
         areaStatus ? cluster[area].positive_recovery.addLayer(m) : cluster.positive_recovery.addLayer(m)
-      } else if (elPasien.status === 'Positif' && elPasien.stage === 'Meninggal') {
+      } else if (elPasien.status === 'POSITIF' && elPasien.stage === 'Selesai' && elPasien.final_result === 'Meninggal') {
         areaStatus ? cluster[area].positive_dead.addLayer(m) : cluster.positive_dead.addLayer(m)
       } else if (elPasien.status === 'PDP' && elPasien.stage === 'Proses') {
         areaStatus ? cluster[area].pdp_process.addLayer(m) : cluster.pdp_process.addLayer(m)
       } else if (elPasien.status === 'PDP' && elPasien.stage === 'Selesai') {
         areaStatus ? cluster[area].pdp_done.addLayer(m) : cluster.pdp_done.addLayer(m)
-      } else if (elPasien.status === 'PDP' && elPasien.stage === 'Meninggal') {
-        areaStatus ? cluster[area].pdp_dead.addLayer(m) : cluster.pdp_dead.addLayer(m)
       } else if (elPasien.status === 'ODP' && elPasien.stage === 'Proses') {
         areaStatus ? cluster[area].odp_process.addLayer(m) : cluster.odp_process.addLayer(m)
       } else if (elPasien.status === 'ODP' && elPasien.stage === 'Selesai') {
         areaStatus ? cluster[area].odp_done.addLayer(m) : cluster.odp_done.addLayer(m)
-      } else if (elPasien.status === 'ODP' && elPasien.stage === 'Meninggal') {
-        areaStatus ? cluster[area].odp_dead.addLayer(m) : cluster.odp_dead.addLayer(m)
       } else if (elPasien.status === 'OTG' && elPasien.stage === 'Proses') {
         areaStatus ? cluster[area].otg_process.addLayer(m) : cluster.otg_process.addLayer(m)
       } else if (elPasien.status === 'OTG' && elPasien.stage === 'Selesai') {
         areaStatus ? cluster[area].otg_done.addLayer(m) : cluster.otg_done.addLayer(m)
-      } else if (elPasien.status === 'OTG' && elPasien.stage === 'Meninggal') {
-        areaStatus ? cluster[area].otg_dead.addLayer(m) : cluster.otg_dead.addLayer(m)
       }
     },
     addMarkerClusterLayer(cluster, element) {
       if (this.zoomNew === 1) {
-        Object.keys(cluster[element.feature.properties.bps_kabupaten_kode]).map((key) => {
-          const newLayer = cluster[element.feature.properties.bps_kabupaten_kode][key].addTo(this.map)
+        Object.keys(cluster[element.feature.properties.kemendagri_kabupaten_kode]).map((key) => {
+          const newLayer = cluster[element.feature.properties.kemendagri_kabupaten_kode][key].addTo(this.map)
           this.dataMarker.push(newLayer)
 
-          cluster[element.feature.properties.bps_kabupaten_kode][key].on('clusterclick', (c) => {
+          cluster[element.feature.properties.kemendagri_kabupaten_kode][key].on('clusterclick', (c) => {
             this.isFilter = false
             this.sidebar.show()
 
@@ -985,7 +979,7 @@ export default {
 
             this.sidebarContent = `
             <div class="d-flex mb-4">
-              <div class="legend-color-title legend-description" style="margin-top: 3px;"></div>
+              <div class="legend-color-title legend-description margin-top-3"></div>
               <div class="legend-text-title">Detail Kasus</div>
             </div>
             <div class="mb-2">
@@ -1001,11 +995,11 @@ export default {
           })
         })
       } else if (this.zoomNew === 2) {
-        Object.keys(cluster[element.feature.properties.bps_kecamatan_kode]).map((key) => {
-          const newLayer = cluster[element.feature.properties.bps_kecamatan_kode][key].addTo(this.map)
+        Object.keys(cluster[element.feature.properties.kemendagri_kecamatan_kode]).map((key) => {
+          const newLayer = cluster[element.feature.properties.kemendagri_kecamatan_kode][key].addTo(this.map)
           this.dataMarker.push(newLayer)
 
-          cluster[element.feature.properties.bps_kecamatan_kode][key].on('clusterclick', (c) => {
+          cluster[element.feature.properties.kemendagri_kecamatan_kode][key].on('clusterclick', (c) => {
             this.isFilter = false
             this.sidebar.show()
 
@@ -1016,7 +1010,7 @@ export default {
 
             this.sidebarContent = `
             <div class="d-flex mb-4">
-              <div class="legend-color-title legend-description" style="margin-top: 3px;"></div>
+              <div class="legend-color-title legend-description margin-top-3"></div>
               <div class="legend-text-title">Detail Kasus</div>
             </div>
             <div class="mb-2">
@@ -1035,8 +1029,8 @@ export default {
           })
         })
       } else if (this.zoomNew === 3) {
-        Object.keys(cluster[element.feature.properties.bps_desa_kode]).map((key) => {
-          const newLayer = cluster[element.feature.properties.bps_desa_kode][key].addTo(this.map)
+        Object.keys(cluster[element.feature.properties.kemendagri_desa_kode]).map((key) => {
+          const newLayer = cluster[element.feature.properties.kemendagri_desa_kode][key].addTo(this.map)
           this.dataMarker.push(newLayer)
         })
       } else if (this.zoomNew === 4) {
@@ -1129,6 +1123,7 @@ export default {
 
       this.map.spin(true)
       this.zoomNew = 2
+      this.filterLayer.isCity = true
       this.filterLayer.city = value.kota_kode
 
       this.createLayerDistrict(value.kota_kode)
@@ -1149,6 +1144,7 @@ export default {
 
       this.map.spin(true)
       this.zoomNew = 3
+      this.filterLayer.isDistrict = true
       this.filterLayer.district = value.kecamatan_kode
 
       this.createLayerVillage(value.kecamatan_kode)
@@ -1168,6 +1164,7 @@ export default {
 
       this.map.spin(true)
       this.zoomNew = 4
+      this.filterLayer.isVillage = true
       this.filterLayer.village = value.desa_kode
 
       this.createLayerVillageSingle(value.desa_kode)
@@ -1203,6 +1200,9 @@ export default {
         this.clearVillage()
         this.clearDistrict()
         this.clearCity()
+        this.filterLayer.isCity = false
+        this.filterLayer.isDistrict = false
+        this.filterLayer.isVillage = false
         this.filterLayer.village = null
         this.filterLayer.district = null
         this.filterLayer.city = null
@@ -1219,6 +1219,8 @@ export default {
       } else {
         this.clearVillage()
         this.clearDistrict()
+        this.filterLayer.isDistrict = false
+        this.filterLayer.isVillage = false
         this.filterLayer.village = null
         this.filterLayer.district = null
 
@@ -1252,6 +1254,16 @@ export default {
 </script>
 
 <style>
+.border-top {
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+}
+.border-bottom {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+.margin-top-3 {
+  margin-top: 3px;
+}
+
 .button-action {
   height: 46px !important;
   text-transform: none;
@@ -1261,6 +1273,7 @@ export default {
   background: white;
   height: calc(100vh - 178px);
   min-height: calc(100vh - 178px);
+  z-index: 0;
 }
 #map .easy-button-container {
   background-color: white;
@@ -1327,6 +1340,7 @@ export default {
 .legend-description {
   border: 2px solid #27ae60;
   background: #27ae60;
+  margin-top: 3px;
 }
 .text-description {
   padding-left: 15px;

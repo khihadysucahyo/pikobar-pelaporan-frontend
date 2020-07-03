@@ -28,18 +28,6 @@
         @click.stop="primaryDrawer.model = !primaryDrawer.model"
       />
       <v-spacer />
-      <!--      <v-switch-->
-      <!--        id="changeTemplateColor"-->
-      <!--        v-model="$vuetify.theme.dark"-->
-      <!--        inset-->
-      <!--        class="dark-mode"-->
-      <!--        style="padding-top: 1.4rem;"-->
-      <!--        @change="emitDarkMode"-->
-      <!--      >-->
-      <!--        <template #prepend>-->
-      <!--          <v-label style="font-size: 14px !important; min-width: 5rem !important;">{{ $t('label.dark_mode') }}</v-label>-->
-      <!--        </template>-->
-      <!--      </v-switch>-->
       <div>
         <v-label>{{ fullName }}</v-label>
       </div>
@@ -56,13 +44,17 @@
           </v-btn>
         </template>
         <v-list>
-          <v-list-item id="changePassword" @click.native="changePassword">
-            <v-icon class="mr-3 font-lg text-gray">mdi-lock</v-icon>
-            <v-list-item-title>Ganti Password</v-list-item-title>
+          <v-list-item @click.native="updateUser">
+            <v-icon class="mr-3 font-lg text-gray">mdi-account</v-icon>
+            <v-list-item-title>{{ $t('label.change_account') }}</v-list-item-title>
           </v-list-item>
-          <v-list-item id="logoutBottom" @click.native="logout">
+          <v-list-item @click.native="changePassword">
+            <v-icon class="mr-3 font-lg text-gray">mdi-lock</v-icon>
+            <v-list-item-title>{{ $t('label.change_password') }}</v-list-item-title>
+          </v-list-item>
+          <v-list-item @click.native="logout">
             <v-icon class="mr-3 font-lg text-gray">ti-power-off</v-icon>
-            <v-list-item-title>Log Out</v-list-item-title>
+            <v-list-item-title>{{ $t('label.log_out') }}</v-list-item-title>
           </v-list-item>
         </v-list>
       </v-menu>
@@ -131,6 +123,9 @@ export default {
     ])
   },
   methods: {
+    updateUser() {
+      this.$router.push('/user/update')
+    },
     changePassword() {
       this.$router.push('/change-password')
     },
