@@ -1,4 +1,7 @@
 import Layout from '@/layout'
+import {
+  rolesPerm
+} from '@/utils/constantVariable'
 
 const dailyReportRouter = {
   path: '/daily-report',
@@ -7,7 +10,7 @@ const dailyReportRouter = {
   meta: {
     title: 'daily_report',
     icon: 'mdi-calendar-blank',
-    roles: ['superadmin', 'dinkesprov', 'dinkeskota']
+    roles: [rolesPerm.ADMIN, rolesPerm.DINKESPROV, rolesPerm.DINKESKOTA]
   },
   active: false,
   children: [
@@ -19,7 +22,7 @@ const dailyReportRouter = {
         icon: 'mdi-calendar-blank',
         child: true,
         noCache: true,
-        roles: ['superadmin', 'dinkesprov', 'dinkeskota']
+        roles: [rolesPerm.ADMIN, rolesPerm.DINKESPROV, rolesPerm.DINKESKOTA]
       }
     }
   ]

@@ -1,4 +1,7 @@
 import Layout from '@/layout'
+import {
+  rolesPerm
+} from '@/utils/constantVariable'
 
 const dashboardRouter = {
   path: '/',
@@ -6,7 +9,7 @@ const dashboardRouter = {
   redirect: 'dashboard',
   meta: {
     icon: 'dashboard',
-    roles: ['superadmin', 'dinkesprov', 'dinkeskota']
+    roles: [rolesPerm.ADMIN, rolesPerm.DINKESPROV, rolesPerm.DINKESKOTA]
   },
   active: false,
   children: [
@@ -18,7 +21,7 @@ const dashboardRouter = {
         icon: 'dashboard',
         noCache: true,
         affix: true,
-        roles: ['superadmin', 'dinkesprov', 'dinkeskota']
+        roles: [rolesPerm.ADMIN, rolesPerm.DINKESPROV, rolesPerm.DINKESKOTA]
       }
     }
   ]
