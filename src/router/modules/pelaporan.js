@@ -26,6 +26,17 @@ const reportRouter = {
       }
     },
     {
+      path: '/laporan/create-report',
+      component: () => import('@/views/laporan/formCreateReport'),
+      meta: {
+        title: 'laporan_create',
+        icon: 'library_books',
+        child: true,
+        noCache: true,
+        roles: [rolesPerm.ADMIN, rolesPerm.DINKESKOTA, rolesPerm.FASKES]
+      }
+    },
+    {
       path: '/laporan/verification',
       component: () => import('@/views/laporan/verification'),
       meta: {

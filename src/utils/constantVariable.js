@@ -161,3 +161,13 @@ export const rolesWidget = {
   'dinkeskota': ['dinkeskota'],
   'dinkesKotaAndFaskes': ['dinkeskota', 'faskes']
 }
+
+export const apd = [
+  'Gown',
+  'Masker Bedah',
+  'Sarung Tangan',
+  'Masker N95 Standar FFP3',
+  'FFP3',
+  'Kacamata Pelindung Goggle',
+  'Tidak Sama Sekali'
+]
