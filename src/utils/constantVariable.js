@@ -87,6 +87,38 @@ export const symptomOptions = [
   'Diare'
 ]
 
+export const transportOptions = [
+  'Kereta',
+  'Bus',
+  'Mobil Pribadi',
+  'Lain-lain',
+  'Angkot',
+  'Transport Online',
+  'Taxi',
+  'Mual atau muntah'
+]
+
+export const activityContactOptions = [
+  'Berpelukan',
+  'Berjabat Tangan',
+  'Minum Memakai Tempat Yang Sama',
+  'Menggunakan Peralatan Yang Sama',
+  'Merawat Kasus Primer Pada Saat Kasus Primer Sakit / Mengantar Ke Rumah Sakit',
+  'Mencium',
+  'Tidur Di Ruangan Yang Sama',
+  'Makan Memakai Tempat Yang Sama',
+  'Menggunakan Toilet Yang Sama'
+]
+
+export const protectionToolOptions = [
+  'Gown',
+  'Sarung Tangan',
+  'Kacamata pelindung (goggle)',
+  'Masker Medis',
+  'FFP3',
+  'Masker NIOSH-N95, AN EU STANDARD FFP2'
+]
+
 export const listMonthName = [
   {
     value: 1,

@@ -205,6 +205,6 @@ export default {
 
 <style scoped>
  .warning-background {
-   background-image: url('../../static/warning_icon.svg')
+   background-image: url('../../static/warning_red_icon.svg')
  }
 </style>
