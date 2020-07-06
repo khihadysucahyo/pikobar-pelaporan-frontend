@@ -1,18 +1,12 @@
 <template>
   <v-dialog v-model="show" max-width="70%">
     <v-card>
+      <v-card-title>
+        {{ titleDetail }}
+        <v-spacer />
+        <v-icon @click="show = false">mdi-close</v-icon>
+      </v-card-title>
       <v-container>
-        <v-row>
-          <v-col
-            cols="12"
-            md="6"
-            sm="12"
-          >
-            <div class="popup-detail-case-title ml-2">
-              {{ titleDetail }}
-            </div>
-          </v-col>
-        </v-row>
         <v-row>
           <v-tabs
             v-model="tab"

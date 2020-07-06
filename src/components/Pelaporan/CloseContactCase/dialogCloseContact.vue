@@ -3,6 +3,8 @@
     <v-card>
       <v-card-title>
         {{ titleDetail }}
+        <v-spacer />
+        <v-icon @click="show = false">mdi-close</v-icon>
       </v-card-title>
       <v-divider />
       <v-container>
@@ -20,7 +22,8 @@
         </v-row>
         <v-card
           min-height="100"
-          class="mx-auto border-card"
+          class="mx-auto mt-2 border-card"
+          @click="handleCreate"
         >
           <v-container
             fill-height
@@ -34,7 +37,7 @@
                 <div>
                   <v-icon>mdi-plus-circle-outline</v-icon>
                 </div>
-                <div>Tambah Data Kontak</div>
+                <div>{{ $t('label.add_contact_data') }}</div>
               </div>
             </v-row>
           </v-container>
@@ -44,14 +47,17 @@
             <v-btn
               color="#FFFFFF"
               block
-              @click="showDialog = false"
+              @click="show = false"
             >
-              Kembali
+              {{ $t('label.back') }}
             </v-btn>
           </v-col>
         </v-row>
       </v-container>
     </v-card>
+    <dialog-create-close-contact
+      :show-dialog="showCreateCloseContact"
+    />
   </v-dialog>
 </template>
 <script>
@@ -73,8 +79,8 @@ export default {
   },
   data() {
     return {
-      tab: null,
       show: this.showDialog,
+      showCreateCloseContact: false,
       headers: [
         { text: '#', value: '_id', sortable: false },
         { text: this.$t('label.name').toUpperCase(), value: 'name' },
@@ -97,14 +103,17 @@ export default {
     }
   },
   methods: {
-    //
+    handleCreate() {
+      this.showCreateCloseContact = true
+    }
   }
 }
 </script>
 <style scoped>
    .border-card {
-        border: 1px dashed #E0E0E0;
-        box-sizing: border-box;
-        border-radius: 8px;
+      color: #828282;
+      border: 1px dashed #E0E0E0 !important;
+      box-sizing: border-box !important;
+      border-radius: 8px !important;
    }
 </style>

@@ -33,3 +33,15 @@
     display: none !important;
   }
 }
+
+.input-append-btn > .v-input__control > .v-input__slot {
+  padding: 0 0px;
+}
+
+.input-append-btn.v-text-field--enclosed:not(.v-text-field--rounded)>.v-input__control>.v-input__slot {
+  padding: 0 0 0 12px;
+}
+
+.input-prepend-btn.v-text-field--enclosed:not(.v-text-field--rounded)>.v-input__control>.v-input__slot {
+  padding: 0 0 0 12px;
+}

@@ -157,6 +157,7 @@ export default {
     positif: 'Positif',
     rapid_test: 'Rapid Test',
     pcr: 'PCR',
+    add_contact_data: 'Tambah Data Kontak',
     hand_prix: 'Hand Prix',
     flebotomy: 'Flebotomy',
     current_location: 'Lokasi Saat Ini',
@@ -524,7 +525,10 @@ export default {
     change_account: 'Ubah Akun',
     change_password: 'Ganti Password',
     log_out: 'Keluar',
-    distribution_case_network: 'Kasus Keterkaitan'
+    rt: 'Rt',
+    rw: 'Rw',
+    distribution_case_network: 'Kasus Keterkaitan',
+    relationship_with_primary_cases: 'Hubungan Dengan Kasus Primer'
   },
   success: {
     login_success: 'Login Berhasil',
