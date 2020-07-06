@@ -344,6 +344,7 @@ export default {
     rejection_note: 'Catatan Penolakan',
     tutorial: 'Panduan',
     logistic: 'Logistik',
+    close_contact_identity: 'Identitas Kontak Erat',
     step_title_1: 'Identitas Instansi Pemohon',
     step_title_2: 'Identitas Pemohon',
     step_title_3: 'Kebutuhan Logistik',

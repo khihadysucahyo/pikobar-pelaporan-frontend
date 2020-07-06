@@ -57,6 +57,7 @@
     </v-card>
     <dialog-create-close-contact
       :show-dialog="showCreateCloseContact"
+      :title-detail="'Buat Laporan Kontak Erat'"
     />
   </v-dialog>
 </template>
