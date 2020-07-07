@@ -562,14 +562,11 @@ export default {
     have_you_had_influenza_vaccination: 'Apakah pernah melakukan vaksinasi influenza?',
     date_vaccination: 'Tanggal Vaksinasi',
     have_you_ever_carried_out_pvc_vaccination: 'Apakah pernah melakukan vaksinasi PVC?',
-<<<<<<< HEAD
-    contact_date: 'Tanggal Kontak'
-=======
+    contact_date: 'Tanggal Kontak',
     distribution_case_network: 'Kasus Keterkaitan',
     rdt_source_data_participant: 'Data profil pasien diambil dari sumber data',
     rdt_case_report: 'Laporan Kasus',
     rdt_pikobar_registration: 'Pendaftar Pikobar'
->>>>>>> 275423ee8897712e824b224f6bafcd5bb48947c4
   },
   success: {
     login_success: 'Login Berhasil',
