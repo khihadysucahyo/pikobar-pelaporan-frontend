@@ -185,6 +185,7 @@
 <script>
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import { mapGetters } from 'vuex'
+import { ResponseRequest } from '@/utils/constantVariable'
 export default {
   name: 'UserForm',
   components: {
@@ -251,38 +252,43 @@ export default {
     }
   },
   async mounted() {
-    this.disabledDistrict = await this.roles[0] === 'dinkeskota'
     const response = await this.$store.dispatch('region/listUnit', this.queryUnit)
     this.unitList = response.data.itemsList
     if (this.isEdit) {
-      const response = await this.$store.dispatch('user/detailUser', this.idData)
-      await delete response.data['__v']
-      await delete response.data['updatedAt']
-      await delete response.data['createdAt']
-      await delete response.data['hash']
-      await delete response.data['salt']
-      await Object.assign(this.formUser, response.data)
-      const detailUnit = await this.$store.dispatch('region/detailUnit', this.formUser.unit_id)
-      this.unitList.push(detailUnit.data)
+      if (this.formUser.unit_id !== null) {
+        const detailUnit = await this.$store.dispatch('region/detailUnit', this.formUser.unit_id)
+        this.unitList.push(detailUnit.data)
+      }
     }
   },
   methods: {
     async handleCreate() {
       const valid = await this.$refs.observer.validate()
+      let response
       if (!valid) {
         return
-      } else if (this.$refs.form.validate()) {
-        if (this.isEdit) {
-          await delete this.formUser['password']
-          const update = {
-            id: this.idData,
-            data: this.formUser
-          }
-          await this.$store.dispatch('user/editUser', update)
-        } else {
-          await this.$store.dispatch('user/createUser', this.formUser)
+      }
+      if (this.isEdit) {
+        await delete this.formUser['password']
+        const update = {
+          id: this.idData,
+          data: this.formUser
         }
-        await this.$router.push(`/user/list`)
+        response = await this.$store.dispatch('user/editUser', update)
+        if (response.status === ResponseRequest.UNPROCESSABLE) {
+          await this.$store.dispatch('toast/errorToast', response.data.message)
+        } else {
+          await this.$store.dispatch('toast/successToast', this.$t('success.data_success_edit'))
+          await this.$router.go(-1)
+        }
+      } else {
+        response = await this.$store.dispatch('user/createUser', this.formUser)
+        if (response.status === ResponseRequest.UNPROCESSABLE) {
+          await this.$store.dispatch('toast/errorToast', response.data.message)
+        } else {
+          await this.$store.dispatch('toast/successToast', this.$t('success.create_date_success'))
+          await this.$router.go(-1)
+        }
       }
     }
   }

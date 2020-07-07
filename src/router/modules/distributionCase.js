@@ -1,4 +1,7 @@
 import Layout from '@/layout/distributionCase'
+import {
+  rolesPerm
+} from '@/utils/constantVariable'
 
 const distributionCaseRouter = {
   path: '/distribution-case',
@@ -7,30 +10,30 @@ const distributionCaseRouter = {
   meta: {
     title: 'distribution_case',
     icon: 'mdi-map-marker-radius',
-    roles: ['superadmin', 'dinkesprov', 'dinkeskota']
+    roles: [rolesPerm.ADMIN, rolesPerm.DINKESPROV, rolesPerm.DINKESKOTA]
   },
   active: false,
   children: [
     {
       path: '/distribution-case/map',
-      component: () => import('@/views/distributionCase/map'),
+      component: () => import('@/views/distributionCase/mapv2'),
       meta: {
         title: 'distribution_case_map',
         icon: 'mdi-map-marker-radius',
         child: true,
         noCache: true,
-        roles: ['superadmin', 'dinkesprov', 'dinkeskota']
+        roles: [rolesPerm.ADMIN, rolesPerm.DINKESPROV, rolesPerm.DINKESKOTA]
       }
     },
     {
       path: '/distribution-case/network',
-      component: () => import('@/views/distributionCase/network'),
+      component: () => import('@/views/distributionCase/networkv2'),
       meta: {
         title: 'distribution_case_network',
         icon: 'location_on',
         child: true,
         noCache: true,
-        roles: ['superadmin', 'dinkesprov', 'dinkeskota']
+        roles: [rolesPerm.ADMIN, rolesPerm.DINKESPROV, rolesPerm.DINKESKOTA]
       }
     }
   ]

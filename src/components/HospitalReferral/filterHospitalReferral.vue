@@ -111,8 +111,9 @@
           />
         </v-col>
       </v-row>
-      <v-row style="float: rigth;">
-        <v-col class="pt-0">
+      <v-row>
+        <v-col cols="12" sm="8" />
+        <v-col class="pt-0 float-right">
           <v-btn
             block
             color="#4f4f4f"
@@ -150,7 +151,7 @@ export default {
     },
     typeReferral: {
       type: String,
-      default: ''
+      default: null
     },
     onSearch: {
       type: Function,

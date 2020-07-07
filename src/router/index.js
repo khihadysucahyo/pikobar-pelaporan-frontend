@@ -60,6 +60,22 @@ export const constantRoutes = [
         }
       }
     ]
+  },
+  {
+    path: '/user/update',
+    component: Layout,
+    hidden: true,
+    meta: {
+      title: 'update_profile'
+    },
+    children: [{
+      path: '/user/update',
+      component: () => import('@/views/user/editUser'),
+      hidden: true,
+      meta: {
+        title: 'update_profile'
+      }
+    }]
   }
 ]
 

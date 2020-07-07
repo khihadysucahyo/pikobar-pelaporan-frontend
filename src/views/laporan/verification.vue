@@ -125,6 +125,7 @@
                 :show-failed-dialog.sync="showFailedDialog"
                 :show-verification-form.sync="showVerificationForm"
                 :case-detail.sync="caseDetail"
+                :refresh-page.sync="isRefresh"
                 :verification-query="verificationQuery"
               />
             </v-row>

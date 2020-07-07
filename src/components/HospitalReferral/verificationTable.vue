@@ -25,7 +25,17 @@
               {{ $t('label.done') }}
             </div>
           </td>
-          <td> {{ item.transfer_to_unit_name }} </td>
+          <td>
+            <div v-if="unitType === 'puskesmas'">
+              {{ item.transfer_to_unit_name }}
+            </div>
+            <div v-else-if="typeReferral === 'out'">
+              {{ item.transfer_to_unit_name }}
+            </div>
+            <div v-else>
+              {{ item.transfer_from_unit_name }}
+            </div>
+          </td>
           <td><status-referral :status="item.transfer_status" /></td>
           <td>
             <v-card-actions
@@ -117,6 +127,10 @@ export default {
     listReferral: {
       type: Array,
       default: null
+    },
+    typeReferral: {
+      type: String,
+      default: ''
     },
     listQuery: {
       type: Object,

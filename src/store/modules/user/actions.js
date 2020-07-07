@@ -97,6 +97,15 @@ export default {
     }
   },
 
+  async infoCurrentUser({ commit }) {
+    try {
+      const response = await requestServer(`/api/users/info`, 'GET')
+      return response
+    } catch (e) {
+      return e
+    }
+  },
+
   async deleteUser({ commit }, id) {
     try {
       const response = await requestServer(`/api/users/${id}`, 'DELETE')

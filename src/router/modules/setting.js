@@ -1,4 +1,7 @@
 import Layout from '@/layout'
+import {
+  rolesPerm
+} from '@/utils/constantVariable'
 
 const settingRouter = {
   path: '/setting',
@@ -7,7 +10,7 @@ const settingRouter = {
   meta: {
     title: 'setting',
     icon: 'mdi-settings',
-    roles: ['superadmin', 'dinkesprov', 'dinkeskota']
+    roles: [rolesPerm.ADMIN, rolesPerm.DINKESPROV, rolesPerm.DINKESKOTA]
   },
   active: false,
   children: [
@@ -19,7 +22,7 @@ const settingRouter = {
         icon: 'mdi-account-multiple',
         child: true,
         noCache: true,
-        roles: ['superadmin', 'dinkesprov', 'dinkeskota']
+        roles: [rolesPerm.ADMIN, rolesPerm.DINKESPROV, rolesPerm.DINKESKOTA]
       }
     },
     {
@@ -31,7 +34,7 @@ const settingRouter = {
         icon: 'mdi-book-plus',
         child: true,
         noCache: true,
-        roles: ['superadmin', 'dinkesprov', 'dinkeskota']
+        roles: [rolesPerm.ADMIN, rolesPerm.DINKESPROV, rolesPerm.DINKESKOTA]
       }
     },
     {
@@ -42,7 +45,7 @@ const settingRouter = {
         title: 'user_detail',
         child: true,
         noCache: true,
-        roles: ['superadmin', 'dinkesprov', 'dinkeskota']
+        roles: [rolesPerm.ADMIN, rolesPerm.DINKESPROV, rolesPerm.DINKESKOTA]
       }
     },
     {
@@ -53,7 +56,18 @@ const settingRouter = {
         title: 'user_edit',
         child: true,
         noCache: true,
-        roles: ['superadmin', 'dinkesprov', 'dinkeskota']
+        roles: [rolesPerm.ADMIN, rolesPerm.DINKESPROV, rolesPerm.DINKESKOTA]
+      }
+    },
+    {
+      path: '/user/update',
+      component: () => import('@/views/user/editUser'),
+      hidden: true,
+      meta: {
+        title: 'user_edit',
+        child: true,
+        noCache: true,
+        roles: [rolesPerm.ADMIN, rolesPerm.DINKESPROV, rolesPerm.DINKESKOTA, rolesPerm.FASKES]
       }
     },
     {
@@ -64,7 +78,7 @@ const settingRouter = {
         title: 'change_password',
         child: true,
         noCache: true,
-        roles: ['superadmin']
+        roles: [rolesPerm.ADMIN]
       }
     }
   ]
