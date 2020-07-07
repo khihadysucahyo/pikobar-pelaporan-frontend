@@ -10,6 +10,7 @@
             <label>{{ $t('label.search_patient_by_name_nik') }}</label>
             <autocomplete-cases
               :on-select-case="onSelectCase"
+              @handle-source-data-info="handleSourceDataInfo"
             />
           </v-col>
         </v-row>
@@ -17,6 +18,13 @@
           {{ $t('label.patient_personal_data') }}
         </h4>
         <v-divider />
+        <v-alert
+          v-if="isSearchParticipant"
+          dense
+          type="info"
+        >
+          {{ $t('label.rdt_source_data_participant') }} <strong>{{ sourceData }}</strong>
+        </v-alert>
         <v-row>
           <v-col
             cols="12"
@@ -293,7 +301,9 @@ export default {
         }
       ],
       isNikNull: false,
-      isPhoneNumberNull: false
+      isPhoneNumberNull: false,
+      isSearchParticipant: false,
+      sourceData: null
     }
   },
   computed: {
@@ -321,15 +331,23 @@ export default {
       }
     },
     async onSelectCase(value) {
-      const getEndSearch = value.indexOf('/')
-      const getName = value.slice(0, getEndSearch)
-      const listQuery = {
-        address_district_code: this.district_user,
-        search: getName
+      if (value) {
+        const getEndSearch = value.indexOf('/')
+        const getName = value.slice(0, getEndSearch)
+        const listQuery = {
+          address_district_code: this.district_user,
+          search: getName
+        }
+        const response = await this.$store.dispatch('rdt/getDetailRegister', listQuery)
+        this.formRapid.target = (response.data.source_data === 'internal') ? response.data.status : null
+        this.isSearchParticipant = true
+        this.sourceData = response.data.source_data === 'internal' ? this.$t('label.rdt_case_report') : response.data.source_data === 'external' ? this.$t('label.rdt_pikobar_registration') : ''
+        await Object.assign(this.formRapid, response.data)
+        this.formRapid.address_street = response.data.address_detail
       }
-      const response = await this.$store.dispatch('rdt/getDetailRegister', listQuery)
-      await Object.assign(this.formRapid, response.data)
-      this.formRapid.address_street = response.data.address_detail
+    },
+    handleSourceDataInfo(value) {
+      this.isSearchParticipant = value
     }
   }
 }

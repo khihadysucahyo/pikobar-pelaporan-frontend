@@ -1,4 +1,7 @@
 import Layout from '@/layout'
+import {
+  rolesPerm
+} from '@/utils/constantVariable'
 
 const reportRouter = {
   path: '/laporan',
@@ -7,7 +10,7 @@ const reportRouter = {
   meta: {
     title: 'laporan_title',
     icon: 'library_books',
-    roles: ['superadmin', 'dinkesprov', 'dinkeskota', 'faskes']
+    roles: [rolesPerm.ADMIN, rolesPerm.DINKESPROV, rolesPerm.DINKESKOTA, rolesPerm.FASKES]
   },
   active: false,
   children: [
@@ -19,7 +22,7 @@ const reportRouter = {
         icon: 'library_books',
         child: true,
         noCache: true,
-        roles: ['superadmin', 'dinkeskota', 'faskes']
+        roles: [rolesPerm.ADMIN, rolesPerm.DINKESKOTA, rolesPerm.FASKES]
       }
     },
     {
@@ -30,7 +33,7 @@ const reportRouter = {
         icon: 'library_books',
         child: true,
         noCache: true,
-        roles: ['superadmin', 'dinkeskota']
+        roles: [rolesPerm.ADMIN, rolesPerm.DINKESKOTA]
       }
     },
     {
@@ -41,7 +44,7 @@ const reportRouter = {
         icon: 'library_books',
         child: true,
         noCache: true,
-        roles: ['superadmin', 'faskes']
+        roles: [rolesPerm.ADMIN, rolesPerm.FASKES]
       }
     },
     {
@@ -52,7 +55,7 @@ const reportRouter = {
         icon: 'library_books',
         child: true,
         noCache: true,
-        roles: ['superadmin', 'dinkesprov', 'dinkeskota', 'faskes']
+        roles: [rolesPerm.ADMIN, rolesPerm.DINKESPROV, rolesPerm.DINKESKOTA, rolesPerm.FASKES]
       }
     }
   ]
