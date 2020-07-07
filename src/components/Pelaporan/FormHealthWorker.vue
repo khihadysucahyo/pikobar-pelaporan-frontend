@@ -24,7 +24,7 @@
             rules="required"
           >
             <v-radio-group
-              v-model="formBody.health_worker"
+              v-model="formBody.is_contact_with_officer"
               :error-messages="errors"
               row
             >
@@ -60,7 +60,7 @@
               <v-col v-for="item in protectionToolOptions" :key="item" sm="6" md="6">
                 <label class="material-checkbox-custom">
                   <input
-                    v-model="formBody.protection_tool"
+                    v-model="formBody.officer_protection_tools"
                     :value="item"
                     type="checkbox"
                   >

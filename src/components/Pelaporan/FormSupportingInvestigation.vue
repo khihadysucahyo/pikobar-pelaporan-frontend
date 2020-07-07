@@ -24,7 +24,7 @@
             rules="required"
           >
             <v-radio-group
-              v-model="formBody.health_worker"
+              v-model="formBody.is_contact_with_officer"
               :error-messages="errors"
               row
             >

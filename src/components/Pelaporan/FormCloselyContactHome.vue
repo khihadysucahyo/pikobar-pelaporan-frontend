@@ -11,7 +11,7 @@
           sm="12"
           :class="{'py-0': $vuetify.breakpoint. smAndDown}"
         >
-          <label>Tanggal Kontak</label>
+          <label>{{ $t('label.contact_date') }}</label>
         </v-col>
         <v-col
           cols="12"
@@ -24,9 +24,9 @@
           >
             <input-date-picker
               :format-date="'YYYY/MM/DD'"
-              :date-value="formBody.contact_date"
-              :value-date.sync="formBody.contact_date"
-              @changeDate="formBody.contact_date = $event"
+              :date-value="formBody.home_contact_date"
+              :value-date.sync="formBody.home_contact_date"
+              @changeDate="formBody.home_contact_date = $event"
             />
           </ValidationProvider>
         </v-col>
@@ -51,7 +51,7 @@
             rules="required|isHtml"
           >
             <v-text-field
-              v-model="formBody.duration"
+              v-model="formBody.home_contact_durations"
               :error-messages="errors"
               type="number"
               min="0"
@@ -93,7 +93,7 @@
             rules="required"
           >
             <v-text-field
-              v-model="formBody.total_day"
+              v-model="formBody.home_contact_days"
               :error-messages="errors"
               type="number"
               min="0"
@@ -135,7 +135,7 @@
               <v-col v-for="item in activityContactOptions" :key="item" sm="6" md="6">
                 <label class="material-checkbox-custom">
                   <input
-                    v-model="formBody.transport"
+                    v-model="formBody.home_activities"
                     :value="item"
                     type="checkbox"
                   >

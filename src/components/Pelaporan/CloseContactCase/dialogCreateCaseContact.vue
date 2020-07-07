@@ -96,7 +96,7 @@
               >
                 <v-expansion-panel>
                   <v-expansion-panel-header class="font-weight-bold text-lg">
-                    {{ $t('closely_contact_home') }}
+                    {{ $t('label.closely_contact_home') }}
                   </v-expansion-panel-header>
                   <v-divider />
                   <v-expansion-panel-content>
@@ -228,6 +228,10 @@ export default {
     titleDetail: {
       type: String,
       default: ''
+    },
+    formBody: {
+      type: Object,
+      default: null
     }
   },
   data() {
@@ -241,7 +245,6 @@ export default {
       symptom: [0],
       vaccinationHistory: [0],
       supportingInvestigation: [0],
-      formBody: {},
       dialogDecline: false,
       refreshPageList: false
     }

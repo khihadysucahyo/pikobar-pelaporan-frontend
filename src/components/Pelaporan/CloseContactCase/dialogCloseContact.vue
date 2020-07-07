@@ -58,6 +58,7 @@
     <dialog-create-close-contact
       :show-dialog="showCreateCloseContact"
       :title-detail="'Buat Laporan Kontak Erat'"
+      :form-body.sync="formBody"
     />
   </v-dialog>
 </template>
@@ -82,6 +83,10 @@ export default {
     return {
       show: this.showDialog,
       showCreateCloseContact: false,
+      formBody: {
+        contact_tracing_date: '',
+        travel_contact_date: ''
+      },
       headers: [
         { text: '#', value: '_id', sortable: false },
         { text: this.$t('label.name').toUpperCase(), value: 'name' },

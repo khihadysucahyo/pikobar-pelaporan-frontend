@@ -11,7 +11,7 @@
           sm="12"
           :class="{'py-0': $vuetify.breakpoint. smAndDown}"
         >
-          <label>{{ $t('label.nik') }}</label>
+          <label class="required">{{ $t('label.nik') }}</label>
         </v-col>
         <v-col
           cols="12"
@@ -66,7 +66,7 @@
           sm="12"
           :class="{'py-0': $vuetify.breakpoint. smAndDown}"
         >
-          <label>{{ $t('label.phone_number') }}</label>
+          <label class="required">{{ $t('label.phone_number') }}</label>
         </v-col>
         <v-col
           cols="12"
@@ -236,7 +236,7 @@
                 rules="required|numeric|isHtml"
               >
                 <v-text-field
-                  v-model="formBody.rt"
+                  v-model="formBody.address_rt"
                   :error-messages="errors"
                   type="number"
                   min="0"
@@ -263,7 +263,7 @@
                 rules="numeric|isHtml"
               >
                 <v-text-field
-                  v-model="formBody.rw"
+                  v-model="formBody.address_rw"
                   :error-messages="errors"
                   type="number"
                   min="0"
@@ -293,9 +293,7 @@
           md="3"
           sm="12"
           :class="{'py-0': $vuetify.breakpoint. smAndDown}"
-        >
-          <label>{{ $t('label.address_complete_home') }}</label>
-        </v-col>
+        />
         <v-col
           cols="12"
           md="9"
@@ -330,7 +328,7 @@
             rules="required|isHtml"
           >
             <v-text-field
-              v-model="formBody.name"
+              v-model="formBody.relationship"
               :error-messages="errors"
               solo-inverted
             />

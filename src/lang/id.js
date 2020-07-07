@@ -561,7 +561,8 @@ export default {
     transportation_used_daily: 'Transportasi yang digunakan sehari-hari',
     have_you_had_influenza_vaccination: 'Apakah pernah melakukan vaksinasi influenza?',
     date_vaccination: 'Tanggal Vaksinasi',
-    have_you_ever_carried_out_pvc_vaccination: 'Apakah pernah melakukan vaksinasi PVC?'
+    have_you_ever_carried_out_pvc_vaccination: 'Apakah pernah melakukan vaksinasi PVC?',
+    contact_date: 'Tanggal Kontak'
   },
   success: {
     login_success: 'Login Berhasil',

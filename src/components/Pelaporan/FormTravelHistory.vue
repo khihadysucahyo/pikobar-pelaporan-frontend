@@ -24,9 +24,9 @@
           >
             <input-date-picker
               :format-date="'YYYY/MM/DD'"
-              :date-value="formBody.test_date"
-              :value-date.sync="formBody.test_date"
-              @changeDate="formBody.test_date = $event"
+              :date-value="formBody.travel_contact_date"
+              :value-date.sync="formBody.travel_contact_date"
+              @changeDate="formBody.travel_contact_date = $event"
             />
           </ValidationProvider>
         </v-col>
@@ -53,7 +53,7 @@
             <v-row>
               <v-col>
                 <v-checkbox
-                  v-model="formBody.went_abboard_country"
+                  v-model="formBody.trevel_is_went_abroad"
                   label="Dari Luar Negeri"
                   class="mt-0 pt-0"
                   :error-messages="errors"
@@ -61,7 +61,7 @@
               </v-col>
               <v-col>
                 <v-checkbox
-                  v-model="formBody.went_abboard_other_city"
+                  v-model="formBody.travel_is_went_other_city"
                   label="Dari Luar Kota"
                   class="mt-0 pt-0"
                   :error-messages="errors"
@@ -91,9 +91,9 @@
           >
             <input-date-picker
               :format-date="'YYYY/MM/DD'"
-              :date-value="formBody.abboard_date"
-              :value-date.sync="formBody.abboard_date"
-              @changeDate="formBody.abboard_date = $event"
+              :date-value="formBody.travel_depart_date"
+              :value-date.sync="formBody.travel_depart_date"
+              @changeDate="formBody.travel_depart_date = $event"
             />
           </ValidationProvider>
         </v-col>
@@ -118,9 +118,9 @@
           >
             <input-date-picker
               :format-date="'YYYY/MM/DD'"
-              :date-value="formBody.arrived_date"
-              :value-date.sync="formBody.arrived_date"
-              @changeDate="formBody.arrived_date = $event"
+              :date-value="formBody.travel_return_date"
+              :value-date.sync="formBody.travel_return_date"
+              @changeDate="formBody.travel_return_date = $event"
             />
           </ValidationProvider>
         </v-col>
@@ -144,7 +144,7 @@
             rules="required"
           >
             <v-select
-              v-model="formBody.occupation"
+              v-model="formBody.travel_occupation"
               :items="occupationList"
               item-value="title"
               item-text="title"
@@ -173,7 +173,7 @@
             rules="required"
           >
             <v-textarea
-              v-model="formBody.other_notes"
+              v-model="formBody.travel_address_office"
               solo
             />
           </ValidationProvider>
@@ -199,7 +199,7 @@
               <v-col v-for="item in transportOptions" :key="item" sm="6" md="6">
                 <label class="material-checkbox-custom">
                   <input
-                    v-model="formBody.transport"
+                    v-model="formBody.travel_transportations"
                     :value="item"
                     type="checkbox"
                   >

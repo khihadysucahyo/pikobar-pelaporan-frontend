@@ -11,7 +11,7 @@
           sm="12"
           :class="{'py-0': $vuetify.breakpoint. smAndDown}"
         >
-          <label>{{ $t('label.interviewer_name') }}</label>
+          <label class="required">{{ $t('label.interviewer_name') }}</label>
         </v-col>
         <v-col
           cols="12"
@@ -24,7 +24,7 @@
             rules="required"
           >
             <v-text-field
-              v-model="formBody.results"
+              v-model="formBody.interviewer_name"
               :error-messages="errors"
               solo-inverted
             />
@@ -38,7 +38,7 @@
           sm="12"
           :class="{'py-0': $vuetify.breakpoint. smAndDown}"
         >
-          {{ $t('label.contact_tracking_date') }}
+          <label class="required">{{ $t('label.contact_tracking_date') }}</label>
         </v-col>
         <v-col
           cols="12"
@@ -51,9 +51,9 @@
           >
             <input-date-picker
               :format-date="'YYYY/MM/DD'"
-              :date-value="formBody.abboard_date"
-              :value-date.sync="formBody.abboard_date"
-              @changeDate="formBody.abboard_date = $event"
+              :date-value="formBody.contact_tracing_date"
+              :value-date.sync="formBody.contact_tracing_date"
+              @changeDate="formBody.contact_tracing_date = $event"
             />
           </ValidationProvider>
         </v-col>
