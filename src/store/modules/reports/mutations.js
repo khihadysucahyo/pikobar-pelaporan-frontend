@@ -42,13 +42,11 @@ export default {
     state.formPasien.current_location_district_code = ''
     state.formPasien.current_location_subdistrict_code = ''
     state.formPasien.current_location_village_code = ''
-
-    state.formPasien.patient_name = ''
-    state.formPasien.parent_name = ''
-    state.formPasien.place_birth = ''
+    state.formPasien.interviewers_name = ''
+    state.formPasien.interviewers_phone_number = ''
+    state.formPasien.interview_date = ''
     state.formPasien.rt = ''
     state.formPasien.rw = ''
-    state.formPasien.profession = ''
   },
   RESET_RIWAYAT_FORM_PASIEN: (state) => {
     state.formRiwayatPasien.case = ''

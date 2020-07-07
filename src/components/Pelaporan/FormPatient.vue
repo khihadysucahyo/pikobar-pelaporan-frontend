@@ -14,21 +14,31 @@
           <v-form ref="form" lazy-validation>
             <v-row align="start">
               <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}">
-                <label class="required">{{ $t('label.nik') }}</label>
+                <label :class="!isNikNull ? 'required' : ''">{{ $t('label.nik') }}</label>
               </v-col>
               <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
-                <ValidationProvider v-slot="{ errors }" rules="isHtml|sixteenDigits|numeric|provinceCode">
+                <ValidationProvider v-slot="{ errors }" :rules="isNikNull ? 'numeric' : 'required|numeric|sixteenDigits|provinceCode'">
                   <v-text-field v-model="formPasien.nik" type="number" :error-messages="errors" solo-inverted />
+                </ValidationProvider>
+                <v-checkbox v-model="isNikNull" :label="$t('label.do_not_have_nik')" class="mt-0 pt-0" />
+                <ValidationProvider v-if="isNikNull" v-slot="{ errors }" rules="required">
+                  <label class="required">{{ $t('label.reason_do_not_have_nik') }}</label>
+                  <v-text-field v-model="formPasien.note_nik" :error-messages="errors" solo-inverted />
                 </ValidationProvider>
               </v-col>
             </v-row>
             <v-row align="start">
               <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}">
-                <label class="required">{{ $t('label.phone_number') }}</label>
+                <label :class="!isPhoneNumberNull ? 'required' : ''">{{ $t('label.phone_number') }}</label>
               </v-col>
               <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
-                <ValidationProvider v-slot="{ errors }" rules="isPhoneNumber">
+                <ValidationProvider v-slot="{ errors }" :rules="isPhoneNumberNull ? 'isPhoneNumber' : 'required|isPhoneNumber'">
                   <v-text-field v-model="formPasien.phone_number" :error-messages="errors" placeholder="08xxxxxxxxx" solo-inverted type="number" />
+                </ValidationProvider>
+                <v-checkbox v-model="isPhoneNumberNull" :label="$t('label.do_not_have_phone_number')" class="mt-0 pt-0" />
+                <ValidationProvider v-if="isPhoneNumberNull" v-slot="{ errors }" rules="required">
+                  <label class="required">{{ $t('label.reason_do_not_have_phone_number') }}</label>
+                  <v-text-field v-model="formPasien.note_phone_number" :error-messages="errors" solo-inverted />
                 </ValidationProvider>
               </v-col>
             </v-row>
@@ -38,7 +48,7 @@
               </v-col>
               <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
                 <ValidationProvider v-slot="{ errors }" rules="required|isHtml">
-                  <v-text-field v-model="formPasien.patient_name" :error-messages="errors" solo-inverted />
+                  <v-text-field v-model="formPasien.name" :error-messages="errors" solo-inverted />
                 </ValidationProvider>
               </v-col>
             </v-row>
@@ -130,9 +140,7 @@
             </v-col>
           </v-row>
           <v-row align="start">
-            <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}">
-              <label>&nbsp;</label>
-            </v-col>
+            <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}" />
             <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
               <v-row align="center" class="ma-0">
                 <v-col cols="12" sm="6" class="pa-1">
@@ -151,9 +159,7 @@
             </v-col>
           </v-row>
           <v-row align="start">
-            <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}">
-              <label>&nbsp;</label>
-            </v-col>
+            <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}" />
             <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
               <ValidationProvider>
                 <v-textarea v-model="formPasien.address_street" solo :placeholder="$t('label.complete_address')" />
@@ -210,7 +216,6 @@
 </template>
 <script>
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
-import EventBus from '@/utils/eventBus'
 import { getAgeWithMonth } from '@/utils/constantVariable'
 import { mapGetters } from 'vuex'
 export default {
@@ -227,6 +232,7 @@ export default {
   },
   data() {
     return {
+      loading: false,
       formatDate: 'YYYY/MM/DD',
       date: '',
       listCountry: [],
@@ -234,10 +240,11 @@ export default {
       listQuery: {
         'name': ''
       },
-      showDuplicatedNikDialog: false,
       nikNumber: null,
       nikName: null,
-      nikAuthor: null
+      nikAuthor: null,
+      isNikNull: false,
+      isPhoneNumberNull: false
     }
   },
   computed: {
@@ -285,24 +292,6 @@ export default {
   },
   methods: {
     getAgeWithMonth,
-    async onNext() {
-      const valid = await this.$refs.observer.validate()
-      if (!valid) {
-        return
-      }
-      if (this.formPasien.nik) {
-        const response = await this.$store.dispatch('reports/getNik', this.formPasien.nik)
-        if (response.data) {
-          this.nikNumber = response.data.nik
-          this.nikName = response.data.name
-          this.nikAuthor = response.data.author.fullname
-          this.showDuplicatedNikDialog = true
-          return
-        }
-      }
-      await this.$store.dispatch('reports/resetRiwayatFormPasien')
-      EventBus.$emit('nextSurveySteps', this.steps)
-    },
     handleChangeNationality(value) {
       if (value === 'WNI') {
         this.formPasien.nationality_name = ''

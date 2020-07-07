@@ -18,7 +18,7 @@
               </v-col>
               <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
                 <ValidationProvider>
-                  <v-text-field v-model="formPasien.interviewer_name" type="text" solo-inverted />
+                  <v-text-field v-model="formPasien.interviewers_name" type="text" solo-inverted />
                 </ValidationProvider>
               </v-col>
             </v-row>
@@ -28,7 +28,7 @@
               </v-col>
               <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
                 <ValidationProvider v-slot="{ errors }" rules="isPhoneNumber">
-                  <v-text-field v-model="formPasien.interviewer_phone" :error-messages="errors" placeholder="08xxxxxxxxx" solo-inverted type="number" />
+                  <v-text-field v-model="formPasien.interviewers_phone_number" :error-messages="errors" placeholder="08xxxxxxxxx" solo-inverted type="number" />
                 </ValidationProvider>
               </v-col>
             </v-row>
@@ -37,7 +37,7 @@
                 <label>{{ $t('label.interview_date') }}</label>
               </v-col>
               <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
-                <input-date-picker :format-date="formatDate" :label="$t('label.interview_date')" :date-value="formPasien.interview_date" :value-date.sync="formPasien.interview_date" />
+                <input-date-picker :format-date="formatDate" :label="$t('label.interview_date')" :date-value="formPasien.interview_date" :value-date.sync="formPasien.interview_date" @changeDate="handleChangeInterviewDate" />
               </v-col>
             </v-row>
           </v-form>
@@ -62,7 +62,18 @@ export default {
   },
   data() {
     return {
-      formatDate: 'YYYY/MM/DD'
+      formatDate: 'YYYY/MM/DD',
+      currenDate: new Date()
+    }
+  },
+  mounted() {
+    this.formPasien.interview_date = this.$moment(this.currenDate).format(
+      'YYYY/MM/DD'
+    )
+  },
+  methods: {
+    handleChangeInterviewDate(value) {
+      this.formPasien.interview_date = value
     }
   }
 }

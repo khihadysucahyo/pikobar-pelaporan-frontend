@@ -68,11 +68,15 @@
               </v-col>
               <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
                 <ValidationProvider>
-                  <v-radio-group v-model="formPasien.closely_contact_with_suspect_cases" row>
-                    <v-radio :label="$t('label.yes')" value="YES" />
-                    <v-radio :label="$t('label.no')" value="NO" />
-                    <v-radio :label="$t('label.dont_know')" value="DONT KNOW" />
-                  </v-radio-group>
+                  <v-container>
+                    <v-row>
+                      <v-radio-group v-model="formPasien.closelyContactWithSuspectCases" row>
+                        <span v-for="(item, index) in answerList" :key="index">
+                          <v-radio :label="item.text" :value="item.value" />
+                        </span>
+                      </v-radio-group>
+                    </v-row>
+                  </v-container>
                 </ValidationProvider>
               </v-col>
             </v-row>
@@ -90,11 +94,15 @@
               </v-col>
               <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
                 <ValidationProvider>
-                  <v-radio-group v-model="formPasien.closely_contact_with_confirmed_cases" row>
-                    <v-radio :label="$t('label.yes')" value="YES" />
-                    <v-radio :label="$t('label.no')" value="NO" />
-                    <v-radio :label="$t('label.dont_know')" value="DONT KNOW" />
-                  </v-radio-group>
+                  <v-container>
+                    <v-row>
+                      <v-radio-group v-model="formPasien.closelyContactWithConfirmedCases" row>
+                        <span v-for="(item, index) in answerList" :key="index">
+                          <v-radio :label="item.text" :value="item.value" />
+                        </span>
+                      </v-radio-group>
+                    </v-row>
+                  </v-container>
                 </ValidationProvider>
               </v-col>
             </v-row>
@@ -104,11 +112,15 @@
               </v-col>
               <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
                 <ValidationProvider>
-                  <v-radio-group v-model="formPasien.visit_animal_market" row>
-                    <v-radio :label="$t('label.yes')" value="YES" />
-                    <v-radio :label="$t('label.no')" value="NO" />
-                    <v-radio :label="$t('label.dont_know')" value="DONT KNOW" />
-                  </v-radio-group>
+                  <v-container>
+                    <v-row>
+                      <v-radio-group v-model="formPasien.visitAnimalMarket" row>
+                        <span v-for="(item, index) in answerList" :key="index">
+                          <v-radio :label="item.text" :value="item.value" />
+                        </span>
+                      </v-radio-group>
+                    </v-row>
+                  </v-container>
                 </ValidationProvider>
               </v-col>
             </v-row>
@@ -118,11 +130,15 @@
               </v-col>
               <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
                 <ValidationProvider>
-                  <v-radio-group v-model="formPasien.visit_public_place" row>
-                    <v-radio :label="$t('label.yes')" value="YES" />
-                    <v-radio :label="$t('label.no')" value="NO" />
-                    <v-radio :label="$t('label.dont_know')" value="DONT KNOW" />
-                  </v-radio-group>
+                  <v-container>
+                    <v-row>
+                      <v-radio-group v-model="formPasien.visit_public_place" row>
+                        <span v-for="(item, index) in answerList" :key="index">
+                          <v-radio :label="item.text" :value="item.value" />
+                        </span>
+                      </v-radio-group>
+                    </v-row>
+                  </v-container>
                 </ValidationProvider>
               </v-col>
             </v-row>
@@ -132,11 +148,15 @@
               </v-col>
               <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
                 <ValidationProvider>
-                  <v-radio-group v-model="formPasien.visit_health_facility" row>
-                    <v-radio :label="$t('label.yes')" value="YES" />
-                    <v-radio :label="$t('label.no')" value="NO" />
-                    <v-radio :label="$t('label.dont_know')" value="DONT KNOW" />
-                  </v-radio-group>
+                  <v-container>
+                    <v-row>
+                      <v-radio-group v-model="formPasien.visitHealthFacility" row>
+                        <span v-for="(item, index) in answerList" :key="index">
+                          <v-radio :label="item.text" :value="item.value" />
+                        </span>
+                      </v-radio-group>
+                    </v-row>
+                  </v-container>
                 </ValidationProvider>
               </v-col>
             </v-row>
@@ -146,11 +166,15 @@
               </v-col>
               <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
                 <ValidationProvider>
-                  <v-radio-group v-model="formPasien.heavy_ispa_group" row>
-                    <v-radio :label="$t('label.yes')" value="YES" />
-                    <v-radio :label="$t('label.no')" value="NO" />
-                    <v-radio :label="$t('label.dont_know')" value="DONT KNOW" />
-                  </v-radio-group>
+                  <v-container>
+                    <v-row>
+                      <v-radio-group v-model="formPasien.heavyIspaGroup" row>
+                        <span v-for="(item, index) in answerList" :key="index">
+                          <v-radio :label="item.text" :value="item.value" />
+                        </span>
+                      </v-radio-group>
+                    </v-row>
+                  </v-container>
                 </ValidationProvider>
               </v-col>
             </v-row>
@@ -160,11 +184,15 @@
               </v-col>
               <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
                 <ValidationProvider>
-                  <v-radio-group v-model="formPasien.health_worker" row>
-                    <v-radio :label="$t('label.yes')" value="YES" />
-                    <v-radio :label="$t('label.no')" value="NO" />
-                    <v-radio :label="$t('label.dont_know')" value="DONT KNOW" />
-                  </v-radio-group>
+                  <v-container>
+                    <v-row>
+                      <v-radio-group v-model="formPasien.healthWorker" row>
+                        <span v-for="(item, index) in answerList" :key="index">
+                          <v-radio :label="item.text" :value="item.value" />
+                        </span>
+                      </v-radio-group>
+                    </v-row>
+                  </v-container>
                 </ValidationProvider>
               </v-col>
             </v-row>
@@ -196,9 +224,10 @@
 </template>
 <script>
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
+import { answerList } from '@/utils/constantVariable'
 import { apd } from '@/utils/constantVariable'
 export default {
-  name: 'FormExposureFactor',
+  name: 'FormContactFactor',
   components: {
     ValidationObserver,
     ValidationProvider
@@ -211,7 +240,9 @@ export default {
   },
   data() {
     return {
-      apdList: apd
+      apdList: apd,
+      formatDate: 'YYYY/MM/DD',
+      answerList: answerList
     }
   }
 }

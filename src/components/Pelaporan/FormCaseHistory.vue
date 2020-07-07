@@ -201,11 +201,15 @@
             </v-col>
             <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
               <ValidationProvider>
-                <v-radio-group v-model="formPasien.diagnosis_ards" row>
-                  <v-radio :label="$t('label.yes')" value="ya" />
-                  <v-radio :label="$t('label.no')" value="tidak" />
-                  <v-radio :label="$t('label.dont_know')" value="tidak_tahu" />
-                </v-radio-group>
+                <v-container>
+                  <v-row>
+                    <v-radio-group v-model="formPasien.diagnosis_ards" row>
+                      <span v-for="(item, index) in answerList" :key="index">
+                        <v-radio :label="item.text" :value="item.value" />
+                      </span>
+                    </v-radio-group>
+                  </v-row>
+                </v-container>
               </ValidationProvider>
             </v-col>
           </v-row>
@@ -215,11 +219,15 @@
             </v-col>
             <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
               <ValidationProvider>
-                <v-radio-group v-model="formPasien.diagnosis_covid" row>
-                  <v-radio :label="$t('label.yes')" value="ya" />
-                  <v-radio :label="$t('label.no')" value="tidak" />
-                  <v-radio :label="$t('label.dont_know')" value="tidak_tahu" />
-                </v-radio-group>
+                <v-container>
+                  <v-row>
+                    <v-radio-group v-model="formPasien.diagnosis_covid" row>
+                      <span v-for="(item, index) in answerList" :key="index">
+                        <v-radio :label="item.text" :value="item.value" />
+                      </span>
+                    </v-radio-group>
+                  </v-row>
+                </v-container>
               </ValidationProvider>
             </v-col>
           </v-row>
@@ -229,11 +237,15 @@
             </v-col>
             <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
               <ValidationProvider>
-                <v-radio-group v-model="formPasien.diagnosis_pneumonia" row>
-                  <v-radio :label="$t('label.yes')" value="ya" />
-                  <v-radio :label="$t('label.no')" value="tidak" />
-                  <v-radio :label="$t('label.dont_know')" value="tidak_tahu" />
-                </v-radio-group>
+                <v-container>
+                  <v-row>
+                    <v-radio-group v-model="formPasien.diagnosis_pneumonia" row>
+                      <span v-for="(item, index) in answerList" :key="index">
+                        <v-radio :label="item.text" :value="item.value" />
+                      </span>
+                    </v-radio-group>
+                  </v-row>
+                </v-container>
               </ValidationProvider>
             </v-col>
           </v-row>
@@ -251,11 +263,15 @@
             </v-col>
             <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
               <ValidationProvider>
-                <v-radio-group v-model="formPasien.serum_check" row>
-                  <v-radio :label="$t('label.yes')" value="ya" />
-                  <v-radio :label="$t('label.no')" value="tidak" />
-                  <v-radio :label="$t('label.dont_know')" value="tidak_tahu" />
-                </v-radio-group>
+                <v-container>
+                  <v-row>
+                    <v-radio-group v-model="formPasien.serum_check" row>
+                      <span v-for="(item, index) in answerList" :key="index">
+                        <v-radio :label="item.text" :value="item.value" />
+                      </span>
+                    </v-radio-group>
+                  </v-row>
+                </v-container>
               </ValidationProvider>
             </v-col>
           </v-row>
@@ -265,11 +281,15 @@
             </v-col>
             <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
               <ValidationProvider>
-                <v-radio-group v-model="formPasien.sputum_check" row>
-                  <v-radio :label="$t('label.yes')" value="ya" />
-                  <v-radio :label="$t('label.no')" value="tidak" />
-                  <v-radio :label="$t('label.dont_know')" value="tidak_tahu" />
-                </v-radio-group>
+                <v-container>
+                  <v-row>
+                    <v-radio-group v-model="formPasien.sputum_check" row>
+                      <span v-for="(item, index) in answerList" :key="index">
+                        <v-radio :label="item.text" :value="item.value" />
+                      </span>
+                    </v-radio-group>
+                  </v-row>
+                </v-container>
               </ValidationProvider>
             </v-col>
           </v-row>
@@ -279,11 +299,15 @@
             </v-col>
             <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
               <ValidationProvider>
-                <v-radio-group v-model="formPasien.swab_check" row>
-                  <v-radio :label="$t('label.yes')" value="ya" />
-                  <v-radio :label="$t('label.no')" value="tidak" />
-                  <v-radio :label="$t('label.dont_know')" value="tidak_tahu" />
-                </v-radio-group>
+                <v-container>
+                  <v-row>
+                    <v-radio-group v-model="formPasien.swab_check" row>
+                      <span v-for="(item, index) in answerList" :key="index">
+                        <v-radio :label="item.text" :value="item.value" />
+                      </span>
+                    </v-radio-group>
+                  </v-row>
+                </v-container>
               </ValidationProvider>
             </v-col>
           </v-row>
@@ -358,7 +382,7 @@
 </template>
 <script>
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
-import { symptomOptions, additionalConditionOptions } from '@/utils/constantVariable'
+import { symptomOptions, additionalConditionOptions, answerList } from '@/utils/constantVariable'
 import { mapGetters } from 'vuex'
 export default {
   name: 'FormCaseHistory',
@@ -380,7 +404,8 @@ export default {
       disabledReportResource: false,
       hospitalWestJavaList: [],
       hospitalNonWestJavaList: [],
-      additionalConditionOptions: additionalConditionOptions
+      additionalConditionOptions: additionalConditionOptions,
+      answerList: answerList
     }
   },
   computed: {

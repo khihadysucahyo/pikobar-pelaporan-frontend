@@ -171,3 +171,56 @@ export const apd = [
   'Kacamata Pelindung Goggle',
   'Tidak Sama Sekali'
 ]
+
+export const answerList = [
+  {
+    value: 1,
+    text: 'Ya'
+  },
+  {
+    value: 2,
+    text: 'Tidak'
+  },
+  {
+    value: 2,
+    text: 'Tidak Tahu'
+  }
+]
+
+export const listPhysicalActivity = [
+  {
+    value: 0,
+    text: 'Sedenter'
+  },
+  {
+    value: 1,
+    text: 'Latihan Fisik < 150 menit/minggu (3 x 50 menit/minggu atau 5 x 30 menit/minggu)'
+  },
+  {
+    value: 2,
+    text: 'Latihan Fisik > 150 menit/minggu (3 x 50 menit/minggu atau 5 x 30 menit/minggu)'
+  }
+]
+
+export const incomeList = [
+  {
+    value: 0,
+    text: 'Tidak Berpenghasilan'
+  },
+  {
+    value: 1,
+    text: '< 1 Juta'
+  },
+  {
+    value: 2,
+    text: '1 s/d 3 Juta'
+  },
+  {
+    value: 3,
+    text: '3 s/d 5 Juta'
+  },
+  {
+    value: 4,
+    text: '5 Juta'
+  }
+]
