@@ -18,10 +18,10 @@
             style="color: #FFFFFF;"
           >
             <div class="font-weight-bold">
-              ID Kasus Primer/Kasus Terkait: COVID-00000002
+              {{ $t('label.primary_case_id_related_case') }}: COVID-00000002
             </div>
             <div>
-              Form laporan di bawah ini mengacu pada lampiran 11 pedoman covid-19 revisi 4
+              {{ $t('label.redaction_create_related_case') }}
             </div>
           </div>
         </v-card>
@@ -36,7 +36,7 @@
               >
                 <v-expansion-panel>
                   <v-expansion-panel-header class="font-weight-bold text-lg">
-                    Petugas Medis/Paramedis/Relawan Kesehatan
+                    {{ $t('label.medical_officer_paramedic_health_volunteer') }}
                   </v-expansion-panel-header>
                   <v-divider />
                   <v-expansion-panel-content>
@@ -76,7 +76,7 @@
               >
                 <v-expansion-panel>
                   <v-expansion-panel-header class="font-weight-bold text-lg">
-                    Riwayat Perjalanan
+                    {{ $t('label.travel_history') }}
                   </v-expansion-panel-header>
                   <v-divider />
                   <v-expansion-panel-content>
@@ -96,7 +96,7 @@
               >
                 <v-expansion-panel>
                   <v-expansion-panel-header class="font-weight-bold text-lg">
-                    Kontak Erat Serumah
+                    {{ $t('closely_contact_home') }}
                   </v-expansion-panel-header>
                   <v-divider />
                   <v-expansion-panel-content>
@@ -116,7 +116,7 @@
               >
                 <v-expansion-panel>
                   <v-expansion-panel-header class="font-weight-bold text-lg">
-                    Petugas Kesehatan
+                    {{ $t('label.health_workers') }}
                   </v-expansion-panel-header>
                   <v-divider />
                   <v-expansion-panel-content>
@@ -136,7 +136,7 @@
               >
                 <v-expansion-panel>
                   <v-expansion-panel-header class="font-weight-bold text-lg">
-                    Gejala
+                    {{ $t('label.symptoms') }}
                   </v-expansion-panel-header>
                   <v-divider />
                   <v-expansion-panel-content>
@@ -156,7 +156,7 @@
               >
                 <v-expansion-panel>
                   <v-expansion-panel-header class="font-weight-bold text-lg">
-                    Riwayat Vaksinasi
+                    {{ $t('label.vaccination_history') }}
                   </v-expansion-panel-header>
                   <v-divider />
                   <v-expansion-panel-content>
@@ -176,7 +176,7 @@
               >
                 <v-expansion-panel>
                   <v-expansion-panel-header class="font-weight-bold text-lg">
-                    Pemeriksaan Penunjang
+                    {{ $t('label.supporting_investigation') }}
                   </v-expansion-panel-header>
                   <v-divider />
                   <v-expansion-panel-content>
@@ -204,7 +204,7 @@
                 block
                 @click="show = false"
               >
-                Submit
+                {{ $t('label.save') }}
               </v-btn>
             </v-col>
           </v-row>
@@ -262,11 +262,5 @@ export default {
 <style scoped>
   .warning-background {
     background-image: url('../../../static/warning_green_icon.svg')
-  }
-  .border-card {
-    color: #828282;
-    border: 1px dashed #E0E0E0 !important;
-    box-sizing: border-box !important;
-    border-radius: 8px !important;
   }
 </style>

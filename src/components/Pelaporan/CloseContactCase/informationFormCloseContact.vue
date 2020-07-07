@@ -363,11 +363,3 @@ export default {
   }
 }
 </script>
-<style scoped>
-   .border-card {
-      color: #828282;
-      border: 1px dashed #E0E0E0 !important;
-      box-sizing: border-box !important;
-      border-radius: 8px !important;
-   }
-</style>
