@@ -18,6 +18,7 @@
         autocomplete
         single-line
         solo
+        clearable
         @change="onSelectCase"
       />
     </ValidationProvider>
@@ -66,6 +67,7 @@ export default {
   },
   watch: {
     async search(value) {
+      if (!value) this.$emit('handle-source-data-info', false)
       this.loading = true
       this.listQuery.search = value
       const response = await this.$store.dispatch('rdt/getCases', this.listQuery)

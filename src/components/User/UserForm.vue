@@ -267,28 +267,28 @@ export default {
       let response
       if (!valid) {
         return
-      } else if (this.$refs.form.validate()) {
-        if (this.isEdit) {
-          await delete this.formUser['password']
-          const update = {
-            id: this.idData,
-            data: this.formUser
-          }
-          response = await this.$store.dispatch('user/editUser', update)
-          if (response.status === ResponseRequest.UNPROCESSABLE) {
-            await this.$store.dispatch('toast/errorToast', response.data.message)
-          } else {
-            await this.$store.dispatch('toast/successToast', this.$t('success.data_success_edit'))
-          }
-        } else {
-          response = await this.$store.dispatch('user/createUser', this.formUser)
-          if (response.status === ResponseRequest.UNPROCESSABLE) {
-            await this.$store.dispatch('toast/errorToast', response.data.message)
-          } else {
-            await this.$store.dispatch('toast/successToast', this.$t('success.create_date_success'))
-          }
+      }
+      if (this.isEdit) {
+        await delete this.formUser['password']
+        const update = {
+          id: this.idData,
+          data: this.formUser
         }
-        await this.$router.go(-1)
+        response = await this.$store.dispatch('user/editUser', update)
+        if (response.status === ResponseRequest.UNPROCESSABLE) {
+          await this.$store.dispatch('toast/errorToast', response.data.message)
+        } else {
+          await this.$store.dispatch('toast/successToast', this.$t('success.data_success_edit'))
+          await this.$router.go(-1)
+        }
+      } else {
+        response = await this.$store.dispatch('user/createUser', this.formUser)
+        if (response.status === ResponseRequest.UNPROCESSABLE) {
+          await this.$store.dispatch('toast/errorToast', response.data.message)
+        } else {
+          await this.$store.dispatch('toast/successToast', this.$t('success.create_date_success'))
+          await this.$router.go(-1)
+        }
       }
     }
   }

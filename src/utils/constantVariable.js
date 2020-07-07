@@ -182,6 +182,13 @@ export const additionalConditionOptions = [
   i18n.t('label.ppok')
 ]
 
+export const rolesPerm = {
+  'ADMIN': 'superadmin',
+  'DINKESPROV': 'dinkesprov',
+  'DINKESKOTA': 'dinkeskota',
+  'FASKES': 'faskes'
+}
+
 export const rolesWidget = {
   'dinkeskota': ['dinkeskota'],
   'dinkesKotaAndFaskes': ['dinkeskota', 'faskes']
