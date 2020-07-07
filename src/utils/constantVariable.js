@@ -10,7 +10,6 @@ export const DEFAULT_ACTION_LABELS = {
   reset: 'Reset'
 }
 
-export const guidePath = 'https://s.id/panduan_laporcovid19'
 export const ResponseRequest = {
   TIMEOUT: 'ECONNABORTED',
   NETWORKERROR: 'Network Error',
@@ -158,6 +157,6 @@ export const rolesPerm = {
 }
 
 export const rolesWidget = {
-  'dinkeskota': ['dinkeskota'],
-  'dinkesKotaAndFaskes': ['dinkeskota', 'faskes']
+  'dinkeskota': [rolesPerm.DINKESKOTA],
+  'dinkesKotaAndFaskes': [rolesPerm.DINKESKOTA, rolesPerm.FASKES]
 }
