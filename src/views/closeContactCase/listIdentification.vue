@@ -552,7 +552,7 @@ export default {
     },
     async handleCloseContact(id) {
       this.idCase = id
-      const response = await this.$store.dispatch('reports/getListCloseContactByCase', id)
+      const response = await this.$store.dispatch('closeContactCase/getListCloseContactByCase', id)
       this.listCloseContact = response.data
       this.dialogCloseContact = true
     },

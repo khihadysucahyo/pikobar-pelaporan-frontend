@@ -19,9 +19,7 @@
           sm="12"
           :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
         >
-          <ValidationProvider
-            rules="required"
-          >
+          <ValidationProvider>
             <input-date-picker
               :format-date="'YYYY/MM/DD'"
               :date-value="formBody.home_contact_date"
@@ -55,7 +53,7 @@
               :error-messages="errors"
               type="number"
               min="0"
-              max="3"
+              max="10"
               solo-inverted
               oninput="if(Number(this.value) > Number(this.max)) this.value = this.max"
               class="input-append-btn"
@@ -97,7 +95,7 @@
               :error-messages="errors"
               type="number"
               min="0"
-              max="3"
+              max="10"
               solo-inverted
               oninput="if(Number(this.value) > Number(this.max)) this.value = this.max"
               class="input-append-btn"

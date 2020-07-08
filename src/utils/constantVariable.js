@@ -110,6 +110,35 @@ export const activityContactOptions = [
   'Menggunakan Toilet Yang Sama'
 ]
 
+export const symptomsCloseContactOptions = [
+  'Demam',
+  'Batuk',
+  'Pilek',
+  'Sakit Tenggorokan',
+  'Sesak Napas',
+  'Menggigil',
+  'Sakit Kepala',
+  'Lemas Dan Lemah',
+  'Nyeri Otot',
+  'Mual Dan Muntah',
+  'Nyeri Abdomen',
+  'Diare'
+]
+
+export const komorbidOptions = [
+  'Asma',
+  'Diabetes',
+  'Gangguan Imunologi',
+  'Hamil',
+  'Hipertensi',
+  'Penyakit Ginjal Kronis',
+  'Penyakit Jantung',
+  'PPOK',
+  'Tidak Ada Kondisi Penyerta',
+  'Keganasan',
+  'Lainnya'
+]
+
 export const protectionToolOptions = [
   'Gown',
   'Sarung Tangan',

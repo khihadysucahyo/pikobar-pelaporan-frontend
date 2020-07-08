@@ -21,10 +21,9 @@
         >
           <ValidationProvider
             v-slot="{ errors }"
-            rules="required"
           >
             <v-radio-group
-              v-model="formBody.health_worker"
+              v-model="formBody.latest_history.test_nasal_swab"
               :error-messages="errors"
               row
             >
@@ -55,14 +54,12 @@
           sm="12"
           :class="{'py-0': $vuetify.breakpoint. smAndDown}"
         >
-          <ValidationProvider
-            rules="required|isHtml"
-          >
+          <ValidationProvider>
             <input-date-picker
-              :format-date="'YYYY/MM/DD'"
-              :date-value="formBody.abboard_date"
-              :value-date.sync="formBody.abboard_date"
-              @changeDate="formBody.abboard_date = $event"
+              :format-date="formatDate"
+              :date-value="formBody.latest_history.test_nasal_swab_date"
+              :value-date.sync="formBody.latest_history.test_nasal_swab_date"
+              @changeDate="formBody.latest_history.test_nasal_swab_date = $event"
             />
           </ValidationProvider>
         </v-col>
@@ -84,11 +81,10 @@
         >
           <ValidationProvider
             v-slot="{ errors }"
-            rules="required"
           >
             <v-text-field
-              v-model="formBody.results"
-              type="number"
+              v-model="formBody.latest_history.test_nasal_swab_result"
+              type="text"
               :error-messages="errors"
               solo-inverted
             />
@@ -112,10 +108,9 @@
         >
           <ValidationProvider
             v-slot="{ errors }"
-            rules="required"
           >
             <v-radio-group
-              v-model="formBody.health_worker"
+              v-model="formBody.latest_history.test_throat_swab"
               :error-messages="errors"
               row
             >
@@ -146,14 +141,12 @@
           sm="12"
           :class="{'py-0': $vuetify.breakpoint. smAndDown}"
         >
-          <ValidationProvider
-            rules="required|isHtml"
-          >
+          <ValidationProvider>
             <input-date-picker
-              :format-date="'YYYY/MM/DD'"
-              :date-value="formBody.abboard_date"
-              :value-date.sync="formBody.abboard_date"
-              @changeDate="formBody.abboard_date = $event"
+              :format-date="formatDate"
+              :date-value="formBody.latest_history.test_throat_swab_date"
+              :value-date.sync="formBody.latest_history.test_throat_swab_date"
+              @changeDate="formBody.latest_history.test_throat_swab_date = $event"
             />
           </ValidationProvider>
         </v-col>
@@ -175,11 +168,10 @@
         >
           <ValidationProvider
             v-slot="{ errors }"
-            rules="required"
           >
             <v-text-field
-              v-model="formBody.results"
-              type="number"
+              v-model="formBody.latest_history.test_throat_swab_result"
+              type="text"
               :error-messages="errors"
               solo-inverted
             />
@@ -203,10 +195,9 @@
         >
           <ValidationProvider
             v-slot="{ errors }"
-            rules="required"
           >
             <v-radio-group
-              v-model="formBody.health_worker"
+              v-model="formBody.latest_history.test_nasopharyngeal_swab"
               :error-messages="errors"
               row
             >
@@ -237,14 +228,12 @@
           sm="12"
           :class="{'py-0': $vuetify.breakpoint. smAndDown}"
         >
-          <ValidationProvider
-            rules="required|isHtml"
-          >
+          <ValidationProvider>
             <input-date-picker
-              :format-date="'YYYY/MM/DD'"
-              :date-value="formBody.abboard_date"
-              :value-date.sync="formBody.abboard_date"
-              @changeDate="formBody.abboard_date = $event"
+              :format-date="formatDate"
+              :date-value="formBody.latest_history.test_nasopharyngeal_swab_date"
+              :value-date.sync="formBody.latest_history.test_nasopharyngeal_swab_date"
+              @changeDate="formBody.latest_history.test_nasopharyngeal_swab_date = $event"
             />
           </ValidationProvider>
         </v-col>
@@ -266,11 +255,10 @@
         >
           <ValidationProvider
             v-slot="{ errors }"
-            rules="required"
           >
             <v-text-field
-              v-model="formBody.results"
-              type="number"
+              v-model="formBody.latest_history.test_nasopharyngeal_swab_result"
+              type="text"
               :error-messages="errors"
               solo-inverted
             />
@@ -294,10 +282,9 @@
         >
           <ValidationProvider
             v-slot="{ errors }"
-            rules="required"
           >
             <v-radio-group
-              v-model="formBody.health_worker"
+              v-model="formBody.latest_history.test_orofaringeal_swab"
               :error-messages="errors"
               row
             >
@@ -328,14 +315,12 @@
           sm="12"
           :class="{'py-0': $vuetify.breakpoint. smAndDown}"
         >
-          <ValidationProvider
-            rules="required|isHtml"
-          >
+          <ValidationProvider>
             <input-date-picker
-              :format-date="'YYYY/MM/DD'"
-              :date-value="formBody.abboard_date"
-              :value-date.sync="formBody.abboard_date"
-              @changeDate="formBody.abboard_date = $event"
+              :format-date="formatDate"
+              :date-value="formBody.latest_history.test_orofaringeal_swab_date"
+              :value-date.sync="formBody.latest_history.test_orofaringeal_swab_date"
+              @changeDate="formBody.latest_history.test_orofaringeal_swab_date = $event"
             />
           </ValidationProvider>
         </v-col>
@@ -357,11 +342,10 @@
         >
           <ValidationProvider
             v-slot="{ errors }"
-            rules="required"
           >
             <v-text-field
-              v-model="formBody.results"
-              type="number"
+              v-model="formBody.latest_history.test_orofaringeal_swab_result"
+              type="text"
               :error-messages="errors"
               solo-inverted
             />
@@ -385,10 +369,9 @@
         >
           <ValidationProvider
             v-slot="{ errors }"
-            rules="required"
           >
             <v-radio-group
-              v-model="formBody.health_worker"
+              v-model="formBody.latest_history.test_serum"
               :error-messages="errors"
               row
             >
@@ -401,61 +384,6 @@
                 value="1"
               />
             </v-radio-group>
-          </ValidationProvider>
-        </v-col>
-      </v-row>
-      <v-row align="start">
-        <v-col
-          cols="12"
-          md="3"
-          sm="12"
-          :class="{'py-0': $vuetify.breakpoint. smAndDown}"
-        >
-          {{ $t('label.date') }}
-        </v-col>
-        <v-col
-          cols="12"
-          md="9"
-          sm="12"
-          :class="{'py-0': $vuetify.breakpoint. smAndDown}"
-        >
-          <ValidationProvider
-            rules="required|isHtml"
-          >
-            <input-date-picker
-              :format-date="'YYYY/MM/DD'"
-              :date-value="formBody.abboard_date"
-              :value-date.sync="formBody.abboard_date"
-              @changeDate="formBody.abboard_date = $event"
-            />
-          </ValidationProvider>
-        </v-col>
-      </v-row>
-      <v-row align="start">
-        <v-col
-          cols="12"
-          md="3"
-          sm="12"
-          :class="{'py-0': $vuetify.breakpoint. smAndDown}"
-        >
-          <label>{{ $t('label.results') }}</label>
-        </v-col>
-        <v-col
-          cols="12"
-          md="9"
-          sm="12"
-          :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
-        >
-          <ValidationProvider
-            v-slot="{ errors }"
-            rules="required"
-          >
-            <v-text-field
-              v-model="formBody.results"
-              type="number"
-              :error-messages="errors"
-              solo-inverted
-            />
           </ValidationProvider>
         </v-col>
       </v-row>

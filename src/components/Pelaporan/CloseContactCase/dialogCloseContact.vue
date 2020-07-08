@@ -12,7 +12,7 @@
           <v-col>
             <v-data-table
               :headers="headers"
-              :items="list"
+              :items="listCloseContact"
               :mobile-breakpoint="NaN"
               :no-data-text="$t('label.data_empty')"
               :items-per-page="10"
@@ -59,6 +59,7 @@
       :show-dialog="showCreateCloseContact"
       :show.sync="showCreateCloseContact"
       :title-detail="'Buat Laporan Kontak Erat'"
+      :id-case.sync="idCase"
       :form-body.sync="formBody"
     />
   </v-dialog>
@@ -70,6 +71,10 @@ export default {
     showDialog: {
       type: Boolean,
       default: false
+    },
+    idCase: {
+      type: String,
+      default: ''
     },
     titleDetail: {
       type: String,
@@ -86,7 +91,27 @@ export default {
       showCreateCloseContact: false,
       formBody: {
         contact_tracing_date: '',
-        travel_contact_date: ''
+        travel_contact_date: '',
+        travel_country_depart_date: '',
+        travel_country_return_date: '',
+        travel_city_depart_date: '',
+        travel_city_return_date: '',
+        travel_transportations: [],
+        home_contact_date: '',
+        home_activities: [],
+        officer_protection_tools: [],
+        contact_date: '',
+        latest_history: {
+          symptoms_date: '',
+          symptoms: [],
+          diseases: [],
+          vaccination_influenza_vaccine_date: '',
+          vaccination_pvc_vaccine_date: '',
+          test_orofaringeal_swab_date: '',
+          test_nasal_swab_date: '',
+          test_throat_swab_date: '',
+          test_nasopharyngeal_swab_date: ''
+        }
       },
       headers: [
         { text: '#', value: '_id', sortable: false },
@@ -96,7 +121,6 @@ export default {
         { text: this.$t('label.address').toUpperCase(), value: 'address' },
         { text: this.$t('label.action').toUpperCase(), value: 'actions' }
       ],
-      list: [],
       dialogDecline: false,
       refreshPageList: false
     }
@@ -107,6 +131,9 @@ export default {
     },
     show(value) {
       this.$emit('update:show', value)
+      if (!value) {
+        this.$emit('update:caseId', '')
+      }
     }
   },
   methods: {

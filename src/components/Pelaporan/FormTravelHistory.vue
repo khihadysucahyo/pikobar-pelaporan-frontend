@@ -11,33 +11,6 @@
           sm="12"
           :class="{'py-0': $vuetify.breakpoint. smAndDown}"
         >
-          <label>{{ $t('label.date_last_contact_related_case') }}</label>
-        </v-col>
-        <v-col
-          cols="12"
-          md="9"
-          sm="12"
-          :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
-        >
-          <ValidationProvider
-            rules="required"
-          >
-            <input-date-picker
-              :format-date="'YYYY/MM/DD'"
-              :date-value="formBody.travel_contact_date"
-              :value-date.sync="formBody.travel_contact_date"
-              @changeDate="formBody.travel_contact_date = $event"
-            />
-          </ValidationProvider>
-        </v-col>
-      </v-row>
-      <v-row align="start">
-        <v-col
-          cols="12"
-          md="3"
-          sm="12"
-          :class="{'py-0': $vuetify.breakpoint. smAndDown}"
-        >
           {{ $t('label.travel_history') }}
         </v-col>
         <v-col
@@ -48,26 +21,47 @@
         >
           <ValidationProvider
             v-slot="{ errors }"
-            rules="required|isHtml"
+            rules="isHtml"
           >
-            <v-row>
-              <v-col>
-                <v-checkbox
-                  v-model="formBody.trevel_is_went_abroad"
-                  label="Dari Luar Negeri"
-                  class="mt-0 pt-0"
-                  :error-messages="errors"
-                />
-              </v-col>
-              <v-col>
-                <v-checkbox
-                  v-model="formBody.travel_is_went_other_city"
-                  label="Dari Luar Kota"
-                  class="mt-0 pt-0"
-                  :error-messages="errors"
-                />
-              </v-col>
-            </v-row>
+            <v-checkbox
+              v-model="formBody.trevel_is_went_abroad"
+              :label="$t('label.from_abroad')"
+              class="mt-0 pt-0"
+              :error-messages="errors"
+            />
+          </ValidationProvider>
+        </v-col>
+      </v-row>
+      <v-row
+        v-if="formBody.trevel_is_went_abroad"
+        align="start"
+      >
+        <v-col
+          cols="12"
+          md="3"
+          sm="12"
+          :class="{'py-0': $vuetify.breakpoint. smAndDown}"
+        />
+        <v-col
+          cols="12"
+          md="9"
+          sm="12"
+          :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
+        >
+          <ValidationProvider
+            v-slot="{ errors }"
+            rules="required"
+          >
+            <v-autocomplete
+              v-model="formBody.travel_visited_country"
+              :items="listCountry"
+              item-text="name"
+              item-value="name"
+              :error-messages="errors"
+              :placeholder="$t('label.country_origin')"
+              clearable
+              solo-inverted
+            />
           </ValidationProvider>
         </v-col>
       </v-row>
@@ -86,14 +80,12 @@
           sm="12"
           :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
         >
-          <ValidationProvider
-            rules="required"
-          >
+          <ValidationProvider>
             <input-date-picker
-              :format-date="'YYYY/MM/DD'"
-              :date-value="formBody.travel_depart_date"
-              :value-date.sync="formBody.travel_depart_date"
-              @changeDate="formBody.travel_depart_date = $event"
+              :format-date="formatDate"
+              :date-value="formBody.travel_country_depart_date"
+              :value-date.sync="formBody.travel_country_depart_date"
+              @changeDate="formBody.travel_country_depart_date = $event"
             />
           </ValidationProvider>
         </v-col>
@@ -113,14 +105,116 @@
           sm="12"
           :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
         >
-          <ValidationProvider
-            rules="required"
-          >
+          <ValidationProvider>
             <input-date-picker
-              :format-date="'YYYY/MM/DD'"
-              :date-value="formBody.travel_return_date"
-              :value-date.sync="formBody.travel_return_date"
-              @changeDate="formBody.travel_return_date = $event"
+              :format-date="formatDate"
+              :date-value="formBody.travel_country_return_date"
+              :value-date.sync="formBody.travel_country_return_date"
+              @changeDate="formBody.travel_country_return_date = $event"
+            />
+          </ValidationProvider>
+        </v-col>
+      </v-row>
+      <v-row align="start">
+        <v-col
+          cols="12"
+          md="3"
+          sm="12"
+          :class="{'py-0': $vuetify.breakpoint. smAndDown}"
+        />
+        <v-col
+          cols="12"
+          md="9"
+          sm="12"
+          :class="{'py-0': $vuetify.breakpoint. smAndDown}"
+        >
+          <ValidationProvider
+            v-slot="{ errors }"
+            rules="isHtml"
+          >
+            <v-checkbox
+              v-model="formBody.travel_is_went_other_city"
+              :label="$t('label.from_outside_city')"
+              class="mt-0 pt-0"
+              :error-messages="errors"
+            />
+          </ValidationProvider>
+        </v-col>
+      </v-row>
+      <v-row
+        v-if="formBody.travel_is_went_other_city"
+        align="start"
+      >
+        <v-col
+          cols="12"
+          md="3"
+          sm="12"
+          :class="{'py-0': $vuetify.breakpoint. smAndDown}"
+        />
+        <v-col
+          cols="12"
+          md="9"
+          sm="12"
+          :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
+        >
+          <ValidationProvider
+            v-slot="{ errors }"
+          >
+            <v-text-field
+              v-model="formBody.travel_visited_city"
+              type="text"
+              :error-messages="errors"
+              solo-inverted
+            />
+          </ValidationProvider>
+        </v-col>
+      </v-row>
+      <v-row align="start">
+        <v-col
+          cols="12"
+          md="3"
+          sm="12"
+          :class="{'py-0': $vuetify.breakpoint. smAndDown}"
+        >
+          <label>{{ $t('label.travel_start_date') }}</label>
+        </v-col>
+        <v-col
+          cols="12"
+          md="9"
+          sm="12"
+          :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
+        >
+          <ValidationProvider>
+            <input-date-picker
+              :format-date="formatDate"
+              :date-value="formBody.travel_city_depart_date"
+              :value-date.sync="formBody.travel_city_depart_date"
+              @changeDate="formBody.travel_city_depart_date = $event"
+            />
+          </ValidationProvider>
+        </v-col>
+      </v-row>
+      <v-row align="start">
+        <v-col
+          cols="12"
+          md="3"
+          sm="12"
+          :class="{'py-0': $vuetify.breakpoint. smAndDown}"
+        >
+          <label>Tanggal Kepulangan</label>
+        </v-col>
+        <v-col
+          cols="12"
+          md="9"
+          sm="12"
+          :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
+        >
+          <ValidationProvider>
+            <input-date-picker
+              :format-date="formatDate"
+              :date-value="formBody.travel_city_return_date"
+              :value-date.sync="formBody.travel_city_return_date"
+              @changeDate="formBody.travel_city_return_date = $event"
             />
           </ValidationProvider>
         </v-col>
@@ -237,6 +331,7 @@ export default {
   data() {
     return {
       transportOptions,
+      listCountry: [],
       formatDate: 'YYYY/MM/DD'
     }
   },
@@ -247,6 +342,8 @@ export default {
   },
   async mounted() {
     await this.$store.dispatch('occupation/getListOccuption')
+    const response = await this.$store.dispatch('region/listCountry')
+    this.listCountry = response.data
   },
   methods: {
     //

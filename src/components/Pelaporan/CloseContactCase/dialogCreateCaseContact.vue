@@ -91,6 +91,26 @@
           <v-row>
             <v-col auto>
               <v-expansion-panels
+                v-model="exposureInformation"
+                multiple
+              >
+                <v-expansion-panel>
+                  <v-expansion-panel-header class="font-weight-bold text-lg">
+                    {{ $t('label.exposure_information') }}
+                  </v-expansion-panel-header>
+                  <v-divider />
+                  <v-expansion-panel-content>
+                    <form-exposure-information
+                      :form-body="formBody"
+                    />
+                  </v-expansion-panel-content>
+                </v-expansion-panel>
+              </v-expansion-panels>
+            </v-col>
+          </v-row>
+          <v-row v-if="formBody.contact_type === 0 || formBody.contact_type === 2">
+            <v-col auto>
+              <v-expansion-panels
                 v-model="closelyContactHome"
                 multiple
               >
@@ -108,7 +128,7 @@
               </v-expansion-panels>
             </v-col>
           </v-row>
-          <v-row>
+          <v-row v-if="formBody.contact_type === 1">
             <v-col auto>
               <v-expansion-panels
                 v-model="healthWorker"
@@ -202,7 +222,7 @@
               <v-btn
                 color="primary"
                 block
-                @click="show = false"
+                @click="handleSave"
               >
                 {{ $t('label.save') }}
               </v-btn>
@@ -232,6 +252,10 @@ export default {
     formBody: {
       type: Object,
       default: null
+    },
+    idCase: {
+      type: String,
+      default: ''
     }
   },
   data() {
@@ -240,6 +264,7 @@ export default {
       interviewer: [0],
       closeContactIdentity: [0],
       travelHistory: [0],
+      exposureInformation: [0],
       closelyContactHome: [0],
       healthWorker: [0],
       symptom: [0],
@@ -258,7 +283,23 @@ export default {
     }
   },
   methods: {
-    //
+    async handleSave() {
+      const valid = await this.$refs.observer.validate()
+      if (!valid) {
+        return
+      }
+      const data = {
+        idCase: this.idCase,
+        body: this.formBody
+      }
+      const response = await this.$store.dispatch('closeContactCase/postListCloseContactByCase', data)
+      if (response.status !== 422) {
+        await this.$store.dispatch('toast/successToast', this.$t('success.create_date_success'))
+        this.show = false
+      } else {
+        await this.$store.dispatch('toast/errorToast', this.$t('errors.create_date_errors'))
+      }
+    }
   }
 }
 </script>

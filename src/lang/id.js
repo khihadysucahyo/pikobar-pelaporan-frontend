@@ -35,7 +35,10 @@ export default {
     submission_Logistics: 'Pengajuan Logistik',
     submit_application: 'Ajukan Permohonan',
     application_list: 'Daftar Permohonan',
-    daily_report: 'Laporan Harian'
+    daily_report: 'Laporan Harian',
+    tight_contact: 'Kontak Erat',
+    make_report: 'Buat Laporan',
+    list_identification: 'List Identifikasi'
   },
   label: {
     username: 'Username',
@@ -170,6 +173,7 @@ export default {
     postscript: 'Catatan Tambahan',
     history: 'Riwayat',
     from_abroad: 'Dari Luar Negeri',
+    from_outside_city: 'Dari Luar Kota',
     country_visited: 'Negara Yang Dikunjungi',
     trip_outside_the_city: 'Perjalanan ke luar kota',
     city_visited: 'Kota Yang Dikunjungi',
@@ -512,6 +516,7 @@ export default {
     reference_rejected_because: 'Rujukan ditolak karena ...',
     patient_successfully_referred: 'Pasien berhasil dirujuk',
     reference_rejected: 'Rujukan Ditolak',
+    housemate: 'Kontak Serumah',
     origin_reference: 'Asal Rujukan',
     reference_place: 'Tempat Rujukan',
     choose_place: 'Pilih Tempat',
@@ -565,8 +570,15 @@ export default {
     contact_date: 'Tanggal Kontak',
     distribution_case_network: 'Kasus Keterkaitan',
     rdt_source_data_participant: 'Data profil pasien diambil dari sumber data',
+    where_contact_meet_with_confirmation_case:'Dimana Kontak bertemu dengan kasus konfirmasi?',
+    when_will_contacts_meet_with_confirmed_cases: 'Kapan Kontak bertemu dengan kasus terkonfirmasi?',
+    how_long_did_contacts_interact_with_confirmed_cases: 'Berapa lama Kontak berinteraksi dengan kasus terkonfirmasi?',
     rdt_case_report: 'Laporan Kasus',
-    rdt_pikobar_registration: 'Pendaftar Pikobar'
+    rdt_pikobar_registration: 'Pendaftar Pikobar',
+    exposure_information: 'Informasi Paparan',
+    workplace: 'Tempat Kerja',
+    tour_group: 'Kelompok Tour',
+    medical_facility: 'Fasilitas Kesehatan'
   },
   success: {
     login_success: 'Login Berhasil',
@@ -583,6 +595,7 @@ export default {
     reference_successfully_deleted: 'Rujukan berhasil dihapus'
   },
   errors: {
+    create_data_errors: 'Data Gagal Dibuat',
     username_must_be_filled: 'Username harus diisi',
     password_must_be_filled: 'Password harus diisi',
     new_password_must_be_filled: 'Password baru harus diisi',

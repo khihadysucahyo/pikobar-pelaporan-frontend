@@ -21,20 +21,19 @@
         >
           <ValidationProvider
             v-slot="{ errors }"
-            rules="required"
           >
             <v-radio-group
-              v-model="formBody.health_worker"
+              v-model="formBody.latest_history.vaccination_influenza_vaccine"
               :error-messages="errors"
               row
             >
               <v-radio
                 :label="$t('label.yes')"
-                value="0"
+                :value="0"
               />
               <v-radio
                 :label="$t('label.no')"
-                value="1"
+                :value="1"
               />
             </v-radio-group>
           </ValidationProvider>
@@ -55,14 +54,12 @@
           sm="12"
           :class="{'py-0': $vuetify.breakpoint. smAndDown}"
         >
-          <ValidationProvider
-            rules="required|isHtml"
-          >
+          <ValidationProvider>
             <input-date-picker
-              :format-date="'YYYY/MM/DD'"
-              :date-value="formBody.abboard_date"
-              :value-date.sync="formBody.abboard_date"
-              @changeDate="formBody.abboard_date = $event"
+              :format-date="formatDate"
+              :date-value="formBody.latest_history.vaccination_influenza_vaccine_date"
+              :value-date.sync="formBody.latest_history.vaccination_influenza_vaccine_date"
+              @changeDate="formBody.latest_history.vaccination_influenza_vaccine_date = $event"
             />
           </ValidationProvider>
         </v-col>
@@ -84,20 +81,19 @@
         >
           <ValidationProvider
             v-slot="{ errors }"
-            rules="required"
           >
             <v-radio-group
-              v-model="formBody.health_worker"
+              v-model="formBody.latest_history.vaccination_pvc_vaccine"
               :error-messages="errors"
               row
             >
               <v-radio
                 :label="$t('label.yes')"
-                value="0"
+                :value="0"
               />
               <v-radio
                 :label="$t('label.no')"
-                value="1"
+                :value="1"
               />
             </v-radio-group>
           </ValidationProvider>
@@ -118,14 +114,12 @@
           sm="12"
           :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
         >
-          <ValidationProvider
-            rules="required"
-          >
+          <ValidationProvider>
             <input-date-picker
-              :format-date="'YYYY/MM/DD'"
-              :date-value="formBody.arrived_date"
-              :value-date.sync="formBody.arrived_date"
-              @changeDate="formBody.arrived_date = $event"
+              :format-date="formatDate"
+              :date-value="formBody.latest_history.vaccination_pvc_vaccine_date"
+              :value-date.sync="formBody.latest_history.vaccination_pvc_vaccine_date"
+              @changeDate="formBody.latest_history.vaccination_pvc_vaccine_date = $event"
             />
           </ValidationProvider>
         </v-col>

@@ -4,7 +4,32 @@
       ref="form"
       lazy-validation
     >
-      <v-row align="start" class="pb-3">
+      <v-row align="start">
+        <v-col
+          cols="12"
+          md="3"
+          sm="12"
+          :class="{'py-0': $vuetify.breakpoint. smAndDown}"
+        >
+          <label>{{ $t('label.date_symptoms') }}</label>
+        </v-col>
+        <v-col
+          cols="12"
+          md="9"
+          sm="12"
+          :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
+        >
+          <ValidationProvider>
+            <input-date-picker
+              :format-date="formatDate"
+              :date-value="formBody.latest_history.symptoms_date"
+              :value-date.sync="formBody.latest_history.symptoms_date"
+              @changeDate="formBody.latest_history.symptoms_date = $event"
+            />
+          </ValidationProvider>
+        </v-col>
+      </v-row>
+      <v-row align="start" class="pb-4">
         <v-col
           cols="12"
           md="3"
@@ -21,10 +46,10 @@
         >
           <ValidationProvider v-slot="{ errors }">
             <v-row>
-              <v-col v-for="item in protectionToolOptions" :key="item" sm="6" md="6">
+              <v-col v-for="item in symptomOptions" :key="item" sm="6" md="6">
                 <label class="material-checkbox-custom">
                   <input
-                    v-model="formBody.protection_tool"
+                    v-model="formBody.latest_history.symptoms"
                     :value="item"
                     type="checkbox"
                   >
@@ -37,6 +62,28 @@
                 >{{ errors[0] }}</span>
               </v-col>
             </v-row>
+          </ValidationProvider>
+        </v-col>
+      </v-row>
+      <v-row align="start" class="mt-4">
+        <v-col
+          cols="12"
+          md="3"
+          sm="12"
+          :class="{'py-0': $vuetify.breakpoint. smAndDown}"
+        />
+        <v-col
+          cols="12"
+          md="9"
+          sm="12"
+          :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
+        >
+          <ValidationProvider>
+            <v-text-field
+              v-model="formBody.latest_history.symptoms_other"
+              :placeholder="$t('label.mention_other_symptoms')"
+              solo-inverted
+            />
           </ValidationProvider>
         </v-col>
       </v-row>
@@ -47,7 +94,7 @@
           sm="12"
           :class="{'py-0': $vuetify.breakpoint. smAndDown}"
         >
-          <label>{{ $t('label.komorbid') }}</label>
+          <label>{{ $t('label.additional_condition') }}</label>
         </v-col>
         <v-col
           cols="12"
@@ -57,10 +104,10 @@
         >
           <ValidationProvider v-slot="{ errors }">
             <v-row>
-              <v-col v-for="item in protectionToolOptions" :key="item" sm="6" md="6">
+              <v-col v-for="item in additionalConditionOptions" :key="item" sm="6" md="6">
                 <label class="material-checkbox-custom">
                   <input
-                    v-model="formBody.protection_tool"
+                    v-model="formBody.latest_history.diseases"
                     :value="item"
                     type="checkbox"
                   >
@@ -76,11 +123,33 @@
           </ValidationProvider>
         </v-col>
       </v-row>
+      <v-row align="start" class="mt-4">
+        <v-col
+          cols="12"
+          md="3"
+          sm="12"
+          :class="{'py-0': $vuetify.breakpoint. smAndDown}"
+        />
+        <v-col
+          cols="12"
+          md="9"
+          sm="12"
+          :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
+        >
+          <ValidationProvider>
+            <v-text-field
+              v-model="formBody.latest_history.diseases_other"
+              :placeholder="$t('label.mention_other_additional_condition')"
+              solo-inverted
+            />
+          </ValidationProvider>
+        </v-col>
+      </v-row>
     </v-form>
   </div>
 </template>
 <script>
-import { protectionToolOptions } from '@/utils/constantVariable'
+import { symptomOptions, additionalConditionOptions } from '@/utils/constantVariable'
 import { ValidationProvider } from 'vee-validate'
 import { mapGetters } from 'vuex'
 
@@ -97,7 +166,8 @@ export default {
   },
   data() {
     return {
-      protectionToolOptions,
+      symptomOptions,
+      additionalConditionOptions,
       formatDate: 'YYYY/MM/DD'
     }
   },

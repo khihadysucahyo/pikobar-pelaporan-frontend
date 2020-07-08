@@ -47,7 +47,7 @@
           :class="{'py-0': $vuetify.breakpoint. smAndDown}"
         >
           <ValidationProvider
-            rules="required|isHtml"
+            rules="isHtml"
           >
             <input-date-picker
               :format-date="'YYYY/MM/DD'"
