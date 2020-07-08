@@ -253,7 +253,7 @@
             <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}" />
             <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
               <ValidationProvider>
-                <v-text-field v-model="formPasien.diagnonis_other" :placeholder="$t('label.mention_other_additional_condition')" solo-inverted />
+                <v-text-field v-model="formPasien.other_diagnosis" :placeholder="$t('label.mention_other_additional_condition')" solo-inverted />
               </ValidationProvider>
             </v-col>
           </v-row>
@@ -311,7 +311,7 @@
               </ValidationProvider>
             </v-col>
           </v-row>
-          <v-row align="center">
+          <v-row align="start">
             <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}">
               <label>{{ $t('label.physical_check') }}</label>
             </v-col>

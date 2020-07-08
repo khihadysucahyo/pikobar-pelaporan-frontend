@@ -18,59 +18,59 @@
               </v-col>
               <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
                 <ValidationProvider v-slot="{ errors }" rules="required">
-                  <v-radio-group v-model="formPasien.travel_history" :error-messages="errors" row>
+                  <v-radio-group v-model="formPasien.travel" :error-messages="errors" row>
                     <v-radio :label="$t('label.from_out_of_country')" value="LUAR NEGERI" />
                     <v-radio :label="$t('label.from_out_of_city')" value="LUAR KOTA" />
                   </v-radio-group>
                 </ValidationProvider>
               </v-col>
             </v-row>
-            <v-row v-if="formPasien.travel_history === 'LUAR NEGERI'" align="start">
+            <v-row v-if="formPasien.travel === 'LUAR NEGERI'" align="start">
               <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}" />
               <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
                 <ValidationProvider v-slot="{ errors }" rules="required">
-                  <v-text-field v-model="formPasien.country_visited" :error-messages="errors" type="text" solo-inverted :placeholder="$t('label.country_visited')" />
+                  <v-text-field v-model="formPasien.visited" :error-messages="errors" type="text" solo-inverted :placeholder="$t('label.country_visited')" />
                 </ValidationProvider>
               </v-col>
             </v-row>
-            <v-row v-if="formPasien.travel_history === 'LUAR KOTA'" align="start">
+            <v-row v-if="formPasien.travel === 'LUAR KOTA'" align="start">
               <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}" />
               <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
                 <ValidationProvider v-slot="{ errors }" rules="required">
-                  <v-text-field v-model="formPasien.city_visited" :error-messages="errors" type="text" solo-inverted :placeholder="$t('label.city_visited')" />
+                  <v-text-field v-model="formPasien.visited" :error-messages="errors" type="text" solo-inverted :placeholder="$t('label.city_visited')" />
                 </ValidationProvider>
               </v-col>
             </v-row>
-            <v-row v-if="formPasien.travel_history === 'LUAR NEGERI' || formPasien.travel_history === 'LUAR KOTA'" align="start">
+            <v-row v-if="formPasien.travel === 'LUAR NEGERI' || formPasien.travel === 'LUAR KOTA'" align="start">
               <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}">
-                <label class="required">{{ $t('label.date_of_departure') }}</label>
+                <label class="required">{{ $t('label.start_travel') }}</label>
               </v-col>
               <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
                 <ValidationProvider v-slot="{ errors }" rules="required">
-                  <input-date-picker :format-date="formatDate" :error-messages="errors" :label="$t('label.date_of_departure')" :date-value="formPasien.date_of_departure" :value-date.sync="formPasien.date_of_departure" />
+                  <input-date-picker :format-date="formatDate" :error-messages="errors" :label="$t('label.start_travel')" :date-value="formPasien.start_travel" :value-date.sync="formPasien.start_travel" @changeDate="handleChangeStartTravel" />
                 </ValidationProvider>
               </v-col>
             </v-row>
-            <v-row v-if="formPasien.travel_history === 'LUAR NEGERI' || formPasien.travel_history === 'LUAR KOTA'" align="start">
+            <v-row v-if="formPasien.travel === 'LUAR NEGERI' || formPasien.travel === 'LUAR KOTA'" align="start">
               <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}">
-                <label class="required">{{ $t('label.date_of_return') }}</label>
+                <label class="required">{{ $t('label.end_travel') }}</label>
               </v-col>
               <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
                 <ValidationProvider v-slot="{ errors }" rules="required">
-                  <input-date-picker :format-date="formatDate" :error-messages="errors" :label="$t('label.date_of_return')" :date-value="formPasien.date_of_return" :value-date.sync="formPasien.date_of_return" />
+                  <input-date-picker :format-date="formatDate" :error-messages="errors" :label="$t('label.end_travel')" :date-value="formPasien.end_travel" :value-date.sync="formPasien.end_travel" @changeDate="handleChangeEndTravel" />
                 </ValidationProvider>
               </v-col>
             </v-row>
 
             <v-row align="center">
               <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}">
-                <label>{{ $t('label.closely_contact_with_suspect_cases') }}</label>
+                <label>{{ $t('label.close_contact') }}</label>
               </v-col>
               <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
                 <ValidationProvider>
                   <v-container>
                     <v-row>
-                      <v-radio-group v-model="formPasien.closelyContactWithSuspectCases" row>
+                      <v-radio-group v-model="formPasien.close_contact" row>
                         <span v-for="(item, index) in answerList" :key="index">
                           <v-radio :label="item.text" :value="item.value" />
                         </span>
@@ -80,29 +80,67 @@
                 </ValidationProvider>
               </v-col>
             </v-row>
-            <v-row v-if="formPasien.closely_contact_with_suspect_cases === 'YES'" align="start">
+            <v-row v-if="formPasien.close_contact === 1" align="start">
               <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}" />
               <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
                 <ValidationProvider v-slot="{ errors }" rules="required">
-                  <v-text-field v-model="formPasien.name_suspect_patient" :error-messages="errors" type="text" solo-inverted :placeholder="$t('label.enter_name_suspect_patient')" />
+                  <v-autocomplete
+                    :no-data-text="$t('label.data_not_found')"
+                    :placeholder="$t('label.no_data_autocomplete_patient')"
+                    :search-input.sync="searchPatientCloseContact"
+                    :items="patientCloseContactList"
+                    :error-messages="errors"
+                    :return-object="false"
+                    item-value="id_case"
+                    item-text="name"
+                    menu-props="auto"
+                    single-line
+                    solo
+                    autocomplete
+                    clearable
+                    @change="onSelectCloseContact"
+                  />
                 </ValidationProvider>
               </v-col>
             </v-row>
             <v-row align="center">
               <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}">
-                <label>{{ $t('label.closely_contact_with_confirmed_cases') }}</label>
+                <label>{{ $t('label.close_contact_confirm') }}</label>
               </v-col>
               <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
                 <ValidationProvider>
                   <v-container>
                     <v-row>
-                      <v-radio-group v-model="formPasien.closelyContactWithConfirmedCases" row>
+                      <v-radio-group v-model="formPasien.close_contact_confirm" row>
                         <span v-for="(item, index) in answerList" :key="index">
                           <v-radio :label="item.text" :value="item.value" />
                         </span>
                       </v-radio-group>
                     </v-row>
                   </v-container>
+                </ValidationProvider>
+              </v-col>
+            </v-row>
+            <v-row v-if="formPasien.close_contact_confirm === 1" align="start">
+              <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}" />
+              <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
+                <ValidationProvider v-slot="{ errors }" rules="required">
+                  <v-autocomplete
+                    :no-data-text="$t('label.data_not_found')"
+                    :placeholder="$t('label.no_data_autocomplete_patient')"
+                    :search-input.sync="searchPatientCloseContactConfirm"
+                    :items="patientCloseContactConfirmList"
+                    :error-messages="errors"
+                    :return-object="false"
+                    item-value="id_case"
+                    item-text="name"
+                    menu-props="auto"
+                    single-line
+                    solo
+                    autocomplete
+                    clearable
+                    @change="onSelectCloseContactConfirm"
+                  />
                 </ValidationProvider>
               </v-col>
             </v-row>
@@ -114,7 +152,7 @@
                 <ValidationProvider>
                   <v-container>
                     <v-row>
-                      <v-radio-group v-model="formPasien.visitAnimalMarket" row>
+                      <v-radio-group v-model="formPasien.close_contact_animal_market" row>
                         <span v-for="(item, index) in answerList" :key="index">
                           <v-radio :label="item.text" :value="item.value" />
                         </span>
@@ -132,7 +170,7 @@
                 <ValidationProvider>
                   <v-container>
                     <v-row>
-                      <v-radio-group v-model="formPasien.visit_public_place" row>
+                      <v-radio-group v-model="formPasien.close_contact_public_place" row>
                         <span v-for="(item, index) in answerList" :key="index">
                           <v-radio :label="item.text" :value="item.value" />
                         </span>
@@ -144,13 +182,13 @@
             </v-row>
             <v-row align="center">
               <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}">
-                <label>{{ $t('label.visit_health_facility') }}</label>
+                <label>{{ $t('label.visit_medical_facility') }}</label>
               </v-col>
               <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
                 <ValidationProvider>
                   <v-container>
                     <v-row>
-                      <v-radio-group v-model="formPasien.visitHealthFacility" row>
+                      <v-radio-group v-model="formPasien.close_contact_medical_facility" row>
                         <span v-for="(item, index) in answerList" :key="index">
                           <v-radio :label="item.text" :value="item.value" />
                         </span>
@@ -168,7 +206,7 @@
                 <ValidationProvider>
                   <v-container>
                     <v-row>
-                      <v-radio-group v-model="formPasien.heavyIspaGroup" row>
+                      <v-radio-group v-model="formPasien.close_contact_heavy_ispa_group" row>
                         <span v-for="(item, index) in answerList" :key="index">
                           <v-radio :label="item.text" :value="item.value" />
                         </span>
@@ -186,7 +224,7 @@
                 <ValidationProvider>
                   <v-container>
                     <v-row>
-                      <v-radio-group v-model="formPasien.healthWorker" row>
+                      <v-radio-group v-model="formPasien.close_contact_health_worker" row>
                         <span v-for="(item, index) in answerList" :key="index">
                           <v-radio :label="item.text" :value="item.value" />
                         </span>
@@ -205,7 +243,7 @@
                   <v-row>
                     <v-col v-for="item in apdList" :key="item" sm="4" md="4">
                       <label class="material-checkbox-custom">
-                        <input v-model="formPasien.diagnosis" :value="item" type="checkbox">
+                        <input v-model="formPasien.apd_use" :value="item" type="checkbox">
                         <span v-if="errors.length" class="error--text">{{ item }}</span>
                         <span v-else>{{ item }}</span>
                       </label>
@@ -226,6 +264,7 @@
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import { answerList } from '@/utils/constantVariable'
 import { apd } from '@/utils/constantVariable'
+
 export default {
   name: 'FormContactFactor',
   components: {
@@ -242,7 +281,59 @@ export default {
     return {
       apdList: apd,
       formatDate: 'YYYY/MM/DD',
-      answerList: answerList
+      answerList: answerList,
+      patientCloseContactList: [],
+      patientCloseContactConfirmList: [],
+      searchPatientCloseContact: null,
+      searchPatientCloseContactConfirm: null,
+      listQuery: {
+        name_case_related: null,
+        status: null
+      }
+    }
+  },
+  watch: {
+    async searchPatientCloseContact(value) {
+      if (value) {
+        this.listQuery.name_case_related = value
+        const response = await this.$store.dispatch('reports/casesList', this.listQuery)
+        this.patientCloseContactList = response.data
+      } else {
+        this.patientCloseContactList = []
+      }
+    },
+    async searchPatientCloseContactConfirm(value) {
+      if (value) {
+        this.listQuery.name_case_related = value
+        const response = await this.$store.dispatch('reports/casesList', this.listQuery)
+        this.patientCloseContactConfirmList = response.data
+      }
+    }
+  },
+  methods: {
+    handleChangeStartTravel(value) {
+      this.formPasien.start_travel = value
+    },
+    handleChangeEndTravel(value) {
+      this.formPasien.end_travel = value
+    },
+    onSelectCloseContact(value) {
+      if (value) {
+        const getEndSearch = value.indexOf('/')
+        const getName = value.slice(0, getEndSearch)
+        this.formPasien.name_close_contact = getName
+        // todo: di isi id pasien
+        this.formPasien.id_close_contact = ''
+      }
+    },
+    onSelectCloseContactConfirm(value) {
+      if (value) {
+        const getEndSearch = value.indexOf('/')
+        const getName = value.slice(0, getEndSearch)
+        this.formPasien.name_close_contact_confirm = getName
+        // todo: di isi id pasien
+        this.formPasien.id_close_contact_confirm = ''
+      }
     }
   }
 }

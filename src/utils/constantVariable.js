@@ -181,7 +181,7 @@ export const answerList = [
     text: 'Tidak'
   },
   {
-    value: 2,
+    value: 3,
     text: 'Tidak Tahu'
   }
 ]

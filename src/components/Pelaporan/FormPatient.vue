@@ -58,7 +58,7 @@
               </v-col>
               <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
                 <ValidationProvider v-slot="{ errors }">
-                  <v-text-field v-model="formPasien.parent_name" :error-messages="errors" solo-inverted />
+                  <v-text-field v-model="formPasien.name_parents" :error-messages="errors" solo-inverted />
                 </ValidationProvider>
               </v-col>
             </v-row>
@@ -68,7 +68,7 @@
               </v-col>
               <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
                 <ValidationProvider>
-                  <v-text-field v-model="formPasien.place_birth" solo-inverted />
+                  <v-text-field v-model="formPasien.place_of_birth" solo-inverted />
                 </ValidationProvider>
               </v-col>
             </v-row>
