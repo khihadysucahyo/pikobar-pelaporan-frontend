@@ -223,3 +223,42 @@ export const incomeList = [
     text: '5 Juta'
   }
 ]
+
+export const healthWorkerList = [
+  {
+    value: 'Dokter',
+    text: 'Dokter'
+  },
+  {
+    value: 'Perawat',
+    text: 'Perawat'
+  },
+  {
+    value: 'Farmasi',
+    text: 'Farmasi'
+  },
+  {
+    value: 'Dokter Spesialis Paru',
+    text: 'Dokter Spesialis Paru'
+  },
+  {
+    value: 'Dokter Spesialis Lain',
+    text: 'Dokter Spesialis Lain'
+  },
+  {
+    value: 'Bidan',
+    text: 'Bidan'
+  },
+  {
+    value: 'Ahli Gizi',
+    text: 'Ahli Gizi'
+  },
+  {
+    value: 'Tenaga Kesehatan Masyarakat',
+    text: 'Tenaga Kesehatan Masyarakat'
+  },
+  {
+    value: 'Lainnya',
+    text: 'Lainnya'
+  }
+]

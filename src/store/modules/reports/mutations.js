@@ -79,6 +79,7 @@ export default {
     state.formPasien.id_close_contact = ''
     state.formPasien.name_close_contact_confirm = ''
     state.formPasien.id_close_contact_confirm = ''
+    state.formPasien.close_contact_patient = []
   },
   RESET_RIWAYAT_FORM_PASIEN: (state) => {
     state.formRiwayatPasien.case = ''

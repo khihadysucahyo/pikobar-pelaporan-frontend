@@ -57,8 +57,8 @@
                 <label>{{ $t('label.parent_name') }}</label>
               </v-col>
               <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
-                <ValidationProvider v-slot="{ errors }">
-                  <v-text-field v-model="formPasien.name_parents" :error-messages="errors" solo-inverted />
+                <ValidationProvider>
+                  <v-text-field v-model="formPasien.name_parents" solo-inverted />
                 </ValidationProvider>
               </v-col>
             </v-row>
@@ -87,13 +87,13 @@
               <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
                 <v-row align="center" class="ma-0">
                   <v-col cols="12" sm="6" class="pa-1">
-                    <label>{{ $t('label.year') }}</label>
+                    <label class="required">{{ $t('label.year') }}</label>
                     <ValidationProvider v-slot="{ errors }" rules="required|numeric|isHtml">
                       <v-text-field v-model="formPasien.yearsOld" :error-messages="errors" type="number" min="0" max="120" solo-inverted oninput="if(Number(this.value) > Number(this.max)) this.value = this.max" />
                     </ValidationProvider>
                   </v-col>
                   <v-col cols="12" sm="6" class="pa-1">
-                    <label>{{ $t('label.month') }}</label>
+                    <label class="required">{{ $t('label.month') }}</label>
                     <ValidationProvider v-slot="{ errors }" rules="numeric|isHtml">
                       <v-text-field v-model="formPasien.monthsOld" :error-messages="errors" type="number" min="0" max="11" solo-inverted oninput="if(Number(this.value) > Number(this.max)) this.value = this.max" />
                     </ValidationProvider>
@@ -145,14 +145,14 @@
               <v-row align="center" class="ma-0">
                 <v-col cols="12" sm="6" class="pa-1">
                   <label>{{ $t('label.rt') }}</label>
-                  <ValidationProvider v-slot="{ errors }" rules="required|numeric|isHtml">
-                    <v-text-field v-model="formPasien.rt" :error-messages="errors" type="number" min="0" max="120" solo-inverted oninput="if(Number(this.value) > Number(this.max)) this.value = this.max" />
+                  <ValidationProvider>
+                    <v-text-field v-model="formPasien.rt" type="number" min="0" max="120" solo-inverted oninput="if(Number(this.value) > Number(this.max)) this.value = this.max" />
                   </ValidationProvider>
                 </v-col>
                 <v-col cols="12" sm="6" class="pa-1">
                   <label>{{ $t('label.rw') }}</label>
-                  <ValidationProvider v-slot="{ errors }" rules="numeric|isHtml">
-                    <v-text-field v-model="formPasien.rw" :error-messages="errors" type="number" min="0" max="11" solo-inverted oninput="if(Number(this.value) > Number(this.max)) this.value = this.max" />
+                  <ValidationProvider>
+                    <v-text-field v-model="formPasien.rw" type="number" min="0" max="11" solo-inverted oninput="if(Number(this.value) > Number(this.max)) this.value = this.max" />
                   </ValidationProvider>
                 </v-col>
               </v-row>
@@ -201,7 +201,7 @@
           </v-row>
           <v-row v-if="formPasien.nationality === 'WNA'" align="start">
             <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}">
-              <label>{{ $t('label.country_origin') }}</label>
+              <label class="required">{{ $t('label.country_origin') }}</label>
             </v-col>
             <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
               <ValidationProvider v-slot="{ errors }">

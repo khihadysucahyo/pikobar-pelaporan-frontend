@@ -580,6 +580,16 @@ export default {
     protective_equipment_used: 'Alat Pelindung yang Digunakan',
     data_not_found: 'Data Tidak Ditemukan',
     no_data_autocomplete_patient: 'Masukan berdasarkan nama pasien/NIK/No telepon',
+    form_close_contact_title: 'Data Kontak Erat',
+    form_contact_data_title: 'Data Kontak',
+    relationship_with_primary_cases: 'Hubungan Dengan Kasus',
+    activities_carried_out: 'Aktivitas Yang Dilakukan',
+    contact_date: 'Tanggal Kontak',
+    location: 'Lokasi/Tempat',
+    date_of_visit: 'Tanggal Kunjungan',
+    choose_health_worker: 'Pilih Tenaga Kesehatan',
+    according_address: 'Sesuai Alamat Tempat Tinggal',
+    doesnt_according_address: 'Tidak Sesuai Alamat Tempat Tinggal'
   },
   success: {
     login_success: 'Login Berhasil',

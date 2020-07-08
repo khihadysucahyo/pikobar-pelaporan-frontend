@@ -95,7 +95,16 @@ function initialState() {
       name_close_contact: '',
       id_close_contact: '',
       name_close_contact_confirm: '',
-      id_close_contact_confirm: ''
+      id_close_contact_confirm: '',
+      close_contact_patient: [],
+      // Todo: sesuaikan nama parameter dengan nama parameter api
+      close_contact_animal_market_name: '',
+      close_contact_animal_market_date: '',
+      close_contact_public_place_name: '',
+      close_contact_public_place_date: '',
+      close_contact_medical_facility_name: '',
+      close_contact_medical_facility_date: '',
+      close_contact_health_worker_name: ''
     },
     formRiwayatPasien: {
       case: '',

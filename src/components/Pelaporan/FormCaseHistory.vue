@@ -69,6 +69,17 @@
               </v-col>
             </v-row>
             <v-row v-if="formPasien.current_location_type === 'RUMAH'" align="center">
+              <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}" />
+              <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
+                <ValidationProvider v-slot="{ errors }" rules="required">
+                  <v-radio-group v-model="formPasien.according_address" :error-messages="errors" row @change="handleChangeAccordingAddress">
+                    <v-radio :label="$t('label.according_address')" value="1" />
+                    <v-radio :label="$t('label.doesnt_according_address')" value="0" />
+                  </v-radio-group>
+                </ValidationProvider>
+              </v-col>
+            </v-row>
+            <v-row v-if="formPasien.current_location_type === 'RUMAH'" align="center">
               <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}">
                 <label class="additional-label">({{ $t('label.house_address') }})</label>
               </v-col>
@@ -319,6 +330,7 @@
               <v-row align="center" class="ma-0">
                 <v-col cols="12" sm="3" class="pa-1">
                   <ValidationProvider>
+                    <!--Todo: sesuaikan nama parameter dengan nama parameter api-->
                     <v-text-field v-model="formPasien.temperature" type="text" solo-inverted :placeholder="$t('label.temperature')" />
                   </ValidationProvider>
                 </v-col>
@@ -327,6 +339,7 @@
                 </v-col>
                 <v-col cols="12" sm="3" class="pa-1">
                   <ValidationProvider>
+                    <!--Todo: sesuaikan nama parameter dengan nama parameter api-->
                     <v-text-field v-model="formPasien.blood_pressure" type="text" solo-inverted :placeholder="$t('label.blood_pressure')" />
                   </ValidationProvider>
                 </v-col>
@@ -335,6 +348,7 @@
                 </v-col>
                 <v-col cols="12" sm="3" class="pa-1">
                   <ValidationProvider>
+                    <!--Todo: sesuaikan nama parameter dengan nama parameter api-->
                     <v-text-field v-model="formPasien.pulse" type="text" solo-inverted :placeholder="$t('label.pulse')" />
                   </ValidationProvider>
                 </v-col>
@@ -350,6 +364,7 @@
               <v-row align="center" class="ma-0">
                 <v-col cols="12" sm="3" class="pa-1">
                   <ValidationProvider>
+                    <!--Todo: sesuaikan nama parameter dengan nama parameter api-->
                     <v-text-field v-model="formPasien.respiration" type="text" solo-inverted :placeholder="$t('label.respiration')" />
                   </ValidationProvider>
                 </v-col>
@@ -358,6 +373,7 @@
                 </v-col>
                 <v-col cols="12" sm="3" class="pa-1">
                   <ValidationProvider>
+                    <!--Todo: sesuaikan nama parameter dengan nama parameter api-->
                     <v-text-field v-model="formPasien.height" type="text" solo-inverted :placeholder="$t('label.height')" />
                   </ValidationProvider>
                 </v-col>
@@ -366,6 +382,7 @@
                 </v-col>
                 <v-col cols="12" sm="3" class="pa-1">
                   <ValidationProvider>
+                    <!--Todo: sesuaikan nama parameter dengan nama parameter api-->
                     <v-text-field v-model="formPasien.weight" type="text" solo-inverted :placeholder="$t('label.weight')" />
                   </ValidationProvider>
                 </v-col>
@@ -415,6 +432,12 @@ export default {
     ])
   },
   async mounted() {
+    this.formPasien.diagnosis_ards = 2
+    this.formPasien.diagnosis_covid = 2
+    this.formPasien.diagnosis_pneumonia = 2
+    this.formPasien.serum_check = 2
+    this.formPasien.sputum_check = 2
+    this.formPasien.swab_check = 2
     const paramHospitalWestJava = { 'rs_jabar': true }
     const paramHospitalNonWestJava = { 'rs_jabar': false }
     const responseWestJava = await this.$store.dispatch('region/getListHospital', paramHospitalWestJava)
@@ -447,6 +470,21 @@ export default {
         this.formPasien.current_location_district = ''
         this.formPasien.current_location_subdistrict = ''
         this.formPasien.current_location_village = ''
+      }
+    },
+    handleChangeAccordingAddress(value) {
+      if (value === '1') {
+        this.formPasien.current_location_district_code = this.formPasien.address_district_code
+        this.formPasien.current_location_subdistrict_code = this.formPasien.address_subdistrict_code
+        this.formPasien.current_location_village_code = this.formPasien.address_village_code
+        this.formPasien.current_location_village_name = this.formPasien.address_village_name
+        this.formPasien.current_location_address = this.formPasien.address_street
+      } else {
+        this.formPasien.current_location_district_code = ''
+        this.formPasien.current_location_subdistrict_code = ''
+        this.formPasien.current_location_village_code = ''
+        this.formPasien.current_location_village_name = ''
+        this.formPasien.current_location_address = ''
       }
     }
   }

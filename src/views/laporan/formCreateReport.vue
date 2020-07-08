@@ -19,6 +19,7 @@
         <form-case-history :form-pasien="formPasien" />
         <form-socioeconomic-history :form-pasien="formPasien" />
         <form-contact-factor :form-pasien="formPasien" />
+        <form-close-contact :form-pasien="formPasien" />
       </v-form>
     </ValidationObserver>
     <dialog-duplicated-nik :show-dialog="showDuplicatedNikDialog" :nik-number="nikNumber" :nik-name="nikName" :nik-author="nikAuthor" :show.sync="showDuplicatedNikDialog" />
@@ -27,7 +28,7 @@
         <v-col cols="" md="4" sm="0" />
         <v-col cols="12" md="3" sm="12" />
         <v-col cols="12" md="5" sm="12">
-          <v-btn color="success" :loading="loading" bottom style="float: right; color: white" @click="saveData">
+          <v-btn color="success" :loading="loading" bottom class="btn-save" @click="saveData">
             {{ $t('label.save') }}
           </v-btn>
         </v-col>
@@ -63,13 +64,25 @@ export default {
         return
       }
       if (this.formPasien.nik) {
+        this.loading = true
         const response = await this.$store.dispatch('reports/revampGetNik', { params: this.formPasien.nik })
         if (response.data) {
+          this.loading = false
           this.nikNumber = this.formPasien.nik
-          this.nikName = this.formPasien.nikName
+          this.nikName = this.formPasien.name
           this.showDuplicatedNikDialog = true
           return
         }
+      }
+      try {
+        await this.$store.dispatch('reports/createRevampReportCase', this.formPasien)
+        await this.$store.dispatch('toast/successToast', this.$t('success.create_date_success'))
+        this.$router.push('/laporan/list')
+        await this.$refs.form.reset()
+      } catch (error) {
+        await this.$store.dispatch('toast/errorToast', 'Data gagal disimpan')
+      } finally {
+        this.loading = false
       }
     }
   }
@@ -81,6 +94,10 @@ export default {
 }
 .font-white {
   color: white;
+}
+.btn-save {
+  float: right;
+  color: white
 }
 </style>
 
