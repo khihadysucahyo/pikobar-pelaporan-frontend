@@ -131,7 +131,7 @@
             rules="isHtml"
           >
             <v-text-field
-              v-model="formBody.home_contact_duration"
+              v-model="formBody.contact_durations"
               :error-messages="errors"
               type="number"
               min="0"

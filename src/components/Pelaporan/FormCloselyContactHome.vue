@@ -36,48 +36,6 @@
           sm="12"
           :class="{'py-0': $vuetify.breakpoint. smAndDown}"
         >
-          {{ $t('label.duration') }}
-        </v-col>
-        <v-col
-          cols="12"
-          md="9"
-          sm="12"
-          :class="{'py-0': $vuetify.breakpoint. smAndDown}"
-        >
-          <ValidationProvider
-            v-slot="{ errors }"
-            rules="required|isHtml"
-          >
-            <v-text-field
-              v-model="formBody.home_contact_durations"
-              :error-messages="errors"
-              type="number"
-              min="0"
-              max="10"
-              solo-inverted
-              oninput="if(Number(this.value) > Number(this.max)) this.value = this.max"
-              class="input-append-btn"
-            >
-              <template v-slot:append>
-                <v-btn
-                  depressed
-                  tile
-                  min-width="20"
-                >
-                  {{ $t('label.minute_day') }}
-                </v-btn>
-              </template>
-            </v-text-field>
-          </ValidationProvider>
-        </v-col>
-      </v-row>
-      <v-row align="start">
-        <v-col
-          cols="12"
-          md="3"
-          sm="12"
-          :class="{'py-0': $vuetify.breakpoint. smAndDown}"
-        >
           <label>{{ $t('label.number_contact_days__move_in_same_room_primary_case') }}</label>
         </v-col>
         <v-col
