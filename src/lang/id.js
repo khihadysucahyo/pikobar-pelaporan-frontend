@@ -580,12 +580,14 @@ export default {
     tour_group: 'Kelompok Tour',
     medical_facility: 'Fasilitas Kesehatan',
     create_closely_contact_reports: 'Buat Laporan Kontak Erat',
-    close_contact_list: 'List Kontak Erat'
+    close_contact_list: 'List Kontak Erat',
+    relationship_with_contacts: 'Hubungan Dengan Kontak',
+    emergency_contact: 'Kontak Darurat'
   },
   success: {
     login_success: 'Login Berhasil',
     copy_url_succses: 'Salin URL berhasil',
-    create_date_success: 'Data Berhasil Dibuat',
+    create_data_success: 'Data Berhasil Dibuat',
     data_answer_success: 'Tanggapan Berhasil Disimpan',
     reference_successfully_verified: 'Rujukan berhasil terverifikasi',
     data_success_edit: 'Data Berhasil Dirubah',
@@ -623,5 +625,7 @@ export default {
     not_minus: 'Nilai tidak boleh 0 atau kurang',
     field_only_accepts_xlsx: 'Sistem hanya dapat menerima file dengan format ".xlsx"',
     data_failed_edit: 'Data Gagal Diubah',
+    contact_tracking_date_must_be_filled: 'Tanggal pelacakan kontak harus diisi',
+    date_meeting_the_confirmed_case_must_be_filled: 'Tanggal bertemu dengan kasus terkonfirmasi harus diisi'
   },
 }

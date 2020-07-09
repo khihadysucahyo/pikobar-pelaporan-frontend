@@ -19,7 +19,10 @@
           sm="12"
           :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
         >
-          <ValidationProvider v-slot="{ errors }">
+          <ValidationProvider
+            v-slot="{ errors }"
+            rules="required"
+          >
             <v-radio-group
               v-model="formBody.contact_type"
               :error-messages="errors"
@@ -135,7 +138,7 @@
               :error-messages="errors"
               type="number"
               min="0"
-              max="10"
+              max="30"
               solo-inverted
               oninput="if(Number(this.value) > Number(this.max)) this.value = this.max"
               class="input-append-btn"
@@ -159,7 +162,6 @@
 <script>
 import { protectionToolOptions } from '@/utils/constantVariable'
 import { ValidationProvider } from 'vee-validate'
-import { mapGetters } from 'vuex'
 
 export default {
   name: 'FormExposureInformation',
@@ -177,14 +179,6 @@ export default {
       protectionToolOptions,
       formatDate: 'YYYY/MM/DD'
     }
-  },
-  computed: {
-    ...mapGetters('occupation', [
-      'occupationList'
-    ])
-  },
-  async mounted() {
-    await this.$store.dispatch('occupation/getListOccuption')
   },
   methods: {
     //

@@ -11,11 +11,10 @@ export default {
   },
   async getDetailCloseContactByCase({ commit }, data) {
     const {
-      idCase,
       idCloseContact
     } = data
     try {
-      const response = await requestServer(`/api/cases/${idCase}/close-contacts/${idCloseContact}`, 'GET')
+      const response = await requestServer(`/api/close-contacts/${idCloseContact}`, 'GET')
       return response
     } catch (e) {
       return e
@@ -35,15 +34,17 @@ export default {
   },
   async updateDetailCloseContactByCase({ commit }, data) {
     const {
-      idCase,
       idCloseContact,
       body
     } = data
     try {
-      const response = await requestServer(`/api/cases/${idCase}/close-contacts/${idCloseContact}`, 'PUT', body)
+      const response = await requestServer(`/api/close-contacts/${idCloseContact}`, 'PUT', body)
       return response
     } catch (e) {
       return e
     }
+  },
+  resetStateCloseContactCase({ commit }) {
+    commit('resetState')
   }
 }

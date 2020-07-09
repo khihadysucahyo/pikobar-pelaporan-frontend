@@ -151,7 +151,6 @@
 <script>
 import { symptomOptions, additionalConditionOptions } from '@/utils/constantVariable'
 import { ValidationProvider } from 'vee-validate'
-import { mapGetters } from 'vuex'
 
 export default {
   name: 'FormSymptom',
@@ -170,14 +169,6 @@ export default {
       additionalConditionOptions,
       formatDate: 'YYYY/MM/DD'
     }
-  },
-  computed: {
-    ...mapGetters('occupation', [
-      'occupationList'
-    ])
-  },
-  async mounted() {
-    await this.$store.dispatch('occupation/getListOccuption')
   },
   methods: {
     //

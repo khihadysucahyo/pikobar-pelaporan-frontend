@@ -76,7 +76,7 @@
         >
           <ValidationProvider
             v-slot="{ errors }"
-            rules="isPhoneNumber"
+            rules="required|isPhoneNumber"
           >
             <v-text-field
               v-model="formBody.phone_number"
@@ -156,10 +156,10 @@
             <v-col cols="12" sm="6" class="pa-1">
               <ValidationProvider
                 v-slot="{ errors }"
-                rules="numeric|isHtml"
+                rules="required|numeric|isHtml"
               >
                 <v-text-field
-                  v-model="formBody.monthsOld"
+                  v-model="formBody.month"
                   :error-messages="errors"
                   type="number"
                   min="0"
@@ -339,7 +339,7 @@
         <v-col>
           <v-card outlined>
             <v-card-title class="font-weight-bold">
-              Kontak Darurat
+              {{ $t('label.emergency_contact') }}
             </v-card-title>
             <v-divider />
             <v-container>
@@ -387,7 +387,7 @@
                 >
                   <ValidationProvider
                     v-slot="{ errors }"
-                    rules="isPhoneNumber"
+                    rules="required|isPhoneNumber"
                   >
                     <v-text-field
                       v-model="formBody.emergency_contact_phone"
@@ -406,7 +406,7 @@
                   sm="12"
                   :class="{'py-0': $vuetify.breakpoint. smAndDown}"
                 >
-                  <label>Hubungan Dengan Kontak</label>
+                  <label>{{ $t('label.relationship_with_contacts') }}</label>
                 </v-col>
                 <v-col
                   cols="12"
@@ -455,24 +455,23 @@ export default {
   },
   watch: {
     'formBody.birth_date': function(value) {
-      console.log(value)
       if (value.length > 0) {
         const age = this.getAgeWithMonth(value)
         this.formBody.yearsOld = age.year
-        this.formBody.monthsOld = age.month
-        this.formBody.age = Number((this.formBody.yearsOld + (this.formBody.monthsOld / 12)).toFixed(2))
+        this.formBody.month = age.month
+        this.formBody.age = Number((this.formBody.yearsOld + (this.formBody.month / 12)).toFixed(2))
       }
     },
     'formBody.yearsOld'(value) {
       if (this.formBody.monthsOld !== '') {
-        this.formBody.age = Number((Number(this.formBody.yearsOld) + (Number(this.formBody.monthsOld) / 12)).toFixed(2))
+        this.formBody.age = Number((Number(this.formBody.yearsOld) + (Number(this.formBody.month) / 12)).toFixed(2))
       } else {
         this.formBody.age = Number(this.formBody.yearsOld)
       }
     },
-    'formBody.monthsOld'(value) {
+    'formBody.month'(value) {
       if (this.formBody.yearsOld !== '') {
-        this.formBody.age = Number((Number(this.formBody.yearsOld) + (Number(this.formBody.monthsOld) / 12)).toFixed(2))
+        this.formBody.age = Number((Number(this.formBody.yearsOld) + (Number(this.formBody.month) / 12)).toFixed(2))
       }
     }
   },

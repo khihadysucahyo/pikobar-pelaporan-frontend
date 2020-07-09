@@ -1,10 +1,10 @@
 <template>
-  <v-dialog v-model="show" max-width="80%">
+  <v-dialog v-model="showForm" max-width="80%">
     <v-card>
       <v-card-title>
         {{ titleDetail }}
         <v-spacer />
-        <v-icon @click="show = false">mdi-close</v-icon>
+        <v-icon @click="showForm = false">mdi-close</v-icon>
       </v-card-title>
       <div>
         <v-card
@@ -18,7 +18,7 @@
             style="color: #FFFFFF;"
           >
             <div class="font-weight-bold">
-              {{ $t('label.primary_case_id_related_case') }}: COVID-00000002
+              {{ $t('label.primary_case_id_related_case') }}: {{ formBody.case ? formBody.case.id_case.toUpperCase():'' }}
             </div>
             <div>
               {{ $t('label.redaction_create_related_case') }}
@@ -41,7 +41,7 @@
                   <v-divider />
                   <v-expansion-panel-content>
                     <form-interviewer
-                      :form-body="formBody"
+                      :form-body.sync="formBody"
                     />
                   </v-expansion-panel-content>
                 </v-expansion-panel>
@@ -61,7 +61,7 @@
                   <v-divider />
                   <v-expansion-panel-content>
                     <information-form-close-contact
-                      :form-body="formBody"
+                      :form-body.sync="formBody"
                     />
                   </v-expansion-panel-content>
                 </v-expansion-panel>
@@ -81,7 +81,7 @@
                   <v-divider />
                   <v-expansion-panel-content>
                     <form-travel-history
-                      :form-body="formBody"
+                      :form-body.sync="formBody"
                     />
                   </v-expansion-panel-content>
                 </v-expansion-panel>
@@ -101,7 +101,7 @@
                   <v-divider />
                   <v-expansion-panel-content>
                     <form-exposure-information
-                      :form-body="formBody"
+                      :form-body.sync="formBody"
                     />
                   </v-expansion-panel-content>
                 </v-expansion-panel>
@@ -121,7 +121,7 @@
                   <v-divider />
                   <v-expansion-panel-content>
                     <form-closely-contact-home
-                      :form-body="formBody"
+                      :form-body.sync="formBody"
                     />
                   </v-expansion-panel-content>
                 </v-expansion-panel>
@@ -141,7 +141,7 @@
                   <v-divider />
                   <v-expansion-panel-content>
                     <form-health-worker
-                      :form-body="formBody"
+                      :form-body.sync="formBody"
                     />
                   </v-expansion-panel-content>
                 </v-expansion-panel>
@@ -161,7 +161,7 @@
                   <v-divider />
                   <v-expansion-panel-content>
                     <form-symptom
-                      :form-body="formBody"
+                      :form-body.sync="formBody"
                     />
                   </v-expansion-panel-content>
                 </v-expansion-panel>
@@ -181,7 +181,7 @@
                   <v-divider />
                   <v-expansion-panel-content>
                     <form-vaccination-history
-                      :form-body="formBody"
+                      :form-body.sync="formBody"
                     />
                   </v-expansion-panel-content>
                 </v-expansion-panel>
@@ -201,7 +201,7 @@
                   <v-divider />
                   <v-expansion-panel-content>
                     <form-supporting-investigation
-                      :form-body="formBody"
+                      :form-body.sync="formBody"
                     />
                   </v-expansion-panel-content>
                 </v-expansion-panel>
@@ -213,6 +213,7 @@
               <v-btn
                 color="#FFFFFF"
                 block
+                :loading="isLoading"
                 @click="handleBack"
               >
                 {{ $t('label.back') }}
@@ -222,9 +223,10 @@
               <v-btn
                 color="primary"
                 block
+                :loading="isLoading"
                 @click="handleSave"
               >
-                {{ $t('label.save') }}
+                {{ isEdit ? $t('label.edit'):$t('label.save') }}
               </v-btn>
             </v-col>
           </v-row>
@@ -236,6 +238,8 @@
 <script>
 import { ValidationObserver } from 'vee-validate'
 import EventBus from '@/utils/eventBus'
+import { mapState } from 'vuex'
+
 export default {
   name: 'DialogCreateCloseContact',
   components: {
@@ -265,7 +269,7 @@ export default {
   },
   data() {
     return {
-      show: this.showDialog,
+      showForm: this.showDialog,
       interviewer: [0],
       closeContactIdentity: [0],
       travelHistory: [0],
@@ -276,42 +280,83 @@ export default {
       vaccinationHistory: [0],
       supportingInvestigation: [0],
       dialogDecline: false,
+      isLoading: false,
       refreshPageList: false
     }
   },
+  computed: {
+    ...mapState('closeContactCase', [
+      'formCloseContact'
+    ])
+  },
   watch: {
     showDialog(value) {
-      this.show = value
+      this.showForm = value
     },
-    show(value) {
-      this.$emit('update:show', value)
+    showForm(value) {
+      this.$emit('update:showForm', value)
     }
   },
   methods: {
-    handleBack() {
-      this.show = false
-      this.$refs.observer.reset()
+    async handleBack() {
+      await this.$store.dispatch('closeContactCase/resetStateCloseContactCase')
+      this.showForm = false
     },
     async handleSave() {
       const valid = await this.$refs.observer.validate()
+      this.isLoading = true
+      delete this.formBody['yearsOld']
       if (!valid) {
         return
-      }
-      delete this.formBody['monthsOld']
-      delete this.formBody['yearsOld']
-      const data = {
-        idCase: this.idCase,
-        body: this.formBody
-      }
-      const response = await this.$store.dispatch('closeContactCase/postListCloseContactByCase', data)
-      if (response.status === 422) {
-        await this.$store.dispatch('toast/errorToast', this.$t('errors.create_date_errors'))
+      } else if (this.formBody.contact_tracing_date.length <= 1) {
+        await this.$store.dispatch('toast/errorToast', this.$t('errors.contact_tracking_date_must_be_filled'))
+        this.isLoading = false
+        return
+      } else if (this.formBody.contact_date.length <= 1) {
+        await this.$store.dispatch('toast/errorToast', this.$t('errors.date_meeting_the_confirmed_case_must_be_filled'))
+        this.isLoading = false
+        return
       } else {
-        await this.$store.dispatch('toast/successToast', this.$t('success.create_date_success'))
-        this.show = false
+        if (this.isEdit) {
+          const idCloseContact = this.formBody._id
+          delete this.formBody['_id']
+          delete this.formBody['updatedBy']
+          delete this.formBody['updatedAt']
+          delete this.formBody['createdBy']
+          delete this.formBody['createdAt']
+          delete this.formBody['is_reported']
+          delete this.formBody['case']
+          const data = {
+            idCloseContact: idCloseContact,
+            body: this.formBody
+          }
+          const response = await this.$store.dispatch('closeContactCase/updateDetailCloseContactByCase', data)
+          if (response.status === 200) {
+            await this.$store.dispatch('toast/successToast', this.$t('success.data_success_edit'))
+            await this.$store.dispatch('closeContactCase/resetStateCloseContactCase')
+            this.showForm = false
+            this.isLoading = false
+            EventBus.$emit('refreshPageListReport', true)
+          } else {
+            await this.$store.dispatch('toast/errorToast', this.$t('errors.data_failed_edit'))
+          }
+        } else {
+          const data = {
+            idCase: this.idCase,
+            body: this.formBody
+          }
+          const response = await this.$store.dispatch('closeContactCase/postListCloseContactByCase', data)
+          if (response.status === 200) {
+            await this.$store.dispatch('toast/successToast', this.$t('success.create_data_success'))
+            await this.$store.dispatch('closeContactCase/resetStateCloseContactCase')
+            this.showForm = false
+            this.isLoading = false
+            EventBus.$emit('refreshPageListReport', true)
+          } else {
+            await this.$store.dispatch('toast/errorToast', this.$t('errors.create_data_errors'))
+          }
+        }
       }
-      await this.$refs.observer.reset()
-      EventBus.$emit('refreshPageListReport', true)
     }
   }
 }

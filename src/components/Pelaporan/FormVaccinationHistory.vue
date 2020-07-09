@@ -130,7 +130,6 @@
 <script>
 import { transportOptions } from '@/utils/constantVariable'
 import { ValidationProvider } from 'vee-validate'
-import { mapGetters } from 'vuex'
 
 export default {
   name: 'FormVaccinationHistory',
@@ -148,14 +147,6 @@ export default {
       transportOptions,
       formatDate: 'YYYY/MM/DD'
     }
-  },
-  computed: {
-    ...mapGetters('occupation', [
-      'occupationList'
-    ])
-  },
-  async mounted() {
-    await this.$store.dispatch('occupation/getListOccuption')
   },
   methods: {
     //

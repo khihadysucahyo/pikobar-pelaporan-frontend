@@ -276,7 +276,7 @@ export default {
       })
       const response = await this.$store.dispatch('rdt/createMultipleRDT', this.listParticpant)
       if (response) {
-        await this.$store.dispatch('toast/successToast', this.$t('success.create_date_success'))
+        await this.$store.dispatch('toast/successToast', this.$t('success.create_data_success'))
         this.$router.push('/rdt/list')
       }
     }

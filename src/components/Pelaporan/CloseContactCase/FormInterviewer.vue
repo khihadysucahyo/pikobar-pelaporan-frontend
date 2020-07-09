@@ -64,7 +64,6 @@
 <script>
 import { protectionToolOptions } from '@/utils/constantVariable'
 import { ValidationProvider } from 'vee-validate'
-import { mapGetters } from 'vuex'
 
 export default {
   name: 'FormInterviewer',
@@ -82,14 +81,6 @@ export default {
       protectionToolOptions,
       formatDate: 'YYYY/MM/DD'
     }
-  },
-  computed: {
-    ...mapGetters('occupation', [
-      'occupationList'
-    ])
-  },
-  async mounted() {
-    await this.$store.dispatch('occupation/getListOccuption')
   },
   methods: {
     //

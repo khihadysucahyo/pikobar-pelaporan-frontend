@@ -53,7 +53,7 @@
               :error-messages="errors"
               type="number"
               min="0"
-              max="10"
+              max="30"
               solo-inverted
               oninput="if(Number(this.value) > Number(this.max)) this.value = this.max"
               class="input-append-btn"
@@ -113,7 +113,6 @@
 <script>
 import { activityContactOptions } from '@/utils/constantVariable'
 import { ValidationProvider } from 'vee-validate'
-import { mapGetters } from 'vuex'
 
 export default {
   name: 'FormCloselyContactHome',
@@ -131,14 +130,6 @@ export default {
       activityContactOptions,
       formatDate: 'YYYY/MM/DD'
     }
-  },
-  computed: {
-    ...mapGetters('occupation', [
-      'occupationList'
-    ])
-  },
-  async mounted() {
-    await this.$store.dispatch('occupation/getListOccuption')
   },
   methods: {
     //

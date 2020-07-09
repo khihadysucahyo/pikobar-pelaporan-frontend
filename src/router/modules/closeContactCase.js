@@ -9,7 +9,7 @@ const closeContactRouter = {
   redirect: '/close-contact/list',
   meta: {
     title: 'tight_contact',
-    icon: 'mdi-account-switch',
+    icon: 'mdi-account-multiple-outline',
     roles: [rolesPerm.ADMIN, rolesPerm.DINKESPROV, rolesPerm.DINKESKOTA, rolesPerm.FASKES]
   },
   active: false,
@@ -19,7 +19,7 @@ const closeContactRouter = {
       component: () => import('@/views/closeContactCase/listCreate'),
       meta: {
         title: 'make_report',
-        icon: 'mdi-account-switch',
+        icon: 'mdi-account-multiple-outline',
         child: true,
         noCache: true,
         roles: [rolesPerm.ADMIN, rolesPerm.DINKESPROV, rolesPerm.DINKESKOTA, rolesPerm.FASKES]
@@ -30,7 +30,7 @@ const closeContactRouter = {
       component: () => import('@/views/closeContactCase/listIdentification'),
       meta: {
         title: 'list_identification',
-        icon: 'mdi-account-switch',
+        icon: 'mdi-account-multiple-outline',
         child: true,
         noCache: true,
         roles: [rolesPerm.ADMIN, rolesPerm.DINKESPROV, rolesPerm.DINKESKOTA, rolesPerm.FASKES]
