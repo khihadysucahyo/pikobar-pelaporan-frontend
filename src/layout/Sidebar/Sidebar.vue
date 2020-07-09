@@ -21,7 +21,6 @@
 <script>
 import { mapGetters } from 'vuex'
 import SidebarItem from './SidebarItem'
-import { guidePath } from '@/utils/constantVariable'
 export default {
   components: { SidebarItem },
   data: () => ({
@@ -42,7 +41,7 @@ export default {
       await this.$router.push('/laporan/stepper')
     },
     handleHelp() {
-      window.open(guidePath, '_blank')
+      window.open(process.env.VUE_APP_GUIDELINE_BOOK_URL, '_blank')
     }
   }
 }
