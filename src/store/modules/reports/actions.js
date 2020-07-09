@@ -255,6 +255,30 @@ export default {
       return error.response
     }
   },
+  async revampGetNik({ commit }, params) {
+    try {
+      const response = await requestServer('/api/cases-revamp/check', 'GET', params)
+      return response
+    } catch (error) {
+      return error.response
+    }
+  },
+  async casesList({ commit }, params) {
+    try {
+      const response = await requestServer(`/api/cases-listid`, 'GET', params)
+      return response
+    } catch (error) {
+      return error.response
+    }
+  },
+  async createRevampReportCase({ commit }, data) {
+    try {
+      const response = await requestServer('/api/cases-revamp', 'POST', data)
+      return response
+    } catch (error) {
+      return error.response
+    }
+  },
   resetListCase({ commit }) {
     commit('RESET_LIST_CASE')
   },

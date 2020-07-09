@@ -160,3 +160,116 @@ export const rolesWidget = {
   'dinkeskota': [rolesPerm.DINKESKOTA],
   'dinkesKotaAndFaskes': [rolesPerm.DINKESKOTA, rolesPerm.FASKES]
 }
+
+export const apd = [
+  i18n.t('label.apd_gown'),
+  i18n.t('label.apd_surgical_mask'),
+  i18n.t('label.apd_gloves'),
+  i18n.t('label.apd_n95_mask'),
+  i18n.t('label.apd_ffp3'),
+  i18n.t('label.apd_goggle_glasses'),
+  i18n.t('label.apd_not_at_all')
+]
+
+export const answerList = [
+  {
+    value: 1,
+    text: i18n.t('label.yes')
+  },
+  {
+    value: 2,
+    text: i18n.t('label.not')
+  },
+  {
+    value: 3,
+    text: i18n.t('label.dont_know')
+  }
+]
+
+export const yesOrNoAnswer = [
+  {
+    value: 1,
+    text: i18n.t('label.yes')
+  },
+  {
+    value: 0,
+    text: i18n.t('label.not')
+  }
+]
+
+export const listPhysicalActivity = [
+  {
+    value: 0,
+    text: i18n.t('label.sedenter')
+  },
+  {
+    value: 1,
+    text: i18n.t('label.physical_exercise_less_than_150_minutes')
+  },
+  {
+    value: 2,
+    text: i18n.t('label.physical_exercise_more_than_150_minutes')
+  }
+]
+
+export const incomeList = [
+  {
+    value: 0,
+    text: i18n.t('label.not_earning')
+  },
+  {
+    value: 1,
+    text: i18n.t('label.less_than_one_million')
+  },
+  {
+    value: 2,
+    text: i18n.t('label.one_to_three_million')
+  },
+  {
+    value: 3,
+    text: i18n.t('label.three_to_five_million')
+  },
+  {
+    value: 4,
+    text: i18n.t('label.more_than_five_million')
+  }
+]
+
+export const healthWorkerList = [
+  {
+    value: 'Dokter',
+    text: i18n.t('label.doctor')
+  },
+  {
+    value: 'Perawat',
+    text: i18n.t('label.nurse')
+  },
+  {
+    value: 'Farmasi',
+    text: i18n.t('label.pharmacy')
+  },
+  {
+    value: 'Dokter Spesialis Paru',
+    text: i18n.t('label.lung_specialist')
+  },
+  {
+    value: 'Dokter Spesialis Lain',
+    text: i18n.t('label.another_specialist_doctor')
+  },
+  {
+    value: 'Bidan',
+    text: i18n.t('label.midwife')
+  },
+  {
+    value: 'Ahli Gizi',
+    text: i18n.t('label.nutritionists')
+  },
+  {
+    value: 'Tenaga Kesehatan Masyarakat',
+    text: i18n.t('label.community_health_workers')
+  },
+  {
+    value: 'Lainnya',
+    text: i18n.t('label.other')
+  }
+]
