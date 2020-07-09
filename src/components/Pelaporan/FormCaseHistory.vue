@@ -324,12 +324,12 @@
           </v-row>
           <v-row align="start">
             <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}">
-              <label class="required">{{ $t('label.physical_check') }}</label>
+              <label>{{ $t('label.physical_check') }}</label>
             </v-col>
             <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
               <v-row align="center" class="ma-0">
                 <v-col cols="12" sm="4" class="pa-1">
-                  <ValidationProvider v-slot="{ errors }" rules="numeric|isHtml">
+                  <ValidationProvider>
                     <v-text-field v-model="formPasien.physical_check_temperature" type="number" solo-inverted :placeholder="$t('label.temperature')">
                       <template v-slot:append>
                         <v-btn depressed tile min-width="20">
@@ -340,7 +340,7 @@
                   </ValidationProvider>
                 </v-col>
                 <v-col cols="12" sm="4" class="pa-1">
-                  <ValidationProvider v-slot="{ errors }" rules="numeric|isHtml">
+                  <ValidationProvider>
                     <v-text-field v-model="formPasien.physical_check_blood_pressure" type="number" solo-inverted :placeholder="$t('label.blood_pressure')">
                       <template v-slot:append>
                         <v-btn depressed tile min-width="20">
@@ -351,7 +351,7 @@
                   </ValidationProvider>
                 </v-col>
                 <v-col cols="12" sm="4" class="pa-1">
-                  <ValidationProvider v-slot="{ errors }" rules="numeric|isHtml">
+                  <ValidationProvider>
                     <v-text-field v-model="formPasien.physical_check_pulse" type="number" solo-inverted :placeholder="$t('label.pulse')">
                       <template v-slot:append>
                         <v-btn depressed tile min-width="20">
@@ -364,7 +364,7 @@
               </v-row>
               <v-row align="center" class="ma-0">
                 <v-col cols="12" sm="4" class="pa-1">
-                  <ValidationProvider v-slot="{ errors }" rules="numeric|isHtml">
+                  <ValidationProvider>
                     <v-text-field v-model="formPasien.physical_check_respiration" type="number" solo-inverted :placeholder="$t('label.respiration')">
                       <template v-slot:append>
                         <v-btn depressed tile min-width="20">
@@ -375,7 +375,7 @@
                   </ValidationProvider>
                 </v-col>
                 <v-col cols="12" sm="4" class="pa-1">
-                  <ValidationProvider v-slot="{ errors }" rules="numeric|isHtml">
+                  <ValidationProvider>
                     <v-text-field v-model="formPasien.physical_check_height" type="text" solo-inverted :placeholder="$t('label.height')">
                       <template v-slot:append>
                         <v-btn depressed tile min-width="20">
@@ -386,7 +386,7 @@
                   </ValidationProvider>
                 </v-col>
                 <v-col cols="12" sm="4" class="pa-1">
-                  <ValidationProvider v-slot="{ errors }" rules="numeric|isHtml">
+                  <ValidationProvider>
                     <v-text-field v-model="formPasien.physical_check_weight" type="text" solo-inverted :placeholder="$t('label.weight')">
                       <template v-slot:append>
                         <v-btn depressed tile min-width="20">
