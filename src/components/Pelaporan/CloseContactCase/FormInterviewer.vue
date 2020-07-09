@@ -50,7 +50,7 @@
             rules="isHtml"
           >
             <input-date-picker
-              :format-date="'YYYY/MM/DD'"
+              :format-date="formatDate"
               :date-value="formBody.contact_tracing_date"
               :value-date.sync="formBody.contact_tracing_date"
               @changeDate="formBody.contact_tracing_date = $event"
