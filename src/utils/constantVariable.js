@@ -72,30 +72,29 @@ export function listDays() {
 }
 
 export const symptomOptions = [
-  'Suhu tubuh >= 38 °C',
-  'Suhu tubuh < 38 °C',
-  'Batuk',
-  'Pilek',
-  'Sakit Tenggorokan',
-  'Sakit Kepala',
-  'Sesak Napas',
-  'Menggigil',
-  'Lemah (malaise)',
-  'Nyeri Otot',
-  'Mual atau muntah',
-  'Nyeri Abdomen',
-  'Diare'
+  i18n.t('label.body_temperature_greater_than_38C'),
+  i18n.t('label.body_temperature_less_than_38C'),
+  i18n.t('label.cough'),
+  i18n.t('label.cold'),
+  i18n.t('label.sore_throat'),
+  i18n.t('label.headache'),
+  i18n.t('label.hard_to_breathe'),
+  i18n.t('label.shivering'),
+  i18n.t('label.malaise'),
+  i18n.t('label.muscle_ache'),
+  i18n.t('label.nausea_or_vomiting'),
+  i18n.t('label.abdomen_pain'),
+  i18n.t('label.diarrhea')
 ]
 
 export const transportOptions = [
-  'Kereta',
-  'Bus',
-  'Mobil Pribadi',
-  'Lain-lain',
-  'Angkot',
-  'Transport Online',
-  'Taxi',
-  'Mual atau muntah'
+  i18n.t('label.train'),
+  i18n.t('label.bus'),
+  i18n.t('label.private_car'),
+  i18n.t('label.etc'),
+  i18n.t('label.public_transportation'),
+  i18n.t('label.transport_online'),
+  i18n.t('label.taxi')
 ]
 
 export const activityContactOptions = [
