@@ -95,7 +95,7 @@ export default {
     total_odp: 'Total ODP',
     pdp: 'PDP',
     total_pdp: 'Total PDP',
-    people: 'orang',
+    people: 'Orang',
     canceled: 'Batal',
     deleted: 'Hapus',
     search: 'Search',
@@ -675,7 +675,11 @@ export default {
     less_than_one_million: '< 1 Juta',
     one_to_three_million: '1 s/d 3 Juta',
     three_to_five_million: '3 s/d 5 Juta',
-    more_than_five_million: '> 5 Juta'
+    more_than_five_million: '> 5 Juta',
+    delete_contact: 'Hapus Kontak',
+    edit_tight_contacts: 'Edit Kontak Erat',
+    closer_contact_identification_list: 'List Identifikasi Kontak Erat',
+    tight_contact_total_list: 'Total List Kontak Erat'
   },
   success: {
     login_success: 'Login Berhasil',

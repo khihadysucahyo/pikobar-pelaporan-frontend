@@ -9,6 +9,14 @@ export default {
       return e
     }
   },
+  async getListCloseContact({ commit }, params) {
+    try {
+      const response = await requestServer('/api/close-contacts', 'GET', params)
+      return response
+    } catch (e) {
+      return e
+    }
+  },
   async getDetailCloseContactByCase({ commit }, data) {
     const {
       idCloseContact
@@ -39,6 +47,14 @@ export default {
     } = data
     try {
       const response = await requestServer(`/api/close-contacts/${idCloseContact}`, 'PUT', body)
+      return response
+    } catch (e) {
+      return e
+    }
+  },
+  async deleteCloseContact({ commit }, id) {
+    try {
+      const response = await requestServer(`/api/close-contacts/${id}`, 'DELETE')
       return response
     } catch (e) {
       return e
