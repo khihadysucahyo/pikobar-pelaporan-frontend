@@ -250,11 +250,16 @@
                           <v-list-item @click="handleEditHistoryCase(item._id)">
                             {{ $t('label.update_history') }}
                           </v-list-item>
+                          <v-list-item @click="handleCloseContact(item._id)">
+                            Lihat Kontak Erat
+                          </v-list-item>
                           <v-list-item @click="handlePrintPEForm(item._id, item.id_case)">
                             {{ $t('label.print_pe_form') }}
                           </v-list-item>
+                          <v-divider class="mt-0 mb-0" />
                           <v-list-item
                             v-if="rolesWidget['dinkeskota'].includes(roles[0])"
+                            style="color: #EB5757 !important;"
                             @click="handleDeleteCase(item)"
                           >
                             {{ $t('label.deleted_case') }}
@@ -335,6 +340,14 @@
         </v-row>
       </v-card>
     </v-dialog>
+    <dialog-close-contact
+      :show-dialog="dialogCloseContact"
+      :show.sync="dialogCloseContact"
+      :list-close-contact.sync="listCloseContact"
+      :id-case="idCase"
+      :case-id.sync="idCase"
+      :title-detail="$t('label.close_contact_list')"
+    />
     <import-form
       :show-import-form="showImportForm"
       :refresh-page="handleSearch"
@@ -407,11 +420,14 @@ export default {
       errorMessage: null,
       successDialog: false,
       detailCase: {},
+      listCloseContact: [],
+      idCase: '',
       listHistoryCase: [],
       referralHistoryCase: [],
       dialogDetailCase: false,
       dialogHistoryCase: false,
-      dialogUpdateCase: false
+      dialogUpdateCase: false,
+      dialogCloseContact: false
     }
   },
   computed: {
@@ -468,6 +484,7 @@ export default {
   async mounted() {
     EventBus.$on('refreshPageListReport', (value) => {
       this.handleSearch()
+      this.getListCloseContactByCase(this.idCase)
     })
     if (this.roles[0] === 'dinkeskota') this.listQuery.address_district_code = this.district_user
     this.queryReportCase.address_district_code = this.district_user
@@ -532,11 +549,20 @@ export default {
     },
     async handleDeleteCase(item) {
       this.dialog = true
-      this.dataDelete = await item
+      this.dataDelete = item
+    },
+    async handleCloseContact(id) {
+      this.idCase = id
+      await this.getListCloseContactByCase(id)
+      this.dialogCloseContact = true
     },
     async handleSearch() {
       this.listQuery.page = 1
       await this.$store.dispatch('reports/listReportCase', this.listQuery)
+    },
+    async getListCloseContactByCase(id) {
+      const response = await this.$store.dispatch('closeContactCase/getListCloseContactByCase', id)
+      this.listCloseContact = response.data
     },
     getTableRowNumbering(index) {
       return ((this.listQuery.page - 1) * this.listQuery.limit) + (index + 1)

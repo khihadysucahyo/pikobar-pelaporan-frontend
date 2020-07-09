@@ -65,6 +65,24 @@ export default {
       disabledDays: true
     }
   },
+  watch: {
+    async datetime(val) {
+      if (val.length >= 3) {
+        this.date = await this.datetime.split('/')
+        this.year = parseInt(this.date[0])
+        this.month = parseInt(this.date[1])
+        this.days = parseInt(this.date[2])
+        this.disabledMonth = false
+        this.disabledDays = false
+      } else {
+        this.year = ''
+        this.month = ''
+        this.days = ''
+        this.disabledMonth = true
+        this.disabledDays = true
+      }
+    }
+  },
   async mounted() {
     this.yearList = await this.listYear()
     this.dayList = await this.listDays()

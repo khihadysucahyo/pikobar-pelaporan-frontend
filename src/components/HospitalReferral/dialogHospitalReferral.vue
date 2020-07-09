@@ -158,7 +158,7 @@ export default {
           }
         }
         const response = await this.$store.dispatch('reports/caseHospitalRefferal', rowData)
-        if (response.status === ResponseRequest.UNPROCESSABLE) {
+        if (response.response.data.status === ResponseRequest.UNPROCESSABLE) {
           await this.$emit('update:dialogPopup', false)
           await this.$emit('update:referralForm', {})
           await this.$store.dispatch('toast/errorToast', response.data.message)
@@ -188,7 +188,7 @@ export default {
           await delete rowData.data['_id']
           response = await this.$store.dispatch('reports/caseHospitalRefferalRevise', rowData)
         }
-        if (response.status === ResponseRequest.UNPROCESSABLE) {
+        if (response.response.data.status === ResponseRequest.UNPROCESSABLE) {
           EventBus.$emit('refreshPageListReferral', true)
           await this.$emit('update:dialogPopup', false)
           await this.$store.dispatch('toast/errorToast', response.data.message)
@@ -205,6 +205,6 @@ export default {
 
 <style scoped>
  .warning-background {
-   background-image: url('../../static/warning_icon.svg')
+   background-image: url('../../static/warning_red_icon.svg')
  }
 </style>

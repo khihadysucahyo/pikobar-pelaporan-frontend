@@ -681,7 +681,7 @@ export default {
       const response = await this.$store.dispatch('reports/createReportCase', this.formPasien)
       if (response.status !== 422) {
         await this.$store.dispatch('reports/resetFormPasien')
-        await this.$store.dispatch('toast/successToast', this.$t('success.create_date_success'))
+        await this.$store.dispatch('toast/successToast', this.$t('success.create_data_success'))
         if (this.roles[0] === 'faskes') {
           await this.$router.push('/laporan/verification')
         } else {

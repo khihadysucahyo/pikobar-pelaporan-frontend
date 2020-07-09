@@ -68,6 +68,7 @@ export default {
       const response = await requestServer(`/api/users/${id}`, 'PUT', data.data)
       return response
     } catch (e) {
+      // console.log(e.response.data)
       return e
     }
   },

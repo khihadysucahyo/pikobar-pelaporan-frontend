@@ -164,7 +164,7 @@ export default {
           await this.$store.dispatch('rdt/createRDT', this.formRapid)
         }
 
-        await this.$store.dispatch('toast/successToast', this.$t('success.create_date_success'))
+        await this.$store.dispatch('toast/successToast', this.$t('success.create_data_success'))
         this.$router.push('/rdt/list')
         await this.$refs.form.reset()
       } catch {
