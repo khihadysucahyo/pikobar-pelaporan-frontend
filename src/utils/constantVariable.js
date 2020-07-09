@@ -237,39 +237,39 @@ export const incomeList = [
 
 export const healthWorkerList = [
   {
-    value: i18n.t('label.doctor'),
+    value: 'Dokter',
     text: i18n.t('label.doctor')
   },
   {
-    value: i18n.t('label.nurse'),
+    value: 'Perawat',
     text: i18n.t('label.nurse')
   },
   {
-    value: i18n.t('label.pharmacy'),
+    value: 'Farmasi',
     text: i18n.t('label.pharmacy')
   },
   {
-    value: i18n.t('label.lung_specialist'),
+    value: 'Dokter Spesialis Paru',
     text: i18n.t('label.lung_specialist')
   },
   {
-    value: i18n.t('label.another_specialist_doctor'),
+    value: 'Dokter Spesialis Lain',
     text: i18n.t('label.another_specialist_doctor')
   },
   {
-    value: i18n.t('label.midwife'),
+    value: 'Bidan',
     text: i18n.t('label.midwife')
   },
   {
-    value: i18n.t('label.nutritionists'),
+    value: 'Ahli Gizi',
     text: i18n.t('label.nutritionists')
   },
   {
-    value: i18n.t('label.community_health_workers'),
+    value: 'Tenaga Kesehatan Masyarakat',
     text: i18n.t('label.community_health_workers')
   },
   {
-    value: i18n.t('label.other'),
+    value: 'Lainnya',
     text: i18n.t('label.other')
   }
 ]
