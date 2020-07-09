@@ -71,6 +71,7 @@ export default {
         }
       }
       try {
+        this.formPasien.input_source = 'form app'
         await this.$store.dispatch('reports/createRevampReportCase', this.formPasien)
         await this.$store.dispatch('toast/successToast', this.$t('success.create_date_success'))
         await this.$store.dispatch('reports/resetFormPasien')
