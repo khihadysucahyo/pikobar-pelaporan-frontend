@@ -91,7 +91,7 @@
               <v-col v-for="item in activityContactOptions" :key="item" sm="6" md="6">
                 <label class="material-checkbox-custom">
                   <input
-                    v-model="formBody.home_activities"
+                    v-model="formBody.home_contact_activities"
                     :value="item"
                     type="checkbox"
                   >

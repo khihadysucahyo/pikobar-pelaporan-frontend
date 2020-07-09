@@ -455,6 +455,7 @@ export default {
   },
   watch: {
     'formBody.birth_date': function(value) {
+      console.log(value)
       if (value.length > 0) {
         const age = this.getAgeWithMonth(value)
         this.formBody.yearsOld = age.year

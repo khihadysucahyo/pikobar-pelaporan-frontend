@@ -29,11 +29,11 @@
             >
               <v-radio
                 :label="$t('label.yes')"
-                value="0"
+                :value="true"
               />
               <v-radio
                 :label="$t('label.no')"
-                value="1"
+                :value="false"
               />
             </v-radio-group>
           </ValidationProvider>
@@ -116,11 +116,11 @@
             >
               <v-radio
                 :label="$t('label.yes')"
-                value="0"
+                :value="true"
               />
               <v-radio
                 :label="$t('label.no')"
-                value="1"
+                :value="false"
               />
             </v-radio-group>
           </ValidationProvider>
@@ -203,11 +203,11 @@
             >
               <v-radio
                 :label="$t('label.yes')"
-                value="0"
+                :value="true"
               />
               <v-radio
                 :label="$t('label.no')"
-                value="1"
+                :value="false"
               />
             </v-radio-group>
           </ValidationProvider>
@@ -290,11 +290,11 @@
             >
               <v-radio
                 :label="$t('label.yes')"
-                value="0"
+                :value="true"
               />
               <v-radio
                 :label="$t('label.no')"
-                value="1"
+                :value="false"
               />
             </v-radio-group>
           </ValidationProvider>
@@ -377,11 +377,11 @@
             >
               <v-radio
                 :label="$t('label.yes')"
-                value="0"
+                :value="true"
               />
               <v-radio
                 :label="$t('label.no')"
-                value="1"
+                :value="false"
               />
             </v-radio-group>
           </ValidationProvider>

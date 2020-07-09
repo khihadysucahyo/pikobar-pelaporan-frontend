@@ -213,7 +213,7 @@
               <v-btn
                 color="#FFFFFF"
                 block
-                @click="show = false"
+                @click="handleBack"
               >
                 {{ $t('label.back') }}
               </v-btn>
@@ -235,6 +235,7 @@
 </template>
 <script>
 import { ValidationObserver } from 'vee-validate'
+import EventBus from '@/utils/eventBus'
 export default {
   name: 'DialogCreateCloseContact',
   components: {
@@ -242,6 +243,10 @@ export default {
   },
   props: {
     showDialog: {
+      type: Boolean,
+      default: false
+    },
+    isEdit: {
       type: Boolean,
       default: false
     },
@@ -283,22 +288,30 @@ export default {
     }
   },
   methods: {
+    handleBack() {
+      this.show = false
+      this.$refs.observer.reset()
+    },
     async handleSave() {
       const valid = await this.$refs.observer.validate()
       if (!valid) {
         return
       }
+      delete this.formBody['monthsOld']
+      delete this.formBody['yearsOld']
       const data = {
         idCase: this.idCase,
         body: this.formBody
       }
       const response = await this.$store.dispatch('closeContactCase/postListCloseContactByCase', data)
-      if (response.status !== 422) {
+      if (response.status === 422) {
+        await this.$store.dispatch('toast/errorToast', this.$t('errors.create_date_errors'))
+      } else {
         await this.$store.dispatch('toast/successToast', this.$t('success.create_date_success'))
         this.show = false
-      } else {
-        await this.$store.dispatch('toast/errorToast', this.$t('errors.create_date_errors'))
       }
+      await this.$refs.observer.reset()
+      EventBus.$emit('refreshPageListReport', true)
     }
   }
 }

@@ -24,17 +24,17 @@
             rules="required"
           >
             <v-radio-group
-              v-model="formBody.is_contact_with_officer"
+              v-model="formBody.officer_is_contact"
               :error-messages="errors"
               row
             >
               <v-radio
                 :label="$t('label.yes')"
-                value="0"
+                :value="true"
               />
               <v-radio
                 :label="$t('label.no')"
-                value="1"
+                :value="false"
               />
             </v-radio-group>
           </ValidationProvider>

@@ -24,7 +24,7 @@
             rules="isHtml"
           >
             <v-checkbox
-              v-model="formBody.trevel_is_went_abroad"
+              v-model="formBody.travel_is_went_abroad"
               :label="$t('label.from_abroad')"
               class="mt-0 pt-0"
               :error-messages="errors"

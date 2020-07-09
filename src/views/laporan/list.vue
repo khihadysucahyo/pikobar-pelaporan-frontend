@@ -343,10 +343,10 @@
     <dialog-close-contact
       :show-dialog="dialogCloseContact"
       :show.sync="dialogCloseContact"
-      :list-close-contact="listCloseContact"
+      :list-close-contact.sync="listCloseContact"
       :id-case="idCase"
       :case-id.sync="idCase"
-      :title-detail="'List Kontak Erat'"
+      :title-detail="$t('label.close_contact_list')"
     />
     <import-form
       :show-import-form="showImportForm"
@@ -484,6 +484,7 @@ export default {
   async mounted() {
     EventBus.$on('refreshPageListReport', (value) => {
       this.handleSearch()
+      this.getListCloseContactByCase(this.idCase)
     })
     if (this.roles[0] === 'dinkeskota') this.listQuery.address_district_code = this.district_user
     this.queryReportCase.address_district_code = this.district_user
@@ -552,13 +553,16 @@ export default {
     },
     async handleCloseContact(id) {
       this.idCase = id
-      const response = await this.$store.dispatch('closeContactCase/getListCloseContactByCase', id)
-      this.listCloseContact = response.data
+      await this.getListCloseContactByCase(id)
       this.dialogCloseContact = true
     },
     async handleSearch() {
       this.listQuery.page = 1
       await this.$store.dispatch('reports/listReportCase', this.listQuery)
+    },
+    async getListCloseContactByCase(id) {
+      const response = await this.$store.dispatch('closeContactCase/getListCloseContactByCase', id)
+      this.listCloseContact = response.data
     },
     getTableRowNumbering(index) {
       return ((this.listQuery.page - 1) * this.listQuery.limit) + (index + 1)

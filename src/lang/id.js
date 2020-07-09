@@ -578,7 +578,9 @@ export default {
     exposure_information: 'Informasi Paparan',
     workplace: 'Tempat Kerja',
     tour_group: 'Kelompok Tour',
-    medical_facility: 'Fasilitas Kesehatan'
+    medical_facility: 'Fasilitas Kesehatan',
+    create_closely_contact_reports: 'Buat Laporan Kontak Erat',
+    close_contact_list: 'List Kontak Erat'
   },
   success: {
     login_success: 'Login Berhasil',
