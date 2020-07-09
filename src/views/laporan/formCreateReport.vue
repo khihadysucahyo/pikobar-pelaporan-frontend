@@ -73,7 +73,7 @@ export default {
       try {
         await this.$store.dispatch('reports/createRevampReportCase', this.formPasien)
         await this.$store.dispatch('toast/successToast', this.$t('success.create_date_success'))
-        await this.$refs.form.reset()
+        await this.$store.dispatch('reports/resetFormPasien')
         this.$router.push('/laporan/list')
       } catch (error) {
         await this.$store.dispatch('toast/errorToast', 'Data gagal disimpan')
