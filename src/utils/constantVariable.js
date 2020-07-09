@@ -220,7 +220,7 @@ export const incomeList = [
   },
   {
     value: 4,
-    text: '5 Juta'
+    text: '> 5 Juta'
   }
 ]
 

@@ -21,7 +21,7 @@
                 </v-col>
                 <v-col cols="12" md="6" sm="12">
                   <v-btn class="ma-2 float-right" tile outlined small color="red" @click="handleDeleteFormCloseContact(index)">
-                    <v-icon left>mdi-delete</v-icon> Hapus
+                    <v-icon left>mdi-delete</v-icon> {{ $t('label.delete') }}
                   </v-btn>
                 </v-col>
               </v-row>
@@ -132,7 +132,7 @@
             <v-btn class="ma-2 mt-5" outlined small fab @click="handleAddFormCloseContact">
               <v-icon>mdi-plus</v-icon>
             </v-btn>
-            <p>Tambah Data Kontak</p>
+            <p>{{ $t('label.add_contact_data') }}</p>
           </v-card>
         </v-container>
       </v-card>
@@ -187,9 +187,7 @@ export default {
     },
     handleDeleteFormCloseContact(index) {
       this.formPasien.close_contact_patient.splice(index, 1)
-      if (this.formPasien.close_contact_patient.length === 0) {
-        this.isValid = false
-      }
+      this.isValid = this.formPasien.close_contact_patient.length !== 0
     },
     handeChangeContactDate(value, index) {
       this.formPasien.close_contact_patient[index].contact_date = value

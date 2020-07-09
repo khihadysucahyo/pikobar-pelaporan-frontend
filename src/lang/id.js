@@ -589,7 +589,10 @@ export default {
     date_of_visit: 'Tanggal Kunjungan',
     choose_health_worker: 'Pilih Tenaga Kesehatan',
     according_address: 'Sesuai Alamat Tempat Tinggal',
-    doesnt_according_address: 'Tidak Sesuai Alamat Tempat Tinggal'
+    doesnt_according_address: 'Tidak Sesuai Alamat Tempat Tinggal',
+    add_contact_data: 'Tambah Data Kontak',
+    create_new_case_report: 'Buat Laporan Kasus Baru',
+    please_fill_in_form_below: 'Silakan isi form dibawah ini'
   },
   success: {
     login_success: 'Login Berhasil',

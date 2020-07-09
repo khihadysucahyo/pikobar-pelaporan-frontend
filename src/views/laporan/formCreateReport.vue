@@ -3,12 +3,12 @@
     <v-card class="disclaimer pa-7 mb-5" width="100%">
       <v-row class="mx-0 mb-2 headline">
         <div class="font-white">
-          Buat Laporan Kasus Baru
+          {{ $t('label.create_new_case_report') }}
         </div>
       </v-row>
       <v-row class="mx-0 mb-0">
         <span class="font-white">
-          Silakan isi form dibawah ini
+          {{ $t('label.please_fill_in_form_below') }}
         </span>
       </v-row>
     </v-card>
@@ -60,9 +60,7 @@ export default {
   methods: {
     async saveData() {
       const valid = await this.$refs.observer.validate()
-      if (!valid) {
-        return
-      }
+      if (!valid) return
       if (this.formPasien.nik) {
         this.loading = true
         const response = await this.$store.dispatch('reports/revampGetNik', { params: this.formPasien.nik })
