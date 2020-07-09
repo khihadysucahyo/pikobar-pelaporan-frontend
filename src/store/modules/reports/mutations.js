@@ -16,6 +16,7 @@ export default {
     state.formPasien.name = ''
     state.formPasien.birth_date = ''
     state.formPasien.age = ''
+    state.formPasien.month = ''
     state.formPasien.occupation = ''
     state.formPasien.gender = ''
     state.formPasien.nationality = ''
@@ -58,7 +59,7 @@ export default {
     state.formPasien.serum_check = ''
     state.formPasien.sputum_check = ''
     state.formPasien.swab_check = ''
-    state.formPasien.physical_check = []
+    state.formPasien.physical_check = ''
     state.formPasien.pysichal_activity = ''
     state.formPasien.smoking = ''
     state.formPasien.consume_alcohol = ''
@@ -80,6 +81,20 @@ export default {
     state.formPasien.name_close_contact_confirm = ''
     state.formPasien.id_close_contact_confirm = ''
     state.formPasien.close_contact_patient = []
+    state.formPasien.physical_check_temperature = ''
+    state.formPasien.physical_check_blood_pressure = ''
+    state.formPasien.physical_check_pulse = ''
+    state.formPasien.physical_check_respiration = ''
+    state.formPasien.physical_check_height = ''
+    state.formPasien.physical_check_weight = ''
+    state.formPasien.contact_date = ''
+    state.formPasien.animal_market_date = ''
+    state.formPasien.animal_market_other = ''
+    state.formPasien.public_place_date = ''
+    state.formPasien.public_place_other = ''
+    state.formPasien.medical_facility_date = ''
+    state.formPasien.medical_facility_other = ''
+    state.formPasien.health_workers = ''
   },
   RESET_RIWAYAT_FORM_PASIEN: (state) => {
     state.formRiwayatPasien.case = ''

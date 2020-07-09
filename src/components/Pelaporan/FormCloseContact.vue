@@ -70,15 +70,13 @@
                         <v-col cols="12" sm="6" class="pa-1">
                           <label>{{ $t('label.year') }}</label>
                           <ValidationProvider>
-                            <!--Todo: sesuaikan nama parameter dengan nama parameter api-->
-                            <v-text-field v-model="data.years_old" type="number" min="0" max="120" solo-inverted oninput="if(Number(this.value) > Number(this.max)) this.value = this.max" />
+                            <v-text-field v-model="data.age" type="number" min="0" max="120" solo-inverted oninput="if(Number(this.value) > Number(this.max)) this.value = this.max" />
                           </ValidationProvider>
                         </v-col>
                         <v-col cols="12" sm="6" class="pa-1">
                           <label>{{ $t('label.month') }}</label>
                           <ValidationProvider>
-                            <!--Todo: sesuaikan nama parameter dengan nama parameter api-->
-                            <v-text-field v-model="data.months_old" type="number" min="0" max="11" solo-inverted oninput="if(Number(this.value) > Number(this.max)) this.value = this.max" />
+                            <v-text-field v-model="data.month" type="number" min="0" max="11" solo-inverted oninput="if(Number(this.value) > Number(this.max)) this.value = this.max" />
                           </ValidationProvider>
                         </v-col>
                       </v-row>
@@ -177,8 +175,8 @@ export default {
         name: '',
         phone_number: '',
         gender: '',
-        years_old: '',
-        months_old: '',
+        age: '',
+        month: '',
         address: '',
         related: '',
         activity: '',

@@ -81,7 +81,7 @@
             </v-row>
             <v-row v-if="formPasien.current_location_type === 'RUMAH'" align="center">
               <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}">
-                <label class="additional-label">({{ $t('label.house_address') }})</label>
+                <label class="grey--text font-italic">({{ $t('label.house_address') }})</label>
               </v-col>
               <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
                 <address-region :district-code="formPasien.current_location_district_code" :code-district.sync="formPasien.current_location_district_code" :sub-district-code="formPasien.current_location_subdistrict_code" :code-sub-district.sync="formPasien.current_location_subdistrict_code" :village-code="formPasien.current_location_village_code" :village-name="formPasien.current_location_village_name" :code-village.sync="formPasien.current_location_village_code" :name-village.sync="formPasien.current_location_village_name" :disabled-address="false" :required-address="true" />
@@ -89,7 +89,7 @@
             </v-row>
             <v-row v-if="formPasien.current_location_type === 'RUMAH'" align="center">
               <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}">
-                <label class="additional-label">({{ $t('label.complete_house_address') }})</label>
+                <label class="grey--text font-italic">({{ $t('label.complete_house_address') }})</label>
               </v-col>
               <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
                 <ValidationProvider v-slot="{ errors }" rules="required">
@@ -99,7 +99,7 @@
             </v-row>
             <v-row v-if="formPasien.current_location_type === 'RS'" align="center">
               <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}">
-                <label class="additional-label">({{ $t('label.location_hospital') }})</label>
+                <label class="grey--text font-italic">({{ $t('label.location_hospital') }})</label>
               </v-col>
               <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
                 <ValidationProvider v-slot="{ errors }" rules="required">
@@ -122,7 +122,7 @@
             </v-row>
             <v-row v-if="formPasien.current_location_type === 'others'" align="center">
               <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}">
-                <label class="additional-label">({{ $t('label.other_places') }})</label>
+                <label class="grey--text font-italic">({{ $t('label.other_places') }})</label>
               </v-col>
               <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
                 <ValidationProvider v-if="formPasien.current_location_type === 'others'" v-slot="{ errors }" rules="required">
@@ -277,7 +277,7 @@
                 <v-container>
                   <v-row>
                     <v-radio-group v-model="formPasien.serum_check" row>
-                      <span v-for="(item, index) in answerList" :key="index">
+                      <span v-for="(item, index) in yesOrNoAnswer" :key="index">
                         <v-radio :label="item.text" :value="item.value" />
                       </span>
                     </v-radio-group>
@@ -295,7 +295,7 @@
                 <v-container>
                   <v-row>
                     <v-radio-group v-model="formPasien.sputum_check" row>
-                      <span v-for="(item, index) in answerList" :key="index">
+                      <span v-for="(item, index) in yesOrNoAnswer" :key="index">
                         <v-radio :label="item.text" :value="item.value" />
                       </span>
                     </v-radio-group>
@@ -313,7 +313,7 @@
                 <v-container>
                   <v-row>
                     <v-radio-group v-model="formPasien.swab_check" row>
-                      <span v-for="(item, index) in answerList" :key="index">
+                      <span v-for="(item, index) in yesOrNoAnswer" :key="index">
                         <v-radio :label="item.text" :value="item.value" />
                       </span>
                     </v-radio-group>
@@ -330,8 +330,7 @@
               <v-row align="center" class="ma-0">
                 <v-col cols="12" sm="3" class="pa-1">
                   <ValidationProvider>
-                    <!--Todo: sesuaikan nama parameter dengan nama parameter api-->
-                    <v-text-field v-model="formPasien.temperature" type="text" solo-inverted :placeholder="$t('label.temperature')" />
+                    <v-text-field v-model="formPasien.physical_check_temperature" type="text" solo-inverted :placeholder="$t('label.temperature')" />
                   </ValidationProvider>
                 </v-col>
                 <v-col cols="12" md="1" sm="2" class="pa-0 text-center">
@@ -339,8 +338,7 @@
                 </v-col>
                 <v-col cols="12" sm="3" class="pa-1">
                   <ValidationProvider>
-                    <!--Todo: sesuaikan nama parameter dengan nama parameter api-->
-                    <v-text-field v-model="formPasien.blood_pressure" type="text" solo-inverted :placeholder="$t('label.blood_pressure')" />
+                    <v-text-field v-model="formPasien.physical_check_blood_pressure" type="text" solo-inverted :placeholder="$t('label.blood_pressure')" />
                   </ValidationProvider>
                 </v-col>
                 <v-col cols="12" md="1" sm="2" class="pa-0 text-center">
@@ -348,8 +346,7 @@
                 </v-col>
                 <v-col cols="12" sm="3" class="pa-1">
                   <ValidationProvider>
-                    <!--Todo: sesuaikan nama parameter dengan nama parameter api-->
-                    <v-text-field v-model="formPasien.pulse" type="text" solo-inverted :placeholder="$t('label.pulse')" />
+                    <v-text-field v-model="formPasien.physical_check_pulse" type="text" solo-inverted :placeholder="$t('label.pulse')" />
                   </ValidationProvider>
                 </v-col>
                 <v-col cols="12" md="1" sm="2" class="pa-0 text-center">
@@ -364,8 +361,7 @@
               <v-row align="center" class="ma-0">
                 <v-col cols="12" sm="3" class="pa-1">
                   <ValidationProvider>
-                    <!--Todo: sesuaikan nama parameter dengan nama parameter api-->
-                    <v-text-field v-model="formPasien.respiration" type="text" solo-inverted :placeholder="$t('label.respiration')" />
+                    <v-text-field v-model="formPasien.physical_check_respiration" type="text" solo-inverted :placeholder="$t('label.respiration')" />
                   </ValidationProvider>
                 </v-col>
                 <v-col cols="12" md="1" sm="2" class="pa-0 text-center">
@@ -373,8 +369,7 @@
                 </v-col>
                 <v-col cols="12" sm="3" class="pa-1">
                   <ValidationProvider>
-                    <!--Todo: sesuaikan nama parameter dengan nama parameter api-->
-                    <v-text-field v-model="formPasien.height" type="text" solo-inverted :placeholder="$t('label.height')" />
+                    <v-text-field v-model="formPasien.physical_check_height" type="text" solo-inverted :placeholder="$t('label.height')" />
                   </ValidationProvider>
                 </v-col>
                 <v-col cols="12" md="1" sm="2" class="pa-0 text-center">
@@ -382,8 +377,7 @@
                 </v-col>
                 <v-col cols="12" sm="3" class="pa-1">
                   <ValidationProvider>
-                    <!--Todo: sesuaikan nama parameter dengan nama parameter api-->
-                    <v-text-field v-model="formPasien.weight" type="text" solo-inverted :placeholder="$t('label.weight')" />
+                    <v-text-field v-model="formPasien.physical_check_weight" type="text" solo-inverted :placeholder="$t('label.weight')" />
                   </ValidationProvider>
                 </v-col>
                 <v-col cols="12" md="1" sm="2" class="pa-0 text-center">
@@ -399,7 +393,7 @@
 </template>
 <script>
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
-import { symptomOptions, additionalConditionOptions, answerList } from '@/utils/constantVariable'
+import { symptomOptions, additionalConditionOptions, answerList, yesOrNoAnswer } from '@/utils/constantVariable'
 import { mapGetters } from 'vuex'
 export default {
   name: 'FormCaseHistory',
@@ -422,7 +416,8 @@ export default {
       hospitalWestJavaList: [],
       hospitalNonWestJavaList: [],
       additionalConditionOptions: additionalConditionOptions,
-      answerList: answerList
+      answerList: answerList,
+      yesOrNoAnswer: yesOrNoAnswer
     }
   },
   computed: {
@@ -435,9 +430,9 @@ export default {
     this.formPasien.diagnosis_ards = 2
     this.formPasien.diagnosis_covid = 2
     this.formPasien.diagnosis_pneumonia = 2
-    this.formPasien.serum_check = 2
-    this.formPasien.sputum_check = 2
-    this.formPasien.swab_check = 2
+    this.formPasien.serum_check = 0
+    this.formPasien.sputum_check = 0
+    this.formPasien.swab_check = 0
     const paramHospitalWestJava = { 'rs_jabar': true }
     const paramHospitalNonWestJava = { 'rs_jabar': false }
     const responseWestJava = await this.$store.dispatch('region/getListHospital', paramHospitalWestJava)
@@ -490,9 +485,3 @@ export default {
   }
 }
 </script>
-<style>
-.additional-label {
-  color: #828282;
-  font-style: italic;
-}
-</style>

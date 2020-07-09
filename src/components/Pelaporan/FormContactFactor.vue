@@ -156,8 +156,7 @@
               <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}" />
               <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
                 <ValidationProvider v-slot="{ errors }" rules="required">
-                  <!--Todo: sesuaikan nama parameter dengan nama parameter api-->
-                  <v-text-field v-model="formPasien.close_contact_animal_market_name" :error-messages="errors" type="text" solo-inverted :placeholder="$t('label.location')" />
+                  <v-text-field v-model="formPasien.animal_market_other" :error-messages="errors" type="text" solo-inverted :placeholder="$t('label.location')" />
                 </ValidationProvider>
               </v-col>
             </v-row>
@@ -165,8 +164,7 @@
               <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}" />
               <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
                 <ValidationProvider v-slot="{ errors }">
-                  <!--Todo: sesuaikan nama parameter dengan nama parameter api-->
-                  <input-date-picker :format-date="formatDate" :error-messages="errors" :label="$t('label.date_of_visit')" :date-value="formPasien.close_contact_animal_market_date" :value-date.sync="formPasien.close_contact_animal_market_date" @changeDate="handleChangeVisitAnimalMarketDate" />
+                  <input-date-picker :format-date="formatDate" :error-messages="errors" :label="$t('label.date_of_visit')" :date-value="formPasien.animal_market_date" :value-date.sync="formPasien.animal_market_date" @changeDate="handleChangeVisitAnimalMarketDate" />
                 </ValidationProvider>
               </v-col>
             </v-row>
@@ -192,8 +190,7 @@
               <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}" />
               <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
                 <ValidationProvider v-slot="{ errors }" rules="required">
-                  <!--Todo: sesuaikan nama parameter dengan nama parameter api-->
-                  <v-text-field v-model="formPasien.close_contact_public_place_name" :error-messages="errors" type="text" solo-inverted :placeholder="$t('label.location')" />
+                  <v-text-field v-model="formPasien.public_place_other" :error-messages="errors" type="text" solo-inverted :placeholder="$t('label.location')" />
                 </ValidationProvider>
               </v-col>
             </v-row>
@@ -201,8 +198,7 @@
               <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}" />
               <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
                 <ValidationProvider v-slot="{ errors }">
-                  <!--Todo: sesuaikan nama parameter dengan nama parameter api-->
-                  <input-date-picker :format-date="formatDate" :error-messages="errors" :label="$t('label.date_of_visit')" :date-value="formPasien.close_contact_public_place_date" :value-date.sync="formPasien.close_contact_public_place_date" @changeDate="handleChangeVisitPublicPlaceDate" />
+                  <input-date-picker :format-date="formatDate" :error-messages="errors" :label="$t('label.date_of_visit')" :date-value="formPasien.public_place_date" :value-date.sync="formPasien.public_place_date" @changeDate="handleChangeVisitPublicPlaceDate" />
                 </ValidationProvider>
               </v-col>
             </v-row>
@@ -228,8 +224,7 @@
               <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}" />
               <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
                 <ValidationProvider v-slot="{ errors }" rules="required">
-                  <!--Todo: sesuaikan nama parameter dengan nama parameter api-->
-                  <v-text-field v-model="formPasien.close_contact_medical_facility_name" :error-messages="errors" type="text" solo-inverted :placeholder="$t('label.location')" />
+                  <v-text-field v-model="formPasien.medical_facility_other" :error-messages="errors" type="text" solo-inverted :placeholder="$t('label.location')" />
                 </ValidationProvider>
               </v-col>
             </v-row>
@@ -237,8 +232,7 @@
               <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}" />
               <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
                 <ValidationProvider v-slot="{ errors }">
-                  <!--Todo: sesuaikan nama parameter dengan nama parameter api-->
-                  <input-date-picker :format-date="formatDate" :error-messages="errors" :label="$t('label.date_of_visit')" :date-value="formPasien.close_contact_medical_facility_date" :value-date.sync="formPasien.close_contact_medical_facility_date" @changeDate="handleChangeVisitMedicalFacilityDate" />
+                  <input-date-picker :format-date="formatDate" :error-messages="errors" :label="$t('label.date_of_visit')" :date-value="formPasien.medical_facility_date" :value-date.sync="formPasien.medical_facility_date" @changeDate="handleChangeVisitMedicalFacilityDate" />
                 </ValidationProvider>
               </v-col>
             </v-row>
@@ -282,9 +276,8 @@
               <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}" />
               <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
                 <ValidationProvider v-slot="{ errors }">
-                  <!--Todo: sesuaikan nama parameter dengan nama parameter api-->
                   <v-select
-                    v-model="formPasien.close_contact_health_worker_name"
+                    v-model="formPasien.health_workers"
                     :items="healthWorkerList"
                     :label="$t('label.choose_health_worker')"
                     item-value="value"
@@ -389,16 +382,13 @@ export default {
       this.formPasien.end_travel = value
     },
     handleChangeVisitAnimalMarketDate(value) {
-      // Todo: sesuaikan nama parameter dengan nama parameter api
-      this.formPasien.close_contact_animal_market_date = value
+      this.formPasien.animal_market_date = value
     },
     handleChangeVisitPublicPlaceDate(value) {
-      // Todo: sesuaikan nama parameter dengan nama parameter api
-      this.formPasien.close_contact_public_place_date = value
+      this.formPasien.public_place_date = value
     },
     handleChangeVisitMedicalFacilityDate(value) {
-      // Todo: sesuaikan nama parameter dengan nama parameter api
-      this.formPasien.close_contact_medical_facility_date = value
+      this.formPasien.medical_facility_date = value
     },
     onSelectCloseContact(value) {
       if (value) {
@@ -413,8 +403,7 @@ export default {
       }
     },
     onSelectHealthWorker(value) {
-      // Todo: sesuaikan nama parameter dengan nama parameter api
-      this.formPasien.close_contact_health_worker_name = value
+      this.formPasien.health_workers = value
     }
   }
 }

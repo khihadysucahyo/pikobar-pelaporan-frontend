@@ -162,49 +162,60 @@ export const rolesWidget = {
 }
 
 export const apd = [
-  'Gown',
-  'Masker Bedah',
-  'Sarung Tangan',
-  'Masker N95 Standar FFP3',
-  'FFP3',
-  'Kacamata Pelindung Goggle',
-  'Tidak Sama Sekali'
+  i18n.t('label.apd_gown'),
+  i18n.t('label.apd_surgical_mask'),
+  i18n.t('label.apd_gloves'),
+  i18n.t('label.apd_n95_mask'),
+  i18n.t('label.apd_ffp3'),
+  i18n.t('label.apd_goggle_glasses'),
+  i18n.t('label.apd_not_at_all')
 ]
 
 export const answerList = [
   {
     value: 1,
-    text: 'Ya'
+    text: i18n.t('label.yes')
   },
   {
     value: 2,
-    text: 'Tidak'
+    text: i18n.t('label.not')
   },
   {
     value: 3,
-    text: 'Tidak Tahu'
+    text: i18n.t('label.dont_know')
+  }
+]
+
+export const yesOrNoAnswer = [
+  {
+    value: 1,
+    text: i18n.t('label.yes')
+  },
+  {
+    value: 0,
+    text: i18n.t('label.not')
   }
 ]
 
 export const listPhysicalActivity = [
   {
     value: 0,
-    text: 'Sedenter'
+    text: i18n.t('label.sedenter')
   },
   {
     value: 1,
-    text: 'Latihan Fisik < 150 menit/minggu (3 x 50 menit/minggu atau 5 x 30 menit/minggu)'
+    text: i18n.t('label.physical_exercise_less_than_150_minutes')
   },
   {
     value: 2,
-    text: 'Latihan Fisik > 150 menit/minggu (3 x 50 menit/minggu atau 5 x 30 menit/minggu)'
+    text: i18n.t('label.physical_exercise_more_than_150_minutes')
   }
 ]
 
 export const incomeList = [
   {
     value: 0,
-    text: 'Tidak Berpenghasilan'
+    text: i18n.t('label.not_earning')
   },
   {
     value: 1,
@@ -226,39 +237,39 @@ export const incomeList = [
 
 export const healthWorkerList = [
   {
-    value: 'Dokter',
-    text: 'Dokter'
+    value: i18n.t('label.doctor'),
+    text: i18n.t('label.doctor')
   },
   {
-    value: 'Perawat',
-    text: 'Perawat'
+    value: i18n.t('label.nurse'),
+    text: i18n.t('label.nurse')
   },
   {
-    value: 'Farmasi',
-    text: 'Farmasi'
+    value: i18n.t('label.pharmacy'),
+    text: i18n.t('label.pharmacy')
   },
   {
-    value: 'Dokter Spesialis Paru',
-    text: 'Dokter Spesialis Paru'
+    value: i18n.t('label.lung_specialist'),
+    text: i18n.t('label.lung_specialist')
   },
   {
-    value: 'Dokter Spesialis Lain',
-    text: 'Dokter Spesialis Lain'
+    value: i18n.t('label.another_specialist_doctor'),
+    text: i18n.t('label.another_specialist_doctor')
   },
   {
-    value: 'Bidan',
-    text: 'Bidan'
+    value: i18n.t('label.midwife'),
+    text: i18n.t('label.midwife')
   },
   {
-    value: 'Ahli Gizi',
-    text: 'Ahli Gizi'
+    value: i18n.t('label.nutritionists'),
+    text: i18n.t('label.nutritionists')
   },
   {
-    value: 'Tenaga Kesehatan Masyarakat',
-    text: 'Tenaga Kesehatan Masyarakat'
+    value: i18n.t('label.community_health_workers'),
+    text: i18n.t('label.community_health_workers')
   },
   {
-    value: 'Lainnya',
-    text: 'Lainnya'
+    value: i18n.t('label.other'),
+    text: i18n.t('label.other')
   }
 ]

@@ -2,12 +2,12 @@
   <div>
     <v-card class="disclaimer pa-7 mb-5" width="100%">
       <v-row class="mx-0 mb-2 headline">
-        <div class="font-white">
+        <div class="white--text">
           {{ $t('label.create_new_case_report') }}
         </div>
       </v-row>
       <v-row class="mx-0 mb-0">
-        <span class="font-white">
+        <span class="white--text">
           {{ $t('label.please_fill_in_form_below') }}
         </span>
       </v-row>
@@ -25,10 +25,8 @@
     <dialog-duplicated-nik :show-dialog="showDuplicatedNikDialog" :nik-number="nikNumber" :nik-name="nikName" :nik-author="nikAuthor" :show.sync="showDuplicatedNikDialog" />
     <v-container fluid>
       <v-row class="survey-bottom-form">
-        <v-col cols="" md="4" sm="0" />
-        <v-col cols="12" md="3" sm="12" />
-        <v-col cols="12" md="5" sm="12">
-          <v-btn color="success" :loading="loading" bottom class="btn-save" @click="saveData">
+        <v-col class="text-right">
+          <v-btn color="success" :loading="loading" bottom class="ml-2" @click="saveData">
             {{ $t('label.save') }}
           </v-btn>
         </v-col>
@@ -75,8 +73,8 @@ export default {
       try {
         await this.$store.dispatch('reports/createRevampReportCase', this.formPasien)
         await this.$store.dispatch('toast/successToast', this.$t('success.create_date_success'))
-        this.$router.push('/laporan/list')
         await this.$refs.form.reset()
+        this.$router.push('/laporan/list')
       } catch (error) {
         await this.$store.dispatch('toast/errorToast', 'Data gagal disimpan')
       } finally {
@@ -89,13 +87,6 @@ export default {
 <style scoped>
 .disclaimer {
   background: linear-gradient(78.54deg, #27AE60 0%, #6FCF97 100%) !important;
-}
-.font-white {
-  color: white;
-}
-.btn-save {
-  float: right;
-  color: white
 }
 </style>
 
