@@ -33,7 +33,7 @@
         </v-col>
       </v-row>
       <v-row
-        v-if="formBody.trevel_is_went_abroad"
+        v-if="formBody.travel_is_went_abroad"
         align="start"
       >
         <v-col
