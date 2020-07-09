@@ -219,19 +219,19 @@ export const incomeList = [
   },
   {
     value: 1,
-    text: '< 1 Juta'
+    text: i18n.t('label.less_than_one_million')
   },
   {
     value: 2,
-    text: '1 s/d 3 Juta'
+    text: i18n.t('label.one_to_three_million')
   },
   {
     value: 3,
-    text: '3 s/d 5 Juta'
+    text: i18n.t('label.three_to_five_million')
   },
   {
     value: 4,
-    text: '> 5 Juta'
+    text: i18n.t('label.more_than_five_million')
   }
 ]
 

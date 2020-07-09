@@ -350,7 +350,7 @@
                   </ValidationProvider>
                 </v-col>
                 <v-col cols="12" md="1" sm="2" class="pa-0 text-center">
-                  <label>x/menit</label>
+                  <label>{{ $t('label.x_minute') }}</label>
                 </v-col>
               </v-row>
             </v-col>

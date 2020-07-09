@@ -77,7 +77,7 @@ export default {
         await this.$store.dispatch('reports/resetFormPasien')
         this.$router.push('/laporan/list')
       } catch (error) {
-        await this.$store.dispatch('toast/errorToast', 'Data gagal disimpan')
+        await this.$store.dispatch('toast/errorToast', this.$t('errors.data_failed_to_save'))
       } finally {
         this.loading = false
       }

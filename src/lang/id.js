@@ -614,7 +614,12 @@ export default {
     another_specialist_doctor: 'Dokter Spesialis Lain',
     midwife: 'Bidan',
     nutritionists: 'Ahli Gizi',
-    community_health_workers: 'Tenaga Kesehatan Masyarakat'
+    community_health_workers: 'Tenaga Kesehatan Masyarakat',
+    x_minute: 'x/menit',
+    less_than_one_million: '< 1 Juta',
+    one_to_three_million: '1 s/d 3 Juta',
+    three_to_five_million: '3 s/d 5 Juta',
+    more_than_five_million: '> 5 Juta'
   },
   success: {
     login_success: 'Login Berhasil',
@@ -656,5 +661,6 @@ export default {
     not_minus: 'Nilai tidak boleh 0 atau kurang',
     field_only_accepts_xlsx: 'Sistem hanya dapat menerima file dengan format ".xlsx"',
     data_failed_edit: 'Data Gagal Diubah',
+    data_failed_to_save: 'Data gagal disimpan'
   },
 }
