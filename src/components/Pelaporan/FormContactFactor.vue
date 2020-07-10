@@ -26,11 +26,12 @@
               </v-col>
             </v-row>
             <v-row align="start">
-              <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}" />
+              <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}">
+                <label class="required">{{ formPasien.travel === '1' ? $t('label.country_visited') : $t('label.city_visited') }}</label>
+              </v-col>
               <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
                 <ValidationProvider v-slot="{ errors }" rules="required">
-                  <v-text-field v-if="formPasien.travel === '1'" v-model="formPasien.visited" :error-messages="errors" type="text" solo-inverted :placeholder="$t('label.country_visited')" />
-                  <v-text-field v-if="formPasien.travel === '0'" v-model="formPasien.visited" :error-messages="errors" type="text" solo-inverted :placeholder="$t('label.city_visited')" />
+                  <v-text-field v-model="formPasien.visited" :error-messages="errors" type="text" solo-inverted :placeholder="formPasien.travel === '1' ? $t('label.country_visited') : $t('label.city_visited')" />
                 </ValidationProvider>
               </v-col>
             </v-row>

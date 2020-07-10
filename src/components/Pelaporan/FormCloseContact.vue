@@ -30,17 +30,17 @@
                 <v-form ref="form" lazy-validation>
                   <v-row align="start">
                     <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}">
-                      <label class="required">{{ $t('label.name') }}</label>
+                      <label>{{ $t('label.name') }}</label>
                     </v-col>
                     <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
-                      <ValidationProvider v-slot="{ errors }" rules="required|isHtml">
-                        <v-text-field v-model="data.name" :error-messages="errors" solo-inverted />
+                      <ValidationProvider>
+                        <v-text-field v-model="data.name" solo-inverted />
                       </ValidationProvider>
                     </v-col>
                   </v-row>
                   <v-row align="start">
                     <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}">
-                      <label class="required">{{ $t('label.phone_number') }}</label>
+                      <label>{{ $t('label.phone_number') }}</label>
                     </v-col>
                     <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
                       <ValidationProvider v-slot="{ errors }" rules="isPhoneNumber">
@@ -50,11 +50,11 @@
                   </v-row>
                   <v-row align="center">
                     <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}">
-                      <label class="required">{{ $t('label.gender') }}</label>
+                      <label>{{ $t('label.gender') }}</label>
                     </v-col>
                     <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
-                      <ValidationProvider v-slot="{ errors }" rules="required">
-                        <v-radio-group v-model="data.gender" :error-messages="errors" row>
+                      <ValidationProvider>
+                        <v-radio-group v-model="data.gender" row>
                           <v-radio :label="$t('label.male')" value="L" />
                           <v-radio :label="$t('label.female')" value="P" />
                         </v-radio-group>
@@ -63,13 +63,13 @@
                   </v-row>
                   <v-row align="start">
                     <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}">
-                      <label class="required">{{ $t('label.age') }}</label>
+                      <label>{{ $t('label.age') }}</label>
                     </v-col>
                     <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
                       <v-row align="center" class="ma-0">
                         <v-col cols="12" sm="6" class="pa-1">
-                          <ValidationProvider v-slot="{ errors }" rules="required|numeric|isHtml">
-                            <v-text-field v-model="data.age" :error-messages="errors" type="number" min="0" max="120" solo-inverted oninput="if(Number(this.value) > Number(this.max)) this.value = this.max" class="input-append-btn">
+                          <ValidationProvider>
+                            <v-text-field v-model="data.age" type="number" min="0" max="120" solo-inverted oninput="if(Number(this.value) > Number(this.max)) this.value = this.max" class="input-append-btn">
                               <template v-slot:append>
                                 <v-btn depressed tile min-width="20">
                                   {{ $t('label.year') }}
@@ -79,8 +79,8 @@
                           </ValidationProvider>
                         </v-col>
                         <v-col cols="12" sm="6" class="pa-1">
-                          <ValidationProvider v-slot="{ errors }" rules="numeric|isHtml">
-                            <v-text-field v-model="data.month" :error-messages="errors" type="number" min="0" max="11" solo-inverted oninput="if(Number(this.value) > Number(this.max)) this.value = this.max" class="input-append-btn">
+                          <ValidationProvider>
+                            <v-text-field v-model="data.month" type="number" min="0" max="11" solo-inverted oninput="if(Number(this.value) > Number(this.max)) this.value = this.max" class="input-append-btn">
                               <template v-slot:append>
                                 <v-btn depressed tile min-width="20">
                                   {{ $t('label.month') }}
@@ -104,27 +104,27 @@
                   </v-row>
                   <v-row align="start">
                     <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}">
-                      <label class="required">{{ $t('label.relationship_with_primary_cases') }}</label>
+                      <label>{{ $t('label.relationship_with_primary_cases') }}</label>
                     </v-col>
                     <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
-                      <ValidationProvider v-slot="{ errors }" rules="required|isHtml">
-                        <v-text-field v-model="data.related" :error-messages="errors" solo-inverted />
+                      <ValidationProvider>
+                        <v-text-field v-model="data.related" type="text" solo-inverted />
                       </ValidationProvider>
                     </v-col>
                   </v-row>
                   <v-row align="start">
                     <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}">
-                      <label class="required">{{ $t('label.activities_carried_out') }}</label>
+                      <label>{{ $t('label.activities_carried_out') }}</label>
                     </v-col>
                     <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
-                      <ValidationProvider v-slot="{ errors }" rules="required|isHtml">
-                        <v-text-field v-model="data.activity" :error-messages="errors" solo-inverted />
+                      <ValidationProvider>
+                        <v-text-field v-model="data.activity" type="text" solo-inverted />
                       </ValidationProvider>
                     </v-col>
                   </v-row>
                   <v-row align="start">
                     <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}">
-                      <label class="required">{{ $t('label.contact_date') }}</label>
+                      <label>{{ $t('label.contact_date') }}</label>
                     </v-col>
                     <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
                       <ValidationProvider>

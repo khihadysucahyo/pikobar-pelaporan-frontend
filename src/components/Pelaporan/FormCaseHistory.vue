@@ -40,7 +40,7 @@
                 </ValidationProvider>
               </v-col>
             </v-row>
-            <v-row v-if="formPasien.status !== 'OTG' && formPasien.status !== 'ODP' && formPasien.stage === '1'" align="center">
+            <v-row v-if="formPasien.stage === '1'" align="center">
               <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}">
                 <label>{{ $t('label.results') }}</label>
               </v-col>
@@ -145,7 +145,7 @@
             </v-row>
             <v-row align="start">
               <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}">
-                <label>{{ $t('label.date_symptoms') }}</label>
+                <label :class="formPasien.status !== 'OTG' ? 'required' : ''">{{ $t('label.date_symptoms') }}</label>
               </v-col>
               <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
                 <select-datetime :datetime="formPasien.first_symptom_date" :date-time.sync="formPasien.first_symptom_date" :formate-date="formatDate" />
@@ -153,10 +153,10 @@
             </v-row>
             <v-row align="start">
               <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}">
-                <label>{{ $t('label.symptoms') }}</label>
+                <label :class="formPasien.status !== 'OTG' ? 'required' : ''">{{ $t('label.symptoms') }}</label>
               </v-col>
               <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
-                <ValidationProvider v-slot="{ errors }">
+                <ValidationProvider v-slot="{ errors }" :rules="formPasien.status !== 'OTG' ? 'required' : ''">
                   <v-row>
                     <v-col v-for="item in symptomOptions" :key="item" cols="6" sm="6" md="4">
                       <label class="material-checkbox-custom">

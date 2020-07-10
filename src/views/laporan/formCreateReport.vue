@@ -19,7 +19,7 @@
         <form-case-history :form-pasien="formPasien" />
         <form-socioeconomic-history :form-pasien="formPasien" />
         <form-contact-factor :form-pasien="formPasien" />
-        <form-close-contact :form-pasien="formPasien" />
+        <form-close-contact :form-pasien="formPasien" />-
       </v-form>
     </ValidationObserver>
     <dialog-duplicated-nik :show-dialog="showDuplicatedNikDialog" :nik-number="nikNumber" :nik-name="nikName" :nik-author="nikAuthor" :show.sync="showDuplicatedNikDialog" />
@@ -58,7 +58,18 @@ export default {
   methods: {
     async saveData() {
       const valid = await this.$refs.observer.validate()
-      if (!valid) return
+      if (!valid) {
+        return
+      } else if (this.formPasien.status !== 'OTG' && this.formPasien.first_symptom_date === '') {
+        await this.$store.dispatch('toast/errorToast', this.$t('errors.symptoms_date_must_be_filled'))
+        return
+      } else if (this.formPasien.start_travel === '') {
+        await this.$store.dispatch('toast/errorToast', this.$t('errors.start_travel_date_must_be_filled'))
+        return
+      } else if (this.formPasien.end_travel === '') {
+        await this.$store.dispatch('toast/errorToast', this.$t('errors.end_travel_date_must_be_filled'))
+        return
+      }
       if (this.formPasien.nik) {
         this.loading = true
         const response = await this.$store.dispatch('reports/revampGetNik', { params: this.formPasien.nik })
@@ -73,7 +84,7 @@ export default {
       try {
         this.formPasien.input_source = 'form app'
         await this.$store.dispatch('reports/createRevampReportCase', this.formPasien)
-        await this.$store.dispatch('toast/successToast', this.$t('success.create_date_success'))
+        await this.$store.dispatch('toast/successToast', this.$t('success.create_data_success'))
         await this.$store.dispatch('reports/resetFormPasien')
         this.$router.push('/laporan/list')
       } catch (error) {
