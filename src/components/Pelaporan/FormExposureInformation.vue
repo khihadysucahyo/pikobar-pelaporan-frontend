@@ -11,7 +11,7 @@
           sm="12"
           :class="{'py-0': $vuetify.breakpoint. smAndDown}"
         >
-          <label class="required">Jenis Kontak</label>
+          <label class="required">{{ $t('label.contact_type') }}</label>
         </v-col>
         <v-col
           cols="12"

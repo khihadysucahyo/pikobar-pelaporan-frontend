@@ -679,7 +679,8 @@ export default {
     delete_contact: 'Hapus Kontak',
     edit_tight_contacts: 'Edit Kontak Erat',
     closer_contact_identification_list: 'List Identifikasi Kontak Erat',
-    tight_contact_total_list: 'Total List Kontak Erat'
+    tight_contact_total_list: 'Total List Kontak Erat',
+    contact_type: 'Jenis Kontak'
   },
   success: {
     login_success: 'Login Berhasil',

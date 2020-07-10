@@ -4,7 +4,7 @@
       ref="form"
       lazy-validation
     >
-      <v-row align="start">
+      <v-row align="start" class="pb-6">
         <v-col
           cols="12"
           md="3"
@@ -115,7 +115,7 @@
           </ValidationProvider>
         </v-col>
       </v-row>
-      <v-row align="start">
+      <v-row align="start" class="pb-6">
         <v-col
           cols="12"
           md="3"
@@ -290,7 +290,7 @@
         >
           <ValidationProvider v-slot="{ errors }">
             <v-row>
-              <v-col v-for="item in transportOptions" :key="item" sm="6" md="6">
+              <v-col v-for="item in transportOptions" :key="item" cols="12" sm="6" md="6">
                 <label class="material-checkbox-custom">
                   <input
                     v-model="formBody.travel_transportations"
