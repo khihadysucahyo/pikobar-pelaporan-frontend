@@ -19,7 +19,7 @@
         <form-case-history :form-pasien="formPasien" />
         <form-socioeconomic-history :form-pasien="formPasien" />
         <form-contact-factor :form-pasien="formPasien" />
-        <form-close-contact :form-pasien="formPasien" />-
+        <form-close-contact :form-pasien="formPasien" />
       </v-form>
     </ValidationObserver>
     <dialog-duplicated-nik :show-dialog="showDuplicatedNikDialog" :nik-number="nikNumber" :nik-name="nikName" :nik-author="nikAuthor" :show.sync="showDuplicatedNikDialog" />
