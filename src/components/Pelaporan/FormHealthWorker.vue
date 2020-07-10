@@ -21,7 +21,6 @@
         >
           <ValidationProvider
             v-slot="{ errors }"
-            rules="required"
           >
             <v-radio-group
               v-model="formBody.officer_is_contact"

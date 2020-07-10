@@ -8,18 +8,29 @@
       <v-card class="d-block pa-1 mx-auto header-survey-list">
         <v-container>
           <v-row justify="space-between">
-            <v-col>
+            <v-col cols="12" md="8" sm="8">
               <v-card-text class="font-weight-bold">
                 <v-card-title class="text-header-close-contact">
-                  {{ $t('label.closer_contact_identification_list') }}
+                  {{ $t('label.create_closely_contact_reports') }}
                 </v-card-title>
                 <v-card-subtitle class="text-sub-header-close-contact">
-                  {{ $t('label.tight_contact_total_list') }} {{ totalCloseContact }} {{ $t('label.people') }}
+                  {{ $t('label.redaction_search_new_contact_case') }}
                 </v-card-subtitle>
               </v-card-text>
             </v-col>
             <v-col>
-              <img class="float-right" src="@/static/survey-list-icon.svg">
+              <div class="background-card">
+                <v-btn
+                  class="float-right mt-8"
+                  style="height: 40px;min-width: 80px;"
+                  @click="handleCreate"
+                >
+                  <div color="#6FCF97">
+                    <v-icon>mdi-plus</v-icon>
+                    {{ $t('label.add_new_contact') }}
+                  </div>
+                </v-btn>
+              </div>
             </v-col>
           </v-row>
         </v-container>
@@ -30,7 +41,7 @@
       class="mt-2"
     >
       <v-card-title>
-        {{ $t('label.closer_contact_identification_list') }}
+        {{ $t('label.close_contact_list') }}
       </v-card-title>
       <v-divider />
       <v-row>
@@ -40,7 +51,6 @@
             :handle-search="handleSearch"
           />
         </v-col>
-        <v-col class="pb-4" />
       </v-row>
       <hr class="table-divider">
       <v-row>
@@ -74,48 +84,13 @@
                   item.address_street
                 ) }}</td>
                 <td>
-                  <v-card-actions>
-                    <v-menu
-                      :close-on-content-click="false"
-                      :nudge-width="100"
-                      :nudge-left="220"
-                      :nudge-top="40"
-                      offset-y
-                    >
-                      <template v-slot:activator="{ on }">
-                        <v-btn
-                          class="ma-1"
-                          color="#828282"
-                          style="text-transform: none;height: 30px;min-width: 80px;"
-                          tile
-                          outlined
-                          v-on="on"
-                        >
-                          {{ $t('label.choose_action') }}
-                          <v-icon style="color: #009D57;font-size: 2rem;" right>
-                            mdi-menu-down
-                          </v-icon>
-                        </v-btn>
-                      </template>
-                      <v-card>
-                        <!-- <v-list-item @click="handleDetail(item, item._id)">
-                          {{ $t('label.view_detail') }}
-                        </v-list-item> -->
-                        <div>
-                          <v-list-item @click="handleUpdate(item._id)">
-                            {{ $t('label.edit_tight_contacts') }}
-                          </v-list-item>
-                          <v-divider class="mt-0 mb-0" />
-                          <v-list-item
-                            style="color: #EB5757 !important;"
-                            @click="handleDelete(item)"
-                          >
-                            {{ $t('label.delete_contact') }}
-                          </v-list-item>
-                        </div>
-                      </v-card>
-                    </v-menu>
-                  </v-card-actions>
+                  <v-btn
+                    color="primary"
+                    style="height: 40px;min-width: 80px;"
+                    @click="handleUpdate(item._id)"
+                  >
+                    {{ $t('route.make_report') }}
+                  </v-btn>
                 </td>
               </tr>
             </template>
@@ -174,8 +149,8 @@ export default {
       formatDate: 'YYYY/MM/DD',
       totalPages: 0,
       showCreateCloseContact: false,
-      loadingTable: false,
       totalCloseContact: 0,
+      loadingTable: false,
       isEdit: false,
       idCase: '',
       formBody: {},
@@ -234,11 +209,15 @@ export default {
     async onNext() {
       await this.handleSearch()
     },
+    async handleCreate(id) {
+      await this.$router.push(`/close-contact/create`)
+    },
     async handleUpdate(id) {
       this.formBody = this.formCloseContact
       const data = {
         idCloseContact: id
       }
+      console.log(this.formBody)
       const response = await this.$store.dispatch('closeContactCase/getDetailCloseContactByCase', data)
       if (response.data !== null) {
         Object.assign(this.formBody, response.data)
@@ -279,6 +258,11 @@ export default {
   }
   .text-sub-header-close-contact {
     color: #FFFF !important;
-    font-size: 1.3rem;
+    font-size: 1rem;
+  }
+  .background-card {
+      background-image: url('../../static/survey-list-icon.svg');
+      min-height: 100%;
+      float: right;
   }
 </style>
