@@ -456,7 +456,7 @@
           >
             <ValidationProvider v-slot="{ errors }">
               <v-row>
-                <v-col v-for="item in symptomOptions" :key="item" sm="4" md="4">
+                <v-col v-for="item in symptomOptions" :key="item" cols="12" sm="4" md="4">
                   <label class="material-checkbox-custom">
                     <input
                       v-model="formPasien.diagnosis"
@@ -514,7 +514,7 @@
           >
             <ValidationProvider v-slot="{ errors }">
               <v-row>
-                <v-col v-for="item in additionalConditionOptions" :key="item" sm="4" md="4">
+                <v-col v-for="item in additionalConditionOptions" :key="item" cols="12" sm="4" md="4">
                   <label class="material-checkbox-custom">
                     <input
                       v-model="formPasien.diseases"
