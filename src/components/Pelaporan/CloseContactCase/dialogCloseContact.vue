@@ -165,7 +165,8 @@ export default {
   },
   methods: {
     completeAddress,
-    handleCreate() {
+    async handleCreate() {
+      await this.$store.dispatch('closeContactCase/resetStateCloseContactCase')
       this.isEdit = false
       this.formBody = this.formCloseContact
       this.showCreateCloseContact = true
