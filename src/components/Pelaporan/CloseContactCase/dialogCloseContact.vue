@@ -95,6 +95,7 @@
       :show-dialog="showCreateCloseContact"
       :show-form.sync="showCreateCloseContact"
       :title-detail="$t('label.create_closely_contact_reports')"
+      :id-unique-case.sync="idUniqueCase"
       :is-edit.sync="isEdit"
       :id-case.sync="idCase"
       :form-body.sync="formBody"
@@ -105,7 +106,7 @@
 import { formatDatetime } from '@/utils/parseDatetime'
 import { getAgeWithMonth } from '@/utils/constantVariable'
 import { completeAddress } from '@/utils/utilsFunction'
-import { mapState } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 
 export default {
   name: 'DialogCloseContact',
@@ -115,6 +116,10 @@ export default {
       default: false
     },
     idCase: {
+      type: String,
+      default: ''
+    },
+    idUniqueCase: {
       type: String,
       default: ''
     },
@@ -148,6 +153,9 @@ export default {
     }
   },
   computed: {
+    ...mapGetters('user', [
+      'fullName'
+    ]),
     ...mapState('closeContactCase', [
       'formCloseContact'
     ])
@@ -160,6 +168,7 @@ export default {
       this.$emit('update:show', value)
       if (!value) {
         this.$emit('update:caseId', '')
+        this.$emit('update:uniqueCaseId', '')
       }
     }
   },
@@ -172,7 +181,7 @@ export default {
       this.showCreateCloseContact = true
     },
     async handleUpdate(id) {
-      this.formBody = this.formCloseContact
+      this.formBody = {}
       const data = {
         idCloseContact: id
       }
@@ -184,6 +193,7 @@ export default {
           this.formBody.latest_history = {}
           Object.assign(this.formBody.latest_history, this.formCloseContact.latest_history)
         }
+        if (response.data.interviewer_name === null) this.formBody.interviewer_name = this.fullName
         if (this.formBody.birth_date !== null) {
           this.formBody.birth_date = await formatDatetime(this.formBody.birth_date, this.formatDate)
           const age = getAgeWithMonth(this.formBody.birth_date)

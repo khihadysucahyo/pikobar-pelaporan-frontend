@@ -250,8 +250,8 @@
                           <v-list-item @click="handleEditHistoryCase(item._id)">
                             {{ $t('label.update_history') }}
                           </v-list-item>
-                          <v-list-item @click="handleCloseContact(item._id)">
-                            Lihat Kontak Erat
+                          <v-list-item @click="handleCloseContact(item._id, item.id_case)">
+                            {{ $t('label.see_closely_contact') }}
                           </v-list-item>
                           <v-list-item @click="handlePrintPEForm(item._id, item.id_case)">
                             {{ $t('label.print_pe_form') }}
@@ -346,6 +346,8 @@
       :list-close-contact.sync="listCloseContact"
       :id-case="idCase"
       :case-id.sync="idCase"
+      :id-unique-case="idUniqueCase"
+      :unique-case-id.sync="idUniqueCase"
       :title-detail="$t('label.close_contact_list')"
     />
     <import-form
@@ -422,6 +424,7 @@ export default {
       detailCase: {},
       listCloseContact: [],
       idCase: '',
+      idUniqueCase: '',
       listHistoryCase: [],
       referralHistoryCase: [],
       dialogDetailCase: false,
@@ -551,8 +554,9 @@ export default {
       this.dialog = true
       this.dataDelete = item
     },
-    async handleCloseContact(id) {
+    async handleCloseContact(id, idUniqueCase) {
       this.idCase = id
+      this.idUniqueCase = idUniqueCase
       await this.getListCloseContactByCase(id)
       this.dialogCloseContact = true
     },
