@@ -14,7 +14,7 @@
           <v-form ref="form" lazy-validation>
             <v-row align="center">
               <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}">
-                <label>{{ $t('label.travel_history') }}</label>
+                <label class="required">{{ $t('label.travel_history') }}</label>
               </v-col>
               <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
                 <ValidationProvider v-slot="{ errors }" rules="required">
@@ -25,12 +25,13 @@
                 </ValidationProvider>
               </v-col>
             </v-row>
-            <v-row align="start">
-              <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}" />
+            <v-row v-if="formPasien.travel === '1' || formPasien.travel === '0'" align="start">
+              <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}">
+                <label class="required">{{ formPasien.travel === '1' ? $t('label.country_visited') : $t('label.city_visited') }}</label>
+              </v-col>
               <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
                 <ValidationProvider v-slot="{ errors }" rules="required">
-                  <v-text-field v-if="formPasien.travel === '1'" v-model="formPasien.visited" :error-messages="errors" type="text" solo-inverted :placeholder="$t('label.country_visited')" />
-                  <v-text-field v-if="formPasien.travel === '0'" v-model="formPasien.visited" :error-messages="errors" type="text" solo-inverted :placeholder="$t('label.city_visited')" />
+                  <v-text-field v-model="formPasien.visited" :error-messages="errors" type="text" solo-inverted :placeholder="formPasien.travel === '1' ? $t('label.country_visited') : $t('label.city_visited')" />
                 </ValidationProvider>
               </v-col>
             </v-row>
@@ -296,7 +297,7 @@
               <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
                 <ValidationProvider v-slot="{ errors }">
                   <v-row>
-                    <v-col v-for="item in apdList" :key="item" sm="4" md="4">
+                    <v-col v-for="item in apdList" :key="item" cols="6" sm="6" md="4">
                       <label class="material-checkbox-custom">
                         <input v-model="formPasien.apd_use" :value="item" type="checkbox">
                         <span v-if="errors.length" class="error--text">{{ item }}</span>

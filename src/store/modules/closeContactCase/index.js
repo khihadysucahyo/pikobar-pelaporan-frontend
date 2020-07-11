@@ -1,4 +1,5 @@
 import actions from './actions'
+import getters from './getters'
 const getDefaultState = () => {
   return {
     formCloseContact: {
@@ -49,6 +50,7 @@ const getDefaultState = () => {
       home_contact_activities: [],
       officer_is_contact: true,
       officer_protection_tools: [],
+      activity: '',
       latest_history: {
         symptoms: [],
         symptoms_date: '',
@@ -88,5 +90,6 @@ export default {
   namespaced: true,
   state,
   mutations,
-  actions
+  actions,
+  getters
 }

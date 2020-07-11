@@ -87,15 +87,25 @@
               <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
                 <v-row align="center" class="ma-0">
                   <v-col cols="12" sm="6" class="pa-1">
-                    <label class="required">{{ $t('label.year') }}</label>
                     <ValidationProvider v-slot="{ errors }" rules="required|numeric|isHtml">
-                      <v-text-field v-model="formPasien.yearsOld" :error-messages="errors" type="number" min="0" max="120" solo-inverted oninput="if(Number(this.value) > Number(this.max)) this.value = this.max" />
+                      <v-text-field v-model="formPasien.yearsOld" :error-messages="errors" type="number" min="0" max="120" solo-inverted oninput="if(Number(this.value) > Number(this.max)) this.value = this.max" class="input-append-btn">
+                        <template v-slot:append>
+                          <v-btn depressed tile min-width="20">
+                            {{ $t('label.year') }}
+                          </v-btn>
+                        </template>
+                      </v-text-field>
                     </ValidationProvider>
                   </v-col>
                   <v-col cols="12" sm="6" class="pa-1">
-                    <label class="required">{{ $t('label.month') }}</label>
                     <ValidationProvider v-slot="{ errors }" rules="numeric|isHtml">
-                      <v-text-field v-model="formPasien.monthsOld" :error-messages="errors" type="number" min="0" max="11" solo-inverted oninput="if(Number(this.value) > Number(this.max)) this.value = this.max" />
+                      <v-text-field v-model="formPasien.monthsOld" :error-messages="errors" type="number" min="0" max="11" solo-inverted oninput="if(Number(this.value) > Number(this.max)) this.value = this.max" class="input-append-btn">
+                        <template v-slot:append>
+                          <v-btn depressed tile min-width="20">
+                            {{ $t('label.month') }}
+                          </v-btn>
+                        </template>
+                      </v-text-field>
                     </ValidationProvider>
                   </v-col>
                 </v-row>
@@ -144,15 +154,25 @@
             <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
               <v-row align="center" class="ma-0">
                 <v-col cols="12" sm="6" class="pa-1">
-                  <label>{{ $t('label.rt') }}</label>
                   <ValidationProvider>
-                    <v-text-field v-model="formPasien.rt" type="number" min="0" max="120" solo-inverted oninput="if(Number(this.value) > Number(this.max)) this.value = this.max" />
+                    <v-text-field v-model="formPasien.rt" type="number" min="0" max="120" solo-inverted>
+                      <template v-slot:append>
+                        <v-btn depressed tile min-width="20">
+                          {{ $t('label.rt') }}
+                        </v-btn>
+                      </template>
+                    </v-text-field>
                   </ValidationProvider>
                 </v-col>
                 <v-col cols="12" sm="6" class="pa-1">
-                  <label>{{ $t('label.rw') }}</label>
                   <ValidationProvider>
-                    <v-text-field v-model="formPasien.rw" type="number" min="0" max="11" solo-inverted oninput="if(Number(this.value) > Number(this.max)) this.value = this.max" />
+                    <v-text-field v-model="formPasien.rw" type="number" min="0" max="11" solo-inverted>
+                      <template v-slot:append>
+                        <v-btn depressed tile min-width="20">
+                          {{ $t('label.rw') }}
+                        </v-btn>
+                      </template>
+                    </v-text-field>
                   </ValidationProvider>
                 </v-col>
               </v-row>
