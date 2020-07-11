@@ -25,7 +25,7 @@
                   style="height: 40px;min-width: 80px;"
                   @click="handleCreate"
                 >
-                  <div color="#6FCF97">
+                  <div style="color: #6FCF97;">
                     <v-icon>mdi-plus</v-icon>
                     {{ $t('label.add_new_contact') }}
                   </div>
@@ -128,7 +128,7 @@ import { formatDatetime } from '@/utils/parseDatetime'
 import { completeAddress } from '@/utils/utilsFunction'
 import { getAgeWithMonth } from '@/utils/constantVariable'
 import EventBus from '@/utils/eventBus'
-import { mapState } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 
 export default {
   name: 'ListCloseContact',
@@ -162,6 +162,9 @@ export default {
     }
   },
   computed: {
+    ...mapGetters('user', [
+      'fullName'
+    ]),
     ...mapState('closeContactCase', [
       'formCloseContact'
     ])
@@ -213,11 +216,10 @@ export default {
       await this.$router.push(`/close-contact/create`)
     },
     async handleUpdate(id) {
-      this.formBody = this.formCloseContact
+      this.formBody = {}
       const data = {
         idCloseContact: id
       }
-      console.log(this.formBody)
       const response = await this.$store.dispatch('closeContactCase/getDetailCloseContactByCase', data)
       if (response.data !== null) {
         Object.assign(this.formBody, response.data)
@@ -225,6 +227,7 @@ export default {
           this.formBody.latest_history = {}
           Object.assign(this.formBody.latest_history, this.formCloseContact.latest_history)
         }
+        if (response.data.interviewer_name === null) this.formBody.interviewer_name = this.fullName
         if (this.formBody.birth_date !== null) {
           this.formBody.birth_date = await formatDatetime(this.formBody.birth_date, this.formatDate)
           const age = getAgeWithMonth(this.formBody.birth_date)
@@ -254,7 +257,7 @@ export default {
 <style scoped>
   .text-header-close-contact {
     color: #FFFF !important;
-    font-size: 1.5rem;
+    font-size: 1.4rem;
   }
   .text-sub-header-close-contact {
     color: #FFFF !important;

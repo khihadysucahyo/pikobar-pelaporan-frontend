@@ -684,6 +684,8 @@ export default {
     primary_case_id_related_case_lookfor_primary_case: 'ID Kasus Primer / Kasus Terkait',
     look_for_primary_case_id: 'Cari ID Kasus Primer',
     add_new_contact: 'Tambah Kontak Baru',
+    return_date: 'Tanggal Kepulangan',
+    see_closely_contact: 'Lihat Kontak Erat',
     redaction_search_new_contact_case: 'Cari berdasarkan Nama/NIK atau Tambah Kontak Baru untuk kontak yang belum terdata',
     edit_contact_data: 'Edit Data Kontak'
   },

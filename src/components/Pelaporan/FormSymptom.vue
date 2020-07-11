@@ -56,12 +56,12 @@
                   <span v-if="errors.length" class="error--text">{{ item }}</span>
                   <span v-else>{{ item }}</span>
                 </label>
-                <span
-                  v-if="errors.length"
-                  class="v-messages error--text"
-                >{{ errors[0] }}</span>
               </v-col>
             </v-row>
+            <span
+              v-if="errors.length"
+              class="v-messages error--text"
+            >{{ errors[0] }}</span>
           </ValidationProvider>
         </v-col>
       </v-row>
@@ -114,12 +114,12 @@
                   <span v-if="errors.length" class="error--text">{{ item }}</span>
                   <span v-else>{{ item }}</span>
                 </label>
-                <span
-                  v-if="errors.length"
-                  class="v-messages error--text"
-                >{{ errors[0] }}</span>
               </v-col>
             </v-row>
+            <span
+              v-if="errors.length"
+              class="v-messages error--text"
+            >{{ errors[0] }}</span>
           </ValidationProvider>
         </v-col>
       </v-row>

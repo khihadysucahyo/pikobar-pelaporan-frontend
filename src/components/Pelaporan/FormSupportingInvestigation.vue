@@ -39,7 +39,10 @@
           </ValidationProvider>
         </v-col>
       </v-row>
-      <v-row align="start">
+      <v-row
+        v-if="formBody.latest_history.test_nasal_swab"
+        align="start"
+      >
         <v-col
           cols="12"
           md="3"
@@ -64,7 +67,10 @@
           </ValidationProvider>
         </v-col>
       </v-row>
-      <v-row align="start">
+      <v-row
+        v-if="formBody.latest_history.test_nasal_swab"
+        align="start"
+      >
         <v-col
           cols="12"
           md="3"
@@ -126,7 +132,10 @@
           </ValidationProvider>
         </v-col>
       </v-row>
-      <v-row align="start">
+      <v-row
+        v-if="formBody.latest_history.test_throat_swab"
+        align="start"
+      >
         <v-col
           cols="12"
           md="3"
@@ -151,7 +160,10 @@
           </ValidationProvider>
         </v-col>
       </v-row>
-      <v-row align="start">
+      <v-row
+        v-if="formBody.latest_history.test_throat_swab"
+        align="start"
+      >
         <v-col
           cols="12"
           md="3"
@@ -213,7 +225,10 @@
           </ValidationProvider>
         </v-col>
       </v-row>
-      <v-row align="start">
+      <v-row
+        v-if="formBody.latest_history.test_nasopharyngeal_swab"
+        align="start"
+      >
         <v-col
           cols="12"
           md="3"
@@ -238,7 +253,10 @@
           </ValidationProvider>
         </v-col>
       </v-row>
-      <v-row align="start">
+      <v-row
+        v-if="formBody.latest_history.test_nasopharyngeal_swab"
+        align="start"
+      >
         <v-col
           cols="12"
           md="3"
@@ -300,7 +318,10 @@
           </ValidationProvider>
         </v-col>
       </v-row>
-      <v-row align="start">
+      <v-row
+        v-if="formBody.latest_history.test_orofaringeal_swab"
+        align="start"
+      >
         <v-col
           cols="12"
           md="3"
@@ -325,7 +346,10 @@
           </ValidationProvider>
         </v-col>
       </v-row>
-      <v-row align="start">
+      <v-row
+        v-if="formBody.latest_history.test_orofaringeal_swab"
+        align="start"
+      >
         <v-col
           cols="12"
           md="3"
