@@ -563,7 +563,7 @@ export default {
     have_you_ever_carried_out_pvc_vaccination: 'Apakah pernah melakukan vaksinasi PVC?',
     contact_date: 'Tanggal Kontak',
     rdt_source_data_participant: 'Data profil pasien diambil dari sumber data',
-    where_contact_meet_with_confirmation_case:'Dimana Kontak bertemu dengan kasus konfirmasi?',
+    where_contact_meet_with_confirmation_case: 'Dimana Kontak bertemu dengan kasus konfirmasi?',
     when_will_contacts_meet_with_confirmed_cases: 'Kapan Kontak bertemu dengan kasus terkonfirmasi?',
     how_long_did_contacts_interact_with_confirmed_cases: 'Berapa lama Kontak berinteraksi dengan kasus terkonfirmasi?',
     rdt_case_report: 'Laporan Kasus',
@@ -725,6 +725,9 @@ export default {
     data_failed_edit: 'Data Gagal Diubah',
     contact_tracking_date_must_be_filled: 'Tanggal pelacakan kontak harus diisi',
     date_meeting_the_confirmed_case_must_be_filled: 'Tanggal bertemu dengan kasus terkonfirmasi harus diisi',
-    data_failed_to_save: 'Data gagal disimpan'
+    data_failed_to_save: 'Data gagal disimpan',
+    symptoms_date_must_be_filled: 'Tanggal Muncul Gejala Harus Diisi',
+    start_travel_date_must_be_filled: 'Tanggal Mulai Perjalanan Harus Diisi',
+    end_travel_date_must_be_filled: 'Tanggal Pulang Perjalanan Harus Diisi'
   },
 }
