@@ -42,13 +42,39 @@
                       item.address_street
                     ) }}</td>
                     <td>
-                      <v-btn
-                        color="primary"
-                        style="height: 40px;min-width: 80px;"
-                        @click="handleUpdate(item._id)"
-                      >
-                        {{ $t('route.make_report') }}
-                      </v-btn>
+                      <v-card-actions>
+                        <v-menu
+                          :close-on-content-click="false"
+                          :nudge-width="100"
+                          :nudge-left="220"
+                          :nudge-top="40"
+                          offset-y
+                        >
+                          <template v-slot:activator="{ on }">
+                            <v-btn
+                              class="ma-1"
+                              color="#828282"
+                              style="text-transform: none;height: 30px;min-width: 80px;"
+                              tile
+                              outlined
+                              v-on="on"
+                            >
+                              {{ $t('label.choose_action') }}
+                              <v-icon style="color: #009D57;font-size: 2rem;" right>
+                                mdi-menu-down
+                              </v-icon>
+                            </v-btn>
+                          </template>
+                          <v-card>
+                            <v-list-item @click="handleUpdate(item._id)">
+                              {{ $t('route.make_report') }}
+                            </v-list-item>
+                            <v-list-item @click="handleUpdateCloseContact(item._id)">
+                              {{ $t('label.edit_contact_data') }}
+                            </v-list-item>
+                          </v-card>
+                        </v-menu>
+                      </v-card-actions>
                     </td>
                   </tr>
                 </template>
@@ -99,13 +125,20 @@
       :id-case.sync="idCase"
       :form-body.sync="formBody"
     />
+    <dialog-update-close-contact
+      :show-dialog-update-close-contact="showDialogUpdateCloseContact"
+      :show-form-update-close-contact.sync="showDialogUpdateCloseContact"
+      :title-detail="$t('label.edit_contact_data')"
+      :form-update-close-contact="formCloseContact"
+      :id-close-contact="idCloseContact"
+    />
   </v-dialog>
 </template>
 <script>
 import { formatDatetime } from '@/utils/parseDatetime'
 import { getAgeWithMonth } from '@/utils/constantVariable'
 import { completeAddress } from '@/utils/utilsFunction'
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
 export default {
   name: 'DialogCloseContact',
@@ -144,13 +177,16 @@ export default {
       ],
       dialogDecline: false,
       formatDate: 'YYYY/MM/DD',
-      refreshPageList: false
+      refreshPageList: false,
+      showDialogUpdateCloseContact: false,
+      idCloseContact: null
     }
   },
   computed: {
     ...mapState('closeContactCase', [
       'formCloseContact'
-    ])
+    ]),
+    ...mapGetters('closeContactCase', ['formCloseContact'])
   },
   watch: {
     showDialog(value) {
@@ -191,6 +227,15 @@ export default {
     },
     getTableRowNumbering(index) {
       return (index + 1)
+    },
+    async handleUpdateCloseContact(id) {
+      this.idCloseContact = id
+      const data = {
+        idCloseContact: id
+      }
+      const response = await this.$store.dispatch('closeContactCase/getDetailCloseContactByCase', data)
+      Object.assign(this.formCloseContact, response.data)
+      this.showDialogUpdateCloseContact = true
     }
   }
 }

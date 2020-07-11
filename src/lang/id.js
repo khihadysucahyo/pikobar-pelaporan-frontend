@@ -680,7 +680,8 @@ export default {
     edit_tight_contacts: 'Edit Kontak Erat',
     closer_contact_identification_list: 'List Identifikasi Kontak Erat',
     tight_contact_total_list: 'Total List Kontak Erat',
-    contact_type: 'Jenis Kontak'
+    contact_type: 'Jenis Kontak',
+    edit_contact_data: 'Edit Data Kontak'
   },
   success: {
     login_success: 'Login Berhasil',
