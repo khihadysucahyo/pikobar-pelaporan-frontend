@@ -124,20 +124,19 @@
         </v-container>
       </v-card>
     </v-skeleton-loader>
-    <dialog-create-close-contact
-      :show-dialog="showCreateCloseContact"
-      :show-form.sync="showCreateCloseContact"
-      :title-detail="$t('label.create_closely_contact_reports')"
-      :is-edit.sync="isEdit"
-      :id-case.sync="idCase"
-      :form-body.sync="formBody"
+    <dialog-add-close-contact
+      :show-dialog-add-close-contact="showDialogAddCloseContact"
+      :show-form-add-close-contact.sync="showDialogAddCloseContact"
+      :title-detail="$t('label.add_contact_data')"
+      :form-add-close-contact="formCloseContact"
+      :id-case="idCase"
     />
     <dialog-update-close-contact
       :show-dialog-update-close-contact="showDialogUpdateCloseContact"
       :show-form-update-close-contact.sync="showDialogUpdateCloseContact"
       :title-detail="$t('label.edit_contact_data')"
       :form-update-close-contact="formCloseContact"
-      :id-close-contact="idCloseContact"
+      :id-case="idCase"
     />
     <dialog-delete
       :dialog="dialogDelete"
@@ -194,6 +193,7 @@ export default {
       formatDate: 'YYYY/MM/DD',
       refreshPageList: false,
       showDialogUpdateCloseContact: false,
+      showDialogAddCloseContact: false,
       idCloseContact: null,
       dialogDelete: false,
       dataDelete: null
@@ -221,8 +221,7 @@ export default {
     async handleCreate() {
       await this.$store.dispatch('closeContactCase/resetStateCloseContactCase')
       this.isEdit = false
-      this.formBody = this.formCloseContact
-      this.showCreateCloseContact = true
+      this.showDialogAddCloseContact = true
     },
     async handleUpdate(id) {
       this.formBody = this.formCloseContact
@@ -258,7 +257,6 @@ export default {
       return (index + 1)
     },
     async handleUpdateCloseContact(id) {
-      this.idCloseContact = id
       const data = {
         idCloseContact: id
       }

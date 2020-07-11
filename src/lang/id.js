@@ -685,7 +685,8 @@ export default {
     look_for_primary_case_id: 'Cari ID Kasus Primer',
     add_new_contact: 'Tambah Kontak Baru',
     redaction_search_new_contact_case: 'Cari berdasarkan Nama/NIK atau Tambah Kontak Baru untuk kontak yang belum terdata',
-    edit_contact_data: 'Edit Data Kontak',
+    edit_contact_data: 'Edit Data Kontak Erat',
+    add_contact_data: 'Tambah Data Kontak Erat',
     deleted_contact: 'Hapus Kontak'
   },
   success: {

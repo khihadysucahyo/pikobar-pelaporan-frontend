@@ -153,7 +153,7 @@
 <script>
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
 export default {
-  name: 'FormCloseContact',
+  name: 'FormMultipleCloseContact',
   components: {
     ValidationObserver,
     ValidationProvider
