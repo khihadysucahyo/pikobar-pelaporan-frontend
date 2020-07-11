@@ -289,6 +289,16 @@ export default {
       return error.response
     }
   },
+  async addCloseContact({ commit }, data) {
+    const id_case = await data.id
+    await delete data['id']
+    try {
+      const response = await requestServer(`/api/cases-revamp/${id_case}/contact`, 'POST', data.data)
+      return response
+    } catch (error) {
+      return error.response
+    }
+  },
   resetListCase({ commit }) {
     commit('RESET_LIST_CASE')
   },

@@ -687,7 +687,8 @@ export default {
     return_date: 'Tanggal Kepulangan',
     see_closely_contact: 'Lihat Kontak Erat',
     redaction_search_new_contact_case: 'Cari berdasarkan Nama/NIK atau Tambah Kontak Baru untuk kontak yang belum terdata',
-    edit_contact_data: 'Edit Data Kontak',
+    edit_contact_data: 'Edit Data Kontak Erat',
+    add_contact_data: 'Tambah Data Kontak Erat',
     deleted_contact: 'Hapus Kontak'
   },
   success: {

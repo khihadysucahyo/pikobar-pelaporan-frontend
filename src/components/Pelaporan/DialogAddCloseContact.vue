@@ -1,16 +1,16 @@
 <template>
-  <v-dialog v-model="showFormUpdateCloseContact" max-width="70%">
+  <v-dialog v-model="showFormAddCloseContact" max-width="70%">
     <v-card>
       <v-container>
         <v-card-title>
           {{ titleDetail }}
           <v-spacer />
-          <v-icon @click="showFormUpdateCloseContact = false">mdi-close</v-icon>
+          <v-icon @click="showFormAddCloseContact = false">mdi-close</v-icon>
         </v-card-title>
         <v-divider />
         <ValidationObserver ref="observer">
           <v-form ref="form" lazy-validation>
-            <form-single-close-contact :form-close-contact="formUpdateCloseContact" :is-edit="isEdit" />
+            <form-single-close-contact :form-close-contact="formAddCloseContact" :is-edit="isEdit" />
           </v-form>
         </ValidationObserver>
         <v-row>
@@ -32,12 +32,12 @@
 import { ValidationObserver } from 'vee-validate'
 import EventBus from '@/utils/eventBus'
 export default {
-  name: 'DialogUpdateCloseContact',
+  name: 'DialogAddCloseContact',
   components: {
     ValidationObserver
   },
   props: {
-    showDialogUpdateCloseContact: {
+    showDialogAddCloseContact: {
       type: Boolean,
       default: false
     },
@@ -45,7 +45,7 @@ export default {
       type: String,
       default: ''
     },
-    formUpdateCloseContact: {
+    formAddCloseContact: {
       type: Object,
       default: null
     },
@@ -56,24 +56,25 @@ export default {
   },
   data() {
     return {
-      showFormUpdateCloseContact: this.showDialogUpdateCloseContact,
+      showFormAddCloseContact: this.showDialogAddCloseContact,
       loading: false,
       formatDate: 'YYYY/MM/DD',
-      isEdit: true
+      isEdit: false,
+      dataCloseContact: []
     }
   },
   watch: {
-    showDialogUpdateCloseContact(value) {
-      this.showFormUpdateCloseContact = value
+    showDialogAddCloseContact(value) {
+      this.showFormAddCloseContact = value
     },
-    showFormUpdateCloseContact(value) {
-      this.$emit('update:showFormUpdateCloseContact', value)
+    showFormAddCloseContact(value) {
+      this.$emit('update:showFormAddCloseContact', value)
     }
   },
   methods: {
     handleBack(value) {
       if (value) {
-        this.$emit('update:showFormUpdateCloseContact', false)
+        this.$emit('update:showFormAddCloseContact', false)
       }
     },
     async handleSave() {
@@ -82,19 +83,33 @@ export default {
         return
       }
       this.loading = true
+      this.dataCloseContact.push({
+        case: this.idCase,
+        name: this.formAddCloseContact.name,
+        phone_number: this.formAddCloseContact.phone_number,
+        gender: this.formAddCloseContact.gender,
+        age: this.formAddCloseContact.age,
+        month: this.formAddCloseContact.month,
+        address_street: this.formAddCloseContact.address_street,
+        relationship: this.formAddCloseContact.relationship,
+        activity: this.formAddCloseContact.activity,
+        contact_date: this.formAddCloseContact.contact_date
+      })
       const updateFinalCloseContact = {
-        id: this.formUpdateCloseContact._id,
-        data: this.formUpdateCloseContact
+        id: this.idCase,
+        data: this.dataCloseContact
       }
-      const response = await this.$store.dispatch('reports/updateCloseContact', updateFinalCloseContact)
+      const response = await this.$store.dispatch('reports/addCloseContact', updateFinalCloseContact)
       this.loading = false
       if (response && (response.status === 200 || response.status === 201)) {
         await this.$store.dispatch('closeContactCase/resetStateCloseContactCase')
-        await this.$store.dispatch('toast/successToast', this.$t('success.data_success_edit'))
+        await this.$store.dispatch('toast/successToast', this.$t('success.create_data_success'))
+        this.dataCloseContact = []
       } else {
-        await this.$store.dispatch('toast/errorToast', this.$t('error.data_failed_edit'))
+        this.dataCloseContact = []
+        await this.$store.dispatch('toast/errorToast', this.$t('errors.data_failed_to_save'))
       }
-      this.$emit('update:showFormUpdateCloseContact', false)
+      this.$emit('update:showFormAddCloseContact', false)
       EventBus.$emit('refreshPageListReport', true)
     }
   }

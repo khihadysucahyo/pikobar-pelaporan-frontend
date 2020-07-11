@@ -14,11 +14,11 @@
           <v-form ref="form" lazy-validation>
             <v-row align="center">
               <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}">
-                <label class="required">{{ $t('label.travel_history') }}</label>
+                <label>{{ $t('label.travel_history') }}</label>
               </v-col>
               <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
-                <ValidationProvider v-slot="{ errors }" rules="required">
-                  <v-radio-group v-model="formPasien.travel" :error-messages="errors" row>
+                <ValidationProvider>
+                  <v-radio-group v-model="formPasien.travel" row>
                     <v-radio :label="$t('label.from_out_of_country')" value="1" />
                     <v-radio :label="$t('label.from_out_of_city')" value="0" />
                   </v-radio-group>
