@@ -17,6 +17,12 @@
           >
             {{ dataDeleted.id_case.toUpperCase() +'?' }}
           </span>
+          <span
+            v-if="dataDeleted.name"
+            class="font-weight-black"
+          >
+            {{ dataDeleted.name.toUpperCase() +'?' }}
+          </span>
         </v-card-text>
         <v-card-actions class="justify-center" style="padding: 2rem">
           <v-btn
@@ -68,6 +74,10 @@ export default {
     listQuery: {
       type: Object,
       default: null
+    },
+    idData: {
+      type: String,
+      default: null
     }
   },
   computed: {
@@ -89,7 +99,12 @@ export default {
       if (this.storePathResetList) {
         await this.$store.dispatch(this.storePathResetList)
       }
-      await this.$store.dispatch(this.storePathGetList, this.listQuery)
+      if (this.idData) {
+        await this.$store.dispatch(this.storePathGetList, this.idData)
+      }
+      if (this.listQuery) {
+        await this.$store.dispatch(this.storePathGetList, this.listQuery)
+      }
     }
   }
 }
