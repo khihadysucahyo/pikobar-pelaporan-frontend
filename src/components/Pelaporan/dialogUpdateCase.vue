@@ -6,6 +6,7 @@
         <v-spacer />
         <v-icon @click="show = false">mdi-close</v-icon>
       </v-card-title>
+      <v-divider />
       <v-container>
         <ValidationObserver ref="observer">
           <v-form
@@ -414,7 +415,7 @@
                     bottom
                     @click="handleUpdateCase"
                   >
-                    {{ $t('label.profile_update') }}
+                    {{ $t('label.change_patent_data') }}
                   </v-btn>
                 </v-col>
               </v-row>
