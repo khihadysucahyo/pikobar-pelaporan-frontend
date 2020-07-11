@@ -307,14 +307,15 @@ export default {
       this.isLoading = true
       delete this.formBody['yearsOld']
       if (!valid) {
+        this.isLoading = false
         return
       } else if (this.formBody.contact_tracing_date.length <= 1) {
-        await this.$store.dispatch('toast/errorToast', this.$t('errors.contact_tracking_date_must_be_filled'))
         this.isLoading = false
+        await this.$store.dispatch('toast/errorToast', this.$t('errors.contact_tracking_date_must_be_filled'))
         return
       } else if (this.formBody.contact_date.length <= 1) {
-        await this.$store.dispatch('toast/errorToast', this.$t('errors.date_meeting_the_confirmed_case_must_be_filled'))
         this.isLoading = false
+        await this.$store.dispatch('toast/errorToast', this.$t('errors.date_meeting_the_confirmed_case_must_be_filled'))
         return
       } else {
         if (this.isEdit) {
@@ -339,6 +340,7 @@ export default {
             EventBus.$emit('refreshPageListReport', true)
           } else {
             await this.$store.dispatch('toast/errorToast', this.$t('errors.data_failed_edit'))
+            this.isLoading = false
           }
         } else {
           const data = {
@@ -354,6 +356,7 @@ export default {
             EventBus.$emit('refreshPageListReport', true)
           } else {
             await this.$store.dispatch('toast/errorToast', this.$t('errors.create_data_errors'))
+            this.isLoading = false
           }
         }
       }

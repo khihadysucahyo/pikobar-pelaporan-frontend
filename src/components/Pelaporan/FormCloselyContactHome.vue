@@ -46,7 +46,6 @@
         >
           <ValidationProvider
             v-slot="{ errors }"
-            rules="required"
           >
             <v-text-field
               v-model="formBody.home_contact_days"

@@ -165,29 +165,41 @@ export default {
   },
   methods: {
     completeAddress,
-    handleCreate() {
+    async handleCreate() {
+      await this.$store.dispatch('closeContactCase/resetStateCloseContactCase')
       this.isEdit = false
       this.formBody = this.formCloseContact
       this.showCreateCloseContact = true
     },
     async handleUpdate(id) {
+      this.formBody = this.formCloseContact
       const data = {
         idCloseContact: id
       }
       this.isLoading = true
       const response = await this.$store.dispatch('closeContactCase/getDetailCloseContactByCase', data)
-      Object.assign(this.formBody, response.data)
-      if (response.data) {
-        this.formBody.birth_date = await formatDatetime(this.formBody.birth_date, this.formatDate)
-        const age = getAgeWithMonth(this.formBody.birth_date)
-        this.formBody.yearsOld = age.year
-        this.formBody.month = age.month
-      } else {
-        this.formBody.birth_date = ''
+      if (response.data !== null) {
+        Object.assign(this.formBody, response.data)
+        if (response.data.latest_history === null) {
+          this.formBody.latest_history = {}
+          Object.assign(this.formBody.latest_history, this.formCloseContact.latest_history)
+        }
+        if (this.formBody.birth_date !== null) {
+          this.formBody.birth_date = await formatDatetime(this.formBody.birth_date, this.formatDate)
+          const age = getAgeWithMonth(this.formBody.birth_date)
+          this.formBody.yearsOld = age.year
+          this.formBody.month = age.month
+        } else {
+          this.formBody.birth_date = ''
+        }
+        if (this.formBody.age !== null) {
+          this.formBody.yearsOld = Math.floor(this.formBody.age)
+          this.formBody.month = Math.ceil((this.formBody.age - Math.floor(this.formBody.age)) * 12)
+        }
+        this.isEdit = true
+        this.showCreateCloseContact = true
+        this.isLoading = false
       }
-      this.isEdit = true
-      this.showCreateCloseContact = true
-      this.isLoading = false
     },
     getTableRowNumbering(index) {
       return (index + 1)

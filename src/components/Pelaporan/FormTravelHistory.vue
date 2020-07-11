@@ -50,7 +50,6 @@
         >
           <ValidationProvider
             v-slot="{ errors }"
-            rules="required"
           >
             <v-autocomplete
               v-model="formBody.travel_visited_country"
@@ -226,7 +225,7 @@
           sm="12"
           :class="{'py-0': $vuetify.breakpoint. smAndDown}"
         >
-          <label>{{ $t('label.profession') }}</label>
+          <label class="required">{{ $t('label.profession') }}</label>
         </v-col>
         <v-col
           cols="12"
@@ -235,11 +234,13 @@
           :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
         >
           <ValidationProvider
+            v-slot="{ errors }"
             rules="required"
           >
             <v-select
               v-model="formBody.travel_occupation"
               :items="occupationList"
+              :error-messages="errors"
               item-value="title"
               item-text="title"
               menu-props="auto"
@@ -264,10 +265,11 @@
           :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
         >
           <ValidationProvider
-            rules="required"
+            v-slot="{ errors }"
           >
             <v-textarea
               v-model="formBody.travel_address_office"
+              :error-messages="errors"
               solo
             />
           </ValidationProvider>
@@ -280,7 +282,7 @@
           sm="12"
           :class="{'py-0': $vuetify.breakpoint. smAndDown}"
         >
-          <label>{{ $t('label.transportation_used_daily') }}</label>
+          <label class="required">{{ $t('label.transportation_used_daily') }}</label>
         </v-col>
         <v-col
           cols="12"
@@ -288,7 +290,10 @@
           sm="12"
           :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
         >
-          <ValidationProvider v-slot="{ errors }">
+          <ValidationProvider
+            v-slot="{ errors }"
+            rules="required"
+          >
             <v-row>
               <v-col v-for="item in transportOptions" :key="item" cols="12" sm="6" md="6">
                 <label class="material-checkbox-custom">

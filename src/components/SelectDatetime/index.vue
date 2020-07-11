@@ -67,6 +67,7 @@ export default {
   },
   watch: {
     async datetime(val) {
+      if (val === null) return
       if (val.length >= 3) {
         this.date = await this.datetime.split('/')
         this.year = parseInt(this.date[0])
