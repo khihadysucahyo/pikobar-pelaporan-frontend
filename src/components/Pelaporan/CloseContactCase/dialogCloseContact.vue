@@ -165,6 +165,10 @@ export default {
       type: String,
       default: ''
     },
+    idUniqueCase: {
+      type: String,
+      default: ''
+    },
     titleDetail: {
       type: String,
       default: ''
@@ -200,6 +204,9 @@ export default {
     }
   },
   computed: {
+    ...mapGetters('user', [
+      'fullName'
+    ]),
     ...mapState('closeContactCase', [
       'formCloseContact'
     ]),
@@ -213,6 +220,7 @@ export default {
       this.$emit('update:show', value)
       if (!value) {
         this.$emit('update:caseId', '')
+        this.$emit('update:uniqueCaseId', '')
       }
     }
   },
@@ -224,7 +232,7 @@ export default {
       this.showDialogAddCloseContact = true
     },
     async handleUpdate(id) {
-      this.formBody = this.formCloseContact
+      this.formBody = {}
       const data = {
         idCloseContact: id
       }
@@ -236,6 +244,7 @@ export default {
           this.formBody.latest_history = {}
           Object.assign(this.formBody.latest_history, this.formCloseContact.latest_history)
         }
+        if (response.data.interviewer_name === null) this.formBody.interviewer_name = this.fullName
         if (this.formBody.birth_date !== null) {
           this.formBody.birth_date = await formatDatetime(this.formBody.birth_date, this.formatDate)
           const age = getAgeWithMonth(this.formBody.birth_date)

@@ -64,7 +64,10 @@
           </ValidationProvider>
         </v-col>
       </v-row>
-      <v-row align="start">
+      <v-row
+        v-if="formBody.travel_is_went_abroad"
+        align="start"
+      >
         <v-col
           cols="12"
           md="3"
@@ -89,7 +92,10 @@
           </ValidationProvider>
         </v-col>
       </v-row>
-      <v-row align="start">
+      <v-row
+        v-if="formBody.travel_is_went_abroad"
+        align="start"
+      >
         <v-col
           cols="12"
           md="3"
@@ -162,13 +168,17 @@
             <v-text-field
               v-model="formBody.travel_visited_city"
               type="text"
+              :placeholder="$t('label.city_visited')"
               :error-messages="errors"
               solo-inverted
             />
           </ValidationProvider>
         </v-col>
       </v-row>
-      <v-row align="start">
+      <v-row
+        v-if="formBody.travel_is_went_other_city"
+        align="start"
+      >
         <v-col
           cols="12"
           md="3"
@@ -193,14 +203,17 @@
           </ValidationProvider>
         </v-col>
       </v-row>
-      <v-row align="start">
+      <v-row
+        v-if="formBody.travel_is_went_other_city"
+        align="start"
+      >
         <v-col
           cols="12"
           md="3"
           sm="12"
           :class="{'py-0': $vuetify.breakpoint. smAndDown}"
         >
-          <label>Tanggal Kepulangan</label>
+          <label>{{ $t('label.return_date') }}</label>
         </v-col>
         <v-col
           cols="12"
@@ -305,12 +318,12 @@
                   <span v-if="errors.length" class="error--text">{{ item }}</span>
                   <span v-else>{{ item }}</span>
                 </label>
-                <span
-                  v-if="errors.length"
-                  class="v-messages error--text"
-                >{{ errors[0] }}</span>
               </v-col>
             </v-row>
+            <span
+              v-if="errors.length"
+              class="v-messages error--text"
+            >{{ errors[0] }}</span>
           </ValidationProvider>
         </v-col>
       </v-row>

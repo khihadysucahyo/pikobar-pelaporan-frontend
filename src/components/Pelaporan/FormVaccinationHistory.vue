@@ -39,7 +39,10 @@
           </ValidationProvider>
         </v-col>
       </v-row>
-      <v-row align="start">
+      <v-row
+        v-if="formBody.latest_history.vaccination_influenza_vaccine"
+        align="start"
+      >
         <v-col
           cols="12"
           md="3"
@@ -99,7 +102,11 @@
           </ValidationProvider>
         </v-col>
       </v-row>
-      <v-row align="start" class="pb-4">
+      <v-row
+        v-if="formBody.latest_history.vaccination_pvc_vaccine"
+        align="start"
+        class="pb-4"
+      >
         <v-col
           cols="12"
           md="3"

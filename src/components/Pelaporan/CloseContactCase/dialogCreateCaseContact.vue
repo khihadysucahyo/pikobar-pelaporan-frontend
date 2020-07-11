@@ -18,7 +18,7 @@
             style="color: #FFFFFF;"
           >
             <div class="font-weight-bold">
-              {{ $t('label.primary_case_id_related_case') }}: {{ formBody.case ? formBody.case.id_case.toUpperCase():'' }}
+              {{ $t('label.primary_case_id_related_case') }}: {{ formBody.case ? formBody.case.id_case.toUpperCase():idUniqueCase.toUpperCase() }}
             </div>
             <div>
               {{ $t('label.redaction_create_related_case') }}
@@ -263,6 +263,10 @@ export default {
       default: null
     },
     idCase: {
+      type: String,
+      default: ''
+    },
+    idUniqueCase: {
       type: String,
       default: ''
     }
