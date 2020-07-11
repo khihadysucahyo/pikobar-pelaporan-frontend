@@ -488,6 +488,7 @@ export default {
     })
     // Sementara dibuat komentar
     // if (this.roles[0] === 'dinkeskota') this.listQuery.address_district_code = this.district_user
+    // Sementara dibuat komentar
     // this.queryReportCase.address_district_code = this.district_user
     await this.$store.dispatch('reports/listReportCase', this.listQuery)
     const response = await this.$store.dispatch('reports/countReportCase', this.queryReportCase)
