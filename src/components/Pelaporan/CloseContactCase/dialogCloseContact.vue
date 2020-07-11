@@ -72,6 +72,13 @@
                             <v-list-item @click="handleUpdateCloseContact(item._id)">
                               {{ $t('label.edit_contact_data') }}
                             </v-list-item>
+                            <v-divider class="mt-0 mb-0" />
+                            <v-list-item
+                              style="color: #EB5757 !important;"
+                              @click="handleDeleteCloseContact(item)"
+                            >
+                              {{ $t('label.deleted_contact') }}
+                            </v-list-item>
                           </v-card>
                         </v-menu>
                       </v-card-actions>
@@ -133,6 +140,14 @@
       :form-update-close-contact="formCloseContact"
       :id-close-contact="idCloseContact"
     />
+    <dialog-delete
+      :dialog="dialogDelete"
+      :data-deleted="dataDelete"
+      :dialog-delete.sync="dialogDelete"
+      :delete-date.sync="dataDelete"
+      :store-path-delete="`closeContactCase/deleteCloseContact`"
+      :id-data="idCase"
+    />
   </v-dialog>
 </template>
 <script>
@@ -184,7 +199,9 @@ export default {
       formatDate: 'YYYY/MM/DD',
       refreshPageList: false,
       showDialogUpdateCloseContact: false,
-      idCloseContact: null
+      idCloseContact: null,
+      dialogDelete: false,
+      dataDelete: null
     }
   },
   computed: {
@@ -258,6 +275,15 @@ export default {
       const response = await this.$store.dispatch('closeContactCase/getDetailCloseContactByCase', data)
       Object.assign(this.formCloseContact, response.data)
       this.showDialogUpdateCloseContact = true
+    },
+    async handleDeleteCloseContact(item) {
+      if (!item.is_reported) {
+        this.dialogDelete = true
+        this.dataDelete = item
+        this.$emit('update:show', false)
+      } else {
+        await this.$store.dispatch('toast/errorToast', this.$t('errors.contact_data_cannot_be_deleted'))
+      }
     }
   }
 }
