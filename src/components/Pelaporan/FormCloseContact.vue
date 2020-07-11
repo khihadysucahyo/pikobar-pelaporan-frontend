@@ -98,7 +98,7 @@
                     </v-col>
                     <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
                       <ValidationProvider>
-                        <v-textarea v-model="data.address" solo :placeholder="$t('label.complete_address')" />
+                        <v-textarea v-model="data.address_street" solo :placeholder="$t('label.complete_address')" />
                       </ValidationProvider>
                     </v-col>
                   </v-row>
@@ -108,7 +108,7 @@
                     </v-col>
                     <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
                       <ValidationProvider>
-                        <v-text-field v-model="data.related" type="text" solo-inverted />
+                        <v-text-field v-model="data.relationship" type="text" solo-inverted />
                       </ValidationProvider>
                     </v-col>
                   </v-row>
