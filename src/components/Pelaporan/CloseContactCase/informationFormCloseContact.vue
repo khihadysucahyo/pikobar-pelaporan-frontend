@@ -11,7 +11,7 @@
           sm="12"
           :class="{'py-0': $vuetify.breakpoint. smAndDown}"
         >
-          <label class="required">{{ $t('label.nik') }}</label>
+          <label :class="!formBody.is_nik_exists ? 'required' : ''">{{ $t('label.nik') }}</label>
         </v-col>
         <v-col
           cols="12"
@@ -21,7 +21,7 @@
         >
           <ValidationProvider
             v-slot="{ errors }"
-            rules="required|isHtml|sixteenDigits|numeric|provinceCode"
+            :rules="formBody.is_nik_exists ? 'numeric' : 'required|numeric|sixteenDigits|provinceCode'"
           >
             <v-text-field
               v-model="formBody.nik"
@@ -29,6 +29,11 @@
               :error-messages="errors"
               solo-inverted
             />
+          </ValidationProvider>
+          <v-checkbox v-model="formBody.is_nik_exists" :label="$t('label.do_not_have_nik')" class="mt-0 pt-0" />
+          <ValidationProvider v-if="formBody.is_nik_exists" v-slot="{ errors }" rules="required">
+            <label class="required">{{ $t('label.reason_do_not_have_nik') }}</label>
+            <v-text-field v-model="formBody.nik_note" :error-messages="errors" solo-inverted />
           </ValidationProvider>
         </v-col>
       </v-row>
@@ -66,7 +71,7 @@
           sm="12"
           :class="{'py-0': $vuetify.breakpoint. smAndDown}"
         >
-          <label class="required">{{ $t('label.phone_number') }}</label>
+          <label :class="!formBody.is_phone_number_exists ? 'required' : ''">{{ $t('label.phone_number') }}</label>
         </v-col>
         <v-col
           cols="12"
@@ -76,7 +81,7 @@
         >
           <ValidationProvider
             v-slot="{ errors }"
-            rules="required|isPhoneNumber"
+            :rules="formBody.is_phone_number_exists ? 'isPhoneNumber' : 'required|isPhoneNumber'"
           >
             <v-text-field
               v-model="formBody.phone_number"
@@ -85,6 +90,47 @@
               solo-inverted
               type="number"
             />
+          </ValidationProvider>
+          <v-checkbox v-model="formBody.is_phone_number_exists" :label="$t('label.do_not_have_phone_number')" class="mt-0 pt-0" />
+          <ValidationProvider v-if="formBody.is_phone_number_exists" v-slot="{ errors }" rules="required">
+            <label class="required">{{ $t('label.reason_do_not_have_phone_number') }}</label>
+            <v-text-field v-model="formBody.phone_number_note" :error-messages="errors" solo-inverted />
+          </ValidationProvider>
+        </v-col>
+      </v-row>
+      <v-row align="center">
+        <v-col
+          cols="12"
+          md="3"
+          sm="12"
+          :class="{'py-0': $vuetify.breakpoint. smAndDown}"
+        >
+          <label class="required">{{ $t('label.gender') }}</label>
+        </v-col>
+        <v-col
+          cols="12"
+          md="9"
+          sm="12"
+          :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
+        >
+          <ValidationProvider
+            v-slot="{ errors }"
+            rules="required"
+          >
+            <v-radio-group
+              v-model="formBody.gender"
+              :error-messages="errors"
+              row
+            >
+              <v-radio
+                :label="$t('label.male')"
+                value="L"
+              />
+              <v-radio
+                :label="$t('label.female')"
+                value="P"
+              />
+            </v-radio-group>
           </ValidationProvider>
         </v-col>
       </v-row>
@@ -244,7 +290,7 @@
                   solo-inverted
                   oninput="if(Number(this.value) > Number(this.max)) this.value = this.max"
                   class="input-append-btn"
-                >bi
+                >
                   <template v-slot:append>
                     <v-btn
                       depressed
@@ -455,6 +501,7 @@ export default {
   },
   watch: {
     'formBody.birth_date': function(value) {
+      if (value === null) return
       if (value.length > 0) {
         const age = this.getAgeWithMonth(value)
         this.formBody.yearsOld = age.year

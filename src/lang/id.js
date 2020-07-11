@@ -681,6 +681,10 @@ export default {
     closer_contact_identification_list: 'List Identifikasi Kontak Erat',
     tight_contact_total_list: 'Total List Kontak Erat',
     contact_type: 'Jenis Kontak',
+    primary_case_id_related_case_lookfor_primary_case: 'ID Kasus Primer / Kasus Terkait',
+    look_for_primary_case_id: 'Cari ID Kasus Primer',
+    add_new_contact: 'Tambah Kontak Baru',
+    redaction_search_new_contact_case: 'Cari berdasarkan Nama/NIK atau Tambah Kontak Baru untuk kontak yang belum terdata',
     edit_contact_data: 'Edit Data Kontak'
   },
   success: {

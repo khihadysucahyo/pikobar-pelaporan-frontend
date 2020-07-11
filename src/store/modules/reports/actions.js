@@ -124,9 +124,9 @@ export default {
       return error.response
     }
   },
-  async listNameCase({ commit }) {
+  async listNameCase({ commit }, params) {
     try {
-      const response = await requestServer(`/api/cases-listid`, 'GET')
+      const response = await requestServer(`/api/cases-listid`, 'GET', params)
       return response
     } catch (error) {
       return error.response
