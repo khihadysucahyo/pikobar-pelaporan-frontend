@@ -25,7 +25,7 @@
                 </ValidationProvider>
               </v-col>
             </v-row>
-            <v-row align="start">
+            <v-row v-if="formPasien.travel === '1' || formPasien.travel === '0'" align="start">
               <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}">
                 <label class="required">{{ formPasien.travel === '1' ? $t('label.country_visited') : $t('label.city_visited') }}</label>
               </v-col>
