@@ -239,6 +239,7 @@ export default {
     },
     async handleUpdate(id) {
       this.formBody = this.formCloseContact
+      const latestHistory = this.formCloseContact.latest_history
       const data = {
         idCloseContact: id
       }
@@ -247,7 +248,7 @@ export default {
         Object.assign(this.formBody, response.data)
         if (response.data.latest_history === null) {
           this.formBody.latest_history = {}
-          Object.assign(this.formBody.latest_history, this.formCloseContact.latest_history)
+          Object.assign(this.formBody.latest_history, latestHistory)
         }
         if (response.data.interviewer_name === null) this.formBody.interviewer_name = this.fullName
         if (this.formBody.birth_date !== null) {

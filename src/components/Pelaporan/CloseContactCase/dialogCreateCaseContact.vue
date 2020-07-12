@@ -313,55 +313,46 @@ export default {
       if (!valid) {
         this.isLoading = false
         return
-      } else if (this.formBody.contact_tracing_date.length <= 1) {
-        this.isLoading = false
-        await this.$store.dispatch('toast/errorToast', this.$t('errors.contact_tracking_date_must_be_filled'))
-        return
-      } else if (this.formBody.contact_date.length <= 1) {
-        this.isLoading = false
-        await this.$store.dispatch('toast/errorToast', this.$t('errors.date_meeting_the_confirmed_case_must_be_filled'))
-        return
-      } else {
-        if (this.isEdit) {
-          const idCloseContact = this.formBody._id
-          delete this.formBody['_id']
-          delete this.formBody['updatedBy']
-          delete this.formBody['updatedAt']
-          delete this.formBody['createdBy']
-          delete this.formBody['createdAt']
-          delete this.formBody['is_reported']
-          delete this.formBody['case']
-          const data = {
-            idCloseContact: idCloseContact,
-            body: this.formBody
-          }
-          const response = await this.$store.dispatch('closeContactCase/updateDetailCloseContactByCase', data)
-          if (response.status === 200) {
-            await this.$store.dispatch('toast/successToast', this.$t('success.data_success_edit'))
-            await this.$store.dispatch('closeContactCase/resetStateCloseContactCase')
-            this.showForm = false
-            this.isLoading = false
-            EventBus.$emit('refreshPageListReport', true)
-          } else {
-            await this.$store.dispatch('toast/errorToast', this.$t('errors.data_failed_edit'))
-            this.isLoading = false
-          }
+      }
+      if (this.isEdit) {
+        const idCloseContact = this.formBody._id
+        delete this.formBody['_id']
+        delete this.formBody['updatedBy']
+        delete this.formBody['updatedAt']
+        delete this.formBody['createdBy']
+        delete this.formBody['createdAt']
+        delete this.formBody['is_reported']
+        delete this.formBody['case']
+        const data = {
+          idCloseContact: idCloseContact,
+          body: this.formBody
+        }
+        const response = await this.$store.dispatch('closeContactCase/updateDetailCloseContactByCase', data)
+        if (response.status === 200) {
+          await this.$store.dispatch('toast/successToast', this.$t('success.data_success_edit'))
+          await this.$store.dispatch('closeContactCase/resetStateCloseContactCase')
+          this.showForm = false
+          this.isLoading = false
+          EventBus.$emit('refreshPageListReport', true)
         } else {
-          const data = {
-            idCase: this.idCase,
-            body: this.formBody
-          }
-          const response = await this.$store.dispatch('closeContactCase/postListCloseContactByCase', data)
-          if (response.status === 200) {
-            await this.$store.dispatch('toast/successToast', this.$t('success.create_data_success'))
-            await this.$store.dispatch('closeContactCase/resetStateCloseContactCase')
-            this.showForm = false
-            this.isLoading = false
-            EventBus.$emit('refreshPageListReport', true)
-          } else {
-            await this.$store.dispatch('toast/errorToast', this.$t('errors.create_data_errors'))
-            this.isLoading = false
-          }
+          await this.$store.dispatch('toast/errorToast', this.$t('errors.data_failed_edit'))
+          this.isLoading = false
+        }
+      } else {
+        const data = {
+          idCase: this.idCase,
+          body: this.formBody
+        }
+        const response = await this.$store.dispatch('closeContactCase/postListCloseContactByCase', data)
+        if (response.status === 200) {
+          await this.$store.dispatch('toast/successToast', this.$t('success.create_data_success'))
+          await this.$store.dispatch('closeContactCase/resetStateCloseContactCase')
+          this.showForm = false
+          this.isLoading = false
+          EventBus.$emit('refreshPageListReport', true)
+        } else {
+          await this.$store.dispatch('toast/errorToast', this.$t('errors.create_data_errors'))
+          this.isLoading = false
         }
       }
     }

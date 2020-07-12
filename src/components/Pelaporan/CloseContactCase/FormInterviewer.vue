@@ -46,16 +46,13 @@
           sm="12"
           :class="{'py-0': $vuetify.breakpoint. smAndDown}"
         >
-          <ValidationProvider
-            rules="isHtml"
-          >
-            <input-date-picker
-              :format-date="formatDate"
-              :date-value="formBody.contact_tracing_date"
-              :value-date.sync="formBody.contact_tracing_date"
-              @changeDate="formBody.contact_tracing_date = $event"
-            />
-          </ValidationProvider>
+          <input-date-picker
+            :format-date="formatDate"
+            :required="true"
+            :date-value="formBody.contact_tracing_date"
+            :value-date.sync="formBody.contact_tracing_date"
+            @changeDate="formBody.contact_tracing_date = $event"
+          />
         </v-col>
       </v-row>
     </v-form>

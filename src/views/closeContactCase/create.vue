@@ -171,16 +171,6 @@ export default {
         this.isLoading = false
         return
       }
-      if (this.formCloseContact.contact_tracing_date.length < 1) {
-        this.isLoading = false
-        await this.$store.dispatch('toast/errorToast', this.$t('errors.contact_tracking_date_must_be_filled'))
-        return
-      }
-      if (this.formCloseContact.contact_date.length < 1) {
-        this.isLoading = false
-        await this.$store.dispatch('toast/errorToast', this.$t('errors.date_meeting_the_confirmed_case_must_be_filled'))
-        return
-      }
       delete this.formCloseContact['yearsOld']
       const data = {
         idCase: this.idCase,

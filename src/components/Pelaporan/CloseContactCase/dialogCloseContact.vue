@@ -138,6 +138,14 @@
       :form-update-close-contact="formCloseContact"
       :id-case="idCase"
     />
+    <dialog-create-close-contact
+      :show-dialog="showCreateCloseContact"
+      :show-form.sync="showCreateCloseContact"
+      :title-detail="$t('label.create_closely_contact_reports')"
+      :is-edit.sync="isEdit"
+      :id-case.sync="idCase"
+      :form-body.sync="formBody"
+    />
     <dialog-delete
       :dialog="dialogDelete"
       :data-deleted="dataDelete"
@@ -232,7 +240,8 @@ export default {
       this.showDialogAddCloseContact = true
     },
     async handleUpdate(id) {
-      this.formBody = {}
+      this.formBody = this.formCloseContact
+      const latestHistory = this.formCloseContact.latest_history
       const data = {
         idCloseContact: id
       }
@@ -242,7 +251,7 @@ export default {
         Object.assign(this.formBody, response.data)
         if (response.data.latest_history === null) {
           this.formBody.latest_history = {}
-          Object.assign(this.formBody.latest_history, this.formCloseContact.latest_history)
+          Object.assign(this.formBody.latest_history, latestHistory)
         }
         if (response.data.interviewer_name === null) this.formBody.interviewer_name = this.fullName
         if (this.formBody.birth_date !== null) {

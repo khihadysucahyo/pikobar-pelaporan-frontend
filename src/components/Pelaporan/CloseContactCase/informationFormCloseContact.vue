@@ -30,7 +30,14 @@
               solo-inverted
             />
           </ValidationProvider>
-          <v-checkbox v-model="formBody.is_nik_exists" :label="$t('label.do_not_have_nik')" class="mt-0 pt-0" />
+          <ValidationProvider v-slot="{ errors }">
+            <v-checkbox
+              v-model="formBody.is_nik_exists"
+              :label="$t('label.do_not_have_nik')"
+              :error-messages="errors"
+              class="mt-0 pt-0"
+            />
+          </ValidationProvider>
           <ValidationProvider v-if="formBody.is_nik_exists" v-slot="{ errors }" rules="required">
             <label class="required">{{ $t('label.reason_do_not_have_nik') }}</label>
             <v-text-field v-model="formBody.nik_note" :error-messages="errors" solo-inverted />

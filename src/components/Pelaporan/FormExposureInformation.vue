@@ -104,14 +104,13 @@
           sm="12"
           :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
         >
-          <ValidationProvider>
-            <input-date-picker
-              :format-date="formatDate"
-              :date-value="formBody.contact_date"
-              :value-date.sync="formBody.contact_date"
-              @changeDate="formBody.contact_date = $event"
-            />
-          </ValidationProvider>
+          <input-date-picker
+            :format-date="formatDate"
+            :required="true"
+            :date-value="formBody.contact_date"
+            :value-date.sync="formBody.contact_date"
+            @changeDate="formBody.contact_date = $event"
+          />
         </v-col>
       </v-row>
       <v-row align="start" class="pb-4">
