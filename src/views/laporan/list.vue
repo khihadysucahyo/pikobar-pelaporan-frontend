@@ -182,7 +182,7 @@
                 <td>{{ item.name }}</td>
                 <td>{{ item.age }} Th</td>
                 <td>
-                  <div v-if="item.gender =='P'">
+                  <div v-if="item.gender ==='P'">
                     {{ $t('label.female_initials') }}
                   </div>
                   <div v-else>
@@ -192,7 +192,7 @@
                 <td>{{ item.phone_number }}</td>
                 <td><status :status="item.status" /> </td>
                 <td>
-                  <div v-if=" item.last_history.stage =='0'">
+                  <div v-if=" item.stage === '0'">
                     {{ $t('label.process') }}
                   </div>
                   <div v-else>
@@ -200,13 +200,13 @@
                   </div>
                 </td>
                 <td>
-                  <div v-if=" item.last_history.final_result =='0'">
+                  <div v-if=" item.final_result ==='0'">
                     {{ $t('label.negatif') }}
                   </div>
-                  <div v-else-if=" item.last_history.final_result =='1'">
+                  <div v-else-if=" item.final_result ==='1'">
                     {{ $t('label.recovery') }}
                   </div>
-                  <div v-else-if=" item.last_history.final_result =='2'">
+                  <div v-else-if=" item.final_result ==='2'">
                     {{ $t('label.dead') }}
                   </div>
                   <div v-else>
