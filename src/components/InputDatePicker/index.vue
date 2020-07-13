@@ -8,15 +8,21 @@
     offset-y
   >
     <template v-slot:activator="{ on }">
-      <v-text-field
-        v-model="setDate"
-        :placeholder="label"
-        prepend-inner-icon="event"
-        style="padding-bottom: 12px;"
-        solo-inverted
-        readonly
-        v-on="on"
-      />
+      <ValidationProvider
+        v-slot="{ errors }"
+        :rules="required ? 'required': ''"
+      >
+        <v-text-field
+          v-model="setDate"
+          :placeholder="label"
+          :error-messages="errors"
+          prepend-inner-icon="event"
+          style="padding-bottom: 12px;"
+          solo-inverted
+          readonly
+          v-on="on"
+        />
+      </ValidationProvider>
     </template>
     <v-date-picker
       v-model="date"
@@ -27,12 +33,21 @@
 </template>
 
 <script>
+import { ValidationProvider } from 'vee-validate'
+
 export default {
   name: 'InputDatePicker',
+  components: {
+    ValidationProvider
+  },
   props: {
     label: {
       type: String,
       default: null
+    },
+    required: {
+      type: Boolean,
+      default: false
     },
     formatDate: {
       type: String,

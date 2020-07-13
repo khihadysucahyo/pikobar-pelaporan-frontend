@@ -245,10 +245,10 @@
                         </v-list-item>
                         <div v-if="rolesWidget['dinkesKotaAndFaskes'].includes(roles[0])">
                           <v-list-item @click="handleEditCase(item._id)">
-                            {{ $t('label.profile_update') }}
+                            {{ $t('label.change_patent_data') }}
                           </v-list-item>
                           <v-list-item @click="handleEditHistoryCase(item._id)">
-                            {{ $t('label.update_history') }}
+                            {{ $t('label.update_patient_status') }}
                           </v-list-item>
                           <v-list-item @click="handleCloseContact(item._id, item.id_case)">
                             {{ $t('label.see_closely_contact') }}
@@ -423,7 +423,7 @@ export default {
       successDialog: false,
       detailCase: {},
       listCloseContact: [],
-      idCase: '',
+      idCase: null,
       idUniqueCase: '',
       listHistoryCase: [],
       referralHistoryCase: [],
@@ -487,7 +487,9 @@ export default {
   async mounted() {
     EventBus.$on('refreshPageListReport', (value) => {
       this.handleSearch()
-      this.getListCloseContactByCase(this.idCase)
+      if (this.idCase !== null) {
+        this.getListCloseContactByCase(this.idCase)
+      }
     })
     // Sementara dibuat komentar
     // if (this.roles[0] === 'dinkeskota') this.listQuery.address_district_code = this.district_user

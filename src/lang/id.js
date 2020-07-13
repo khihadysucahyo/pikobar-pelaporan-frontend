@@ -141,9 +141,9 @@ export default {
     female: 'Perempuan',
     male_initials: 'L',
     female_initials: 'P',
-    profile_update: 'Update Profil',
-    update_case_history: 'Update Riwayat Kasus',
-    update_history: 'Update Riwayat',
+    change_patent_data: 'Ubah Data Pasien',
+    update_case_history: 'Perbaharui Riwayat Kasus',
+    update_history: 'Perbaharui Riwayat',
     detail_profile_history: 'Detail Profil Kasus',
     criteria: 'Kriteria',
     choose_criteria: 'Pilih Kriteria',
@@ -688,8 +688,9 @@ export default {
     see_closely_contact: 'Lihat Kontak Erat',
     redaction_search_new_contact_case: 'Cari berdasarkan Nama/NIK atau Tambah Kontak Baru untuk kontak yang belum terdata',
     edit_contact_data: 'Edit Data Kontak Erat',
-    add_contact_data: 'Tambah Data Kontak Erat',
-    deleted_contact: 'Hapus Kontak'
+    add_close_contact_data: 'Tambah Data Kontak Erat',
+    deleted_contact: 'Hapus Kontak',
+    update_patient_status: 'Perbaharui Status Pasien'
   },
   success: {
     login_success: 'Login Berhasil',
