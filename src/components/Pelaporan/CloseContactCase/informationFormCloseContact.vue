@@ -264,7 +264,8 @@
             :village-name="formBody.address_village_name"
             :code-village.sync="formBody.address_village_code"
             :name-village.sync="formBody.address_village_name"
-            :disabled-address="false"
+            :disabled-select="true"
+            :disabled-district="true"
             :required-address="true"
           />
         </v-col>
@@ -293,7 +294,7 @@
                   :error-messages="errors"
                   type="number"
                   min="0"
-                  max="8"
+                  max="100"
                   solo-inverted
                   oninput="if(Number(this.value) > Number(this.max)) this.value = this.max"
                   class="input-append-btn"
@@ -320,7 +321,7 @@
                   :error-messages="errors"
                   type="number"
                   min="0"
-                  max="8"
+                  max="100"
                   solo-inverted
                   oninput="if(Number(this.value) > Number(this.max)) this.value = this.max"
                   class="input-append-btn"
@@ -489,7 +490,6 @@
 <script>
 import { ValidationProvider } from 'vee-validate'
 import { getAgeWithMonth } from '@/utils/constantVariable'
-
 export default {
   name: 'InformationFormCloseContact',
   components: {

@@ -61,13 +61,11 @@
                             :no-data-text="$t('label.no_data_autocomplete_related_case')"
                             :error-messages="errors"
                             :items="listCase"
-                            :search-input.sync="searchCase"
                             item-text="relateds"
-                            item-value="_id"
                             solo-inverted
+                            return-object
                             clearable
-                            :return-object="false"
-                            @click:clear="clearListCases"
+                            :search-input.sync="searchCase"
                           />
                         </ValidationProvider>
                       </v-col>
@@ -135,7 +133,9 @@ export default {
   },
   computed: {
     ...mapGetters('user', [
-      'fullName'
+      'fullName',
+      'district_user',
+      'district_name_user'
     ]),
     ...mapState('closeContactCase', [
       'formCloseContact'
@@ -143,18 +143,15 @@ export default {
   },
   watch: {
     async searchCase(value) {
-      if (value) {
-        this.listQuery.name_case_related = value
-        const response = await this.$store.dispatch('reports/listNameCase', this.listQuery)
-        this.listCase = response.data
-      } else {
-        this.listCase = []
-      }
+      if (value === null) return
+      await this.searchCaseByName(value)
     }
   },
   async mounted() {
     await this.$store.dispatch('closeContactCase/resetStateCloseContactCase')
     this.formCloseContact.interviewer_name = this.fullName
+    this.formCloseContact.address_district_code = this.district_user
+    this.formCloseContact.address_district_name = this.district_name_user
   },
   methods: {
     formatDatetime,
@@ -170,8 +167,9 @@ export default {
         return
       }
       delete this.formCloseContact['yearsOld']
+      this.formCloseContact['is_reported'] = true
       const data = {
-        idCase: this.idCase,
+        idCase: this.idCase._id,
         body: this.formCloseContact
       }
       const response = await this.$store.dispatch('closeContactCase/postListCloseContactByCase', data)
@@ -179,14 +177,18 @@ export default {
         await this.$store.dispatch('toast/successToast', this.$t('success.create_data_success'))
         await this.$store.dispatch('closeContactCase/resetStateCloseContactCase')
         await this.$router.push(`/close-contact/list`)
+        delete this.formCloseContact['is_reported']
         this.isLoading = false
       } else {
         await this.$store.dispatch('toast/errorToast', this.$t('errors.create_data_errors'))
+        delete this.formCloseContact['is_reported']
         this.isLoading = false
       }
     },
-    clearListCases() {
-      this.listCase = []
+    async searchCaseByName(value) {
+      this.listQuery.name_case_related = value
+      const response = await this.$store.dispatch('reports/listNameCase', this.listQuery)
+      this.listCase = response.data
     }
   }
 }
