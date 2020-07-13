@@ -516,18 +516,20 @@ export default {
       this.dialogDetailCase = true
     },
     async handleEditCase(id) {
-      this.detail = await this.$store.dispatch('reports/detailReportCase', id)
-      await Object.assign(this.formPasien, this.detail.data)
-      if (this.detail.data.birth_date) {
-        this.formPasien.birth_date = await this.formatDatetime(this.detail.data.birth_date, this.formatDate)
-      } else {
-        this.formPasien.birth_date = ''
-      }
-      if (this.formPasien._id) {
-        delete this.formPasien['author']
-        delete this.formPasien['createdAt']
-        delete this.formPasien['updatedAt']
-        delete this.formPasien['last_history']
+      const response = await this.$store.dispatch('reports/detailReportCase', id)
+      if (response.data !== null) {
+        Object.assign(this.formPasien, response.data)
+        if (response.data.birth_date !== null) {
+          this.formPasien.birth_date = await this.formatDatetime(response.data.birth_date, this.formatDate)
+        } else {
+          this.formPasien.birth_date = ''
+        }
+        if (this.formPasien._id) {
+          delete this.formPasien['author']
+          delete this.formPasien['createdAt']
+          delete this.formPasien['updatedAt']
+          delete this.formPasien['last_history']
+        }
       }
       this.dialogUpdateCase = true
     },
