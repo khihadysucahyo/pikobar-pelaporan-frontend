@@ -1,19 +1,19 @@
 <template>
   <div>
-    <div class="container-filter border-bottom">
-      <v-row class="filter-layer mx-2 mt-2 mb-2">
+    <div class="container-network-filter border-bottom">
+      <v-row class="content mx-2 mt-2 mb-2">
         <v-col
           cols="12"
           lg="8"
           md="12"
         >
-          <div class="d-flex filter-content">
-            <div class="network-legend-color-title network-legend-description" />
-            <div class="network-legend-text-title">{{ $t('label.distribution_case_network') }}</div>
+          <div class="d-flex header">
+            <div class="title-box" />
+            <div class="c-title">{{ $t('label.distribution_case_network') }}</div>
           </div>
         </v-col>
         <v-col
-          class="filter-select"
+          class="select"
           cols="12"
           lg="4"
           md="12"
@@ -47,37 +47,37 @@
             <div class="d-flex mb-3">
               <div class="mr-3">
                 <img
-                  src="avatar/newborn-male-normal.svg"
+                  src="avatar/elderly-male-normal.svg"
                   width="60px"
                 >
               </div>
               <div>
                 <div class="mb-1"><strong>COVID-1025200329</strong></div>
-                <div class="sidebar-status positive">Positif Aktif</div>
+                <div class="status odp">Positif</div>
               </div>
             </div>
             <div class="mb-3">
-              <span class="font-size-12">Status</span> <br>
-              <strong>Sembuh</strong>
+              <span class="c-label">Status</span> <br>
+              <strong class="dead">Sembuh</strong>
             </div>
             <div class="mb-3">
-              <span class="font-size-12">Jenis Kelamin</span> <br>
+              <span class="c-label">Jenis Kelamin</span> <br>
               <strong>Laki-laki</strong>
             </div>
             <div class="mb-3">
-              <span class="font-size-12">Usia</span> <br>
+              <span class="c-label">Usia</span> <br>
               <strong>21 Tahun</strong>
             </div>
             <div class="mb-3">
-              <span class="font-size-12">Tanggal Muncul Gejala</span> <br>
+              <span class="c-label">Tanggal Muncul Gejala</span> <br>
               <strong>20 Maret 2020</strong>
             </div>
             <div class="mb-3">
-              <span class="font-size-12">Lokasi Saat Ini</span> <br>
+              <span class="c-label">Lokasi Saat Ini</span> <br>
               <strong>RSUD Pusat</strong>
             </div>
             <div class="mb-3">
-              <span class="font-size-12">Kasus Terkait</span> <br>
+              <span class="c-label">Kasus Terkait</span> <br>
               <strong>COVID-1025200329</strong>
             </div>
           </div>
@@ -87,7 +87,7 @@
               block
               color="success"
               class="button"
-              @click="onDetail()"
+              @click="onDetail(1)"
             >
               {{ $t('label.view_detail') }}
             </v-btn>
@@ -97,7 +97,7 @@
       <network
         id="network"
         ref="network"
-        class="network-wrapper"
+        class="content"
         :style="{ transform: 'translate3d(' + sidebarTransform + 'px, 0px, 0px)' }"
         :nodes="nodes"
         :edges="edges"
@@ -250,68 +250,144 @@ export default {
       this.sidebarActive = false
       this.sidebarTransform = 0
     },
-    onDetail() { }
+    onDetail(id) {
+      const routeData = this.$router.resolve({ path: `/distribution-case/network/${id}` })
+      window.open(routeData.href, '_blank')
+    }
   }
 }
 </script>
 
-<style>
-.container-filter .filter-content {
-  padding: 13px 0;
+<style lang="scss">
+$otg-color: #616161;
+$odp-color: #2d9cdb;
+$pdp-color: #f2c94c;
+$positive-color: #eb5757;
+$active-color: #eb5757;
+$recovery-color: #27ae60;
+$dead-color: #333333;
+
+@mixin transition($second) {
+  -webkit-transition: $second ease-in-out;
+  -moz-transition: $second ease-in-out;
+  -o-transition: $second ease-in-out;
+  transition: $second ease-in-out;
+}
+
+@mixin border($size, $color, $direction) {
+  @if $direction == top {
+    border-top: $size solid $color;
+  } @else if $direction == bottom {
+    border-bottom: $size solid $color;
+  }
+}
+
+.container-network-filter {
+  .content {
+    .header {
+      padding: 13px 0;
+
+      .title-box {
+        width: 5px;
+        height: 1em;
+        float: left;
+        margin-right: 8px;
+        margin-top: 1px;
+        border: 2px solid #27ae60;
+        background: #27ae60;
+        margin-top: 3px;
+      }
+
+      .c-title {
+        color: #27ae60;
+        font-weight: bold;
+      }
+    }
+
+    .select .v-input__slot {
+      margin-bottom: 0;
+    }
+    .select .v-text-field__details {
+      display: none !important;
+    }
+  }
 }
 
 .container-network {
   overflow-y: hidden;
+
+  .content {
+    position: absolute;
+    background: white;
+    width: 100%;
+    height: calc(100vh - 153px);
+    min-height: calc(100vh - 153px);
+    @include transition(0.5s);
+  }
+
+  .vis-network:focus {
+    outline: 0px solid transparent;
+  }
+
+  .sidebar-network {
+    .c-label {
+      font-size: 12px;
+    }
+
+    .status {
+      border: 1px solid;
+      border-radius: 8px;
+      padding: 8px 32px;
+      font-size: 12px;
+      text-align: center;
+    }
+
+    .otg {
+      background-color: #ffffff;
+      border-color: $otg-color;
+      color: $otg-color;
+    }
+
+    .odp {
+      background-color: #ffffff;
+      border-color: $odp-color;
+      color: $odp-color;
+    }
+
+    .pdp {
+      background-color: #ffffff;
+      border-color: $pdp-color;
+      color: $pdp-color;
+    }
+
+    .positive {
+      background-color: #ffffff;
+      border-color: $positive-color;
+      color: $positive-color;
+    }
+
+    .active {
+      color: $active-color;
+    }
+
+    .recovery {
+      color: $recovery-color;
+    }
+
+    .dead {
+      color: $dead-color;
+    }
+  }
 }
-.network-wrapper {
-  position: absolute;
-  background: white;
-  width: 100%;
-  height: calc(100vh - 153px);
-  min-height: calc(100vh - 153px);
-  -webkit-transition: 0.5s ease-in-out;
-  -moz-transition: 0.5s ease-in-out;
-  -o-transition: 0.5s ease-in-out;
-  transition: 0.5s ease-in-out;
-}
-.vis-network:focus {
-  outline: 0px solid transparent;
-}
-.font-size-12 {
-  font-size: 12px;
-}
+
 .border-top {
-  border-top: 1px solid rgba(0, 0, 0, 0.12);
+  @include border(1px, rgba(0, 0, 0, 0.12), top);
 }
 .border-bottom {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  @include border(1px, rgba(0, 0, 0, 0.12), bottom);
 }
 .outline-none {
   outline: none;
-}
-
-.filter-select .v-input__slot {
-  margin-bottom: 0;
-}
-.filter-select .v-text-field__details {
-  display: none !important;
-}
-
-.network-legend-color-title {
-  width: 5px;
-  height: 1em;
-  float: left;
-  margin-right: 8px;
-  margin-top: 1px;
-}
-.network-legend-text-title {
-  color: #27ae60;
-  font-weight: bold;
-}
-.network-legend-description {
-  border: 2px solid #27ae60;
-  background: #27ae60;
-  margin-top: 3px;
 }
 
 .network-sidebar {
@@ -434,20 +510,5 @@ export default {
   border-radius: 16px;
   cursor: pointer;
   z-index: 800;
-}
-
-:root {
-  --color-positive-active: #eb5757;
-}
-.sidebar-status {
-  border: 1px solid;
-  border-radius: 8px;
-  padding: 8px 32px;
-  font-size: 12px;
-  text-align: center;
-}
-.sidebar-status.positive {
-  border-color: var(--color-positive-active);
-  color: var(--color-positive-active);
 }
 </style>
