@@ -14,14 +14,14 @@
           <v-form ref="form" lazy-validation>
             <v-row align="start">
               <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}">
-                <label :class="!isNikNull ? 'required' : ''">{{ $t('label.nik') }}</label>
+                <label :class="formPasien.is_nik_exists ? 'required' : ''">{{ $t('label.nik') }}</label>
               </v-col>
               <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
-                <ValidationProvider v-slot="{ errors }" :rules="isNikNull ? 'numeric' : 'required|numeric|sixteenDigits|provinceCode'">
+                <ValidationProvider v-slot="{ errors }" :rules="formPasien.is_nik_exists ? 'numeric' : 'required|numeric|sixteenDigits|provinceCode'">
                   <v-text-field v-model="formPasien.nik" type="number" :error-messages="errors" solo-inverted />
                 </ValidationProvider>
-                <v-checkbox v-model="isNikNull" :label="$t('label.do_not_have_nik')" class="mt-0 pt-0" />
-                <ValidationProvider v-if="isNikNull" v-slot="{ errors }" rules="required">
+                <v-checkbox v-model="formPasien.is_nik_exists" :label="$t('label.do_not_have_nik')" class="mt-0 pt-0" />
+                <ValidationProvider v-if="formPasien.is_nik_exists" v-slot="{ errors }" rules="required">
                   <label class="required">{{ $t('label.reason_do_not_have_nik') }}</label>
                   <v-text-field v-model="formPasien.note_nik" :error-messages="errors" solo-inverted />
                 </ValidationProvider>
@@ -29,14 +29,14 @@
             </v-row>
             <v-row align="start">
               <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}">
-                <label :class="!isPhoneNumberNull ? 'required' : ''">{{ $t('label.phone_number') }}</label>
+                <label :class="formPasien.is_phone_number_exists ? 'required' : ''">{{ $t('label.phone_number') }}</label>
               </v-col>
               <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
-                <ValidationProvider v-slot="{ errors }" :rules="isPhoneNumberNull ? 'isPhoneNumber' : 'required|isPhoneNumber'">
+                <ValidationProvider v-slot="{ errors }" :rules="formPasien.is_phone_number_exists ? 'isPhoneNumber' : 'required|isPhoneNumber'">
                   <v-text-field v-model="formPasien.phone_number" :error-messages="errors" placeholder="08xxxxxxxxx" solo-inverted type="number" />
                 </ValidationProvider>
-                <v-checkbox v-model="isPhoneNumberNull" :label="$t('label.do_not_have_phone_number')" class="mt-0 pt-0" />
-                <ValidationProvider v-if="isPhoneNumberNull" v-slot="{ errors }" rules="required">
+                <v-checkbox v-model="formPasien.is_phone_number_exists" :label="$t('label.do_not_have_phone_number')" class="mt-0 pt-0" />
+                <ValidationProvider v-if="formPasien.is_phone_number_exists" v-slot="{ errors }" rules="required">
                   <label class="required">{{ $t('label.reason_do_not_have_phone_number') }}</label>
                   <v-text-field v-model="formPasien.note_phone_number" :error-messages="errors" solo-inverted />
                 </ValidationProvider>
@@ -262,9 +262,7 @@ export default {
       },
       nikNumber: null,
       nikName: null,
-      nikAuthor: null,
-      isNikNull: false,
-      isPhoneNumberNull: false
+      nikAuthor: null
     }
   },
   computed: {

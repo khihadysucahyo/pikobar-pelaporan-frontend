@@ -223,10 +223,9 @@ export default {
       }
       const response = await this.$store.dispatch('closeContactCase/getDetailCloseContactByCase', data)
       if (response.data !== null) {
-        Object.assign(this.formBody, response.data)
+        this.formBody = response.data
         if (response.data.latest_history === null) {
-          this.formBody.latest_history = {}
-          Object.assign(this.formBody.latest_history, latestHistory)
+          this.formBody.latest_history = latestHistory
         }
         if (response.data.interviewer_name === null) this.formBody.interviewer_name = this.fullName
         if (this.formBody.birth_date !== null) {
