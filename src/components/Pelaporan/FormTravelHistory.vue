@@ -231,7 +231,7 @@
           </ValidationProvider>
         </v-col>
       </v-row>
-      <v-row align="start">
+      <v-row align="start" class="pb-3">
         <v-col
           cols="12"
           md="3"

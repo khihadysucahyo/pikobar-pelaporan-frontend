@@ -37,7 +37,8 @@ export default {
     daily_report: 'Laporan Harian',
     tight_contact: 'Kontak Erat',
     make_report: 'Buat Laporan',
-    list_identification: 'List Identifikasi'
+    list_identification: 'List Identifikasi',
+    distribution_case_network: 'Kasus Keterkaitan'
   },
   label: {
     username: 'Username',
@@ -530,7 +531,6 @@ export default {
     change_account: 'Ubah Akun',
     change_password: 'Ganti Password',
     log_out: 'Keluar',
-    distribution_case_network: 'Kasus Keterkaitan',
     relationship_with_primary_cases: 'Hubungan Dengan Kasus Primer',
     primary_case_id_related_case: 'ID Kasus Primer/Kasus Terkait',
     redaction_create_related_case: 'Form laporan di bawah ini mengacu pada lampiran 11 pedoman covid-19 revisi 4',
