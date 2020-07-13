@@ -245,16 +245,21 @@
                         </v-list-item>
                         <div v-if="rolesWidget['dinkesKotaAndFaskes'].includes(roles[0])">
                           <v-list-item @click="handleEditCase(item._id)">
-                            {{ $t('label.profile_update') }}
+                            {{ $t('label.change_patent_data') }}
                           </v-list-item>
                           <v-list-item @click="handleEditHistoryCase(item._id)">
-                            {{ $t('label.update_history') }}
+                            {{ $t('label.update_patient_status') }}
+                          </v-list-item>
+                          <v-list-item @click="handleCloseContact(item._id, item.id_case)">
+                            {{ $t('label.see_closely_contact') }}
                           </v-list-item>
                           <v-list-item @click="handlePrintPEForm(item._id, item.id_case)">
                             {{ $t('label.print_pe_form') }}
                           </v-list-item>
+                          <v-divider class="mt-0 mb-0" />
                           <v-list-item
                             v-if="rolesWidget['dinkeskota'].includes(roles[0])"
+                            style="color: #EB5757 !important;"
                             @click="handleDeleteCase(item)"
                           >
                             {{ $t('label.deleted_case') }}
@@ -335,6 +340,16 @@
         </v-row>
       </v-card>
     </v-dialog>
+    <dialog-close-contact
+      :show-dialog="dialogCloseContact"
+      :show.sync="dialogCloseContact"
+      :list-close-contact.sync="listCloseContact"
+      :id-case="idCase"
+      :case-id.sync="idCase"
+      :id-unique-case="idUniqueCase"
+      :unique-case-id.sync="idUniqueCase"
+      :title-detail="$t('label.close_contact_list')"
+    />
     <import-form
       :show-import-form="showImportForm"
       :refresh-page="handleSearch"
@@ -407,11 +422,15 @@ export default {
       errorMessage: null,
       successDialog: false,
       detailCase: {},
+      listCloseContact: [],
+      idCase: null,
+      idUniqueCase: '',
       listHistoryCase: [],
       referralHistoryCase: [],
       dialogDetailCase: false,
       dialogHistoryCase: false,
-      dialogUpdateCase: false
+      dialogUpdateCase: false,
+      dialogCloseContact: false
     }
   },
   computed: {
@@ -468,9 +487,14 @@ export default {
   async mounted() {
     EventBus.$on('refreshPageListReport', (value) => {
       this.handleSearch()
+      if (this.idCase !== null) {
+        this.getListCloseContactByCase(this.idCase)
+      }
     })
-    if (this.roles[0] === 'dinkeskota') this.listQuery.address_district_code = this.district_user
-    this.queryReportCase.address_district_code = this.district_user
+    // Sementara dibuat komentar
+    // if (this.roles[0] === 'dinkeskota') this.listQuery.address_district_code = this.district_user
+    // Sementara dibuat komentar
+    // this.queryReportCase.address_district_code = this.district_user
     await this.$store.dispatch('reports/listReportCase', this.listQuery)
     const response = await this.$store.dispatch('reports/countReportCase', this.queryReportCase)
     if (response) this.loading = false
@@ -532,11 +556,21 @@ export default {
     },
     async handleDeleteCase(item) {
       this.dialog = true
-      this.dataDelete = await item
+      this.dataDelete = item
+    },
+    async handleCloseContact(id, idUniqueCase) {
+      this.idCase = id
+      this.idUniqueCase = idUniqueCase
+      await this.getListCloseContactByCase(id)
+      this.dialogCloseContact = true
     },
     async handleSearch() {
       this.listQuery.page = 1
       await this.$store.dispatch('reports/listReportCase', this.listQuery)
+    },
+    async getListCloseContactByCase(id) {
+      const response = await this.$store.dispatch('closeContactCase/getListCloseContactByCase', id)
+      this.listCloseContact = response.data
     },
     getTableRowNumbering(index) {
       return ((this.listQuery.page - 1) * this.listQuery.limit) + (index + 1)

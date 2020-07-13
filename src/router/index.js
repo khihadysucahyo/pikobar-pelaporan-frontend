@@ -14,7 +14,8 @@ import settingRouter from './modules/setting'
 import distributionCaseRouter from './modules/distributionCase'
 import submissionLogistikRouter from './modules/submissionLogistik'
 import dailyReportRouter from './modules/dailyReport'
-// import hospitalReferralRouter from './modules/hospitalReferral'
+import hospitalReferralRouter from './modules/hospitalReferral'
+import closeContactCase from './modules/closeContactCase'
 
 /**
  * constantRoutes
@@ -90,7 +91,8 @@ export const asyncRoutes = [
   reportRouter,
   rdtRouter,
   submissionLogistikRouter,
-  // hospitalReferralRouter,
+  hospitalReferralRouter,
+  closeContactCase,
   settingRouter,
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/', hidden: true }

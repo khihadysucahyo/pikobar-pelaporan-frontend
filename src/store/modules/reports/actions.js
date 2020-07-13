@@ -124,9 +124,9 @@ export default {
       return error.response
     }
   },
-  async listNameCase({ commit }) {
+  async listNameCase({ commit }, params) {
     try {
-      const response = await requestServer(`/api/cases-listid`, 'GET')
+      const response = await requestServer(`/api/cases-listid`, 'GET', params)
       return response
     } catch (error) {
       return error.response
@@ -250,6 +250,50 @@ export default {
   async caseHospitalReferralHistory({ commit }, id) {
     try {
       const response = await requestServer(`/api/cases/${id}/transfers`, 'GET')
+      return response
+    } catch (error) {
+      return error.response
+    }
+  },
+  async revampGetNik({ commit }, params) {
+    try {
+      const response = await requestServer('/api/cases-revamp/check', 'GET', params)
+      return response
+    } catch (error) {
+      return error.response
+    }
+  },
+  async casesList({ commit }, params) {
+    try {
+      const response = await requestServer(`/api/cases-listid`, 'GET', params)
+      return response
+    } catch (error) {
+      return error.response
+    }
+  },
+  async createRevampReportCase({ commit }, data) {
+    try {
+      const response = await requestServer('/api/cases-revamp', 'POST', data)
+      return response
+    } catch (error) {
+      return error.response
+    }
+  },
+  async updateCloseContact({ commit }, data) {
+    const id_close_contact = await data.id
+    await delete data['id']
+    try {
+      const response = await requestServer(`/api/cases-revamp/${id_close_contact}/contact`, 'PUT', data.data)
+      return response
+    } catch (error) {
+      return error.response
+    }
+  },
+  async addCloseContact({ commit }, data) {
+    const id_case = await data.id
+    await delete data['id']
+    try {
+      const response = await requestServer(`/api/cases-revamp/${id_case}/contact`, 'POST', data.data)
       return response
     } catch (error) {
       return error.response

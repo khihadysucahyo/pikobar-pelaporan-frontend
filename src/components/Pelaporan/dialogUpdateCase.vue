@@ -1,22 +1,18 @@
 <template>
   <v-dialog v-model="show" max-width="70%">
     <v-card>
+      <v-card-title>
+        {{ $t('label.identity') }}
+        <v-spacer />
+        <v-icon @click="show = false">mdi-close</v-icon>
+      </v-card-title>
+      <v-divider />
       <v-container>
         <ValidationObserver ref="observer">
           <v-form
             ref="form"
             lazy-validation
           >
-            <v-row>
-              <v-col
-                cols="12"
-                md="3"
-                sm="12"
-                :class="{'mb-3': $vuetify.breakpoint. smAndDown}"
-              >
-                <v-icon class="rotate" color="#27AE60" left>mdi-color-helper</v-icon><label class="subtitle text-uppercase">{{ $t('label.identity') }}</label>
-              </v-col>
-            </v-row>
             <v-row align="start">
               <v-col
                 cols="12"
@@ -419,7 +415,7 @@
                     bottom
                     @click="handleUpdateCase"
                   >
-                    {{ $t('label.profile_update') }}
+                    {{ $t('label.change_patent_data') }}
                   </v-btn>
                 </v-col>
               </v-row>

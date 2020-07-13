@@ -15,8 +15,8 @@ const reportRouter = {
   active: false,
   children: [
     {
-      path: '/laporan/create',
-      component: () => import('@/views/laporan/formStepper'),
+      path: '/laporan/create-report',
+      component: () => import('@/views/laporan/formCreateReport'),
       meta: {
         title: 'laporan_create',
         icon: 'library_books',

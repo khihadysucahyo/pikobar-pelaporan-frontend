@@ -275,7 +275,7 @@ export default {
           data: this.formUser
         }
         response = await this.$store.dispatch('user/editUser', update)
-        if (response.status === ResponseRequest.UNPROCESSABLE) {
+        if (response.response.data.status === ResponseRequest.UNPROCESSABLE) {
           await this.$store.dispatch('toast/errorToast', response.data.message)
         } else {
           await this.$store.dispatch('toast/successToast', this.$t('success.data_success_edit'))
@@ -286,7 +286,7 @@ export default {
         if (response.status === ResponseRequest.UNPROCESSABLE) {
           await this.$store.dispatch('toast/errorToast', response.data.message)
         } else {
-          await this.$store.dispatch('toast/successToast', this.$t('success.create_date_success'))
+          await this.$store.dispatch('toast/successToast', this.$t('success.create_data_success'))
           await this.$router.go(-1)
         }
       }
