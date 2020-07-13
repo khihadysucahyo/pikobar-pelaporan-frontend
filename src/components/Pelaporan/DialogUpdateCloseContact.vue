@@ -95,7 +95,7 @@ export default {
         await this.$store.dispatch('toast/errorToast', this.$t('error.data_failed_edit'))
       }
       this.$emit('update:showFormUpdateCloseContact', false)
-      EventBus.$emit('refreshPageListReport', true)
+      EventBus.$emit('refreshPageListCloseContact', true)
     }
   }
 }

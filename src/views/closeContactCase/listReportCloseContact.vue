@@ -163,7 +163,9 @@ export default {
   },
   computed: {
     ...mapGetters('user', [
-      'fullName'
+      'fullName',
+      'district_user',
+      'district_name_user'
     ]),
     ...mapState('closeContactCase', [
       'formCloseContact'
@@ -226,6 +228,10 @@ export default {
         this.formBody = response.data
         if (response.data.latest_history === null) {
           this.formBody.latest_history = latestHistory
+        }
+        if (response.data.address_district_code === null) {
+          this.formBody.address_district_code = this.district_user
+          this.formBody.address_district_name = this.district_name_user
         }
         if (response.data.interviewer_name === null) this.formBody.interviewer_name = this.fullName
         if (this.formBody.birth_date !== null) {

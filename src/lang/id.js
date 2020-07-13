@@ -690,7 +690,9 @@ export default {
     edit_contact_data: 'Edit Data Kontak Erat',
     add_close_contact_data: 'Tambah Data Kontak Erat',
     deleted_contact: 'Hapus Kontak',
-    update_patient_status: 'Perbaharui Status Pasien'
+    update_patient_status: 'Perbaharui Status Pasien',
+    interviewed: 'Sudah Diwawancara',
+    not_interviewed: 'Belum Diwawancara'
   },
   success: {
     login_success: 'Login Berhasil',

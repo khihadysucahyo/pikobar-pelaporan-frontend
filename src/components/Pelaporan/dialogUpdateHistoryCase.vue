@@ -272,14 +272,6 @@
                           </ValidationProvider>
                         </v-col>
                       </v-row>
-                      <v-row align="start" class="mt-4">
-                        <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}" />
-                        <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
-                          <ValidationProvider>
-                            <v-text-field v-model="formRiwayatPasien.other_diagnosis" :placeholder="$t('label.mention_other_additional_condition')" solo-inverted />
-                          </ValidationProvider>
-                        </v-col>
-                      </v-row>
                       <v-row align="center">
                         <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}">
                           <label>{{ $t('label.serum_check') }}</label>

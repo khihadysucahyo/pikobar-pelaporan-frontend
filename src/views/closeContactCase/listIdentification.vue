@@ -74,6 +74,10 @@
                   item.address_street
                 ) }}</td>
                 <td>
+                  <v-chip v-if="item.is_reported" color="green">{{ $t('label.interviewed') }}</v-chip>
+                  <v-chip v-else>{{ $t('label.not_interviewed') }}</v-chip>
+                </td>
+                <td>
                   <v-card-actions>
                     <v-menu
                       :close-on-content-click="false"
@@ -129,13 +133,12 @@
       :limit.sync="listQuery.limit"
       :on-next="onNext"
     />
-    <dialog-create-close-contact
-      :show-dialog="showCreateCloseContact"
-      :show-form.sync="showCreateCloseContact"
-      :title-detail="$t('label.create_closely_contact_reports')"
-      :is-edit.sync="isEdit"
-      :id-case.sync="idCase"
-      :form-body.sync="formBody"
+    <dialog-update-close-contact
+      :show-dialog-update-close-contact="showDialogUpdateCloseContact"
+      :show-form-update-close-contact.sync="showDialogUpdateCloseContact"
+      :title-detail="$t('label.edit_contact_data')"
+      :form-update-close-contact="formBody"
+      :id-case="idCase"
     />
     <dialog-delete
       :dialog="dialog"
@@ -165,6 +168,7 @@ export default {
         { text: this.$t('label.gender').toUpperCase(), value: 'gender' },
         { text: this.$t('label.age').toUpperCase(), value: 'age' },
         { text: this.$t('label.complete_address').toUpperCase(), value: 'createdAt' },
+        { text: this.$t('label.status').toUpperCase(), value: 'is_reported' },
         { text: this.$t('label.action').toUpperCase(), value: 'actions', sortable: false }
       ],
       loading: true,
@@ -173,7 +177,7 @@ export default {
       listCloseContact: [],
       formatDate: 'YYYY/MM/DD',
       totalPages: 0,
-      showCreateCloseContact: false,
+      showDialogUpdateCloseContact: false,
       loadingTable: false,
       totalCloseContact: 0,
       isEdit: false,
@@ -218,7 +222,7 @@ export default {
     }
   },
   async mounted() {
-    EventBus.$on('refreshPageListReport', (value) => {
+    EventBus.$on('refreshPageListCloseContact', (value) => {
       this.handleSearch()
     })
     await this.handleSearch()
@@ -239,17 +243,12 @@ export default {
     },
     async handleUpdate(id) {
       this.formBody = this.formCloseContact
-      const latestHistory = this.formCloseContact.latest_history
       const data = {
         idCloseContact: id
       }
       const response = await this.$store.dispatch('closeContactCase/getDetailCloseContactByCase', data)
       if (response.data !== null) {
         this.formBody = response.data
-        if (response.data.latest_history === null) {
-          this.formBody.latest_history = latestHistory
-        }
-        if (response.data.interviewer_name === null) this.formBody.interviewer_name = this.fullName
         if (this.formBody.birth_date !== null) {
           this.formBody.birth_date = await formatDatetime(this.formBody.birth_date, this.formatDate)
           const age = getAgeWithMonth(this.formBody.birth_date)
@@ -262,8 +261,7 @@ export default {
           this.formBody.yearsOld = Math.floor(this.formBody.age)
           this.formBody.month = Math.ceil((this.formBody.age - Math.floor(this.formBody.age)) * 12)
         }
-        this.isEdit = true
-        this.showCreateCloseContact = true
+        this.showDialogUpdateCloseContact = true
       }
     },
     async handleDelete(item) {
