@@ -425,12 +425,6 @@ export default {
     ])
   },
   async mounted() {
-    this.formPasien.diagnosis_ards = 2
-    this.formPasien.diagnosis_covid = 2
-    this.formPasien.diagnosis_pneumonia = 2
-    this.formPasien.serum_check = 0
-    this.formPasien.sputum_check = 0
-    this.formPasien.swab_check = 0
     const paramHospitalWestJava = { 'rs_jabar': true }
     const paramHospitalNonWestJava = { 'rs_jabar': false }
     const responseWestJava = await this.$store.dispatch('region/getListHospital', paramHospitalWestJava)

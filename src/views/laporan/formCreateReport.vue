@@ -161,6 +161,9 @@ export default {
       'formPasien'
     ])
   },
+  mounted() {
+    this.$store.dispatch('reports/resetFormPasien')
+  },
   methods: {
     async saveData() {
       const valid = await this.$refs.observer.validate()
