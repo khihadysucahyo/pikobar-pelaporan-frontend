@@ -13,14 +13,114 @@
       </v-row>
     </v-card>
     <ValidationObserver ref="observer">
-      <v-form ref="form" lazy-validation>
-        <form-volunteer :form-pasien="formPasien" />
-        <form-patient :form-pasien="formPasien" />
-        <form-case-history :form-pasien="formPasien" />
-        <form-socioeconomic-history :form-pasien="formPasien" />
-        <form-contact-factor :form-pasien="formPasien" />
-        <form-multiple-close-contact :form-pasien="formPasien" />
-      </v-form>
+      <v-row>
+        <v-col auto>
+          <v-expansion-panels
+            v-model="volunteerPanel"
+            multiple
+          >
+            <v-expansion-panel>
+              <v-expansion-panel-header class="font-weight-bold text-lg">
+                {{ $t('label.form_volunteer_title') }}
+              </v-expansion-panel-header>
+              <v-divider />
+              <v-expansion-panel-content>
+                <form-volunteer :form-pasien="formPasien" />
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+          </v-expansion-panels>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col auto>
+          <v-expansion-panels
+            v-model="patientPanel"
+            multiple
+          >
+            <v-expansion-panel>
+              <v-expansion-panel-header class="font-weight-bold text-lg">
+                {{ $t('label.form_patient_title') }}
+              </v-expansion-panel-header>
+              <v-divider />
+              <v-expansion-panel-content>
+                <form-patient :form-pasien="formPasien" />
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+          </v-expansion-panels>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col auto>
+          <v-expansion-panels
+            v-model="historyCasePanel"
+            multiple
+          >
+            <v-expansion-panel>
+              <v-expansion-panel-header class="font-weight-bold text-lg">
+                {{ $t('label.form_case_history_title') }}
+              </v-expansion-panel-header>
+              <v-divider />
+              <v-expansion-panel-content>
+                <form-case-history :form-pasien="formPasien" />
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+          </v-expansion-panels>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col auto>
+          <v-expansion-panels
+            v-model="historySocioeconomicPanel"
+            multiple
+          >
+            <v-expansion-panel>
+              <v-expansion-panel-header class="font-weight-bold text-lg">
+                {{ $t('label.form_socioeconomic_title') }}
+              </v-expansion-panel-header>
+              <v-divider />
+              <v-expansion-panel-content>
+                <form-socioeconomic-history :form-pasien="formPasien" />
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+          </v-expansion-panels>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col auto>
+          <v-expansion-panels
+            v-model="contactFactorPanel"
+            multiple
+          >
+            <v-expansion-panel>
+              <v-expansion-panel-header class="font-weight-bold text-lg">
+                {{ $t('label.form_eposure_factor_title') }}
+              </v-expansion-panel-header>
+              <v-divider />
+              <v-expansion-panel-content>
+                <form-contact-factor :form-pasien="formPasien" />
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+          </v-expansion-panels>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col auto>
+          <v-expansion-panels
+            v-model="multipleCloseContactPanel"
+            multiple
+          >
+            <v-expansion-panel>
+              <v-expansion-panel-header class="font-weight-bold text-lg">
+                {{ $t('label.form_close_contact_title') }}
+              </v-expansion-panel-header>
+              <v-divider />
+              <v-expansion-panel-content>
+                <form-multiple-close-contact :form-pasien="formPasien" />
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+          </v-expansion-panels>
+        </v-col>
+      </v-row>
     </ValidationObserver>
     <dialog-duplicated-nik :show-dialog="showDuplicatedNikDialog" :nik-number="nikNumber" :nik-name="nikName" :nik-author="nikAuthor" :show.sync="showDuplicatedNikDialog" />
     <v-container fluid>
@@ -47,7 +147,13 @@ export default {
       showDuplicatedNikDialog: false,
       nikNumber: null,
       nikName: null,
-      nikAuthor: null
+      nikAuthor: null,
+      volunteerPanel: [0],
+      patientPanel: [0],
+      historyCasePanel: [0],
+      historySocioeconomicPanel: [0],
+      contactFactorPanel: [0],
+      multipleCloseContactPanel: [0]
     }
   },
   computed: {

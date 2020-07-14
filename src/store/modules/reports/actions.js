@@ -66,16 +66,16 @@ export default {
     try {
       const response = await requestServer('/api/cases-summary', 'GET', params)
       return response
-    } catch (e) {
-      return e
+    } catch (error) {
+      return error.response
     }
   },
   async countReportCaseFinal({ commit }, params) {
     try {
       const response = await requestServer('/api/cases-summary-final', 'GET', params)
       return response
-    } catch (e) {
-      return e
+    } catch (error) {
+      return error.response
     }
   },
   async listHistoryCase({ commit }, id) {
@@ -144,8 +144,8 @@ export default {
     try {
       const response = await requestServer('/api/users-listid', 'GET', params)
       return response
-    } catch (e) {
-      return e
+    } catch (error) {
+      return error.response
     }
   },
   async verifyCase({ commit }, params) {
@@ -175,8 +175,8 @@ export default {
         responseType: 'blob'
       })
       return response
-    } catch (e) {
-      return e
+    } catch (error) {
+      return error.response
     }
   },
   async hospitalRefferalNewCase({ commit }, data) {
