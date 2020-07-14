@@ -13,10 +13,78 @@
             ref="form"
             lazy-validation
           >
-            <form-volunteer :form-pasien="formPasien" />
-            <form-patient :form-pasien="formPasien" />
-            <form-socioeconomic-history :form-pasien="formPasien" />
-            <form-contact-factor :form-pasien="formPasien" />
+            <v-row>
+              <v-col auto>
+                <v-expansion-panels
+                  v-model="volunteerPanel"
+                  multiple
+                >
+                  <v-expansion-panel>
+                    <v-expansion-panel-header class="font-weight-bold text-lg">
+                      {{ $t('label.form_volunteer_title') }}
+                    </v-expansion-panel-header>
+                    <v-divider />
+                    <v-expansion-panel-content>
+                      <form-volunteer :form-pasien="formPasien" />
+                    </v-expansion-panel-content>
+                  </v-expansion-panel>
+                </v-expansion-panels>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col auto>
+                <v-expansion-panels
+                  v-model="patientPanel"
+                  multiple
+                >
+                  <v-expansion-panel>
+                    <v-expansion-panel-header class="font-weight-bold text-lg">
+                      {{ $t('label.form_patient_title') }}
+                    </v-expansion-panel-header>
+                    <v-divider />
+                    <v-expansion-panel-content>
+                      <form-patient :form-pasien="formPasien" />
+                    </v-expansion-panel-content>
+                  </v-expansion-panel>
+                </v-expansion-panels>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col auto>
+                <v-expansion-panels
+                  v-model="historySocioeconomicPanel"
+                  multiple
+                >
+                  <v-expansion-panel>
+                    <v-expansion-panel-header class="font-weight-bold text-lg">
+                      {{ $t('label.form_socioeconomic_title') }}
+                    </v-expansion-panel-header>
+                    <v-divider />
+                    <v-expansion-panel-content>
+                      <form-socioeconomic-history :form-pasien="formPasien" />
+                    </v-expansion-panel-content>
+                  </v-expansion-panel>
+                </v-expansion-panels>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col auto>
+                <v-expansion-panels
+                  v-model="contactFactorPanel"
+                  multiple
+                >
+                  <v-expansion-panel>
+                    <v-expansion-panel-header class="font-weight-bold text-lg">
+                      {{ $t('label.form_eposure_factor_title') }}
+                    </v-expansion-panel-header>
+                    <v-divider />
+                    <v-expansion-panel-content>
+                      <form-contact-factor :form-pasien="formPasien" />
+                    </v-expansion-panel-content>
+                  </v-expansion-panel>
+                </v-expansion-panels>
+              </v-col>
+            </v-row>
             <v-container fluid>
               <v-row>
                 <v-col class="text-right">
@@ -72,8 +140,10 @@ export default {
       loading: false,
       show: this.showDialog,
       formatDate: 'YYYY/MM/DD',
-      panelCase: [0],
-      panelListRiwayat: [0],
+      volunteerPanel: [1],
+      patientPanel: [0],
+      historySocioeconomicPanel: [1],
+      contactFactorPanel: [1],
       listCountry: [],
       listHistoryCase: null,
       listQuery: {

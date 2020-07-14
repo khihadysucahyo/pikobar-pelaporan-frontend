@@ -1,57 +1,42 @@
 <template>
   <v-container fluid>
-    <ValidationObserver ref="observer">
-      <v-card outlined>
-        <v-row align="center" justify="space-between">
-          <v-col>
-            <div class="title ml-4">
-              {{ $t('label.form_volunteer_title') }}
-            </div>
-          </v-col>
-        </v-row>
-        <hr class="table-divider">
-        <v-container fluid>
-          <v-form ref="form" lazy-validation>
-            <v-row align="start">
-              <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}">
-                <label>{{ $t('label.interviewer_name') }}</label>
-              </v-col>
-              <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
-                <ValidationProvider>
-                  <v-text-field v-model="formPasien.interviewers_name" type="text" solo-inverted />
-                </ValidationProvider>
-              </v-col>
-            </v-row>
-            <v-row align="start">
-              <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}">
-                <label>{{ $t('label.interviewer_phone') }}</label>
-              </v-col>
-              <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
-                <ValidationProvider v-slot="{ errors }" rules="isPhoneNumber">
-                  <v-text-field v-model="formPasien.interviewers_phone_number" :error-messages="errors" placeholder="08xxxxxxxxx" solo-inverted type="number" />
-                </ValidationProvider>
-              </v-col>
-            </v-row>
-            <v-row align="start">
-              <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}">
-                <label>{{ $t('label.interview_date') }}</label>
-              </v-col>
-              <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
-                <input-date-picker :format-date="formatDate" :label="$t('label.interview_date')" :date-value="formPasien.interview_date" :value-date.sync="formPasien.interview_date" @changeDate="handleChangeInterviewDate" />
-              </v-col>
-            </v-row>
-          </v-form>
-        </v-container>
-      </v-card>
-    </ValidationObserver>
+    <v-form ref="form" lazy-validation>
+      <v-row align="start">
+        <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}">
+          <label>{{ $t('label.interviewer_name') }}</label>
+        </v-col>
+        <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
+          <ValidationProvider>
+            <v-text-field v-model="formPasien.interviewers_name" type="text" solo-inverted />
+          </ValidationProvider>
+        </v-col>
+      </v-row>
+      <v-row align="start">
+        <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}">
+          <label>{{ $t('label.interviewer_phone') }}</label>
+        </v-col>
+        <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
+          <ValidationProvider v-slot="{ errors }" rules="isPhoneNumber">
+            <v-text-field v-model="formPasien.interviewers_phone_number" :error-messages="errors" placeholder="08xxxxxxxxx" solo-inverted type="number" />
+          </ValidationProvider>
+        </v-col>
+      </v-row>
+      <v-row align="start">
+        <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}">
+          <label>{{ $t('label.interview_date') }}</label>
+        </v-col>
+        <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
+          <input-date-picker :format-date="formatDate" :label="$t('label.interview_date')" :date-value="formPasien.interview_date" :value-date.sync="formPasien.interview_date" @changeDate="handleChangeInterviewDate" />
+        </v-col>
+      </v-row>
+    </v-form>
   </v-container>
 </template>
 <script>
-import { ValidationObserver, ValidationProvider } from 'vee-validate'
+import { ValidationProvider } from 'vee-validate'
 export default {
   name: 'FormVolunteer',
   components: {
-    ValidationObserver,
     ValidationProvider
   },
   props: {
