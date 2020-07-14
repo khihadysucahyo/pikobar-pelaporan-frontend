@@ -15,6 +15,11 @@ export default {
     state.formPasien.nik = ''
     state.formPasien.name = ''
     state.formPasien.birth_date = ''
+    state.formPasien.is_nik_exists = false
+    state.formPasien.is_phone_number_exists = false
+    state.formPasien.is_went_abroad = false
+    state.formPasien.is_went_other_city = false
+    state.formPasien.is_contact_with_positive = false
     state.formPasien.age = ''
     state.formPasien.month = ''
     state.formPasien.occupation = ''

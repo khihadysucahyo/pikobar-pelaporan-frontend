@@ -144,7 +144,7 @@
         <v-row align="center" class="ma-0">
           <v-col cols="12" sm="6" class="pa-1">
             <ValidationProvider>
-              <v-text-field v-model="formPasien.rt" type="number" min="0" max="120" solo-inverted>
+              <v-text-field v-model="formPasien.rt" class="input-append-btn" type="number" min="0" max="120" solo-inverted>
                 <template v-slot:append>
                   <v-btn depressed tile min-width="20">
                     {{ $t('label.rt') }}
@@ -155,7 +155,7 @@
           </v-col>
           <v-col cols="12" sm="6" class="pa-1">
             <ValidationProvider>
-              <v-text-field v-model="formPasien.rw" type="number" min="0" max="11" solo-inverted>
+              <v-text-field v-model="formPasien.rw" class="input-append-btn" type="number" min="0" max="11" solo-inverted>
                 <template v-slot:append>
                   <v-btn depressed tile min-width="20">
                     {{ $t('label.rw') }}

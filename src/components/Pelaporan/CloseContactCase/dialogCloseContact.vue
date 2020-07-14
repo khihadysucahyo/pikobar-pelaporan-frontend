@@ -44,7 +44,7 @@
                     <td>
                       <v-card-actions>
                         <v-menu
-                          :close-on-content-click="false"
+                          :close-on-content-click="true"
                           :nudge-width="100"
                           :nudge-left="220"
                           :nudge-top="40"
@@ -148,11 +148,10 @@
     />
     <dialog-delete
       :dialog="dialogDelete"
-      :data-deleted="dataDelete"
       :dialog-delete.sync="dialogDelete"
+      :data-deleted="dataDelete"
       :delete-date.sync="dataDelete"
       :store-path-delete="`closeContactCase/deleteCloseContact`"
-      :id-data="idCase"
     />
   </v-dialog>
 </template>
@@ -160,6 +159,7 @@
 import { formatDatetime } from '@/utils/parseDatetime'
 import { getAgeWithMonth } from '@/utils/constantVariable'
 import { completeAddress } from '@/utils/utilsFunction'
+import EventBus from '@/utils/eventBus'
 import { mapState, mapGetters } from 'vuex'
 
 export default {
@@ -231,6 +231,12 @@ export default {
         this.$emit('update:caseId', '')
         this.$emit('update:uniqueCaseId', '')
       }
+    },
+    dialogDelete(value) {
+      if (!value) {
+        this.dataDelete = null
+        EventBus.$emit('refreshPageListReport', true)
+      }
     }
   },
   methods: {
@@ -290,7 +296,6 @@ export default {
       if (!item.is_reported) {
         this.dialogDelete = true
         this.dataDelete = item
-        this.$emit('update:show', false)
       } else {
         await this.$store.dispatch('toast/errorToast', this.$t('errors.contact_data_cannot_be_deleted'))
       }

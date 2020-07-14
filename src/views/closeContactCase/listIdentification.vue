@@ -167,7 +167,7 @@ export default {
         { text: this.$t('label.name').toUpperCase(), value: 'name' },
         { text: this.$t('label.gender').toUpperCase(), value: 'gender' },
         { text: this.$t('label.age').toUpperCase(), value: 'age' },
-        { text: this.$t('label.complete_address').toUpperCase(), value: 'createdAt' },
+        { text: this.$t('label.complete_address').toUpperCase(), value: 'address_street' },
         { text: this.$t('label.status').toUpperCase(), value: 'is_reported' },
         { text: this.$t('label.action').toUpperCase(), value: 'actions', sortable: false }
       ],
@@ -184,6 +184,7 @@ export default {
       idCase: '',
       formBody: {},
       listQuery: {
+        is_reported: true,
         page: 0,
         limit: 100,
         search: ''

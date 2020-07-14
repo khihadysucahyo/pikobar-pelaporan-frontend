@@ -82,17 +82,18 @@ export default {
         return
       }
       this.loading = true
+      delete this.formUpdateCloseContact['latest_history']
       const updateFinalCloseContact = {
         id: this.formUpdateCloseContact._id,
         data: this.formUpdateCloseContact
       }
       const response = await this.$store.dispatch('reports/updateCloseContact', updateFinalCloseContact)
       this.loading = false
-      if (response && (response.status === 200 || response.status === 201)) {
+      if (response.status === 200 || response.status === 201) {
         await this.$store.dispatch('closeContactCase/resetStateCloseContactCase')
         await this.$store.dispatch('toast/successToast', this.$t('success.data_success_edit'))
       } else {
-        await this.$store.dispatch('toast/errorToast', this.$t('error.data_failed_edit'))
+        await this.$store.dispatch('toast/errorToast', this.$t('errors.data_failed_edit'))
       }
       this.$emit('update:showFormUpdateCloseContact', false)
       EventBus.$emit('refreshPageListCloseContact', true)

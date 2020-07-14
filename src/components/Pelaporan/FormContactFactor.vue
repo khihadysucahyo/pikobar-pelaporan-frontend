@@ -8,39 +8,61 @@
         <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
           <ValidationProvider>
             <v-radio-group v-model="formPasien.travel" row>
-              <v-radio :label="$t('label.from_out_of_country')" value="1" />
-              <v-radio :label="$t('label.from_out_of_city')" value="0" />
+              <v-radio :label="$t('label.from_out_of_country')" :value="1" />
+              <v-radio :label="$t('label.from_out_of_city')" :value="0" />
             </v-radio-group>
           </ValidationProvider>
         </v-col>
       </v-row>
-      <v-row v-if="formPasien.travel === '1' || formPasien.travel === '0'" align="start">
+      <v-row v-if="formPasien.travel === 1 || formPasien.travel === 0" align="start">
         <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}">
-          <label class="required">{{ formPasien.travel === '1' ? $t('label.country_visited') : $t('label.city_visited') }}</label>
+          <label class="required">{{ formPasien.travel === 1 ? $t('label.country_visited') : $t('label.city_visited') }}</label>
         </v-col>
         <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
           <ValidationProvider v-slot="{ errors }" rules="required">
-            <v-text-field v-model="formPasien.visited" :error-messages="errors" type="text" solo-inverted :placeholder="formPasien.travel === '1' ? $t('label.country_visited') : $t('label.city_visited')" />
+            <v-text-field
+              v-model="formPasien.visited"
+              :error-messages="errors"
+              type="text"
+              solo-inverted
+              :placeholder="formPasien.travel === 1 ? $t('label.country_visited') : $t('label.city_visited')"
+            />
           </ValidationProvider>
         </v-col>
       </v-row>
-      <v-row v-if="formPasien.travel === '1' || formPasien.travel === '0'" align="start">
+      <v-row v-if="formPasien.travel === 1 || formPasien.travel === 0" align="start">
         <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}">
           <label class="required">{{ $t('label.start_travel') }}</label>
         </v-col>
         <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
           <ValidationProvider v-slot="{ errors }">
-            <input-date-picker :format-date="formatDate" :error-messages="errors" :label="$t('label.start_travel')" :date-value="formPasien.start_travel" :value-date.sync="formPasien.start_travel" @changeDate="handleChangeStartTravel" />
+            <input-date-picker
+              :format-date="formatDate"
+              :error-messages="errors"
+              :label="$t('label.start_travel')"
+              :required="true"
+              :date-value="formPasien.start_travel"
+              :value-date.sync="formPasien.start_travel"
+              @changeDate="handleChangeStartTravel"
+            />
           </ValidationProvider>
         </v-col>
       </v-row>
-      <v-row v-if="formPasien.travel === '1' || formPasien.travel === '0'" align="start">
+      <v-row v-if="formPasien.travel === 1 || formPasien.travel === 0" align="start">
         <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}">
           <label class="required">{{ $t('label.end_travel') }}</label>
         </v-col>
         <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
           <ValidationProvider v-slot="{ errors }">
-            <input-date-picker :format-date="formatDate" :error-messages="errors" :label="$t('label.end_travel')" :date-value="formPasien.end_travel" :value-date.sync="formPasien.end_travel" @changeDate="handleChangeEndTravel" />
+            <input-date-picker
+              :format-date="formatDate"
+              :error-messages="errors"
+              :label="$t('label.end_travel')"
+              :required="true"
+              :date-value="formPasien.end_travel"
+              :value-date.sync="formPasien.end_travel"
+              @changeDate="handleChangeEndTravel"
+            />
           </ValidationProvider>
         </v-col>
       </v-row>

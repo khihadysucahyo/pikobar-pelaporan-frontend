@@ -115,7 +115,7 @@
 </template>
 <script>
 import { ValidationObserver } from 'vee-validate'
-import { getAgeWithMonth } from '@/utils/constantVariable'
+import { getAgeWithMonth, ResponseRequest } from '@/utils/constantVariable'
 import { formatDatetime } from '@/utils/parseDatetime'
 import { mapGetters } from 'vuex'
 import EventBus from '@/utils/eventBus'
@@ -210,13 +210,22 @@ export default {
         data: this.formPasien
       }
       this.loading = true
-      await this.$store.dispatch('reports/updateReportCase', updateCase)
-      await this.$store.dispatch('toast/successToast', this.$t('success.data_success_edit'))
-      this.loading = false
-      this.$emit('update:show', false)
-      EventBus.$emit('refreshPageListReport', true)
+      const response = await this.$store.dispatch('reports/updateReportCase', updateCase)
+      if (response.status !== ResponseRequest.UNPROCESSABLE) {
+        await this.$store.dispatch('toast/successToast', this.$t('success.data_success_edit'))
+        await this.$store.dispatch('reports/resetFormPasien')
+        await this.$store.dispatch('reports/resetRiwayatFormPasien')
+        this.loading = false
+        this.$emit('update:show', false)
+        EventBus.$emit('refreshPageListReport', true)
+      } else {
+        this.loading = false
+        await this.$store.dispatch('toast/errorToast', this.$t('errors.data_failed_to_save'))
+      }
     },
-    handleCancel() {
+    async handleCancel() {
+      await this.$store.dispatch('reports/resetFormPasien')
+      await this.$store.dispatch('reports/resetRiwayatFormPasien')
       this.$emit('update:show', false)
     },
     handleChangeNationality(value) {
