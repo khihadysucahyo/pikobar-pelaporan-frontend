@@ -93,10 +93,6 @@ export default {
       listPhysicalActivity: listPhysicalActivity,
       incomeList: incomeList
     }
-  },
-  mounted() {
-    this.formPasien.smoking = 2
-    this.formPasien.consume_alcohol = 2
   }
 }
 </script>

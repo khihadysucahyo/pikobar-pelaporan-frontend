@@ -16,6 +16,7 @@ import submissionLogistikRouter from './modules/submissionLogistik'
 import dailyReportRouter from './modules/dailyReport'
 import hospitalReferralRouter from './modules/hospitalReferral'
 import closeContactCase from './modules/closeContactCase'
+
 /**
  * constantRoutes
  * a base page that does not have permission requirements

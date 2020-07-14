@@ -373,15 +373,6 @@ export default {
       }
     }
   },
-  mounted() {
-    this.formPasien.close_contact = 2
-    this.formPasien.close_contact_confirm = 2
-    this.formPasien.close_contact_animal_market = 2
-    this.formPasien.close_contact_public_place = 2
-    this.formPasien.close_contact_medical_facility = 2
-    this.formPasien.close_contact_heavy_ispa_group = 2
-    this.formPasien.close_contact_health_worker = 2
-  },
   methods: {
     handleChangeStartTravel(value) {
       this.formPasien.start_travel = value
