@@ -537,7 +537,11 @@ export default {
     async handleEditHistoryCase(id) {
       this.detail = await this.$store.dispatch('reports/detailHistoryCase', id)
       const response = await this.$store.dispatch('reports/detailReportCase', id)
-      Object.assign(this.formPasien, response.data)
+      this.detail['address_district_code'] = response.data.address_district_code
+      this.detail['address_subdistrict_code'] = response.data.address_subdistrict_code
+      this.detail['address_village_code'] = response.data.address_village_code
+      this.detail['address_village_name'] = response.data.address_village_name
+      this.detail['address_street'] = response.data.address_street
       Object.assign(this.formRiwayatPasien, this.detail)
       this.formRiwayatPasien.case = this.detail.case
       if ((this.detail.first_symptom_date !== null) && (this.detail.first_symptom_date !== 'Invalid date')) {

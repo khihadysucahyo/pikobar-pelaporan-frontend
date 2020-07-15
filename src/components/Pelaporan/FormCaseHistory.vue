@@ -61,9 +61,14 @@
         <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}" />
         <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
           <ValidationProvider v-slot="{ errors }" rules="required">
-            <v-radio-group v-model="formPasien.according_address" :error-messages="errors" row @change="handleChangeAccordingAddress">
-              <v-radio :label="$t('label.according_address')" value="1" />
-              <v-radio :label="$t('label.doesnt_according_address')" value="0" />
+            <v-radio-group
+              v-model="formPasien.according_address"
+              :error-messages="errors"
+              row
+              @change="handleChangeAccordingAddress"
+            >
+              <v-radio :label="$t('label.according_address')" :value="1" />
+              <v-radio :label="$t('label.doesnt_according_address')" :value="0" />
             </v-radio-group>
           </ValidationProvider>
         </v-col>
@@ -466,7 +471,7 @@ export default {
       }
     },
     handleChangeAccordingAddress(value) {
-      if (value === '1') {
+      if (value === 1) {
         this.formPasien.current_location_district_code = this.formPasien.address_district_code
         this.formPasien.current_location_subdistrict_code = this.formPasien.address_subdistrict_code
         this.formPasien.current_location_village_code = this.formPasien.address_village_code

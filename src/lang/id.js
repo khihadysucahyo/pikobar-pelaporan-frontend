@@ -692,7 +692,8 @@ export default {
     deleted_contact: 'Hapus Kontak',
     update_patient_status: 'Perbaharui Status Pasien',
     interviewed: 'Sudah Diwawancara',
-    not_interviewed: 'Belum Diwawancara'
+    not_interviewed: 'Belum Diwawancara',
+    same_house_as_patient: 'Rumah sama dengan pasien'
   },
   success: {
     login_success: 'Login Berhasil',
