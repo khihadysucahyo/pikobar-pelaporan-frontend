@@ -51,10 +51,6 @@ export default {
     tabActive: {
       type: String,
       default: null
-    },
-    chartHeight: {
-      type: Number,
-      default: 600
     }
   },
   data() {
@@ -62,6 +58,7 @@ export default {
       loaded: false,
       charts: null,
       legends: [],
+      chartStyles: {},
       chartData: {
         labels: [],
         datasets: []
@@ -137,14 +134,6 @@ export default {
       }
     }
   },
-  computed: {
-    chartStyles() {
-      return {
-        height: `${this.chartHeight}px`,
-        position: 'relative'
-      }
-    }
-  },
   watch: {
     'tabActive': {
       handler(value) {
@@ -190,6 +179,8 @@ export default {
       ]
       const one = []
       const two = []
+
+      this.setHeight(area.length)
 
       for (let index = 1; index <= 13; index++) {
         const r = this.randomNumber()
@@ -260,6 +251,26 @@ export default {
         this.$refs['chartLegendLabel' + datasetIndex][0].style.textDecoration = 'none'
       }
       this.$refs.horizontalBarChart.update()
+    },
+    setHeight(total) {
+      const limit = 8
+
+      let height
+      if (total > 0 && total <= limit) {
+        height = '100%'
+      } else if (total > limit && total <= limit * 2) {
+        height = '200%'
+      } else if (total > limit * 2 && total <= limit * 3) {
+        height = '300%'
+      } else if (total > limit * 3 && total <= limit * 4) {
+        height = '400%'
+      }
+
+      this.chartStyles = {
+        height,
+        position: 'relative'
+      }
+      console.log(this.chartStyles)
     }
   }
 }

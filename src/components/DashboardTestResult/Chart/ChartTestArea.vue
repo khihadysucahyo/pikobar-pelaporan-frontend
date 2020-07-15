@@ -15,6 +15,7 @@
             ref="horizontalBarChart"
             :chart-data="chartData"
             :options="chartOptions"
+            :styles="chartStyles"
             :name="'chart-test-area'"
             @callbackFooter="setFooter"
           />
@@ -54,10 +55,6 @@ export default {
     tabActive: {
       type: String,
       default: null
-    },
-    chartHeight: {
-      type: Number,
-      default: 300
     }
   },
   data() {
@@ -66,6 +63,7 @@ export default {
       charts: null,
       legends: [],
       htmlLegend: null,
+      chartStyles: {},
       chartData: {
         labels: [],
         datasets: []
@@ -126,14 +124,6 @@ export default {
       }
     }
   },
-  computed: {
-    chartStyles() {
-      return {
-        height: `${this.chartHeight}px`,
-        position: 'relative'
-      }
-    }
-  },
   watch: {
     'tabActive': {
       handler(value) {
@@ -177,12 +167,26 @@ export default {
         'Kota Tasikmalaya',
         'Kab. Tasikmalaya',
         'Kab. Bekasi',
-        'Kota Banjar'
+        'Kota Banjar',
+        'Kota Depok',
+        'Kota Bekasi',
+        'Kota Tasikmalaya',
+        'Kab. Tasikmalaya',
+        'Kab. Bekasi',
+        'Kab. Tasikmalaya',
+        'Kab. Bekasi',
+        'Kota Banjar',
+        'Kota Depok',
+        'Kota Bekasi',
+        'Kota Tasikmalaya',
+        'Kab. Tasikmalaya'
       ]
       const one = []
       const two = []
 
-      for (let index = 1; index <= 15; index++) {
+      this.setHeight(area.length)
+
+      for (let index = 1; index <= 27; index++) {
         one.push(this.randomNumber())
         two.push(this.randomNumber())
       }
@@ -196,23 +200,21 @@ export default {
           backgroundColor: '#27AE60',
           hoverBackgroundColor: '#27AE60',
           data: one,
-          hidden: false
+          hidden: false,
+          barThickness: 15
         },
         {
           label: this.$t('label.pcr'),
           backgroundColor: '#F2C94C',
           hoverBackgroundColor: '#F2C94C',
           data: two,
-          hidden: false
+          hidden: false,
+          barThickness: 15
         }
       )
     },
-    getDataRapid() {
-
-    },
-    getDataPCR() {
-
-    },
+    getDataRapid() { },
+    getDataPCR() { },
     randomNumber() {
       return Math.floor(Math.random() * 101)
     },
@@ -244,6 +246,25 @@ export default {
         this.$refs['chartLegendLabel' + datasetIndex][0].style.textDecoration = 'none'
       }
       this.$refs.horizontalBarChart.update()
+    },
+    setHeight(total) {
+      const limit = 13
+
+      let height
+      if (total > 0 && total <= limit) {
+        height = '100%'
+      } else if (total > limit && total <= limit * 2) {
+        height = '200%'
+      } else if (total > limit * 2 && total <= limit * 3) {
+        height = '300%'
+      } else if (total > limit * 3 && total <= limit * 4) {
+        height = '400%'
+      }
+
+      this.chartStyles = {
+        height,
+        position: 'relative'
+      }
     }
   }
 }

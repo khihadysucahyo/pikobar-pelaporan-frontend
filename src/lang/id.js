@@ -38,7 +38,7 @@ export default {
     tight_contact: 'Kontak Erat',
     make_report: 'Buat Laporan',
     list_identification: 'List Identifikasi',
-    distribution_case_network: 'Kasus Keterkaitan'
+    distribution_case_network: 'Kasus Keterkaitan',
     dashboard_case: 'Kasus COVID-19',
     dashboard_test_result: 'Hasil Tes'
   },
@@ -697,7 +697,7 @@ export default {
     deleted_contact: 'Hapus Kontak',
     update_patient_status: 'Perbaharui Status Pasien',
     interviewed: 'Sudah Diwawancara',
-    not_interviewed: 'Belum Diwawancara'
+    not_interviewed: 'Belum Diwawancara',
     growth: 'Perkembangan',
     total_test_result: 'Jumlah Hasil Tes',
     sample_taken: 'Sample yang diambil',
