@@ -84,6 +84,10 @@
                   item.address_street
                 ) }}</td>
                 <td>
+                  <v-chip v-if="item.is_reported" color="green">{{ $t('label.interviewed') }}</v-chip>
+                  <v-chip v-else>{{ $t('label.not_interviewed') }}</v-chip>
+                </td>
+                <td>
                   <v-btn
                     color="primary"
                     style="height: 40px;min-width: 80px;"
@@ -139,7 +143,8 @@ export default {
         { text: this.$t('label.name').toUpperCase(), value: 'name' },
         { text: this.$t('label.gender').toUpperCase(), value: 'gender' },
         { text: this.$t('label.age').toUpperCase(), value: 'age' },
-        { text: this.$t('label.complete_address').toUpperCase(), value: 'createdAt' },
+        { text: this.$t('label.complete_address').toUpperCase(), value: 'address_street' },
+        { text: this.$t('label.status').toUpperCase(), value: 'is_reported' },
         { text: this.$t('label.action').toUpperCase(), value: 'actions', sortable: false }
       ],
       loading: true,
@@ -155,6 +160,7 @@ export default {
       idCase: '',
       formBody: {},
       listQuery: {
+        is_reported: false,
         page: 0,
         limit: 100,
         search: ''
@@ -163,7 +169,9 @@ export default {
   },
   computed: {
     ...mapGetters('user', [
-      'fullName'
+      'fullName',
+      'district_user',
+      'district_name_user'
     ]),
     ...mapState('closeContactCase', [
       'formCloseContact'
@@ -223,10 +231,13 @@ export default {
       }
       const response = await this.$store.dispatch('closeContactCase/getDetailCloseContactByCase', data)
       if (response.data !== null) {
-        Object.assign(this.formBody, response.data)
+        this.formBody = response.data
         if (response.data.latest_history === null) {
-          this.formBody.latest_history = {}
-          Object.assign(this.formBody.latest_history, latestHistory)
+          this.formBody.latest_history = latestHistory
+        }
+        if (response.data.address_district_code === null) {
+          this.formBody.address_district_code = this.district_user
+          this.formBody.address_district_name = this.district_name_user
         }
         if (response.data.interviewer_name === null) this.formBody.interviewer_name = this.fullName
         if (this.formBody.birth_date !== null) {

@@ -92,7 +92,7 @@
                       {{ item.verified_status === 'declined' ? $t('label.fix_case') : $t('label.view_case_detail') }}
                     </v-list-item>
                     <v-list-item v-if="item.verified_status !== 'declined'" @click="handleEditCase(item._id)">
-                      {{ $t('label.profile_update') }}
+                      {{ $t('label.change_patent_data') }}
                     </v-list-item>
                     <v-list-item v-if="item.verified_status !== 'declined'" @click="handleEditHistoryCase(item._id)">
                       {{ $t('label.update_history') }}

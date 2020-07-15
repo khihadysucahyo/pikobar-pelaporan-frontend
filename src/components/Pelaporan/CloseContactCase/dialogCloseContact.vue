@@ -44,7 +44,7 @@
                     <td>
                       <v-card-actions>
                         <v-menu
-                          :close-on-content-click="false"
+                          :close-on-content-click="true"
                           :nudge-width="100"
                           :nudge-left="220"
                           :nudge-top="40"
@@ -148,11 +148,10 @@
     />
     <dialog-delete
       :dialog="dialogDelete"
-      :data-deleted="dataDelete"
       :dialog-delete.sync="dialogDelete"
+      :data-deleted="dataDelete"
       :delete-date.sync="dataDelete"
       :store-path-delete="`closeContactCase/deleteCloseContact`"
-      :id-data="idCase"
     />
   </v-dialog>
 </template>
@@ -160,6 +159,7 @@
 import { formatDatetime } from '@/utils/parseDatetime'
 import { getAgeWithMonth } from '@/utils/constantVariable'
 import { completeAddress } from '@/utils/utilsFunction'
+import EventBus from '@/utils/eventBus'
 import { mapState, mapGetters } from 'vuex'
 
 export default {
@@ -213,12 +213,13 @@ export default {
   },
   computed: {
     ...mapGetters('user', [
-      'fullName'
+      'fullName',
+      'district_user',
+      'district_name_user'
     ]),
     ...mapState('closeContactCase', [
       'formCloseContact'
-    ]),
-    ...mapGetters('closeContactCase', ['formCloseContact'])
+    ])
   },
   watch: {
     showDialog(value) {
@@ -229,6 +230,12 @@ export default {
       if (!value) {
         this.$emit('update:caseId', '')
         this.$emit('update:uniqueCaseId', '')
+      }
+    },
+    dialogDelete(value) {
+      if (!value) {
+        this.dataDelete = null
+        EventBus.$emit('refreshPageListReport', true)
       }
     }
   },
@@ -248,10 +255,13 @@ export default {
       this.isLoading = true
       const response = await this.$store.dispatch('closeContactCase/getDetailCloseContactByCase', data)
       if (response.data !== null) {
-        Object.assign(this.formBody, response.data)
+        this.formBody = response.data
         if (response.data.latest_history === null) {
-          this.formBody.latest_history = {}
-          Object.assign(this.formBody.latest_history, latestHistory)
+          this.formBody.latest_history = latestHistory
+        }
+        if (response.data.address_district_code === null) {
+          this.formBody.address_district_code = this.district_user
+          this.formBody.address_district_name = this.district_name_user
         }
         if (response.data.interviewer_name === null) this.formBody.interviewer_name = this.fullName
         if (this.formBody.birth_date !== null) {
@@ -286,7 +296,6 @@ export default {
       if (!item.is_reported) {
         this.dialogDelete = true
         this.dataDelete = item
-        this.$emit('update:show', false)
       } else {
         await this.$store.dispatch('toast/errorToast', this.$t('errors.contact_data_cannot_be_deleted'))
       }

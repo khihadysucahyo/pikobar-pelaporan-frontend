@@ -38,6 +38,7 @@ export default {
     tight_contact: 'Kontak Erat',
     make_report: 'Buat Laporan',
     list_identification: 'List Identifikasi',
+    distribution_case_network: 'Kasus Keterkaitan'
     dashboard_case: 'Kasus COVID-19',
     dashboard_test_result: 'Hasil Tes'
   },
@@ -535,7 +536,6 @@ export default {
     change_account: 'Ubah Akun',
     change_password: 'Ganti Password',
     log_out: 'Keluar',
-    distribution_case_network: 'Kasus Keterkaitan',
     relationship_with_primary_cases: 'Hubungan Dengan Kasus Primer',
     primary_case_id_related_case: 'ID Kasus Primer/Kasus Terkait',
     redaction_create_related_case: 'Form laporan di bawah ini mengacu pada lampiran 11 pedoman covid-19 revisi 4',
@@ -696,6 +696,8 @@ export default {
     add_close_contact_data: 'Tambah Data Kontak Erat',
     deleted_contact: 'Hapus Kontak',
     update_patient_status: 'Perbaharui Status Pasien',
+    interviewed: 'Sudah Diwawancara',
+    not_interviewed: 'Belum Diwawancara'
     growth: 'Perkembangan',
     total_test_result: 'Jumlah Hasil Tes',
     sample_taken: 'Sample yang diambil',
@@ -717,7 +719,8 @@ export default {
     verification_success: 'Data berhasil disimpan sebagai kasus baru',
     rejection_success: 'Data berhasil ditolak',
     update_success: 'Data berhasil diperbarui',
-    reference_successfully_deleted: 'Rujukan berhasil dihapus'
+    reference_successfully_deleted: 'Rujukan berhasil dihapus',
+    case_history_data_successfully_updated: 'Data Riwayat Kasus Berhasil Di Perbaharui'
   },
   errors: {
     create_data_errors: 'Data Gagal Dibuat',

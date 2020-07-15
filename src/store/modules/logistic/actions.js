@@ -23,8 +23,8 @@ export default {
       const response = await requestServer('/api/logistics/products', 'GET')
       commit('SET_LIST_APD', response.data)
       return response
-    } catch (e) {
-      return e
+    } catch (error) {
+      return error.response
     }
   },
   async getListApdUnit({ commit }, idAlkes) {
@@ -32,8 +32,8 @@ export default {
       const response = await requestServer(`/api/logistics/product-units/${idAlkes}`, 'GET')
       commit('SET_LIST_APD_UNIT', response)
       return response
-    } catch (e) {
-      return e
+    } catch (error) {
+      return error.response
     }
   }
 }
