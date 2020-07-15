@@ -137,6 +137,8 @@
 <script>
 import { ValidationObserver } from 'vee-validate'
 import { mapGetters } from 'vuex'
+import { rolesPerm, ResponseRequest } from '@/utils/constantVariable'
+
 export default {
   components: {
     ValidationObserver
@@ -157,6 +159,9 @@ export default {
     }
   },
   computed: {
+    ...mapGetters('user', [
+      'roles'
+    ]),
     ...mapGetters('reports', [
       'formPasien'
     ])
@@ -169,17 +174,6 @@ export default {
       const valid = await this.$refs.observer.validate()
       if (!valid) {
         return
-      } else if (this.formPasien.status !== 'OTG' && this.formPasien.first_symptom_date === '') {
-        await this.$store.dispatch('toast/errorToast', this.$t('errors.symptoms_date_must_be_filled'))
-        return
-      } else if (this.formPasien.travel !== '') {
-        if (this.formPasien.start_travel === '') {
-          await this.$store.dispatch('toast/errorToast', this.$t('errors.start_travel_date_must_be_filled'))
-          return
-        } else if (this.formPasien.end_travel === '') {
-          await this.$store.dispatch('toast/errorToast', this.$t('errors.end_travel_date_must_be_filled'))
-          return
-        }
       }
       if (this.formPasien.nik) {
         this.loading = true
@@ -194,10 +188,18 @@ export default {
       }
       try {
         this.formPasien.input_source = 'form app'
-        await this.$store.dispatch('reports/createRevampReportCase', this.formPasien)
-        await this.$store.dispatch('toast/successToast', this.$t('success.create_data_success'))
-        await this.$store.dispatch('reports/resetFormPasien')
-        this.$router.push('/laporan/list')
+        const response = await this.$store.dispatch('reports/createRevampReportCase', this.formPasien)
+        if (response.status !== ResponseRequest.UNPROCESSABLE) {
+          await this.$store.dispatch('toast/successToast', this.$t('success.create_data_success'))
+          await this.$store.dispatch('reports/resetFormPasien')
+          if (this.roles[0] === rolesPerm.FASKES) {
+            await this.$router.push('/laporan/verification')
+          } else {
+            await this.$router.push('/laporan/list')
+          }
+        } else {
+          await this.$store.dispatch('toast/errorToast', response.message)
+        }
       } catch (error) {
         await this.$store.dispatch('toast/errorToast', this.$t('errors.data_failed_to_save'))
       } finally {

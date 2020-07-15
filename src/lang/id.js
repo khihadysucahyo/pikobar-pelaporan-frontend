@@ -706,7 +706,8 @@ export default {
     verification_success: 'Data berhasil disimpan sebagai kasus baru',
     rejection_success: 'Data berhasil ditolak',
     update_success: 'Data berhasil diperbarui',
-    reference_successfully_deleted: 'Rujukan berhasil dihapus'
+    reference_successfully_deleted: 'Rujukan berhasil dihapus',
+    case_history_data_successfully_updated: 'Data Riwayat Kasus Berhasil Di Perbaharui'
   },
   errors: {
     create_data_errors: 'Data Gagal Dibuat',

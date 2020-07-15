@@ -308,6 +308,7 @@
       :show-dialog="dialogHistoryCase"
       :show.sync="dialogHistoryCase"
       :form-riwayat-pasien="formRiwayatPasien"
+      :form-pasien="formPasien"
     />
     <v-dialog v-model="failedDialog" persistent max-width="30%">
       <v-card>
@@ -535,7 +536,9 @@ export default {
     },
     async handleEditHistoryCase(id) {
       this.detail = await this.$store.dispatch('reports/detailHistoryCase', id)
-      await Object.assign(this.formRiwayatPasien, this.detail)
+      const response = await this.$store.dispatch('reports/detailReportCase', id)
+      Object.assign(this.formPasien, response.data)
+      Object.assign(this.formRiwayatPasien, this.detail)
       this.formRiwayatPasien.case = this.detail.case
       if ((this.detail.first_symptom_date !== null) && (this.detail.first_symptom_date !== 'Invalid date')) {
         this.formRiwayatPasien.first_symptom_date = await this.formatDatetime(this.detail.first_symptom_date, this.formatDate)
