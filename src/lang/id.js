@@ -37,7 +37,9 @@ export default {
     daily_report: 'Laporan Harian',
     tight_contact: 'Kontak Erat',
     make_report: 'Buat Laporan',
-    list_identification: 'List Identifikasi'
+    list_identification: 'List Identifikasi',
+    dashboard_case: 'Kasus COVID-19',
+    dashboard_test_result: 'Hasil Tes'
   },
   label: {
     username: 'Username',
@@ -158,6 +160,8 @@ export default {
     invalid: 'Invalid',
     positif: 'Positif',
     rapid_test: 'Rapid Test',
+    rapid_test_id: 'Rapid Tes',
+    rapid: 'Rapid',
     pcr: 'PCR',
     add_contact_data: 'Tambah Data Kontak',
     hand_prix: 'Hand Prix',
@@ -191,6 +195,7 @@ export default {
     deleted_user: 'Hapus Pengguna',
     choose_action: 'Pilih aksi',
     test_result: 'Hasil Test',
+    test_result_id: 'Hasil Tes',
     mechanism: 'Mekanisme',
     method: 'Metode',
     sampling: 'Sampel',
@@ -690,7 +695,15 @@ export default {
     edit_contact_data: 'Edit Data Kontak Erat',
     add_close_contact_data: 'Tambah Data Kontak Erat',
     deleted_contact: 'Hapus Kontak',
-    update_patient_status: 'Perbaharui Status Pasien'
+    update_patient_status: 'Perbaharui Status Pasien',
+    growth: 'Perkembangan',
+    total_test_result: 'Jumlah Hasil Tes',
+    sample_taken: 'Sample yang diambil',
+    comparison: 'Perbandingan',
+    and: 'dan',
+    area: 'Wilayah',
+    target: 'Sasaran',
+    test_already: 'Sudah Tes'
   },
   success: {
     login_success: 'Login Berhasil',
