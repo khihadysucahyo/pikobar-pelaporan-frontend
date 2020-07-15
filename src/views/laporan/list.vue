@@ -525,6 +525,10 @@ export default {
         } else {
           this.formPasien.birth_date = ''
         }
+        if (response.data.age !== null) {
+          this.formPasien.yearsOld = Math.floor(response.data.age)
+          this.formPasien.monthsOld = Math.ceil((response.data.age - Math.floor(response.data.age)) * 12)
+        }
         if (this.formPasien._id) {
           delete this.formPasien['author']
           delete this.formPasien['createdAt']
