@@ -20,11 +20,18 @@
             <v-form ref="form" lazy-validation>
               <v-row align="start">
                 <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}">
-                  <label>{{ $t('label.name') }}</label>
+                  <label class="required">{{ $t('label.name') }}</label>
                 </v-col>
                 <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
-                  <ValidationProvider>
-                    <v-text-field v-model="data.name" solo-inverted />
+                  <ValidationProvider
+                    v-slot="{ errors }"
+                    rules="required"
+                  >
+                    <v-text-field
+                      v-model="data.name"
+                      :error-messages="errors"
+                      solo-inverted
+                    />
                   </ValidationProvider>
                 </v-col>
               </v-row>
