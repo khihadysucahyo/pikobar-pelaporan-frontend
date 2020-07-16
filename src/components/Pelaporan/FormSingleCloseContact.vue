@@ -124,7 +124,7 @@
               <v-row align="center" class="ma-0">
                 <v-col cols="12" sm="6" class="pa-1">
                   <ValidationProvider>
-                    <v-text-field v-model="formCloseContact.rt" class="input-append-btn" type="number" min="0" max="120" solo-inverted>
+                    <v-text-field v-model="formCloseContact.address_rt" class="input-append-btn" type="number" min="0" max="120" solo-inverted>
                       <template v-slot:append>
                         <v-btn depressed tile min-width="20">
                           {{ $t('label.rt') }}
@@ -135,7 +135,7 @@
                 </v-col>
                 <v-col cols="12" sm="6" class="pa-1">
                   <ValidationProvider>
-                    <v-text-field v-model="formCloseContact.rw" class="input-append-btn" type="number" min="0" max="120" solo-inverted>
+                    <v-text-field v-model="formCloseContact.address_rw" class="input-append-btn" type="number" min="0" max="120" solo-inverted>
                       <template v-slot:append>
                         <v-btn depressed tile min-width="20">
                           {{ $t('label.rw') }}
@@ -230,8 +230,8 @@ export default {
         this.formCloseContact.address_subdistrict_name = this.formPasien.address_subdistrict_name
         this.formCloseContact.address_village_code = this.formPasien.address_village_code
         this.formCloseContact.address_village_name = this.formPasien.address_village_name
-        this.formCloseContact.rt = this.formPasien.rt
-        this.formCloseContact.rw = this.formPasien.rw
+        this.formCloseContact.address_rt = this.formPasien.rt
+        this.formCloseContact.address_rw = this.formPasien.rw
         this.formCloseContact.address_street = this.formPasien.address_street
       } else {
         this.formCloseContact.address_district_code = ''
@@ -240,8 +240,8 @@ export default {
         this.formCloseContact.address_subdistrict_name = ''
         this.formCloseContact.address_village_code = ''
         this.formCloseContact.address_village_name = ''
-        this.formCloseContact.rt = ''
-        this.formCloseContact.rw = ''
+        this.formCloseContact.address_rt = ''
+        this.formCloseContact.address_rw = ''
         this.formCloseContact.address_street = ''
       }
     }

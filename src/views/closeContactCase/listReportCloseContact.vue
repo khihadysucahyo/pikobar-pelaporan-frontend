@@ -70,22 +70,18 @@
                 <td>{{ item.name }}</td>
                 <td>
                   <div v-if="item.gender =='P'">
-                    {{ $t('label.female') }}
+                    {{ $t('label.female_initials') }}
                   </div>
                   <div v-else>
-                    {{ $t('label.male') }}
+                    {{ $t('label.male_initials') }}
                   </div>
                 </td>
                 <td>{{ item.age }} Th</td>
-                <td>{{ completeAddress(
-                  item.address_district_name,
-                  item.address_subdistrict_name,
-                  item.address_village_name,
-                  item.address_street
-                ) }}</td>
+                <td>{{ item.phone_number }}</td>
+                <td>{{ item.createdBy.username }}</td>
                 <td>
-                  <v-chip v-if="item.is_reported" color="green">{{ $t('label.interviewed') }}</v-chip>
-                  <v-chip v-else>{{ $t('label.not_interviewed') }}</v-chip>
+                  <label v-if="item.is_reported" style="color: green;">{{ $t('label.interviewed') }}</label>
+                  <label v-else style="color: red;">{{ $t('label.not_interviewed') }}</label>
                 </td>
                 <td>
                   <v-btn
@@ -108,7 +104,7 @@
       :limit.sync="listQuery.limit"
       :on-next="onNext"
     />
-    <dialog-create-close-contact
+    <dialog-report-close-contact
       :show-dialog="showCreateCloseContact"
       :show-form.sync="showCreateCloseContact"
       :title-detail="$t('label.create_closely_contact_reports')"
@@ -141,9 +137,10 @@ export default {
       headers: [
         { text: '#', value: '_id', sortable: false },
         { text: this.$t('label.name').toUpperCase(), value: 'name' },
-        { text: this.$t('label.gender').toUpperCase(), value: 'gender' },
+        { text: this.$t('label.gender_abbreviation').toUpperCase(), value: 'gender' },
         { text: this.$t('label.age').toUpperCase(), value: 'age' },
-        { text: this.$t('label.complete_address').toUpperCase(), value: 'address_street' },
+        { text: this.$t('label.short_phone_number').toUpperCase(), value: 'phone_number' },
+        { text: this.$t('label.author').toUpperCase(), value: 'author' },
         { text: this.$t('label.status').toUpperCase(), value: 'is_reported' },
         { text: this.$t('label.action').toUpperCase(), value: 'actions', sortable: false }
       ],
@@ -240,7 +237,7 @@ export default {
           this.formBody.address_district_name = this.district_name_user
         }
         this.formBody['is_reported'] = true
-        if (response.data.interviewer_name === null) this.formBody.interviewer_name = this.fullName
+        if (response.data.interviewer_name === null || response.data.interviewer_name.length < 1) this.formBody.interviewer_name = this.fullName
         if (this.formBody.birth_date !== null) {
           this.formBody.birth_date = await formatDatetime(this.formBody.birth_date, this.formatDate)
           const age = getAgeWithMonth(this.formBody.birth_date)

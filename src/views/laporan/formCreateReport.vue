@@ -187,6 +187,7 @@ export default {
         }
       }
       delete this.formPasien['_id']
+      delete this.formPasien['id_case']
       try {
         this.formPasien.input_source = 'form app'
         const response = await this.$store.dispatch('reports/createRevampReportCase', this.formPasien)

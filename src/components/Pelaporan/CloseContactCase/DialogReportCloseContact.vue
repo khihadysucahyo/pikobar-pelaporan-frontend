@@ -331,7 +331,7 @@ export default {
           delete this.formBody['is_reported']
           EventBus.$emit('refreshPageListReport', true)
         } else {
-          await this.$store.dispatch('toast/errorToast', this.$t('errors.data_failed_edit'))
+          await this.$store.dispatch('toast/errorToast', response.message)
           this.isLoading = false
         }
       } else {
@@ -347,10 +347,11 @@ export default {
           this.isLoading = false
           EventBus.$emit('refreshPageListReport', true)
         } else {
-          await this.$store.dispatch('toast/errorToast', this.$t('errors.create_data_errors'))
+          await this.$store.dispatch('toast/errorToast', response.message)
           this.isLoading = false
         }
       }
+      this.$refs.observer.reset()
     }
   }
 }

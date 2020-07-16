@@ -146,7 +146,7 @@
                   <v-row align="center" class="ma-0">
                     <v-col cols="12" sm="6" class="pa-1">
                       <ValidationProvider>
-                        <v-text-field v-model="data.rt" class="input-append-btn" type="number" min="0" max="120" solo-inverted>
+                        <v-text-field v-model="data.address_rt" class="input-append-btn" type="number" min="0" max="120" solo-inverted>
                           <template v-slot:append>
                             <v-btn depressed tile min-width="20">
                               {{ $t('label.rt') }}
@@ -157,7 +157,7 @@
                     </v-col>
                     <v-col cols="12" sm="6" class="pa-1">
                       <ValidationProvider>
-                        <v-text-field v-model="data.rw" class="input-append-btn" type="number" min="0" max="120" solo-inverted>
+                        <v-text-field v-model="data.address_rw" class="input-append-btn" type="number" min="0" max="120" solo-inverted>
                           <template v-slot:append>
                             <v-btn depressed tile min-width="20">
                               {{ $t('label.rw') }}
@@ -277,8 +277,8 @@ export default {
         address_subdistrict_name: '',
         address_village_code: '',
         address_village_name: '',
-        rt: '',
-        rw: '',
+        address_rt: '',
+        address_rw: '',
         address_street: '',
         contact_date: ''
       })
@@ -298,8 +298,8 @@ export default {
         this.formPasien.close_contact_patient[index].address_subdistrict_name = this.formPasien.address_subdistrict_name
         this.formPasien.close_contact_patient[index].address_village_code = this.formPasien.address_village_code
         this.formPasien.close_contact_patient[index].address_village_name = this.formPasien.address_village_name
-        this.formPasien.close_contact_patient[index].rt = this.formPasien.rt
-        this.formPasien.close_contact_patient[index].rw = this.formPasien.rw
+        this.formPasien.close_contact_patient[index].address_rt = this.formPasien.rt
+        this.formPasien.close_contact_patient[index].address_rw = this.formPasien.rw
         this.formPasien.close_contact_patient[index].address_street = this.formPasien.address_street
       } else {
         this.formPasien.close_contact_patient[index].address_district_code = ''
@@ -308,8 +308,8 @@ export default {
         this.formPasien.close_contact_patient[index].address_subdistrict_name = ''
         this.formPasien.close_contact_patient[index].address_village_code = ''
         this.formPasien.close_contact_patient[index].address_village_name = ''
-        this.formPasien.close_contact_patient[index].rt = ''
-        this.formPasien.close_contact_patient[index].rw = ''
+        this.formPasien.close_contact_patient[index].address_rt = ''
+        this.formPasien.close_contact_patient[index].address_rw = ''
         this.formPasien.close_contact_patient[index].address_street = ''
       }
     }
