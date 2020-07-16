@@ -6,8 +6,9 @@ import {
 const dashboardRouter = {
   path: '/',
   component: Layout,
-  redirect: 'dashboard',
+  redirect: '/',
   meta: {
+    title: 'dashboard',
     icon: 'dashboard',
     roles: [rolesPerm.ADMIN, rolesPerm.DINKESPROV, rolesPerm.DINKESKOTA]
   },
@@ -17,10 +18,21 @@ const dashboardRouter = {
       path: '/',
       component: () => import('@/views/dashboard/index'),
       meta: {
-        title: 'dashboard',
+        title: 'dashboard_case',
         icon: 'dashboard',
+        child: true,
         noCache: true,
-        affix: true,
+        roles: [rolesPerm.ADMIN, rolesPerm.DINKESPROV, rolesPerm.DINKESKOTA]
+      }
+    },
+    {
+      path: '/dashboard/test-result',
+      component: () => import('@/views/dashboard/testResult'),
+      meta: {
+        title: 'dashboard_test_result',
+        icon: 'dashboard',
+        child: true,
+        noCache: true,
         roles: [rolesPerm.ADMIN, rolesPerm.DINKESPROV, rolesPerm.DINKESKOTA]
       }
     }
