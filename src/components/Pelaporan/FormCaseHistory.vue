@@ -62,13 +62,13 @@
         <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
           <ValidationProvider v-slot="{ errors }" rules="required">
             <v-radio-group
-              v-model="formPasien.according_address"
+              v-model="formPasien.is_patient_address_same"
               :error-messages="errors"
               row
               @change="handleChangeAccordingAddress"
             >
-              <v-radio :label="$t('label.according_address')" :value="1" />
-              <v-radio :label="$t('label.doesnt_according_address')" :value="0" />
+              <v-radio :label="$t('label.according_address')" :value="true" />
+              <v-radio :label="$t('label.doesnt_according_address')" :value="false" />
             </v-radio-group>
           </ValidationProvider>
         </v-col>
@@ -264,7 +264,11 @@
       <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}" />
       <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
         <ValidationProvider>
-          <v-text-field v-model="formPasien.other_diagnosis" :placeholder="$t('label.mention_other_additional_condition')" solo-inverted />
+          <v-text-field
+            v-model="formPasien.other_diagnosis"
+            :placeholder="$t('label.mention_other_additional_diagnosis')"
+            solo-inverted
+          />
         </ValidationProvider>
       </v-col>
     </v-row>
@@ -435,6 +439,11 @@ export default {
       'fullName'
     ])
   },
+  watch: {
+    'formPasien.according_address'(value) {
+      this.handleChangeAccordingAddress(value)
+    }
+  },
   async mounted() {
     const paramHospitalWestJava = { 'rs_jabar': true }
     const paramHospitalNonWestJava = { 'rs_jabar': false }
@@ -471,7 +480,7 @@ export default {
       }
     },
     handleChangeAccordingAddress(value) {
-      if (value === 1) {
+      if (value) {
         this.formPasien.current_location_district_code = this.formPasien.address_district_code
         this.formPasien.current_location_subdistrict_code = this.formPasien.address_subdistrict_code
         this.formPasien.current_location_village_code = this.formPasien.address_village_code

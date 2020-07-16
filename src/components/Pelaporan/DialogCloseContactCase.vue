@@ -112,18 +112,18 @@ export default {
       if (!this.isEdit) {
         const updateFinalCloseContact = {
           id: this.idCase,
-          data: this.formCloseContact
+          data: [this.formCloseContact]
         }
         const response = await this.$store.dispatch('reports/addCloseContact', updateFinalCloseContact)
         this.loading = false
         if (response && (response.status === 200 || response.status === 201)) {
-          await this.$store.dispatch('closeContactCase/resetStateCloseContactCase')
           await this.$store.dispatch('toast/successToast', this.$t('success.create_data_success'))
           this.dataCloseContact = []
         } else {
           this.dataCloseContact = []
           await this.$store.dispatch('toast/errorToast', this.$t('errors.data_failed_to_save'))
         }
+        await this.$store.dispatch('closeContactCase/resetStateCloseContactCase')
         this.$emit('update:showFormAddCloseContact', false)
         EventBus.$emit('refreshPageListReport', true)
       } else {
@@ -134,14 +134,15 @@ export default {
         const response = await this.$store.dispatch('reports/updateCloseContact', updateFinalCloseContact)
         this.loading = false
         if (response.status === 200 || response.status === 201) {
-          await this.$store.dispatch('closeContactCase/resetStateCloseContactCase')
           await this.$store.dispatch('toast/successToast', this.$t('success.data_success_edit'))
         } else {
           await this.$store.dispatch('toast/errorToast', this.$t('errors.data_failed_edit'))
         }
+        await this.$store.dispatch('closeContactCase/resetStateCloseContactCase')
         this.$emit('update:showFormAddCloseContact', false)
         EventBus.$emit('refreshPageListReport', true)
       }
+      this.$refs.observer.reset()
     }
   }
 }

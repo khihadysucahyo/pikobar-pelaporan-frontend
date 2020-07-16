@@ -323,6 +323,7 @@ export default {
     chronic_liver_failure: 'Gagal Hati Kronis',
     ppok: 'PPOK',
     mention_other_additional_condition: 'Sebutkan kondisi penyerta lainnya (jika ada)',
+    mention_other_additional_diagnosis: 'Sebutkan diagnosis penyerta lainnya (jika ada)',
     being_checked: 'Diperiksa',
     declined: 'Ditolak',
     decline: 'Tolak',

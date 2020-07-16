@@ -289,9 +289,9 @@ export default {
       const data = {
         idCloseContact: id
       }
-      this.isEditCloseContact = true
       const response = await this.$store.dispatch('closeContactCase/getDetailCloseContactByCase', data)
       Object.assign(this.formCloseContact, response.data)
+      this.isEditCloseContact = true
       this.showCloseContact = true
     },
     async handleDeleteCloseContact(item) {
