@@ -239,6 +239,7 @@ export default {
           this.formBody.address_district_code = this.district_user
           this.formBody.address_district_name = this.district_name_user
         }
+        this.formBody['is_reported'] = true
         if (response.data.interviewer_name === null) this.formBody.interviewer_name = this.fullName
         if (this.formBody.birth_date !== null) {
           this.formBody.birth_date = await formatDatetime(this.formBody.birth_date, this.formatDate)

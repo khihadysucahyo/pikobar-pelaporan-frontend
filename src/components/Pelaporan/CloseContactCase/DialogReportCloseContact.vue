@@ -241,7 +241,7 @@ import EventBus from '@/utils/eventBus'
 import { mapState } from 'vuex'
 
 export default {
-  name: 'DialogCreateCloseContact',
+  name: 'DialogReportCloseContact',
   components: {
     ValidationObserver
   },
@@ -316,11 +316,6 @@ export default {
       delete this.formBody['yearsOld']
       if (this.isEdit) {
         const idCloseContact = this.formBody._id
-        delete this.formBody['updatedBy']
-        delete this.formBody['updatedAt']
-        delete this.formBody['createdBy']
-        delete this.formBody['createdAt']
-        delete this.formBody['is_reported']
         delete this.formBody['case']
         delete this.formBody['_id']
         const data = {
@@ -333,6 +328,7 @@ export default {
           await this.$store.dispatch('closeContactCase/resetStateCloseContactCase')
           this.showForm = false
           this.isLoading = false
+          delete this.formBody['is_reported']
           EventBus.$emit('refreshPageListReport', true)
         } else {
           await this.$store.dispatch('toast/errorToast', this.$t('errors.data_failed_edit'))

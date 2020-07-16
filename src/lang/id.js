@@ -698,6 +698,7 @@ export default {
     update_patient_status: 'Perbaharui Status Pasien',
     interviewed: 'Sudah Diwawancara',
     not_interviewed: 'Belum Diwawancara',
+    same_house_as_patient: 'Rumah sama dengan pasien',
     growth: 'Perkembangan',
     total_test_result: 'Jumlah Hasil Tes',
     sample_taken: 'Sample yang diambil',
