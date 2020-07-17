@@ -4,7 +4,7 @@
       ref="form"
       lazy-validation
     >
-      <v-row align="start">
+      <v-row align="start" class="pb-4">
         <v-col
           cols="12"
           md="3"
@@ -17,7 +17,7 @@
           cols="12"
           md="9"
           sm="12"
-          :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
+          :class="{'py-0 pb-4': $vuetify.breakpoint. smAndDown}"
         >
           <ValidationProvider
             v-slot="{ errors }"
@@ -137,7 +137,7 @@
               :error-messages="errors"
               type="number"
               min="0"
-              max="30"
+              max="120"
               solo-inverted
               oninput="if(Number(this.value) > Number(this.max)) this.value = this.max"
               class="input-append-btn"

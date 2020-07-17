@@ -47,8 +47,8 @@ export default {
     try {
       const response = await requestServer('/api/users/change-password', 'PUT', data)
       return response
-    } catch (e) {
-      return e
+    } catch (error) {
+      return error.response
     }
   },
 
@@ -56,8 +56,8 @@ export default {
     try {
       const response = await requestServer('/api/users', 'POST', data)
       return response
-    } catch (e) {
-      return e
+    } catch (error) {
+      return error.response
     }
   },
 
@@ -67,9 +67,8 @@ export default {
     try {
       const response = await requestServer(`/api/users/${id}`, 'PUT', data.data)
       return response
-    } catch (e) {
-      // console.log(e.response.data)
-      return e
+    } catch (error) {
+      return error.response
     }
   },
 
@@ -84,8 +83,8 @@ export default {
         commit('SET_LIST_USER', response.data.users)
       }
       return response
-    } catch (e) {
-      return e
+    } catch (error) {
+      return error.response
     }
   },
 
@@ -93,8 +92,8 @@ export default {
     try {
       const response = await requestServer(`/api/users/${id}`, 'GET')
       return response
-    } catch (e) {
-      return e
+    } catch (error) {
+      return error.response
     }
   },
 
@@ -102,8 +101,8 @@ export default {
     try {
       const response = await requestServer(`/api/users/info`, 'GET')
       return response
-    } catch (e) {
-      return e
+    } catch (error) {
+      return error.response
     }
   },
 
@@ -120,8 +119,8 @@ export default {
     try {
       const response = await requestServer('/api/users/check', 'GET', params)
       return response
-    } catch (e) {
-      return e
+    } catch (error) {
+      return error.response
     }
   },
 

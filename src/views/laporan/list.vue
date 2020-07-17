@@ -182,7 +182,7 @@
                 <td>{{ item.name }}</td>
                 <td>{{ item.age }} Th</td>
                 <td>
-                  <div v-if="item.gender =='P'">
+                  <div v-if="item.gender ==='P'">
                     {{ $t('label.female_initials') }}
                   </div>
                   <div v-else>
@@ -192,7 +192,7 @@
                 <td>{{ item.phone_number }}</td>
                 <td><status :status="item.status" /> </td>
                 <td>
-                  <div v-if=" item.last_history.stage =='0'">
+                  <div v-if=" item.stage === '0'">
                     {{ $t('label.process') }}
                   </div>
                   <div v-else>
@@ -200,13 +200,13 @@
                   </div>
                 </td>
                 <td>
-                  <div v-if=" item.last_history.final_result =='0'">
+                  <div v-if=" item.final_result ==='0'">
                     {{ $t('label.negatif') }}
                   </div>
-                  <div v-else-if=" item.last_history.final_result =='1'">
+                  <div v-else-if=" item.final_result ==='1'">
                     {{ $t('label.recovery') }}
                   </div>
-                  <div v-else-if=" item.last_history.final_result =='2'">
+                  <div v-else-if=" item.final_result ==='2'">
                     {{ $t('label.dead') }}
                   </div>
                   <div v-else>
@@ -308,6 +308,7 @@
       :show-dialog="dialogHistoryCase"
       :show.sync="dialogHistoryCase"
       :form-riwayat-pasien="formRiwayatPasien"
+      :form-pasien="formPasien"
     />
     <v-dialog v-model="failedDialog" persistent max-width="30%">
       <v-card>
@@ -516,24 +517,36 @@ export default {
       this.dialogDetailCase = true
     },
     async handleEditCase(id) {
-      this.detail = await this.$store.dispatch('reports/detailReportCase', id)
-      await Object.assign(this.formPasien, this.detail.data)
-      if (this.detail.data.birth_date) {
-        this.formPasien.birth_date = await this.formatDatetime(this.detail.data.birth_date, this.formatDate)
-      } else {
-        this.formPasien.birth_date = ''
-      }
-      if (this.formPasien._id) {
-        delete this.formPasien['author']
-        delete this.formPasien['createdAt']
-        delete this.formPasien['updatedAt']
-        delete this.formPasien['last_history']
+      const response = await this.$store.dispatch('reports/detailReportCase', id)
+      if (response.data !== null) {
+        Object.assign(this.formPasien, response.data)
+        if (response.data.birth_date !== null) {
+          this.formPasien.birth_date = await this.formatDatetime(response.data.birth_date, this.formatDate)
+        } else {
+          this.formPasien.birth_date = ''
+        }
+        if (response.data.age !== null) {
+          this.formPasien.yearsOld = Math.floor(response.data.age)
+          this.formPasien.monthsOld = Math.ceil((response.data.age - Math.floor(response.data.age)) * 12)
+        }
+        if (this.formPasien._id) {
+          delete this.formPasien['author']
+          delete this.formPasien['createdAt']
+          delete this.formPasien['updatedAt']
+          delete this.formPasien['last_history']
+        }
       }
       this.dialogUpdateCase = true
     },
     async handleEditHistoryCase(id) {
       this.detail = await this.$store.dispatch('reports/detailHistoryCase', id)
-      await Object.assign(this.formRiwayatPasien, this.detail)
+      const response = await this.$store.dispatch('reports/detailReportCase', id)
+      this.detail['address_district_code'] = response.data.address_district_code
+      this.detail['address_subdistrict_code'] = response.data.address_subdistrict_code
+      this.detail['address_village_code'] = response.data.address_village_code
+      this.detail['address_village_name'] = response.data.address_village_name
+      this.detail['address_street'] = response.data.address_street
+      Object.assign(this.formRiwayatPasien, this.detail)
       this.formRiwayatPasien.case = this.detail.case
       if ((this.detail.first_symptom_date !== null) && (this.detail.first_symptom_date !== 'Invalid date')) {
         this.formRiwayatPasien.first_symptom_date = await this.formatDatetime(this.detail.first_symptom_date, this.formatDate)

@@ -37,7 +37,10 @@ export default {
     daily_report: 'Laporan Harian',
     tight_contact: 'Kontak Erat',
     make_report: 'Buat Laporan',
-    list_identification: 'List Identifikasi'
+    list_identification: 'List Identifikasi',
+    distribution_case_network: 'Kasus Keterkaitan',
+    dashboard_case: 'Kasus COVID-19',
+    dashboard_test_result: 'Hasil Tes'
   },
   label: {
     username: 'Username',
@@ -158,6 +161,8 @@ export default {
     invalid: 'Invalid',
     positif: 'Positif',
     rapid_test: 'Rapid Test',
+    rapid_test_id: 'Rapid Tes',
+    rapid: 'Rapid',
     pcr: 'PCR',
     add_contact_data: 'Tambah Data Kontak',
     hand_prix: 'Hand Prix',
@@ -191,6 +196,7 @@ export default {
     deleted_user: 'Hapus Pengguna',
     choose_action: 'Pilih aksi',
     test_result: 'Hasil Test',
+    test_result_id: 'Hasil Tes',
     mechanism: 'Mekanisme',
     method: 'Metode',
     sampling: 'Sampel',
@@ -322,6 +328,7 @@ export default {
     chronic_liver_failure: 'Gagal Hati Kronis',
     ppok: 'PPOK',
     mention_other_additional_condition: 'Sebutkan kondisi penyerta lainnya (jika ada)',
+    mention_other_additional_diagnosis: 'Sebutkan diagnosis penyerta lainnya (jika ada)',
     being_checked: 'Diperiksa',
     declined: 'Ditolak',
     decline: 'Tolak',
@@ -530,7 +537,6 @@ export default {
     change_account: 'Ubah Akun',
     change_password: 'Ganti Password',
     log_out: 'Keluar',
-    distribution_case_network: 'Kasus Keterkaitan',
     relationship_with_primary_cases: 'Hubungan Dengan Kasus Primer',
     primary_case_id_related_case: 'ID Kasus Primer/Kasus Terkait',
     redaction_create_related_case: 'Form laporan di bawah ini mengacu pada lampiran 11 pedoman covid-19 revisi 4',
@@ -690,7 +696,18 @@ export default {
     edit_contact_data: 'Edit Data Kontak Erat',
     add_close_contact_data: 'Tambah Data Kontak Erat',
     deleted_contact: 'Hapus Kontak',
-    update_patient_status: 'Perbaharui Status Pasien'
+    update_patient_status: 'Perbaharui Status Pasien',
+    interviewed: 'Sudah Diwawancara',
+    not_interviewed: 'Belum Diwawancara',
+    same_house_as_patient: 'Rumah sama dengan pasien',
+    growth: 'Perkembangan',
+    total_test_result: 'Jumlah Hasil Tes',
+    sample_taken: 'Sample yang diambil',
+    comparison: 'Perbandingan',
+    and: 'dan',
+    area: 'Wilayah',
+    target: 'Sasaran',
+    test_already: 'Sudah Tes'
   },
   success: {
     login_success: 'Login Berhasil',
@@ -704,7 +721,8 @@ export default {
     verification_success: 'Data berhasil disimpan sebagai kasus baru',
     rejection_success: 'Data berhasil ditolak',
     update_success: 'Data berhasil diperbarui',
-    reference_successfully_deleted: 'Rujukan berhasil dihapus'
+    reference_successfully_deleted: 'Rujukan berhasil dihapus',
+    case_history_data_successfully_updated: 'Data Riwayat Kasus Berhasil Di Perbaharui'
   },
   errors: {
     create_data_errors: 'Data Gagal Dibuat',

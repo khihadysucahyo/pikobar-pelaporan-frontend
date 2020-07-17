@@ -15,6 +15,7 @@ const getDefaultState = () => {
       yearsOld: '',
       month: '',
       gender: '',
+      is_patient_address_same: false,
       address_province_code: '32',
       address_province_name: 'Jawa Barat',
       address_district_code: '',

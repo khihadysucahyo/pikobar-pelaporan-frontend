@@ -96,10 +96,10 @@ export default {
       await this.$emit('update:dialogDelete', false)
       await this.$emit('update:deletedData', {})
       await this.$store.dispatch('toast/successToast', this.$t('success.data_success_delete'))
-      if (this.storePathResetList) {
+      if (this.storePathResetList !== null) {
         await this.$store.dispatch(this.storePathResetList)
       }
-      if (this.idData) {
+      if (this.idData !== null) {
         await this.$store.dispatch(this.storePathGetList, this.idData)
       }
       if (this.listQuery) {

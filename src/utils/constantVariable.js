@@ -219,11 +219,11 @@ export const answerList = [
 
 export const yesOrNoAnswer = [
   {
-    value: 1,
+    value: true,
     text: i18n.t('label.yes')
   },
   {
-    value: 0,
+    value: false,
     text: i18n.t('label.not')
   }
 ]
