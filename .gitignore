@@ -11,6 +11,7 @@ yarn-error.log*
 selenium-debug.log
 
 # Editor directories and files
+.scannerwork/
 .idea
 .vscode
 .env
