@@ -122,7 +122,12 @@ export default {
         'OTG',
         'ODP',
         'PDP',
-        'POSITIF'
+        'POSITIF',
+        'CLOSECONTACT',
+        'SUSPECT',
+        'PROBABEL',
+        'CONFIRMATION',
+        'DISCARDED'
       ],
       stageList: [
         {
@@ -136,16 +141,20 @@ export default {
       ],
       resultList: [
         {
-          label: this.$t('label.negatif'),
-          value: 0
+          label: this.$t('label.still_sick'),
+          value: 3
+        },
+        {
+          label: this.$t('label.dead'),
+          value: 2
         },
         {
           label: this.$t('label.recovery'),
           value: 1
         },
         {
-          label: this.$t('label.dead'),
-          value: 2
+          label: this.$t('label.negatif'),
+          value: 0
         }
       ]
     }

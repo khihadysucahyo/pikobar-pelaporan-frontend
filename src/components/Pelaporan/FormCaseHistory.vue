@@ -8,39 +8,39 @@
         <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
           <ValidationProvider v-slot="{ errors }" rules="required">
             <v-radio-group v-model="formPasien.status" :error-messages="errors" row>
-              <v-radio :label="$t('label.OTG')" value="OTG" />
-              <v-radio :label="$t('label.ODP')" value="ODP" />
-              <v-radio :label="$t('label.PDP')" value="PDP" />
-              <v-radio :label="$t('label.positif').toUpperCase()" value="POSITIF" />
+              <v-radio :label="$t('route.tight_contact')" value="CLOSECONTACT" />
+              <v-radio :label="$t('label.suspect')" value="SUSPECT" />
+              <v-radio :label="$t('label.probable')" value="PROBABEL" />
+              <v-radio :label="$t('label.confirmation')" value="CONFIRMATION" />
+              <v-radio :label="$t('label.discarded')" value="DISCARDED" />
             </v-radio-group>
           </ValidationProvider>
         </v-col>
       </v-row>
       <v-row align="center">
         <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}">
-          <label class="required">{{ $t('label.stages') }}</label>
-        </v-col>
-        <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
-          <ValidationProvider v-slot="{ errors }" rules="required">
-            <v-radio-group v-model="formPasien.stage" :error-messages="errors" row>
-              <v-radio :label="$t('label.process')" value="0" />
-              <v-radio :label="$t('label.done')" value="1" />
-            </v-radio-group>
-          </ValidationProvider>
-        </v-col>
-      </v-row>
-      <v-row v-if="formPasien.stage === '1'" align="center">
-        <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}">
-          <label>{{ $t('label.results') }}</label>
+          <label>{{ $t('label.latest_patient_status') }}</label>
         </v-col>
         <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
           <ValidationProvider v-slot="{ errors }">
             <v-radio-group v-model="formPasien.final_result" :error-messages="errors" row>
-              <v-radio v-if="formPasien.status !== 'POSITIF'" :label="$t('label.negatif')" value="0" @click.prevent="uncheck('0')" />
-              <v-radio :label="$t('label.recovery')" value="1" @click.prevent="uncheck('1')" />
+              <v-radio :label="$t('label.still_sick')" value="3" @click.prevent="uncheck('3')" />
               <v-radio :label="$t('label.dead')" value="2" @click.prevent="uncheck('2')" />
+              <v-radio :label="$t('label.recovery')" value="1" @click.prevent="uncheck('1')" />
             </v-radio-group>
           </ValidationProvider>
+        </v-col>
+      </v-row>
+      <v-row align="center">
+        <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}" />
+        <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
+          <input-date-picker
+            :format-date="formatDate"
+            :date-value="formPasien.last_date_status_patient"
+            :value-date.sync="formPasien.last_date_status_patient"
+            :label="$t('label.select_date_last_status')"
+            @changeDate="formPasien.last_date_status_patient = $event"
+          />
         </v-col>
       </v-row>
       <v-row align="center">
@@ -137,14 +137,27 @@
           </ValidationProvider>
         </v-col>
       </v-row>
+      <v-row align="center">
+        <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}">
+          <label>{{ $t('label.there_symptoms') }}</label>
+        </v-col>
+        <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
+          <ValidationProvider v-slot="{ errors }">
+            <v-radio-group v-model="formPasien.there_are_symptoms" :error-messages="errors" row>
+              <v-radio :label="$t('label.yes')" :value="true" />
+              <v-radio :label="$t('label.no')" :value="false" />
+            </v-radio-group>
+          </ValidationProvider>
+        </v-col>
+      </v-row>
       <v-row align="start">
         <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}">
-          <label :class="formPasien.status !== 'OTG' ? 'required' : ''">{{ $t('label.date_symptoms') }}</label>
+          <label :class="formPasien.there_are_symptoms ? 'required' : ''">{{ $t('label.date_symptoms') }}</label>
         </v-col>
         <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
           <input-date-picker
             :format-date="formatDate"
-            :required="true"
+            :required="formPasien.there_are_symptoms ? true:false"
             :date-value="formPasien.first_symptom_date"
             :value-date.sync="formPasien.first_symptom_date"
             @changeDate="formPasien.first_symptom_date = $event"
@@ -153,10 +166,10 @@
       </v-row>
       <v-row align="start">
         <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}">
-          <label :class="formPasien.status !== 'OTG' ? 'required' : ''">{{ $t('label.symptoms') }}</label>
+          <label :class="formPasien.there_are_symptoms ? 'required' : ''">{{ $t('label.symptoms') }}</label>
         </v-col>
         <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
-          <ValidationProvider v-slot="{ errors }" :rules="formPasien.status !== 'OTG' ? 'required' : ''">
+          <ValidationProvider v-slot="{ errors }" :rules="formPasien.there_are_symptoms ? 'required' : ''">
             <v-row>
               <v-col v-for="item in symptomOptions" :key="item" cols="6" sm="6" md="4">
                 <label class="material-checkbox-custom">
