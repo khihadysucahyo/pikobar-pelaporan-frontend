@@ -21,7 +21,7 @@
         >
           <ValidationProvider>
             <input-date-picker
-              :format-date="'YYYY/MM/DD'"
+              :format-date="formatDate"
               :date-value="formBody.home_contact_date"
               :value-date.sync="formBody.home_contact_date"
               @changeDate="formBody.home_contact_date = $event"
