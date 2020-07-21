@@ -374,7 +374,7 @@ export default {
         { text: this.$t('label.status').toUpperCase(), value: 'status' },
         { text: this.$t('label.results').toUpperCase(), value: 'final_result' },
         { text: this.$t('label.author').toUpperCase(), value: 'author' },
-        { text: this.$t('label.last_updated_date').toUpperCase(), value: 'createdAt' },
+        { text: this.$t('label.last_updated_date').toUpperCase(), value: 'updatedAt' },
         { text: this.$t('label.action'), value: 'actions', sortable: false }
       ],
       loading: true,
@@ -465,7 +465,7 @@ export default {
           } else if ((value.sortBy[0] !== undefined) && (!value.sortDesc[0])) {
             this.listQuery.sort[value.sortBy[0]] = 'asc'
           } else {
-            this.listQuery.sort['createdAt'] = 'desc'
+            this.listQuery.sort['updatedAt'] = 'desc'
           }
 
           if (Object.keys(this.listQuery.sort).length > 0) {
