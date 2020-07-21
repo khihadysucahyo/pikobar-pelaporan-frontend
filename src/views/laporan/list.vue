@@ -140,7 +140,7 @@
           </div>
         </v-col>
         <v-col cols="12" sm="4" class="align-right">
-          <v-btn
+          <!-- <v-btn
             v-if="roles[0] !== 'faskes'"
             color="#b3e2cd"
             class="btn-import-export margin-right"
@@ -151,7 +151,7 @@
               mdi-download
             </v-icon>
             {{ $t('label.import') }}
-          </v-btn>
+          </v-btn> -->
           <v-btn
             class="btn-import-export margin-left"
             color="#b3e2cd"
@@ -402,7 +402,7 @@ export default {
         start_date: '',
         end_date: '',
         verified_status: 'verified',
-        sort: {}
+        sort: 'updatedAt:asc'
       },
       countingReports: null,
       dialog: false,
@@ -461,11 +461,11 @@ export default {
       handler: function(value) {
         if (value.sortBy !== undefined) {
           if ((value.sortBy[0] !== undefined) && (value.sortDesc[0])) {
-            this.listQuery.sort[value.sortBy[0]] = 'desc'
+            this.listQuery.sort = 'updatedAt:desc'
           } else if ((value.sortBy[0] !== undefined) && (!value.sortDesc[0])) {
-            this.listQuery.sort[value.sortBy[0]] = 'asc'
+            this.listQuery.sort = 'updatedAt:asc'
           } else {
-            this.listQuery.sort['updatedAt'] = 'desc'
+            this.listQuery.sort = 'updatedAt:desc'
           }
 
           if (Object.keys(this.listQuery.sort).length > 0) {
