@@ -180,7 +180,7 @@
                 <td>{{ getTableRowNumbering(index) }}</td>
                 <td>{{ item.id_case ? item.id_case.toUpperCase() : '-' }}</td>
                 <td>{{ item.name }}</td>
-                <td>{{ item.age }} Th</td>
+                <td>{{ getAge(item.age) }}</td>
                 <td>
                   <div v-if="item.gender ==='P'">
                     {{ $t('label.female_initials') }}
@@ -191,14 +191,6 @@
                 </td>
                 <td>{{ item.phone_number }}</td>
                 <td><status :status="item.status" /> </td>
-                <td>
-                  <div v-if=" item.stage === '0'">
-                    {{ $t('label.process') }}
-                  </div>
-                  <div v-else>
-                    {{ $t('label.done') }}
-                  </div>
-                </td>
                 <td>
                   <div v-if=" item.final_result ==='0'">
                     {{ $t('label.negatif') }}
@@ -214,7 +206,7 @@
                   </div>
                 </td>
                 <td>{{ item.author.username }}</td>
-                <td>{{ item.createdAt ? formatDatetime(item.createdAt, 'DD MMMM YYYY') : '-' }}</td>
+                <td>{{ item.last_history ? formatDatetime(item.last_history.last_changed, 'DD MMMM YYYY') : '-' }}</td>
                 <td>
                   <v-card-actions>
                     <v-menu
@@ -380,10 +372,9 @@ export default {
         { text: this.$t('label.gender_abbreviation').toUpperCase(), value: 'gender' },
         { text: this.$t('label.short_phone_number').toUpperCase(), value: 'phone_number' },
         { text: this.$t('label.status').toUpperCase(), value: 'status' },
-        { text: this.$t('label.stages').toUpperCase(), value: 'stage' },
         { text: this.$t('label.results').toUpperCase(), value: 'final_result' },
         { text: this.$t('label.author').toUpperCase(), value: 'author' },
-        { text: this.$t('label.input_date').toUpperCase(), value: 'createdAt' },
+        { text: this.$t('label.last_updated_date').toUpperCase(), value: 'createdAt' },
         { text: this.$t('label.action'), value: 'actions', sortable: false }
       ],
       loading: true,
@@ -598,6 +589,12 @@ export default {
       const dateNow = Date.now()
       const fileName = `Data Kasus ${this.fullName} - ${formatDatetime(dateNow, 'DD/MM/YYYY HH:mm')} WIB.xlsx`
       FileSaver.saveAs(response, fileName)
+    },
+    getAge(value) {
+      const yearsOld = Math.floor(value)
+      const monthsOld = Math.ceil((value - Math.floor(value)) * 12)
+      const age = `${yearsOld} ${this.$t('label.year')} ${monthsOld} ${this.$t('label.month')}`
+      return age
     }
   }
 }

@@ -709,6 +709,7 @@ export default {
     total_test_result: 'Jumlah Hasil Tes',
     sample_taken: 'Sample yang diambil',
     latest_patient_status: 'Status Pasien Terakhir',
+    last_updated_date: 'Tanggal Diperbaharui Terakhir',
     select_date_last_status: 'Pilih Tanggal Update Status Terakhir',
     there_symptoms: 'Terdapat Gejala',
     comparison: 'Perbandingan',
