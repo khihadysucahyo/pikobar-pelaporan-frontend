@@ -25,7 +25,7 @@
       {{ status }}
     </v-chip>
     <v-chip
-      v-if="status === 'CLOSECONTACT'"
+      v-else-if="status === 'CLOSECONTACT'"
       class="ma-2"
       color="rgb(82, 143, 196)"
       outlined
