@@ -39,7 +39,8 @@ export default {
     make_report: 'Buat Laporan',
     list_identification: 'List Identifikasi',
     distribution_case_network: 'Kasus Keterkaitan',
-    dashboard_case: 'Kasus COVID-19',
+    dashboard_case: 'Kasus Lama',
+    dashboard_case_new: 'Kasus Baru',
     dashboard_test_result: 'Hasil Tes'
   },
   label: {
@@ -716,7 +717,17 @@ export default {
     and: 'dan',
     area: 'Wilayah',
     target: 'Sasaran',
-    test_already: 'Sudah Tes'
+    test_already: 'Sudah Tes',
+    case: 'Kasus',
+    total_case_confirmed: 'Jumlah Kasus Terkonfirmasi',
+    isolation_still_sick: 'Isolasi/Masih Sakit',
+    self_isolation: 'Isolasi Mandiri',
+    hospital_isolation: 'Isolasi Rumah Sakit',
+    finished_isolation_recovery: 'Selesai Isolasi/Sembuh',
+    of_the_total_confirmed_cases: 'Dari Total Kasus Terkonfirmasi',
+    total_probable: 'Total Probable',
+    total_suspect: 'Total Suspek',
+    total_close_contact: 'Total Kontak Erat'
   },
   success: {
     login_success: 'Login Berhasil',
