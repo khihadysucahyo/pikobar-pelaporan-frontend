@@ -160,7 +160,9 @@ export default {
   },
   computed: {
     ...mapGetters('user', [
-      'roles'
+      'roles',
+      'fullName',
+      'phoneNumber'
     ]),
     ...mapGetters('reports', [
       'formPasien'
@@ -168,6 +170,9 @@ export default {
   },
   mounted() {
     this.$store.dispatch('reports/resetFormPasien')
+    this.formPasien.interviewers_name = this.fullName
+    this.formPasien.interviewers_phone_number = this.phoneNumber
+    this.formPasien.interview_date = this.$moment().format()
   },
   methods: {
     async saveData() {

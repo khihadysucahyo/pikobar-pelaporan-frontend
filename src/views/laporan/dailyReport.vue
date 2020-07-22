@@ -64,13 +64,14 @@
       <v-card
         outlined
       >
-        <daily-report-table
+        <daily-report-table-revamp />
+        <!-- <daily-report-table
           :list="list"
           :table-headers="headers"
           :list-query="listQuery"
-        />
+        /> -->
       </v-card>
-      <v-row>
+      <!-- <v-row>
         <v-col
           auto
         >
@@ -126,7 +127,7 @@
             :age="listTotal.positif_by_usia"
           />
         </v-col>
-      </v-row>
+      </v-row> -->
     </div>
   </div>
 </template>
@@ -135,11 +136,9 @@
 import { mapGetters } from 'vuex'
 import FileSaver from 'file-saver'
 import { formatDatetime } from '@/utils/parseDatetime'
-import CardRepotDaily from '../../components/Pelaporan/CardRepotDaily'
 
 export default {
   name: 'DailyReport',
-  components: { CardRepotDaily },
   data() {
     return {
       formatDate: 'YYYY-MM-DD',

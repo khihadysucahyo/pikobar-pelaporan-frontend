@@ -483,10 +483,8 @@ export default {
         this.getListCloseContactByCase(this.idCase)
       }
     })
-    // Sementara dibuat komentar
-    // if (this.roles[0] === 'dinkeskota') this.listQuery.address_district_code = this.district_user
-    // Sementara dibuat komentar
-    // this.queryReportCase.address_district_code = this.district_user
+    if (rolesWidget['dinkesKotaAndFaskes'].includes(this.roles[0])) this.listQuery.address_district_code = this.district_user
+    this.queryReportCase.address_district_code = this.district_user
     await this.$store.dispatch('reports/listReportCase', this.listQuery)
     const response = await this.$store.dispatch('reports/countReportCase', this.queryReportCase)
     if (response) this.loading = false

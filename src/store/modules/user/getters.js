@@ -14,6 +14,9 @@ export default {
   fullName: (state, getters) => {
     return state.fullName
   },
+  phoneNumber: (state, getters) => {
+    return state.phoneNumber
+  },
   unitName: (state, getters) => {
     return state.unitName
   },
