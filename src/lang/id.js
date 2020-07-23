@@ -728,7 +728,8 @@ export default {
     of_the_total_confirmed_cases: 'Dari Total Kasus Terkonfirmasi',
     total_probable: 'Total Probable',
     total_suspect: 'Total Suspek',
-    total_close_contact: 'Total Kontak Erat'
+    total_close_contact: 'Total Kontak Erat',
+    total_test_result: 'Total Hasil Tes'
   },
   success: {
     login_success: 'Login Berhasil',
