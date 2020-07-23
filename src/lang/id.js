@@ -496,6 +496,7 @@ export default {
     received: 'Diterima',
     waiting: 'Menunggu',
     rejected: 'Ditolak',
+    click_here: 'Klik Disini',
     click_here_if_patient_has_already_recorded: 'Klik disini apabila pasien sudah terdata',
     click_here_if_patient_has_not_been_recorded: 'Klik disini apabila pasien belum terdata',
     patient_search: 'Cari Pasien',
