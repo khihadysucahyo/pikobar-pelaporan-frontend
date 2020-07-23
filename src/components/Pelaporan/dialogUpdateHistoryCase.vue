@@ -25,7 +25,7 @@
                     </v-expansion-panel-header>
                     <v-divider />
                     <v-expansion-panel-content>
-                      <form-case-history :form-pasien="formRiwayatPasien" />
+                      <form-case-history :form-pasien.sync="formRiwayatPasien" />
                     </v-expansion-panel-content>
                   </v-expansion-panel>
                 </v-expansion-panels>
@@ -78,10 +78,6 @@ export default {
     showDialog: {
       type: Boolean,
       default: false
-    },
-    formPasien: {
-      type: Object,
-      default: null
     },
     formRiwayatPasien: {
       type: Object,
@@ -150,6 +146,11 @@ export default {
         await this.$store.dispatch('reports/resetFormPasien')
         await this.$store.dispatch('reports/resetRiwayatFormPasien')
         this.loading = false
+        delete this.formRiwayatPasien['address_district_code']
+        delete this.formRiwayatPasien['address_subdistrict_code']
+        delete this.formRiwayatPasien['address_village_code']
+        delete this.formRiwayatPasien['address_village_name']
+        delete this.formRiwayatPasien['address_street']
         this.$emit('update:show', false)
         EventBus.$emit('refreshPageListReport', true)
       } else {
@@ -161,43 +162,6 @@ export default {
       await this.$store.dispatch('reports/resetFormPasien')
       await this.$store.dispatch('reports/resetRiwayatFormPasien')
       this.$emit('update:show', false)
-    },
-    onSelectHospital(value) {
-      this.formRiwayatPasien.current_hospital_id = value._id
-      this.formRiwayatPasien.current_location_address = value.name
-    },
-    uncheck(value) {
-      if (value === this.formRiwayatPasien.final_result) {
-        this.formRiwayatPasien.final_result = ''
-      } else {
-        this.formRiwayatPasien.final_result = value
-      }
-    },
-    handleChangeLocationNow(value) {
-      if (value === 'RUMAH') {
-        this.formRiwayatPasien.current_location_address = ''
-      } else {
-        this.formRiwayatPasien.current_hospital_id = ''
-        this.formRiwayatPasien.current_location_address = ''
-        this.formRiwayatPasien.current_location_district_code = ''
-        this.formRiwayatPasien.current_location_subdistrict_code = ''
-        this.formRiwayatPasien.current_location_village_code = ''
-      }
-    },
-    handleChangeAccordingAddress(value) {
-      if (value === '1') {
-        this.formRiwayatPasien.current_location_district_code = this.formPasien.address_district_code
-        this.formRiwayatPasien.current_location_subdistrict_code = this.formPasien.address_subdistrict_code
-        this.formRiwayatPasien.current_location_village_code = this.formPasien.address_village_code
-        this.formRiwayatPasien.current_location_village_name = this.formPasien.address_village_name
-        this.formRiwayatPasien.current_location_address = this.formPasien.address_street
-      } else {
-        this.formRiwayatPasien.current_location_district_code = ''
-        this.formRiwayatPasien.current_location_subdistrict_code = ''
-        this.formRiwayatPasien.current_location_village_code = ''
-        this.formRiwayatPasien.current_location_village_name = ''
-        this.formRiwayatPasien.current_location_address = ''
-      }
     }
   }
 }

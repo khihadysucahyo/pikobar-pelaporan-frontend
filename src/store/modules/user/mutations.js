@@ -20,6 +20,9 @@ export default {
   SET_FULLNAME: (state, fullName) => {
     state.fullName = fullName
   },
+  SET_PHONENUMBER: (state, phoneNumber) => {
+    state.phoneNumber = phoneNumber
+  },
   SET_LIST_USER: (state, data) => {
     state.userList = data
   },

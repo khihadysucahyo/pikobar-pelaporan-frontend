@@ -60,22 +60,19 @@
                 <td>{{ item.name }}</td>
                 <td>
                   <div v-if="item.gender =='P'">
-                    {{ $t('label.female') }}
+                    {{ $t('label.female_initials') }}
                   </div>
                   <div v-else>
-                    {{ $t('label.male') }}
+                    {{ $t('label.male_initials') }}
                   </div>
                 </td>
                 <td>{{ item.age }} Th</td>
-                <td>{{ completeAddress(
-                  item.address_district_name,
-                  item.address_subdistrict_name,
-                  item.address_village_name,
-                  item.address_street
-                ) }}</td>
+                <td>{{ item.phone_number }}</td>
+                <td>{{ item.createdBy.username }}</td>
+                <td>{{ item.createdAt ? formatDatetime(item.createdAt, 'DD MMMM YYYY') : '-' }}</td>
                 <td>
-                  <v-chip v-if="item.is_reported" color="green">{{ $t('label.interviewed') }}</v-chip>
-                  <v-chip v-else>{{ $t('label.not_interviewed') }}</v-chip>
+                  <label v-if="item.is_reported" style="color: green;">{{ $t('label.interviewed') }}</label>
+                  <label v-else style="color: red;">{{ $t('label.not_interviewed') }}</label>
                 </td>
                 <td>
                   <v-card-actions>
@@ -133,11 +130,13 @@
       :limit.sync="listQuery.limit"
       :on-next="onNext"
     />
-    <dialog-update-close-contact
-      :show-dialog-update-close-contact="showDialogUpdateCloseContact"
-      :show-form-update-close-contact.sync="showDialogUpdateCloseContact"
+    <dialog-close-contact-case
+      :show-dialog-add-close-contact="showCloseContact"
+      :show-form-add-close-contact.sync="showCloseContact"
       :title-detail="$t('label.edit_contact_data')"
-      :form-update-close-contact="formBody"
+      :form-close-contact="formBody"
+      :parent-case="parentCase"
+      :is-edit.sync="isEdit"
       :id-case="idCase"
     />
     <dialog-delete
@@ -165,9 +164,11 @@ export default {
       headers: [
         { text: '#', value: '_id', sortable: false },
         { text: this.$t('label.name').toUpperCase(), value: 'name' },
-        { text: this.$t('label.gender').toUpperCase(), value: 'gender' },
+        { text: this.$t('label.gender_abbreviation').toUpperCase(), value: 'gender' },
         { text: this.$t('label.age').toUpperCase(), value: 'age' },
-        { text: this.$t('label.complete_address').toUpperCase(), value: 'address_street' },
+        { text: this.$t('label.short_phone_number').toUpperCase(), value: 'phone_number' },
+        { text: this.$t('label.author').toUpperCase(), value: 'author' },
+        { text: this.$t('label.input_date').toUpperCase(), value: 'createdAt' },
         { text: this.$t('label.status').toUpperCase(), value: 'is_reported' },
         { text: this.$t('label.action').toUpperCase(), value: 'actions', sortable: false }
       ],
@@ -177,12 +178,13 @@ export default {
       listCloseContact: [],
       formatDate: 'YYYY/MM/DD',
       totalPages: 0,
-      showDialogUpdateCloseContact: false,
+      showCloseContact: false,
       loadingTable: false,
       totalCloseContact: 0,
       isEdit: false,
       idCase: '',
       formBody: {},
+      parentCase: {},
       listQuery: {
         is_reported: true,
         page: 0,
@@ -220,6 +222,11 @@ export default {
       if (!value) {
         await this.handleSearch()
       }
+    },
+    async showCloseContact(value) {
+      if (!value) {
+        await this.handleSearch()
+      }
     }
   },
   async mounted() {
@@ -248,6 +255,8 @@ export default {
         idCloseContact: id
       }
       const response = await this.$store.dispatch('closeContactCase/getDetailCloseContactByCase', data)
+      const responseReportCase = await this.$store.dispatch('reports/detailReportCase', response.data.case._id)
+      this.parentCase = responseReportCase.data
       if (response.data !== null) {
         this.formBody = response.data
         if (this.formBody.birth_date !== null) {
@@ -262,7 +271,8 @@ export default {
           this.formBody.yearsOld = Math.floor(this.formBody.age)
           this.formBody.month = Math.ceil((this.formBody.age - Math.floor(this.formBody.age)) * 12)
         }
-        this.showDialogUpdateCloseContact = true
+        this.isEdit = true
+        this.showCloseContact = true
       }
     },
     async handleDelete(item) {

@@ -16,7 +16,6 @@
       </v-col>
       <v-col cols="12" sm="9" class="reduce-padding-top">
         <address-region
-          :disabled-district="disabledDistrict"
           :district-code="listQuery.address_district_code"
           :district-name="district_name_user"
           :code-district.sync="listQuery.address_district_code"
@@ -26,6 +25,7 @@
           :code-village.sync="listQuery.address_village_code"
           :village-name="nameVillage"
           :name-village.sync="nameVillage"
+          :disabled-district="disabledDistrict"
           :disabled-address="false"
           :required-address="false"
           :is-label="true"
@@ -100,6 +100,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import { rolesWidget } from '@/utils/constantVariable'
 export default {
   name: 'CaseFilter',
   props: {
@@ -122,7 +123,11 @@ export default {
         'OTG',
         'ODP',
         'PDP',
-        'POSITIF'
+        'POSITIF',
+        'CLOSECONTACT',
+        'SUSPECT',
+        'PROBABEL',
+        'CONFIRMATION'
       ],
       stageList: [
         {
@@ -136,16 +141,24 @@ export default {
       ],
       resultList: [
         {
-          label: this.$t('label.negatif'),
-          value: 0
-        },
-        {
           label: this.$t('label.recovery'),
           value: 1
         },
         {
           label: this.$t('label.dead'),
           value: 2
+        },
+        {
+          label: this.$t('label.still_sick'),
+          value: 3
+        },
+        {
+          label: this.$t('label.discarded'),
+          value: 4
+        },
+        {
+          label: this.$t('label.negatif'),
+          value: 0
         }
       ]
     }
@@ -159,7 +172,7 @@ export default {
     ])
   },
   async beforeMount() {
-    this.disabledDistrict = await this.roles[0] === 'dinkeskota'
+    this.disabledDistrict = rolesWidget['dinkesKotaAndFaskes'].includes(this.roles[0])
   },
   methods: {
     onSelectDistrict(value) {
