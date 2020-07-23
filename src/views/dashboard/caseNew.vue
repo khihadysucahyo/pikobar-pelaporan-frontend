@@ -26,7 +26,7 @@
         </v-card>
       </v-col>
     </v-row>
-    <v-row class="filter mb-3">
+    <v-row class="case-new-filter mb-3">
       <v-col
         cols="12"
         lg="8"
