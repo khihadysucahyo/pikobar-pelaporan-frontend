@@ -10,9 +10,8 @@
             <v-radio-group v-model="formPasien.status" :error-messages="errors" row>
               <v-radio :label="$t('route.tight_contact')" value="CLOSECONTACT" />
               <v-radio :label="$t('label.suspect')" value="SUSPECT" />
-              <v-radio :label="$t('label.probable')" value="PROBABEL" />
+              <v-radio :label="$t('label.probable')" value="PROBABLE" />
               <v-radio :label="$t('label.confirmation')" value="CONFIRMATION" />
-              <v-radio :label="$t('label.discarded')" value="DISCARDED" />
             </v-radio-group>
           </ValidationProvider>
         </v-col>
@@ -24,9 +23,11 @@
         <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
           <ValidationProvider v-slot="{ errors }">
             <v-radio-group v-model="formPasien.final_result" :error-messages="errors" row>
-              <v-radio :label="$t('label.still_sick')" value="3" @click.prevent="uncheck('3')" />
+              <v-radio :label="$t('label.still_quarantine')" value="5" @click.prevent="uncheck('5')" />
+              <v-radio :label="$t('label.still_sick')" value="4" @click.prevent="uncheck('4')" />
               <v-radio :label="$t('label.dead')" value="2" @click.prevent="uncheck('2')" />
               <v-radio :label="$t('label.recovery')" value="1" @click.prevent="uncheck('1')" />
+              <v-radio :label="$t('label.discarded')" value="3" @click.prevent="uncheck('3')" />
             </v-radio-group>
           </ValidationProvider>
         </v-col>

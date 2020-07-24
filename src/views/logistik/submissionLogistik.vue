@@ -15,12 +15,14 @@
           >
             <div class="header-user-title">{{ $t('label.application_logistic_title_1') }}</div>
             <div class="header-user-text">{{ $t('label.application_logistic_title_2') }}
-              <v-icon
-                style="color: #ffff;"
+              <v-btn
+                class="ml-2"
+                small
+                rounded
                 @click="handleClickLink"
               >
-                mdi-open-in-new
-              </v-icon>
+                <div class="text-capitalize" style="color: #27AE60;">{{ $t('label.click_here') }}</div>
+              </v-btn>
             </div>
           </v-card-text>
         </v-col>
