@@ -2,9 +2,10 @@
   <v-skeleton-loader
     :loading="loading"
     type="article"
+    class="height-100"
   >
     <v-card
-      class="statistic-new-close-contact mx-auto"
+      class="statistic-new-close-contact mx-auto height-100"
       outlined
     >
       <v-card-text class="card">
@@ -32,36 +33,22 @@
         </div>
         <div class="footer">
           <div class="progress-bar d-flex mb-2">
-            <div class="one text-center" :style="{ width: (1 + 10) + '%' }">
-              1%
+            <div class="one text-center" :style="{ width: (20 + 10) + '%' }">
+              20%
             </div>
-            <div class="two text-center" :style="{ width: (49 + 10) + '%' }">
-              49%
-            </div>
-            <div class="three text-center" :style="{ width: (50 + 10) + '%' }">
-              50%
+            <div class="three text-center" :style="{ width: (80 + 10) + '%' }">
+              80%
             </div>
           </div>
           <div class="information">
             <v-row>
               <v-col col="12" lg="8" class="d-flex pr-0">
                 <div class="box mr-2" :style="{ backgroundColor: '#F2994A' }" />
-                <div class="sub-label">{{ $t('label.isolation_still_sick') }}</div>
+                <div class="sub-label">{{ $t('label.still_quarantined') }}</div>
               </v-col>
               <v-col col="12" lg="4">
                 <div class="sub-total text-right">
                   52.020.000
-                </div>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col col="12" lg="8" class="d-flex pr-0">
-                <div class="box mr-2" :style="{ backgroundColor: '#219653' }" />
-                <div class="sub-label">{{ $t('label.finished_isolation_recovery') }}</div>
-              </v-col>
-              <v-col col="12" lg="4">
-                <div class="sub-total text-right">
-                  20.000
                 </div>
               </v-col>
             </v-row>
@@ -174,5 +161,9 @@ export default {
   box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.16);
   border-radius: 8px;
   padding: 16px;
+}
+
+.height-100 {
+  height: 100%;
 }
 </style>

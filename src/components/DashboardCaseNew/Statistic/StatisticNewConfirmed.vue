@@ -2,29 +2,20 @@
   <v-skeleton-loader
     :loading="loading"
     type="article"
+    class="height-100"
   >
     <v-card
-      class="statistic-new-confirmed mx-auto"
+      class="statistic-new-confirmed mx-auto height-100"
       outlined
     >
-      <v-card-text class="card">
+      <v-card-text
+        class="card height-100"
+      >
         <div class="head mb-3">
           {{ $t('label.total_case_confirmed') }}
         </div>
         <div class="total mb-3">
           {{ total | number }}
-        </div>
-        <div class="information">
-          <div style="visibility: hidden;">
-            <span class="sub-total">12.236</span>
-            &nbsp;&nbsp;
-            <span class="sub-label">{{ $t('label.self_isolation') }}</span>
-          </div>
-          <div style="visibility: hidden;">
-            <span class="sub-total">36.190</span>
-            &nbsp;&nbsp;
-            <span class="sub-label">{{ $t('label.hospital_isolation') }}</span>
-          </div>
         </div>
       </v-card-text>
     </v-card>
@@ -64,5 +55,11 @@ export default {
       font-weight: 500;
     }
   }
+}
+</style>
+
+<style scoped>
+.height-100 {
+  height: 100%;
 }
 </style>

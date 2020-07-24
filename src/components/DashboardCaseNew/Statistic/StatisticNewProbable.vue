@@ -2,9 +2,10 @@
   <v-skeleton-loader
     :loading="loading"
     type="article"
+    style="height-100"
   >
     <v-card
-      class="statistic-new-probable mx-auto"
+      class="statistic-new-probable mx-auto height-100"
       outlined
     >
       <v-card-text class="card">
@@ -49,7 +50,7 @@
             <v-row>
               <v-col col="12" lg="8" class="d-flex pr-0">
                 <div class="box mr-2" :style="{ backgroundColor: '#F2994A' }" />
-                <div class="sub-label">{{ $t('label.isolation_still_sick') }}</div>
+                <div class="sub-label">{{ $t('label.still_sick') }}</div>
               </v-col>
               <v-col col="12" lg="4">
                 <div class="sub-total text-right">
@@ -70,8 +71,8 @@
             </v-row>
             <v-row>
               <v-col col="12" lg="8" class="d-flex pr-0">
-                <div class="box mr-2" :style="{ backgroundColor: '#828282' }" />
-                <div class="sub-label">{{ $t('label.discarded') }}</div>
+                <div class="box mr-2" :style="{ backgroundColor: '#9C0000' }" />
+                <div class="sub-label">{{ $t('label.dead') }}</div>
               </v-col>
               <v-col col="12" lg="4">
                 <div class="sub-total text-right">
@@ -142,7 +143,7 @@ export default {
 
         .three {
           z-index: 1;
-          background-color: #828282;
+          background-color: #9C0000;
           margin-left: -15px;
         }
       }
@@ -177,5 +178,9 @@ export default {
   box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.16);
   border-radius: 8px;
   padding: 16px;
+}
+
+.height-100 {
+  height: 100%;
 }
 </style>

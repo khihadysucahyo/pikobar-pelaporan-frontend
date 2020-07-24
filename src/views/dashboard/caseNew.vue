@@ -103,7 +103,7 @@
         </div>
       </v-col>
     </v-row>
-    <v-row class="statistic mb-1">
+    <v-row class="statistic mb-1 row-eq-height">
       <v-col
         cols="12"
         lg="3"
@@ -141,7 +141,7 @@
         />
       </v-col>
     </v-row>
-    <v-row class="statistic mb-3">
+    <v-row class="statistic mb-3 row-eq-height">
       <v-col
         cols="12"
         lg="4"
@@ -358,6 +358,13 @@ export default {
   .button {
     height: 46px !important;
     text-transform: none;
+  }
+
+  .row-eq-height {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
   }
 }
 </style>
