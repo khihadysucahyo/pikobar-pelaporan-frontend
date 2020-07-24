@@ -8,7 +8,7 @@
     class="dashboard-test-result"
   >
     <h3><strong>{{ $t('label.dashboard') }} {{ $t('label.test_result_id') }}</strong></h3>
-    <v-row class="filter mb-3">
+    <v-row class="test-result-filter mb-3">
       <v-col
         cols="12"
         lg="10"
@@ -30,7 +30,7 @@
               <template v-slot:activator="{ on, attrs }">
                 <v-text-field
                   v-model="dateActive"
-                  label="Pilih Tanggal"
+                  :label="$t('label.choose_date')"
                   prepend-icon="event"
                   readonly
                   v-bind="attrs"
@@ -54,7 +54,7 @@
                     min-width="auto"
                     @click="modal = false"
                   >
-                    Cancel
+                    {{ $t('label.cancel') }}
                   </v-btn>
                   <v-btn
                     color="success"
@@ -62,7 +62,7 @@
                     min-width="auto"
                     @click="onSelectDate(dateActive)"
                   >
-                    OK
+                    {{ $t('label.ok') }}
                   </v-btn>
                 </div>
               </v-date-picker>
@@ -140,8 +140,8 @@
           outlined
         >
           <v-card-text class="white--text text-center">
-            <h4 class="mb-0"><strong>Total Hasil Tes</strong></h4>
-            <h3 class="mb-0"><strong>193.803</strong></h3>
+            <h4 class="mb-0"><strong>{{ $t('label.total_test_result') }}</strong></h4>
+            <h3 class="mb-0"><strong>{{ statistic.total | number }}</strong></h3>
           </v-card-text>
         </v-card>
       </v-col>
@@ -160,8 +160,8 @@
                 <v-img src="@/static/rapid.svg" />
               </div>
               <div>
-                <span>Rapid Tes</span>
-                <h3 class="mb-0"><strong>193.803</strong></h3>
+                <span>{{ $t('label.rapid_test_id') }}</span>
+                <h3 class="mb-0"><strong>{{ statistic.totalRdt | number }}</strong></h3>
               </div>
             </div>
             <v-row>
@@ -175,8 +175,8 @@
                   outlined
                 >
                   <v-card-text class="text-center">
-                    <span>Reaktif</span>
-                    <h4 class="mb-0"><strong>5.118</strong></h4>
+                    <span>{{ $t('label.reaktif') }}</span>
+                    <h4 class="mb-0"><strong>{{ statistic.totalRdtReaktif | number }}</strong></h4>
                   </v-card-text>
                 </v-card>
               </v-col>
@@ -190,8 +190,8 @@
                   outlined
                 >
                   <v-card-text class="text-center">
-                    <span>Non Reaktif</span>
-                    <h4 class="mb-0"><strong>188.678</strong></h4>
+                    <span>{{ $t('label.non_reaktif') }}</span>
+                    <h4 class="mb-0"><strong>{{ statistic.totalRdtNonReaktif | number }}</strong></h4>
                   </v-card-text>
                 </v-card>
               </v-col>
@@ -205,8 +205,8 @@
                   outlined
                 >
                   <v-card-text class="text-center">
-                    <span>Inkonklusif</span>
-                    <h4 class="mb-0"><strong>7</strong></h4>
+                    <span>{{ $t('label.inkonklusif') }}</span>
+                    <h4 class="mb-0"><strong>{{ statistic.totalRdtInkonklusif | number }}</strong></h4>
                   </v-card-text>
                 </v-card>
               </v-col>
@@ -229,8 +229,8 @@
                 <v-img src="@/static/pcr.svg" />
               </div>
               <div>
-                <span>PCR</span>
-                <h3 class="mb-0"><strong>193.803</strong></h3>
+                <span>{{ $t('label.pcr') }}</span>
+                <h3 class="mb-0"><strong>{{ statistic.totalPcr | number }}</strong></h3>
               </div>
             </div>
             <v-row>
@@ -244,8 +244,8 @@
                   outlined
                 >
                   <v-card-text class="text-center">
-                    <span>Positif</span>
-                    <h4 class="mb-0"><strong>5.118</strong></h4>
+                    <span>{{ $t('label.positif') }}</span>
+                    <h4 class="mb-0"><strong>{{ statistic.totalPcrPositif | number }}</strong></h4>
                   </v-card-text>
                 </v-card>
               </v-col>
@@ -259,8 +259,8 @@
                   outlined
                 >
                   <v-card-text class="text-center">
-                    <span>Negatif</span>
-                    <h4 class="mb-0"><strong>188.678</strong></h4>
+                    <span>{{ $t('label.negatif') }}</span>
+                    <h4 class="mb-0"><strong>{{ statistic.totalPcrNegatif | number }}</strong></h4>
                   </v-card-text>
                 </v-card>
               </v-col>
@@ -274,8 +274,8 @@
                   outlined
                 >
                   <v-card-text class="text-center">
-                    <span>Invalid</span>
-                    <h4 class="mb-0"><strong>7</strong></h4>
+                    <span>{{ $t('label.invalid') }}</span>
+                    <h4 class="mb-0"><strong>{{ statistic.totalPcrInvalid | number }}</strong></h4>
                   </v-card-text>
                 </v-card>
               </v-col>
@@ -378,6 +378,7 @@ export default {
   data() {
     return {
       display: true,
+      loadingStatistic: false,
       dateActive: [],
       modal: false,
       disabledDistrict: false,
@@ -396,9 +397,22 @@ export default {
       filterActive: {
         address_district_code: null,
         address_subdistrict_code: null,
-        address_village_code: null
+        address_village_code: null,
+        min_date: null,
+        max_date: null
       },
-      tabActive: 'all'
+      tabActive: 'all',
+      statistic: {
+        total: 0,
+        totalRdt: 0,
+        totalRdtReaktif: 0,
+        totalRdtNonReaktif: 0,
+        totalRdtInkonklusif: 0,
+        totalPcr: 0,
+        totalPcrPositif: 0,
+        totalPcrNegatif: 0,
+        totalPcrInvalid: 0
+      }
     }
   },
   computed: {
@@ -432,14 +446,23 @@ export default {
         desa_nama: this.villageName
       }
     }
-    // dateActive(val) {
-    //   console.log(val)
-    // }
   },
   async beforeMount() {
     if (this.roles[0] === 'faskes') {
       this.display = false
     }
+
+    if (this.roles[0] === 'dinkeskota') {
+      this.disabledDistrict = true
+      this.filterActive.address_district_code = this.district_user
+    }
+
+    this.districtCity = {
+      kota_kode: this.district_user,
+      kota_nama: this.district_name_user
+    }
+
+    this.getStatisticTestResult()
   },
   beforeDestroy() {
     this.clearCity()
@@ -452,6 +475,21 @@ export default {
     },
     async onSelectDate(event) {
       this.$refs.dialog.save(event)
+      if (event.length === 1) {
+        this.filterActive.min_date = event[0]
+        this.filterActive.max_date = event[0]
+      } else {
+        const min = new Date(event[0]).getTime()
+        const max = new Date(event[1]).getTime()
+        if (min > max) {
+          this.filterActive.min_date = event[1]
+          this.filterActive.max_date = event[0]
+        } else {
+          this.filterActive.min_date = event[0]
+          this.filterActive.max_date = event[1]
+        }
+      }
+      this.getStatisticTestResult()
     },
     async onSelectDistrict(value) {
       this.districtCity = value
@@ -459,25 +497,41 @@ export default {
       this.clearVillage()
       this.$emit('update:codeDistrict', value.kota_kode)
       this.$emit('update:nameDistrict', value.kota_nama)
+
+      this.filterActive.address_district_code = value.kota_kode
+      this.getStatisticTestResult()
     },
     async onSelectSubDistrict(value) {
       this.subDistrict = value
       this.clearVillage()
       this.$emit('update:codeSubDistrict', value.kecamatan_kode)
       this.$emit('update:nameSubDistrict', value.kecamatan_nama)
+
+      this.filterActive.address_subdistrict_code = value.kecamatan_kode
+      this.getStatisticTestResult()
     },
     async onSelectVillage(value) {
       this.village = value
       this.$emit('update:codeVillage', value.desa_kode)
       this.$emit('update:nameVillage', value.desa_nama)
+
+      this.filterActive.address_village_code = value.desa_kode
+      this.getStatisticTestResult()
     },
     async onReset() {
-      this.clearDate()
       if (this.roles[0] === 'dinkesprov' || this.roles[0] === 'superadmin') {
         this.clearCity()
+        this.filterActive.address_district_code = null
       }
       this.clearDistrict()
       this.clearVillage()
+      this.clearDate()
+      this.filterActive.address_subdistrict_code = null
+      this.filterActive.address_village_code = null
+      this.filterActive.min_date = null
+      this.filterActive.max_date = null
+
+      this.getStatisticTestResult()
     },
     clearDate() {
       this.dateActive = []
@@ -502,6 +556,46 @@ export default {
         desa_nama: null
       }
       this.filterActive.address_village_code = null
+    },
+    async getStatisticTestResult() {
+      this.loadingStatistic = true
+
+      const params = {
+        address_district_code: this.filterActive.address_district_code,
+        address_subdistrict_code: this.filterActive.address_subdistrict_code,
+        address_village_code: this.filterActive.address_village_code,
+        min_date: this.filterActive.min_date,
+        max_date: this.filterActive.max_date
+      }
+      const res = await this.$store.dispatch('statistic/countTestResult', params)
+
+      if (res) this.loadingStatistic = false
+
+      if (res.data.length > 0) {
+        this.statistic = {
+          total: res.data[0].TOTAL,
+          totalRdt: res.data[0].RDT,
+          totalRdtReaktif: res.data[0].RDT_REAKTIF,
+          totalRdtNonReaktif: res.data[0].RDT_NON_REAKTIF,
+          totalRdtInkonklusif: res.data[0].RDT_INKONKLUSIF,
+          totalPcr: res.data[0].PCR,
+          totalPcrPositif: res.data[0].PCR_POSITIF,
+          totalPcrNegatif: res.data[0].PCR_NEGATIF,
+          totalPcrInvalid: res.data[0].PCR_INVALID
+        }
+      } else {
+        this.statistic = {
+          total: 0,
+          totalRdt: 0,
+          totalRdtReaktif: 0,
+          totalRdtNonReaktif: 0,
+          totalRdtInkonklusif: 0,
+          totalPcr: 0,
+          totalPcrPositif: 0,
+          totalPcrNegatif: 0,
+          totalPcrInvalid: 0
+        }
+      }
     }
   }
 }
