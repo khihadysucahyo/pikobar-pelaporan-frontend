@@ -56,6 +56,7 @@ export default {
     save: 'Simpan',
     status: 'Status',
     save_and_add_to_report_case: 'Simpan & Tambahkan Dilaporan Kasus',
+    distribution_case_network: 'Kasus Keterkaitan',
     close: 'Tutup',
     login_title: 'Selamat datang di Aplikasi',
     report_covid: 'Pelaporan Covid-19',

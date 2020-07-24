@@ -126,7 +126,7 @@ export default {
         'POSITIF',
         'CLOSECONTACT',
         'SUSPECT',
-        'PROBABEL',
+        'PROBABLE',
         'CONFIRMATION'
       ],
       stageList: [
