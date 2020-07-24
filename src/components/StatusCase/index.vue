@@ -41,7 +41,7 @@
       {{ $t('label.suspect') }}
     </v-chip>
     <v-chip
-      v-else-if="status === 'PROBABEL'"
+      v-else-if="status === 'PROBABLE'"
       class="ma-2"
       color="rgb(255, 206, 79)"
       outlined

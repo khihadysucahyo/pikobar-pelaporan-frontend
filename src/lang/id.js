@@ -95,6 +95,7 @@ export default {
     recovery: 'Selesai Isolasi/Sembuh',
     dead: 'Meninggal',
     still_sick: 'Masih Sakit',
+    still_quarantine: 'Masih Dikarantina',
     odp: 'ODP',
     total_odp: 'Total ODP',
     pdp: 'PDP',
