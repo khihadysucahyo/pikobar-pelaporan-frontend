@@ -12,7 +12,10 @@
         <div class="head d-flex mb-3">
           {{ $t('label.total_suspect') }}
           <div class="ml-auto">
-            <v-tooltip bottom class="statistic">
+            <v-tooltip
+              bottom
+              class="statistic"
+            >
               <template v-slot:activator="{ on, attrs }">
                 <v-icon
                   v-bind="attrs"
@@ -29,37 +32,70 @@
           </div>
         </div>
         <div class="total mb-5">
-          {{ total | number }}
+          {{ totalSuspect | number }}
         </div>
         <div class="footer">
           <div class="progress-bar d-flex mb-2">
-            <div class="one text-center" :style="{ width: (75 + 10) + '%' }">
-              75%
+            <div
+              v-if="percentSick === 0 && percentDiscarded === 0"
+              class="text-center"
+              :style="{ width: '100%' }"
+            />
+            <div
+              v-if="percentSick > 0"
+              class="one text-center"
+              :style="{ width: (Number(percentSick) + 10) + '%' }"
+            >
+              {{ percentSick | decimal }}%
             </div>
-            <div class="three text-center" :style="{ width: (25 + 10) + '%' }">
-              25%
+            <div
+              v-if="percentDiscarded > 0"
+              class="three text-center"
+              :style="{ width: (Number(percentDiscarded) + 10) + '%' }"
+            >
+              {{ percentDiscarded | decimal }}%
             </div>
           </div>
           <div class="information">
             <v-row>
-              <v-col col="12" lg="8" class="d-flex pr-0">
-                <div class="box mr-2" :style="{ backgroundColor: '#F2994A' }" />
+              <v-col
+                col="12"
+                lg="8"
+                class="d-flex pr-0"
+              >
+                <div
+                  class="box mr-2"
+                  :style="{ backgroundColor: '#F2994A' }"
+                />
                 <div class="sub-label">{{ $t('label.still_sick') }}</div>
               </v-col>
-              <v-col col="12" lg="4">
+              <v-col
+                col="12"
+                lg="4"
+              >
                 <div class="sub-total text-right">
-                  977.720.000
+                  {{ totalSick | number }}
                 </div>
               </v-col>
             </v-row>
             <v-row>
-              <v-col col="12" lg="8" class="d-flex pr-0">
-                <div class="box mr-2" :style="{ backgroundColor: '#828282' }" />
+              <v-col
+                col="12"
+                lg="8"
+                class="d-flex pr-0"
+              >
+                <div
+                  class="box mr-2"
+                  :style="{ backgroundColor: '#828282' }"
+                />
                 <div class="sub-label">{{ $t('label.discarded') }}</div>
               </v-col>
-              <v-col col="12" lg="4">
+              <v-col
+                col="12"
+                lg="4"
+              >
                 <div class="sub-total text-right">
-                  20.000
+                  {{ totalDiscarded | number }}
                 </div>
               </v-col>
             </v-row>
@@ -78,9 +114,48 @@ export default {
       type: Boolean,
       default: true
     },
-    total: {
-      type: Number,
-      default: 0
+    statistic: {
+      type: Object,
+      default: () => {
+        return {}
+      }
+    }
+  },
+  data() {
+    return {
+      suspect: null,
+      totalSuspect: 0,
+      totalSick: 0,
+      totalDiscarded: 0,
+      percentSick: 0,
+      percentDiscarded: 0
+    }
+  },
+  watch: {
+    statistic: {
+      handler(value) {
+        this.suspect = value
+        this.getData()
+      },
+      deep: true
+    }
+  },
+  methods: {
+    getData() {
+      const sick = this.suspect.sick
+      const discarded = this.suspect.discarded
+
+      this.totalSuspect = sick + discarded
+      this.totalSick = sick
+      this.totalDiscarded = discarded
+      this.percentSick =
+        this.totalSick > 0
+          ? ((this.totalSick / this.totalSuspect) * 100).toFixed(2)
+          : 0
+      this.percentDiscarded =
+        this.totalDiscarded > 0
+          ? ((this.totalDiscarded / this.totalSuspect) * 100).toFixed(2)
+          : 0
     }
   }
 }
@@ -105,7 +180,7 @@ export default {
       .progress-bar {
         color: #ffffff;
         margin-bottom: 5px;
-        background-color: #F5F5F5;
+        background-color: #f5f5f5;
         border-radius: 13px;
 
         div {
@@ -115,12 +190,12 @@ export default {
 
         .one {
           z-index: 3;
-          background-color: #F2994A;
+          background-color: #f2994a;
         }
 
         .two {
           z-index: 2;
-          background-color: #27AE60;
+          background-color: #27ae60;
           margin-left: -15px;
         }
 

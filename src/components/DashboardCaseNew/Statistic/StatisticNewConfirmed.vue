@@ -8,9 +8,7 @@
       class="statistic-new-confirmed mx-auto height-100"
       outlined
     >
-      <v-card-text
-        class="card height-100"
-      >
+      <v-card-text class="card height-100">
         <div class="head mb-3">
           {{ $t('label.total_case_confirmed') }}
         </div>
@@ -30,9 +28,35 @@ export default {
       type: Boolean,
       default: true
     },
-    total: {
-      type: Number,
-      default: 0
+    statistic: {
+      type: Object,
+      default: () => {
+        return {}
+      }
+    }
+  },
+  data() {
+    return {
+      confirmed: null,
+      total: 0
+    }
+  },
+  watch: {
+    statistic: {
+      handler(value) {
+        this.confirmed = value
+        this.getData()
+      },
+      deep: true
+    }
+  },
+  methods: {
+    getData() {
+      const sickHome = this.confirmed.sick_home
+      const sickHospital = this.confirmed.sick_hospital
+      const recovered = this.confirmed.recovered
+      const decease = this.confirmed.decease
+      this.total = sickHome + sickHospital + recovered + decease
     }
   }
 }
@@ -41,7 +65,7 @@ export default {
 <style lang="scss">
 .statistic-new-confirmed {
   .card {
-    background-color: #EB5757;
+    background-color: #eb5757;
     color: #ffffff !important;
 
     .head {

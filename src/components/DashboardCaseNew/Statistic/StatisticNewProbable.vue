@@ -12,7 +12,10 @@
         <div class="head d-flex mb-3">
           {{ $t('label.total_probable') }}
           <div class="ml-auto">
-            <v-tooltip bottom class="statistic">
+            <v-tooltip
+              bottom
+              class="statistic"
+            >
               <template v-slot:activator="{ on, attrs }">
                 <v-icon
                   v-bind="attrs"
@@ -32,51 +35,98 @@
           </div>
         </div>
         <div class="total mb-5">
-          {{ total | number }}
+          {{ totalProbable | number }}
         </div>
         <div class="footer">
           <div class="progress-bar d-flex mb-2">
-            <div class="one text-center" :style="{ width: (1 + 10) + '%' }">
-              1%
+            <div
+              v-if="percentSick === 0 && percentRecovered === 0 && percentDecease === 0"
+              class="text-center"
+              :style="{ width: '100%' }"
+            />
+            <div
+              v-if="percentSick > 0"
+              class="one text-center"
+              :style="{ width: (Number(percentSick) + 10) + '%' }"
+            >
+              {{ percentSick | decimal }}%
             </div>
-            <div class="two text-center" :style="{ width: (49 + 10) + '%' }">
-              49%
+            <div
+              v-if="percentRecovered > 0"
+              class="two text-center"
+              :style="{ width: (Number(percentRecovered) + 10) + '%' }"
+            >
+              {{ percentRecovered | decimal }}%
             </div>
-            <div class="three text-center" :style="{ width: (50 + 10) + '%' }">
-              50%
+            <div
+              v-if="percentDecease > 0"
+              class="three text-center"
+              :style="{ width: (Number(percentDecease) + 10) + '%' }"
+            >
+              {{ percentDecease | decimal }}%
             </div>
           </div>
           <div class="information">
             <v-row>
-              <v-col col="12" lg="8" class="d-flex pr-0">
-                <div class="box mr-2" :style="{ backgroundColor: '#F2994A' }" />
+              <v-col
+                col="12"
+                lg="8"
+                class="d-flex pr-0"
+              >
+                <div
+                  class="box mr-2"
+                  :style="{ backgroundColor: '#F2994A' }"
+                />
                 <div class="sub-label">{{ $t('label.still_sick') }}</div>
               </v-col>
-              <v-col col="12" lg="4">
+              <v-col
+                col="12"
+                lg="4"
+              >
                 <div class="sub-total text-right">
-                  98.520.000
+                  {{ totalSick | number }}
                 </div>
               </v-col>
             </v-row>
             <v-row>
-              <v-col col="12" lg="8" class="d-flex pr-0">
-                <div class="box mr-2" :style="{ backgroundColor: '#219653' }" />
+              <v-col
+                col="12"
+                lg="8"
+                class="d-flex pr-0"
+              >
+                <div
+                  class="box mr-2"
+                  :style="{ backgroundColor: '#219653' }"
+                />
                 <div class="sub-label">{{ $t('label.finished_isolation_recovery') }}</div>
               </v-col>
-              <v-col col="12" lg="4">
+              <v-col
+                col="12"
+                lg="4"
+              >
                 <div class="sub-total text-right">
-                  20.000
+                  {{ totalRecovered | number }}
                 </div>
               </v-col>
             </v-row>
             <v-row>
-              <v-col col="12" lg="8" class="d-flex pr-0">
-                <div class="box mr-2" :style="{ backgroundColor: '#9C0000' }" />
+              <v-col
+                col="12"
+                lg="8"
+                class="d-flex pr-0"
+              >
+                <div
+                  class="box mr-2"
+                  :style="{ backgroundColor: '#9C0000' }"
+                />
                 <div class="sub-label">{{ $t('label.dead') }}</div>
               </v-col>
-              <v-col col="12" lg="4">
+              <v-col
+                col="12"
+                lg="4"
+              >
                 <div class="sub-total text-right">
-                  20.000
+                  {{ totalDecease | number }}
                 </div>
               </v-col>
             </v-row>
@@ -95,9 +145,56 @@ export default {
       type: Boolean,
       default: true
     },
-    total: {
-      type: Number,
-      default: 0
+    statistic: {
+      type: Object,
+      default: () => {
+        return {}
+      }
+    }
+  },
+  data() {
+    return {
+      probable: null,
+      totalProbable: 0,
+      totalSick: 0,
+      totalRecovered: 0,
+      totalDecease: 0,
+      percentSick: 0,
+      percentRecovered: 0,
+      percentDecease: 0
+    }
+  },
+  watch: {
+    statistic: {
+      handler(value) {
+        this.probable = value
+        this.getData()
+      },
+      deep: true
+    }
+  },
+  methods: {
+    getData() {
+      const sick = this.probable.sick
+      const recovered = this.probable.recovered
+      const decease = this.probable.decease
+
+      this.totalProbable = sick + recovered + decease
+      this.totalSick = sick
+      this.totalRecovered = recovered
+      this.totalDecease = decease
+      this.percentSick =
+        this.totalSick > 0
+          ? ((this.totalSick / this.totalProbable) * 100).toFixed(2)
+          : 0
+      this.percentRecovered =
+        this.percentRecovered > 0
+          ? ((this.totalRecovered / this.totalProbable) * 100).toFixed(2)
+          : 0
+      this.percentDecease =
+        this.percentDecease > 0
+          ? ((this.totalDecease / this.totalProbable) * 100).toFixed(2)
+          : 0
     }
   }
 }
@@ -122,7 +219,7 @@ export default {
       .progress-bar {
         color: #ffffff;
         margin-bottom: 5px;
-        background-color: #F5F5F5;
+        background-color: #f5f5f5;
         border-radius: 13px;
 
         div {
@@ -132,18 +229,18 @@ export default {
 
         .one {
           z-index: 3;
-          background-color: #F2994A;
+          background-color: #f2994a;
         }
 
         .two {
           z-index: 2;
-          background-color: #27AE60;
+          background-color: #27ae60;
           margin-left: -15px;
         }
 
         .three {
           z-index: 1;
-          background-color: #9C0000;
+          background-color: #9c0000;
           margin-left: -15px;
         }
       }
