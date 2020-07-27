@@ -192,6 +192,13 @@ export const rolesWidget = {
   'dinkesKotaAndFaskes': [rolesPerm.DINKESKOTA, rolesPerm.FASKES]
 }
 
+export const rolesCriteria = {
+  'stillQuarantine': ['CLOSECONTACT'],
+  'stillSick': ['PROBABLE', 'SUSPECT', 'CONFIRMATION'],
+  'recovery': ['PROBABLE', 'CONFIRMATION'],
+  'discarded': ['CLOSECONTACT', 'SUSPECT']
+}
+
 export const apd = [
   i18n.t('label.apd_gown'),
   i18n.t('label.apd_surgical_mask'),

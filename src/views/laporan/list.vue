@@ -201,6 +201,15 @@
                   <div v-else-if=" item.final_result ==='2'">
                     {{ $t('label.dead') }}
                   </div>
+                  <div v-else-if=" item.final_result ==='3'">
+                    {{ $t('label.discarded') }}
+                  </div>
+                  <div v-else-if=" item.final_result ==='4'">
+                    {{ $t('label.still_sick') }}
+                  </div>
+                  <div v-else-if=" item.final_result ==='5'">
+                    {{ $t('label.still_quarantine') }}
+                  </div>
                   <div v-else>
                     -
                   </div>
@@ -371,8 +380,8 @@ export default {
         { text: this.$t('label.age').toUpperCase(), value: 'age' },
         { text: this.$t('label.gender_abbreviation').toUpperCase(), value: 'gender' },
         { text: this.$t('label.short_phone_number').toUpperCase(), value: 'phone_number' },
-        { text: this.$t('label.status').toUpperCase(), value: 'status' },
-        { text: this.$t('label.results').toUpperCase(), value: 'final_result' },
+        { text: this.$t('label.criteria').toUpperCase(), value: 'status' },
+        { text: this.$t('label.latest_patient_status').toUpperCase(), value: 'final_result' },
         { text: this.$t('label.author').toUpperCase(), value: 'author' },
         { text: this.$t('label.last_updated_date').toUpperCase(), value: 'updatedAt' },
         { text: this.$t('label.action'), value: 'actions', sortable: false }
@@ -590,8 +599,7 @@ export default {
     },
     getAge(value) {
       const yearsOld = Math.floor(value)
-      const monthsOld = Math.ceil((value - Math.floor(value)) * 12)
-      const age = `${yearsOld} ${this.$t('label.year')} ${monthsOld} ${this.$t('label.month')}`
+      const age = `${yearsOld} ${this.$t('label.year')}`
       return age
     }
   }
