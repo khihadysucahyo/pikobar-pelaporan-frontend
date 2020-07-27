@@ -161,10 +161,6 @@ export default {
         {
           label: this.$t('label.still_quarantine'),
           value: 5
-        },
-        {
-          label: this.$t('label.negatif'),
-          value: 0
         }
       ]
     }
