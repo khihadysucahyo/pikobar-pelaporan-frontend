@@ -16,18 +16,42 @@
           </ValidationProvider>
         </v-col>
       </v-row>
-      <v-row align="center">
+      <v-row v-if="formPasien.status.length > 1" align="center">
         <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}">
-          <label>{{ $t('label.latest_patient_status') }}</label>
+          <label class="required">{{ $t('label.latest_patient_status') }}</label>
         </v-col>
         <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
           <ValidationProvider v-slot="{ errors }">
             <v-radio-group v-model="formPasien.final_result" :error-messages="errors" row>
-              <v-radio :label="$t('label.still_quarantine')" value="5" @click.prevent="uncheck('5')" />
-              <v-radio :label="$t('label.still_sick')" value="4" @click.prevent="uncheck('4')" />
-              <v-radio :label="$t('label.dead')" value="2" @click.prevent="uncheck('2')" />
-              <v-radio :label="$t('label.recovery')" value="1" @click.prevent="uncheck('1')" />
-              <v-radio :label="$t('label.discarded')" value="3" @click.prevent="uncheck('3')" />
+              <v-radio
+                v-if="rolesCriteria['stillQuarantine'].includes(formPasien.status)"
+                :label="$t('label.still_quarantine')"
+                value="5"
+                @click.prevent="uncheck('5')"
+              />
+              <v-radio
+                v-if="rolesCriteria['stillSick'].includes(formPasien.status)"
+                :label="$t('label.still_sick')"
+                value="4"
+                @click.prevent="uncheck('4')"
+              />
+              <v-radio
+                v-if="rolesCriteria['recovery'].includes(formPasien.status)"
+                :label="$t('label.recovery')"
+                value="1"
+                @click.prevent="uncheck('1')"
+              />
+              <v-radio
+                v-if="rolesCriteria['discarded'].includes(formPasien.status)"
+                :label="$t('label.discarded')"
+                value="3"
+                @click.prevent="uncheck('3')"
+              />
+              <v-radio
+                :label="$t('label.dead')"
+                value="2"
+                @click.prevent="uncheck('2')"
+              />
             </v-radio-group>
           </ValidationProvider>
         </v-col>
@@ -421,7 +445,13 @@
 </template>
 <script>
 import { ValidationProvider } from 'vee-validate'
-import { symptomOptions, additionalConditionOptions, answerList, yesOrNoAnswer } from '@/utils/constantVariable'
+import {
+  symptomOptions,
+  rolesCriteria,
+  additionalConditionOptions,
+  answerList,
+  yesOrNoAnswer
+} from '@/utils/constantVariable'
 import { mapGetters } from 'vuex'
 export default {
   name: 'FormCaseHistory',
@@ -444,7 +474,8 @@ export default {
       hospitalNonWestJavaList: [],
       additionalConditionOptions: additionalConditionOptions,
       answerList: answerList,
-      yesOrNoAnswer: yesOrNoAnswer
+      yesOrNoAnswer: yesOrNoAnswer,
+      rolesCriteria: rolesCriteria
     }
   },
   computed: {

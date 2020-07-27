@@ -5,10 +5,10 @@
   >
     <v-row class="filter-row">
       <v-col cols="12" sm="3">
-        <v-label class="title">{{ $t('label.results') }}:</v-label>
+        <v-label class="title">{{ $t('label.latest_patient_status') }}:</v-label>
         <v-select
           v-model="listQuery.final_result"
-          :items="resultList"
+          :items="caseResultList"
           solo
           item-text="label"
           item-value="value"
@@ -33,25 +33,17 @@
       </v-col>
     </v-row>
     <v-row class="filter-row">
-      <v-col cols="12" sm="3">
+      <v-col cols="12" sm="4">
         <v-label class="title">{{ $t('label.criteria') }}:</v-label>
         <v-select
           v-model="listQuery.status"
           :items="statusList"
           solo
-        />
-      </v-col>
-      <v-col cols="12" sm="3">
-        <v-label class="title">{{ $t('label.stages') }}:</v-label>
-        <v-select
-          v-model="listQuery.stage"
-          :items="stageList"
-          solo
           item-text="label"
           item-value="value"
         />
       </v-col>
-      <v-col cols="12" sm="3">
+      <v-col cols="12" sm="4">
         <v-label class="title">{{ $t('label.input_date') }}:</v-label>
         <input-date-picker
           :format-date="formatDate"
@@ -61,7 +53,7 @@
           @changeDate="listQuery.start_date = $event"
         />
       </v-col>
-      <v-col cols="12" sm="3">
+      <v-col cols="12" sm="4">
         <br>
         <input-date-picker
           :format-date="formatDate"
@@ -120,26 +112,36 @@ export default {
       codeDistrict: '',
       nameVillage: '',
       statusList: [
-        'OTG',
-        'ODP',
-        'PDP',
-        'POSITIF',
-        'CLOSECONTACT',
-        'SUSPECT',
-        'PROBABLE',
-        'CONFIRMATION'
-      ],
-      stageList: [
         {
-          label: this.$t('label.process'),
-          value: 0
+          label: 'OTG',
+          value: 'OTG'
         },
         {
-          label: this.$t('label.done'),
-          value: 1
+          label: 'ODP',
+          value: 'ODP'
+        },
+        {
+          label: 'PDP',
+          value: 'PDP'
+        },
+        {
+          label: this.$t('label.confirmation').toUpperCase(),
+          value: 'CONFIRMATION'
+        },
+        {
+          label: this.$t('route.tight_contact').toUpperCase(),
+          value: 'CLOSECONTACT'
+        },
+        {
+          label: this.$t('label.suspect').toUpperCase(),
+          value: 'SUSPECT'
+        },
+        {
+          label: this.$t('label.probable').toUpperCase(),
+          value: 'PROBABLE'
         }
       ],
-      resultList: [
+      caseResultList: [
         {
           label: this.$t('label.recovery'),
           value: 1
@@ -155,6 +157,10 @@ export default {
         {
           label: this.$t('label.discarded'),
           value: 4
+        },
+        {
+          label: this.$t('label.still_quarantine'),
+          value: 5
         },
         {
           label: this.$t('label.negatif'),
