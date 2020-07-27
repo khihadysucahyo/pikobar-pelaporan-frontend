@@ -87,7 +87,7 @@
               </ValidationProvider>
             </v-col>
             <v-col cols="12" sm="6" class="pa-1">
-              <ValidationProvider v-slot="{ errors }" rules="numeric|isHtml">
+              <ValidationProvider v-slot="{ errors }" rules="required|numeric|isHtml">
                 <v-text-field v-model="formPasien.monthsOld" :error-messages="errors" type="number" min="0" max="11" solo-inverted oninput="if(Number(this.value) > Number(this.max)) this.value = this.max" class="input-append-btn">
                   <template v-slot:append>
                     <v-btn depressed tile min-width="20">

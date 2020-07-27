@@ -140,7 +140,7 @@
           </div>
         </v-col>
         <v-col cols="12" sm="4" class="align-right">
-          <v-btn
+          <!-- <v-btn
             v-if="roles[0] !== 'faskes'"
             color="#b3e2cd"
             class="btn-import-export margin-right"
@@ -151,7 +151,7 @@
               mdi-download
             </v-icon>
             {{ $t('label.import') }}
-          </v-btn>
+          </v-btn> -->
           <v-btn
             class="btn-import-export margin-left"
             color="#b3e2cd"
@@ -180,7 +180,7 @@
                 <td>{{ getTableRowNumbering(index) }}</td>
                 <td>{{ item.id_case ? item.id_case.toUpperCase() : '-' }}</td>
                 <td>{{ item.name }}</td>
-                <td>{{ item.age }} Th</td>
+                <td>{{ getAge(item.age) }}</td>
                 <td>
                   <div v-if="item.gender ==='P'">
                     {{ $t('label.female_initials') }}
@@ -192,14 +192,6 @@
                 <td>{{ item.phone_number }}</td>
                 <td><status :status="item.status" /> </td>
                 <td>
-                  <div v-if=" item.stage === '0'">
-                    {{ $t('label.process') }}
-                  </div>
-                  <div v-else>
-                    {{ $t('label.done') }}
-                  </div>
-                </td>
-                <td>
                   <div v-if=" item.final_result ==='0'">
                     {{ $t('label.negatif') }}
                   </div>
@@ -209,12 +201,21 @@
                   <div v-else-if=" item.final_result ==='2'">
                     {{ $t('label.dead') }}
                   </div>
+                  <div v-else-if=" item.final_result ==='3'">
+                    {{ $t('label.discarded') }}
+                  </div>
+                  <div v-else-if=" item.final_result ==='4'">
+                    {{ $t('label.still_sick') }}
+                  </div>
+                  <div v-else-if=" item.final_result ==='5'">
+                    {{ $t('label.still_quarantine') }}
+                  </div>
                   <div v-else>
                     -
                   </div>
                 </td>
                 <td>{{ item.author.username }}</td>
-                <td>{{ item.createdAt ? formatDatetime(item.createdAt, 'DD MMMM YYYY') : '-' }}</td>
+                <td>{{ item.last_history ? formatDatetime(item.last_history.last_changed, 'DD MMMM YYYY') : '-' }}</td>
                 <td>
                   <v-card-actions>
                     <v-menu
@@ -379,11 +380,10 @@ export default {
         { text: this.$t('label.age').toUpperCase(), value: 'age' },
         { text: this.$t('label.gender_abbreviation').toUpperCase(), value: 'gender' },
         { text: this.$t('label.short_phone_number').toUpperCase(), value: 'phone_number' },
-        { text: this.$t('label.status').toUpperCase(), value: 'status' },
-        { text: this.$t('label.stages').toUpperCase(), value: 'stage' },
-        { text: this.$t('label.results').toUpperCase(), value: 'final_result' },
+        { text: this.$t('label.criteria').toUpperCase(), value: 'status' },
+        { text: this.$t('label.latest_patient_status').toUpperCase(), value: 'final_result' },
         { text: this.$t('label.author').toUpperCase(), value: 'author' },
-        { text: this.$t('label.input_date').toUpperCase(), value: 'createdAt' },
+        { text: this.$t('label.last_updated_date').toUpperCase(), value: 'updatedAt' },
         { text: this.$t('label.action'), value: 'actions', sortable: false }
       ],
       loading: true,
@@ -411,7 +411,7 @@ export default {
         start_date: '',
         end_date: '',
         verified_status: 'verified',
-        sort: {}
+        sort: 'updatedAt:asc'
       },
       countingReports: null,
       dialog: false,
@@ -470,11 +470,11 @@ export default {
       handler: function(value) {
         if (value.sortBy !== undefined) {
           if ((value.sortBy[0] !== undefined) && (value.sortDesc[0])) {
-            this.listQuery.sort[value.sortBy[0]] = 'desc'
+            this.listQuery.sort = 'updatedAt:desc'
           } else if ((value.sortBy[0] !== undefined) && (!value.sortDesc[0])) {
-            this.listQuery.sort[value.sortBy[0]] = 'asc'
+            this.listQuery.sort = 'updatedAt:asc'
           } else {
-            this.listQuery.sort['createdAt'] = 'desc'
+            this.listQuery.sort = 'updatedAt:desc'
           }
 
           if (Object.keys(this.listQuery.sort).length > 0) {
@@ -492,10 +492,8 @@ export default {
         this.getListCloseContactByCase(this.idCase)
       }
     })
-    // Sementara dibuat komentar
-    // if (this.roles[0] === 'dinkeskota') this.listQuery.address_district_code = this.district_user
-    // Sementara dibuat komentar
-    // this.queryReportCase.address_district_code = this.district_user
+    if (rolesWidget['dinkesKotaAndFaskes'].includes(this.roles[0])) this.listQuery.address_district_code = this.district_user
+    this.queryReportCase.address_district_code = this.district_user
     await this.$store.dispatch('reports/listReportCase', this.listQuery)
     const response = await this.$store.dispatch('reports/countReportCase', this.queryReportCase)
     if (response) this.loading = false
@@ -541,11 +539,13 @@ export default {
     async handleEditHistoryCase(id) {
       this.detail = await this.$store.dispatch('reports/detailHistoryCase', id)
       const response = await this.$store.dispatch('reports/detailReportCase', id)
-      this.detail['address_district_code'] = response.data.address_district_code
-      this.detail['address_subdistrict_code'] = response.data.address_subdistrict_code
-      this.detail['address_village_code'] = response.data.address_village_code
-      this.detail['address_village_name'] = response.data.address_village_name
-      this.detail['address_street'] = response.data.address_street
+      if (this.detail && response.data) {
+        this.detail.address_district_code = response.data.address_district_code
+        this.detail.address_subdistrict_code = response.data.address_subdistrict_code
+        this.detail.address_village_code = response.data.address_village_code
+        this.detail.address_village_name = response.data.address_village_name
+        this.detail.address_street = response.data.address_street
+      }
       Object.assign(this.formRiwayatPasien, this.detail)
       this.formRiwayatPasien.case = this.detail.case
       if ((this.detail.first_symptom_date !== null) && (this.detail.first_symptom_date !== 'Invalid date')) {
@@ -596,6 +596,11 @@ export default {
       const dateNow = Date.now()
       const fileName = `Data Kasus ${this.fullName} - ${formatDatetime(dateNow, 'DD/MM/YYYY HH:mm')} WIB.xlsx`
       FileSaver.saveAs(response, fileName)
+    },
+    getAge(value) {
+      const yearsOld = Math.floor(value)
+      const age = `${yearsOld} ${this.$t('label.year')}`
+      return age
     }
   }
 }

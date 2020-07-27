@@ -10,7 +10,7 @@ const submissionLogistikRouter = {
   meta: {
     title: 'submission_Logistics',
     icon: 'mdi-clipboard-plus',
-    roles: [rolesPerm.ADMIN, rolesPerm.FASKES]
+    roles: [rolesPerm.ADMIN, rolesPerm.DINKESKOTA, rolesPerm.FASKES]
   },
   active: false,
   children: [
