@@ -378,10 +378,10 @@ export default {
       if (res) this.loadingStatistic = false
 
       this.statistic.confirmed = {
-        sick_home: res.data[0].confrimed[0].sick_home,
-        sick_hospital: res.data[0].confrimed[0].sick_hospital,
-        recovered: res.data[0].confrimed[0].recovered,
-        decease: res.data[0].confrimed[0].decease
+        sick_home: res.data[0].confirmed[0].sick_home,
+        sick_hospital: res.data[0].confirmed[0].sick_hospital,
+        recovered: res.data[0].confirmed[0].recovered,
+        decease: res.data[0].confirmed[0].decease
       }
 
       this.statistic.probable = {
