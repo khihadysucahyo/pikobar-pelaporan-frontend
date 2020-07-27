@@ -775,7 +775,8 @@ export default {
     total_probable: 'Total Probable',
     total_suspect: 'Total Suspek',
     total_close_contact: 'Total Kontak Erat',
-    total_test_result: 'Total Hasil Tes'
+    total_test_result: 'Total Hasil Tes',
+    still_quarantined: 'Masih Dikarantina'
   },
   success: {
     login_success: 'Login Berhasil',

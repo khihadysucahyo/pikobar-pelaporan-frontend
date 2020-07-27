@@ -62,6 +62,16 @@ export default {
       return error.response
     }
   },
+  async countCaseNew({
+    commit
+  }, params) {
+    try {
+      const response = await requestServer('/api/dashboard/v2/summary-case-criteria', 'GET', params)
+      return response
+    } catch (error) {
+      return error.response
+    }
+  },
   async agregateCriteria({
     commit
   }, params) {

@@ -103,14 +103,14 @@
         </div>
       </v-col>
     </v-row>
-    <v-row class="statistic mb-1">
+    <v-row class="statistic mb-1 row-eq-height">
       <v-col
         cols="12"
         lg="3"
       >
         <statistic-new-confirmed
-          :loading="false"
-          :total="1128723459"
+          :loading="loadingStatistic"
+          :statistic="statistic.confirmed"
         />
       </v-col>
       <v-col
@@ -118,8 +118,8 @@
         lg="3"
       >
         <statistic-new-active
-          :loading="false"
-          :total="4823782770"
+          :loading="loadingStatistic"
+          :statistic="statistic.confirmed"
         />
       </v-col>
       <v-col
@@ -127,8 +127,8 @@
         lg="3"
       >
         <statistic-new-recovered
-          :loading="false"
-          :total="2768236235"
+          :loading="loadingStatistic"
+          :statistic="statistic.confirmed"
         />
       </v-col>
       <v-col
@@ -136,19 +136,19 @@
         lg="3"
       >
         <statistic-new-death
-          :loading="false"
-          :total="7718272368"
+          :loading="loadingStatistic"
+          :statistic="statistic.confirmed"
         />
       </v-col>
     </v-row>
-    <v-row class="statistic mb-3">
+    <v-row class="statistic mb-3 row-eq-height">
       <v-col
         cols="12"
         lg="4"
       >
         <statistic-new-probable
-          :loading="false"
-          :total="1233287459"
+          :loading="loadingStatistic"
+          :statistic="statistic.probable"
         />
       </v-col>
       <v-col
@@ -156,8 +156,8 @@
         lg="4"
       >
         <statistic-new-suspect
-          :loading="false"
-          :total="1827123459"
+          :loading="loadingStatistic"
+          :statistic="statistic.suspect"
         />
       </v-col>
       <v-col
@@ -165,8 +165,8 @@
         lg="4"
       >
         <statistic-new-close-contact
-          :loading="false"
-          :total="6218123459"
+          :loading="loadingStatistic"
+          :statistic="statistic.closeContact"
         />
       </v-col>
     </v-row>
@@ -207,6 +207,7 @@ export default {
   data() {
     return {
       display: true,
+      loadingStatistic: false,
       disabledDistrict: false,
       districtCity: {
         kota_kode: this.districtCode,
@@ -220,10 +221,31 @@ export default {
         desa_kode: this.villageCode,
         desa_nama: this.villageName
       },
-      listQuery: {
+      filterActive: {
         address_district_code: null,
         address_subdistrict_code: null,
         address_village_code: null
+      },
+      statistic: {
+        confirmed: {
+          sick_home: 0,
+          sick_hospital: 0,
+          recovered: 0,
+          decease: 0
+        },
+        probable: {
+          sick: 0,
+          recovered: 0,
+          decease: 0
+        },
+        suspect: {
+          sick: 0,
+          discarded: 0
+        },
+        closeContact: {
+          quarantine: 0,
+          discarded: 0
+        }
       }
     }
   },
@@ -236,7 +258,7 @@ export default {
     ])
   },
   watch: {
-    districtCode: (value) => {
+    districtCode: value => {
       if (value) {
         this.districtCity = {
           kota_kode: value,
@@ -246,13 +268,13 @@ export default {
         this.clearCity()
       }
     },
-    subDistrictCode: (value) => {
+    subDistrictCode: value => {
       this.subDistrict = {
         kecamatan_kode: value,
         kecamatan_nama: this.subDistrictName
       }
     },
-    villageCode: (value) => {
+    villageCode: value => {
       this.village = {
         desa_kode: value,
         desa_nama: this.villageName
@@ -266,13 +288,15 @@ export default {
 
     if (this.roles[0] === 'dinkeskota') {
       this.disabledDistrict = true
-      this.listQuery.address_district_code = this.district_user
+      this.filterActive.address_district_code = this.district_user
     }
 
     this.districtCity = {
       kota_kode: this.district_user,
       kota_nama: this.district_name_user
     }
+
+    this.getStatisticCaseNew()
   },
   beforeDestroy() {
     this.clearCity()
@@ -299,14 +323,23 @@ export default {
       this.$emit('update:nameVillage', value.desa_nama)
     },
     async onSearch() {
+      this.filterActive.address_district_code = this.districtCity.kota_kode
+      this.filterActive.address_subdistrict_code = this.subDistrict.kecamatan_kode
+      this.filterActive.address_village_code = this.village.desa_kode
 
+      this.getStatisticCaseNew()
     },
     async onReset() {
       if (this.roles[0] === 'dinkesprov' || this.roles[0] === 'superadmin') {
         this.clearCity()
+        this.filterActive.address_district_code = null
       }
       this.clearDistrict()
       this.clearVillage()
+      this.filterActive.address_subdistrict_code = null
+      this.filterActive.address_village_code = null
+
+      this.getStatisticCaseNew()
     },
     clearCity() {
       this.districtCity = {
@@ -331,6 +364,41 @@ export default {
     },
     handleHelp() {
       window.open('https://s.id/panduan_laporcovid19', '_blank')
+    },
+    async getStatisticCaseNew() {
+      this.loadingStatistic = true
+
+      const params = {
+        address_district_code: this.filterActive.address_district_code,
+        address_subdistrict_code: this.filterActive.address_subdistrict_code,
+        address_village_code: this.filterActive.address_village_code
+      }
+      const res = await this.$store.dispatch('statistic/countCaseNew', params)
+
+      if (res) this.loadingStatistic = false
+
+      this.statistic.confirmed = {
+        sick_home: res.data[0].confrimed[0].sick_home,
+        sick_hospital: res.data[0].confrimed[0].sick_hospital,
+        recovered: res.data[0].confrimed[0].recovered,
+        decease: res.data[0].confrimed[0].decease
+      }
+
+      this.statistic.probable = {
+        sick: res.data[0].probable[0].sick,
+        recovered: res.data[0].probable[0].recovered,
+        decease: res.data[0].probable[0].decease
+      }
+
+      this.statistic.suspect = {
+        sick: res.data[0].suspect[0].sick,
+        discarded: res.data[0].suspect[0].discarded
+      }
+
+      this.statistic.closeContact = {
+        quarantine: res.data[0].closeContact[0].quarantine,
+        discarded: res.data[0].closeContact[0].discarded
+      }
     }
   }
 }
@@ -358,6 +426,13 @@ export default {
   .button {
     height: 46px !important;
     text-transform: none;
+  }
+
+  .row-eq-height {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
   }
 }
 </style>
