@@ -137,9 +137,6 @@ export default {
         return
       }
       this.loading = true
-      if (this.formRiwayatPasien.stage === '0') {
-        this.formRiwayatPasien.final_result = ''
-      }
       const response = await this.$store.dispatch('reports/createHistoryCase', this.formRiwayatPasien)
       if (response.status !== ResponseRequest.UNPROCESSABLE) {
         await this.$store.dispatch('toast/successToast', this.$t('success.case_history_data_successfully_updated'))

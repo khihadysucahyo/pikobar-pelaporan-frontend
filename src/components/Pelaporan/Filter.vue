@@ -151,11 +151,11 @@ export default {
           value: 2
         },
         {
-          label: this.$t('label.still_sick'),
+          label: this.$t('label.discarded'),
           value: 3
         },
         {
-          label: this.$t('label.discarded'),
+          label: this.$t('label.still_sick'),
           value: 4
         },
         {
