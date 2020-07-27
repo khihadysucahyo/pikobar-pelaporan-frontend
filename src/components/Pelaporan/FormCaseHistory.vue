@@ -7,7 +7,12 @@
         </v-col>
         <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
           <ValidationProvider v-slot="{ errors }" rules="required">
-            <v-radio-group v-model="formPasien.status" :error-messages="errors" row>
+            <v-radio-group
+              v-model="formPasien.status"
+              :error-messages="errors"
+              row
+              @change="handleChangeCriteria"
+            >
               <v-radio :label="$t('route.tight_contact')" value="CLOSECONTACT" />
               <v-radio :label="$t('label.suspect')" value="SUSPECT" />
               <v-radio :label="$t('label.probable')" value="PROBABLE" />
@@ -21,7 +26,7 @@
           <label class="required">{{ $t('label.latest_patient_status') }}</label>
         </v-col>
         <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
-          <ValidationProvider v-slot="{ errors }">
+          <ValidationProvider v-slot="{ errors }" rules="required">
             <v-radio-group v-model="formPasien.final_result" :error-messages="errors" row>
               <v-radio
                 v-if="rolesCriteria['stillQuarantine'].includes(formPasien.status)"
@@ -512,6 +517,9 @@ export default {
       } else {
         this.formPasien.final_result = value
       }
+    },
+    handleChangeCriteria() {
+      this.formPasien.final_result = ''
     },
     handleChangeLocationNow(value) {
       if (value === 'RUMAH') {
