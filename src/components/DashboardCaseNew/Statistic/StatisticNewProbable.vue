@@ -193,6 +193,7 @@ export default {
         }
       ]
 
+      this.progress = []
       for (let index = 0; index < data.length; index++) {
         if (data[index].total > 0) {
           const percent = (data[index].total / this.totalProbable) * 100
