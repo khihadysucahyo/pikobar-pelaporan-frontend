@@ -40,30 +40,23 @@
         <div class="footer">
           <div class="progress-bar d-flex mb-2">
             <div
-              v-if="percentSick === 0 && percentRecovered === 0 && percentDecease === 0"
+              v-if="totalSick === 0 && totalRecovered === 0 && totalDecease === 0"
               class="text-center"
               :style="{ width: '100%' }"
             />
             <div
-              v-if="percentSick > 0"
-              class="one text-center"
-              :style="{ width: (Number(percentSick) + 10) + '%' }"
+              v-for="(item, index) in progress"
+              :key="index"
+              class="text-center"
+              :class="item.class"
+              :style="[
+                item.percentBar,
+                item.backgroundColor,
+                item.zIndex,
+                index > 0 ? {'margin-left': '-15px'} : {'margin-left': '0'}
+              ]"
             >
-              {{ percentSick | decimal }}%
-            </div>
-            <div
-              v-if="percentRecovered > 0"
-              class="two text-center"
-              :style="{ width: (Number(percentRecovered) + 10) + '%' }"
-            >
-              {{ percentRecovered | decimal }}%
-            </div>
-            <div
-              v-if="percentDecease > 0"
-              class="three text-center"
-              :style="{ width: (Number(percentDecease) + 10) + '%' }"
-            >
-              {{ percentDecease | decimal }}%
+              {{ item.percent | decimal }}%
             </div>
           </div>
           <div class="information">
@@ -161,7 +154,8 @@ export default {
       totalDecease: 0,
       percentSick: 0,
       percentRecovered: 0,
-      percentDecease: 0
+      percentDecease: 0,
+      progress: []
     }
   },
   watch: {
@@ -183,18 +177,33 @@ export default {
       this.totalSick = sick
       this.totalRecovered = recovered
       this.totalDecease = decease
-      this.percentSick =
-        this.totalSick > 0
-          ? ((this.totalSick / this.totalProbable) * 100).toFixed(2)
-          : 0
-      this.percentRecovered =
-        this.percentRecovered > 0
-          ? ((this.totalRecovered / this.totalProbable) * 100).toFixed(2)
-          : 0
-      this.percentDecease =
-        this.percentDecease > 0
-          ? ((this.totalDecease / this.totalProbable) * 100).toFixed(2)
-          : 0
+
+      const data = [
+        {
+          total: this.totalSick,
+          background: '#f2994a'
+        },
+        {
+          total: this.totalRecovered,
+          background: '#27ae60'
+        },
+        {
+          total: this.totalDecease,
+          background: '#9c0000'
+        }
+      ]
+
+      for (let index = 0; index < data.length; index++) {
+        if (data[index].total > 0) {
+          const percent = (data[index].total / this.totalProbable) * 100
+          this.progress.push({
+            percent: percent.toFixed(2),
+            percentBar: { width: Number(percent) + 10 + '%' },
+            backgroundColor: { backgroundColor: data[index].background },
+            zIndex: { zIndex: data.length - index }
+          })
+        }
+      }
     }
   }
 }
@@ -225,23 +234,6 @@ export default {
         div {
           height: 20px;
           border-radius: 10px;
-        }
-
-        .one {
-          z-index: 3;
-          background-color: #f2994a;
-        }
-
-        .two {
-          z-index: 2;
-          background-color: #27ae60;
-          margin-left: -15px;
-        }
-
-        .three {
-          z-index: 1;
-          background-color: #9c0000;
-          margin-left: -15px;
         }
       }
 
