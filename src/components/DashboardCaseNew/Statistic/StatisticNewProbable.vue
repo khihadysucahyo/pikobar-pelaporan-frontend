@@ -197,6 +197,7 @@ export default {
         if (data[index].total > 0) {
           const percent = (data[index].total / this.totalProbable) * 100
           this.progress.push({
+            class: `progress-${index}`,
             percent: percent.toFixed(2),
             percentBar: { width: Number(percent) + 10 + '%' },
             backgroundColor: { backgroundColor: data[index].background },
