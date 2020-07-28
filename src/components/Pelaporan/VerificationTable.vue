@@ -13,7 +13,7 @@
         <tr>
           <td>{{ getTableRowNumbering(index) }}</td>
           <td>{{ item.name }}</td>
-          <td>{{ item.age }} Th</td>
+          <td>{{ getAge(item.age) }} Th</td>
           <td>
             <div v-if="item.gender === 'P'">
               {{ $t('label.female_initials') }}
@@ -24,22 +24,23 @@
           </td>
           <td><status :status="item.status" /> </td>
           <td>
-            <div v-if=" item.last_history.stage === '0'">
-              {{ $t('label.process') }}
-            </div>
-            <div v-else>
-              {{ $t('label.done') }}
-            </div>
-          </td>
-          <td>
-            <div v-if=" item.last_history.final_result === '0'">
+            <div v-if=" item.last_history.final_result ==='0'">
               {{ $t('label.negatif') }}
             </div>
-            <div v-else-if=" item.last_history.final_result === '1'">
+            <div v-else-if=" item.last_history.final_result ==='1'">
               {{ $t('label.recovery') }}
             </div>
-            <div v-else-if=" item.last_history.final_result === '2'">
+            <div v-else-if=" item.last_history.final_result ==='2'">
               {{ $t('label.dead') }}
+            </div>
+            <div v-else-if=" item.last_history.final_result ==='3'">
+              {{ $t('label.discarded') }}
+            </div>
+            <div v-else-if=" item.last_history.final_result ==='4'">
+              {{ $t('label.still_sick') }}
+            </div>
+            <div v-else-if=" item.last_history.final_result ==='5'">
+              {{ $t('label.still_quarantine') }}
             </div>
             <div v-else>
               -
@@ -265,6 +266,11 @@ export default {
       } else {
         return true
       }
+    },
+    getAge(value) {
+      const yearsOld = Math.floor(value)
+      const age = `${yearsOld} ${this.$t('label.year')}`
+      return age
     }
   }
 }
