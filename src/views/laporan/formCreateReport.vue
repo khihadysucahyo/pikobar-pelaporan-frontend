@@ -12,6 +12,23 @@
         </span>
       </v-row>
     </v-card>
+    <v-row v-if="isFixCase" class="mx-0 mb-2">
+      <div class="rejection py-2 px-7">
+        <v-row justify="start">
+          <v-col cols="12" sm="1">
+            <v-icon x-large color="#EB5757">mdi-alert-circle</v-icon>
+          </v-col>
+          <v-col cols="12" sm="11">
+            <v-row>
+              <span class="font-weight-bold">{{ $t('label.rejection_note') }}</span>
+            </v-row>
+            <v-row class="mt-1">
+              <span>"{{ formPasien.verified_comment }}"</span>
+            </v-row>
+          </v-col>
+        </v-row>
+      </div>
+    </v-row>
     <ValidationObserver ref="observer">
       <v-row>
         <v-col auto>
@@ -103,7 +120,7 @@
           </v-expansion-panels>
         </v-col>
       </v-row>
-      <v-row>
+      <v-row v-if="!isFixCase">
         <v-col auto>
           <v-expansion-panels
             v-model="multipleCloseContactPanel"
@@ -127,7 +144,7 @@
       <v-row class="survey-bottom-form">
         <v-col class="text-right">
           <v-btn color="success" :loading="loading" bottom class="ml-2" @click="saveData">
-            {{ $t('label.save') }}
+            {{ isFixCase ? $t('label.fix_case'):$t('label.save') }}
           </v-btn>
         </v-col>
       </v-row>
@@ -147,6 +164,8 @@ export default {
     return {
       loading: false,
       showDuplicatedNikDialog: false,
+      isFixCase: false,
+      formatDate: 'YYYY/MM/DD',
       nikNumber: null,
       nikName: null,
       nikAuthor: null,
@@ -168,11 +187,33 @@ export default {
       'formPasien'
     ])
   },
-  mounted() {
+  async mounted() {
     this.$store.dispatch('reports/resetFormPasien')
     this.formPasien.interviewers_name = this.fullName
     this.formPasien.interviewers_phone_number = this.phoneNumber
     this.formPasien.interview_date = this.$moment().format()
+    const idData = this.$route.params.id
+    if (idData !== undefined) {
+      const response = await this.$store.dispatch('reports/detailReportCase', idData)
+      this.isFixCase = true
+      await Object.assign(this.formPasien, response.data)
+      await Object.assign(this.formPasien, response.data.last_history)
+      if (response.data.birth_date !== null) {
+        this.formPasien.birth_date = await this.formatDatetime(response.data.birth_date, this.formatDate)
+      } else {
+        this.formPasien.birth_date = ''
+      }
+      if (response.data.age !== null) {
+        this.formPasien.yearsOld = Math.floor(response.data.age)
+        this.formPasien.monthsOld = Math.ceil((response.data.age - Math.floor(response.data.age)) * 12)
+      }
+      if (this.formPasien._id) {
+        delete this.formPasien['author']
+        delete this.formPasien['createdAt']
+        delete this.formPasien['updatedAt']
+        delete this.formPasien['last_history']
+      }
+    }
   },
   methods: {
     async saveData() {
@@ -180,7 +221,7 @@ export default {
       if (!valid) {
         return
       }
-      if (this.formPasien.nik) {
+      if ((!this.isFixCase) && (this.formPasien.nik)) {
         this.loading = true
         const response = await this.$store.dispatch('reports/revampGetNik', { params: this.formPasien.nik })
         if (response.data) {
@@ -195,11 +236,20 @@ export default {
       delete this.formPasien['id_case']
       try {
         this.formPasien.input_source = 'form app'
-        const response = await this.$store.dispatch('reports/createRevampReportCase', this.formPasien)
+        let response
+        if (!this.isFixCase) {
+          response = await this.$store.dispatch('reports/createRevampReportCase', this.formPasien)
+        } else {
+          const data = {
+            id: this.$route.params.id,
+            data: this.formPasien
+          }
+          response = await this.$store.dispatch('reports/correctCaseReport', data)
+        }
         if (response.status !== ResponseRequest.UNPROCESSABLE) {
           await this.$store.dispatch('toast/successToast', this.$t('success.create_data_success'))
           await this.$store.dispatch('reports/resetFormPasien')
-          if (this.roles[0] === rolesPerm.FASKES) {
+          if ((this.roles[0] === rolesPerm.FASKES) || (this.isFixCase)) {
             await this.$router.push('/laporan/verification')
           } else {
             await this.$router.push('/laporan/list')

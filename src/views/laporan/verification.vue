@@ -339,8 +339,8 @@ export default {
     onTabChanges(value) {
       const ids = this.headers.length
       if (this.roles[0] === 'dinkeskota' && value === 'declined') {
-        this.headers.splice(8, 2)
-      } else if (ids === 8) {
+        this.headers.splice(7, 2)
+      } else if (ids === 7) {
         this.headers.push(
           { text: this.$t('label.auto_verification_deadline').toUpperCase(), value: 'createdAt' },
           { text: this.$t('label.action').toUpperCase(), value: 'action', sortable: false }
