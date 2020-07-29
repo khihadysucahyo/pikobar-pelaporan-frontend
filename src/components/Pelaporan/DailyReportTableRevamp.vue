@@ -1,36 +1,34 @@
 <template>
   <div>
-    <v-container>
-      <v-row>
-        <v-col cols="3">{{ $t('label.provincial_health_service') }}</v-col>
-        <v-col cols="1">:</v-col>
-        <v-col>-</v-col>
-      </v-row>
-      <v-row>
-        <v-col cols="3">{{ $t('label.district_or_city_health_service') }}</v-col>
-        <v-col cols="1">:</v-col>
-        <v-col>-</v-col>
-      </v-row>
-      <v-row>
-        <v-col cols="3">{{ $t('label.name_of_officer_or_cellphone') }}</v-col>
-        <v-col cols="1">:</v-col>
-        <v-col>-</v-col>
-      </v-row>
-      <v-row>
-        <v-col cols="3">{{ $t('label.date') }}</v-col>
-        <v-col cols="1">:</v-col>
-        <v-col>-</v-col>
-      </v-row>
-    </v-container>
+    <v-row class="ml-2">
+      <v-col cols="3">{{ $t('label.provincial_health_service') }}</v-col>
+      <v-col cols="1">:</v-col>
+      <v-col>-</v-col>
+    </v-row>
+    <v-row class="ml-2">
+      <v-col cols="3">{{ $t('label.district_or_city_health_service') }}</v-col>
+      <v-col cols="1">:</v-col>
+      <v-col>-</v-col>
+    </v-row>
+    <v-row class="ml-2">
+      <v-col cols="3">{{ $t('label.name_of_officer_or_cellphone') }}</v-col>
+      <v-col cols="1">:</v-col>
+      <v-col>-</v-col>
+    </v-row>
+    <v-row class="ml-2">
+      <v-col cols="3">{{ $t('label.date') }}</v-col>
+      <v-col cols="1">:</v-col>
+      <v-col>-</v-col>
+    </v-row>
     <v-simple-table fixed-header>
       <template v-slot:default>
         <thead>
           <tr>
             <th class="text-left">&nbsp;</th>
-            <th class="text-left">{{ $t('label.status') }}</th>
-            <th class="text-left">{{ $t('label.today') }}</th>
-            <th class="text-left">{{ $t('label.amount_in_the_past_1_week') }}</th>
-            <th class="text-left">{{ $t('label.amount_in_the_past_1_month') }}</th>
+            <th class="text-left font-weight-bold subtitle-2">{{ $t('label.status') }}</th>
+            <th class="text-left font-weight-bold subtitle-2">{{ $t('label.today') }}</th>
+            <th class="text-left font-weight-bold subtitle-2">{{ $t('label.amount_in_the_past_1_week') }}</th>
+            <th class="text-left font-weight-bold subtitle-2">{{ $t('label.amount_in_the_past_1_month') }}</th>
           </tr>
         </thead>
         <tbody>
@@ -336,7 +334,10 @@ export default {
 }
 </script>
 <style scoped>
- .background-td {
+  .background-td {
     background: black !important;
- }
+  }
+  .v-data-table td {
+      height: 36px !important;
+  }
 </style>
