@@ -18,6 +18,7 @@ export default {
     medical_personnel: 'Tenaga Kesehatan',
     laporan_create: 'Buat Laporan Kasus',
     laporan_detail: 'Detail Laporan Kasus',
+    correct_case_report: 'Perbaiki Laporan Kasus',
     laporan_edit: 'Ubah Laporan Kasus',
     edit_lapor: 'Ubah Laporan',
     edit_history_lapor: 'Ubah Histori',

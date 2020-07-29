@@ -26,6 +26,18 @@ const reportRouter = {
       }
     },
     {
+      path: '/laporan/correct-case-report/:id',
+      component: () => import('@/views/laporan/formCreateReport'),
+      hidden: true,
+      meta: {
+        title: 'correct_case_report',
+        icon: 'library_books',
+        child: true,
+        noCache: true,
+        roles: [rolesPerm.ADMIN, rolesPerm.DINKESKOTA, rolesPerm.FASKES]
+      }
+    },
+    {
       path: '/laporan/verification',
       component: () => import('@/views/laporan/verification'),
       meta: {

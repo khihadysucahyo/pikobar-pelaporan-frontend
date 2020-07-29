@@ -13,7 +13,7 @@
         <tr>
           <td>{{ getTableRowNumbering(index) }}</td>
           <td>{{ item.name }}</td>
-          <td>{{ getAge(item.age) }} Th</td>
+          <td>{{ getAge(item.age) }}</td>
           <td>
             <div v-if="item.gender === 'P'">
               {{ $t('label.female_initials') }}
@@ -89,7 +89,7 @@
                 </template>
                 <v-card>
                   <div v-if="roles[0] === 'faskes'">
-                    <v-list-item @click="handleDetail(item._id)">
+                    <v-list-item @click="handleCorrectCaseReport(item._id)">
                       {{ item.verified_status === 'declined' ? $t('label.fix_case') : $t('label.view_case_detail') }}
                     </v-list-item>
                     <v-list-item v-if="item.verified_status !== 'declined'" @click="handleEditCase(item._id)">
@@ -224,6 +224,9 @@ export default {
         this.$emit('update:caseDetail', response.data)
         this.$emit('update:showVerificationForm', true)
       }
+    },
+    async handleCorrectCaseReport(id) {
+      await this.$router.push(`/laporan/correct-case-report/${id}`)
     },
     async handleEditCase(id) {
       this.detail = await this.$store.dispatch('reports/detailReportCase', id)
