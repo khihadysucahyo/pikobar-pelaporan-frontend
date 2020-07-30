@@ -270,7 +270,7 @@ export default {
         address: '',
         related: '',
         activity: '',
-        is_patient_address_same: '',
+        is_patient_address_same: false,
         address_district_code: '',
         address_district_name: '',
         address_subdistrict_code: '',

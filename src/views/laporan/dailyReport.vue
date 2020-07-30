@@ -64,14 +64,14 @@
       <v-card
         outlined
       >
-        <!-- <daily-report-table-revamp /> -->
-        <daily-report-table
+        <daily-report-table-revamp />
+        <!-- <daily-report-table
           :list="list"
           :table-headers="headers"
           :list-query="listQuery"
-        />
+        /> -->
       </v-card>
-      <v-row>
+      <!-- <v-row>
         <v-col
           auto
         >
@@ -127,7 +127,7 @@
             :age="listTotal.positif_by_usia"
           />
         </v-col>
-      </v-row>
+      </v-row> -->
     </div>
   </div>
 </template>

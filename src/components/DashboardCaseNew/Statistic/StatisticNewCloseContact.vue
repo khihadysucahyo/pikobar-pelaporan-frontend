@@ -37,23 +37,23 @@
         <div class="footer">
           <div class="progress-bar d-flex mb-2">
             <div
-              v-if="percentQuarantine === 0 && percentDiscarded === 0"
+              v-if="totalQuarantine === 0 && totalDiscarded === 0"
               class="text-center"
               :style="{ width: '100%' }"
             />
             <div
-              v-if="percentQuarantine > 0"
-              class="one text-center"
-              :style="{ width: (Number(percentQuarantine) + 10) + '%' }"
+              v-for="(item, index) in progress"
+              :key="index"
+              class="text-center"
+              :class="item.class"
+              :style="[
+                item.percentBar,
+                item.backgroundColor,
+                item.zIndex,
+                index > 0 ? {'margin-left': '-15px'} : {'margin-left': '0'}
+              ]"
             >
-              {{ percentQuarantine | decimal }}%
-            </div>
-            <div
-              v-if="percentDiscarded > 0"
-              class="three text-center"
-              :style="{ width: (Number(percentDiscarded) + 10) + '%' }"
-            >
-              {{ percentDiscarded | decimal }}%
+              {{ item.percent | decimal }}%
             </div>
           </div>
           <div class="information">
@@ -128,7 +128,8 @@ export default {
       totalQuarantine: 0,
       totalDiscarded: 0,
       percentQuarantine: 0,
-      percentDiscarded: 0
+      percentDiscarded: 0,
+      progress: []
     }
   },
   watch: {
@@ -148,14 +149,31 @@ export default {
       this.totalCloseContact = quarantine + discarded
       this.totalQuarantine = quarantine
       this.totalDiscarded = discarded
-      this.percentQuarantine =
-        this.totalQuarantine > 0
-          ? ((this.totalQuarantine / this.totalCloseContact) * 100).toFixed(2)
-          : 0
-      this.percentDiscarded =
-        this.totalDiscarded > 0
-          ? ((this.totalDiscarded / this.totalCloseContact) * 100).toFixed(2)
-          : 0
+
+      const data = [
+        {
+          total: this.totalQuarantine,
+          background: '#f2994a'
+        },
+        {
+          total: this.totalDiscarded,
+          background: '#828282'
+        }
+      ]
+
+      this.progress = []
+      for (let index = 0; index < data.length; index++) {
+        if (data[index].total > 0) {
+          const percent = (data[index].total / this.totalCloseContact) * 100
+          this.progress.push({
+            class: `progress-${index}`,
+            percent: percent.toFixed(2),
+            percentBar: { width: Number(percent) + 10 + '%' },
+            backgroundColor: { backgroundColor: data[index].background },
+            zIndex: { zIndex: data.length - index }
+          })
+        }
+      }
     }
   }
 }
@@ -186,23 +204,6 @@ export default {
         div {
           height: 20px;
           border-radius: 10px;
-        }
-
-        .one {
-          z-index: 3;
-          background-color: #f2994a;
-        }
-
-        .two {
-          z-index: 2;
-          background-color: #27ae60;
-          margin-left: -15px;
-        }
-
-        .three {
-          z-index: 1;
-          background-color: #828282;
-          margin-left: -15px;
         }
       }
 

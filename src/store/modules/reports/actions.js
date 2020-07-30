@@ -299,6 +299,16 @@ export default {
       return error.response
     }
   },
+  async correctCaseReport({ commi }, data) {
+    const id_case = await data.id
+    await delete data['id']
+    try {
+      const response = await requestServer(`/api/cases/${id_case}/verifications-revise`, 'PUT', data.data)
+      return response
+    } catch (error) {
+      return error.response
+    }
+  },
   resetListCase({ commit }) {
     commit('RESET_LIST_CASE')
   },
