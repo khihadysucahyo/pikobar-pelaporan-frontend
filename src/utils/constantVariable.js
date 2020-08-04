@@ -117,6 +117,18 @@ export const protectionToolOptions = [
   'Masker NIOSH-N95, AN EU STANDARD FFP2'
 ]
 
+export const specimenType = [
+  'Swab Nasofaring',
+  'Swab Orofaring',
+  'Swab Naso - Orofaring',
+  'Sputum',
+  'Bal Fluid',
+  'Cairan Spirasi Trakhea',
+  'Serum',
+  'Darah',
+  'Lainnya'
+]
+
 export const listMonthName = [
   {
     value: 1,

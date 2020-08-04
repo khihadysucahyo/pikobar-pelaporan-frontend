@@ -87,6 +87,24 @@
       <v-row>
         <v-col auto>
           <v-expansion-panels
+            v-model="historyCasePanel"
+            multiple
+          >
+            <v-expansion-panel>
+              <v-expansion-panel-header class="font-weight-bold text-lg">
+                Pemeriksaan Penunjang
+              </v-expansion-panel-header>
+              <v-divider />
+              <v-expansion-panel-content>
+                <form-multiple-supporting-investigation :form-pasien="formPasien" />
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+          </v-expansion-panels>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col auto>
+          <v-expansion-panels
             v-model="historySocioeconomicPanel"
             multiple
           >

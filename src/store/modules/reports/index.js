@@ -103,6 +103,7 @@ function initialState() {
       name_close_contact_confirm: '',
       id_close_contact_confirm: '',
       close_contact_patient: [],
+      supporting_investigation: [],
       physical_check_temperature: '',
       physical_check_blood_pressure: '',
       physical_check_pulse: '',
