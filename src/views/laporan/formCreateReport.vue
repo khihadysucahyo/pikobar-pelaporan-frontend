@@ -87,16 +87,52 @@
       <v-row>
         <v-col auto>
           <v-expansion-panels
-            v-model="historyCasePanel"
+            v-model="multipleSupportingInvestigationPanel"
             multiple
           >
             <v-expansion-panel>
               <v-expansion-panel-header class="font-weight-bold text-lg">
-                Pemeriksaan Penunjang
+                {{ $t('label.supporting_investigation') }}
               </v-expansion-panel-header>
               <v-divider />
               <v-expansion-panel-content>
                 <form-multiple-supporting-investigation :form-pasien="formPasien" />
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+          </v-expansion-panels>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col auto>
+          <v-expansion-panels
+            v-model="travelHistoryFactorPanel"
+            multiple
+          >
+            <v-expansion-panel>
+              <v-expansion-panel-header class="font-weight-bold text-lg">
+                {{ $t('label.travel_history_factor') }}
+              </v-expansion-panel-header>
+              <v-divider />
+              <v-expansion-panel-content>
+                <form-multiple-travel-history-factor :form-pasien="formPasien" />
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+          </v-expansion-panels>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col auto>
+          <v-expansion-panels
+            v-model="contactFactorPanel"
+            multiple
+          >
+            <v-expansion-panel>
+              <v-expansion-panel-header class="font-weight-bold text-lg">
+                {{ $t('label.form_eposure_factor_title') }}
+              </v-expansion-panel-header>
+              <v-divider />
+              <v-expansion-panel-content>
+                <form-multiple-contact-factor :form-pasien="formPasien" />
               </v-expansion-panel-content>
             </v-expansion-panel>
           </v-expansion-panels>
@@ -115,24 +151,6 @@
               <v-divider />
               <v-expansion-panel-content>
                 <form-socioeconomic-history :form-pasien="formPasien" />
-              </v-expansion-panel-content>
-            </v-expansion-panel>
-          </v-expansion-panels>
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col auto>
-          <v-expansion-panels
-            v-model="contactFactorPanel"
-            multiple
-          >
-            <v-expansion-panel>
-              <v-expansion-panel-header class="font-weight-bold text-lg">
-                {{ $t('label.form_eposure_factor_title') }}
-              </v-expansion-panel-header>
-              <v-divider />
-              <v-expansion-panel-content>
-                <form-contact-factor :form-pasien="formPasien" />
               </v-expansion-panel-content>
             </v-expansion-panel>
           </v-expansion-panels>
@@ -191,6 +209,8 @@ export default {
       patientPanel: [0],
       historyCasePanel: [0],
       historySocioeconomicPanel: [0],
+      travelHistoryFactorPanel: [0],
+      multipleSupportingInvestigationPanel: [0],
       contactFactorPanel: [0],
       multipleCloseContactPanel: [0]
     }
