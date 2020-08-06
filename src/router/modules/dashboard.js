@@ -12,19 +12,19 @@ const dashboardRouter = {
   },
   active: false,
   children: [
+    // {
+    //   path: '/',
+    //   component: () => import('@/views/dashboard/index'),
+    //   meta: {
+    //     title: 'dashboard_case',
+    //     icon: 'dashboard',
+    //     child: true,
+    //     noCache: true,
+    //     roles: [rolesPerm.ADMIN, rolesPerm.DINKESPROV, rolesPerm.DINKESKOTA]
+    //   }
+    // },
     {
       path: '/',
-      component: () => import('@/views/dashboard/index'),
-      meta: {
-        title: 'dashboard_case',
-        icon: 'dashboard',
-        child: true,
-        noCache: true,
-        roles: [rolesPerm.ADMIN, rolesPerm.DINKESPROV, rolesPerm.DINKESKOTA]
-      }
-    },
-    {
-      path: '/dashboard/case-new',
       component: () => import('@/views/dashboard/caseNew'),
       meta: {
         title: 'dashboard_case_new',
