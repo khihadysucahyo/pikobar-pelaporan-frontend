@@ -262,6 +262,23 @@ export const listPhysicalActivity = [
   }
 ]
 
+export const listActivitiesUndertaken = [
+  'Kontak fisik langsung (contoh: salaman, pelukan, dll)',
+  'Kontak langsung dengan sekresi menular (contoh: batuk atau bersin di depannya, menyentuh tisu bekas pakai dengan tangan telanjang, dll)',
+  'Berada dalam ruang tertutup bersama dalam waktu lebih dari 15 menit',
+  'Berada dalam ruang yang sama dengan jarak kurang dari 1 meter'
+]
+
+export const listPlaceCategory = [
+  'Pasar Modern / Tradisional',
+  'Pasar Hewan',
+  'Fasilitas Kesehatan',
+  'Tempat Wisata',
+  'Tempat Ibadah',
+  'Restoran',
+  'Tempat Publik Lainnya'
+]
+
 export const incomeList = [
   {
     value: 0,

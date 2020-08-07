@@ -201,7 +201,7 @@
         <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
           <ValidationProvider v-slot="{ errors }" :rules="formPasien.there_are_symptoms ? 'required' : ''">
             <v-row>
-              <v-col v-for="item in symptomOptions" :key="item" cols="6" sm="6" md="4">
+              <v-col v-for="item in symptomOptions" :key="item" cols="12" sm="6" md="4">
                 <label class="material-checkbox-custom">
                   <input v-model="formPasien.diagnosis" :value="item" type="checkbox">
                   <span v-if="errors.length" class="error--text">{{ item }}</span>
@@ -229,7 +229,7 @@
       <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
         <ValidationProvider v-slot="{ errors }">
           <v-row>
-            <v-col v-for="item in additionalConditionOptions" :key="item" cols="6" sm="6" md="4">
+            <v-col v-for="item in additionalConditionOptions" :key="item" cols="12" sm="6" md="4">
               <label class="material-checkbox-custom">
                 <input v-model="formPasien.diseases" :value="item" type="checkbox">
                 <span v-if="errors.length" class="error--text">{{ item }}</span>
