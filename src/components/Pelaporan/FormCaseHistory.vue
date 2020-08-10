@@ -317,13 +317,13 @@
     </v-row>
     <v-row align="center">
       <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}">
-        <label>{{ $t('label.serum_check') }}</label>
+        <label>{{ $t('label.do_you_have_another_diagnosis_etiology_for_respiratory_disease') }}</label>
       </v-col>
       <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
         <ValidationProvider>
           <v-container>
             <v-row>
-              <v-radio-group v-model="formPasien.serum_check" row>
+              <v-radio-group v-model="formPasien.is_other_diagnosisr_respiratory_disease" row>
                 <span v-for="(item, index) in yesOrNoAnswer" :key="index">
                   <v-radio :label="item.text" :value="item.value" />
                 </span>
@@ -333,39 +333,15 @@
         </ValidationProvider>
       </v-col>
     </v-row>
-    <v-row align="center">
-      <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}">
-        <label>{{ $t('label.sputum_check') }}</label>
-      </v-col>
+    <v-row align="start" class="mt-4">
+      <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}" />
       <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
         <ValidationProvider>
-          <v-container>
-            <v-row>
-              <v-radio-group v-model="formPasien.sputum_check" row>
-                <span v-for="(item, index) in yesOrNoAnswer" :key="index">
-                  <v-radio :label="item.text" :value="item.value" />
-                </span>
-              </v-radio-group>
-            </v-row>
-          </v-container>
-        </ValidationProvider>
-      </v-col>
-    </v-row>
-    <v-row align="center">
-      <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}">
-        <label>{{ $t('label.swab_check') }}</label>
-      </v-col>
-      <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
-        <ValidationProvider>
-          <v-container>
-            <v-row>
-              <v-radio-group v-model="formPasien.swab_check" row>
-                <span v-for="(item, index) in yesOrNoAnswer" :key="index">
-                  <v-radio :label="item.text" :value="item.value" />
-                </span>
-              </v-radio-group>
-            </v-row>
-          </v-container>
+          <v-text-field
+            v-model="formPasien.other_diagnosisr_respiratory_disease"
+            :placeholder="$t('label.state_any_other_diagnosis_etiology')"
+            solo-inverted
+          />
         </ValidationProvider>
       </v-col>
     </v-row>

@@ -78,7 +78,7 @@
           </v-row>
         </v-col>
       </v-row>
-      <div v-for="(data, index) in formPasien.supporting_investigation" :key="index">
+      <div v-for="(data, index) in formPasien.inspection_support" :key="index">
         <v-container fluid>
           <v-card outlined>
             <v-row align="center" justify="space-between">
@@ -101,9 +101,9 @@
                 </v-col>
                 <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
                   <ValidationProvider>
-                    <v-radio-group v-model="data.investigation" row>
-                      <v-radio :label="$t('label.confirmation_lab')" value="L" />
-                      <v-radio :label="$t('label.other_checks')" value="P" />
+                    <v-radio-group v-model="data.inspection_type" row>
+                      <v-radio :label="$t('label.confirmation_lab')" value="lab_cofirm" />
+                      <v-radio :label="$t('label.other_checks')" value="other_checks" />
                     </v-radio-group>
                   </ValidationProvider>
                 </v-col>
@@ -115,7 +115,7 @@
                 <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
                   <ValidationProvider>
                     <v-select
-                      v-model="data.specimen_type"
+                      v-model="data.specimens_type"
                       :items="specimenType"
                       solo
                     />
@@ -145,8 +145,22 @@
                 <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
                   <ValidationProvider>
                     <v-text-field
-                      v-model="data.place_testing"
+                      v-model="data.inspection_location"
                       :label="$t('label.enter_place')"
+                      solo-inverted
+                    />
+                  </ValidationProvider>
+                </v-col>
+              </v-row>
+              <v-row align="center">
+                <v-col cols="12" md="3" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
+                  <label>{{ $t('label.collection_specimen') }}</label>
+                </v-col>
+                <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
+                  <ValidationProvider>
+                    <v-text-field
+                      v-model="data.get_specimens_to"
+                      :label="$t('label.enter_number_takes')"
                       solo-inverted
                     />
                   </ValidationProvider>
@@ -158,36 +172,36 @@
                 </v-col>
                 <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
                   <ValidationProvider v-slot="{ errors }">
-                    <v-radio-group v-model="data.test_results" :error-messages="errors" row>
+                    <v-radio-group v-model="data.inspection_result" :error-messages="errors" row>
                       <v-radio
-                        v-if="data.gender === 'P'"
-                        :label="'Reaktif'"
-                        value="A"
+                        v-if="data.inspection_type === 'other_checks'"
+                        :label="$t('label.reaktif')"
+                        value="reactif"
                       />
                       <v-radio
-                        v-if="data.gender === 'P'"
-                        :label="'Non Reaktif'"
-                        value="B"
+                        v-if="data.inspection_type === 'other_checks'"
+                        :label="$t('label.non_reaktif')"
+                        value="non_reactif"
                       />
                       <v-radio
-                        :label="'Positif'"
-                        value="C"
+                        :label="$t('label.positif')"
+                        value="positif"
                       />
                       <v-radio
-                        :label="'Negatif'"
-                        value="D"
+                        :label="$t('label.negatif')"
+                        value="negatif"
                       />
                       <v-radio
-                        :label="'Inkonklusif'"
-                        value="E"
+                        :label="$t('label.inkonklusif')"
+                        value="inkonklusif"
                       />
                       <v-radio
-                        :label="'Invalid'"
-                        value="F"
+                        :label="$t('label.invalid')"
+                        value="invalid"
                       />
                       <v-radio
-                        :label="'Dalam Proses'"
-                        value="G"
+                        :label="$t('label.in_process')"
+                        value="on_progress"
                       />
                     </v-radio-group>
                   </ValidationProvider>
@@ -242,21 +256,21 @@ export default {
       this.isValid = true
       this.showAlert = false
       this.idCloseContactForm = this.idCloseContactForm + 1
-      this.formPasien.supporting_investigation.push({
+      this.formPasien.inspection_support.push({
         id: this.idCloseContactForm,
-        investigation: '',
-        specimen_type: '',
+        specimens_type: '',
         inspection_date: '',
-        place_testing: '',
-        test_results: ''
+        inspection_location: '',
+        get_specimens_to: '',
+        inspection_result: ''
       })
     },
     handleDeleteFormCloseContact(index) {
-      this.formPasien.supporting_investigation.splice(index, 1)
-      this.isValid = this.formPasien.supporting_investigation.length !== 0
+      this.formPasien.inspection_support.splice(index, 1)
+      this.isValid = this.formPasien.inspection_support.length !== 0
     },
     handleChangeContactDate(value, index) {
-      this.formPasien.supporting_investigation[index].contact_date = value
+      this.formPasien.inspection_support[index].contact_date = value
     }
   }
 }

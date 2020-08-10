@@ -81,6 +81,9 @@ export default {
     state.formPasien.close_contact_heavy_ispa_group = 2
     state.formPasien.close_contact_health_worker = 2
     state.formPasien.apd_use = []
+    state.formPasien.inspection_support = []
+    state.formPasien.is_other_diagnosisr_respiratory_disease = false
+    state.formPasien.other_diagnosisr_respiratory_disease = ''
     state.formPasien.name_close_contact = ''
     state.formPasien.id_close_contact = ''
     state.formPasien.name_close_contact_confirm = ''
