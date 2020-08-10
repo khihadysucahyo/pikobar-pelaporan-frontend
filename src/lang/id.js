@@ -811,7 +811,9 @@ export default {
     primary_contact_label_2: 'Apakah pasien termasuk cluster ISPA berat?',
     primary_contact_label_3: 'Apakah pasien memiliki hewan peliharaan?',
     primary_contact_label_4: 'Apakah pasien merupakan petugas kesehatan?',
-    primary_contact_label_5: 'Apakah melakukan prosedur yang menimbulkan erosol?'
+    primary_contact_label_5: 'Apakah melakukan prosedur yang menimbulkan erosol?',
+    total_test_result: 'Total Hasil Tes',
+    still_quarantined: 'Masih Dikarantina'
   },
   success: {
     login_success: 'Login Berhasil',

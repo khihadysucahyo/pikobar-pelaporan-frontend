@@ -113,18 +113,6 @@ export default {
       nameVillage: '',
       statusList: [
         {
-          label: 'OTG',
-          value: 'OTG'
-        },
-        {
-          label: 'ODP',
-          value: 'ODP'
-        },
-        {
-          label: 'PDP',
-          value: 'PDP'
-        },
-        {
           label: this.$t('label.confirmation').toUpperCase(),
           value: 'CONFIRMATION'
         },

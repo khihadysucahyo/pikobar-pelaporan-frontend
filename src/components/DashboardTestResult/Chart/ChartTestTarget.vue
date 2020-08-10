@@ -270,7 +270,6 @@ export default {
         height,
         position: 'relative'
       }
-      console.log(this.chartStyles)
     }
   }
 }
