@@ -10,9 +10,11 @@ export default {
       const response = await requestServer('/api/cases', 'GET', params)
       if (response.data === null) {
         commit('SET_TOTAL_LIST_PASIEN', 1)
+        commit('SET_TOTAL_DATA_PASIEN', 0)
         commit('SET_LIST_PASIEN', [])
       } else {
         commit('SET_TOTAL_LIST_PASIEN', response.data._meta.totalPages)
+        commit('SET_TOTAL_DATA_PASIEN', response.data._meta.itemCount)
         commit('SET_LIST_PASIEN', response.data.cases)
       }
       return response
