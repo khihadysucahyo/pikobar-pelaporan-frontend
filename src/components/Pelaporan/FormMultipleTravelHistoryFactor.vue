@@ -1,30 +1,34 @@
 <template>
   <v-container fluid>
     <v-form ref="form" lazy-validation>
-      <v-row align="start" class="mb-2">
-        <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}">
-          <label>{{ $t('label.travel_history_label_1') }}</label>
-        </v-col>
-        <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
-          <ValidationProvider>
-            <v-radio-group v-model="formPasien.investigation" row>
-              <v-radio :label="$t('label.yes')" value="L" />
-              <v-radio :label="$t('label.no')" value="P" />
-            </v-radio-group>
-          </ValidationProvider>
-        </v-col>
-      </v-row>
-      <div v-for="(data, index) in formPasien.travel_history" :key="index">
+      <div>
+        <v-container fluid>
+          <v-row align="start" class="mb-2">
+            <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}">
+              <label>{{ $t('label.travel_history_label_1') }}</label>
+            </v-col>
+            <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
+              <ValidationProvider>
+                <v-radio-group v-model="formPasien.travelling_history_before_sick_14_days" row>
+                  <v-radio :label="$t('label.yes')" :value="true" />
+                  <v-radio :label="$t('label.no')" :value="false" />
+                </v-radio-group>
+              </ValidationProvider>
+            </v-col>
+          </v-row>
+        </v-container>
+      </div>
+      <div v-for="(data, indexTraveling) in formPasien.travelling_history" :key="`traveling-${indexTraveling}`">
         <v-container fluid>
           <v-card outlined>
             <v-row align="center" justify="space-between">
               <v-col cols="12" md="6" sm="12">
                 <div class="title ml-4">
-                  {{ `${$t('label.travel_history')} ${index+1}` }}
+                  {{ `${$t('label.travel_history')} ${indexTraveling+1}` }}
                 </div>
               </v-col>
               <v-col cols="12" md="6" sm="12">
-                <v-btn class="ma-2 float-right" tile outlined small color="red" @click="handleDeleteFormCloseContact(index)">
+                <v-btn class="ma-2 float-right" tile outlined small color="red" @click="handleDeleteFormCloseContact(indexTraveling)">
                   <v-icon left>mdi-delete</v-icon> {{ $t('label.delete') }}
                 </v-btn>
               </v-col>
@@ -37,21 +41,35 @@
                 </v-col>
                 <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
                   <ValidationProvider>
-                    <v-radio-group v-model="data.trip_type" row>
-                      <v-radio :label="$t('label.from_abroad')" value="L" />
-                      <v-radio :label="$t('label.from_outside_city')" value="P" />
+                    <v-radio-group v-model="data.travelling_type" row>
+                      <v-radio :label="$t('label.from_abroad')" value="Dari Luar Negeri" />
+                      <v-radio :label="$t('label.from_outside_city')" value="Dari Luar Kota" />
                     </v-radio-group>
                   </ValidationProvider>
                 </v-col>
               </v-row>
               <v-row align="center">
                 <v-col cols="12" md="3" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
-                  <label>{{ $t('label.country') }}</label>
+                  <label>{{ data.travelling_type === "Dari Luar Kota" ? $t('label.province'):$t('label.country') }}</label>
                 </v-col>
                 <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
                   <ValidationProvider>
                     <v-text-field
-                      v-model="data.country"
+                      v-model="data.travelling_visited"
+                      :label="$t('label.enter_place')"
+                      solo-inverted
+                    />
+                  </ValidationProvider>
+                </v-col>
+              </v-row>
+              <v-row align="center">
+                <v-col cols="12" md="3" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
+                  <label>{{ $t('label.city') }}</label>
+                </v-col>
+                <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
+                  <ValidationProvider>
+                    <v-text-field
+                      v-model="data.travelling_city"
                       :label="$t('label.enter_place')"
                       solo-inverted
                     />
@@ -66,10 +84,10 @@
                   <ValidationProvider>
                     <input-date-picker
                       :format-date="formatDate"
-                      :date-value="data.start_travel_date"
-                      :value-date.sync="data.start_travel_date"
+                      :date-value="data.travelling_date"
+                      :value-date.sync="data.travelling_date"
                       :label="$t('label.choose_date')"
-                      @changeDate="data.start_travel_date = $event"
+                      @changeDate="data.travelling_date = $event"
                     />
                   </ValidationProvider>
                 </v-col>
@@ -82,10 +100,10 @@
                   <ValidationProvider>
                     <input-date-picker
                       :format-date="formatDate"
-                      :date-value="data.end_travel_date"
-                      :value-date.sync="data.end_travel_date"
+                      :date-value="data.travelling_arrive"
+                      :value-date.sync="data.travelling_arrive"
                       :label="$t('label.choose_date')"
-                      @changeDate="data.end_travel_date = $event"
+                      @changeDate="data.travelling_arrive = $event"
                     />
                   </ValidationProvider>
                 </v-col>
@@ -102,71 +120,85 @@
           <p>{{ $t('label.add_travel_history') }}</p>
         </v-card>
       </v-container>
-      <v-row align="start" class="mb-2">
-        <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}">
-          <label>Dalam 14 hari sebelum sakit, apakah pernah tinggal ke area transmisi lokal ?</label>
-        </v-col>
-        <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
-          <ValidationProvider>
-            <v-radio-group v-model="formPasien.investigation" row>
-              <v-radio :label="$t('label.yes')" value="L" />
-              <v-radio :label="$t('label.no')" value="P" />
-            </v-radio-group>
-          </ValidationProvider>
-        </v-col>
-      </v-row>
-      <v-row align="center">
-        <v-col cols="12" md="3" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
-          <label>Provinsi</label>
-        </v-col>
-        <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
-          <ValidationProvider>
-            <v-select
-              v-model="prov"
-              :items="specimenType"
-              solo
-            />
-          </ValidationProvider>
-        </v-col>
-      </v-row>
-      <v-row align="center">
-        <v-col cols="12" md="3" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
-          <label>Kota</label>
-        </v-col>
-        <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
-          <ValidationProvider>
-            <v-select
-              v-model="city"
-              :items="specimenType"
-              solo
-            />
-          </ValidationProvider>
-        </v-col>
-      </v-row>
-      <v-row align="start" class="mb-2">
-        <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}">
-          <label>Dalam 14 hari sebelum sakit, apakah pernah mengunjungi RS/ Pasar/tempat publik lainnya ?</label>
-        </v-col>
-        <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
-          <ValidationProvider>
-            <v-radio-group v-model="formPasien.investigation" row>
-              <v-radio :label="$t('label.yes')" value="L" />
-              <v-radio :label="$t('label.no')" value="P" />
-            </v-radio-group>
-          </ValidationProvider>
-        </v-col>
-      </v-row>
-      <div v-for="(data, index) in formPasien.history_travel" :key="index">
+      <div>
+        <v-container fluid>
+          <v-row align="start" class="mb-2">
+            <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}">
+              <label>{{ $t('label.travel_history_label_2') }}</label>
+            </v-col>
+            <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
+              <ValidationProvider>
+                <v-radio-group v-model="formPasien.investigation" row>
+                  <v-radio :label="$t('label.yes')" value="L" />
+                  <v-radio :label="$t('label.no')" value="P" />
+                </v-radio-group>
+              </ValidationProvider>
+            </v-col>
+          </v-row>
+        </v-container>
+      </div>
+      <div v-for="(data, indexArea) in formPasien.area_transmision" :key="`area-${indexArea}`">
         <v-container fluid>
           <v-card outlined>
             <v-row align="center" justify="space-between">
               <v-col cols="12" md="6" sm="12">
                 <div class="title ml-4">
-                  {{ `${$t('label.travel_history_2')} ${index+1}` }}
+                  {{ `${ $t('label.transmission_area') } ${indexArea+1}` }}
                 </div>
               </v-col>
               <v-col cols="12" md="6" sm="12">
-                <v-btn class="ma-2 float-right" tile outlined small color="red" @click="handleDeleteFormTravelHistory(index)">
+                <v-btn class="ma-2 float-right" tile outlined small color="red" @click="handleDeleteFormAreaTransmisi(indexArea)">
+                  <v-icon left>mdi-delete</v-icon> {{ $t('label.delete') }}
+                </v-btn>
+              </v-col>
+            </v-row>
+            <hr class="table-divider">
+            <v-container fluid>
+              <form-transmission-area :form-pasien="data" />
+            </v-container>
+          </v-card>
+        </v-container>
+      </div>
+      <v-container fluid>
+        <v-card outlined class="text-center" color="#F5F5F5" @click="handleAddFormAreaTransmisi">
+          <v-btn class="ma-2 mt-5" outlined small fab>
+            <v-icon>mdi-plus</v-icon>
+          </v-btn>
+          <p>{{ $t('label.add_transmission_area') }}</p>
+        </v-card>
+      </v-container>
+      <div>
+        <v-container fluid>
+          <v-row align="start" class="mb-2">
+            <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}">
+              <label class="required">{{ $t('label.travel_history_label_3') }}</label>
+            </v-col>
+            <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
+              <ValidationProvider v-slot="{ errors }" rules="required">
+                <v-radio-group
+                  v-model="formPasien.has_visited_public_place"
+                  :error-messages="errors"
+                  row
+                >
+                  <v-radio :label="$t('label.yes')" :value="true" />
+                  <v-radio :label="$t('label.no')" :value="false" />
+                </v-radio-group>
+              </ValidationProvider>
+            </v-col>
+          </v-row>
+        </v-container>
+      </div>
+      <div v-for="(data, indexVisited) in formPasien.visited_public_place" :key="`visited-${indexVisited}`">
+        <v-container fluid>
+          <v-card outlined>
+            <v-row align="center" justify="space-between">
+              <v-col cols="12" md="6" sm="12">
+                <div class="title ml-4">
+                  {{ `${$t('label.travel_history_2')} ${indexVisited+1}` }}
+                </div>
+              </v-col>
+              <v-col cols="12" md="6" sm="12">
+                <v-btn class="ma-2 float-right" tile outlined small color="red" @click="handleDeleteFormTravelHistory(indexVisited)">
                   <v-icon left>mdi-delete</v-icon> {{ $t('label.delete') }}
                 </v-btn>
               </v-col>
@@ -180,8 +212,8 @@
                 <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
                   <ValidationProvider>
                     <v-select
-                      v-model="city"
-                      :items="specimenType"
+                      v-model="data.public_place_category"
+                      :items="listPlaceCategory"
                       solo
                     />
                   </ValidationProvider>
@@ -194,7 +226,7 @@
                 <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
                   <ValidationProvider>
                     <v-text-field
-                      v-model="data.country"
+                      v-model="data.public_place_name"
                       :label="$t('label.enter_place')"
                       solo-inverted
                     />
@@ -208,7 +240,7 @@
                 <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
                   <ValidationProvider>
                     <v-text-field
-                      v-model="data.country"
+                      v-model="data.public_place_address"
                       :label="$t('label.enter_place')"
                       solo-inverted
                     />
@@ -223,10 +255,10 @@
                   <ValidationProvider>
                     <input-date-picker
                       :format-date="formatDate"
-                      :date-value="data.end_travel_date"
-                      :value-date.sync="data.end_travel_date"
+                      :date-value="data.public_place_date_visited"
+                      :value-date.sync="data.public_place_date_visited"
                       :label="$t('label.choose_date')"
-                      @changeDate="data.end_travel_date = $event"
+                      @changeDate="data.public_place_date_visited = $event"
                     />
                   </ValidationProvider>
                 </v-col>
@@ -238,7 +270,7 @@
                 <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
                   <ValidationProvider>
                     <v-text-field
-                      v-model="data.country"
+                      v-model="data.public_place_duration_visited"
                       class="input-append-btn"
                       type="number"
                       solo-inverted
@@ -270,7 +302,7 @@
 
 <script>
 import { ValidationProvider } from 'vee-validate'
-import { specimenType } from '@/utils/constantVariable'
+import { specimenType, listPlaceCategory } from '@/utils/constantVariable'
 export default {
   name: 'FormMultipleTravelHistoryFactor',
   components: {
@@ -286,8 +318,8 @@ export default {
     return {
       isAddCloseContactForm: false,
       specimenType: specimenType,
+      listPlaceCategory: listPlaceCategory,
       totalCloseContact: 0,
-      idCloseContactForm: 0,
       isValid: false,
       showAlert: false,
       formatDate: 'YYYY/MM/DD',
@@ -302,36 +334,44 @@ export default {
     handleAddFormSupportingInvestigation() {
       this.isValid = true
       this.showAlert = false
-      this.idCloseContactForm = this.idCloseContactForm + 1
-      this.formPasien.travel_history.push({
-        id: this.idCloseContactForm,
-        investigation: '',
-        trip_type: '',
-        start_travel_date: '',
-        end_travel_date: '',
-        country: ''
+      this.formPasien.travelling_history.push({
+        travelling_type: '',
+        travelling_visited: '',
+        travelling_city: '',
+        travelling_date: '',
+        travelling_arrive: ''
       })
     },
     handleDeleteFormCloseContact(index) {
-      this.formPasien.travel_history.splice(index, 1)
-      this.isValid = this.formPasien.travel_history.length !== 0
+      this.formPasien.travelling_history.splice(index, 1)
+      this.isValid = this.formPasien.travelling_history.length !== 0
+    },
+    handleAddFormAreaTransmisi() {
+      this.isValid = true
+      this.showAlert = false
+      this.formPasien.area_transmision.push({
+        province: '',
+        city: ''
+      })
+    },
+    handleDeleteFormAreaTransmisi(index) {
+      this.formPasien.area_transmision.splice(index, 1)
+      this.isValid = this.formPasien.area_transmision.length !== 0
     },
     handleAddFormTravelHistory() {
       this.isValid = true
       this.showAlert = false
-      this.idCloseContactForm = this.idCloseContactForm + 1
-      this.formPasien.history_travel.push({
-        id: this.idCloseContactForm,
-        investigation: '',
-        trip_type: '',
-        start_travel_date: '',
-        end_travel_date: '',
-        country: ''
+      this.formPasien.visited_public_place.push({
+        public_place_category: '',
+        public_place_name: '',
+        public_place_address: '',
+        public_place_date_visited: '',
+        public_place_duration_visited: ''
       })
     },
     handleDeleteFormTravelHistory(index) {
-      this.formPasien.history_travel.splice(index, 1)
-      this.isValid = this.formPasien.history_travel.length !== 0
+      this.formPasien.visited_public_place.splice(index, 1)
+      this.isValid = this.formPasien.visited_public_place.length !== 0
     }
   }
 }
