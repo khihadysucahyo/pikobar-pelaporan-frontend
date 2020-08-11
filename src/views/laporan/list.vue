@@ -31,7 +31,7 @@
             <v-list-item two-line style="background-color: #eb5757">
               <v-list-item-content>
                 <v-list-item-title style="color: #FFFFFF;">{{ $t('label.total_case_confirmed').toUpperCase() }}</v-list-item-title>
-                <v-list-item-title class="headline mb-1 font-weight-bold" style="color: #FFFFFF;padding-top: 2rem;">{{ totalConfirmation }}</v-list-item-title>
+                <v-list-item-title class="headline mb-1 font-weight-bold" style="color: #FFFFFF;">{{ totalConfirmation }}</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
           </v-card>
@@ -50,7 +50,7 @@
             <v-list-item two-line>
               <v-list-item-content>
                 <v-list-item-title>{{ $t('label.total_probable').toUpperCase() }}</v-list-item-title>
-                <v-list-item-title class="headline mb-1 font-weight-bold" style="padding-top: 2rem;">{{ totalProbable }}</v-list-item-title>
+                <v-list-item-title class="headline mb-1 font-weight-bold">{{ totalProbable }}</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
           </v-card>
@@ -71,7 +71,7 @@
                 <v-list-item-title>
                   {{ $t('label.total_suspect').toUpperCase() }}
                 </v-list-item-title>
-                <v-list-item-title class="headline mb-1 font-weight-bold" style="padding-top: 2rem;">{{ totalSuspect }}</v-list-item-title>
+                <v-list-item-title class="headline mb-1 font-weight-bold">{{ totalSuspect }}</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
           </v-card>
@@ -92,7 +92,7 @@
                 <v-list-item-title>
                   {{ $t('label.total_close_contact').toUpperCase() }}
                 </v-list-item-title>
-                <v-list-item-title class="headline mb-1 font-weight-bold" style="padding-top: 2rem;">{{ totalCloseCase }}</v-list-item-title>
+                <v-list-item-title class="headline mb-1 font-weight-bold">{{ totalCloseCase }}</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
           </v-card>
@@ -573,6 +573,7 @@ export default {
     async handleSearch() {
       this.listQuery.page = 1
       await this.$store.dispatch('reports/listReportCase', this.listQuery)
+      await this.getStatistic()
     },
     async getListCloseContactByCase(id) {
       const response = await this.$store.dispatch('closeContactCase/getListCloseContactByCase', id)
@@ -591,12 +592,13 @@ export default {
         address_village_code: this.listQuery.address_village_code
       }
 
-      const response = await this.$store.dispatch('statistic/countCaseNew', listQueryStatistic)
+      const response = await this.$store.dispatch('reports/countReportCase', listQueryStatistic)
       if (response) this.loading = false
-      this.totalConfirmation = 0
-      this.totalProbable = 0
-      this.totalSuspect = 0
-      this.totalCloseCase = 0
+      if (response.data === null) return
+      this.totalConfirmation = response.data.confirmed
+      this.totalProbable = response.data.probable
+      this.totalSuspect = response.data.suspect
+      this.totalCloseCase = response.data.closeContact
     },
     async onExport() {
       const response = await this.$store.dispatch('reports/exportExcel', this.listQuery)
