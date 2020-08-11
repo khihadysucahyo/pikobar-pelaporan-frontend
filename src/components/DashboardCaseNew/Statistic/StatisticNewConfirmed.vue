@@ -2,29 +2,18 @@
   <v-skeleton-loader
     :loading="loading"
     type="article"
+    class="height-100"
   >
     <v-card
-      class="statistic-new-confirmed mx-auto"
+      class="statistic-new-confirmed mx-auto height-100"
       outlined
     >
-      <v-card-text class="card">
+      <v-card-text class="card height-100">
         <div class="head mb-3">
           {{ $t('label.total_case_confirmed') }}
         </div>
         <div class="total mb-3">
           {{ total | number }}
-        </div>
-        <div class="information">
-          <div style="visibility: hidden;">
-            <span class="sub-total">12.236</span>
-            &nbsp;&nbsp;
-            <span class="sub-label">{{ $t('label.self_isolation') }}</span>
-          </div>
-          <div style="visibility: hidden;">
-            <span class="sub-total">36.190</span>
-            &nbsp;&nbsp;
-            <span class="sub-label">{{ $t('label.hospital_isolation') }}</span>
-          </div>
         </div>
       </v-card-text>
     </v-card>
@@ -39,9 +28,35 @@ export default {
       type: Boolean,
       default: true
     },
-    total: {
-      type: Number,
-      default: 0
+    statistic: {
+      type: Object,
+      default: () => {
+        return {}
+      }
+    }
+  },
+  data() {
+    return {
+      confirmed: null,
+      total: 0
+    }
+  },
+  watch: {
+    statistic: {
+      handler(value) {
+        this.confirmed = value
+        this.getData()
+      },
+      deep: true
+    }
+  },
+  methods: {
+    getData() {
+      const sickHome = this.confirmed.sick_home
+      const sickHospital = this.confirmed.sick_hospital
+      const recovered = this.confirmed.recovered
+      const decease = this.confirmed.decease
+      this.total = sickHome + sickHospital + recovered + decease
     }
   }
 }
@@ -50,7 +65,7 @@ export default {
 <style lang="scss">
 .statistic-new-confirmed {
   .card {
-    background-color: #EB5757;
+    background-color: #eb5757;
     color: #ffffff !important;
 
     .head {
@@ -64,5 +79,11 @@ export default {
       font-weight: 500;
     }
   }
+}
+</style>
+
+<style scoped>
+.height-100 {
+  height: 100%;
 }
 </style>

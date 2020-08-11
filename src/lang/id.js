@@ -816,7 +816,9 @@ export default {
     primary_contact_label_4: 'Apakah pasien merupakan petugas kesehatan?',
     primary_contact_label_5: 'Apakah melakukan prosedur yang menimbulkan erosol?',
     travel_history_label_2: 'Dalam 14 hari sebelum sakit, apakah pernah tinggal ke area transmisi lokal ?',
-    travel_history_label_3: 'Dalam 14 hari sebelum sakit, apakah pernah mengunjungi RS/ Pasar/tempat publik lainnya ?'
+    travel_history_label_3: 'Dalam 14 hari sebelum sakit, apakah pernah mengunjungi RS/ Pasar/tempat publik lainnya ?',
+    total_test_result: 'Total Hasil Tes',
+    still_quarantined: 'Masih Dikarantina'
   },
   success: {
     login_success: 'Login Berhasil',

@@ -8,6 +8,9 @@ export default {
   SET_TOTAL_LIST_PASIEN: (state, data) => {
     state.totalList = data
   },
+  SET_TOTAL_DATA_PASIEN: (state, data) => {
+    state.totalData = data
+  },
   SET_TOTAL_PENDING: (state, data) => {
     state.totalPending = data
   },

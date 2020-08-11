@@ -10,7 +10,7 @@
           <v-row justify="space-between">
             <v-col cols="auto">
               <v-card-text class="header-survey-text">
-                <div>{{ $t('label.total_case_data') }} : {{ totalReport }}</div>
+                <div>{{ $t('label.total_case_data') }} : {{ totalData }}</div>
                 <div>{{ fullName }}</div>
               </v-card-text>
             </v-col>
@@ -28,10 +28,10 @@
             class="mx-auto"
             outlined
           >
-            <v-list-item two-line style="background: #9f9f9f">
+            <v-list-item two-line style="background-color: #eb5757">
               <v-list-item-content>
-                <v-list-item-title style="color: #FFFFFF;">{{ $t('label.people_without_symptoms') }}</v-list-item-title>
-                <v-list-item-title class="headline mb-1" style="color: #FFFFFF;padding-top: 2rem;">{{ totalOTG }} {{ $t('label.people') }}</v-list-item-title>
+                <v-list-item-title style="color: #FFFFFF;">{{ $t('label.total_case_confirmed').toUpperCase() }}</v-list-item-title>
+                <v-list-item-title class="headline mb-1 font-weight-bold" style="color: #FFFFFF;padding-top: 2rem;">{{ totalConfirmation }}</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
           </v-card>
@@ -44,12 +44,13 @@
         >
           <v-card
             class="mx-auto"
+            style="border: 2px solid #F2C94C;"
             outlined
           >
-            <v-list-item two-line style="background: #D2EAFF">
+            <v-list-item two-line>
               <v-list-item-content>
-                <v-list-item-title style="color: #2F80ED;">{{ $t('label.insiders_monitoring') }}</v-list-item-title>
-                <v-list-item-title class="headline mb-1" style="color: #2F80ED;padding-top: 2rem;">{{ totalODP }} {{ $t('label.people') }}</v-list-item-title>
+                <v-list-item-title>{{ $t('label.total_probable').toUpperCase() }}</v-list-item-title>
+                <v-list-item-title class="headline mb-1 font-weight-bold" style="padding-top: 2rem;">{{ totalProbable }}</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
           </v-card>
@@ -62,14 +63,15 @@
         >
           <v-card
             class="mx-auto"
+            style="border: 2px solid #27AE60;"
             outlined
           >
-            <v-list-item two-line style="background: #FEF9EC">
+            <v-list-item two-line>
               <v-list-item-content>
-                <v-list-item-title style="color: #F2994A;">
-                  {{ $t('label.patients_under_supervision') }}
+                <v-list-item-title>
+                  {{ $t('label.total_suspect').toUpperCase() }}
                 </v-list-item-title>
-                <v-list-item-title class="headline mb-1" style="color: #F2994A;padding-top: 2rem;">{{ totalPDP }} {{ $t('label.people') }}</v-list-item-title>
+                <v-list-item-title class="headline mb-1 font-weight-bold" style="padding-top: 2rem;">{{ totalSuspect }}</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
           </v-card>
@@ -78,18 +80,19 @@
       <v-col>
         <v-skeleton-loader
           :loading="loading"
+          style="border: 2px solid #2D9CDB;"
           type="article"
         >
           <v-card
             class="mx-auto"
             outlined
           >
-            <v-list-item two-line style="background: #FDEDED">
+            <v-list-item two-line>
               <v-list-item-content>
-                <v-list-item-title style="color: #EB5757;">
-                  {{ $t('label.positif').toUpperCase() }}
+                <v-list-item-title>
+                  {{ $t('label.total_close_contact').toUpperCase() }}
                 </v-list-item-title>
-                <v-list-item-title class="headline mb-1" style="color: #EB5757;padding-top: 2rem;">{{ totalPositif }} {{ $t('label.people') }}</v-list-item-title>
+                <v-list-item-title class="headline mb-1 font-weight-bold" style="padding-top: 2rem;">{{ totalCloseCase }}</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
           </v-card>
@@ -108,15 +111,35 @@
           />
         </v-col>
         <v-col class="pb-4">
+          <!-- <v-btn
+            v-if="roles[0] !== 'faskes'"
+            color="#27AE60"
+            class="btn-import-export margin-right"
+            depressed
+            @click="showImportForm = true"
+          >
+            <v-icon left>
+              mdi-download
+            </v-icon>
+            {{ $t('label.import') }}
+          </v-btn> -->
           <v-btn
             color="primary"
-            class="mr-4"
-            style="float: right;"
+            class="mr-4 float-right"
             @click="handleFilter"
           >
             {{ $t('label.filter') }}
             <v-icon v-if="!showFilter">mdi-chevron-right</v-icon>
             <v-icon v-else>mdi-chevron-down</v-icon>
+          </v-btn>
+          <v-btn
+            class="btn-import-export mr-2 float-right"
+            color="#27AE60"
+            outlined
+            @click="onExport"
+          >
+            <v-icon left>mdi-upload</v-icon>
+            {{ $t('label.export') }}
           </v-btn>
         </v-col>
       </v-row>
@@ -138,28 +161,6 @@
           <div class="title">
             {{ $t('label.case_data') }}
           </div>
-        </v-col>
-        <v-col cols="12" sm="4" class="align-right">
-          <!-- <v-btn
-            v-if="roles[0] !== 'faskes'"
-            color="#b3e2cd"
-            class="btn-import-export margin-right"
-            depressed
-            @click="showImportForm = true"
-          >
-            <v-icon left>
-              mdi-download
-            </v-icon>
-            {{ $t('label.import') }}
-          </v-btn> -->
-          <v-btn
-            class="btn-import-export margin-left"
-            color="#b3e2cd"
-            @click="onExport"
-          >
-            <v-icon left>mdi-upload</v-icon>
-            {{ $t('label.export') }}
-          </v-btn>
         </v-col>
       </v-row>
       <hr class="table-divider">
@@ -388,11 +389,10 @@ export default {
       ],
       loading: true,
       loadingTable: false,
-      totalOTG: 0,
-      totalODP: 0,
-      totalPDP: 0,
-      totalPositif: 0,
-      totalReport: 0,
+      totalConfirmation: 0,
+      totalProbable: 0,
+      totalSuspect: 0,
+      totalCloseCase: 0,
       queryReportCase: {
         address_district_code: ''
       },
@@ -437,16 +437,15 @@ export default {
   computed: {
     ...mapGetters('reports', [
       'listKasus',
-      'totalList'
+      'totalData',
+      'totalList',
+      'formPasien',
+      'formRiwayatPasien'
     ]),
     ...mapGetters('user', [
       'roles',
       'fullName',
       'district_user'
-    ]),
-    ...mapGetters('reports', [
-      'formPasien',
-      'formRiwayatPasien'
     ])
   },
   watch: {
@@ -495,13 +494,7 @@ export default {
     if (rolesWidget['dinkesKotaAndFaskes'].includes(this.roles[0])) this.listQuery.address_district_code = this.district_user
     this.queryReportCase.address_district_code = this.district_user
     await this.$store.dispatch('reports/listReportCase', this.listQuery)
-    const response = await this.$store.dispatch('reports/countReportCase', this.queryReportCase)
-    if (response) this.loading = false
-    this.totalOTG = response.data.OTG
-    this.totalODP = response.data.ODP
-    this.totalPDP = response.data.PDP
-    this.totalPositif = response.data.POSITIF
-    this.totalReport = this.totalOTG + this.totalODP + this.totalPDP + this.totalPositif
+    await this.getStatistic()
   },
   methods: {
     formatDatetime,
@@ -591,6 +584,20 @@ export default {
     async onNext() {
       await this.$store.dispatch('reports/listReportCase', this.listQuery)
     },
+    async getStatistic() {
+      const listQueryStatistic = {
+        address_district_code: this.listQuery.address_district_code,
+        address_subdistrict_code: this.listQuery.address_subdistrict_code,
+        address_village_code: this.listQuery.address_village_code
+      }
+
+      const response = await this.$store.dispatch('statistic/countCaseNew', listQueryStatistic)
+      if (response) this.loading = false
+      this.totalConfirmation = 0
+      this.totalProbable = 0
+      this.totalSuspect = 0
+      this.totalCloseCase = 0
+    },
     async onExport() {
       const response = await this.$store.dispatch('reports/exportExcel', this.listQuery)
       const dateNow = Date.now()
@@ -617,10 +624,9 @@ export default {
     padding-right: 50px;
   }
   .btn-import-export {
-    width: 36%;
-    height: 46px !important;
+    width: 25%;
+    height: 50px !important;
     min-width: 100px !important;
-    color: black !important;
   }
   .margin-right {
     margin-right: 8px;

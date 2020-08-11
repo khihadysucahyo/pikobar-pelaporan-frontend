@@ -84,8 +84,9 @@ export default {
 </script>
 <style scoped>
   .btn-status {
-    min-width: 100px !important;
-    height: 40px !important;
-    width: 135px;
+    font-size: 0.7rem !important;
+    min-width: 90px !important;
+    height: 30px !important;
+    width: 100px;
   }
 </style>
