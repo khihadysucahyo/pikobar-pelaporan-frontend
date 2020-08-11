@@ -232,7 +232,7 @@
               </v-row>
               <v-row align="center">
                 <v-col cols="12" md="3" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
-                  <label>{{ $t('label.start_travel') }}</label>
+                  <label>{{ $t('label.first_contact_date') }}</label>
                 </v-col>
                 <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
                   <ValidationProvider>
@@ -248,7 +248,7 @@
               </v-row>
               <v-row align="center">
                 <v-col cols="12" md="3" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
-                  <label>{{ $t('label.end_travel') }}</label>
+                  <label>{{ $t('label.last_contact_date') }}</label>
                 </v-col>
                 <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
                   <ValidationProvider>
