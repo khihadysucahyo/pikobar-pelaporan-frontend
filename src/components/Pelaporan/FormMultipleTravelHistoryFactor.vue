@@ -207,13 +207,17 @@
             <v-container fluid>
               <v-row align="center">
                 <v-col cols="12" md="3" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
-                  <label>{{ $t('label.place_category') }}</label>
+                  <label :class="formPasien.has_visited_public_place ? 'required' : ''">{{ $t('label.place_category') }}</label>
                 </v-col>
                 <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
-                  <ValidationProvider>
+                  <ValidationProvider
+                    v-slot="{ errors }"
+                    :rules="formPasien.has_visited_public_place ? 'required' : ''"
+                  >
                     <v-select
                       v-model="data.public_place_category"
                       :items="listPlaceCategory"
+                      :error-messages="errors"
                       solo
                     />
                   </ValidationProvider>
@@ -221,13 +225,17 @@
               </v-row>
               <v-row align="center">
                 <v-col cols="12" md="3" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
-                  <label>{{ $t('label.name_place_visited') }}</label>
+                  <label :class="formPasien.has_visited_public_place ? 'required' : ''">{{ $t('label.name_place_visited') }}</label>
                 </v-col>
                 <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
-                  <ValidationProvider>
+                  <ValidationProvider
+                    v-slot="{ errors }"
+                    :rules="formPasien.has_visited_public_place ? 'required' : ''"
+                  >
                     <v-text-field
                       v-model="data.public_place_name"
                       :label="$t('label.enter_place')"
+                      :error-messages="errors"
                       solo-inverted
                     />
                   </ValidationProvider>
