@@ -15,6 +15,7 @@ import distributionCaseRouter from './modules/distributionCase'
 import submissionLogistikRouter from './modules/submissionLogistik'
 import dailyReportRouter from './modules/dailyReport'
 import hospitalReferralRouter from './modules/hospitalReferral'
+import closeContactCase from './modules/closeContactCase'
 
 /**
  * constantRoutes
@@ -88,6 +89,7 @@ export const asyncRoutes = [
   distributionCaseRouter,
   dailyReportRouter,
   reportRouter,
+  closeContactCase,
   rdtRouter,
   submissionLogistikRouter,
   hospitalReferralRouter,

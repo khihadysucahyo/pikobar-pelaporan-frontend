@@ -1,6 +1,12 @@
 <template>
   <v-dialog v-model="show" max-width="70%">
     <v-card>
+      <v-card-title>
+        {{ $t('label.identity') }}
+        <v-spacer />
+        <v-icon @click="show = false">mdi-close</v-icon>
+      </v-card-title>
+      <v-divider />
       <v-container>
         <ValidationObserver ref="observer">
           <v-form
@@ -8,398 +14,75 @@
             lazy-validation
           >
             <v-row>
-              <v-col
-                cols="12"
-                md="3"
-                sm="12"
-                :class="{'mb-3': $vuetify.breakpoint. smAndDown}"
-              >
-                <v-icon class="rotate" color="#27AE60" left>mdi-color-helper</v-icon><label class="subtitle text-uppercase">{{ $t('label.identity') }}</label>
-              </v-col>
-            </v-row>
-            <v-row align="start">
-              <v-col
-                cols="12"
-                md="3"
-                sm="12"
-                :class="{'py-0': $vuetify.breakpoint. smAndDown}"
-              >
-                <label>{{ $t('label.nik') }}</label>
-              </v-col>
-              <v-col
-                cols="12"
-                md="9"
-                sm="12"
-                :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
-              >
-                <ValidationProvider
-                  v-slot="{ errors }"
-                  rules="isHtml|sixteenDigits|numeric|provinceCode"
+              <v-col auto>
+                <v-expansion-panels
+                  v-model="volunteerPanel"
+                  multiple
                 >
-                  <v-text-field
-                    v-model="formPasien.nik"
-                    type="number"
-                    :error-messages="errors"
-                    solo-inverted
-                  />
-                </ValidationProvider>
+                  <v-expansion-panel>
+                    <v-expansion-panel-header class="font-weight-bold text-lg">
+                      {{ $t('label.form_volunteer_title') }}
+                    </v-expansion-panel-header>
+                    <v-divider />
+                    <v-expansion-panel-content>
+                      <form-volunteer :form-pasien="formPasien" />
+                    </v-expansion-panel-content>
+                  </v-expansion-panel>
+                </v-expansion-panels>
               </v-col>
             </v-row>
-            <v-row align="start">
-              <v-col
-                cols="12"
-                md="3"
-                sm="12"
-                :class="{'py-0': $vuetify.breakpoint. smAndDown}"
-              >
-                <label class="required">{{ $t('label.name_case') }}</label>
-              </v-col>
-              <v-col
-                cols="12"
-                md="9"
-                sm="12"
-                :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
-              >
-                <ValidationProvider
-                  v-slot="{ errors }"
-                  rules="required|isHtml"
-                >
-                  <v-text-field
-                    v-model="formPasien.name"
-                    :error-messages="errors"
-                    solo-inverted
-                  />
-                </ValidationProvider>
-              </v-col>
-            </v-row>
-            <v-row align="start">
-              <v-col
-                cols="12"
-                md="3"
-                sm="12"
-                :class="{'py-0': $vuetify.breakpoint. smAndDown}"
-              >
-                <label>{{ $t('label.birth_date') }}</label>
-              </v-col>
-              <v-col
-                cols="12"
-                md="9"
-                sm="12"
-                :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
-              >
-                <select-datetime
-                  :datetime="formPasien.birth_date"
-                  :date-time.sync="formPasien.birth_date"
-                  :formate-date="formatDate"
-                />
-              </v-col>
-            </v-row>
-            <v-row align="start">
-              <v-col
-                cols="12"
-                md="3"
-                sm="12"
-                :class="{'py-0': $vuetify.breakpoint. smAndDown}"
-              >
-                <label class="required">{{ $t('label.age') }}</label>
-              </v-col>
-              <v-col
-                cols="12"
-                md="9"
-                sm="12"
-                :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
-              >
-                <v-row align="center" class="ma-0">
-                  <v-col cols="12" sm="3" class="pa-0">
-                    <ValidationProvider
-                      v-slot="{ errors }"
-                      rules="required|numeric|isHtml"
-                    >
-                      <v-text-field
-                        v-model="formPasien.yearsOld"
-                        :error-messages="errors"
-                        type="number"
-                        min="0"
-                        max="120"
-                        solo-inverted
-                        oninput="if(Number(this.value) > Number(this.max)) this.value = this.max"
-                      />
-                    </ValidationProvider>
-                  </v-col>
-                  <v-col cols="12" md="1" sm="2" class="pa-0 text-center">
-                    <label>{{ $t('label.year') }}</label>
-                  </v-col>
-                  <v-col cols="12" sm="3" class="pa-0">
-                    <ValidationProvider
-                      v-slot="{ errors }"
-                      rules="numeric|isHtml"
-                    >
-                      <v-text-field
-                        v-model="formPasien.monthsOld"
-                        :error-messages="errors"
-                        type="number"
-                        min="0"
-                        max="11"
-                        solo-inverted
-                        oninput="if(Number(this.value) > Number(this.max)) this.value = this.max"
-                      />
-                    </ValidationProvider>
-                  </v-col>
-                  <v-col cols="12" md="1" sm="2" class="pa-0 text-center">
-                    <label>{{ $t('label.month') }}</label>
-                  </v-col>
-                </v-row>
-              </v-col>
-            </v-row>
-            <v-row align="center">
-              <v-col
-                cols="12"
-                md="3"
-                sm="12"
-                :class="{'py-0': $vuetify.breakpoint. smAndDown}"
-              >
-                <label class="required">{{ $t('label.gender') }}</label>
-              </v-col>
-              <v-col
-                cols="12"
-                md="9"
-                sm="12"
-                :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
-              >
-                <ValidationProvider
-                  v-slot="{ errors }"
-                  rules="required"
-                >
-                  <v-radio-group
-                    v-model="formPasien.gender"
-                    :error-messages="errors"
-                    row
-                  >
-                    <v-radio
-                      :label="$t('label.male')"
-                      value="L"
-                    />
-                    <v-radio
-                      :label="$t('label.female')"
-                      value="P"
-                    />
-                  </v-radio-group>
-                </ValidationProvider>
-              </v-col>
-            </v-row>
-            <v-row align="start">
-              <v-col
-                cols="12"
-                md="3"
-                sm="12"
-                :class="{'py-0': $vuetify.breakpoint. smAndDown}"
-              >
-                <label>{{ $t('label.phone_number') }}</label>
-              </v-col>
-              <v-col
-                cols="12"
-                md="9"
-                sm="12"
-                :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
-              >
-                <ValidationProvider
-                  v-slot="{ errors }"
-                  rules="isPhoneNumber"
-                >
-                  <v-text-field
-                    v-model="formPasien.phone_number"
-                    :error-messages="errors"
-                    placeholder="08xxxxxxxxx"
-                    solo-inverted
-                    type="number"
-                  />
-                </ValidationProvider>
-              </v-col>
-            </v-row>
-            <v-row align="start">
-              <v-col
-                cols="12"
-                md="3"
-                sm="12"
-                :class="{'py-0': $vuetify.breakpoint. smAndDown}"
-              >
-                <label class="required">{{ $t('label.address_home') }}</label>
-              </v-col>
-              <v-col
-                cols="12"
-                md="9"
-                sm="12"
-                :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
-              >
-                <address-region
-                  v-if="formPasien.address_district_name"
-                  :district-code="formPasien.address_district_code"
-                  :district-name="formPasien.address_district_name"
-                  :code-district.sync="formPasien.address_district_code"
-                  :name-district.sync="formPasien.address_district_name"
-                  :sub-district-code="formPasien.address_subdistrict_code"
-                  :sub-district-name="formPasien.address_subdistrict_name"
-                  :code-sub-district.sync="formPasien.address_subdistrict_code"
-                  :name-sub-district.sync="formPasien.address_subdistrict_name"
-                  :village-code="formPasien.address_village_code"
-                  :village-name="formPasien.address_village_name"
-                  :code-village.sync="formPasien.address_village_code"
-                  :name-village.sync="formPasien.address_village_name"
-                  :disabled-address="false"
-                  :required-address="true"
-                />
-              </v-col>
-            </v-row>
-            <v-row align="start">
-              <v-col
-                cols="12"
-                md="3"
-                sm="12"
-                :class="{'py-0': $vuetify.breakpoint. smAndDown}"
-              >
-                <label>{{ $t('label.address_complete_home') }}</label>
-              </v-col>
-              <v-col
-                cols="12"
-                md="9"
-                sm="12"
-                :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
-              >
-                <ValidationProvider>
-                  <v-textarea
-                    v-model="formPasien.address_street"
-                    solo
-                  />
-                </ValidationProvider>
-              </v-col>
-            </v-row>
-            <v-row align="center">
-              <v-col
-                cols="12"
-                md="3"
-                sm="12"
-                :class="{'py-0': $vuetify.breakpoint. smAndDown}"
-              >
-                <label class="required">{{ $t('label.citizenship') }}</label>
-              </v-col>
-              <v-col
-                cols="12"
-                md="9"
-                sm="12"
-                :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
-              >
-                <ValidationProvider
-                  v-slot="{ errors }"
-                  rules="required"
-                >
-                  <v-radio-group
-                    v-model="formPasien.nationality"
-                    :error-messages="errors"
-                    row
-                    @change="handleChangeNationality"
-                  >
-                    <v-radio
-                      :label="$t('label.wni')"
-                      value="WNI"
-                    />
-                    <v-radio
-                      :label="$t('label.wna')"
-                      value="WNA"
-                    />
-                  </v-radio-group>
-                </ValidationProvider>
-              </v-col>
-            </v-row>
-            <v-row v-if="formPasien.nationality === 'WNA'" align="start">
-              <v-col
-                cols="12"
-                md="3"
-                sm="12"
-                :class="{'py-0': $vuetify.breakpoint. smAndDown}"
-              >
-                <label>{{ $t('label.country_origin') }}</label>
-              </v-col>
-              <v-col
-                cols="12"
-                md="9"
-                sm="12"
-                :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
-              >
-                <ValidationProvider
-                  v-slot="{ errors }"
-                >
-                  <v-autocomplete
-                    v-model="formPasien.nationality_name"
-                    :items="listCountry"
-                    item-text="name"
-                    item-value="name"
-                    :error-messages="errors"
-                    :placeholder="$t('label.country_origin')"
-                    clearable
-                    solo-inverted
-                  />
-                </ValidationProvider>
-              </v-col>
-            </v-row>
-            <hr>
             <v-row>
-              <v-col
-                cols="12"
-                md="3"
-                sm="12"
-                :class="{'mb-3': $vuetify.breakpoint. smAndDown}"
-              >
-                <v-icon class="rotate" color="#27AE60" left>mdi-color-helper</v-icon><label class="subtitle text-uppercase">{{ $t('label.profession') }}</label>
+              <v-col auto>
+                <v-expansion-panels
+                  v-model="patientPanel"
+                  multiple
+                >
+                  <v-expansion-panel>
+                    <v-expansion-panel-header class="font-weight-bold text-lg">
+                      {{ $t('label.form_patient_title') }}
+                    </v-expansion-panel-header>
+                    <v-divider />
+                    <v-expansion-panel-content>
+                      <form-patient :form-pasien="formPasien" />
+                    </v-expansion-panel-content>
+                  </v-expansion-panel>
+                </v-expansion-panels>
               </v-col>
             </v-row>
-            <v-row align="start">
-              <v-col
-                cols="12"
-                md="3"
-                sm="12"
-                :class="{'py-0': $vuetify.breakpoint. smAndDown}"
-              >
-                <label>{{ $t('label.profession') }}</label>
-              </v-col>
-              <v-col
-                cols="12"
-                md="9"
-                sm="12"
-                :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
-              >
-                <ValidationProvider>
-                  <v-select
-                    v-model="formPasien.occupation"
-                    :items="occupationList"
-                    item-value="title"
-                    item-text="title"
-                    menu-props="auto"
-                    solo
-                  />
-                </ValidationProvider>
+            <v-row>
+              <v-col auto>
+                <v-expansion-panels
+                  v-model="historySocioeconomicPanel"
+                  multiple
+                >
+                  <v-expansion-panel>
+                    <v-expansion-panel-header class="font-weight-bold text-lg">
+                      {{ $t('label.form_socioeconomic_title') }}
+                    </v-expansion-panel-header>
+                    <v-divider />
+                    <v-expansion-panel-content>
+                      <form-socioeconomic-history :form-pasien="formPasien" />
+                    </v-expansion-panel-content>
+                  </v-expansion-panel>
+                </v-expansion-panels>
               </v-col>
             </v-row>
-            <v-row align="start">
-              <v-col
-                cols="12"
-                md="3"
-                sm="12"
-                :class="{'py-0': $vuetify.breakpoint. smAndDown}"
-              >
-                <label>{{ $t('label.office_address') }}</label>
-              </v-col>
-              <v-col
-                cols="12"
-                md="9"
-                sm="12"
-                :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}"
-              >
-                <ValidationProvider>
-                  <v-textarea
-                    v-model="formPasien.office_address"
-                    solo
-                  />
-                </ValidationProvider>
+            <v-row>
+              <v-col auto>
+                <v-expansion-panels
+                  v-model="contactFactorPanel"
+                  multiple
+                >
+                  <v-expansion-panel>
+                    <v-expansion-panel-header class="font-weight-bold text-lg">
+                      {{ $t('label.form_eposure_factor_title') }}
+                    </v-expansion-panel-header>
+                    <v-divider />
+                    <v-expansion-panel-content>
+                      <form-contact-factor :form-pasien="formPasien" />
+                    </v-expansion-panel-content>
+                  </v-expansion-panel>
+                </v-expansion-panels>
               </v-col>
             </v-row>
             <v-container fluid>
@@ -419,7 +102,7 @@
                     bottom
                     @click="handleUpdateCase"
                   >
-                    {{ $t('label.profile_update') }}
+                    {{ $t('label.change_patent_data') }}
                   </v-btn>
                 </v-col>
               </v-row>
@@ -431,8 +114,8 @@
   </v-dialog>
 </template>
 <script>
-import { ValidationObserver, ValidationProvider } from 'vee-validate'
-import { getAgeWithMonth } from '@/utils/constantVariable'
+import { ValidationObserver } from 'vee-validate'
+import { getAgeWithMonth, ResponseRequest } from '@/utils/constantVariable'
 import { formatDatetime } from '@/utils/parseDatetime'
 import { mapGetters } from 'vuex'
 import EventBus from '@/utils/eventBus'
@@ -440,8 +123,7 @@ import EventBus from '@/utils/eventBus'
 export default {
   name: 'DialogUpdateCase',
   components: {
-    ValidationObserver,
-    ValidationProvider
+    ValidationObserver
   },
   props: {
     showDialog: {
@@ -458,8 +140,10 @@ export default {
       loading: false,
       show: this.showDialog,
       formatDate: 'YYYY/MM/DD',
-      panelCase: [0],
-      panelListRiwayat: [0],
+      volunteerPanel: [1],
+      patientPanel: [0],
+      historySocioeconomicPanel: [1],
+      contactFactorPanel: [1],
       listCountry: [],
       listHistoryCase: null,
       listQuery: {
@@ -526,13 +210,22 @@ export default {
         data: this.formPasien
       }
       this.loading = true
-      await this.$store.dispatch('reports/updateReportCase', updateCase)
-      await this.$store.dispatch('toast/successToast', this.$t('success.data_success_edit'))
-      this.loading = false
-      this.$emit('update:show', false)
-      EventBus.$emit('refreshPageListReport', true)
+      const response = await this.$store.dispatch('reports/updateReportCase', updateCase)
+      if (response.status !== ResponseRequest.UNPROCESSABLE) {
+        await this.$store.dispatch('toast/successToast', this.$t('success.data_success_edit'))
+        await this.$store.dispatch('reports/resetFormPasien')
+        await this.$store.dispatch('reports/resetRiwayatFormPasien')
+        this.loading = false
+        this.$emit('update:show', false)
+        EventBus.$emit('refreshPageListReport', true)
+      } else {
+        this.loading = false
+        await this.$store.dispatch('toast/errorToast', this.$t('errors.data_failed_to_save'))
+      }
     },
-    handleCancel() {
+    async handleCancel() {
+      await this.$store.dispatch('reports/resetFormPasien')
+      await this.$store.dispatch('reports/resetRiwayatFormPasien')
       this.$emit('update:show', false)
     },
     handleChangeNationality(value) {

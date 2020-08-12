@@ -71,7 +71,7 @@
             <v-label class="title">{{ $t('label.criteria') }}:</v-label>
             <v-select
               v-model="listQuery.status"
-              :items="stagesList"
+              :items="statusList"
               solo
               item-text="label"
               item-value="value"
@@ -176,9 +176,8 @@ export default {
         { text: this.$t('label.name').toUpperCase(), value: 'name' },
         { text: this.$t('label.age').toUpperCase(), value: 'age' },
         { text: this.$t('label.gender_abbreviation').toUpperCase(), value: 'gender' },
-        { text: this.$t('label.criteria').toUpperCase(), value: 'criteria' },
-        { text: this.$t('label.stages').toUpperCase(), value: 'stage' },
-        { text: this.$t('label.results').toUpperCase(), value: 'final_result' },
+        { text: this.$t('label.criteria').toUpperCase(), value: 'status' },
+        { text: this.$t('label.latest_patient_status').toUpperCase(), value: 'final_result' },
         { text: this.$t('label.reporter').toUpperCase(), value: 'author' }
       ],
       listQuery: {
@@ -197,11 +196,23 @@ export default {
         code_district_city: '',
         search: ''
       },
-      stagesList: [
-        'OTG',
-        'ODP',
-        'PDP',
-        'POSITIF'
+      statusList: [
+        {
+          label: this.$t('label.confirmation').toUpperCase(),
+          value: 'CONFIRMATION'
+        },
+        {
+          label: this.$t('route.tight_contact').toUpperCase(),
+          value: 'CLOSECONTACT'
+        },
+        {
+          label: this.$t('label.suspect').toUpperCase(),
+          value: 'SUSPECT'
+        },
+        {
+          label: this.$t('label.probable').toUpperCase(),
+          value: 'PROBABLE'
+        }
       ],
       failedDialog: false,
       disabledDistrict: true,
@@ -282,7 +293,7 @@ export default {
     const response = await this.$store.dispatch('reports/countVerificationCase')
     this.totalItem = response.data.PENDING + response.data.DECLINED
     if (this.roles[0] !== 'faskes') {
-      this.listQuery.sort = { 'updatedAt': 'asc' }
+      this.listQuery.sort = 'updatedAt:asc'
     }
     await this.$store.dispatch('reports/listReportCase', this.listQuery)
     this.listQuery.address_district_code = this.district_user
@@ -316,8 +327,8 @@ export default {
     onTabChanges(value) {
       const ids = this.headers.length
       if (this.roles[0] === 'dinkeskota' && value === 'declined') {
-        this.headers.splice(8, 2)
-      } else if (ids === 8) {
+        this.headers.splice(7, 2)
+      } else if (ids === 7) {
         this.headers.push(
           { text: this.$t('label.auto_verification_deadline').toUpperCase(), value: 'createdAt' },
           { text: this.$t('label.action').toUpperCase(), value: 'action', sortable: false }

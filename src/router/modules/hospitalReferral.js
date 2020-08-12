@@ -1,4 +1,7 @@
 import Layout from '@/layout'
+import {
+  rolesPerm
+} from '@/utils/constantVariable'
 
 const hospitalReferralRouter = {
   path: '/hospital-referral',
@@ -19,7 +22,7 @@ const hospitalReferralRouter = {
         icon: 'mdi-account-switch',
         child: true,
         noCache: true,
-        roles: ['superadmin', 'faskes']
+        roles: [rolesPerm.ADMIN, rolesPerm.FASKES]
       }
     },
     {
@@ -30,7 +33,7 @@ const hospitalReferralRouter = {
         icon: 'mdi-account-switch',
         child: true,
         noCache: true,
-        roles: ['superadmin', 'faskes']
+        roles: [rolesPerm.ADMIN, rolesPerm.FASKES]
       }
     }
   ]

@@ -96,7 +96,7 @@
           </v-col>
         </v-row>
         <v-row
-          v-if="formPasien.status !== 'OTG' && formPasien.status !== 'ODP' && formPasien.stage === '1'"
+          v-if="formPasien.stage === '1'"
           align="center"
         >
           <v-col
@@ -456,7 +456,7 @@
           >
             <ValidationProvider v-slot="{ errors }">
               <v-row>
-                <v-col v-for="item in symptomOptions" :key="item" sm="4" md="4">
+                <v-col v-for="item in symptomOptions" :key="item" cols="12" sm="4" md="4">
                   <label class="material-checkbox-custom">
                     <input
                       v-model="formPasien.diagnosis"
@@ -514,7 +514,7 @@
           >
             <ValidationProvider v-slot="{ errors }">
               <v-row>
-                <v-col v-for="item in additionalConditionOptions" :key="item" sm="4" md="4">
+                <v-col v-for="item in additionalConditionOptions" :key="item" cols="12" sm="4" md="4">
                   <label class="material-checkbox-custom">
                     <input
                       v-model="formPasien.diseases"
@@ -681,7 +681,7 @@ export default {
       const response = await this.$store.dispatch('reports/createReportCase', this.formPasien)
       if (response.status !== 422) {
         await this.$store.dispatch('reports/resetFormPasien')
-        await this.$store.dispatch('toast/successToast', this.$t('success.create_date_success'))
+        await this.$store.dispatch('toast/successToast', this.$t('success.create_data_success'))
         if (this.roles[0] === 'faskes') {
           await this.$router.push('/laporan/verification')
         } else {

@@ -5,10 +5,10 @@
   >
     <v-row class="filter-row">
       <v-col cols="12" sm="3">
-        <v-label class="title">{{ $t('label.results') }}:</v-label>
+        <v-label class="title">{{ $t('label.latest_patient_status') }}:</v-label>
         <v-select
           v-model="listQuery.final_result"
-          :items="resultList"
+          :items="caseResultList"
           solo
           item-text="label"
           item-value="value"
@@ -16,7 +16,6 @@
       </v-col>
       <v-col cols="12" sm="9" class="reduce-padding-top">
         <address-region
-          :disabled-district="disabledDistrict"
           :district-code="listQuery.address_district_code"
           :district-name="district_name_user"
           :code-district.sync="listQuery.address_district_code"
@@ -26,6 +25,7 @@
           :code-village.sync="listQuery.address_village_code"
           :village-name="nameVillage"
           :name-village.sync="nameVillage"
+          :disabled-district="disabledDistrict"
           :disabled-address="false"
           :required-address="false"
           :is-label="true"
@@ -33,25 +33,17 @@
       </v-col>
     </v-row>
     <v-row class="filter-row">
-      <v-col cols="12" sm="3">
+      <v-col cols="12" sm="4">
         <v-label class="title">{{ $t('label.criteria') }}:</v-label>
         <v-select
           v-model="listQuery.status"
           :items="statusList"
           solo
-        />
-      </v-col>
-      <v-col cols="12" sm="3">
-        <v-label class="title">{{ $t('label.stages') }}:</v-label>
-        <v-select
-          v-model="listQuery.stage"
-          :items="stageList"
-          solo
           item-text="label"
           item-value="value"
         />
       </v-col>
-      <v-col cols="12" sm="3">
+      <v-col cols="12" sm="4">
         <v-label class="title">{{ $t('label.input_date') }}:</v-label>
         <input-date-picker
           :format-date="formatDate"
@@ -61,7 +53,7 @@
           @changeDate="listQuery.start_date = $event"
         />
       </v-col>
-      <v-col cols="12" sm="3">
+      <v-col cols="12" sm="4">
         <br>
         <input-date-picker
           :format-date="formatDate"
@@ -100,6 +92,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import { rolesWidget } from '@/utils/constantVariable'
 export default {
   name: 'CaseFilter',
   props: {
@@ -119,26 +112,24 @@ export default {
       codeDistrict: '',
       nameVillage: '',
       statusList: [
-        'OTG',
-        'ODP',
-        'PDP',
-        'POSITIF'
-      ],
-      stageList: [
         {
-          label: this.$t('label.process'),
-          value: 0
+          label: this.$t('label.confirmation').toUpperCase(),
+          value: 'CONFIRMATION'
         },
         {
-          label: this.$t('label.done'),
-          value: 1
+          label: this.$t('route.tight_contact').toUpperCase(),
+          value: 'CLOSECONTACT'
+        },
+        {
+          label: this.$t('label.suspect').toUpperCase(),
+          value: 'SUSPECT'
+        },
+        {
+          label: this.$t('label.probable').toUpperCase(),
+          value: 'PROBABLE'
         }
       ],
-      resultList: [
-        {
-          label: this.$t('label.negatif'),
-          value: 0
-        },
+      caseResultList: [
         {
           label: this.$t('label.recovery'),
           value: 1
@@ -146,6 +137,18 @@ export default {
         {
           label: this.$t('label.dead'),
           value: 2
+        },
+        {
+          label: this.$t('label.discarded'),
+          value: 3
+        },
+        {
+          label: this.$t('label.still_sick'),
+          value: 4
+        },
+        {
+          label: this.$t('label.still_quarantine'),
+          value: 5
         }
       ]
     }
@@ -159,7 +162,7 @@ export default {
     ])
   },
   async beforeMount() {
-    this.disabledDistrict = await this.roles[0] === 'dinkeskota'
+    this.disabledDistrict = rolesWidget['dinkesKotaAndFaskes'].includes(this.roles[0])
   },
   methods: {
     onSelectDistrict(value) {
