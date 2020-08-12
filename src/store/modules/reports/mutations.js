@@ -86,6 +86,9 @@ export default {
     state.formPasien.apd_use = []
     state.formPasien.inspection_support = []
     state.formPasien.is_other_diagnosisr_respiratory_disease = false
+    state.formPasien.travelling_history = []
+    state.formPasien.has_visited_public_place = false
+    state.formPasien.visited_public_place = []
     state.formPasien.other_diagnosisr_respiratory_disease = ''
     state.formPasien.name_close_contact = ''
     state.formPasien.id_close_contact = ''

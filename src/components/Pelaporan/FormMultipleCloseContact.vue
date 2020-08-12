@@ -119,7 +119,7 @@
               </v-row>
               <v-row align="start">
                 <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}">
-                  <label class="required">{{ $t('label.address_home') }}</label>
+                  <label>{{ $t('label.address_home') }}</label>
                 </v-col>
                 <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
                   <address-region
@@ -136,7 +136,7 @@
                     :code-village.sync="data.address_village_code"
                     :name-village.sync="data.address_village_name"
                     :disabled-address="false"
-                    :required-address="true"
+                    :required-address="false"
                   />
                 </v-col>
               </v-row>

@@ -54,10 +54,24 @@
                 </v-col>
                 <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
                   <ValidationProvider>
-                    <v-text-field
+                    <v-select
+                      v-if="data.travelling_type === 'Dari Luar Negeri'"
                       v-model="data.travelling_visited"
+                      :items="listCountry"
                       :label="$t('label.enter_place')"
-                      solo-inverted
+                      item-text="name"
+                      item-value="name"
+                      solo
+                    />
+                    <v-select
+                      v-else
+                      v-model="data.travelling_visited"
+                      :items="listProvince"
+                      item-text="provinsi_nama"
+                      :label="$t('label.enter_place')"
+                      return-object
+                      solo
+                      @change="getListDistrictByProvince($event,indexTraveling)"
                     />
                   </ValidationProvider>
                 </v-col>
@@ -68,7 +82,16 @@
                 </v-col>
                 <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
                   <ValidationProvider>
+                    <v-select
+                      v-if="data.travelling_type === 'Dari Luar Kota'"
+                      v-model="data.travelling_city"
+                      :items="listDistrict"
+                      item-text="kota_nama"
+                      item-value="kota_nama"
+                      solo
+                    />
                     <v-text-field
+                      v-else
                       v-model="data.travelling_city"
                       :label="$t('label.enter_place')"
                       solo-inverted
@@ -276,11 +299,11 @@
                   <label>{{ $t('label.length_visit_duration') }}</label>
                 </v-col>
                 <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
-                  <ValidationProvider>
+                  <ValidationProvider v-slot="{ errors }" rules="noAlphabet">
                     <v-text-field
-                      v-model="data.public_place_duration_visited"
+                      v-model.number="data.public_place_duration_visited"
+                      :error-messages="errors"
                       class="input-append-btn"
-                      type="number"
                       solo-inverted
                     >
                       <template v-slot:append>
@@ -327,6 +350,9 @@ export default {
       isAddCloseContactForm: false,
       specimenType: specimenType,
       listPlaceCategory: listPlaceCategory,
+      listCountry: [],
+      listProvince: [],
+      listDistrict: [],
       totalCloseContact: 0,
       isValid: false,
       showAlert: false,
@@ -337,6 +363,8 @@ export default {
   },
   mounted() {
     this.handleAddFormSupportingInvestigation()
+    this.getListCountry()
+    this.getListProvince()
   },
   methods: {
     handleAddFormSupportingInvestigation() {
@@ -380,6 +408,19 @@ export default {
     handleDeleteFormTravelHistory(index) {
       this.formPasien.visited_public_place.splice(index, 1)
       this.isValid = this.formPasien.visited_public_place.length !== 0
+    },
+    async getListCountry() {
+      const response = await this.$store.dispatch('region/listCountry')
+      this.listCountry = response.data
+    },
+    async getListProvince() {
+      const response = await this.$store.dispatch('region/getListProvince')
+      this.listProvince = response.data
+    },
+    async getListDistrictByProvince(item, index) {
+      this.formPasien.travelling_history[index].travelling_visited = item.provinsi_nama
+      const response = await this.$store.dispatch('region/getListDistrictCity', { provice_code: item.provinsi_kode })
+      this.listDistrict = response.data
     }
   }
 }

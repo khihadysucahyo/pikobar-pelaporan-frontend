@@ -9,8 +9,11 @@
           <ValidationProvider>
             <v-select
               v-model="formPasien.province"
-              :items="specimenType"
+              :items="listProvince"
+              item-text="provinsi_nama"
+              return-object
               solo
+              @change="getListDistrictByProvince"
             />
           </ValidationProvider>
         </v-col>
@@ -23,7 +26,9 @@
           <ValidationProvider>
             <v-select
               v-model="formPasien.city"
-              :items="specimenType"
+              :items="listDistrict"
+              item-text="kota_nama"
+              item-value="kota_nama"
               solo
             />
           </ValidationProvider>
@@ -49,14 +54,24 @@ export default {
   data() {
     return {
       specimenType: specimenType,
+      listProvince: [],
+      listDistrict: [],
       formatDate: 'YYYY/MM/DD'
     }
   },
-  mounted() {
-    //
+  async mounted() {
+    await this.getListProvince()
   },
   methods: {
-    //
+    async getListProvince() {
+      const response = await this.$store.dispatch('region/getListProvince')
+      this.listProvince = response.data
+    },
+    async getListDistrictByProvince(item) {
+      this.formPasien.province = item.provinsi_nama
+      const response = await this.$store.dispatch('region/getListDistrictCity', { provice_code: item.provinsi_kode })
+      this.listDistrict = response.data
+    }
   }
 }
 </script>
