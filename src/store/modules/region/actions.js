@@ -1,10 +1,20 @@
 import requestServer from '@/api'
 
 export default {
-  async getListDistrictCity({ commit }) {
+  async getListProvince({ commit }) {
     try {
-      const response = await requestServer('/api/areas/district-city', 'GET')
-      commit('SET_DISTRICT_CITY', response.data)
+      const response = await requestServer('/api/areas/province', 'GET')
+      return response
+    } catch (error) {
+      return error.response
+    }
+  },
+  async getListDistrictCity({ commit }, params) {
+    try {
+      const response = await requestServer('/api/areas/district-city', 'GET', params)
+      if (!params) {
+        commit('SET_DISTRICT_CITY', response.data)
+      }
       return response
     } catch (error) {
       return error.response

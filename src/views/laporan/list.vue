@@ -104,7 +104,7 @@
       class="mt-2"
     >
       <v-row>
-        <v-col class="ml-4">
+        <v-col cols="12" md="6" sm="6" class="ma-1">
           <search
             :list-query="listQuery"
             :handle-search="handleSearch"
@@ -124,22 +124,26 @@
             {{ $t('label.import') }}
           </v-btn> -->
           <v-btn
-            color="primary"
-            class="mr-4 float-right"
-            @click="handleFilter"
-          >
-            {{ $t('label.filter') }}
-            <v-icon v-if="!showFilter">mdi-chevron-right</v-icon>
-            <v-icon v-else>mdi-chevron-down</v-icon>
-          </v-btn>
-          <v-btn
             class="btn-import-export mr-2 float-right"
             color="#27AE60"
+            block
             outlined
             @click="onExport"
           >
             <v-icon left>mdi-upload</v-icon>
             {{ $t('label.export') }}
+          </v-btn>
+        </v-col>
+        <v-col>
+          <v-btn
+            color="primary"
+            class="mr-4 float-right"
+            block
+            @click="handleFilter"
+          >
+            {{ $t('label.filter') }}
+            <v-icon v-if="!showFilter">mdi-chevron-right</v-icon>
+            <v-icon v-else>mdi-chevron-down</v-icon>
           </v-btn>
         </v-col>
       </v-row>

@@ -10,8 +10,14 @@
             <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
               <v-row align="center" class="ma-0">
                 <v-col cols="12" sm="4" class="pa-1">
-                  <ValidationProvider>
-                    <v-text-field v-model="formPasien.physical_check_temperature" class="input-append-btn" type="number" solo-inverted :placeholder="$t('label.temperature')">
+                  <ValidationProvider v-slot="{ errors }" rules="noAlphabet">
+                    <v-text-field
+                      v-model.number="formPasien.physical_check_temperature"
+                      class="input-append-btn"
+                      solo-inverted
+                      :placeholder="$t('label.temperature')"
+                      :error-messages="errors"
+                    >
                       <template v-slot:append>
                         <v-btn depressed tile min-width="20">
                           &#778;C
@@ -161,11 +167,11 @@
                   <label>{{ $t('label.collection_specimen') }}</label>
                 </v-col>
                 <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
-                  <ValidationProvider>
+                  <ValidationProvider v-slot="{ errors }" rules="noAlphabet">
                     <v-text-field
-                      v-model="data.get_specimens_to"
-                      type="number"
+                      v-model.number="data.get_specimens_to"
                       :label="$t('label.enter_number_takes')"
+                      :error-messages="errors"
                       solo-inverted
                     />
                   </ValidationProvider>
