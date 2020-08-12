@@ -89,8 +89,17 @@
                 </template>
                 <v-card>
                   <div v-if="roles[0] === 'faskes'">
-                    <v-list-item @click="handleCorrectCaseReport(item._id)">
-                      {{ item.verified_status === 'declined' ? $t('label.fix_case') : $t('label.view_case_detail') }}
+                    <v-list-item
+                      v-if="item.verified_status === 'declined'"
+                      @click="handleCorrectCaseReport(item._id)"
+                    >
+                      {{ $t('label.fix_case') }}
+                    </v-list-item>
+                    <v-list-item
+                      v-else
+                      @click="handleDetail(item._id)"
+                    >
+                      {{ $t('label.view_case_detail') }}
                     </v-list-item>
                     <v-list-item v-if="item.verified_status !== 'declined'" @click="handleEditCase(item._id)">
                       {{ $t('label.change_patent_data') }}
