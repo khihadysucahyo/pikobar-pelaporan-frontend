@@ -182,8 +182,13 @@
                   <label>{{ $t('label.relationship_with_primary_cases') }}</label>
                 </v-col>
                 <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
-                  <ValidationProvider>
-                    <v-text-field v-model="data.relationship" type="text" solo-inverted />
+                  <ValidationProvider v-slot="{ errors }">
+                    <v-select
+                      v-model="data.relationship"
+                      :items="listRelationships"
+                      :error-messages="errors"
+                      solo
+                    />
                   </ValidationProvider>
                 </v-col>
               </v-row>
@@ -192,7 +197,8 @@
                 <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
                   <ValidationProvider>
                     <v-text-field
-                      v-model="data.country"
+                      v-if="data.relationship === 'Lainnya'"
+                      v-model="data.relationship_other"
                       :label="$t('label.mention_it')"
                       solo-inverted
                     />
@@ -280,7 +286,7 @@
 
 <script>
 import { ValidationProvider } from 'vee-validate'
-import { listActivitiesUndertaken } from '@/utils/constantVariable'
+import { listActivitiesUndertaken, listRelationships } from '@/utils/constantVariable'
 export default {
   name: 'FormMultipleCloseContact',
   components: {
@@ -298,6 +304,7 @@ export default {
       totalCloseContact: 0,
       idCloseContactForm: 0,
       listActivitiesUndertaken: listActivitiesUndertaken,
+      listRelationships: listRelationships,
       isValid: false,
       showAlert: false,
       formatDate: 'YYYY/MM/DD'
@@ -320,7 +327,7 @@ export default {
         month: '',
         address: '',
         related: '',
-        activity: '',
+        activity: [],
         is_patient_address_same: false,
         address_district_code: '',
         address_district_name: '',
@@ -331,6 +338,8 @@ export default {
         address_rt: '',
         address_rw: '',
         address_street: '',
+        relationship: '',
+        relationship_other: '',
         start_contact_date: '',
         end_contact_date: ''
       })

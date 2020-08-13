@@ -48,57 +48,7 @@
                   </ValidationProvider>
                 </v-col>
               </v-row>
-              <v-row align="center">
-                <v-col cols="12" md="3" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
-                  <label>{{ data.travelling_type === "Dari Luar Kota" ? $t('label.province'):$t('label.country') }}</label>
-                </v-col>
-                <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
-                  <ValidationProvider>
-                    <v-select
-                      v-if="data.travelling_type !== 'Dari Luar Kota'"
-                      v-model="data.travelling_visited"
-                      :items="listCountry"
-                      :label="$t('label.enter_place')"
-                      item-text="name"
-                      item-value="name"
-                      solo
-                    />
-                    <v-select
-                      v-else
-                      v-model="data.travelling_visited"
-                      :items="listProvince"
-                      item-text="provinsi_nama"
-                      :label="$t('label.enter_place')"
-                      return-object
-                      solo
-                      @change="getListDistrictByProvince($event,indexTraveling)"
-                    />
-                  </ValidationProvider>
-                </v-col>
-              </v-row>
-              <v-row align="center">
-                <v-col cols="12" md="3" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
-                  <label>{{ $t('label.city') }}</label>
-                </v-col>
-                <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
-                  <ValidationProvider>
-                    <v-select
-                      v-if="data.travelling_type === 'Dari Luar Kota'"
-                      v-model="data.travelling_city"
-                      :items="listDistrict"
-                      item-text="kota_nama"
-                      item-value="kota_nama"
-                      solo
-                    />
-                    <v-text-field
-                      v-else
-                      v-model="data.travelling_city"
-                      :label="$t('label.enter_place')"
-                      solo-inverted
-                    />
-                  </ValidationProvider>
-                </v-col>
-              </v-row>
+              <form-travelling-visited :form-pasien="data" />
               <v-row align="center">
                 <v-col cols="12" md="3" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
                   <label>{{ $t('label.start_travel') }}</label>
@@ -350,9 +300,6 @@ export default {
       isAddCloseContactForm: false,
       specimenType: specimenType,
       listPlaceCategory: listPlaceCategory,
-      listCountry: [],
-      listProvince: [],
-      listDistrict: [],
       totalCloseContact: 0,
       isValid: false,
       showAlert: false,
@@ -363,8 +310,6 @@ export default {
   },
   mounted() {
     this.handleAddFormSupportingInvestigation()
-    this.getListCountry()
-    this.getListProvince()
   },
   methods: {
     handleAddFormSupportingInvestigation() {
@@ -408,19 +353,6 @@ export default {
     handleDeleteFormTravelHistory(index) {
       this.formPasien.visited_public_place.splice(index, 1)
       this.isValid = this.formPasien.visited_public_place.length !== 0
-    },
-    async getListCountry() {
-      const response = await this.$store.dispatch('region/listCountry')
-      this.listCountry = response.data
-    },
-    async getListProvince() {
-      const response = await this.$store.dispatch('region/getListProvince')
-      this.listProvince = response.data
-    },
-    async getListDistrictByProvince(item, index) {
-      this.formPasien.travelling_history[index].travelling_visited = item.provinsi_nama
-      const response = await this.$store.dispatch('region/getListDistrictCity', { provice_code: item.provinsi_kode })
-      this.listDistrict = response.data
     }
   }
 }

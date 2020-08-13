@@ -3,18 +3,22 @@
     <v-form ref="form" lazy-validation>
       <v-row align="center">
         <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}">
-          <label>{{ $t('label.primary_contact_label_1') }}</label>
+          <label class="required">{{ $t('label.primary_contact_label_1') }}</label>
         </v-col>
         <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
-          <ValidationProvider>
-            <v-radio-group v-model="formPasien.travel" row>
-              <v-radio :label="$t('label.yes')" :value="1" />
-              <v-radio :label="$t('label.no')" :value="0" />
+          <ValidationProvider v-slot="{ errors }" rules="required">
+            <v-radio-group
+              v-model="formPasien.close_contacted_before_sick_14_days"
+              :error-messages="errors"
+              row
+            >
+              <v-radio :label="$t('label.yes')" :value="true" />
+              <v-radio :label="$t('label.no')" :value="false" />
             </v-radio-group>
           </ValidationProvider>
         </v-col>
       </v-row>
-      <div v-for="(data, index) in formPasien.primary_contact" :key="index">
+      <div v-for="(data, index) in formPasien.close_contact_premier" :key="index">
         <v-container fluid>
           <v-card outlined>
             <v-row align="center" justify="space-between">
@@ -33,13 +37,17 @@
             <v-container fluid>
               <v-row align="center">
                 <v-col cols="12" md="3" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
-                  <label>{{ $t('label.contact_name') }}</label>
+                  <label :class="formPasien.close_contacted_before_sick_14_days ? 'required':''">{{ $t('label.contact_name') }}</label>
                 </v-col>
                 <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
-                  <ValidationProvider>
+                  <ValidationProvider
+                    v-slot="{ errors }"
+                    :rules="formPasien.close_contacted_before_sick_14_days ? 'required':''"
+                  >
                     <v-text-field
-                      v-model="data.country"
-                      :label="$t('label.enter_place')"
+                      v-model="data.close_contact_name"
+                      :error-messages="errors"
+                      :label="$t('label.contact_name')"
                       solo-inverted
                     />
                   </ValidationProvider>
@@ -47,30 +55,103 @@
               </v-row>
               <v-row align="center">
                 <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}">
-                  <label>{{ $t('label.contact_criteria') }}</label>
+                  <label :class="formPasien.close_contacted_before_sick_14_days ? 'required':''">{{ $t('label.contact_criteria') }}</label>
                 </v-col>
                 <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
-                  <ValidationProvider>
-                    <v-radio-group v-model="data.trip_type" row>
-                      <v-radio :label="'Suspek'" value="A" />
-                      <v-radio :label="'Probabel'" value="B" />
-                      <v-radio :label="'Konfirmasi'" value="C" />
+                  <ValidationProvider
+                    v-slot="{ errors }"
+                    :rules="formPasien.close_contacted_before_sick_14_days ? 'required':''"
+                  >
+                    <v-radio-group
+                      v-model="data.close_contact_criteria"
+                      :error-messages="errors"
+                      row
+                    >
+                      <v-radio :label="$t('label.suspect')" value="SUSPECT" />
+                      <v-radio :label="$t('label.probable')" value="PROBABLE" />
+                      <v-radio :label="$t('label.confirmation')" value="CONFIRMATION" />
                     </v-radio-group>
                   </ValidationProvider>
                 </v-col>
               </v-row>
-              <v-row align="center">
-                <v-col cols="12" md="3" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
-                  <label>{{ $t('label.address') }}</label>
+              <v-row align="start" class="pb-6">
+                <v-col
+                  cols="12"
+                  md="3"
+                  sm="12"
+                  :class="{'py-0': $vuetify.breakpoint. smAndDown}"
+                >
+                  {{ $t('label.same_house_as_patient') }}
                 </v-col>
-                <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
-                  <ValidationProvider>
-                    <v-text-field
-                      v-model="data.country"
-                      :label="$t('label.enter_place')"
-                      solo-inverted
+                <v-col
+                  cols="12"
+                  md="9"
+                  sm="12"
+                  :class="{'py-0': $vuetify.breakpoint. smAndDown}"
+                >
+                  <ValidationProvider
+                    v-slot="{ errors }"
+                    rules="isHtml"
+                  >
+                    <v-checkbox
+                      v-model="data.is_patient_address_same"
+                      class="mt-0 pt-0"
+                      :error-messages="errors"
+                      @change="handleChangeSameHouse($event, index)"
                     />
                   </ValidationProvider>
+                </v-col>
+              </v-row>
+              <v-row align="start">
+                <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}">
+                  <label>{{ $t('label.address_home') }}</label>
+                </v-col>
+                <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
+                  <address-region
+                    :district-code="data.address_district_code"
+                    :district-name="data.address_district_name"
+                    :code-district.sync="data.address_district_code"
+                    :name-district.sync="data.address_district_name"
+                    :sub-district-code="data.address_subdistrict_code"
+                    :sub-district-name="data.address_subdistrict_name"
+                    :code-sub-district.sync="data.address_subdistrict_code"
+                    :name-sub-district.sync="data.address_subdistrict_name"
+                    :village-code="data.address_village_code"
+                    :village-name="data.address_village_name"
+                    :code-village.sync="data.address_village_code"
+                    :name-village.sync="data.address_village_name"
+                    :disabled-address="false"
+                    :required-address="false"
+                  />
+                </v-col>
+              </v-row>
+              <v-row align="start">
+                <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}" />
+                <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
+                  <v-row align="center" class="ma-0">
+                    <v-col cols="12" sm="6" class="pa-1">
+                      <ValidationProvider>
+                        <v-text-field v-model="data.address_rt" class="input-append-btn" type="number" min="0" max="120" solo-inverted>
+                          <template v-slot:append>
+                            <v-btn depressed tile min-width="20">
+                              {{ $t('label.rt') }}
+                            </v-btn>
+                          </template>
+                        </v-text-field>
+                      </ValidationProvider>
+                    </v-col>
+                    <v-col cols="12" sm="6" class="pa-1">
+                      <ValidationProvider>
+                        <v-text-field v-model="data.address_rw" class="input-append-btn" type="number" min="0" max="120" solo-inverted>
+                          <template v-slot:append>
+                            <v-btn depressed tile min-width="20">
+                              {{ $t('label.rw') }}
+                            </v-btn>
+                          </template>
+                        </v-text-field>
+                      </ValidationProvider>
+                    </v-col>
+                  </v-row>
                 </v-col>
               </v-row>
               <v-row align="center">
@@ -78,21 +159,25 @@
                   <label>{{ $t('label.relationship') }}</label>
                 </v-col>
                 <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
-                  <ValidationProvider>
-                    <v-autocomplete
-                      :no-data-text="$t('label.data_not_found')"
-                      :placeholder="$t('label.no_data_autocomplete_patient')"
-                      :search-input.sync="searchPatientCloseContact"
-                      :items="patientCloseContactList"
-                      :return-object="true"
-                      item-value="id_case"
-                      item-text="name"
-                      menu-props="auto"
-                      single-line
+                  <ValidationProvider v-slot="{ errors }">
+                    <v-select
+                      v-model="data.close_contact_relation"
+                      :items="listRelationships"
+                      :error-messages="errors"
                       solo
-                      autocomplete
-                      clearable
-                      @change="onSelectCloseContact"
+                    />
+                  </ValidationProvider>
+                </v-col>
+              </v-row>
+              <v-row align="center" class="mt-2">
+                <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}" />
+                <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
+                  <ValidationProvider>
+                    <v-text-field
+                      v-if="data.close_contact_relation === 'Lainnya'"
+                      v-model="data.country"
+                      :label="$t('label.mention_it')"
+                      solo-inverted
                     />
                   </ValidationProvider>
                 </v-col>
@@ -105,10 +190,10 @@
                   <ValidationProvider>
                     <input-date-picker
                       :format-date="formatDate"
-                      :date-value="data.start_travel_date"
-                      :value-date.sync="data.start_travel_date"
+                      :date-value="data.close_contact_first_date"
+                      :value-date.sync="data.close_contact_first_date"
                       :label="$t('label.choose_date')"
-                      @changeDate="data.start_travel_date = $event"
+                      @changeDate="data.close_contact_first_date = $event"
                     />
                   </ValidationProvider>
                 </v-col>
@@ -121,10 +206,10 @@
                   <ValidationProvider>
                     <input-date-picker
                       :format-date="formatDate"
-                      :date-value="data.end_travel_date"
-                      :value-date.sync="data.end_travel_date"
+                      :date-value="data.close_contact_last_date"
+                      :value-date.sync="data.close_contact_last_date"
                       :label="$t('label.choose_date')"
-                      @changeDate="data.end_travel_date = $event"
+                      @changeDate="data.close_contact_last_date = $event"
                     />
                   </ValidationProvider>
                 </v-col>
@@ -149,7 +234,7 @@
           <ValidationProvider>
             <v-container>
               <v-row>
-                <v-radio-group v-model="formPasien.close_contact_confirm" row>
+                <v-radio-group v-model="formPasien.close_contact_heavy_ispa_group" row>
                   <span v-for="(item, index) in yesOrNoAnswer" :key="index">
                     <v-radio :label="item.text" :value="item.value" />
                   </span>
@@ -167,7 +252,7 @@
           <ValidationProvider>
             <v-container>
               <v-row>
-                <v-radio-group v-model="formPasien.close_contact_animal_market" row>
+                <v-radio-group v-model="formPasien.close_contact_have_pets" row>
                   <span v-for="(item, index) in yesOrNoAnswer" :key="index">
                     <v-radio :label="item.text" :value="item.value" />
                   </span>
@@ -182,7 +267,7 @@
         <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
           <ValidationProvider>
             <v-text-field
-              v-model="formPasien.country"
+              v-model="formPasien.close_contact_pets"
               :label="$t('label.mention_animals_that_kept')"
               solo-inverted
             />
@@ -197,7 +282,7 @@
           <ValidationProvider>
             <v-container>
               <v-row>
-                <v-radio-group v-model="formPasien.close_contact_animal_market" row>
+                <v-radio-group v-model="formPasien.close_contact_health_worker" row>
                   <span v-for="(item, index) in yesOrNoAnswer" :key="index">
                     <v-radio :label="item.text" :value="item.value" />
                   </span>
@@ -234,7 +319,7 @@
           <ValidationProvider>
             <v-container>
               <v-row>
-                <v-radio-group v-model="formPasien.close_contact_animal_market" row>
+                <v-radio-group v-model="formPasien.close_contact_performing_aerosol_procedures" row>
                   <span v-for="(item, index) in yesOrNoAnswer" :key="index">
                     <v-radio :label="item.text" :value="item.value" />
                   </span>
@@ -249,7 +334,7 @@
         <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
           <ValidationProvider>
             <v-text-field
-              v-model="formPasien.country"
+              v-model="formPasien.close_contact_performing_aerosol"
               :label="$t('label.mention_it')"
               solo-inverted
             />
@@ -262,7 +347,7 @@
 </template>
 <script>
 import { ValidationProvider } from 'vee-validate'
-import { answerList, yesOrNoAnswer, healthWorkerList, apd } from '@/utils/constantVariable'
+import { answerList, yesOrNoAnswer, healthWorkerList, listRelationships, apd } from '@/utils/constantVariable'
 
 export default {
   name: 'FormMultipleContactFactor',
@@ -285,6 +370,7 @@ export default {
       showAlert: false,
       answerList: answerList,
       yesOrNoAnswer: yesOrNoAnswer,
+      listRelationships: listRelationships,
       patientCloseContactList: [],
       patientCloseContactConfirmList: [],
       searchPatientCloseContact: null,
@@ -319,18 +405,19 @@ export default {
       this.isValid = true
       this.showAlert = false
       this.idCloseContactForm = this.idCloseContactForm + 1
-      this.formPasien.primary_contact.push({
+      this.formPasien.close_contact_premier.push({
         id: this.idCloseContactForm,
-        investigation: '',
-        trip_type: '',
-        start_travel_date: '',
-        end_travel_date: '',
-        country: ''
+        close_contact_name: '',
+        close_contact_criteria: '',
+        close_contact_address: '',
+        close_contact_relation: '',
+        close_contact_first_date: '',
+        close_contact_last_date: ''
       })
     },
     handleDeleteFormCloseContact(index) {
-      this.formPasien.primary_contact.splice(index, 1)
-      this.isValid = this.formPasien.primary_contact.length !== 0
+      this.formPasien.close_contact_premier.splice(index, 1)
+      this.isValid = this.formPasien.close_contact_premier.length !== 0
     },
     handleChangeStartTravel(value) {
       this.formPasien.start_travel = value
@@ -361,8 +448,30 @@ export default {
     },
     onSelectHealthWorker(value) {
       this.formPasien.health_workers = value
+    },
+    handleChangeSameHouse(value, index) {
+      if (value) {
+        this.formPasien.close_contact_premier[index].address_district_code = this.formPasien.address_district_code
+        this.formPasien.close_contact_premier[index].address_district_name = this.formPasien.address_district_name
+        this.formPasien.close_contact_premier[index].address_subdistrict_code = this.formPasien.address_subdistrict_code
+        this.formPasien.close_contact_premier[index].address_subdistrict_name = this.formPasien.address_subdistrict_name
+        this.formPasien.close_contact_premier[index].address_village_code = this.formPasien.address_village_code
+        this.formPasien.close_contact_premier[index].address_village_name = this.formPasien.address_village_name
+        this.formPasien.close_contact_premier[index].address_rt = this.formPasien.rt
+        this.formPasien.close_contact_premier[index].address_rw = this.formPasien.rw
+        this.formPasien.close_contact_premier[index].address_street = this.formPasien.address_street
+      } else {
+        this.formPasien.close_contact_patient[index].address_district_code = ''
+        this.formPasien.close_contact_patient[index].address_district_name = ''
+        this.formPasien.close_contact_patient[index].address_subdistrict_code = ''
+        this.formPasien.close_contact_patient[index].address_subdistrict_name = ''
+        this.formPasien.close_contact_patient[index].address_village_code = ''
+        this.formPasien.close_contact_patient[index].address_village_name = ''
+        this.formPasien.close_contact_patient[index].address_rt = ''
+        this.formPasien.close_contact_patient[index].address_rw = ''
+        this.formPasien.close_contact_patient[index].address_street = ''
+      }
     }
   }
 }
 </script>
-
