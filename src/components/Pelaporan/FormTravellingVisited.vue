@@ -3,14 +3,25 @@
     <v-form ref="form" lazy-validation>
       <v-row align="center">
         <v-col cols="12" md="3" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
-          <label>{{ $t('label.province') }}</label>
+          <label>{{ formPasien.travelling_type === "Dari Luar Kota" ? $t('label.province'):$t('label.country') }}</label>
         </v-col>
         <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
           <ValidationProvider>
             <v-select
-              v-model="formPasien.visited_local_area_province"
+              v-if="formPasien.travelling_type !== 'Dari Luar Kota'"
+              v-model="formPasien.travelling_visited"
+              :items="listCountry"
+              :label="$t('label.enter_place')"
+              item-text="name"
+              item-value="name"
+              solo
+            />
+            <v-select
+              v-else
+              v-model="formPasien.travelling_visited"
               :items="listProvince"
               item-text="provinsi_nama"
+              :label="$t('label.enter_place')"
               return-object
               solo
               @change="getListDistrictByProvince"
@@ -25,11 +36,18 @@
         <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
           <ValidationProvider>
             <v-select
-              v-model="formPasien.visited_local_area_city"
+              v-if="formPasien.travelling_type === 'Dari Luar Kota'"
+              v-model="formPasien.travelling_city"
               :items="listDistrict"
               item-text="kota_nama"
               item-value="kota_nama"
               solo
+            />
+            <v-text-field
+              v-else
+              v-model="formPasien.travelling_city"
+              :label="$t('label.enter_place')"
+              solo-inverted
             />
           </ValidationProvider>
         </v-col>
@@ -40,7 +58,7 @@
 <script>
 import { ValidationProvider } from 'vee-validate'
 export default {
-  name: 'FormTransmissionArea',
+  name: 'FormTravellingVisited',
   components: {
     ValidationProvider
   },
@@ -52,21 +70,27 @@ export default {
   },
   data() {
     return {
+      listCountry: [],
       listProvince: [],
       listDistrict: [],
       formatDate: 'YYYY/MM/DD'
     }
   },
   async mounted() {
+    await this.getListCountry()
     await this.getListProvince()
   },
   methods: {
+    async getListCountry() {
+      const response = await this.$store.dispatch('region/listCountry')
+      this.listCountry = response.data
+    },
     async getListProvince() {
       const response = await this.$store.dispatch('region/getListProvince')
       this.listProvince = response.data
     },
     async getListDistrictByProvince(item) {
-      this.formPasien.visited_local_area_province = item.provinsi_nama
+      this.formPasien.travelling_visited = item.provinsi_nama
       const response = await this.$store.dispatch('region/getListDistrictCity', { provice_code: item.provinsi_kode })
       this.listDistrict = response.data
     }

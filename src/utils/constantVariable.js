@@ -279,6 +279,13 @@ export const listPlaceCategory = [
   'Tempat Publik Lainnya'
 ]
 
+export const listRelationships = [
+  'Keluarga serumah',
+  'Teman Kerja',
+  'Jamaah ditempat ibadah',
+  'Lainnya'
+]
+
 export const incomeList = [
   {
     value: 0,
