@@ -107,6 +107,8 @@ function initialState() {
       inspection_support: [],
       travelling_history_before_sick_14_days: false,
       travelling_history: [],
+      visited_local_area_before_sick_14_days: false,
+      visited_local_area: [],
       has_visited_public_place: false,
       visited_public_place: [],
       area_transmision: [],

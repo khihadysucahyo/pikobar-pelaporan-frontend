@@ -89,6 +89,8 @@ export default {
     state.formPasien.travelling_history = []
     state.formPasien.has_visited_public_place = false
     state.formPasien.visited_public_place = []
+    state.formPasien.visited_local_area_before_sick_14_days = false
+    state.formPasien.visited_local_area = []
     state.formPasien.other_diagnosisr_respiratory_disease = ''
     state.formPasien.name_close_contact = ''
     state.formPasien.id_close_contact = ''
