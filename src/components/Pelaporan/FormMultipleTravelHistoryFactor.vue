@@ -55,7 +55,7 @@
                 <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
                   <ValidationProvider>
                     <v-select
-                      v-if="data.travelling_type === 'Dari Luar Negeri'"
+                      v-if="data.travelling_type !== 'Dari Luar Kota'"
                       v-model="data.travelling_visited"
                       :items="listCountry"
                       :label="$t('label.enter_place')"
@@ -151,16 +151,16 @@
             </v-col>
             <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
               <ValidationProvider>
-                <v-radio-group v-model="formPasien.investigation" row>
-                  <v-radio :label="$t('label.yes')" value="L" />
-                  <v-radio :label="$t('label.no')" value="P" />
+                <v-radio-group v-model="formPasien.visited_local_area_before_sick_14_days" row>
+                  <v-radio :label="$t('label.yes')" :value="true" />
+                  <v-radio :label="$t('label.no')" :value="false" />
                 </v-radio-group>
               </ValidationProvider>
             </v-col>
           </v-row>
         </v-container>
       </div>
-      <div v-for="(data, indexArea) in formPasien.area_transmision" :key="`area-${indexArea}`">
+      <div v-for="(data, indexArea) in formPasien.visited_local_area" :key="`area-${indexArea}`">
         <v-container fluid>
           <v-card outlined>
             <v-row align="center" justify="space-between">
@@ -385,14 +385,14 @@ export default {
     handleAddFormAreaTransmisi() {
       this.isValid = true
       this.showAlert = false
-      this.formPasien.area_transmision.push({
-        province: '',
-        city: ''
+      this.formPasien.visited_local_area.push({
+        visited_local_area_province: '',
+        visited_local_area_city: ''
       })
     },
     handleDeleteFormAreaTransmisi(index) {
-      this.formPasien.area_transmision.splice(index, 1)
-      this.isValid = this.formPasien.area_transmision.length !== 0
+      this.formPasien.visited_local_area.splice(index, 1)
+      this.isValid = this.formPasien.visited_local_area.length !== 0
     },
     handleAddFormTravelHistory() {
       this.isValid = true
