@@ -108,18 +108,18 @@
                 </v-col>
                 <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
                   <address-region
-                    :district-code="data.address_district_code"
-                    :district-name="data.address_district_name"
-                    :code-district.sync="data.address_district_code"
-                    :name-district.sync="data.address_district_name"
-                    :sub-district-code="data.address_subdistrict_code"
-                    :sub-district-name="data.address_subdistrict_name"
-                    :code-sub-district.sync="data.address_subdistrict_code"
-                    :name-sub-district.sync="data.address_subdistrict_name"
-                    :village-code="data.address_village_code"
-                    :village-name="data.address_village_name"
-                    :code-village.sync="data.address_village_code"
-                    :name-village.sync="data.address_village_name"
+                    :district-code="data.close_contact_address_district_code"
+                    :district-name="data.close_contact_address_district_name"
+                    :code-district.sync="data.close_contact_address_district_code"
+                    :name-district.sync="data.close_contact_address_district_name"
+                    :sub-district-code="data.close_contact_address_subdistrict_code"
+                    :sub-district-name="data.close_contact_address_subdistrict_name"
+                    :code-sub-district.sync="data.close_contact_address_subdistrict_code"
+                    :name-sub-district.sync="data.close_contact_address_subdistrict_name"
+                    :village-code="data.close_contact_address_village_code"
+                    :village-name="data.close_contact_address_village_name"
+                    :code-village.sync="data.close_contact_address_village_code"
+                    :name-village.sync="data.close_contact_address_village_name"
                     :disabled-address="false"
                     :required-address="false"
                   />
@@ -131,7 +131,7 @@
                   <v-row align="center" class="ma-0">
                     <v-col cols="12" sm="6" class="pa-1">
                       <ValidationProvider>
-                        <v-text-field v-model="data.address_rt" class="input-append-btn" type="number" min="0" max="120" solo-inverted>
+                        <v-text-field v-model="data.close_contact_rt" class="input-append-btn" type="number" min="0" max="120" solo-inverted>
                           <template v-slot:append>
                             <v-btn depressed tile min-width="20">
                               {{ $t('label.rt') }}
@@ -142,7 +142,7 @@
                     </v-col>
                     <v-col cols="12" sm="6" class="pa-1">
                       <ValidationProvider>
-                        <v-text-field v-model="data.address_rw" class="input-append-btn" type="number" min="0" max="120" solo-inverted>
+                        <v-text-field v-model="data.close_contact_rw" class="input-append-btn" type="number" min="0" max="120" solo-inverted>
                           <template v-slot:append>
                             <v-btn depressed tile min-width="20">
                               {{ $t('label.rw') }}
@@ -152,6 +152,18 @@
                       </ValidationProvider>
                     </v-col>
                   </v-row>
+                </v-col>
+              </v-row>
+              <v-row align="start">
+                <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}" />
+                <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
+                  <ValidationProvider>
+                    <v-textarea
+                      v-model="data.close_contact_address_street"
+                      solo
+                      :placeholder="$t('label.complete_address')"
+                    />
+                  </ValidationProvider>
                 </v-col>
               </v-row>
               <v-row align="center">
@@ -409,7 +421,17 @@ export default {
         id: this.idCloseContactForm,
         close_contact_name: '',
         close_contact_criteria: '',
-        close_contact_address: '',
+        close_contact_address_village_code: '',
+        close_contact_address_village_name: '',
+        close_contact_address_subdistrict_code: '',
+        close_contact_address_subdistrict_name: '',
+        close_contact_address_district_code: '',
+        close_contact_address_district_name: '',
+        close_contact_address_province_code: '32',
+        close_contact_address_province_name: 'Jawa Barat',
+        close_contact_rt: '',
+        close_contact_rw: '',
+        close_contact_address_street: '',
         close_contact_relation: '',
         close_contact_first_date: '',
         close_contact_last_date: ''
@@ -451,25 +473,25 @@ export default {
     },
     handleChangeSameHouse(value, index) {
       if (value) {
-        this.formPasien.close_contact_premier[index].address_district_code = this.formPasien.address_district_code
-        this.formPasien.close_contact_premier[index].address_district_name = this.formPasien.address_district_name
-        this.formPasien.close_contact_premier[index].address_subdistrict_code = this.formPasien.address_subdistrict_code
-        this.formPasien.close_contact_premier[index].address_subdistrict_name = this.formPasien.address_subdistrict_name
-        this.formPasien.close_contact_premier[index].address_village_code = this.formPasien.address_village_code
-        this.formPasien.close_contact_premier[index].address_village_name = this.formPasien.address_village_name
-        this.formPasien.close_contact_premier[index].address_rt = this.formPasien.rt
-        this.formPasien.close_contact_premier[index].address_rw = this.formPasien.rw
-        this.formPasien.close_contact_premier[index].address_street = this.formPasien.address_street
+        this.formPasien.close_contact_premier[index].close_contact_address_district_code = this.formPasien.address_district_code
+        this.formPasien.close_contact_premier[index].close_contact_address_district_name = this.formPasien.address_district_name
+        this.formPasien.close_contact_premier[index].close_contact_address_subdistrict_code = this.formPasien.address_subdistrict_code
+        this.formPasien.close_contact_premier[index].close_contact_address_subdistrict_name = this.formPasien.address_subdistrict_name
+        this.formPasien.close_contact_premier[index].close_contact_address_village_code = this.formPasien.address_village_code
+        this.formPasien.close_contact_premier[index].close_contact_address_village_name = this.formPasien.address_village_name
+        this.formPasien.close_contact_premier[index].close_contact_rt = this.formPasien.rt
+        this.formPasien.close_contact_premier[index].close_contact_rw = this.formPasien.rw
+        this.formPasien.close_contact_premier[index].close_contact_address_street = this.formPasien.address_street
       } else {
-        this.formPasien.close_contact_patient[index].address_district_code = ''
-        this.formPasien.close_contact_patient[index].address_district_name = ''
-        this.formPasien.close_contact_patient[index].address_subdistrict_code = ''
-        this.formPasien.close_contact_patient[index].address_subdistrict_name = ''
-        this.formPasien.close_contact_patient[index].address_village_code = ''
-        this.formPasien.close_contact_patient[index].address_village_name = ''
-        this.formPasien.close_contact_patient[index].address_rt = ''
-        this.formPasien.close_contact_patient[index].address_rw = ''
-        this.formPasien.close_contact_patient[index].address_street = ''
+        this.formPasien.close_contact_patient[index].close_contact_address_district_code = ''
+        this.formPasien.close_contact_patient[index].close_contact_address_district_name = ''
+        this.formPasien.close_contact_patient[index].close_contact_address_subdistrict_code = ''
+        this.formPasien.close_contact_patient[index].close_contact_address_subdistrict_name = ''
+        this.formPasien.close_contact_patient[index].close_contact_address_village_code = ''
+        this.formPasien.close_contact_patient[index].close_contact_address_village_name = ''
+        this.formPasien.close_contact_patient[index].close_contact_rt = ''
+        this.formPasien.close_contact_patient[index].close_contact_rw = ''
+        this.formPasien.close_contact_patient[index].close_contact_address_street = ''
       }
     }
   }

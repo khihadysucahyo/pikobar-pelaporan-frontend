@@ -748,6 +748,7 @@ export default {
     comparison: 'Perbandingan',
     and: 'dan',
     area: 'Wilayah',
+    west_java: 'Jawa Barat',
     target: 'Sasaran',
     test_already: 'Sudah Tes',
     provincial_health_service: 'Dinas Kesehatan Provinsi',
