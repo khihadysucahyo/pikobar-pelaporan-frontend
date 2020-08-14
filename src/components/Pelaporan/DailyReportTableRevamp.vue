@@ -3,22 +3,22 @@
     <v-row class="ml-2">
       <v-col cols="3">{{ $t('label.provincial_health_service') }}</v-col>
       <v-col cols="1">:</v-col>
-      <v-col>-</v-col>
+      <v-col>{{ $t('label.west_java') }}</v-col>
     </v-row>
     <v-row class="ml-2">
       <v-col cols="3">{{ $t('label.district_or_city_health_service') }}</v-col>
       <v-col cols="1">:</v-col>
-      <v-col>-</v-col>
+      <v-col>{{ fullName }}</v-col>
     </v-row>
     <v-row class="ml-2">
       <v-col cols="3">{{ $t('label.name_of_officer_or_cellphone') }}</v-col>
       <v-col cols="1">:</v-col>
-      <v-col>-</v-col>
+      <v-col>{{ phoneNumber }}</v-col>
     </v-row>
     <v-row class="ml-2">
       <v-col cols="3">{{ $t('label.date') }}</v-col>
       <v-col cols="1">:</v-col>
-      <v-col>-</v-col>
+      <v-col>{{ $moment().format('DD MMMM YYYY') }} </v-col>
     </v-row>
     <v-simple-table fixed-header>
       <template v-slot:default>
@@ -42,30 +42,30 @@
           <tr>
             <td>&nbsp;</td>
             <td>{{ $t('label.number_of_suspected_cases') }}</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
+            <td>{{ data ? data.suspect[0].aDay:0 }}</td>
+            <td>{{ data ? data.suspect[0].aWeek:0 }}</td>
+            <td>{{ data ? data.suspect[0].aMonth:0 }}</td>
           </tr>
           <tr>
             <td>&nbsp;</td>
             <td>{{ $t('label.number_of_possible_cases') }}</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
+            <td>{{ data ? data.probable[0].aDay:0 }}</td>
+            <td>{{ data ? data.probable[0].aWeek:0 }}</td>
+            <td>{{ data ? data.probable[0].aMonth:0 }}</td>
           </tr>
           <tr>
             <td>&nbsp;</td>
             <td>{{ $t('label.number_of_suspected_cases_isolated') }}</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
+            <td>{{ data ? data.suspectIsolated[0].aDay:0 }}</td>
+            <td>{{ data ? data.suspectIsolated[0].aWeek:0 }}</td>
+            <td>{{ data ? data.suspectIsolated[0].aMonth:0 }}</td>
           </tr>
           <tr>
             <td>&nbsp;</td>
             <td>{{ $t('label.number_of_suspected_cases_discarded') }}</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
+            <td>{{ data ? data.suspectDiscarded[0].aDay:0 }}</td>
+            <td>{{ data ? data.suspectDiscarded[0].aWeek:0 }}</td>
+            <td>{{ data ? data.suspectDiscarded[0].aMonth:0 }}</td>
           </tr>
           <tr>
             <td>&nbsp;</td>
@@ -84,30 +84,30 @@
           <tr>
             <td>&nbsp;</td>
             <td>{{ $t('label.number_of_confirmation_cases') }}</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
+            <td>{{ data ? data.confirmed[0].aDay:0 }}</td>
+            <td>{{ data ? data.confirmed[0].aWeek:0 }}</td>
+            <td>{{ data ? data.confirmed[0].aMonth:0 }}</td>
           </tr>
           <tr>
             <td>&nbsp;</td>
             <td>{{ $t('label.number_of_confirmation_cases_is_symptomatic') }}</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
+            <td>{{ data ? data.confirmedSymptomatic[0].aDay:0 }}</td>
+            <td>{{ data ? data.confirmedSymptomatic[0].aWeek:0 }}</td>
+            <td>{{ data ? data.confirmedSymptomatic[0].aMonth:0 }}</td>
           </tr>
           <tr>
             <td>&nbsp;</td>
             <td>{{ $t('label.number_of_confirmed_cases_is_asymptomatic') }}</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
+            <td>{{ data ? data.confirmedAsymptomatic[0].aDay:0 }}</td>
+            <td>{{ data ? data.confirmedAsymptomatic[0].aWeek:0 }}</td>
+            <td>{{ data ? data.confirmedAsymptomatic[0].aMonth:0 }}</td>
           </tr>
           <tr>
             <td>&nbsp;</td>
             <td>{{ $t('label.number_of_travel_confirmation_cases_import') }}</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
+            <td>{{ data ? data.confirmedTravel[0].aDay:0 }}</td>
+            <td>{{ data ? data.confirmedTravel[0].aWeek:0 }}</td>
+            <td>{{ data ? data.confirmedTravel[0].aMonth:0 }}</td>
           </tr>
           <tr>
             <td>&nbsp;</td>
@@ -325,9 +325,22 @@
   </div>
 </template>
 <script>
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'DailyReportTableRevamp',
+  props: {
+    data: {
+      type: Object,
+      default: null
+    }
+  },
+  computed: {
+    ...mapGetters('user', [
+      'fullName',
+      'phoneNumber'
+    ])
+  },
   methods: {
     //
   }

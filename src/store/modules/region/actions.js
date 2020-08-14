@@ -1,4 +1,5 @@
 import requestServer from '@/api'
+import axios from 'axios'
 
 export default {
   async getListProvince({ commit }) {
@@ -88,6 +89,22 @@ export default {
   async detailUnit({ commit }, id) {
     try {
       const response = await requestServer(`/api/unit/${id}`, 'GET')
+      return response
+    } catch (error) {
+      return error.response
+    }
+  },
+  async getLatitudeLongitude({ commit }, params) {
+    try {
+      let response = await axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
+        params: {
+          ...params,
+          key: process.env.VUE_APP_GOOGLE_MAP_API
+        }
+      })
+      if (response.data.results) {
+        response = response.data.results[0]['geometry'].location
+      }
       return response
     } catch (error) {
       return error.response

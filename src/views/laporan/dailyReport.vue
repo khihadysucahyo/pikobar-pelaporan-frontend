@@ -19,9 +19,9 @@
                 <input-date-picker
                   :format-date="formatDate"
                   :label="$t('label.input_date_filters')"
-                  :date-value="listQuery.min_date"
-                  :value-date.sync="listQuery.min_date"
-                  @changeDate="listQuery.min_date = $event"
+                  :date-value="listQuery.date"
+                  :value-date.sync="listQuery.date"
+                  @changeDate="listQuery.date = $event"
                 />
               </v-col>
               <v-col>
@@ -64,7 +64,7 @@
       <v-card
         outlined
       >
-        <daily-report-table-revamp />
+        <daily-report-table-revamp :data="data" />
         <!-- <daily-report-table
           :list="list"
           :table-headers="headers"
@@ -156,12 +156,9 @@ export default {
         { text: this.$t('label.grand_total').toUpperCase(), value: 'grand_total' }
       ],
       listQuery: {
-        limit: 100,
-        min_date: '',
-        filter: ''
+        date: ''
       },
-      list: [],
-      listTotal: ''
+      data: null
     }
   },
   computed: {
@@ -171,7 +168,7 @@ export default {
     ])
   },
   watch: {
-    'listQuery.min_date': {
+    'listQuery.date': {
       handler: function(value) {
         if (value.length > 0) {
           this.handleSearch()
@@ -190,9 +187,10 @@ export default {
   },
   methods: {
     async handleSearch() {
-      const response = await this.$store.dispatch('statistic/agregateCriteria', this.listQuery)
-      this.list = response.data.summary
-      this.listTotal = response.data.total
+      const response = await this.$store.dispatch('reports/getDailyReport', this.listQuery)
+      if (response) {
+        this.data = response[0]
+      }
     },
     async handleExport() {
       this.loading = true

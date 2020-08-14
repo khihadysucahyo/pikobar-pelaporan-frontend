@@ -3,15 +3,18 @@
     <v-form ref="form" lazy-validation>
       <v-row align="center">
         <v-col cols="12" md="3" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
-          <label>{{ formPasien.travelling_type === "Dari Luar Kota" ? $t('label.province'):$t('label.country') }}</label>
+          <label :class="isTravellingSick ? 'required' : ''">
+            {{ formPasien.travelling_type === "Dari Luar Kota" ? $t('label.province'):$t('label.country') }}
+          </label>
         </v-col>
         <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
-          <ValidationProvider>
+          <ValidationProvider v-slot="{ errors }" :rules="isTravellingSick ? 'required' : ''">
             <v-select
               v-if="formPasien.travelling_type !== 'Dari Luar Kota'"
               v-model="formPasien.travelling_visited"
               :items="listCountry"
               :label="$t('label.enter_place')"
+              :error-messages="errors"
               item-text="name"
               item-value="name"
               solo
@@ -20,8 +23,9 @@
               v-else
               v-model="formPasien.travelling_visited"
               :items="listProvince"
-              item-text="provinsi_nama"
               :label="$t('label.enter_place')"
+              :error-messages="errors"
+              item-text="provinsi_nama"
               return-object
               solo
               @change="getListDistrictByProvince"
@@ -31,14 +35,15 @@
       </v-row>
       <v-row align="center">
         <v-col cols="12" md="3" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
-          <label>{{ $t('label.city') }}</label>
+          <label :class="isTravellingSick ? 'required' : ''">{{ $t('label.city') }}</label>
         </v-col>
         <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
-          <ValidationProvider>
+          <ValidationProvider v-slot="{ errors }" :rules="isTravellingSick ? 'required' : ''">
             <v-select
               v-if="formPasien.travelling_type === 'Dari Luar Kota'"
               v-model="formPasien.travelling_city"
               :items="listDistrict"
+              :error-messages="errors"
               item-text="kota_nama"
               item-value="kota_nama"
               solo
@@ -47,6 +52,7 @@
               v-else
               v-model="formPasien.travelling_city"
               :label="$t('label.enter_place')"
+              :error-messages="errors"
               solo-inverted
             />
           </ValidationProvider>
@@ -63,6 +69,10 @@ export default {
     ValidationProvider
   },
   props: {
+    isTravellingSick: {
+      type: Boolean,
+      default: false
+    },
     formPasien: {
       type: Object,
       default: null

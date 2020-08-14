@@ -311,6 +311,14 @@ export default {
       return error.response
     }
   },
+  async getDailyReport({ commit }, params) {
+    try {
+      const response = await requestServer(`/api/reports/daily-report`, 'GET', params)
+      return response.data
+    } catch (error) {
+      return error.response
+    }
+  },
   resetListCase({ commit }) {
     commit('RESET_LIST_CASE')
   },

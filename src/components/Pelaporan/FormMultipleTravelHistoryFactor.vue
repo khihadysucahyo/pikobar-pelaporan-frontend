@@ -37,18 +37,25 @@
             <v-container fluid>
               <v-row align="center">
                 <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}">
-                  <label>{{ $t('label.trip_type') }}</label>
+                  <label :class="formPasien.travelling_history_before_sick_14_days ? 'required' : ''">{{ $t('label.trip_type') }}</label>
                 </v-col>
                 <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
-                  <ValidationProvider>
-                    <v-radio-group v-model="data.travelling_type" row>
+                  <ValidationProvider v-slot="{ errors }" :rules="formPasien.travelling_history_before_sick_14_days ? 'required' : ''">
+                    <v-radio-group
+                      v-model="data.travelling_type"
+                      :error-messages="errors"
+                      row
+                    >
                       <v-radio :label="$t('label.from_abroad')" value="Dari Luar Negeri" />
                       <v-radio :label="$t('label.from_outside_city')" value="Dari Luar Kota" />
                     </v-radio-group>
                   </ValidationProvider>
                 </v-col>
               </v-row>
-              <form-travelling-visited :form-pasien="data" />
+              <form-travelling-visited
+                :form-pasien="data"
+                :is-travelling-sick="formPasien.travelling_history_before_sick_14_days"
+              />
               <v-row align="center">
                 <v-col cols="12" md="3" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
                   <label>{{ $t('label.start_travel') }}</label>
