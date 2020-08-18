@@ -224,12 +224,12 @@
                   </ValidationProvider>
                 </v-col>
               </v-row>
-              <v-row align="center" class="mt-2">
+              <v-row align="center" class="mt-6">
                 <v-col cols="12" md="3" sm="12" :class="{'py-0': $vuetify.breakpoint. smAndDown}" />
                 <v-col cols="12" md="9" sm="12" :class="{'py-0 pb-3': $vuetify.breakpoint. smAndDown}">
                   <ValidationProvider>
                     <v-text-field
-                      v-model="data.country"
+                      v-model="data.activity_other"
                       :label="$t('label.mention_it')"
                       solo-inverted
                     />
@@ -328,6 +328,7 @@ export default {
         address: '',
         related: '',
         activity: [],
+        activity_other: '',
         is_patient_address_same: false,
         address_district_code: '',
         address_district_name: '',
