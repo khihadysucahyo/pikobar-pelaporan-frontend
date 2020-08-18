@@ -1,5 +1,9 @@
 import requestServer from '@/api'
-import { setToken, removeToken } from '@/utils/cookies'
+import {
+  setToken,
+  setUserSurvey,
+  removeToken
+} from '@/utils/cookies'
 import { resetRouter } from '@/router'
 
 export default {
@@ -10,6 +14,7 @@ export default {
         const { token } = response.data
         commit('SET_TOKEN', token)
         setToken(token)
+        setUserSurvey(true)
         resolve(response.data)
       }).catch((error) => {
         reject(error)
