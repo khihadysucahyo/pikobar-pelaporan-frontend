@@ -302,13 +302,13 @@ export default {
         const res = this.detail
 
         let age
-        if (res.age > 0 && res.age <= 1) {
+        if (res.age >= 0 && res.age <= 1) {
           age = 'baby'
-        } else if (res.age > 2 && res.age <= 5) {
+        } else if (res.age >= 2 && res.age <= 5) {
           age = 'child'
-        } else if (res.age > 6 && res.age <= 19) {
+        } else if (res.age >= 6 && res.age <= 19) {
           age = 'teen'
-        } else if (res.age > 20 && res.age <= 59) {
+        } else if (res.age >= 20 && res.age <= 59) {
           age = 'adult'
         } else if (res.age >= 60) {
           age = 'elderly'
