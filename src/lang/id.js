@@ -349,6 +349,7 @@ export default {
     verify_case: 'Verifikasi Kasus',
     decline_case: 'Tolak Kasus',
     delete_case: 'Hapus Kasus',
+    hello: 'Hallo',
     verification_expired_message: 'Kasus telah terverifikasi, silahkan reload kembali halaman ini!',
     verification_expired_title: 'Kasus telah terverifikasi',
     verification_confirmation_message: 'Data yang Anda verifikasi akan ditambahkan sebagai kasus baru. Pastikan data sudah terisi dengan benar.',
@@ -777,7 +778,9 @@ export default {
     total_suspect: 'Total Suspek',
     total_close_contact: 'Total Kontak Erat',
     total_test_result: 'Total Hasil Tes',
-    still_quarantined: 'Masih Dikarantina'
+    still_quarantined: 'Masih Dikarantina',
+    take_survey: 'Ikuti Survei',
+    survei_label: 'Kami tim pikobar ingin mengetahui persepsi para pengguna Aplikasi Pelaporan Pikobar. Partisipasi anda sangat penting karena hasil survei ini akan menjadi bahan masukkan/evaluasi bagi kami untuk meningkatkan layanan saat ini. Yuk, bantu isi survei berikut!'
   },
   success: {
     login_success: 'Login Berhasil',

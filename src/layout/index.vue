@@ -18,12 +18,16 @@
     </v-content>
     <!-- App Back To Top -->
     <vm-back-top style="bottom: 10px;" />
+    <dialog-survey :show-dialog="getUserSurvey()" />
   </div>
 </template>
 
 <script>
 /* eslint-disable */
 import Header from "./Header/Header.vue"
+import {
+  getUserSurvey
+} from '@/utils/cookies'
 export default {
   components: {
     appHeader: Header
@@ -44,6 +48,12 @@ export default {
   },
   mounted() {
     //
+  },
+  methods: {
+    getUserSurvey() {
+      const isUserSurvey = String(getUserSurvey()) === 'true'
+      return isUserSurvey
+    }
   }
 };
 </script>
