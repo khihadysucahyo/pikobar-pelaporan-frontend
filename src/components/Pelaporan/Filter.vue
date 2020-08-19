@@ -100,6 +100,10 @@ export default {
       type: Object,
       default: null
     },
+    resetStatistic: {
+      type: Boolean,
+      default: false
+    },
     onSearch: {
       type: Function,
       default: null
@@ -183,6 +187,7 @@ export default {
         this.codeDistrict = ''
       }
       this.$store.dispatch('reports/listReportCase', this.listQuery)
+      this.$emit('update:resetStatistic', true)
     }
   }
 }

@@ -151,6 +151,7 @@
           <case-filter
             :list-query="listQuery"
             :query-list.sync="listQuery"
+            :reset-statistic.sync="resetStatistic"
             :on-search="handleSearch"
           />
         </v-container>
@@ -388,6 +389,7 @@ export default {
         { text: this.$t('label.action'), value: 'actions', sortable: false }
       ],
       loading: true,
+      resetStatistic: false,
       loadingTable: false,
       totalConfirmation: 0,
       totalProbable: 0,
@@ -482,6 +484,11 @@ export default {
         }
       },
       immediate: true
+    },
+    'resetStatistic'(value) {
+      if (value) {
+        this.getStatistic()
+      }
     }
   },
   async mounted() {
@@ -598,11 +605,17 @@ export default {
 
       const response = await this.$store.dispatch('reports/countReportCase', listQueryStatistic)
       if (response) this.loading = false
-      if (response.data === null) return
-      this.totalConfirmation = response.data.confirmed
-      this.totalProbable = response.data.probable
-      this.totalSuspect = response.data.suspect
-      this.totalCloseCase = response.data.closeContact
+      if (response.data === undefined) {
+        this.totalConfirmation = 0
+        this.totalProbable = 0
+        this.totalSuspect = 0
+        this.totalCloseCase = 0
+      } else {
+        this.totalConfirmation = response.data.confirmed
+        this.totalProbable = response.data.probable
+        this.totalSuspect = response.data.suspect
+        this.totalCloseCase = response.data.closeContact
+      }
     },
     async onExport() {
       const response = await this.$store.dispatch('reports/exportExcel', this.listQuery)
