@@ -589,7 +589,11 @@ export default {
       const listQueryStatistic = {
         address_district_code: this.listQuery.address_district_code,
         address_subdistrict_code: this.listQuery.address_subdistrict_code,
-        address_village_code: this.listQuery.address_village_code
+        address_village_code: this.listQuery.address_village_code,
+        status: this.listQuery.status,
+        final_result: this.listQuery.final_result,
+        min_date: this.listQuery.start_date,
+        max_date: this.listQuery.end_date
       }
 
       const response = await this.$store.dispatch('reports/countReportCase', listQueryStatistic)
