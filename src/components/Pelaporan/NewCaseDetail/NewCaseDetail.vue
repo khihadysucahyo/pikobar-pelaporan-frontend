@@ -72,7 +72,80 @@
         </v-expansion-panels>
       </v-col>
     </v-row>
+    <v-row>
+      <v-col auto>
+        <v-expansion-panels
+          v-model="travelHistoryFactorPanel"
+          multiple
+        >
+          <v-expansion-panel>
+            <v-expansion-panel-header class="font-weight-bold text-lg">
+              {{ $t('label.travel_history_factor') }}
+            </v-expansion-panel-header>
+            <v-divider />
+            <v-expansion-panel-content>
+              <detail-travel-history-factor :detail="detail" />
+            </v-expansion-panel-content>
+          </v-expansion-panel>
+        </v-expansion-panels>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col auto>
+        <v-expansion-panels
+          v-model="contactFactorPanel"
+          multiple
+        >
+          <v-expansion-panel>
+            <v-expansion-panel-header class="font-weight-bold text-lg">
+              {{ $t('label.form_eposure_factor_title') }}
+            </v-expansion-panel-header>
+            <v-divider />
+            <v-expansion-panel-content>
+              <detail-contact-factor :detail="detail" />
+            </v-expansion-panel-content>
+          </v-expansion-panel>
+        </v-expansion-panels>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col auto>
+        <v-expansion-panels
+          v-model="historySocioEconomicPanel"
+          multiple
+        >
+          <v-expansion-panel>
+            <v-expansion-panel-header class="font-weight-bold text-lg">
+              {{ $t('label.form_socioeconomic_title') }}
+            </v-expansion-panel-header>
+            <v-divider />
+            <v-expansion-panel-content>
+              <detail-socio-economic-history :detail="detail" />
+            </v-expansion-panel-content>
+          </v-expansion-panel>
+        </v-expansion-panels>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col auto>
+        <v-expansion-panels
+          v-model="multipleCloseContactPanel"
+          multiple
+        >
+          <v-expansion-panel>
+            <v-expansion-panel-header class="font-weight-bold text-lg">
+              {{ $t('label.form_close_contact_title') }}
+            </v-expansion-panel-header>
+            <v-divider />
+            <v-expansion-panel-content>
+              <detail-close-contact :detail="closeContactCase" />
+            </v-expansion-panel-content>
+          </v-expansion-panel>
+        </v-expansion-panels>
+      </v-col>
+    </v-row>
   </div>
+
 </template>
 <script>
 export default {
@@ -81,6 +154,10 @@ export default {
     detail: {
       type: Object,
       default: null
+    },
+    closeContactCase: {
+      type: Array,
+      default: null
     }
   },
   data() {
@@ -88,7 +165,11 @@ export default {
       volunteerPanel: [0],
       patientPanel: [0],
       historyCasePanel: [0],
-      supportingInvestigationPanel: [0]
+      supportingInvestigationPanel: [0],
+      travelHistoryFactorPanel: [0],
+      contactFactorPanel: [0],
+      historySocioEconomicPanel: [0],
+      multipleCloseContactPanel: [0]
     }
   }
 }

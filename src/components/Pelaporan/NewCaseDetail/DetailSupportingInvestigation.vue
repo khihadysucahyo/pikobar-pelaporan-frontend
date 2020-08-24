@@ -21,7 +21,7 @@
                   <p>{{ $t('label.temperature') }}</p>
                 </v-col>
                 <v-col>
-                  <p>{{ detail.physical_check_temperature }}</p>
+                  <p>{{ detail.last_history.physical_check_temperature }}</p>
                 </v-col>
               </v-row>
               <v-row class="row-detail">
@@ -33,7 +33,7 @@
                   <p>{{ $t('label.blood_pressure') }}</p>
                 </v-col>
                 <v-col>
-                  <p>{{ detail.physical_check_blood_pressure }}</p>
+                  <p>{{ detail.last_history.physical_check_blood_pressure }}</p>
                 </v-col>
               </v-row>
               <v-row class="row-detail">
@@ -45,7 +45,7 @@
                   <p>{{ $t('label.pulse') }}</p>
                 </v-col>
                 <v-col>
-                  <p>{{ detail.physical_check_pulse }}</p>
+                  <p>{{ detail.last_history.physical_check_pulse }}</p>
                 </v-col>
               </v-row>
               <v-row class="row-detail">
@@ -57,7 +57,7 @@
                   <p>{{ $t('label.respiration') }}</p>
                 </v-col>
                 <v-col>
-                  <p>{{ detail.physical_check_respiration }}</p>
+                  <p>{{ detail.last_history.physical_check_respiration }}</p>
                 </v-col>
               </v-row>
               <v-row class="row-detail">
@@ -69,7 +69,7 @@
                   <p>{{ $t('label.height') }}</p>
                 </v-col>
                 <v-col>
-                  <p>{{ detail.physical_check_height }}</p>
+                  <p>{{ detail.last_history.physical_check_height }}</p>
                 </v-col>
               </v-row>
               <v-row class="row-detail">
@@ -81,7 +81,7 @@
                   <p>{{ $t('label.weight') }}</p>
                 </v-col>
                 <v-col>
-                  <p>{{ detail.physical_check_weight }}</p>
+                  <p>{{ detail.last_history.physical_check_weight }}</p>
                 </v-col>
               </v-row>
             </v-expansion-panel-content>
@@ -136,7 +136,7 @@
                       <p>{{ $t('label.inspection_date') }}</p>
                     </v-col>
                     <v-col>
-                      <p>{{ data.inspection_date }}</p>
+                      <p>{{ handlerDate(data.inspection_date) }}</p>
                     </v-col>
                   </v-row>
                   <v-row class="row-detail">
@@ -172,9 +172,10 @@
                       <p>{{ $t('label.test_results') }}</p>
                     </v-col>
                     <v-col>
-                      <p>{{ data.inspection_result }}</p>
+                      <p><inspection-result :inspection-result="data.inspection_result" /></p>
                     </v-col>
                   </v-row>
+                  <v-divider />
                 </div>
               </div>
             </v-expansion-panel-content>
@@ -197,6 +198,12 @@ export default {
     return {
       physicalExaminationPanel: [0],
       supportingInvestigationPanel: [0]
+    }
+  },
+  methods: {
+    handlerDate(date) {
+      date = this.$moment(date).format('DD MMMM YYYY')
+      return date
     }
   }
 }

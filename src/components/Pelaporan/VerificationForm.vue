@@ -4,6 +4,7 @@
       <new-case-detail
         v-if="caseDetail && caseDetail.verified_status !== 'declined'"
         :detail="caseDetail"
+        :close-contact-case="closeContactCase"
       />
       <edit-verification
         v-else
@@ -53,6 +54,10 @@ export default {
     },
     caseData: {
       type: Object,
+      default: null
+    },
+    closeContactCase: {
+      type: Array,
       default: null
     },
     queryData: {

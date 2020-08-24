@@ -123,7 +123,7 @@
         <p>{{ $t('label.age') }}</p>
       </v-col>
       <v-col>
-        <p>{{ detail.age }} {{ $t('label.year') }} {{ detail.month }} {{ detail.month ? $t('label.month'):'' }} </p>
+        <p>{{ Math.floor(detail.age) }} {{ $t('label.year') }} {{ Math.ceil((detail.age - Math.floor(detail.age)) * 12) }} {{ detail.age ? $t('label.month'):'' }} </p>
       </v-col>
     </v-row>
     <v-row
