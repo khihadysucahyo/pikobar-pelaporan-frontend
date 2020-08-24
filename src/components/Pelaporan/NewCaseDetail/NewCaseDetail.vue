@@ -54,6 +54,24 @@
         </v-expansion-panels>
       </v-col>
     </v-row>
+    <v-row>
+      <v-col auto>
+        <v-expansion-panels
+          v-model="supportingInvestigationPanel"
+          multiple
+        >
+          <v-expansion-panel>
+            <v-expansion-panel-header class="font-weight-bold text-lg">
+              {{ $t('label.supporting_investigation') }}
+            </v-expansion-panel-header>
+            <v-divider />
+            <v-expansion-panel-content>
+              <detail-supporting-investigation :detail="detail" />
+            </v-expansion-panel-content>
+          </v-expansion-panel>
+        </v-expansion-panels>
+      </v-col>
+    </v-row>
   </div>
 </template>
 <script>
@@ -69,7 +87,8 @@ export default {
     return {
       volunteerPanel: [0],
       patientPanel: [0],
-      historyCasePanel: [0]
+      historyCasePanel: [0],
+      supportingInvestigationPanel: [0]
     }
   }
 }

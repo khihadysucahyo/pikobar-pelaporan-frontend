@@ -21,7 +21,7 @@
         <p>{{ $t('label.latest_patient_status') }}</p>
       </v-col>
       <v-col>
-        <v-row><final-result :final-result="detail.final_result" /> Per-Tanggal {{ this.$moment(detail.last_date_status_patient).format('DD MMMM YYYY') }}</v-row>
+        <v-row><final-result :final-result="detail.final_result" /> Per-Tanggal {{ detail.last_date_status_patient ? this.$moment(detail.last_date_status_patient).format('DD MMMM YYYY'):'-' }}</v-row>
       </v-col>
     </v-row>
     <v-row class="row-detail">
@@ -45,7 +45,7 @@
         <p>{{ $t('label.symptoms') }}</p>
       </v-col>
       <v-col>
-        <p>{{ splitArray(detail.last_history.diagnosis) }}</p>
+        <p>{{ detail.last_history.diagnosis.length > 1 ? splitArray(detail.last_history.diagnosis):'Tidak Ada Gejala' }}</p>
       </v-col>
     </v-row>
     <v-row class="row-detail">
@@ -57,7 +57,7 @@
         <p>{{ $t('label.additional_condition') }}</p>
       </v-col>
       <v-col>
-        <p>{{ splitArray(detail.last_history.diseases) }}</p>
+        <p>{{ detail.last_history.diseases.length > 1 ? splitArray(detail.last_history.diseases):'Tidak Ada Kondisi Penyerta' }}</p>
       </v-col>
     </v-row>
     <v-row class="row-detail">
@@ -66,21 +66,75 @@
         md="3"
         sm="12"
       >
-        <p>{{ $t('label.current_location') }}</p>
+        <p>{{ $t('label.where_is_patient_isolation_quarantine_location') }}</p>
       </v-col>
       <v-col>
         <p>{{ detail.last_history.current_location_type }}</p>
       </v-col>
     </v-row>
+    <v-row class="row-detail">
+      <v-col
+        cols="12"
+        md="3"
+        sm="12"
+      >
+        <p>{{ $t('label.diagnosis_ards') }}</p>
+      </v-col>
+      <v-col>
+        <p>{{ answerList[detail.last_history.diagnosis_ards].text }}</p>
+      </v-col>
+    </v-row>
+    <v-row class="row-detail">
+      <v-col
+        cols="12"
+        md="3"
+        sm="12"
+      >
+        <p>{{ $t('label.diagnosis_covid') }}</p>
+      </v-col>
+      <v-col>
+        <p>{{ answerList[detail.last_history.diagnosis_covid].text }}</p>
+      </v-col>
+    </v-row>
+    <v-row class="row-detail">
+      <v-col
+        cols="12"
+        md="3"
+        sm="12"
+      >
+        <p>{{ $t('label.diagnosis_pneumonia') }}</p>
+      </v-col>
+      <v-col>
+        <p>{{ answerList[detail.last_history.diagnosis_pneumonia].text }}</p>
+      </v-col>
+    </v-row>
+    <v-row class="row-detail">
+      <v-col
+        cols="12"
+        md="3"
+        sm="12"
+      >
+        <p>{{ $t('label.do_you_have_another_diagnosis_etiology_for_respiratory_disease') }}</p>
+      </v-col>
+      <v-col>
+        <p>{{ detail.last_history.is_other_diagnosisr_respiratory_disease ? $t('label.yes'):$t('label.not') }}</p>
+      </v-col>
+    </v-row>
   </div>
 </template>
 <script>
+import { answerList } from '@/utils/constantVariable'
 export default {
   name: 'DetailCaseHistory',
   props: {
     detail: {
       type: Object,
       default: null
+    }
+  },
+  data() {
+    return {
+      answerList: answerList
     }
   },
   methods: {

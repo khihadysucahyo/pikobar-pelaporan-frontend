@@ -37,6 +37,6 @@ export default {
 </script>
 <style scoped>
  .final-result {
-    width: 90px;
+    padding: 0px 12px 12px 12px;
  }
 </style>
