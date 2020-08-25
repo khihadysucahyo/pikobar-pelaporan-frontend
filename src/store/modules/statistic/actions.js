@@ -52,6 +52,26 @@ export default {
       return error.response
     }
   },
+  async countTestResult({
+    commit
+  }, params) {
+    try {
+      const response = await requestServer('/api/dashboard/summary-input-test', 'GET', params)
+      return response
+    } catch (error) {
+      return error.response
+    }
+  },
+  async countCaseNew({
+    commit
+  }, params) {
+    try {
+      const response = await requestServer('/api/dashboard/v2/summary-case-criteria', 'GET', params)
+      return response
+    } catch (error) {
+      return error.response
+    }
+  },
   async agregateCriteria({
     commit
   }, params) {
@@ -80,6 +100,24 @@ export default {
   }, params) {
     try {
       const response = await requestServer('/api/map', 'GET', params)
+      return response
+    } catch (error) {
+      return error.response
+    }
+  },
+  async listCaseRelated({
+    commit
+  }, params) {
+    try {
+      const response = await requestServer('/api/case-related', 'GET', params)
+      return response
+    } catch (error) {
+      return error.response
+    }
+  },
+  async detailCaseRelated({ commit }, id) {
+    try {
+      const response = await requestServer(`/api/case-related/${id}`, 'GET')
       return response
     } catch (error) {
       return error.response

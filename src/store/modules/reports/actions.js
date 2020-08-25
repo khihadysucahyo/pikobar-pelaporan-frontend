@@ -8,11 +8,13 @@ export default {
   async listReportCase({ commit }, params) {
     try {
       const response = await requestServer('/api/cases', 'GET', params)
-      if (response.data.cases === null) {
+      if (response.data === null) {
         commit('SET_TOTAL_LIST_PASIEN', 1)
+        commit('SET_TOTAL_DATA_PASIEN', 0)
         commit('SET_LIST_PASIEN', [])
       } else {
         commit('SET_TOTAL_LIST_PASIEN', response.data._meta.totalPages)
+        commit('SET_TOTAL_DATA_PASIEN', response.data._meta.itemCount)
         commit('SET_LIST_PASIEN', response.data.cases)
       }
       return response
@@ -66,16 +68,16 @@ export default {
     try {
       const response = await requestServer('/api/cases-summary', 'GET', params)
       return response
-    } catch (e) {
-      return e
+    } catch (error) {
+      return error.response
     }
   },
   async countReportCaseFinal({ commit }, params) {
     try {
       const response = await requestServer('/api/cases-summary-final', 'GET', params)
       return response
-    } catch (e) {
-      return e
+    } catch (error) {
+      return error.response
     }
   },
   async listHistoryCase({ commit }, id) {
@@ -144,8 +146,8 @@ export default {
     try {
       const response = await requestServer('/api/users-listid', 'GET', params)
       return response
-    } catch (e) {
-      return e
+    } catch (error) {
+      return error.response
     }
   },
   async verifyCase({ commit }, params) {
@@ -175,8 +177,8 @@ export default {
         responseType: 'blob'
       })
       return response
-    } catch (e) {
-      return e
+    } catch (error) {
+      return error.response
     }
   },
   async hospitalRefferalNewCase({ commit }, data) {
@@ -295,6 +297,24 @@ export default {
     try {
       const response = await requestServer(`/api/cases-revamp/${id_case}/contact`, 'POST', data.data)
       return response
+    } catch (error) {
+      return error.response
+    }
+  },
+  async correctCaseReport({ commi }, data) {
+    const id_case = await data.id
+    await delete data['id']
+    try {
+      const response = await requestServer(`/api/cases/${id_case}/verifications-revise`, 'PUT', data.data)
+      return response
+    } catch (error) {
+      return error.response
+    }
+  },
+  async getDailyReport({ commit }, params) {
+    try {
+      const response = await requestServer(`/api/reports/daily-report`, 'GET', params)
+      return response.data
     } catch (error) {
       return error.response
     }

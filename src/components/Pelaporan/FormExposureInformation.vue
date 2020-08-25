@@ -137,7 +137,7 @@
               :error-messages="errors"
               type="number"
               min="0"
-              max="30"
+              max="120"
               solo-inverted
               oninput="if(Number(this.value) > Number(this.max)) this.value = this.max"
               class="input-append-btn"

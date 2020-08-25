@@ -241,7 +241,7 @@ import EventBus from '@/utils/eventBus'
 import { mapState } from 'vuex'
 
 export default {
-  name: 'DialogCreateCloseContact',
+  name: 'DialogReportCloseContact',
   components: {
     ValidationObserver
   },
@@ -309,20 +309,15 @@ export default {
     async handleSave() {
       const valid = await this.$refs.observer.validate()
       this.isLoading = true
-      delete this.formBody['yearsOld']
       if (!valid) {
         this.isLoading = false
         return
       }
+      delete this.formBody['yearsOld']
       if (this.isEdit) {
         const idCloseContact = this.formBody._id
-        delete this.formBody['_id']
-        delete this.formBody['updatedBy']
-        delete this.formBody['updatedAt']
-        delete this.formBody['createdBy']
-        delete this.formBody['createdAt']
-        delete this.formBody['is_reported']
         delete this.formBody['case']
+        delete this.formBody['_id']
         const data = {
           idCloseContact: idCloseContact,
           body: this.formBody
@@ -333,9 +328,10 @@ export default {
           await this.$store.dispatch('closeContactCase/resetStateCloseContactCase')
           this.showForm = false
           this.isLoading = false
+          delete this.formBody['is_reported']
           EventBus.$emit('refreshPageListReport', true)
         } else {
-          await this.$store.dispatch('toast/errorToast', this.$t('errors.data_failed_edit'))
+          await this.$store.dispatch('toast/errorToast', response.message)
           this.isLoading = false
         }
       } else {
@@ -351,10 +347,11 @@ export default {
           this.isLoading = false
           EventBus.$emit('refreshPageListReport', true)
         } else {
-          await this.$store.dispatch('toast/errorToast', this.$t('errors.create_data_errors'))
+          await this.$store.dispatch('toast/errorToast', response.message)
           this.isLoading = false
         }
       }
+      this.$refs.observer.reset()
     }
   }
 }

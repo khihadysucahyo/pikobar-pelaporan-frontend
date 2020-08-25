@@ -1,5 +1,9 @@
 import requestServer from '@/api'
-import { setToken, removeToken } from '@/utils/cookies'
+import {
+  setToken,
+  setUserSurvey,
+  removeToken
+} from '@/utils/cookies'
 import { resetRouter } from '@/router'
 
 export default {
@@ -10,6 +14,7 @@ export default {
         const { token } = response.data
         commit('SET_TOKEN', token)
         setToken(token)
+        setUserSurvey(true)
         resolve(response.data)
       }).catch((error) => {
         reject(error)
@@ -24,6 +29,7 @@ export default {
         const {
           role,
           fullname,
+          phone_number,
           code_district_city,
           name_district_city,
           unit_id
@@ -31,6 +37,7 @@ export default {
         commit('SET_ROLES', [role])
         commit('SET_DISTRICT', code_district_city)
         commit('SET_FULLNAME', fullname)
+        commit('SET_PHONENUMBER', phone_number)
         commit('SET_DISTRICT_NAME', name_district_city)
         if (unit_id) {
           commit('SET_UNIT_NAME', unit_id.name)
@@ -47,8 +54,8 @@ export default {
     try {
       const response = await requestServer('/api/users/change-password', 'PUT', data)
       return response
-    } catch (e) {
-      return e
+    } catch (error) {
+      return error.response
     }
   },
 
@@ -56,8 +63,8 @@ export default {
     try {
       const response = await requestServer('/api/users', 'POST', data)
       return response
-    } catch (e) {
-      return e
+    } catch (error) {
+      return error.response
     }
   },
 
@@ -67,9 +74,8 @@ export default {
     try {
       const response = await requestServer(`/api/users/${id}`, 'PUT', data.data)
       return response
-    } catch (e) {
-      // console.log(e.response.data)
-      return e
+    } catch (error) {
+      return error.response
     }
   },
 
@@ -84,8 +90,8 @@ export default {
         commit('SET_LIST_USER', response.data.users)
       }
       return response
-    } catch (e) {
-      return e
+    } catch (error) {
+      return error.response
     }
   },
 
@@ -93,8 +99,8 @@ export default {
     try {
       const response = await requestServer(`/api/users/${id}`, 'GET')
       return response
-    } catch (e) {
-      return e
+    } catch (error) {
+      return error.response
     }
   },
 
@@ -102,8 +108,8 @@ export default {
     try {
       const response = await requestServer(`/api/users/info`, 'GET')
       return response
-    } catch (e) {
-      return e
+    } catch (error) {
+      return error.response
     }
   },
 
@@ -120,8 +126,8 @@ export default {
     try {
       const response = await requestServer('/api/users/check', 'GET', params)
       return response
-    } catch (e) {
-      return e
+    } catch (error) {
+      return error.response
     }
   },
 

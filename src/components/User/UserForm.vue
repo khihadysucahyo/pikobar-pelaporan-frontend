@@ -185,8 +185,8 @@
 <script>
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import { mapGetters } from 'vuex'
-import { ResponseRequest } from '@/utils/constantVariable'
 import { validateScrollUp } from '@/utils/utilsFunction'
+import { ResponseRequest, rolesPerm } from '@/utils/constantVariable'
 export default {
   name: 'UserForm',
   components: {
@@ -254,6 +254,7 @@ export default {
   },
   async mounted() {
     const response = await this.$store.dispatch('region/listUnit', this.queryUnit)
+    if (this.roles[0] === rolesPerm.ADMIN) this.disabledDistrict = false
     this.unitList = response.data.itemsList
     if (this.isEdit) {
       if (this.formUser.unit_id !== null) {
@@ -271,6 +272,7 @@ export default {
         this.validateScrollUp()
         return
       }
+      await delete this.formUser['token']
       if (this.isEdit) {
         await delete this.formUser['password']
         const update = {
@@ -278,7 +280,7 @@ export default {
           data: this.formUser
         }
         response = await this.$store.dispatch('user/editUser', update)
-        if (response.response.data.status === ResponseRequest.UNPROCESSABLE) {
+        if (response.status === ResponseRequest.UNPROCESSABLE) {
           await this.$store.dispatch('toast/errorToast', response.data.message)
         } else {
           await this.$store.dispatch('toast/successToast', this.$t('success.data_success_edit'))

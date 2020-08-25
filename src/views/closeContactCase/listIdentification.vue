@@ -60,19 +60,20 @@
                 <td>{{ item.name }}</td>
                 <td>
                   <div v-if="item.gender =='P'">
-                    {{ $t('label.female') }}
+                    {{ $t('label.female_initials') }}
                   </div>
                   <div v-else>
-                    {{ $t('label.male') }}
+                    {{ $t('label.male_initials') }}
                   </div>
                 </td>
                 <td>{{ item.age }} Th</td>
-                <td>{{ completeAddress(
-                  item.address_district_name,
-                  item.address_subdistrict_name,
-                  item.address_village_name,
-                  item.address_street
-                ) }}</td>
+                <td>{{ item.phone_number }}</td>
+                <td>{{ item.createdBy.username }}</td>
+                <td>{{ item.createdAt ? formatDatetime(item.createdAt, 'DD MMMM YYYY') : '-' }}</td>
+                <td>
+                  <label v-if="item.is_reported" style="color: green;">{{ $t('label.interviewed') }}</label>
+                  <label v-else style="color: red;">{{ $t('label.not_interviewed') }}</label>
+                </td>
                 <td>
                   <v-card-actions>
                     <v-menu
@@ -129,13 +130,14 @@
       :limit.sync="listQuery.limit"
       :on-next="onNext"
     />
-    <dialog-create-close-contact
-      :show-dialog="showCreateCloseContact"
-      :show-form.sync="showCreateCloseContact"
-      :title-detail="$t('label.create_closely_contact_reports')"
+    <dialog-close-contact-case
+      :show-dialog-add-close-contact="showCloseContact"
+      :show-form-add-close-contact.sync="showCloseContact"
+      :title-detail="$t('label.edit_contact_data')"
+      :form-close-contact="formBody"
+      :parent-case="parentCase"
       :is-edit.sync="isEdit"
-      :id-case.sync="idCase"
-      :form-body.sync="formBody"
+      :id-case="idCase"
     />
     <dialog-delete
       :dialog="dialog"
@@ -162,9 +164,12 @@ export default {
       headers: [
         { text: '#', value: '_id', sortable: false },
         { text: this.$t('label.name').toUpperCase(), value: 'name' },
-        { text: this.$t('label.gender').toUpperCase(), value: 'gender' },
+        { text: this.$t('label.gender_abbreviation').toUpperCase(), value: 'gender' },
         { text: this.$t('label.age').toUpperCase(), value: 'age' },
-        { text: this.$t('label.complete_address').toUpperCase(), value: 'createdAt' },
+        { text: this.$t('label.short_phone_number').toUpperCase(), value: 'phone_number' },
+        { text: this.$t('label.author').toUpperCase(), value: 'author' },
+        { text: this.$t('label.input_date').toUpperCase(), value: 'createdAt' },
+        { text: this.$t('label.status').toUpperCase(), value: 'is_reported' },
         { text: this.$t('label.action').toUpperCase(), value: 'actions', sortable: false }
       ],
       loading: true,
@@ -173,13 +178,15 @@ export default {
       listCloseContact: [],
       formatDate: 'YYYY/MM/DD',
       totalPages: 0,
-      showCreateCloseContact: false,
+      showCloseContact: false,
       loadingTable: false,
       totalCloseContact: 0,
       isEdit: false,
       idCase: '',
       formBody: {},
+      parentCase: {},
       listQuery: {
+        is_reported: true,
         page: 0,
         limit: 100,
         search: ''
@@ -215,10 +222,15 @@ export default {
       if (!value) {
         await this.handleSearch()
       }
+    },
+    async showCloseContact(value) {
+      if (!value) {
+        await this.handleSearch()
+      }
     }
   },
   async mounted() {
-    EventBus.$on('refreshPageListReport', (value) => {
+    EventBus.$on('refreshPageListCloseContact', (value) => {
       this.handleSearch()
     })
     await this.handleSearch()
@@ -239,17 +251,14 @@ export default {
     },
     async handleUpdate(id) {
       this.formBody = this.formCloseContact
-      const latestHistory = this.formCloseContact.latest_history
       const data = {
         idCloseContact: id
       }
       const response = await this.$store.dispatch('closeContactCase/getDetailCloseContactByCase', data)
+      const responseReportCase = await this.$store.dispatch('reports/detailReportCase', response.data.case._id)
+      this.parentCase = responseReportCase.data
       if (response.data !== null) {
         this.formBody = response.data
-        if (response.data.latest_history === null) {
-          this.formBody.latest_history = latestHistory
-        }
-        if (response.data.interviewer_name === null) this.formBody.interviewer_name = this.fullName
         if (this.formBody.birth_date !== null) {
           this.formBody.birth_date = await formatDatetime(this.formBody.birth_date, this.formatDate)
           const age = getAgeWithMonth(this.formBody.birth_date)
@@ -263,7 +272,7 @@ export default {
           this.formBody.month = Math.ceil((this.formBody.age - Math.floor(this.formBody.age)) * 12)
         }
         this.isEdit = true
-        this.showCreateCloseContact = true
+        this.showCloseContact = true
       }
     },
     async handleDelete(item) {

@@ -89,10 +89,10 @@ export const asyncRoutes = [
   distributionCaseRouter,
   dailyReportRouter,
   reportRouter,
+  closeContactCase,
   rdtRouter,
   submissionLogistikRouter,
   hospitalReferralRouter,
-  closeContactCase,
   settingRouter,
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/', hidden: true }

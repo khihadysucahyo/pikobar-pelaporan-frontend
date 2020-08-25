@@ -5,7 +5,6 @@
         <tr>
           <th class="text-left">#</th>
           <th class="text-left">{{ $t('label.criteria').toUpperCase() }}</th>
-          <th class="text-left">{{ $t('label.stages').toUpperCase() }}</th>
           <th class="text-left">{{ $t('label.results').toUpperCase() }}</th>
           <th class="text-left">{{ $t('label.current_location').toUpperCase() }}</th>
           <th class="text-left">{{ $t('label.update_date').toUpperCase() }}</th>
@@ -15,14 +14,6 @@
         <tr v-for="(item, index) in listHistoryCase" :key="index">
           <td>{{ getTableRowNumbering(index) }}</td>
           <td><status :status="item.status" /></td>
-          <td>
-            <div v-if="item.stage === '0'">
-              {{ $t('label.process') }}
-            </div>
-            <div v-else>
-              {{ $t('label.done') }}
-            </div>
-          </td>
           <td>
             <div v-if=" item.final_result =='0'">
               {{ $t('label.negatif') }}

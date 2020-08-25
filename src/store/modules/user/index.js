@@ -10,6 +10,7 @@ const state = {
   district_user: '',
   user_district_name: '',
   fullName: '',
+  phoneNumber: '',
   unitName: '',
   unitType: '',
   totalList: 0,

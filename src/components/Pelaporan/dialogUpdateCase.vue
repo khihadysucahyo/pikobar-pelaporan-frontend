@@ -13,10 +13,78 @@
             ref="form"
             lazy-validation
           >
-            <form-volunteer :form-pasien="formPasien" />
-            <form-patient :form-pasien="formPasien" />
-            <form-socioeconomic-history :form-pasien="formPasien" />
-            <form-contact-factor :form-pasien="formPasien" />
+            <v-row>
+              <v-col auto>
+                <v-expansion-panels
+                  v-model="volunteerPanel"
+                  multiple
+                >
+                  <v-expansion-panel>
+                    <v-expansion-panel-header class="font-weight-bold text-lg">
+                      {{ $t('label.form_volunteer_title') }}
+                    </v-expansion-panel-header>
+                    <v-divider />
+                    <v-expansion-panel-content>
+                      <form-volunteer :form-pasien="formPasien" />
+                    </v-expansion-panel-content>
+                  </v-expansion-panel>
+                </v-expansion-panels>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col auto>
+                <v-expansion-panels
+                  v-model="patientPanel"
+                  multiple
+                >
+                  <v-expansion-panel>
+                    <v-expansion-panel-header class="font-weight-bold text-lg">
+                      {{ $t('label.form_patient_title') }}
+                    </v-expansion-panel-header>
+                    <v-divider />
+                    <v-expansion-panel-content>
+                      <form-patient :form-pasien="formPasien" />
+                    </v-expansion-panel-content>
+                  </v-expansion-panel>
+                </v-expansion-panels>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col auto>
+                <v-expansion-panels
+                  v-model="historySocioeconomicPanel"
+                  multiple
+                >
+                  <v-expansion-panel>
+                    <v-expansion-panel-header class="font-weight-bold text-lg">
+                      {{ $t('label.form_socioeconomic_title') }}
+                    </v-expansion-panel-header>
+                    <v-divider />
+                    <v-expansion-panel-content>
+                      <form-socioeconomic-history :form-pasien="formPasien" />
+                    </v-expansion-panel-content>
+                  </v-expansion-panel>
+                </v-expansion-panels>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col auto>
+                <v-expansion-panels
+                  v-model="contactFactorPanel"
+                  multiple
+                >
+                  <v-expansion-panel>
+                    <v-expansion-panel-header class="font-weight-bold text-lg">
+                      {{ $t('label.form_eposure_factor_title') }}
+                    </v-expansion-panel-header>
+                    <v-divider />
+                    <v-expansion-panel-content>
+                      <form-contact-factor :form-pasien="formPasien" />
+                    </v-expansion-panel-content>
+                  </v-expansion-panel>
+                </v-expansion-panels>
+              </v-col>
+            </v-row>
             <v-container fluid>
               <v-row>
                 <v-col class="text-right">
@@ -47,7 +115,7 @@
 </template>
 <script>
 import { ValidationObserver } from 'vee-validate'
-import { getAgeWithMonth } from '@/utils/constantVariable'
+import { getAgeWithMonth, ResponseRequest } from '@/utils/constantVariable'
 import { formatDatetime } from '@/utils/parseDatetime'
 import { mapGetters } from 'vuex'
 import EventBus from '@/utils/eventBus'
@@ -72,8 +140,10 @@ export default {
       loading: false,
       show: this.showDialog,
       formatDate: 'YYYY/MM/DD',
-      panelCase: [0],
-      panelListRiwayat: [0],
+      volunteerPanel: [1],
+      patientPanel: [0],
+      historySocioeconomicPanel: [1],
+      contactFactorPanel: [1],
       listCountry: [],
       listHistoryCase: null,
       listQuery: {
@@ -140,13 +210,22 @@ export default {
         data: this.formPasien
       }
       this.loading = true
-      await this.$store.dispatch('reports/updateReportCase', updateCase)
-      await this.$store.dispatch('toast/successToast', this.$t('success.data_success_edit'))
-      this.loading = false
-      this.$emit('update:show', false)
-      EventBus.$emit('refreshPageListReport', true)
+      const response = await this.$store.dispatch('reports/updateReportCase', updateCase)
+      if (response.status !== ResponseRequest.UNPROCESSABLE) {
+        await this.$store.dispatch('toast/successToast', this.$t('success.data_success_edit'))
+        await this.$store.dispatch('reports/resetFormPasien')
+        await this.$store.dispatch('reports/resetRiwayatFormPasien')
+        this.loading = false
+        this.$emit('update:show', false)
+        EventBus.$emit('refreshPageListReport', true)
+      } else {
+        this.loading = false
+        await this.$store.dispatch('toast/errorToast', this.$t('errors.data_failed_to_save'))
+      }
     },
-    handleCancel() {
+    async handleCancel() {
+      await this.$store.dispatch('reports/resetFormPasien')
+      await this.$store.dispatch('reports/resetRiwayatFormPasien')
       this.$emit('update:show', false)
     },
     handleChangeNationality(value) {

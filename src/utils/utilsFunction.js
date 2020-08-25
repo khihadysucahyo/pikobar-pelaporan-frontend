@@ -1,19 +1,14 @@
 import store from '@/store'
 
 export function completeAddress(districtCity, subDistrict, village, nameStreet) {
-  let address = ''
-  if (nameStreet) {
-    address += `${nameStreet} ,`
-  }
-  if (village) {
-    address += `${village} ,`
-  }
-  if (subDistrict) {
-    address += `${subDistrict} ,`
-  }
-  if (districtCity) {
-    address += `${districtCity}`
-  }
+  const address = [
+    nameStreet,
+    village, ',',
+    subDistrict, ',',
+    districtCity
+  ].join(' ')
+    .replace(/(\s*,\s*)+/g, ', ')
+    .replace(/\s+/g, ' ')
   return address
 }
 

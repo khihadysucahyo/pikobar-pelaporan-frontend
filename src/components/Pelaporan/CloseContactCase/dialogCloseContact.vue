@@ -44,7 +44,7 @@
                     <td>
                       <v-card-actions>
                         <v-menu
-                          :close-on-content-click="false"
+                          :close-on-content-click="true"
                           :nudge-width="100"
                           :nudge-left="220"
                           :nudge-top="40"
@@ -66,7 +66,7 @@
                             </v-btn>
                           </template>
                           <v-card>
-                            <v-list-item @click="handleUpdate(item._id)">
+                            <v-list-item @click="handleUpdateReport(item._id)">
                               {{ $t('route.make_report') }}
                             </v-list-item>
                             <v-list-item @click="handleUpdateCloseContact(item._id)">
@@ -124,23 +124,18 @@
         </v-container>
       </v-card>
     </v-skeleton-loader>
-    <dialog-add-close-contact
-      :show-dialog-add-close-contact="showDialogAddCloseContact"
-      :show-form-add-close-contact.sync="showDialogAddCloseContact"
-      :title-detail="$t('label.add_contact_data')"
-      :form-add-close-contact="formCloseContact"
+    <dialog-close-contact-case
+      :show-dialog-add-close-contact="showCloseContact"
+      :show-form-add-close-contact.sync="showCloseContact"
+      :title-detail="isEditCloseContact ? $t('label.edit_contact_data'):$t('label.add_contact_data')"
+      :form-close-contact="formCloseContact"
+      :parent-case="parentCase"
+      :is-edit.sync="isEditCloseContact"
       :id-case="idCase"
     />
-    <dialog-update-close-contact
-      :show-dialog-update-close-contact="showDialogUpdateCloseContact"
-      :show-form-update-close-contact.sync="showDialogUpdateCloseContact"
-      :title-detail="$t('label.edit_contact_data')"
-      :form-update-close-contact="formCloseContact"
-      :id-case="idCase"
-    />
-    <dialog-create-close-contact
-      :show-dialog="showCreateCloseContact"
-      :show-form.sync="showCreateCloseContact"
+    <dialog-report-close-contact
+      :show-dialog="showReportCloseContact"
+      :show-form.sync="showReportCloseContact"
       :title-detail="$t('label.create_closely_contact_reports')"
       :is-edit.sync="isEdit"
       :id-case.sync="idCase"
@@ -148,11 +143,10 @@
     />
     <dialog-delete
       :dialog="dialogDelete"
-      :data-deleted="dataDelete"
       :dialog-delete.sync="dialogDelete"
+      :data-deleted="dataDelete"
       :delete-date.sync="dataDelete"
       :store-path-delete="`closeContactCase/deleteCloseContact`"
-      :id-data="idCase"
     />
   </v-dialog>
 </template>
@@ -160,6 +154,7 @@
 import { formatDatetime } from '@/utils/parseDatetime'
 import { getAgeWithMonth } from '@/utils/constantVariable'
 import { completeAddress } from '@/utils/utilsFunction'
+import EventBus from '@/utils/eventBus'
 import { mapState, mapGetters } from 'vuex'
 
 export default {
@@ -189,10 +184,12 @@ export default {
   data() {
     return {
       show: this.showDialog,
-      showCreateCloseContact: false,
+      showReportCloseContact: false,
       isEdit: false,
+      isEditCloseContact: false,
       isLoading: false,
       formBody: {},
+      parentCase: {},
       headers: [
         { text: '#', value: '_id', sortable: false },
         { text: this.$t('label.name').toUpperCase(), value: 'name' },
@@ -205,7 +202,7 @@ export default {
       formatDate: 'YYYY/MM/DD',
       refreshPageList: false,
       showDialogUpdateCloseContact: false,
-      showDialogAddCloseContact: false,
+      showCloseContact: false,
       idCloseContact: null,
       dialogDelete: false,
       dataDelete: null
@@ -213,12 +210,13 @@ export default {
   },
   computed: {
     ...mapGetters('user', [
-      'fullName'
+      'fullName',
+      'district_user',
+      'district_name_user'
     ]),
     ...mapState('closeContactCase', [
       'formCloseContact'
-    ]),
-    ...mapGetters('closeContactCase', ['formCloseContact'])
+    ])
   },
   watch: {
     showDialog(value) {
@@ -230,16 +228,24 @@ export default {
         this.$emit('update:caseId', '')
         this.$emit('update:uniqueCaseId', '')
       }
+    },
+    dialogDelete(value) {
+      if (!value) {
+        this.dataDelete = null
+        EventBus.$emit('refreshPageListReport', true)
+      }
     }
   },
   methods: {
     completeAddress,
     async handleCreate() {
       await this.$store.dispatch('closeContactCase/resetStateCloseContactCase')
-      this.isEdit = false
-      this.showDialogAddCloseContact = true
+      const response = await this.$store.dispatch('reports/detailReportCase', this.idCase)
+      this.parentCase = response.data
+      this.isEditCloseContact = false
+      this.showCloseContact = true
     },
-    async handleUpdate(id) {
+    async handleUpdateReport(id) {
       this.formBody = this.formCloseContact
       const latestHistory = this.formCloseContact.latest_history
       const data = {
@@ -251,6 +257,10 @@ export default {
         this.formBody = response.data
         if (response.data.latest_history === null) {
           this.formBody.latest_history = latestHistory
+        }
+        if (response.data.address_district_code === null) {
+          this.formBody.address_district_code = this.district_user
+          this.formBody.address_district_name = this.district_name_user
         }
         if (response.data.interviewer_name === null) this.formBody.interviewer_name = this.fullName
         if (this.formBody.birth_date !== null) {
@@ -266,7 +276,7 @@ export default {
           this.formBody.month = Math.ceil((this.formBody.age - Math.floor(this.formBody.age)) * 12)
         }
         this.isEdit = true
-        this.showCreateCloseContact = true
+        this.showReportCloseContact = true
         this.isLoading = false
       }
     },
@@ -274,18 +284,20 @@ export default {
       return (index + 1)
     },
     async handleUpdateCloseContact(id) {
+      const responseReportCase = await this.$store.dispatch('reports/detailReportCase', this.idCase)
+      this.parentCase = responseReportCase.data
       const data = {
         idCloseContact: id
       }
       const response = await this.$store.dispatch('closeContactCase/getDetailCloseContactByCase', data)
       Object.assign(this.formCloseContact, response.data)
-      this.showDialogUpdateCloseContact = true
+      this.isEditCloseContact = true
+      this.showCloseContact = true
     },
     async handleDeleteCloseContact(item) {
       if (!item.is_reported) {
         this.dialogDelete = true
         this.dataDelete = item
-        this.$emit('update:show', false)
       } else {
         await this.$store.dispatch('toast/errorToast', this.$t('errors.contact_data_cannot_be_deleted'))
       }
