@@ -125,6 +125,7 @@
                 :show-failed-dialog.sync="showFailedDialog"
                 :show-verification-form.sync="showVerificationForm"
                 :case-detail.sync="caseDetail"
+                :close-contact-detail.sync="closeContactCase"
                 :refresh-page.sync="isRefresh"
                 :verification-query="verificationQuery"
               />
@@ -144,6 +145,7 @@
       :show.sync="showVerificationForm"
       :show-confirmation.sync="showConfirmation"
       :case-data="caseDetail"
+      :close-contact-case="closeContactCase"
       :query-data="verificationQuery"
       :query.sync="verificationQuery"
       :refresh-page.sync="isRefresh"
@@ -220,6 +222,7 @@ export default {
       villageName: '',
       dialogForm: true,
       caseDetail: null,
+      closeContactCase: [],
       showVerificationForm: false,
       showConfirmation: false,
       showFailedDialog: false,

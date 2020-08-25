@@ -197,29 +197,7 @@
                 </td>
                 <td>{{ item.phone_number }}</td>
                 <td><status :status="item.status" /> </td>
-                <td>
-                  <div v-if=" item.final_result ==='0'">
-                    {{ $t('label.negatif') }}
-                  </div>
-                  <div v-else-if=" item.final_result ==='1'">
-                    {{ $t('label.recovery') }}
-                  </div>
-                  <div v-else-if=" item.final_result ==='2'">
-                    {{ $t('label.dead') }}
-                  </div>
-                  <div v-else-if=" item.final_result ==='3'">
-                    {{ $t('label.discarded') }}
-                  </div>
-                  <div v-else-if=" item.final_result ==='4'">
-                    {{ $t('label.still_sick') }}
-                  </div>
-                  <div v-else-if=" item.final_result ==='5'">
-                    {{ $t('label.still_quarantine') }}
-                  </div>
-                  <div v-else>
-                    -
-                  </div>
-                </td>
+                <td><final-result :final-result="item.final_result" /></td>
                 <td>{{ item.author.username }}</td>
                 <td>{{ item.last_history ? formatDatetime(item.last_history.last_changed, 'DD MMMM YYYY') : '-' }}</td>
                 <td>
@@ -301,6 +279,7 @@
       :show-dialog="dialogDetailCase"
       :show.sync="dialogDetailCase"
       :detail-case="detailCase"
+      :close-contact-case="closeContactCase"
       :case-detail.sync="detailCase"
       :list-history-case="listHistoryCase"
       :referral-history-case="referralHistoryCase"
@@ -429,6 +408,7 @@ export default {
       errorMessage: null,
       successDialog: false,
       detailCase: {},
+      closeContactCase: [],
       listCloseContact: [],
       idCase: null,
       idUniqueCase: '',
@@ -511,9 +491,11 @@ export default {
     formatDatetime,
     async handleDetail(item, id) {
       const detail = await this.$store.dispatch('reports/detailReportCase', id)
+      const responseCloseContact = await this.$store.dispatch('closeContactCase/getListCloseContactByCase', id)
       const responseHistory = await this.$store.dispatch('reports/listHistoryCase', id)
       const responseReferralHistory = await this.$store.dispatch('reports/caseHospitalReferralHistory', id)
       this.detailCase = detail.data
+      this.closeContactCase = responseCloseContact.data
       this.listHistoryCase = responseHistory
       this.referralHistoryCase = responseReferralHistory.data
       this.dialogDetailCase = true
