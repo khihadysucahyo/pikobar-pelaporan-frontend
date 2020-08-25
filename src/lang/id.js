@@ -823,6 +823,7 @@ export default {
     still_quarantined: 'Masih Dikarantina',
     take_survey: 'Ikuti Survei',
     survei_label: 'Kami tim pikobar ingin mengetahui persepsi para pengguna Aplikasi Pelaporan Pikobar. Partisipasi anda sangat penting karena hasil survei ini akan menjadi bahan masukkan/evaluasi bagi kami untuk meningkatkan layanan saat ini. Yuk, bantu isi survei berikut!',
+    tight_contact: 'Kontak Erat',
     where_is_patient_isolation_quarantine_location: 'Dimana Lokasi Isolasi/Karantina Pasien',
     hp_contact_number: 'No.HP / Yang Dapat Dihubungi'
   },
