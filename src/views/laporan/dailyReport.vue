@@ -189,7 +189,7 @@ export default {
     async handleSearch() {
       const response = await this.$store.dispatch('reports/getDailyReport', this.listQuery)
       if (response) {
-        this.data = response[0]
+        this.data = response
       }
     },
     async handleExport() {
