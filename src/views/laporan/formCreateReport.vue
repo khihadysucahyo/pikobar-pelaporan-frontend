@@ -189,6 +189,7 @@
 </template>
 <script>
 import { ValidationObserver } from 'vee-validate'
+import { validateScrollUp } from '@/utils/utilsFunction'
 import { mapGetters } from 'vuex'
 import { rolesPerm, ResponseRequest } from '@/utils/constantVariable'
 
@@ -254,9 +255,11 @@ export default {
     }
   },
   methods: {
+    validateScrollUp,
     async saveData() {
       const valid = await this.$refs.observer.validate()
       if (!valid) {
+        this.validateScrollUp()
         return
       }
       if ((!this.isFixCase) && (this.formPasien.nik)) {
