@@ -227,10 +227,12 @@ export default {
     async handleDetail(id) {
       this.$emit('update:verificationQuery', this.verificationQuery)
       const response = await this.$store.dispatch('reports/detailReportCase', id)
+      const responseCloseContact = await this.$store.dispatch('closeContactCase/getListCloseContactByCase', id)
       if (response.data.verified_status === 'verified') {
         this.$emit('update:showFailedDialog', true)
       } else {
         this.$emit('update:caseDetail', response.data)
+        this.$emit('update:closeContactDetail', responseCloseContact.data)
         this.$emit('update:showVerificationForm', true)
       }
     },
