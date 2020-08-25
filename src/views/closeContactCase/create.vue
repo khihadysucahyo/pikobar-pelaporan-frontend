@@ -112,6 +112,7 @@
 <script>
 import { formatDatetime } from '@/utils/parseDatetime'
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
+import { validateScrollUp } from '@/utils/utilsFunction'
 import { mapGetters, mapState } from 'vuex'
 
 export default {
@@ -158,6 +159,7 @@ export default {
   },
   methods: {
     formatDatetime,
+    validateScrollUp,
     async handleBack() {
       await this.$store.dispatch('closeContactCase/resetStateCloseContactCase')
       await this.$router.push(`/close-contact/list`)
@@ -167,6 +169,7 @@ export default {
       this.isLoading = true
       if (!valid) {
         this.isLoading = false
+        this.validateScrollUp()
         return
       }
       delete this.formCloseContact['yearsOld']

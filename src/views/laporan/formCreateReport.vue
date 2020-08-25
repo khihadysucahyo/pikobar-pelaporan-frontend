@@ -36,6 +36,7 @@
 </template>
 <script>
 import { ValidationObserver } from 'vee-validate'
+import { validateScrollUp } from '@/utils/utilsFunction'
 import { mapGetters } from 'vuex'
 export default {
   components: {
@@ -59,9 +60,11 @@ export default {
     this.$store.dispatch('reports/resetFormPasien')
   },
   methods: {
+    validateScrollUp,
     async saveData() {
       const valid = await this.$refs.observer.validate()
       if (!valid) {
+        this.validateScrollUp()
         return
       } else if (this.formPasien.status !== 'OTG' && this.formPasien.first_symptom_date === '') {
         await this.$store.dispatch('toast/errorToast', this.$t('errors.symptoms_date_must_be_filled'))

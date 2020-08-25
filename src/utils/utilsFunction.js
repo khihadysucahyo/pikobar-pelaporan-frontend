@@ -54,3 +54,8 @@ export function varUndefined(variable) {
   }
   return Number(variable.count)
 }
+
+export function validateScrollUp() {
+  const el = document.querySelector('.v-messages.error--text')
+  this.$vuetify.goTo(el.parentElement.parentElement)
+}

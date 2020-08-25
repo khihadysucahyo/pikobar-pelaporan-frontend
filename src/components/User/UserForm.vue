@@ -186,6 +186,7 @@
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import { mapGetters } from 'vuex'
 import { ResponseRequest } from '@/utils/constantVariable'
+import { validateScrollUp } from '@/utils/utilsFunction'
 export default {
   name: 'UserForm',
   components: {
@@ -262,10 +263,12 @@ export default {
     }
   },
   methods: {
+    validateScrollUp,
     async handleCreate() {
       const valid = await this.$refs.observer.validate()
       let response
       if (!valid) {
+        this.validateScrollUp()
         return
       }
       if (this.isEdit) {
