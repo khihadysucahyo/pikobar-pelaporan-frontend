@@ -46,7 +46,7 @@
           <p>{{ $t('label.age') }}</p>
         </v-col>
         <v-col>
-          <p>{{ data.age }}</p>
+          <p>{{ detailAge(data.age) }}</p>
         </v-col>
       </v-row>
       <v-row class="row-detail">
@@ -135,8 +135,15 @@ export default {
       return date
     },
     splitArray(array) {
+      if (array === undefined) return
       const result = array.join(',', array)
       return result
+    },
+    detailAge(age) {
+      if (age === undefined) age = 0
+      const year = Math.floor(age)
+      const month = Math.ceil((age - Math.floor(age)) * 12)
+      return `${year} ${this.$t('label.year')} ${month} ${this.$t('label.month')}`
     }
   }
 }

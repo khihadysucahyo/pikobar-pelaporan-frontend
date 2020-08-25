@@ -139,6 +139,7 @@ export default {
   },
   methods: {
     splitArray(array) {
+      if (array === undefined) return
       const result = array.join(',', array)
       return result
     }

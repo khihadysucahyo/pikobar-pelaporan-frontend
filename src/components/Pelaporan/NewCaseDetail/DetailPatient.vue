@@ -123,7 +123,7 @@
         <p>{{ $t('label.age') }}</p>
       </v-col>
       <v-col>
-        <p>{{ Math.floor(detail.age) }} {{ $t('label.year') }} {{ Math.ceil((detail.age - Math.floor(detail.age)) * 12) }} {{ detail.age ? $t('label.month'):'' }} </p>
+        <p>{{ detailAge(detail.age) }}</p>
       </v-col>
     </v-row>
     <v-row
@@ -214,7 +214,13 @@ export default {
     }
   },
   methods: {
-    completeAddress
+    completeAddress,
+    detailAge(age) {
+      if (age === undefined) age = 0
+      const year = Math.floor(age)
+      const month = Math.ceil((age - Math.floor(age)) * 12)
+      return `${year} ${this.$t('label.year')} ${month} ${this.$t('label.month')}`
+    }
   }
 }
 </script>
