@@ -326,7 +326,7 @@
 </template>
 <script>
 import { ValidationProvider } from 'vee-validate'
-import { answerList, healthWorkerList, apd } from '@/utils/constantVariable'
+import { answerList, yesOrNoAnswer, healthWorkerList, apd } from '@/utils/constantVariable'
 
 export default {
   name: 'FormContactFactor',
@@ -344,6 +344,7 @@ export default {
       apdList: apd,
       formatDate: 'YYYY/MM/DD',
       answerList: answerList,
+      yesOrNoAnswer: yesOrNoAnswer,
       patientCloseContactList: [],
       patientCloseContactConfirmList: [],
       searchPatientCloseContact: null,
