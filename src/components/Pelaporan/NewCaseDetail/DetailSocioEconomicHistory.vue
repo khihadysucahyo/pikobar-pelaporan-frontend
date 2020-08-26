@@ -9,7 +9,7 @@
         <p>{{ $t('label.physical_activity') }}</p>
       </v-col>
       <v-col>
-        <p>{{ detail.pysichal_activity }}</p>
+        <p>{{ listPhysicalActivity[detail.pysichal_activity].text }}</p>
       </v-col>
     </v-row>
     <v-row class="row-detail">
@@ -45,13 +45,13 @@
         <p>{{ $t('label.income') }}</p>
       </v-col>
       <v-col>
-        <p>{{ detail.income }}</p>
+        <p>{{ incomeList[detail.income].text }}</p>
       </v-col>
     </v-row>
   </div>
 </template>
 <script>
-import { answerList } from '@/utils/constantVariable'
+import { answerList, incomeList, listPhysicalActivity } from '@/utils/constantVariable'
 export default {
   name: 'DetailSocioEconomicHistory',
   props: {
@@ -62,7 +62,9 @@ export default {
   },
   data() {
     return {
-      answerList: answerList
+      answerList: answerList,
+      incomeList: incomeList,
+      listPhysicalActivity: listPhysicalActivity
     }
   }
 }
