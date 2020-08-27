@@ -64,7 +64,7 @@
       <v-card
         outlined
       >
-        <daily-report-table-revamp :data="data" />
+        <daily-report-table-revamp :data="data" :date="listQuery.date" />
         <!-- <daily-report-table
           :list="list"
           :table-headers="headers"
@@ -213,7 +213,7 @@ export default {
       this.loading = false
     },
     onReset() {
-      this.listQuery.min_date = ''
+      this.listQuery.date = ''
       this.handleSearch()
     }
   }
