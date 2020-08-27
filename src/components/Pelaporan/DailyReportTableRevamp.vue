@@ -18,7 +18,7 @@
     <v-row class="ml-2">
       <v-col cols="3">{{ $t('label.date') }}</v-col>
       <v-col cols="1">:</v-col>
-      <v-col>{{ $moment().format('DD MMMM YYYY') }} </v-col>
+      <v-col>{{ reportingDate }} </v-col>
     </v-row>
     <v-simple-table fixed-header>
       <template v-slot:default>
@@ -333,6 +333,15 @@ export default {
     data: {
       type: Object,
       default: null
+    },
+    date: {
+      type: String,
+      default: ''
+    }
+  },
+  data() {
+    return {
+      reportingDate: this.$moment().format('DD MMMM YYYY')
     }
   },
   computed: {
@@ -340,6 +349,15 @@ export default {
       'fullName',
       'phoneNumber'
     ])
+  },
+  watch: {
+    date(value) {
+      if (value.length > 1) {
+        this.reportingDate = this.$moment(value).format('DD MMMM YYYY')
+      } else {
+        this.reportingDate = this.$moment().format('DD MMMM YYYY')
+      }
+    }
   },
   methods: {
     //
